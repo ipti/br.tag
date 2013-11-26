@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
+<!--[if !IE]><!--><html><!-- <![endif]-->
+    <head>
+        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+
+        <!-- Bootstrap -->
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />	
+
+        <!-- Glyphicons Font Icons -->
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Main Theme Stylesheet :: CSS -->
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+
+        <!-- JQuery -->
+
+        <!-- JQueryUI -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
+
+        
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
+        
+        <!-- Bootstrap -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
+
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
+        
+        
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+
+    </head>
+
+    <body>
+
+        <!-- Main Container Fluid -->
+        <div class="container-fluid fluid menu-left">
+
+            <!-- Top navbar -->
+            <div class="navbar main hidden-print">
+
+                <!-- Brand -->
+                <a href="#" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/a3.png" style="float:left;padding:10px 10px 0;" /><span>TAG <span>v3.0</span></span></a>
+
+                <!-- Menu Toggle Button
+                <button type="button" class="btn btn-navbar">
+                        <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <!-- // Menu Toggle Button END -->
+                <div class="menu-search">
+                    <div class="input-append">
+                        <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
+                        <button class="btn btn-default" type="button"><i class="icon-search"></i></button>
+                    </div>
+                </div>
+
+
+                <!-- Top Menu Right -->
+                <ul class="topnav pull-right">
+
+
+
+                    <!-- Profile / Logout menu -->
+                    <li class="account">
+                        <a href="#" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
+
+                    </li>
+                </ul>
+
+                <!-- // Profile / Logout menu END -->
+
+                </ul>
+                <!-- // Top Menu Right END -->
+
+
+            </div>
+            <!-- Top navbar END -->
+
+            <!-- Sidebar menu & content wrapper -->
+            <div id="wrapper">
+
+                <!-- Sidebar Menu -->
+
+                <div data-spy="affix" data-offset-top="45" data-offset-bottom="0">
+
+                    <div id="menu" class="hidden-phone hidden-print">
+
+                        <!-- Scrollable menu wrapper with Maximum height -->
+                        <div class="slim-scroll" data-scroll-height="800px">
+
+                            <!-- Sidebar Mini Stats -->
+                            <div id="notif">
+                                <div class="user">
+                                    <strong>José Agnaldo Jr.</strong>
+                                    <p>Secretário</p>
+                                </div>
+
+                                <div class="school">
+                                    <p>E.M.F.E. Fundamental</p>
+                                </div>
+
+                            </div>
+                            <!-- // Sidebar Mini Stats END -->
+
+                            <!-- Regular Size Menu -->
+                            <ul>
+
+
+                                <!-- Menu Regular Item -->
+                                <li class="glyphicons display"><a href="#"><i></i><span>Página inicial</span></a></li>
+
+                                <!-- Menu Item Escolas -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
+                                    <ul class="collapse" id="menu_escolas">
+                                        <li class=""><a href="#"><span>Adicionar escola</span></a></li>
+                                        <li class=""><a href="#"><span>Listar escolas</span></a></li>
+                                    </ul>
+                                    <span class="count">2</span>
+                                </li>
+                                <!-- // Menu Item Escolas -->
+
+                                <!-- Menu Item Turmas -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons group" href="#menu_turmas"><i></i><span>Turmas</span></a>
+                                    <ul class="collapse" id="menu_turmas">
+                                        <li class=""><a href="#"><span>Adicionar turma</span></a></li>
+                                        <li class=""><a href="#"><span>Listar turmas</span></a></li>
+                                        <li class=""><a href="#"><span>Matricular alunos</span></a></li>
+                                        <li class=""><a href="#"><span>Frequencia de alunos</span></a></li>
+                                        <li class=""><a href="#"><span>Notas de alunos</span></a></li>
+                                    </ul>
+                                    <span class="count">5</span>
+                                </li>
+                                <!-- // Menu Item Turmas -->
+
+                                <!-- Menu Item Alunos -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
+                                    <ul class="collapse" id="menu_alunos">
+                                        <li class=""><a href="#"><span>Adicionar aluno</span></a></li>
+                                        <li class=""><a href="#"><span>Listar alunos</span></a></li>
+                                    </ul>
+                                    <span class="count">2</span>
+                                </li>
+                                <!-- // Menu Item Alunos -->
+
+                                <!-- Menu Item Equipe Escolar -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Docente</span></a>
+                                    <ul class="collapse" id="menu_equipe">
+                                        <li class=""><a href="#"><span>Adicionar pessoa</span></a></li>
+                                        <li class=""><a href="#"><span>Adicionar pessoas</span></a></li>
+                                    </ul>
+                                    <span class="count">2</span>
+                                </li>
+                                <!-- // Menu Item Equipe Escolar -->
+
+                                <!-- Menu Item Relatórios -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons charts" href="#menu_relatorios"><i></i><span>Relatórios</span></a>
+                                    <ul class="collapse" id="menu_relatorios">
+                                        <li class=""><a href="#"><span>Notas e frequência</span></a></li>
+                                        <li class=""><a href="#"><span>Quantidade de alunos</span></a></li>
+                                        <li class=""><a href="#"><span>Alunos com anemia</span></a></li>
+                                    </ul>
+                                    <span class="count">3</span>
+                                </li>
+                                <!-- // Menu Item Relatórios -->
+
+                            </ul>
+
+
+
+                        </div>
+                        <!-- // Scrollable Menu wrapper with Maximum Height END -->
+
+                    </div>
+
+                </div>
+
+                <!-- // Sidebar Menu END -->
+
+                <!-- Content -->
+                <div id="content">
+
+                    <!-- Breadcrumb -->
+                    <?php
+                    if (isset($this->breadcrumbs)):
+
+                        if (Yii::app()->controller->route !== 'site/index')
+                            $this->breadcrumbs = array_merge(array(Yii::t('zii', '') => Yii::app()->homeUrl), $this->breadcrumbs);
+
+                        $this->widget('zii.widgets.CBreadcrumbs', array(
+                            'links' => $this->breadcrumbs,
+                            'homeLink' => '<li><a href="#" class="glyphicons home"><i></i> Página Inicial</a></li><li class="divider"></li>',
+                            'tagName' => 'ul',
+                            'separator' => '',
+                            'activeLinkTemplate' => '<li><a href="{url}">{label}</a> <li class="divider"></li></li>',
+                            'inactiveLinkTemplate' => '<li><span>{label}</span></li>',
+                            'htmlOptions' => array('class' => 'breadcrumb')
+                        ));
+                        ?>
+                    <?php endif; ?>
+                    <!-- // Breadcrumb END -->
+
+                    <?php echo $content; ?>
+
+                    <!--  Copyright Line -->
+                    <div class="copy">TAG v3.0 - GPL - Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
+                    <!--  End Copyright Line -->
+
+                </div>
+
+                <!-- // Content END -->
+
+            </div>
+            <div class="clearfix"></div>
+            <!-- // Sidebar menu & content wrapper END -->
+
+        </div>
+        <!-- // Main Container Fluid END -->
+
+        <div id="themer" class="collapse">
+            <div class="wrapper">
+                <span class="close2">&times; close</span>
+                <h4>Themer <span>color options</span></h4>
+                <ul>
+                    <li>Theme: <select id="themer-theme" class="pull-right"></select><div class="clearfix"></div></li>
+                    <li>Primary Color: <input type="text" data-type="minicolors" data-default="#ffffff" data-slider="hue" data-textfield="false" data-position="left" id="themer-primary-cp" /><div class="clearfix"></div></li>
+                    <li>
+                        <span class="link" id="themer-custom-reset">reset theme</span>
+                        <span class="pull-right"><label>advanced <input type="checkbox" value="1" id="themer-advanced-toggle" /></label></span>
+                    </li>
+                </ul>
+                <div id="themer-getcode" class="hide">
+                    <hr class="separator" />
+                    <button class="btn btn-primary btn-small pull-right btn-icon glyphicons download" id="themer-getcode-less"><i></i>Get LESS</button>
+                    <button class="btn btn-inverse btn-small pull-right btn-icon glyphicons download" id="themer-getcode-css"><i></i>Get CSS</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+      
+        
+    </body>
+</html>
