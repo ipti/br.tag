@@ -246,8 +246,8 @@ class SchoolIdentificationController extends Controller {
         $school->attributes = $_POST['SchoolIdentification'];
         
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
-        $data = CHtml::listData($data, 'cod', 'name');
-        
+        $data = CHtml::listData($data, 'code', 'name');
+
         echo CHtml::tag('option', array('value' => 'NULL'), '(Select a district)', true);
         
             foreach ($data as $value => $name) {
