@@ -6,7 +6,7 @@ class SchoolIdentificationController extends Controller {
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
-    public $layout = 'teste';
+    public $layout = 'fullmenu';
 
     /**
      * @return array action filters
@@ -25,7 +25,7 @@ class SchoolIdentificationController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities'),
+                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities','getdistricts'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -229,26 +229,32 @@ class SchoolIdentificationController extends Controller {
     public function actionGetCities() {
         $school = new SchoolIdentification();
         $school->attributes = $_POST['SchoolIdentification'];
+        
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
-
         $data = CHtml::listData($data, 'id', 'name');
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a cidade', true);
-        if (isset($_POST['edcenso_city_fk2'])) {
+        
+        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);
             foreach ($data as $value => $name) {
-                if($value == $_POST['edcenso_city_fk2']){
-                    echo CHtml::tag('option', array('value' => $value,'selected'=>'selected'), CHtml::encode($name), true);
-                }else{
                      echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-                }
-                
+
             }
-        }else{
-            foreach ($data as $value => $name) {
-                echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-            }
-        }
+        
     }
 
+        public function actionGetDistricts() {
+        $school = new SchoolIdentification();
+        $school->attributes = $_POST['SchoolIdentification'];
+        
+        $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
+        $data = CHtml::listData($data, 'cod', 'name');
+        
+        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a district)', true);
+        
+            foreach ($data as $value => $name) {
+                     echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            }
+    }
+    
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed

@@ -112,7 +112,14 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_uf_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($model, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'),array('ajax' => array('type' => 'POST', 'url' => CController::createUrl('schoolIdentification/getcities'), 'update' => '#edcenso_city_fk'))); ?>      
+                            <?php echo $form->dropDownList($model, 'edcenso_uf_fk', 
+                                    CHtml::listData(EdcensoUf::model()->findAll(array('order'=>'name')), 'id', 'name'),
+                                    array('ajax' => array(
+                                            'type' => 'POST', 
+                                            'url' => CController::createUrl('schoolIdentification/getcities'), 
+                                            'update' => '#SchoolIdentification_edcenso_city_fk'
+                                            )
+                                        )); ?>      
                             <?php echo $form->error($model,'edcenso_uf_fk'); ?>
                         </div>
                     </div>
@@ -121,8 +128,13 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_city_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo CHtml::hiddenField('edcenso_city_fk2',$model->edcenso_city_fk); ?>
-                            <?php echo CHtml::dropDownList('edcenso_city_fk',array(),array('empty' => '(Select a city)'));?>
+                            <?php echo $form->dropDownList($model, 'edcenso_city_fk', 
+                                    CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk'=>$model->edcenso_uf_fk),array('order'=>'name')), 'id', 'name'),
+                                        array('ajax' => array(
+                                            'type' => 'POST', 
+                                            'url' => CController::createUrl('schoolIdentification/getdistricts'), 
+                                            'update' => '#SchoolIdentification_edcenso_district_fk',
+                                        ))); ?>  
                             <?php echo $form->error($model,'edcenso_city_fk'); ?>
                         </div>
                     </div>
@@ -130,7 +142,8 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_district_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'edcenso_district_fk'); ?>
+                            <?php echo $form->dropDownList($model, 'edcenso_district_fk', 
+                                    CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk'=>$model->edcenso_city_fk),array('order'=>'name')), 'cod', 'name')); ?>  
                             <?php echo $form->error($model,'edcenso_district_fk'); ?>
                         </div>
                     </div>
@@ -308,7 +321,7 @@
         </div>
     </div>
 
-        
+        <!--
         <script type="text/javascript">
                 var form = '#SchoolIdentification_';
                 var date = new Date();
@@ -331,4 +344,4 @@
                         ) 
                         $(form+'final_date').attr('value','');
                 });
-        </script>
+        </script>-->
