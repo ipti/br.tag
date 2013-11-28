@@ -69,3 +69,11 @@ function validatePhone(phone, length){
 function validateEmail(email){
     return (rule(email, stringRules.email));
 }
+
+function anoMinMax(min,max,ano) {
+    ano = parseInt(ano);
+    if(ano >= min && ano <= max){
+        return true
+    }
+    return false;
+}
