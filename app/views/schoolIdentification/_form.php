@@ -112,7 +112,14 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_uf_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($model, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'),array('ajax' => array('type' => 'POST', 'url' => CController::createUrl('schoolIdentification/getcities'), 'update' => '#edcenso_city_fk'))); ?>      
+                            <?php echo $form->dropDownList($model, 'edcenso_uf_fk', 
+                                        CHtml::listData(EdcensoUf::model()->findAll(array('order'=>'name')), 'id', 'name'),
+                                    array('ajax' => array(
+                                            'type' => 'POST', 
+                                            'url' => CController::createUrl('schoolIdentification/getcities'), 
+                                            'update' => '#SchoolIdentification_edcenso_city_fk'
+                                            )
+                                        )); ?>      
                             <?php echo $form->error($model,'edcenso_uf_fk'); ?>
                         </div>
                     </div>
@@ -121,8 +128,13 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_city_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo CHtml::hiddenField('edcenso_city_fk2',$model->edcenso_city_fk); ?>
-                            <?php echo CHtml::dropDownList('edcenso_city_fk',array(),array('empty' => '(Select a city)'));?>
+                            <?php echo $form->dropDownList($model, 'edcenso_city_fk', 
+                                    CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk'=>$model->edcenso_uf_fk),array('order'=>'name')), 'id', 'name'),
+                                        array('ajax' => array(
+                                            'type' => 'POST', 
+                                            'url' => CController::createUrl('schoolIdentification/getdistricts'), 
+                                            'update' => '#SchoolIdentification_edcenso_district_fk',
+                                        ))); ?>  
                             <?php echo $form->error($model,'edcenso_city_fk'); ?>
                         </div>
                     </div>
@@ -130,19 +142,27 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_district_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'edcenso_district_fk'); ?>
+                            <?php echo $form->dropDownList($model, 'edcenso_district_fk', 
+                                    CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk'=>$model->edcenso_city_fk),array('order'=>'name')), 'code', 'name')); ?>  
                             <?php echo $form->error($model,'edcenso_district_fk'); ?>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($model,'phone_number',array('class'=>'control-label')); ?>
+                        <?php echo $form->labelEx($model, 'ddd', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'phone_number',array('size'=>9,'maxlength'=>9)); ?>
-                            <?php echo $form->error($model,'phone_number'); ?>
+                            <?php echo $form->textField($model, 'ddd', array('size' => 2, 'maxlength' => 2)); ?>
+                            <?php echo $form->error($model, 'ddd'); ?>
                         </div>
                     </div>
 
+                    <div class="control-group">
+                        <?php echo $form->labelEx($model, 'phone_number', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($model, 'phone_number', array('size' => 9, 'maxlength' => 9)); ?>
+                            <?php echo $form->error($model, 'phone_number'); ?>
+                        </div>
+                    </div>
                     <!--
 
                     <div class="control-group">
@@ -228,7 +248,8 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'edcenso_regional_education_organ_fk',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'edcenso_regional_education_organ_fk'); ?>
+                            <?php echo $form->dropDownList($model, 'edcenso_regional_education_organ_fk', 
+                                        CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order'=>'name')), 'id', 'name')); ?>
                             <?php echo $form->error($model,'edcenso_regional_education_organ_fk'); ?>
                         </div>
                     </div>
@@ -236,7 +257,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'administrative_dependence',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'administrative_dependence'); ?>
+                            <?php echo $form->DropDownList($model,'administrative_dependence', array(1=>'Federal', 2=>'Estadual', 3=>'Municipal', 4=>'Privada')); ?>
                             <?php echo $form->error($model,'administrative_dependence'); ?>
                         </div>
                     </div>
@@ -244,7 +265,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'location',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'location'); ?>
+                            <?php echo $form->DropDownList($model,'location', array(1=>'Urbano', 2=>'Rural')); ?>
                             <?php echo $form->error($model,'location'); ?>
                         </div>
                     </div>
@@ -296,7 +317,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($model,'regulation',array('class'=>'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($model,'regulation'); ?>
+                            <?php echo $form->DropDownList($model,'regulation', array(0=>'Não', 1=>'Sim', 2=>'Em tramitação')); ?>
                             <?php echo $form->error($model,'regulation'); ?>
                         </div>
                     </div>
@@ -308,27 +329,81 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+        var form = '#SchoolIdentification_';
+        var date = new Date();
+        var actual_year = date.getFullYear();
+        var initial_date = stringToDate($(form+'initial_date').val());    
+        var final_date = stringToDate($(form+'final_date').val());
         
-        <script type="text/javascript">
-                var form = '#SchoolIdentification_';
-                var date = new Date();
-                var actual_year = date.getFullYear();
-                var initial_date = stringToDate($(form+'initial_date').val());    
-                var final_date = stringToDate($(form+'final_date').val());
-                $(form+'initial_date').mask("99/99/9999");
-                $(form+'initial_date').focusout(function() {
-                    if(!validateDate($(form+'initial_date').val()) 
-                            || !(initial_date.year >= actual_year - 1 
-                                && initial_date.year <= actual_year)) 
-                        $(form+'initial_date').attr('value','');
-                });
-                $(form+'final_date').mask("99/99/9999");
-                $(form+'final_date').focusout(function() {
-                    if(!validateDate($(form+'final_date').val())
-                            || !(final_date.year >= actual_year 
-                                && final_date.year <= actual_year + 1)
-                            || !(final_date.asianStr > initial_date.asianStr)
-                        ) 
-                        $(form+'final_date').attr('value','');
-                });
-        </script>
+        $(form+'initial_date').mask("99/99/9999");
+        $(form+'initial_date').focusout(function() {
+            initial_date = stringToDate($(form+'initial_date').val());    
+            if(!validateDate($(form+'initial_date').val()) 
+                    || !(initial_date.year >= actual_year - 1 
+                        && initial_date.year <= actual_year)) 
+                $(form+'initial_date').attr('value','');
+        });
+        
+        $(form+'final_date').mask("99/99/9999");
+        $(form+'final_date').focusout(function() {
+            final_date = stringToDate($(form+'final_date').val());
+            if(!validateDate($(form+'final_date').val())
+                    || !(final_date.year >= actual_year 
+                        && final_date.year <= actual_year + 1)
+                    || !(final_date.asianStr > initial_date.asianStr)
+                ) 
+                $(form+'final_date').attr('value','');
+        });
+        
+        $(form+'name').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateSchoolName($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(form+'cep').focusout(function() { 
+            if(!validateCEP($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(form+'address').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateAddress($(this).val(),100)) 
+                $(this).attr('value','');
+        });
+        $(form+'address_number').focusout(function() {
+            $(this).val($(this).val().toUpperCase()); 
+            if(!validateAddress($(this).val(),10)) 
+                $(this).attr('value','');
+        });
+        $(form+'address_complement').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateAddress($(this).val(),20)) 
+                $(this).attr('value','');
+        });
+        $(form+'address_neighborhood').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateAddress($(this).val(),50)) 
+                $(this).attr('value','');
+        });
+        
+        $(form+'phone_number').focusout(function() { 
+            if(!validatePhone($(this).val(),9)) 
+                $(this).attr('value','');
+        });
+        $(form+'public_phone_number').focusout(function() { 
+            if(!validatePhone($(this).val(),8)) 
+                $(this).attr('value','');
+        });
+        $(form+'other_phone_number').focusout(function() { 
+            if(!validatePhone($(this).val(),9)) 
+                $(this).attr('value','');
+        });
+        
+        $(form+'email').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateEmail($(this).val())) 
+                $(this).attr('value','');
+        });
+    </script>

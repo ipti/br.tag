@@ -1,11 +1,4 @@
 <div id="mainPage" class="main">
-    <script>
-    $(function(){
-        alert(10);
-        $('#SchoolIdentification_edcenso_uf_fk').trigger('change');
-        
-    })
-    </script>
     <?php
 $this->breadcrumbs=array(
 	'School Identifications'=>array('index'),
