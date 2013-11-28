@@ -1,23 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "edcenso_nation".
+ * This is the model class for table "edcenso_course_of_higher_education".
  *
- * The followings are the available columns in table 'edcenso_nation':
- * @property integer $id
- * @property string $acronym
+ * The followings are the available columns in table 'edcenso_course_of_higher_education':
+ * @property string $id
  * @property string $name
+ * @property string $degree
  *
  * The followings are the available model relations:
- * @property InstructorIdentification[] $instructorIdentifications
- * @property StudentIdentification[] $studentIdentifications
+ * @property InstructorVariableData[] $instructorVariableDatas
+ * @property InstructorVariableData[] $instructorVariableDatas1
+ * @property InstructorVariableData[] $instructorVariableDatas2
  */
-class EdcensoNation extends CActiveRecord
+class EdcensoCourseOfHigherEducation extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return EdcensoNation the static model class
+	 * @return EdcensoCourseOfHigherEducation the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +30,7 @@ class EdcensoNation extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'edcenso_nation';
+		return 'edcenso_course_of_higher_education';
 	}
 
 	/**
@@ -40,13 +41,13 @@ class EdcensoNation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id', 'numerical', 'integerOnly'=>true),
-			array('acronym', 'length', 'max'=>3),
+			array('id, name, degree', 'required'),
+			array('id', 'length', 'max'=>6),
 			array('name', 'length', 'max'=>50),
+			array('degree', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, acronym, name', 'safe', 'on'=>'search'),
+			array('id, name, degree', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +59,9 @@ class EdcensoNation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'instructorIdentifications' => array(self::HAS_MANY, 'InstructorIdentification', 'edcenso_nation_fk'),
-			'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'edcenso_nation_fk'),
+			'instructorVariableDatas' => array(self::HAS_MANY, 'InstructorVariableData', 'high_education_course_code_1_fk'),
+			'instructorVariableDatas1' => array(self::HAS_MANY, 'InstructorVariableData', 'high_education_course_code_2_fk'),
+			'instructorVariableDatas2' => array(self::HAS_MANY, 'InstructorVariableData', 'high_education_course_code_3_fk'),
 		);
 	}
 
@@ -70,8 +72,8 @@ class EdcensoNation extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('default', 'ID'),
-			'acronym' => Yii::t('default', 'Acronym'),
 			'name' => Yii::t('default', 'Name'),
+			'degree' => Yii::t('default', 'Degree'),
 		);
 	}
 
@@ -86,9 +88,9 @@ class EdcensoNation extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('acronym',$this->acronym,true);
+		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('degree',$this->degree,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

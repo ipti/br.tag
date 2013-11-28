@@ -56,7 +56,6 @@ INEP'); ?>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'sex'); ?>
-                        <?php //echo $form->textField($model,'sex'); ?>
                         <?php echo $form->DropDownlist($model,'sex', array(1=>'Masculino', 2=>'Feminino')); ?>
                         <?php echo $form->error($model,'sex'); ?>
                     </div>

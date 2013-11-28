@@ -28,3 +28,11 @@ function stringTodate(str){
     date.asianStr = date.year+'/'+date.month+'/'+date.day;
     return date;
 }
+
+function anoMinMax(min,max,ano) {
+    ano = parseInt(ano);
+    if(ano >= min && ano <= max){
+        return true
+    }
+    return false;
+}
