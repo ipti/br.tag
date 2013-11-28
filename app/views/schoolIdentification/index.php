@@ -41,7 +41,6 @@ array('label'=> Yii::t('default', 'Create a new SchoolIdentification'), 'url'=>a
 		'edcenso_uf_fk',
 		'edcenso_city_fk',
 		'edcenso_district_fk',
-		'ddd',
 		'phone_number',
 		'public_phone_number',
 		'other_phone_number',

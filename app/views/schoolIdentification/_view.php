@@ -63,10 +63,6 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('edcenso_district_fk')); ?>:</b>
 	<?php echo CHtml::encode($data->edcenso_district_fk); ?>
 	<br />
-        
-	<b><?php echo CHtml::encode($data->getAttributeLabel('ddd')); ?>:</b>
-	<?php echo CHtml::encode($data->ddd); ?>
-	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('phone_number')); ?>:</b>
 	<?php echo CHtml::encode($data->phone_number); ?>

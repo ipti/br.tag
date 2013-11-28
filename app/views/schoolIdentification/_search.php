@@ -84,11 +84,6 @@
 		<?php echo $form->label($model,'edcenso_district_fk'); ?>
 		<?php echo $form->textField($model,'edcenso_district_fk'); ?>
 	</div>
-    
-	<div class="row">
-		<?php echo $form->label($model,'ddd'); ?>
-		<?php echo $form->textField($model,'ddd'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'phone_number'); ?>

@@ -59,7 +59,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'edcenso_uf_fk',
 		'edcenso_city_fk',
 		'edcenso_district_fk',
-		'ddd',
 		'phone_number',
 		'public_phone_number',
 		'other_phone_number',
