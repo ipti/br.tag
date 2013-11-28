@@ -42,91 +42,110 @@
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'role'); ?>
-                        <?php echo $form->textField($model,'role'); ?>
+                         <?php echo $form->DropDownlist($model,'role', 
+                                 array(1=>'Docente', 2=>'Auxiliar/Assistente Educacional',
+                                     3=>'Profissional/Monitor de Atividade Complementar',
+                                     4=>'Tradutor Intérprete de LIBRAS')); ?>                    
                         <?php echo $form->error($model,'role'); ?>
                     </div>
 
                                         <div class="formField">
-                        <?php echo $form->labelEx($model,'contract_type'); ?>
-                        <?php echo $form->textField($model,'contract_type'); ?>
+                        <?php echo $form->labelEx($model,'contract_type'); ?>        
+                        <?php echo $form->DropDownlist($model,'contract_type', 
+                                 array(1=>'Concursado/efetivo/estável', 2=>'Contrato temporário',
+                                     3=>'Contrato terceirizado',
+                                     4=>'Contrato CLT')); ?>  
                         <?php echo $form->error($model,'contract_type'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_1_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_1_fk'); ?>
+                        <?php echo $form->DropDownlist($model,'discipline_1_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_1_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_2_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_2_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_2_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_2_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_3_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_3_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_3_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_3_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_4_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_4_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_4_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_4_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_5_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_5_fk'); ?>
+                        <?php echo $form->DropDownlist($model,'discipline_5_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_5_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_6_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_6_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_6_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_6_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_7_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_7_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_7_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_7_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_8_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_8_fk'); ?>
+                       <?php echo $form->DropDownlist($model,'discipline_8_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_8_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_9_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_9_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_9_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_9_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_10_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_10_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_10_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_10_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_11_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_11_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_11_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_11_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_12_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_12_fk'); ?>
+                         <?php echo $form->DropDownlist($model,'discipline_12_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_12_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_13_fk'); ?>
-                        <?php echo $form->textField($model,'discipline_13_fk'); ?>
+                        <?php echo $form->DropDownlist($model,'discipline_13_fk',CHtml::listData(
+EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                         <?php echo $form->error($model,'discipline_13_fk'); ?>
                     </div>
 

@@ -43,8 +43,5 @@ array('label'=> Yii::t('default', 'Create a new InstructorDocumentsAndAddress'),
                 </div>   
             </div>
         </div>
-        <div class="columntwo">
-           <?php echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
-    </div>
 
 </div>

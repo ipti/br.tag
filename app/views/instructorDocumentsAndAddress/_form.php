@@ -36,7 +36,7 @@
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'area_of_residence'); ?>
-                        <?php echo $form->textField($model,'area_of_residence'); ?>
+                        <?php echo $form->DropDownlist($model,'area_of_residence', array(1=>'URBANA', 2=>'RURAL')); ?>                    
                         <?php echo $form->error($model,'area_of_residence'); ?>
                     </div>
 
@@ -72,15 +72,23 @@
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'edcenso_uf_fk'); ?>
-                        <?php echo $form->textField($model,'edcenso_uf_fk'); ?>
+                        <?php echo $form->DropDownList($model,'edcenso_uf_fk',CHtml::listData(EdcensoUf::model()->findAll(),'id','name'),
+                           array(
+                             'prompt'=>'SELECT STATE',
+                             'ajax'=>array(
+                                'type' => 'POST',
+                                'url' => CController::createUrl('instructorIdentification/getcities'),
+                                'update' => '#InstructorIdentification_edcenso_city_fk',
+                               // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
+                                ))); ?>                    
                         <?php echo $form->error($model,'edcenso_uf_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'edcenso_city_fk'); ?>
-                        <?php echo $form->textField($model,'edcenso_city_fk'); ?>
+                        <?php echo $form->DropDownList($model,'edcenso_city_fk',CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk'=>$model->edcenso_uf_fk)),'id','name')); ?>                    
                         <?php echo $form->error($model,'edcenso_city_fk'); ?>
-                    </div>
+                    </div> 
 
                                     <div class="formField buttonWizardBar">
                     <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'),array('class' => 'buttonLink button')); ?>
