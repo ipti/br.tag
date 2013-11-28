@@ -9,11 +9,12 @@ function rule(string, exp) {
 
 
 var dateRules = new Object();
-dateRules.hora = /^([01][0-9]|2[0-3]):[0-5][0-9]:?([0-5][0-9])?$/;
-dateRules.data = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9]{2})$/;
+dateRules.time = /^([01][0-9]|2[0-3]):[0-5][0-9]:?([0-5][0-9])?$/;
+dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9]{2})$/;
 
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
+stringRules.classroomName = /^[A-Z0-9°ºª\- ]{4,80}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
 stringRules.schoolAddress = /^[A-Za-z0-9°ºª\-\/\., ][^a-z]*$/;
 
@@ -23,7 +24,12 @@ numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
 
 function validateDate(date) {
-    return(rule(date,dateRules.data));
+    return(rule(date,dateRules.date));
+}
+
+function validateTime(time){
+    return(rule(time,dateRules.time));
+    
 }
 
 function stringToDate(str){
@@ -37,6 +43,10 @@ function stringToDate(str){
 
 function validateSchoolName(str){
     return (rule(str,stringRules.schoolName));
+}
+
+function validateClassroomName(str){
+    return (rule(str,stringRules.classroomName));
 }
 
 function numbersNotEqual(num){
