@@ -1,7 +1,10 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
 	'enableAjaxValidation'=>false,
-)); ?>
+)); 
+
+
+?>
         <div class="panelGroup form">
             <?php echo $form->errorSummary($model); ?>
             <div class="panelGroupHeader"><div class=""> <?php echo $title; ?>
@@ -16,7 +19,9 @@
                         <?php echo $form->labelEx($model,'school_inep_fk'); ?>
                         <?php echo $form->dropDownList($model, 'school_inep_fk', 
                                     CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'),
-                                        array('ajax' => array(
+                                        array(
+                                            'prompt'=>'(Select School)',
+                                            'ajax' => array(
                                             'type' => 'POST', 
                                             'url' => CController::createUrl('classroom/getassistancetype'), 
                                             'update' => '#Classroom_assistance_type',
@@ -124,52 +129,111 @@
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'assistance_type'); ?>
                         <?php echo $form->DropDownList($model,'assistance_type',
-                                array('null' => '(Select Assistance Type)')); ?>
+                                array('null' => '(Select Assistance Type)'),
+                                array('ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updateassistancetypedependencies'), 
+                                    'success' => "function(data){
+                                        data = jQuery.parseJSON(data);
+                                        $('#Classroom_mais_educacao_participator').prop('disabled', data.MaisEdu);
+                                        $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage);
+                                        $('#Classroom_modality').html(data.Modality);
+                                    }",
+                                ))); ?> 
                         <?php echo $form->error($model,'assistance_type'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'mais_educacao_participator'); ?>
-                        <?php echo $form->textField($model,'mais_educacao_participator'); ?>
+                        <?php echo $form->checkBox($model,'mais_educacao_participator'); ?>
                         <?php echo $form->error($model,'mais_educacao_participator'); ?>
                     </div>
 
-                                        <div class="formField">
+<!-- alterando esta área, tentando colocar multiselect list -->
+                                       <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_1'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_1'); ?>
+                        <?php echo $form->dropDownList($model, 'complementary_activity_type_1', 
+                                CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'),
+                                array('multiple'=>true,
+                                    'key'=>'id', 'max'=>'6')
+                            );?>
+                        <?php echo $form->error($model,'complementary_activity_type_1'); ?>
+                    </div>
+
+<?php /*
+<!--                                        <div class="formField">
+                        <?php echo $form->labelEx($model,'complementary_activity_type_1'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_1', 
+                                CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'),
+                                array('prompt'=>'(Select Complementary Activity)',
+                                    'ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updatecomplementaryactivity'), 
+                                    'update' => "#Classroom_complementary_activity_type_2",
+                                ))); ?>
                         <?php echo $form->error($model,'complementary_activity_type_1'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_2'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_2'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_2',
+                                array(),
+                                array('prompt'=>'(Select Complementary Activity)',
+                                    'ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updatecomplementaryactivity'), 
+                                    'update' => "#Classroom_complementary_activity_type_3",
+                                ))); ?>
                         <?php echo $form->error($model,'complementary_activity_type_2'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_3'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_3'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_3',
+                                array(),
+                                array('prompt'=>'(Select Complementary Activity)',
+                                    'ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updatecomplementaryactivity'), 
+                                    'update' => "#Classroom_complementary_activity_type_4",
+                                ))); ?>
                         <?php echo $form->error($model,'complementary_activity_type_3'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_4'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_4'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_4',
+                                array(),
+                                array('prompt'=>'(Select Complementary Activity)',
+                                    'ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updatecomplementaryactivity'), 
+                                    'update' => "#Classroom_complementary_activity_type_5",
+                                ))); ?>
                         <?php echo $form->error($model,'complementary_activity_type_4'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_5'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_5'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_5',
+                                array(),
+                                array('prompt'=>'(Select Complementary Activity)',
+                                    'ajax' => array(
+                                    'type' => 'POST', 
+                                    'url' => CController::createUrl('classroom/updatecomplementaryactivity'), 
+                                    'update' => "#Classroom_complementary_activity_type_6",
+                                ))); ?>
                         <?php echo $form->error($model,'complementary_activity_type_5'); ?>
                     </div>
-
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_6'); ?>
-                        <?php echo $form->textField($model,'complementary_activity_type_6'); ?>
+                        <?php echo $form->DropDownList($model,'complementary_activity_type_6',
+                                array('null'=>'(Select Complementary Activity)')); ?>
                         <?php echo $form->error($model,'complementary_activity_type_6'); ?>
                     </div>
 
+-->
+ */ ?>
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_braille_system_education'); ?>
                         <?php echo $form->textField($model,'aee_braille_system_education'); ?>
@@ -238,13 +302,15 @@
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'modality'); ?>
-                        <?php echo $form->textField($model,'modality'); ?>
+                        <?php echo $form->DropDownList($model,'modality',
+                                array('null' => '(Select Modality)')); ?>
                         <?php echo $form->error($model,'modality'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'edcenso_stage_vs_modality_fk'); ?>
-                        <?php echo $form->textField($model,'edcenso_stage_vs_modality_fk',array('size'=>2,'maxlength'=>2)); ?>
+                        <?php echo $form->DropDownList($model,'edcenso_stage_vs_modality_fk',
+                                array('null' => '(Select Stage vs Modality)'));?>
                         <?php echo $form->error($model,'edcenso_stage_vs_modality_fk'); ?>
                     </div>
 
@@ -425,8 +491,20 @@
 
 
     <script type="text/javascript">
-    
+        
         var form = '#Classroom_';
+        jQuery(function($) {
+            //consertar isso urgentemente!
+            //não pode ficar assim!! u.u
+            //mude essa desgraça!
+            jQuery('body').on('change','#Classroom_school_inep_fk',function(){jQuery.ajax({'type':'POST','url':'/tag/index.php?r=classroom/getassistancetype','cache':false,'data':jQuery(this).parents("form").serialize(),'success':function(html){jQuery("#Classroom_assistance_type").html(html)}});return false;});
+            $(form+'school_inep_fk').trigger('change');
+        }); 
+        
+        
+
+
+        
         $(form+'name').focusout(function() { 
             $(this).val($(this).val().toUpperCase());
             if(!validateClassroomName($(this).val())) 

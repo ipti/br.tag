@@ -27,7 +27,8 @@ class ClassroomController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update','getassistancetype'),
+				'actions'=>array('index','view','create','update','getassistancetype',
+                                        'updateassistancetypedependencies','updatecomplementaryactivity'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -45,26 +46,86 @@ class ClassroomController extends Controller
             $classroom->attributes = $_POST['Classroom'];
 
             $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
-            $data = array('null' => '(Select Assistance Type)');
+            
+            echo CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Assistance Type)'), true);
+            
             if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
-                $data = array_combine($data, array(4=>'Atividade Complementar'));
+                 echo CHtml::tag('option', array('value' => '4'),CHtml::encode('Atividade Complementar'), true);
             }else if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
-                $data = array_combine($data, array(5=>'Atendimento Educacional Especializado (AEE)'));
+                echo CHtml::tag('option', array('value' => '5'),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
             }else {
-                $data = array_combine($data, array(0=>'Não se Aplica', 
-                    1=>'Classe Hospitalar', 
-                    2=>'Unidade de Internação Socioeducativa', 
-                    3=>'Unidade Prisional'));  
+                echo CHtml::tag('option', array('value' => '0'),CHtml::encode('Não se Aplica'), true);
+                echo CHtml::tag('option', array('value' => '1'),CHtml::encode('Classe Hospitalar'), true);
+                echo CHtml::tag('option', array('value' => '2'),CHtml::encode('Unidade de Internação Socioeducativa'), true);
+                echo CHtml::tag('option', array('value' => '3'),CHtml::encode('Unidade Prisional'), true);
             }  
-            var_dump($data); exit;
-            $data = CHtml::listData($data, 'id', 'name');
-            foreach ($data as $value => $name) {
-                 echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-
-            }
-        
         }
         
+        public function actionUpdateComplementaryActivity(){
+            $classroom = new Classroom();
+            $classroom->attributes = $_POST['Classroom'];
+            
+            $id1 = $classroom->complementary_activity_type_1;
+            $id2 = $classroom->complementary_activity_type_2;
+            $id3 = $classroom->complementary_activity_type_3;
+            $id4 = $classroom->complementary_activity_type_4;
+            $id5 = $classroom->complementary_activity_type_5;
+            $id6 = $classroom->complementary_activity_type_6;
+            
+            $where = '';
+            $where .= $id1 != 'null' ? 'id!="'.$id1.'" ':'';
+            $where .= $id2 != 'null' ? '&& id!="'.$id2.'" ':'';
+            $where .= $id3 != 'null' ? '&& id!="'.$id3.'" ':'';
+            $where .= $id4 != 'null' ? '&& id!="'.$id4.'" ':'';
+            $where .= $id5 != 'null' ? '&& id!="'.$id5.'" ':'';
+            $where .= $id6 != 'null' ? '&& id!="'.$id6.'" ':'';
+            
+            
+            $data = EdcensoComplementaryActivityType::model()->findAll($where);
+            $data = CHtml::listData($data, 'id', 'name');
+            
+            echo CHtml::tag('option', array('value' => 'null'), CHtml::encode('(Select Complementary Activity)'), true);
+            foreach ($data as $value => $name) {
+                echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            }
+        }
+        
+        
+        public function actionUpdateAssistanceTypeDependencies(){
+            $classroom = new Classroom();
+            $classroom->attributes = $_POST['Classroom'];
+            $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'');
+              
+            $result['MaisEdu'] = $classroom->assistance_type == 1 || $classroom->assistance_type == 5;
+            
+            $where = '';
+            $result['Modality'] = CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Modality)'), true);
+            
+            if($result['MaisEdu']){
+                $result['Modality'] .= CHtml::tag('option', array('value' => '3'),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
+                $where = '(id<4 || id>38) && id!=38 && id!=41 && id!=56';
+            }else{
+                $result['Modality'] .= CHtml::tag('option', array('value' => '1'),CHtml::encode('Ensino Regular'), true);
+                $result['Modality'] .= CHtml::tag('option', array('value' => '2'),CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
+            }
+                     
+            if($classroom->assistance_type == 2 || $classroom->assistance_type == 3){
+                $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 '.$where);
+            }else if($classroom->assistance_type == 4 || $classroom->assistance_type == 5 || $classroom->assistance_type == "null"){
+                $data = array();
+            }else{
+                $data = EdcensoStageVsModality::model()->findAll($where);
+            }
+            $data = CHtml::listData($data, 'id', 'name');
+
+            $result['Stage'] = CHtml::tag('option', array('value' => 'NULL'), '(Select Stage vs Modality)', true);
+
+            foreach ($data as $value => $name) {
+                     $result['Stage'] .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            }
+            
+            echo json_encode($result);
+        }
 
 	/**
 	 * Displays a particular model.
