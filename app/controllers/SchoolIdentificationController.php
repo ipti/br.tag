@@ -241,7 +241,7 @@ class SchoolIdentificationController extends Controller {
         
     }
 
-        public function actionGetDistricts() {
+    public function actionGetDistricts() {
         $school = new SchoolIdentification();
         $school->attributes = $_POST['SchoolIdentification'];
         
@@ -271,6 +271,7 @@ class SchoolIdentificationController extends Controller {
      */
     public function actionCreate() {
         $model = new SchoolIdentification;
+//        $schoolStructure = new SchoolStructure();
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
@@ -285,6 +286,7 @@ class SchoolIdentificationController extends Controller {
 
         $this->render('create', array(
             'model' => $model,
+//            'schoolStructure'=>$schoolStructure
         ));
     }
 
