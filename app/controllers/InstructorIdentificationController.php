@@ -60,6 +60,40 @@ class InstructorIdentificationController extends Controller {
 
         if (isset($_POST['InstructorIdentification'])) {
             $model->attributes = $_POST['InstructorIdentification'];
+            if(!isset($model->edcenso_nation_fk)){
+              $model->edcenso_nation_fk = 76;  
+            }
+            if(!isset($model->edcenso_uf_fk)){
+              $model->edcenso_uf_fk = 0;  
+            }
+             if(!isset($model->edcenso_city_fk)){
+              $model->edcenso_city_fk = 0;  
+            }
+             if(!isset($model->deficiency_type_blindness)){
+              $model->deficiency_type_blindness = 0;  
+            }
+             if(!isset($model->deficiency_type_low_vision)){
+              $model->deficiency_type_low_vision = 0;  
+            }
+             if(!isset($model->deficiency_type_deafness)){
+              $model->deficiency_type_deafness = 0;  
+            }
+             if(!isset($model->deficiency_type_disability_hearing)){
+              $model->deficiency_type_disability_hearing = 0;  
+            }
+             if(!isset($model->deficiency_type_deafblindness)){
+              $model->deficiency_type_deafblindness = 0;  
+            }
+             if(!isset($model->deficiency_type_phisical_disability)){
+              $model->deficiency_type_phisical_disability = 0;  
+            }
+             if(!isset($model->deficiency_type_intelectual_disability)){
+              $model->deficiency_type_intelectual_disability = 0;  
+            }
+             if(!isset($model->deficiency_type_multiple_disabilities)){
+              $model->deficiency_type_multiple_disabilities = 0;  
+            }
+            
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification Created Successful:'));
                 $this->redirect(array('index'));

@@ -14,7 +14,7 @@ dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9
 
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
-stringRules.classroomName = /^[A-Z0-9°ºª\- ]{4,80}$/;
+stringRules.personName = /^[A-Z]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
 stringRules.schoolAddress = /^[A-Za-z0-9°ºª\-\/\., ][^a-z]*$/;
 
@@ -87,3 +87,57 @@ function anoMinMax(min,max,ano) {
     }
     return false;
 }
+
+function validadeBirthdayPerson(date){
+    if(validateDate(date)){
+        var fullDate = new Date(date);
+        var year = fullDate.getFullYear();
+       return anoMinMax(1918,1999,year);
+    }else{
+        return false;
+    }
+}
+
+function validateNamePerson(personName){
+    var complete_name = personName.split(' ');  
+    var passExp = true;
+    for(var i=0; i<complete_name.length;i++){
+       if(!rule(complete_name[i],stringRules.personName)){
+           passExp=false;
+           break;
+       } 
+    }
+  
+    if(passExp){      
+        if(this.isset(complete_name[1])){
+            var str4 = null;
+            var until4 = 0; 
+            for(var i=0;i<personName.length;i++){
+                if(personName[i]!=str4){
+                  str4 = personName[i];
+                  until4=1;
+                }else{
+                   until4++; 
+                }
+                
+                if(until4 > 4){
+                    return "O nome Não pode ter mais de 4 letras seguidas";
+                }
+            }
+        }else{
+            return "Nome sem SobreNome";
+        }
+    }else{
+        return "O nome somente deve ter Letras";  
+    }
+    
+     return true;   
+}
+
+
+function isset(variable){
+    return (variable != 'undefined' && variable != null);
+}
+
+
+
