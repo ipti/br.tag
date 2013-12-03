@@ -1,5 +1,5 @@
 <?php
-
+//-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
 	/**
@@ -94,10 +94,11 @@ class ClassroomController extends Controller
         public function actionUpdateAssistanceTypeDependencies(){
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
-            $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'');
-              
+            $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'', 'AeeActivity'=>'');
+               
             $result['MaisEdu'] = $classroom->assistance_type == 1 || $classroom->assistance_type == 5;
             
+            $result['AeeActivity'] = $classroom->assistance_type != 5;
             $where = '';
             $result['Modality'] = CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Modality)'), true);
             
@@ -151,6 +152,9 @@ class ClassroomController extends Controller
 
 		if(isset($_POST['Classroom']))
 		{
+                    // Corrigir os week_days
+                    // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
+                    // de nao deixar criar com todos os campos igual a 0
 			$model->attributes=$_POST['Classroom'];
                         if($model->attributes->week_days_sunday 
                                 || $model->attributes->week_days_monday 

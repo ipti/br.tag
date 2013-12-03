@@ -148,6 +148,8 @@
                         </div>
                     </div>
 
+                    <?php // @TODO Campo de DDD tem que estar junto com o campo de Telefone ?> 
+
                     <div class="control-group">
                         <?php echo $form->labelEx($model, 'ddd', array('class' => 'control-label')); ?>
                         <div class="controls">

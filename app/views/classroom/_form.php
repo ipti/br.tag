@@ -136,6 +136,17 @@
                                     'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         $('#Classroom_mais_educacao_participator').prop('disabled', data.MaisEdu);
+                                        $('#Classroom_aee_braille_system_education').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_optical_and_non_optical_resources').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_mental_processes_development_strategies').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_mobility_and_orientation_techniques').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_libras').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_caa_use_education').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_curriculum_enrichment_strategy').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_soroban_use_education').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_usability_and_functionality_of_computer_accessible_education').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_teaching_of_Portuguese_language_written_modality').prop('disabled', data.AeeActivity);
+                                        $('#Classroom_aee_strategy_for_school_environment_autonomy').prop('disabled', data.AeeActivity);
                                         $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage);
                                         $('#Classroom_modality').html(data.Modality);
                                     }",
@@ -236,67 +247,67 @@
  */ ?>
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_braille_system_education'); ?>
-                        <?php echo $form->textField($model,'aee_braille_system_education'); ?>
+                        <?php echo $form->checkBox($model,'aee_braille_system_education', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_braille_system_education'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_optical_and_non_optical_resources'); ?>
-                        <?php echo $form->textField($model,'aee_optical_and_non_optical_resources'); ?>
+                        <?php echo $form->checkBox($model,'aee_optical_and_non_optical_resources', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_optical_and_non_optical_resources'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_mental_processes_development_strategies'); ?>
-                        <?php echo $form->textField($model,'aee_mental_processes_development_strategies'); ?>
+                        <?php echo $form->checkBox($model,'aee_mental_processes_development_strategies', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_mental_processes_development_strategies'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_mobility_and_orientation_techniques'); ?>
-                        <?php echo $form->textField($model,'aee_mobility_and_orientation_techniques'); ?>
+                        <?php echo $form->checkBox($model,'aee_mobility_and_orientation_techniques', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_mobility_and_orientation_techniques'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_libras'); ?>
-                        <?php echo $form->textField($model,'aee_libras'); ?>
+                        <?php echo $form->checkBox($model,'aee_libras', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_libras'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_caa_use_education'); ?>
-                        <?php echo $form->textField($model,'aee_caa_use_education'); ?>
+                        <?php echo $form->checkBox($model,'aee_caa_use_education', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_caa_use_education'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_curriculum_enrichment_strategy'); ?>
-                        <?php echo $form->textField($model,'aee_curriculum_enrichment_strategy'); ?>
+                        <?php echo $form->checkBox($model,'aee_curriculum_enrichment_strategy', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_curriculum_enrichment_strategy'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_soroban_use_education'); ?>
-                        <?php echo $form->textField($model,'aee_soroban_use_education'); ?>
+                        <?php echo $form->checkBox($model,'aee_soroban_use_education', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_soroban_use_education'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_usability_and_functionality_of_computer_accessible_education'); ?>
-                        <?php echo $form->textField($model,'aee_usability_and_functionality_of_computer_accessible_education'); ?>
+                        <?php echo $form->checkBox($model,'aee_usability_and_functionality_of_computer_accessible_education', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_usability_and_functionality_of_computer_accessible_education'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_teaching_of_Portuguese_language_written_modality'); ?>
-                        <?php echo $form->textField($model,'aee_teaching_of_Portuguese_language_written_modality'); ?>
+                        <?php echo $form->checkBox($model,'aee_teaching_of_Portuguese_language_written_modality', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_teaching_of_Portuguese_language_written_modality'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'aee_strategy_for_school_environment_autonomy'); ?>
-                        <?php echo $form->textField($model,'aee_strategy_for_school_environment_autonomy'); ?>
+                        <?php echo $form->checkBox($model,'aee_strategy_for_school_environment_autonomy', array('disabled'=>'disabled')); ?>
                         <?php echo $form->error($model,'aee_strategy_for_school_environment_autonomy'); ?>
                     </div>
 
