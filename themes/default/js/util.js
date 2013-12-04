@@ -20,8 +20,18 @@ stringRules.schoolAddress = /^[A-Za-z0-9°ºª\-\/\., ][^a-z]*$/;
 
 var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
+numberRules.cpf = /^[0-9]{11}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
+numberRules.count = /^[0-9]{1,4}$/;
+
+function validateCount(count) {
+    if (count > 0){
+        return(rule(count,numberRules.count));
+    }else{
+        return false;
+    }
+}
 
 function validateDate(date) {
     return(rule(date,dateRules.date));
@@ -80,6 +90,16 @@ function validateEmail(email){
     return (rule(email, stringRules.email));
 }
 
+function validateCPF(cpf){
+    //existe script de validação de cpf
+    if (cpf != "00000000000" && cpf != "00000000191"){
+        return (rule(cpf, numberRules.cpf));
+    }
+    else{
+        return false;
+    }
+}
+
 function anoMinMax(min,max,ano) {
     ano = parseInt(ano);
     if(ano >= min && ano <= max){
@@ -92,7 +112,7 @@ function validadeBirthdayPerson(date){
     if(validateDate(date)){
         var fullDate = new Date(date);
         var year = fullDate.getFullYear();
-       return anoMinMax(1918,1999,year);
+        return anoMinMax(1918,1999,year);
     }else{
         return false;
     }
@@ -102,36 +122,44 @@ function validateNamePerson(personName){
     var complete_name = personName.split(' ');  
     var passExp = true;
     for(var i=0; i<complete_name.length;i++){
-       if(!rule(complete_name[i],stringRules.personName)){
-           passExp=false;
-           break;
-       } 
+        if(!rule(complete_name[i],stringRules.personName)){
+            passExp=false;
+            break;
+        } 
     }
   
+    var ret = new Array();
     if(passExp){      
         if(this.isset(complete_name[1])){
             var str4 = null;
             var until4 = 0; 
             for(var i=0;i<personName.length;i++){
                 if(personName[i]!=str4){
-                  str4 = personName[i];
-                  until4=1;
+                    str4 = personName[i];
+                    until4=1;
                 }else{
-                   until4++; 
+                    until4++; 
                 }
                 
                 if(until4 > 4){
-                    return "O nome Não pode ter mais de 4 letras seguidas";
+                    ret[0] = false;
+                    ret[1] = "O nome não pode ter mais de 4 letras seguidas.";
+                    return ret;
                 }
             }
         }else{
-            return "Nome sem SobreNome";
+            ret[0] = false;
+            ret[1] = "Nome sem sobrenome.";
+            return ret;
         }
     }else{
-        return "O nome somente deve ter Letras";  
+        ret[0] = false;
+        ret[1] = "O nome somente deve ter letras.";
+        return ret;
     }
-    
-     return true;   
+    ret[0] = true;
+    ret[1] = "bele";
+    return ret; 
 }
 
 

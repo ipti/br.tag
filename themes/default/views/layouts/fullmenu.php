@@ -30,7 +30,7 @@
         <!-- JQueryUI -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
 
-        
+     
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
         
         <!-- Bootstrap -->

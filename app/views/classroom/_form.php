@@ -1,4 +1,4 @@
-<?php $form=$this->beginWidget('CActiveForm', array(
+ <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
 	'enableAjaxValidation'=>false,
 )); 
@@ -23,9 +23,14 @@
                                             'prompt'=>'(Select School)',
                                             'ajax' => array(
                                             'type' => 'POST', 
-                                            'url' => CController::createUrl('classroom/getassistancetype'), 
+                                            'url' => CController::createUrl('classroom/getassistancetype'),
                                             'update' => '#Classroom_assistance_type',
-                                        ))); ?>  
+                                            'success' => 'function(html){
+                                                $("#Classroom_assistance_type").html(html); 
+                                                $("#Classroom_assistance_type").trigger("change");                                                
+                                            }'
+                                            
+                                            ))); ?>  
                            <?php echo $form->error($model,'school_inep_fk'); ?>
                     </div>
 <!--
@@ -160,13 +165,12 @@
                         <?php echo $form->error($model,'mais_educacao_participator'); ?>
                     </div>
 
-<!-- alterando esta área, tentando colocar multiselect list -->
+<!-- dar uma olhada no http://mind2soft.com/labs/jquery/multiselect/ -->
                                        <div class="formField">
                         <?php echo $form->labelEx($model,'complementary_activity_type_1'); ?>
                         <?php echo $form->dropDownList($model, 'complementary_activity_type_1', 
                                 CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'),
-                                array('multiple'=>true,
-                                    'key'=>'id', 'max'=>'6')
+                                array('multiple'=>true,'key'=>'id')
                             );?>
                         <?php echo $form->error($model,'complementary_activity_type_1'); ?>
                     </div>
@@ -314,182 +318,190 @@
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'modality'); ?>
                         <?php echo $form->DropDownList($model,'modality',
-                                array('null' => '(Select Modality)')); ?>
+                                array('null' => '(Select Modality)',
+                                    '1' => '(Ensino Regular)',
+                                    '2' => '(Educação Especial - Modalidade Substitutiva)',
+                                    '3' => '(Educação de Jovens e Adultos (EJA))')); ?>
                         <?php echo $form->error($model,'modality'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'edcenso_stage_vs_modality_fk'); ?>
                         <?php echo $form->DropDownList($model,'edcenso_stage_vs_modality_fk',
-                                array('null' => '(Select Stage vs Modality)'));?>
+                                CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order'=>'name')), 'id', 'name'),
+                                array('prompt' => '(Select Stage vs Modality)'));?>
                         <?php echo $form->error($model,'edcenso_stage_vs_modality_fk'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'edcenso_professional_education_course_fk'); ?>
-                        <?php echo $form->textField($model,'edcenso_professional_education_course_fk'); ?>
+                        <?php echo $form->DropDownList($model,'edcenso_professional_education_course_fk', 
+                                CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order'=>'name')), 'id', 'name'),
+                                        array('prompt'=>'(Select Course)',)); ?>
                         <?php echo $form->error($model,'edcenso_professional_education_course_fk'); ?>
                     </div>
 
+                    <?php $disciplinesEnum = array("0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_chemistry'); ?>
-                        <?php echo $form->textField($model,'discipline_chemistry'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_chemistry', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_chemistry'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_physics'); ?>
-                        <?php echo $form->textField($model,'discipline_physics'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_physics', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_physics'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_mathematics'); ?>
-                        <?php echo $form->textField($model,'discipline_mathematics'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_mathematics', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_mathematics'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_biology'); ?>
-                        <?php echo $form->textField($model,'discipline_biology'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_biology', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_biology'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_science'); ?>
-                        <?php echo $form->textField($model,'discipline_science'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_science', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_science'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_language_portuguese_literature'); ?>
-                        <?php echo $form->textField($model,'discipline_language_portuguese_literature'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_language_portuguese_literature', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_language_portuguese_literature'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_foreign_language_english'); ?>
-                        <?php echo $form->textField($model,'discipline_foreign_language_english'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_foreign_language_english', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_foreign_language_english'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_foreign_language_spanish'); ?>
-                        <?php echo $form->textField($model,'discipline_foreign_language_spanish'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_foreign_language_spanish', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_foreign_language_spanish'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_foreign_language_franch'); ?>
-                        <?php echo $form->textField($model,'discipline_foreign_language_franch'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_foreign_language_franch', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_foreign_language_franch'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_foreign_language_other'); ?>
-                        <?php echo $form->textField($model,'discipline_foreign_language_other'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_foreign_language_other', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_foreign_language_other'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_arts'); ?>
-                        <?php echo $form->textField($model,'discipline_arts'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_arts', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_arts'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_physical_education'); ?>
-                        <?php echo $form->textField($model,'discipline_physical_education'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_physical_education', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_physical_education'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_history'); ?>
-                        <?php echo $form->textField($model,'discipline_history'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_history', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_history'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_geography'); ?>
-                        <?php echo $form->textField($model,'discipline_geography'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_geography', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_geography'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_philosophy'); ?>
-                        <?php echo $form->textField($model,'discipline_philosophy'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_philosophy', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_philosophy'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_social_study'); ?>
-                        <?php echo $form->textField($model,'discipline_social_study'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_social_study', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_social_study'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_sociology'); ?>
-                        <?php echo $form->textField($model,'discipline_sociology'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_sociology', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_sociology'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_informatics'); ?>
-                        <?php echo $form->textField($model,'discipline_informatics'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_informatics', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_informatics'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_professional_disciplines'); ?>
-                        <?php echo $form->textField($model,'discipline_professional_disciplines'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_professional_disciplines', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_professional_disciplines'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_special_education_and_inclusive_practices'); ?>
-                        <?php echo $form->textField($model,'discipline_special_education_and_inclusive_practices'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_special_education_and_inclusive_practices', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_special_education_and_inclusive_practices'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_sociocultural_diversity'); ?>
-                        <?php echo $form->textField($model,'discipline_sociocultural_diversity'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_sociocultural_diversity', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_sociocultural_diversity'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_libras'); ?>
-                        <?php echo $form->textField($model,'discipline_libras'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_libras', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_libras'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_pedagogical'); ?>
-                        <?php echo $form->textField($model,'discipline_pedagogical'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_pedagogical', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_pedagogical'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_religious'); ?>
-                        <?php echo $form->textField($model,'discipline_religious'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_religious', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_religious'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_native_language'); ?>
-                        <?php echo $form->textField($model,'discipline_native_language'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_native_language', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_native_language'); ?>
                     </div>
 
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'discipline_others'); ?>
-                        <?php echo $form->textField($model,'discipline_others'); ?>
+                        <?php echo $form->DropDownList($model,'discipline_others', $disciplinesEnum); ?>
                         <?php echo $form->error($model,'discipline_others'); ?>
                     </div>
 
+                        <?php $instructorSituationEnum = array("0" => "Turma com docente", "1" => "Turma sem docente"); ?>
                                         <div class="formField">
                         <?php echo $form->labelEx($model,'instructor_situation'); ?>
-                        <?php echo $form->textField($model,'instructor_situation'); ?>
+                        <?php echo $form->DropDownList($model,'instructor_situation',$instructorSituationEnum); ?>
                         <?php echo $form->error($model,'instructor_situation'); ?>
                     </div>
 
@@ -508,8 +520,21 @@
             //consertar isso urgentemente!
             //não pode ficar assim!! u.u
             //mude essa desgraça!
-            jQuery('body').on('change','#Classroom_school_inep_fk',function(){jQuery.ajax({'type':'POST','url':'/tag/index.php?r=classroom/getassistancetype','cache':false,'data':jQuery(this).parents("form").serialize(),'success':function(html){jQuery("#Classroom_assistance_type").html(html)}});return false;});
+            jQuery('body').on('change','#Classroom_school_inep_fk',
+                function(){jQuery.ajax({
+                        'type':'POST',
+                        'url':'/tag/index.php?r=classroom/getassistancetype',
+                        'cache':false,
+                        'data':jQuery(this).parents("form").serialize(),
+                        'success':function(html){
+                            jQuery("#Classroom_assistance_type").html(html); 
+                            jQuery("#Classroom_assistance_type").trigger('change');
+                        }});
+                    return false;}
+            );
             $(form+'school_inep_fk').trigger('change');
+            
+            
         }); 
         
         

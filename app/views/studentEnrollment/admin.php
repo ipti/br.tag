@@ -1,12 +1,12 @@
 <?php
 $this->breadcrumbs=array(
-	'School Identifications'=>array('index'),
+	'Student Enrollments'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	array('label'=>'List SchoolIdentification', 'url'=>array('index')),
-	array('label'=>'Create SchoolIdentification', 'url'=>array('create')),
+	array('label'=>'List StudentEnrollment', 'url'=>array('index')),
+	array('label'=>'Create StudentEnrollment', 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -15,7 +15,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('school-identification-grid', {
+	$.fn.yiiGridView.update('student-enrollment-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -23,7 +23,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage School Identifications</h1>
+<h1>Manage Student Enrollments</h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -38,41 +38,36 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'school-identification-grid',
+	'id'=>'student-enrollment-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
 		'register_type',
-		'inep_id',
-		'situation',
-		'initial_date',
-		'final_date',
-		'name',
+		'school_inep_id_fk',
+		'student_inep_id',
+		'student_fk',
+		'classroom_inep_id',
+		'classroom_fk',
 		/*
-		'latitude',
-		'longitude',
-		'cep',
-		'address',
-		'address_number',
-		'address_complement',
-		'address_neighborhood',
-		'edcenso_uf_fk',
-		'edcenso_city_fk',
-		'edcenso_district_fk',
-		'phone_number',
-		'public_phone_number',
-		'other_phone_number',
-		'fax_number',
-		'email',
-		'edcenso_regional_education_organ_fk',
-		'administrative_dependence',
-		'location',
-		'private_school_category',
-		'public_contract',
-		'private_school_maintainer_fk',
-		'private_school_maintainer_cnpj',
-		'private_school_cnpj',
-		'regulation',
+		'enrollment_id',
+		'unified_class',
+		'edcenso_stage_vs_modality_fk',
+		'another_scholarization_place',
+		'public_transport',
+		'transport_responsable_government',
+		'vehicle_type_van',
+		'vehicle_type_microbus',
+		'vehicle_type_bus',
+		'vehicle_type_bike',
+		'vehicle_type_animal_vehicle',
+		'vehicle_type_other_vehicle',
+		'vehicle_type_waterway_boat_5',
+		'vehicle_type_waterway_boat_5_15',
+		'vehicle_type_waterway_boat_15_35',
+		'vehicle_type_waterway_boat_35',
+		'vehicle_type_metro_or_train',
+		'student_entry_form',
+		'id',
 		*/
 		array(
 			'class'=>'CButtonColumn',
