@@ -12,7 +12,7 @@
 
                                     <div class="formField">
                         <?php echo $form->labelEx($model,'register_type'); ?>
-                        <?php echo $form->textField($model,'register_type',array('size'=>2,'maxlength'=>2)); ?>
+                        <?php echo $form->textField($model,'register_type',array('size'=>2,'maxlength'=>2,'readonly'=>'readonly')); ?>
                         <?php echo $form->error($model,'register_type'); ?>
                     </div>
 
@@ -96,3 +96,24 @@
                 <?php $this->endWidget(); ?>
             </div>
         </div>
+
+<script type="text/javascript">
+   var form = '#InstructorDocumentsAndAddress_';
+    $(document).ready(function(){ 
+       $(form+'cpf').on('change',function(){
+           var isValidate = validateCpf(this.value);
+              if(isValidate){
+                  $(this).attr('value','');
+              }
+       });
+       
+         $(form+'cep').focusout(function() { 
+            if(!validateCEP($(this).val())) 
+                $(this).attr('value','');
+        });
+       
+       
+        });
+</script>
+    
+ 

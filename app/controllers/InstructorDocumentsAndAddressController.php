@@ -57,6 +57,7 @@ class InstructorDocumentsAndAddressController extends Controller
 	 */
 	public function actionCreate()
 	{
+                
 		$model=new InstructorDocumentsAndAddress;
 
 		// Uncomment the following line if AJAX validation is needed

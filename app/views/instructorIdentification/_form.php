@@ -14,7 +14,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'Tipo de Registro'); ?>
-            <?php echo $form->textField($model, 'register_type', array('size' => 2, 'maxlength' => 2)); ?>
+            <?php echo $form->textField($model, 'register_type', array('size' => 2, 'maxlength' => 2,'readonly'=>'readonly')); ?>
             <?php echo $form->error($model, 'register_type'); ?>
         </div>
 
@@ -27,11 +27,11 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->error($model, 'school_inep_id_fk'); ?>
             </div>
 
-        <!--                                        <div class="formField">
+        <div class="formField">
         <?php echo $form->labelEx($model, 'Identificação única do Profissional escolar em sala de Aula(INEP)'); ?>
-        <?php echo $form->textField($model, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
+        <?php echo $form->textField($model, 'inep_id', array('size' => 12, 'maxlength' => 12), array('readonly' => 'readonly')); ?>
         <?php echo $form->error($model, 'inep_id'); ?>
-                            </div>-->
+        </div> 
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'Nome'); ?>
@@ -121,49 +121,58 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency', array(0 => "Não", 1 => "Sim")); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency'); ?>
+
+            <?php //echo $form->DropDownList($model, 'deficiency', array(0 => "Não", 1 => "Sim")); ?>
             <?php echo $form->error($model, 'deficiency'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_blindness'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_blindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_blindness', array('readonly'=>true)); ?>
+            <?php //echo $form->DropDownList($model, 'deficiency_type_blindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_blindness'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_low_vision'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_low_vision', array('readonly'=>true)); ?>
+            <?php // echo $form->DropDownList($model, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_low_vision'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_deafness'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_deafness', array('readonly'=>true)); ?>
+            <?php //echo $form->DropDownList($model, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_deafness'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_disability_hearing'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_disability_hearing', array('readonly'=>true)); ?>
+            <?php //echo $form->DropDownList($model, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_disability_hearing'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_deafblindness'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_deafblindness', array('readonly'=>true)); ?>
+            <?php // echo $form->DropDownList($model, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_deafblindness'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_phisical_disability'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_phisical_disability', array('readonly'=>true)); ?>
+            <?php //echo $form->DropDownList($model, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_phisical_disability'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($model, 'deficiency_type_intelectual_disability'); ?>
-            <?php echo $form->DropDownList($model, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
+            <?php echo CHtml::activeCheckBox($model,'deficiency_type_intelectual_disability', array('readonly'=>true)); ?>
+            <?php //echo $form->DropDownList($model, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($model, 'deficiency_type_intelectual_disability'); ?>
         </div>
 
@@ -193,7 +202,7 @@ $form = $this->beginWidget('CActiveForm', array(
         $(form +'name,'+form +'mother_name').on('focusout', function(){
             $(this).val($(this).val().toUpperCase());
             var isValidate = validateNamePerson(this.value);
-              if(isValidate!=true){
+              if(!isValidate){
                   $(this).attr('value','');
               }
           })
@@ -229,6 +238,19 @@ $form = $this->beginWidget('CActiveForm', array(
                 
         });
         
+        $(form+'deficiency').on('change', function(){
+            if($(this).val()==1) { 
+                $(form+'deficiency_type_blindness').removeAttr('readonly');
+                $(form+'deficiency_type_low_vision').removeAttr('readonly');
+                $(form+'deficiency_type_deafness').removeAttr('readonly');
+                $(form+'deficiency_type_disability_hearing').removeAttr('readonly');
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly');
+                $(form+'deficiency_type_phisical_disability').removeAttr('readonly');
+                $(form+'deficiency_type_intelectual_disability').removeAttr('readonly');
+                
+            }
+        }); 
+        
        $(form+'deficiency_type_blindness').on('change', function(){
           if(($(form+'deficiency_type_blindness').val()==1 && $(form+'deficiency_type_phisical_disability').val()==1)
             || ($(form+'deficiency_type_blindness').val()==1 && $(form+'deficiency_type_intelectual_disability').val()==1) 
@@ -252,15 +274,18 @@ $form = $this->beginWidget('CActiveForm', array(
                
             if($(this).val() == 1) { // 
                 $(form+'deficiency_type_low_vision').val(0);
-                $(form+'deficiency_type_low_vision').add().attr('disabled','disabled');
+                $(form+'deficiency_type_low_vision').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafness').val(0);
-                $(form+'deficiency_type_deafness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafblindness').val(0);
-                $(form+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafblindness').add().attr('readonly','readonly');
+                
             }else{
-                $(form+'deficiency_type_low_vision').removeAttr('disabled');
-                $(form+'deficiency_type_deafness').removeAttr('disabled');
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled');             
+                $(form+'deficiency_type_low_vision').removeAttr('readonly');
+                $(form+'deficiency_type_deafness').removeAttr('readonly');
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly'); 
+                
+                            
             }
         });
         
@@ -286,12 +311,13 @@ $form = $this->beginWidget('CActiveForm', array(
       }   
             if($(this).val() == 1) { // 
                 $(form+'deficiency_type_blindness').val(0);
-                $(form+'deficiency_type_blindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_blindness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafblindness').val(0);
-                $(form+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafblindness').add().attr('readonly','readonly');  
             }else{
-                $(form+'deficiency_type_blindness').removeAttr('disabled');
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled');           
+                $(form+'deficiency_type_blindness').removeAttr('readonly');
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly');
+                           
             }
         });
         
@@ -317,15 +343,16 @@ $form = $this->beginWidget('CActiveForm', array(
       }   
             if($(this).val() == 1) { // 
                 $(form+'deficiency_type_blindness').val(0);
-                $(form+'deficiency_type_blindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_blindness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_disability_hearing').val(0);
-                $(form+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
+                $(form+'deficiency_type_disability_hearing').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafblindness').val(0);
-                $(form+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafblindness').add().attr('readonly','readonly');   
             }else{
-                $(form+'deficiency_type_blindness').removeAttr('disabled');
-                $(form+'deficiency_type_disability_hearing').removeAttr('disabled');      
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled'); 
+                $(form+'deficiency_type_blindness').removeAttr('readonly');
+                $(form+'deficiency_type_disability_hearing').removeAttr('readonly');      
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly');
+                
             }
         });
         
@@ -351,19 +378,22 @@ $form = $this->beginWidget('CActiveForm', array(
       }      
             if($(this).val() == 1) { // 
                 $(form+'deficiency_type_deafness').val(0);
-                $(form+'deficiency_type_deafness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_disability_hearing').val(0);
-                $(form+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
+                $(form+'deficiency_type_disability_hearing').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafblindness').val(0);
-                $(form+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafblindness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_blindness').val(0);
-                $(form+'deficiency_type_blindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_blindness').add().attr('readonly','readonly'); 
                
             }else{
-                $(form+'deficiency_type_deafness').removeAttr('disabled');    
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled');
-                $(form+'deficiency_type_deafness').removeAttr('disabled');    
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled'); 
+                $(form+'deficiency_type_deafness').removeAttr('readonly');    
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly');
+                $(form+'deficiency_type_deafness').removeAttr('readonly');    
+                $(form+'deficiency_type_deafblindness').removeAttr('readonly');
+                
+                
+                
             }
         }); 
             $(form+'deficiency_type_deafblindness').on('change', function(){
@@ -389,18 +419,19 @@ $form = $this->beginWidget('CActiveForm', array(
             
             if($(this).val() == 1) { // 
                 $(form+'deficiency_type_blindness').val(0);
-                $(form+'deficiency_type_blindness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_blindness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_low_vision').val(0);
-                $(form+'deficiency_type_low_vision').add().attr('disabled','disabled');
+                $(form+'deficiency_type_low_vision').add().attr('readonly','readonly');
                 $(form+'deficiency_type_deafness').val(0);
-                $(form+'deficiency_type_deafness').add().attr('disabled','disabled');
+                $(form+'deficiency_type_deafness').add().attr('readonly','readonly');
                 $(form+'deficiency_type_disability_hearing').val(0);
-                $(form+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
+                $(form+'deficiency_type_disability_hearing').add().attr('readonly','readonly');  
             }else{
-                $(form+'deficiency_type_blindness').removeAttr('disabled');    
-                $(form+'deficiency_type_low_vision').removeAttr('disabled'); 
-                $(form+'deficiency_type_deafness').removeAttr('disabled');    
-                $(form+'deficiency_type_disability_hearing').removeAttr('disabled'); 
+                $(form+'deficiency_type_blindness').removeAttr('readonly');    
+                $(form+'deficiency_type_low_vision').removeAttr('readonly'); 
+                $(form+'deficiency_type_deafness').removeAttr('readonly');    
+                $(form+'deficiency_type_disability_hearing').removeAttr('readonly');
+               
             }
         });
     
@@ -448,27 +479,6 @@ $form = $this->beginWidget('CActiveForm', array(
       }    
           });
     
-        $(form+'deficiency').on('change', function(){
-            if($(this).val()==1) {
-                $(form+'deficiency_type_blindness').removeAttr('disabled');
-                $(form+'deficiency_type_low_vision').removeAttr('disabled');
-                $(form+'deficiency_type_deafness').removeAttr('disabled');
-                $(form+'deficiency_type_disability_hearing').removeAttr('disabled');
-                $(form+'deficiency_type_deafblindness').removeAttr('disabled');
-                $(form+'deficiency_type_phisical_disability').removeAttr('disabled');
-                $(form+'deficiency_type_intelectual_disability').removeAttr('disabled');
-                
-            }else{
-                $(form+'deficiency_type_blindness').add().attr('disabled','disabled');
-                $(form+'deficiency_type_low_vision').add().attr('disabled','disabled');
-                $(form+'deficiency_type_deafness').add().attr('disabled','disabled');
-                $(form+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
-                $(form+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-                $(form+'deficiency_type_phisical_disability').add().attr('disabled','disabled');
-                $(form+'deficiency_type_intelectual_disability').add().attr('disabled','disabled');
-               
-            } 
-        }); 
         
 //        $('#dt_multiple_disabilities').on('change', function(){
 //            $(form+'deficiency_type_multiple_disabilities').val($(this).val());
@@ -478,7 +488,14 @@ $form = $this->beginWidget('CActiveForm', array(
 //            $('#dt_multiple_disabilities').val($(this).val());
 //        });
         
+        
+      
+        
+        
+        
     });
+    
+    
     
     
 </script>

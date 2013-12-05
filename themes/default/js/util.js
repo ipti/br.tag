@@ -22,6 +22,7 @@ var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
+numberRules.cpf = /^([0]{11})|([0]{8}191)$/;
 
 function validateDate(date) {
     return(rule(date,dateRules.date));
@@ -121,19 +122,22 @@ function validateNamePerson(personName){
                 }
                 
                 if(until4 > 4){
-                    return "O nome Não pode ter mais de 4 letras seguidas";
+                    return false;
                 }
             }
         }else{
-            return "Nome sem SobreNome";
+            return false;
         }
     }else{
-        return "O nome somente deve ter Letras";  
+        return false;  
     }
     
      return true;   
 }
 
+function validateCpf(cpf){
+   return rule(cpf, numberRules.cpf);
+}
 
 function isset(variable){
     return (variable != 'undefined' && variable != null);
