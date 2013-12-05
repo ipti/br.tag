@@ -20,10 +20,12 @@
                     if ($column->autoIncrement)
                         continue;
                     ?>
-                    <div class="formField">
+                    <div class="control-group">
                         <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
-                        <?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
-                        <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
+                        <div class="controls">
+                            <?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+                            <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
+                        </div>
                     </div>
 
                     <?php

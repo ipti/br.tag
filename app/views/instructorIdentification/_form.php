@@ -202,7 +202,7 @@ $form = $this->beginWidget('CActiveForm', array(
         $(form +'name,'+form +'mother_name').on('focusout', function(){
             $(this).val($(this).val().toUpperCase());
             var isValidate = validateNamePerson(this.value);
-              if(!isValidate){
+              if(!isValidate[0]){
                   $(this).attr('value','');
               }
           })
@@ -496,6 +496,7 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     
-    
+ 
     
 </script>
+

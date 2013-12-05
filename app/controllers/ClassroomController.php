@@ -1,5 +1,5 @@
 <?php
-
+//-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
 	/**
@@ -50,14 +50,14 @@ class ClassroomController extends Controller
             echo CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Assistance Type)'), true);
             
             if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
-                 echo CHtml::tag('option', array('value' => '4'),CHtml::encode('Atividade Complementar'), true);
+                 echo CHtml::tag('option', array('value' => '4', "selected" =>"selected"),CHtml::encode('Atividade Complementar'), true);
             }else if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
-                echo CHtml::tag('option', array('value' => '5'),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
+                echo CHtml::tag('option', array('value' => '5', "selected" =>"selected"),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
             }else {
-                echo CHtml::tag('option', array('value' => '0'),CHtml::encode('Não se Aplica'), true);
-                echo CHtml::tag('option', array('value' => '1'),CHtml::encode('Classe Hospitalar'), true);
-                echo CHtml::tag('option', array('value' => '2'),CHtml::encode('Unidade de Internação Socioeducativa'), true);
-                echo CHtml::tag('option', array('value' => '3'),CHtml::encode('Unidade Prisional'), true);
+                echo CHtml::tag('option', array('value' => '0', $classroom->assistance_type == 0 ? "selected" : "deselected" => $classroom->assistance_type == 0 ? "selected" : "deselected" ),CHtml::encode('Não se Aplica'), true);
+                echo CHtml::tag('option', array('value' => '1', $classroom->assistance_type == 1 ? "selected" : "deselected" => $classroom->assistance_type == 1 ? "selected" : "deselected" ),CHtml::encode('Classe Hospitalar'), true);
+                echo CHtml::tag('option', array('value' => '2', $classroom->assistance_type == 2 ? "selected" : "deselected" => $classroom->assistance_type == 2 ? "selected" : "deselected" ),CHtml::encode('Unidade de Internação Socioeducativa'), true);
+                echo CHtml::tag('option', array('value' => '3', $classroom->assistance_type == 3 ? "selected" : "deselected" => $classroom->assistance_type == 3 ? "selected" : "deselected" ),CHtml::encode('Unidade Prisional'), true);
             }  
         }
         
@@ -94,19 +94,22 @@ class ClassroomController extends Controller
         public function actionUpdateAssistanceTypeDependencies(){
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
-            $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'');
-              
+            
+            $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'', 'AeeActivity'=>'');
+               
             $result['MaisEdu'] = $classroom->assistance_type == 1 || $classroom->assistance_type == 5;
+            
+            $result['AeeActivity'] = $classroom->assistance_type != 5;
             
             $where = '';
             $result['Modality'] = CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Modality)'), true);
             
             if($result['MaisEdu']){
-                $result['Modality'] .= CHtml::tag('option', array('value' => '3'),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
+                $result['Modality'] .= CHtml::tag('option', array('value' => '3', "selected" => "selected"),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
                 $where = '(id<4 || id>38) && id!=38 && id!=41 && id!=56';
             }else{
-                $result['Modality'] .= CHtml::tag('option', array('value' => '1'),CHtml::encode('Ensino Regular'), true);
-                $result['Modality'] .= CHtml::tag('option', array('value' => '2'),CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
+                $result['Modality'] .= CHtml::tag('option', array('value' => '1', $classroom->modality == 1? "selected" : "deselected" => $classroom->modality == 1? "selected" : "deselected" ),CHtml::encode('Ensino Regular'), true);
+                $result['Modality'] .= CHtml::tag('option', array('value' => '2', $classroom->modality == 2? "selected" : "deselected" => $classroom->modality == 2? "selected" : "deselected" ),CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
             }
                      
             if($classroom->assistance_type == 2 || $classroom->assistance_type == 3){
@@ -121,7 +124,7 @@ class ClassroomController extends Controller
             $result['Stage'] = CHtml::tag('option', array('value' => 'NULL'), '(Select Stage vs Modality)', true);
 
             foreach ($data as $value => $name) {
-                     $result['Stage'] .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+                $result['Stage'] .= CHtml::tag('option', array('value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" => $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" ), CHtml::encode($name), true);
             }
             
             echo json_encode($result);
@@ -151,20 +154,36 @@ class ClassroomController extends Controller
 
 		if(isset($_POST['Classroom']))
 		{
-			$model->attributes=$_POST['Classroom'];
-                        if($model->attributes->week_days_sunday 
-                                || $model->attributes->week_days_monday 
-                                || $model->attributes->week_days_tuesday 
-                                || $model->attributes->week_days_wednesday 
-                                || $model->attributes->week_days_thursday 
-                                || $model->attributes->week_days_friday 
-                                || $model->attributes->week_days_saturday ){
-                            if($model->save()){
-                                    Yii::app()->user->setFlash('success', Yii::t('default', 'Classroom Created Successful:'));
-                                    $this->redirect(array('index'));
-                                   }
-                         }
+                    // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
+                    // de nao deixar criar com todos os campos igual a 0
+                    $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+                    $_POST['Classroom']["complementary_activity_type_1"] = 
+                            isset($compActs[0]) ? $compActs[0] : null;
+                    $_POST['Classroom']["complementary_activity_type_2"] = 
+                            isset($compActs[1]) ? $compActs[1] : null;
+                    $_POST['Classroom']["complementary_activity_type_3"] = 
+                            isset($compActs[2]) ? $compActs[2] : null;
+                    $_POST['Classroom']["complementary_activity_type_4"] = 
+                            isset($compActs[3]) ? $compActs[3] : null;
+                    $_POST['Classroom']["complementary_activity_type_5"] = 
+                            isset($compActs[4]) ? $compActs[4] : null;
+                    $_POST['Classroom']["complementary_activity_type_6"] = 
+                            isset($compActs[5]) ? $compActs[5] : null;
+                    $model->attributes=$_POST['Classroom'];
+                    if($model->week_days_sunday
+                            || $model->week_days_monday 
+                            || $model->week_days_tuesday 
+                            || $model->week_days_wednesday 
+                            || $model->week_days_thursday 
+                            || $model->week_days_friday 
+                            || $model->week_days_saturday ){
+                        if($model->save()){
+                                Yii::app()->user->setFlash('success', Yii::t('default', 'Classroom Created Successful:'));
+                                $this->redirect(array('index'));
+                               }
+                     }
 		}
+                if($model->validate()&&$model2->validate)
 
 		$this->render('create',array(
 			'model'=>$model
@@ -189,17 +208,32 @@ class ClassroomController extends Controller
 
 		if(isset($_POST['Classroom']))
 		{
-			$model->attributes=$_POST['Classroom'];
-                        if($model->attributes->week_days_sunday 
-                                || $model->attributes->week_days_monday 
-                                || $model->attributes->week_days_tuesday 
-                                || $model->attributes->week_days_wednesday 
-                                || $model->attributes->week_days_thursday 
-                                || $model->attributes->week_days_friday 
-                                || $model->attributes->week_days_saturday ){
-                            if($model->save())
-                                    $this->redirect(array('view','id'=>$model->id));
-                        }
+                    if(isset($_POST['Classroom']["complementary_activity_type_1"])){
+                        $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+                        $_POST['Classroom']["complementary_activity_type_1"] = 
+                                isset($compActs[0]) ? $compActs[0] : null;
+                        $_POST['Classroom']["complementary_activity_type_2"] = 
+                                isset($compActs[1]) ? $compActs[1] : null;
+                        $_POST['Classroom']["complementary_activity_type_3"] = 
+                                isset($compActs[2]) ? $compActs[2] : null;
+                        $_POST['Classroom']["complementary_activity_type_4"] = 
+                                isset($compActs[3]) ? $compActs[3] : null;
+                        $_POST['Classroom']["complementary_activity_type_5"] = 
+                                isset($compActs[4]) ? $compActs[4] : null;
+                        $_POST['Classroom']["complementary_activity_type_6"] = 
+                                isset($compActs[5]) ? $compActs[5] : null;
+                    }
+                    $model->attributes=$_POST['Classroom'];
+                    if($model->week_days_sunday 
+                            || $model->week_days_monday 
+                            || $model->week_days_tuesday 
+                            || $model->week_days_wednesday 
+                            || $model->week_days_thursday 
+                            || $model->week_days_friday 
+                            || $model->week_days_saturday ){
+                        if($model->save())
+                                $this->redirect(array('view','id'=>$model->id));
+                    }
 		}
 
 		$this->render('update',array(

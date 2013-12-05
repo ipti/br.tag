@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'School Identifications'=>array('index'),
-	$model->name,
+	$modelSchoolIdentification->name,
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on SchoolIdentification.');
 $this->menu=array(
@@ -13,10 +13,10 @@ array('label'=> Yii::t('default', 'List SchoolIdentification'), 'url'=>array('in
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
             <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View SchoolIdentification # '.$model->inep_id.' :')?></div></div>
+                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View SchoolIdentification # '.$modelSchoolIdentification->inep_id.' :')?></div></div>
                 <div class="panelGroupBody">
                     <?php $this->widget('zii.widgets.CDetailView', array(
-                    'data'=>$model,
+                    'data'=>$modelSchoolIdentification,
                     'attributes'=>array(
                     		'register_type',
 		'inep_id',

@@ -30,7 +30,7 @@
         <!-- JQueryUI -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
 
-        
+     
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
         
         <!-- Bootstrap -->
@@ -54,7 +54,7 @@
                 <!-- Brand -->
                 <a href="#" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/a3.png" style="float:left;padding:10px 10px 0;" /><span>TAG <span>v3.0</span></span></a>
 
-                <!-- Menu Toggle Button
+                <!-- Menu Toggle Button --
                 <button type="button" class="btn btn-navbar">
                         <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>

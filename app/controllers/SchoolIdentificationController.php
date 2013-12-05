@@ -25,7 +25,7 @@ class SchoolIdentificationController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities','getdistricts'),
+                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities', 'getdistricts'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -202,25 +202,25 @@ class SchoolIdentificationController extends Controller {
         set_time_limit(0);
         echo "done?<br>";
         Yii::app()->db->createCommand($str_fields['00'])->query();
-        echo "danone 00<br>";
+        echo "done 00<br>";
         Yii::app()->db->createCommand($str_fields['10'])->query();
-        echo "danone 10<br>";
+        echo "done 10<br>";
         Yii::app()->db->createCommand($str_fields['20'])->query();
-        echo "danone 20<br>";
+        echo "done 20<br>";
         Yii::app()->db->createCommand($str_fields['30'])->query();
-        echo "danone 30<br>";
+        echo "done 30<br>";
         Yii::app()->db->createCommand($str_fields['40'])->query();
-        echo "danone 40<br>";
+        echo "done 40<br>";
         Yii::app()->db->createCommand($str_fields['50'])->query();
-        echo "danone 50<br>";
+        echo "done 50<br>";
         Yii::app()->db->createCommand($str_fields['51'])->query();
-        echo "danone 51<br>";
+        echo "done 51<br>";
         Yii::app()->db->createCommand($str_fields['60'])->query();
-        echo "danone 60<br>";
+        echo "done 60<br>";
         Yii::app()->db->createCommand($str_fields['70'])->query();
-        echo "danone 70<br>";
+        echo "done 70<br>";
         Yii::app()->db->createCommand($str_fields['80'])->query();
-        echo "danone 80<br>";
+        echo "done 80<br>";
         echo "done!<br>";
         set_time_limit(30);
         fclose($file);
@@ -229,39 +229,38 @@ class SchoolIdentificationController extends Controller {
     public function actionGetCities() {
         $school = new SchoolIdentification();
         $school->attributes = $_POST['SchoolIdentification'];
-        
+
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
-        
-        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);
-            foreach ($data as $value => $name) {
-                     echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
 
-            }
-        
+        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
     }
 
     public function actionGetDistricts() {
         $school = new SchoolIdentification();
         $school->attributes = $_POST['SchoolIdentification'];
-        
+
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
         $data = CHtml::listData($data, 'code', 'name');
 
         echo CHtml::tag('option', array('value' => 'NULL'), '(Select a district)', true);
-        
-            foreach ($data as $value => $name) {
-                     echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-            }
+
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
     }
-    
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id) {
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'modelSchoolIdentification' => $this->loadModel($id, 'SchoolIdentification'),
+            'modelSchoolStructure' => $this->loadModel($id, 'SchoolStructure'),
         ));
     }
 
@@ -270,23 +269,38 @@ class SchoolIdentificationController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new SchoolIdentification;
-//        $schoolStructure = new SchoolStructure();
+        $modelSchoolIdentification = new SchoolIdentification;
+        $modelSchoolStructure = new SchoolStructure();
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST['SchoolIdentification'])) {
-            $model->attributes = $_POST['SchoolIdentification'];
-            if ($model->save()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'SchoolIdentification Created Successful:'));
-                $this->redirect(array('index'));
+        if (isset($_POST['SchoolIdentification']) && isset($_POST['SchoolStructure'])) {
+            $modelSchoolIdentification->attributes = $_POST['SchoolIdentification'];
+            $modelSchoolStructure->attributes = $_POST['SchoolStructure'];
+
+            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
+                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+                if ($modelSchoolStructure->operation_location_building
+                        || $modelSchoolStructure->operation_location_temple
+                        || $modelSchoolStructure->operation_location_businness_room
+                        || $modelSchoolStructure->operation_location_instructor_house
+                        || $modelSchoolStructure->operation_location_other_school_room
+                        || $modelSchoolStructure->operation_location_barracks
+                        || $modelSchoolStructure->operation_location_socioeducative_unity
+                        || $modelSchoolStructure->operation_location_prison_unity
+                        || $modelSchoolStructure->operation_location_other) {
+                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'School Created Successful:'));
+                        $this->redirect(array('index'));
+                    }
+                }
             }
         }
 
         $this->render('create', array(
-            'model' => $model,
-//            'schoolStructure'=>$schoolStructure
+            'modelSchoolIdentification' => $modelSchoolIdentification,
+            'modelSchoolStructure' => $modelSchoolStructure
         ));
     }
 
@@ -296,20 +310,37 @@ class SchoolIdentificationController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $model = $this->loadModel($id);
+        $modelSchoolIdentification = $this->loadModel($id, "SchoolIdentification");
+        $modelSchoolStructure = $this->loadModel($id, "SchoolStructure");
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST['SchoolIdentification'])) {
-            $model->attributes = $_POST['SchoolIdentification'];
+        if (isset($_POST['SchoolIdentification']) && isset($_POST['SchoolStructure'])) {
+            $modelSchoolIdentification->attributes = $_POST['SchoolIdentification'];
+            $modelSchoolStructure->attributes = $_POST['SchoolStructure'];
 
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->inep_id));
+            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
+                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+                if ($modelSchoolStructure->operation_location_building
+                        || $modelSchoolStructure->operation_location_temple
+                        || $modelSchoolStructure->operation_location_businness_room
+                        || $modelSchoolStructure->operation_location_instructor_house
+                        || $modelSchoolStructure->operation_location_other_school_room
+                        || $modelSchoolStructure->operation_location_barracks
+                        || $modelSchoolStructure->operation_location_socioeducative_unity
+                        || $modelSchoolStructure->operation_location_prison_unity
+                        || $modelSchoolStructure->operation_location_other) {
+                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+                        $this->redirect(array('view', 'id' => $modelSchoolIdentification->inep_id));
+                    }
+                }
+            }
         }
 
         $this->render('update', array(
-            'model' => $model,
+            'modelSchoolIdentification' => $modelSchoolIdentification,
+            'modelSchoolStructure' => $modelSchoolStructure,
         ));
     }
 
@@ -321,7 +352,8 @@ class SchoolIdentificationController extends Controller {
     public function actionDelete($id) {
         if (Yii::app()->request->isPostRequest) {
             // we only allow deletion via POST request
-            $this->loadModel($id)->delete();
+            $this->loadModel($id, "SchoolStructure")->delete();
+            $this->loadModel($id, "SchoolIdentification")->delete();
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
@@ -348,13 +380,19 @@ class SchoolIdentificationController extends Controller {
      * Manages all models.
      */
     public function actionAdmin() {
-        $model = new SchoolIdentification('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['SchoolIdentification']))
-            $model->attributes = $_GET['SchoolIdentification'];
+        $modelSchoolIdentification = new SchoolIdentification('search');
+        $modelSchoolIdentification->unsetAttributes();  // clear any default values
+        $modelSchoolStructure = new SchoolStructure('search');
+        $modelSchoolStructure->unsetAttributes();  // clear any default values
+
+        if (isset($_GET['SchoolIdentification']) && isset($_GET['SchoolStructure'])) {
+            $modelSchoolIdentification->attributes = $_GET['SchoolIdentification'];
+            $modelSchoolStructure->attributes = $_GET['SchoolStructure'];
+        }
 
         $this->render('admin', array(
-            'model' => $model,
+            'modelSchoolIdentification' => $modelSchoolIdentification,
+            'modelSchoolStructure' => $modelSchoolStructure,
         ));
     }
 
@@ -363,11 +401,18 @@ class SchoolIdentificationController extends Controller {
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer the ID of the model to be loaded
      */
-    public function loadModel($id) {
-        $model = SchoolIdentification::model()->findByPk($id);
-        if ($model === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
-        return $model;
+    public function loadModel($id, $model) {
+        if ($model == "SchoolIdentification") {
+            $modelSchoolIdentification = SchoolIdentification::model()->findByPk($id);
+            if ($modelSchoolIdentification === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            return $modelSchoolIdentification;
+        }else if ($model == "SchoolStructure") {
+            $modelSchoolStructure = SchoolStructure::model()->findByPk($id);
+            if ($modelSchoolStructure === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+            return $modelSchoolStructure;
+        }
     }
 
     /**
@@ -376,6 +421,10 @@ class SchoolIdentificationController extends Controller {
      */
     protected function performAjaxValidation($model) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'school-identification-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'school-structure-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
