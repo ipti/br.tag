@@ -16,11 +16,14 @@ var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
 stringRules.personName = /^[A-Z]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
-stringRules.schoolAddress = /^[A-Za-z0-9°ºª\-\/\., ][^a-z]*$/;
-
+stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
+stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
+stringRules.instructorAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
+stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
+stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
 var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
-numberRules.cpf = /^[0-9]{11}$/;
+numberRules.cpf = /^([0]{11})|([0]{8}191)$/; // !
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
 numberRules.count = /^[0-9]{1,4}$/;
@@ -77,6 +80,19 @@ function validateCEP(cep){
 function validateAddress(str, max){
     return (str.length <= max && rule(str,stringRules.schoolAddress));
 }
+function validateInstructorAddress(str){
+    return rule(str,stringRules.instructorAddress);
+}
+function validateInstructorAddressNumber(str){
+    return rule(str,stringRules.instructorAddressNumber);
+}
+function validateInstructorAddressComplement(str){
+    return rule(str,stringRules.instructorAddressComplement);
+}
+function validateInstructorAddressNeighborhood(str){
+    return rule(str,stringRules.instructorAddressNeighborhood);
+}
+
 
 function validateDDD(ddd){
     return rule(ddd, numberRules.ddd);
@@ -90,15 +106,6 @@ function validateEmail(email){
     return (rule(email, stringRules.email));
 }
 
-function validateCPF(cpf){
-    //existe script de validação de cpf
-    if (cpf != "00000000000" && cpf != "00000000191"){
-        return (rule(cpf, numberRules.cpf));
-    }
-    else{
-        return false;
-    }
-}
 
 function anoMinMax(min,max,ano) {
     ano = parseInt(ano);

@@ -102,7 +102,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php echo $form->labelEx($model, 'edcenso_uf_fk'); ?>
             <?php
             echo $form->DropDownList($model, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
-                'prompt' => 'SELECT STATE',
+                'prompt' => 'Select State',
                 'ajax' => array(
                     'type' => 'POST',
                     'url' => CController::createUrl('instructorIdentification/getcities'),

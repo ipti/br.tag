@@ -4,6 +4,7 @@
 )); ?>
         <div class="panelGroup form">
             <?php echo $form->errorSummary($model); ?>
+             <?php echo $error[0]; ?>
             <div class="panelGroupHeader"><div class=""> <?php echo $title; ?>
 </div></div>
             <div class="panelGroupBody">
@@ -74,11 +75,11 @@
                         <?php echo $form->labelEx($model,'edcenso_uf_fk'); ?>
                         <?php echo $form->DropDownList($model,'edcenso_uf_fk',CHtml::listData(EdcensoUf::model()->findAll(),'id','name'),
                            array(
-                             'prompt'=>'SELECT STATE',
+                             'prompt'=>'Select State',
                              'ajax'=>array(
                                 'type' => 'POST',
                                 'url' => CController::createUrl('instructorIdentification/getcities'),
-                                'update' => '#InstructorIdentification_edcenso_city_fk',
+                                'update' => '#InstructorDocumentsAndAddress_edcenso_city_fk',
                                // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                 ))); ?>                    
                         <?php echo $form->error($model,'edcenso_uf_fk'); ?>
@@ -108,10 +109,56 @@
        });
        
          $(form+'cep').focusout(function() { 
-            if(!validateCEP($(this).val())) 
+            if(!validateCEP($(this).val())){
+               $(this).attr('value',''); 
+               $(form+'address').add().attr('disabled','disabled');
+               $(form+'address_number').add().attr('disabled','disabled');
+               $(form+'neighborhood').add().attr('disabled','disabled');
+               $(form+'complement').add().attr('disabled','disabled');
+               $(form+'edcenso_uf_fk').add().attr('disabled','disabled');
+               $(form+'edcenso_city_fk').add().attr('disabled','disabled');
+            }else{
+                $(form+'address').val(null);
+                $(form+'address').removeAttr('disabled');
+                $(form+'address_number').val(null);
+                $(form+'address_number').removeAttr('disabled');
+                $(form+'neighborhood').val(null);
+                $(form+'neighborhood').removeAttr('disabled');
+                $(form+'complement').val(null);
+                $(form+'complement').removeAttr('disabled');
+                $(form+'edcenso_uf_fk').val(null);
+                $(form+'edcenso_uf_fk').removeAttr('disabled');
+                $(form+'edcenso_city_fk').val(null);
+                $(form+'edcenso_city_fk').removeAttr('disabled');  
+                
+            } 
+                
+        });
+        
+          $(form+'address').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateInstructorAddress($(this).val())) 
                 $(this).attr('value','');
         });
-       
+         $(form+'address_number').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateInstructorAddressNumber($(this).val())) 
+                $(this).attr('value','');
+        });
+         $(form+'neighborhood').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateInstructorAddressNeighborhood($(this).val())) 
+                $(this).attr('value','');
+        });
+        $(form+'complement').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateInstructorAddressComplement($(this).val())) 
+                $(this).attr('value','');
+        });
+      
+//     
+//edcenso_uf_fk
+//edcenso_city_fk
        
         });
 </script>
