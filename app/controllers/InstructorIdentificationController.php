@@ -53,14 +53,23 @@ class InstructorIdentificationController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $modelIdentification = new InstructorIdentification;
-        $modelDocumentsAndAddress = new InstructorDocumentsAndAddress;
+        $modelIdentification = new InstructorIdentification();
+        $modelDocumentsAndAddress = new InstructorDocumentsAndAddress();
+        $modelInstructorVariableData = new InstructorVariableData();
+        $modelInstructorTeachingData = new InstructorTeachingData();
+        $saveInstructor = false;
+        $saveDocumentsAndAddress = false;
+        $saveVariableData = false;
+        $saveTeachingData = false;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $error[] = '';
+        if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress']
+                        , $_POST['InstructorVariableData'], $_POST['InstructorTeachingData'])) {
 
-        if (isset($_POST['InstructorIdentification']) /* && isset($_POST['InstructorDocumentsAndAddress']) */) {
             $modelIdentification->attributes = $_POST['InstructorIdentification'];
+            $modelDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
+            $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
+            $modelInstructorTeachingData->attributes = $_POST['InstructorTeachingData'];
 
             if (!isset($modelIdentification->edcenso_nation_fk)) {
                 $modelIdentification->edcenso_nation_fk = 76;
@@ -98,15 +107,44 @@ class InstructorIdentificationController extends Controller {
             if (!isset($modelIdentification->deficiency_type_multiple_disabilities)) {
                 $modelIdentification->deficiency_type_multiple_disabilities = 0;
             }
+            
+            $saveInstructor = true;
 
-            if ($modelIdentification->save()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification Created Successful:'));
+            //=== MODEL DocumentsAndAddress
+            if (isset($modelDocumentsAndAddress->cep) && $modelDocumentsAndAddress->cep != 0) { // VERIFICAR POR que o bairro deve começar com inteiro
+                //Então o endereço, uf e cidade são obrigatórios
+                // var_dump(isset($modelDocumentsAndAddress->neighborhood) && $modelDocumentsAndAddress->neighborhood != 0);exit();
+                if (isset($modelDocumentsAndAddress->address) && $modelDocumentsAndAddress->address != 0 &&
+                        isset($modelDocumentsAndAddress->neighborhood) && $modelDocumentsAndAddress->neighborhood != 0 &&
+                        isset($modelDocumentsAndAddress->edcenso_uf_fk) && $modelDocumentsAndAddress->edcenso_uf_fk != 0 &&
+                        isset($modelDocumentsAndAddress->edcenso_city_fk) && $modelDocumentsAndAddress->edcenso_city_fk != 0) {
+
+                    $saveDocumentsAndAddress = $modelDocumentsAndAddress->save();
+                }
+                $error[0] = 'CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
+            }
+            //======================================
+            //=== MODEL VariableData
+            
+            //============================
+            //=== MODEL TeachingData
+            
+            //============================
+            
+            if ($modelIdentification->save() && $modelDocumentsAndAddress->save() &&
+                    $modelInstructorVariableData->save() && $modelInstructorTeachingData->save()) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification, DocumentsAndAddress, 
+                 InstructorVariableData and InstructorTeachingData Created Successful:'));
                 $this->redirect(array('index'));
             }
         }
 
         $this->render('create', array(
-            'model' => $modelIdentification,
+            'modelIdentification' => $modelIdentification,
+            'modelDocumentsAndAddress' => $modelDocumentsAndAddress,
+            'modelInstructorVariableData' => $modelInstructorVariableData,
+            'modelInstructorTeachingData' => $modelInstructorTeachingData,
+            'error' => $error,
         ));
     }
 
@@ -167,10 +205,10 @@ class InstructorIdentificationController extends Controller {
 
     public function actionGetCities() {
 
-        if(isset($_POST['InstructorIdentification'])) {
+        if (isset($_POST['InstructorIdentification'])) {
             $model = new InstructorIdentification();
             $model->attributes = $_POST['InstructorIdentification'];
-        } else if(isset($_POST['InstructorDocumentsAndAddress'])) {
+        } else if (isset($_POST['InstructorDocumentsAndAddress'])) {
             $model = new InstructorDocumentsAndAddress();
             $model->attributes = $_POST['InstructorDocumentsAndAddress'];
         }
