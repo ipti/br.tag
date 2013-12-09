@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Student Identifications'=>array('index'),
-	$model->name,
+	$modelStudentIdentification->name,
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
 $this->menu=array(
@@ -13,10 +13,10 @@ array('label'=> Yii::t('default', 'List StudentIdentification'), 'url'=>array('i
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
             <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View StudentIdentification # '.$model->id.' :')?></div></div>
+                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View StudentIdentification # '.$modelStudentIdentification->id.' :')?></div></div>
                 <div class="panelGroupBody">
                     <?php $this->widget('zii.widgets.CDetailView', array(
-                    'data'=>$model,
+                    'data'=>$modelStudentIdentification,
                     'attributes'=>array(
                     		'register_type',
 		'school_inep_id_fk',
@@ -64,6 +64,6 @@ array('label'=> Yii::t('default', 'List StudentIdentification'), 'url'=>array('i
             </div>
         </div>
         <div class="columntwo">
-            <?php echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
+            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>
 </div>

@@ -127,7 +127,6 @@ function validateNamePerson(personName){
             break;
         } 
     }
-  
     var ret = new Array();
     if(passExp){      
         if(this.isset(complete_name[1])){

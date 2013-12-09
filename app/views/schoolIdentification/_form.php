@@ -114,7 +114,9 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array('ajax' => array(
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
+                                'prompt' => 'Select State'
+                                ,'ajax' => array(
                                     'type' => 'POST',
                                     'url' => CController::createUrl('schoolIdentification/getcities'),
                                     'update' => '#SchoolIdentification_edcenso_city_fk'
@@ -365,7 +367,7 @@
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'manager_role'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array("null" => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'manager_role'); ?>
                         </div>
                         
@@ -432,7 +434,7 @@
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array("null" => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array(null => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'building_occupation_situation'); ?>
                         </div>
 
@@ -487,7 +489,7 @@
 */ ?>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'consumed_water_type'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'consumed_water_type', array("null" => "Selecione o tipo de água", "1" => "Não filtrada", "2" => "Filtrada")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'consumed_water_type', array(null => "Selecione o tipo de água", "1" => "Não filtrada", "2" => "Filtrada")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'consumed_water_type'); ?>
                         </div>
                         
@@ -895,19 +897,19 @@
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'feeding'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array("null" => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'feeding'); ?>
                         </div>
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'aee'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'aee', array("null" => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'aee', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'aee'); ?>
                         </div>
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'complementary_activities'); ?>
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'complementary_activities', array("null" => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'complementary_activities', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
                             <?php echo $form->error($modelSchoolStructure, 'complementary_activities'); ?>
                         </div>
                         
@@ -1064,7 +1066,7 @@
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'different_location'); ?>
                             <?php
-                            echo $form->DropDownList($modelSchoolStructure, 'different_location', array("null" => "Selecione a localização",
+                            echo $form->DropDownList($modelSchoolStructure, 'different_location', array(null => "Selecione a localização",
                                 "1" => "Área de assentamento",
                                 "2" => "Terra indígena",
                                 "3" => "Área remanescente de quilombos",
