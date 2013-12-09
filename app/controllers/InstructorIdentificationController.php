@@ -53,55 +53,60 @@ class InstructorIdentificationController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
-        $model = new InstructorIdentification;
+        $modelIdentification = new InstructorIdentification;
+        $modelDocumentsAndAddress = new InstructorDocumentsAndAddress;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
-        if (isset($_POST['InstructorIdentification'])) {
-            $model->attributes = $_POST['InstructorIdentification'];
-            if(!isset($model->edcenso_nation_fk)){
-              $model->edcenso_nation_fk = 76;  
+        if (isset($_POST['InstructorIdentification']) /* && isset($_POST['InstructorDocumentsAndAddress']) */) {
+            $modelIdentification->attributes = $_POST['InstructorIdentification'];
+
+            if (!isset($modelIdentification->edcenso_nation_fk)) {
+                $modelIdentification->edcenso_nation_fk = 76;
             }
-            if(!isset($model->edcenso_uf_fk)){
-              $model->edcenso_uf_fk = 0;  
+            if (!isset($modelIdentification->edcenso_uf_fk)) {
+                $modelIdentification->edcenso_uf_fk = 0;
             }
-             if(!isset($model->edcenso_city_fk)){
-              $model->edcenso_city_fk = 0;  
+            if (!isset($modelIdentification->edcenso_city_fk)) {
+                $modelIdentification->edcenso_city_fk = 0;
             }
-             if(!isset($model->deficiency_type_blindness)){
-              $model->deficiency_type_blindness = 0;  
+            if (!isset($modelIdentification->deficiency)) {
+                $modelIdentification->deficiency = 0;
             }
-             if(!isset($model->deficiency_type_low_vision)){
-              $model->deficiency_type_low_vision = 0;  
+            if (!isset($modelIdentification->deficiency_type_blindness)) {
+                $modelIdentification->deficiency_type_blindness = 0;
             }
-             if(!isset($model->deficiency_type_deafness)){
-              $model->deficiency_type_deafness = 0;  
+            if (!isset($modelIdentification->deficiency_type_low_vision)) {
+                $modelIdentification->deficiency_type_low_vision = 0;
             }
-             if(!isset($model->deficiency_type_disability_hearing)){
-              $model->deficiency_type_disability_hearing = 0;  
+            if (!isset($modelIdentification->deficiency_type_deafness)) {
+                $modelIdentification->deficiency_type_deafness = 0;
             }
-             if(!isset($model->deficiency_type_deafblindness)){
-              $model->deficiency_type_deafblindness = 0;  
+            if (!isset($modelIdentification->deficiency_type_disability_hearing)) {
+                $modelIdentification->deficiency_type_disability_hearing = 0;
             }
-             if(!isset($model->deficiency_type_phisical_disability)){
-              $model->deficiency_type_phisical_disability = 0;  
+            if (!isset($modelIdentification->deficiency_type_deafblindness)) {
+                $modelIdentification->deficiency_type_deafblindness = 0;
             }
-             if(!isset($model->deficiency_type_intelectual_disability)){
-              $model->deficiency_type_intelectual_disability = 0;  
+            if (!isset($modelIdentification->deficiency_type_phisical_disability)) {
+                $modelIdentification->deficiency_type_phisical_disability = 0;
             }
-             if(!isset($model->deficiency_type_multiple_disabilities)){
-              $model->deficiency_type_multiple_disabilities = 0;  
+            if (!isset($modelIdentification->deficiency_type_intelectual_disability)) {
+                $modelIdentification->deficiency_type_intelectual_disability = 0;
             }
-            
-            if ($model->save()) {
+            if (!isset($modelIdentification->deficiency_type_multiple_disabilities)) {
+                $modelIdentification->deficiency_type_multiple_disabilities = 0;
+            }
+
+            if ($modelIdentification->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification Created Successful:'));
                 $this->redirect(array('index'));
             }
         }
 
         $this->render('create', array(
-            'model' => $model,
+            'model' => $modelIdentification,
         ));
     }
 
@@ -161,10 +166,17 @@ class InstructorIdentificationController extends Controller {
     //Método para Solicitação Ajax para o select UF x Cities
 
     public function actionGetCities() {
-        $instructor = new InstructorIdentification();
-        $instructor->attributes = $_POST['InstructorIdentification'];
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $instructor->edcenso_uf_fk));
+        if(isset($_POST['InstructorIdentification'])) {
+            $model = new InstructorIdentification();
+            $model->attributes = $_POST['InstructorIdentification'];
+        } else if(isset($_POST['InstructorDocumentsAndAddress'])) {
+            $model = new InstructorDocumentsAndAddress();
+            $model->attributes = $_POST['InstructorDocumentsAndAddress'];
+        }
+
+
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $model->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
         echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);

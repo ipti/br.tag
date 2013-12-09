@@ -12,5 +12,5 @@ $this->breadcrumbs=array(
     ?>
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('model'=>$model,'title'=>$title)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array('model'=>$model,'title'=>$title,'error'=>$error)); ?>        </div>
 </div>

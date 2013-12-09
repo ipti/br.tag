@@ -1,177 +1,175 @@
 <?php
 
-class InstructorDocumentsAndAddressController extends Controller
-{
-	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='fullmenu';
+class InstructorDocumentsAndAddressController extends Controller {
 
-	/**
-	 * @return array action filters
-	 */
-	public function filters()
-	{
-		return array(
-			'accessControl', // perform access control for CRUD operations
-		);
-	}
+    /**
+     * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+     * using two-column layout. See 'protected/views/layouts/column2.php'.
+     */
+    public $layout = 'fullmenu';
 
-	/**
-	 * Specifies the access control rules.
-	 * This method is used by the 'accessControl' filter.
-	 * @return array access control rules
-	 */
-	public function accessRules()
-	{
-		return array(
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+    /**
+     * @return array action filters
+     */
+    public function filters() {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+        );
+    }
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
+    /**
+     * Specifies the access control rules.
+     * This method is used by the 'accessControl' filter.
+     * @return array access control rules
+     */
+    public function accessRules() {
+        return array(
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('index', 'view', 'create', 'update'),
+                'users' => array('@'),
+            ),
+            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => array('admin', 'delete'),
+                'users' => array('admin'),
+            ),
+            array('deny', // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new InstructorDocumentsAndAddress;
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id) {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+    /**
+     * Creates a new model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     */
+   public function actionCreate() {
 
-		if(isset($_POST['InstructorDocumentsAndAddress']))
-		{
-			$model->attributes=$_POST['InstructorDocumentsAndAddress'];
-			if($model->save()){
-                                Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorDocumentsAndAddress Created Successful:'));
-				$this->redirect(array('index'));
-                               }
-		}
+        $model = new InstructorDocumentsAndAddress;
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
+         $error[] = '';
+        if (isset($_POST['InstructorDocumentsAndAddress'])) {
+            $model->attributes = $_POST['InstructorDocumentsAndAddress'];
+            if (isset($model->cep) && $model->cep != 0) { // VERIFICAR POR que o bairro deve começar com inteiro
+                //Então o endereço, uf e cidade são obrigatórios
+                if (isset($model->address) && $model->address !=0 &&
+                        isset($model->neighborhood) && $model->neighborhood != 0 && 
+                        isset($model->edcenso_uf_fk) && $model->edcenso_uf_fk!=0 &&
+                        isset($model->edcenso_city_fk)&& $model->edcenso_city_fk!=0){
+                    if ($model->save()) {
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorDocumentsAndAddress Created Successful:'));
+                        $this->redirect(array('index'));
+                    }
+                }
+                $error[0]='CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
+            }
+            
+        }
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+        $this->render('create', array(
+            'model' => $model, 'error'=>$error
+        ));
+    }
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id) {
+        $model = $this->loadModel($id);
 
-		if(isset($_POST['InstructorDocumentsAndAddress']))
-		{
-			$model->attributes=$_POST['InstructorDocumentsAndAddress'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+        if (isset($_POST['InstructorDocumentsAndAddress'])) {
+            $model->attributes = $_POST['InstructorDocumentsAndAddress'];
+            if ($model->save())
+                $this->redirect(array('view', 'id' => $model->id));
+        }
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+        $this->render('update', array(
+            'model' => $model,
+        ));
+    }
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id) {
+        if (Yii::app()->request->isPostRequest) {
+            // we only allow deletion via POST request
+            $this->loadModel($id)->delete();
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('InstructorDocumentsAndAddress',
-                array('pagination' => array(
-                        'pageSize' => 12,
+            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+            if (!isset($_GET['ajax']))
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        }
+        else
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+    }
+
+    /**
+     * Lists all models.
+     */
+    public function actionIndex() {
+        $dataProvider = new CActiveDataProvider('InstructorDocumentsAndAddress',
+                        array('pagination' => array(
+                                'pageSize' => 12,
                         )));
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
 
-	/**
-	 * Manages all models.
-	 */
-	public function actionAdmin()
-	{
-		$model=new InstructorDocumentsAndAddress('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['InstructorDocumentsAndAddress']))
-			$model->attributes=$_GET['InstructorDocumentsAndAddress'];
+    /**
+     * Manages all models.
+     */
+    public function actionAdmin() {
+        $model = new InstructorDocumentsAndAddress('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['InstructorDocumentsAndAddress']))
+            $model->attributes = $_GET['InstructorDocumentsAndAddress'];
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
-	}
+        $this->render('admin', array(
+            'model' => $model,
+        ));
+    }
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the ID of the model to be loaded
-	 */
-	public function loadModel($id)
-	{
-		$model=InstructorDocumentsAndAddress::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
-		return $model;
-	}
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer the ID of the model to be loaded
+     */
+    public function loadModel($id) {
+        $model = InstructorDocumentsAndAddress::model()->findByPk($id);
+        if ($model === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param CModel the model to be validated
-	 */
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='instructor-documents-and-address-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
+    /**
+     * Performs the AJAX validation.
+     * @param CModel the model to be validated
+     */
+    protected function performAjaxValidation($model) {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'instructor-documents-and-address-form') {
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
 }
