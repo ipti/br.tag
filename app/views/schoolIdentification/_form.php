@@ -5,6 +5,7 @@
     
 <div class="heading-buttons">
     <?php echo $form->errorSummary($modelSchoolIdentification); ?>
+    <?php echo $form->errorSummary($modelSchoolStructure); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
         <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
@@ -1274,7 +1275,7 @@
         });
         
         $(formStructure+'manager_cpf').focusout(function() { 
-            if(!validateCPF($(this).val())) 
+            if(!validateCpf($(this).val())) 
                 $(this).attr('value','');
         });
         

@@ -17,13 +17,20 @@ stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
 stringRules.personName = /^[A-Z]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
 stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
+stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
 stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
 stringRules.instructorAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
 stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
 stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
+stringRules.studentAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
+stringRules.studentAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
+stringRules.studentAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
+stringRules.studentAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
+
 var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
-numberRules.cpf = /^([0]{11})|([0]{8}191)$/; // !
+numberRules.cpf = /^[0-9]{11}$/;
+numberRules.nis = /^[0-9]{11}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
 numberRules.count = /^[0-9]{1,4}$/;
@@ -35,6 +42,11 @@ function validateCount(count) {
         return false;
     }
 }
+
+function validateRG(rg) {
+    return(rule(rg,stringRules.rg));
+}
+
 
 function validateDate(date) {
     return(rule(date,dateRules.date));
@@ -93,6 +105,18 @@ function validateInstructorAddressNeighborhood(str){
     return rule(str,stringRules.instructorAddressNeighborhood);
 }
 
+function validateStudentAddress(str){
+    return rule(str,stringRules.studentAddress);
+}
+function validateStudentAddressNumber(str){
+    return rule(str,stringRules.studentAddressNumber);
+}
+function validateStudentAddressComplement(str){
+    return rule(str,stringRules.studentAddressComplement);
+}
+function validateStudentAddressNeighborhood(str){
+    return rule(str,stringRules.studentAddressNeighborhood);
+}
 
 function validateDDD(ddd){
     return rule(ddd, numberRules.ddd);
@@ -169,7 +193,14 @@ function validateNamePerson(personName){
 }
 
 function validateCpf(cpf){
-   return rule(cpf, numberRules.cpf);
+    if(cpf == "00000000000" || cpf == "00000000191")
+        return false;
+    else
+        return rule(cpf, numberRules.cpf);
+}
+
+function validateNis(nis){
+    return rule(nis, numberRules.nis);
 }
 
 function isset(variable){

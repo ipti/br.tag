@@ -236,7 +236,7 @@ class SchoolIdentificationController extends Controller {
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);
+        echo CHtml::tag('option', array('value' => null), '(Select a city)', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
@@ -249,7 +249,7 @@ class SchoolIdentificationController extends Controller {
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
         $data = CHtml::listData($data, 'code', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a district)', true);
+        echo CHtml::tag('option', array('value' => null), '(Select a district)', true);
 
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
@@ -281,8 +281,10 @@ class SchoolIdentificationController extends Controller {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            
+            $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+            
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
-                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
                         || $modelSchoolStructure->operation_location_businness_room
@@ -321,8 +323,10 @@ class SchoolIdentificationController extends Controller {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            
+            $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+                
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
-                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
                         || $modelSchoolStructure->operation_location_businness_room

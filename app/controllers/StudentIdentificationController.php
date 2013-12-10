@@ -27,7 +27,7 @@ class StudentIdentificationController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getcities'),
+                'actions' => array('index', 'view', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -51,21 +51,63 @@ class StudentIdentificationController extends Controller {
         ));
     }
 
-    
     public function actionGetCities() {
-        $student = new StudentIdentification();
-        $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
+        $register_type = isset($_GET["rt"]) ? $_GET["rt"] : 0;
+        $uf = null;
+        if ($register_type == 0) {
+            $student = new StudentIdentification();
+            $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
+            $uf = (int) $student->edcenso_uf_fk;
+        } else if ($register_type == 1){
+            $student = new StudentDocumentsAndAddress();
+            $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $uf = (int) $student->notary_office_uf_fk;
+        } else if($register_type == 2){
+            $student = new StudentDocumentsAndAddress();
+            $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $uf = (int) $student->edcenso_uf_fk;
+        }
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $student->edcenso_uf_fk));
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione uma cidade', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione uma cidade', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
-    
-    
+
+    public function actionGetNotaryOffice() {
+        $student = new StudentDocumentsAndAddress();
+        $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+
+        $data = EdcensoNotaryOffice::model()->findAll('city=:city_id', array(':city_id' => (int) $student->notary_office_city_fk));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => null), 'Selecione um cartório', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+
+    public function actionGetNations() {
+        $student = new StudentIdentification();
+        $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
+
+        $where = "";
+        if($student->nationality == 3){
+            $where = "";
+            echo CHtml::tag('option', array('value' => null), 'Selecione uma nação', true);
+        }else{
+            $where = "id = 76";
+        }
+        $data = EdcensoNation::model()->findAll($where);
+        $data = CHtml::listData($data, 'id', 'name');
+
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -74,23 +116,27 @@ class StudentIdentificationController extends Controller {
         $modelStudentIdentification = new StudentIdentification;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($modelStudentIdentification);
-
+        // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-            if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
+            
+            //Atributos comuns entre as tabelas
+            $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+            $modelStudentDocumentsAndAddress->nis = $modelStudentIdentification->nis;
+            
+            if ($modelStudentIdentification->validate()) {
                 if ($modelStudentIdentification->save()) {
-                    $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-                    $modelStudentDocumentsAndAddress->student_identification_fk = $modelStudentIdentification->id;
-                    if ($modelStudentDocumentsAndAddress->save()) {
-                        $this->redirect(array('view', 'id' => $modelStudentIdentification->id));
+                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                    
+                    if($modelStudentDocumentsAndAddress->validate()){
+                        if ($modelStudentDocumentsAndAddress->save()) {
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Student Created Successful:'));
+                            $this->redirect(array('index'));
+                        }
                     }
                 }
-            }
-            if ($modelStudentIdentification->save() && $modelStudentDocumentsAndAddress->save()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Student Created Successful:'));
-                $this->redirect(array('index'));
             }
         }
 
@@ -115,10 +161,14 @@ class StudentIdentificationController extends Controller {
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            
+            //Atributos comuns entre as tabelas
+            $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+            $modelStudentDocumentsAndAddress->nis = $modelStudentIdentification->nis;
+            
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
-                    $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
-                    $modelStudentDocumentsAndAddress->student_identification_fk = $modelStudentIdentification->id;
                     if ($modelStudentDocumentsAndAddress->save()) {
                         $this->redirect(array('view', 'id' => $modelStudentIdentification->id));
                     }
@@ -189,19 +239,22 @@ class StudentIdentificationController extends Controller {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id, $model) {
+        
         $return = null;
 
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-
             $student_inep_ip = StudentIdentification::model()->findByPk($id)->inep_id;
-
-            $return = ($student_inep_ip == null) ? StudentDocumentsAndAddress::model()->findByAttributes(array('student_identification_fk' => $id)) : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_ip));
+            
+            $return = ($student_inep_ip === null) 
+                    ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
+                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_ip));
         }
-
-        if ($return === null)
+        
+        if ($return === null){
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $return;
     }
 

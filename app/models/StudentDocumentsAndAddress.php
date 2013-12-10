@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'student_documents_and_address':
  * @property string $register_type
  * @property string $school_inep_id_fk
- * @property integer $student_fk
+ * @property string $student_fk
  * @property integer $id
  * @property string $rg_number
  * @property string $rg_number_complement
@@ -44,7 +44,6 @@
  * @property EdcensoCity $edcensoCityFk
  * @property EdcensoUf $notaryOfficeUfFk
  * @property EdcensoCity $notaryOfficeCityFk
- * @property EdcensoNotaryOffice $edcensoNotaryOfficeFk
  */
 class StudentDocumentsAndAddress extends CActiveRecord
 {
@@ -75,9 +74,10 @@ class StudentDocumentsAndAddress extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk, residence_zone', 'required'),
-			array('student_fk, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, document_failure_lack, residence_zone, edcenso_uf_fk, edcenso_city_fk', 'numerical', 'integerOnly'=>true),
+			array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, document_failure_lack, residence_zone, edcenso_uf_fk, edcenso_city_fk', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
+			array('student_fk', 'length', 'max'=>12),
 			array('rg_number, foreign_document_or_passport, complement', 'length', 'max'=>20),
 			array('rg_number_complement, civil_certification_sheet', 'length', 'max'=>4),
 			array('rg_number_expediction_date, civil_certification_date, number', 'length', 'max'=>10),
@@ -106,7 +106,6 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
 			'notaryOfficeUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'notary_office_uf_fk'),
 			'notaryOfficeCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'notary_office_city_fk'),
-			'edcensoNotaryOfficeFk' => array(self::BELONGS_TO, 'EdcensoNotaryOffice', 'edcenso_notary_office_fk'),
 		);
 	}
 
@@ -163,7 +162,7 @@ class StudentDocumentsAndAddress extends CActiveRecord
 
 		$criteria->compare('register_type',$this->register_type,true);
 		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
-		$criteria->compare('student_fk',$this->student_fk);
+		$criteria->compare('student_fk',$this->student_fk,true);
 		$criteria->compare('id',$this->id);
 		$criteria->compare('rg_number',$this->rg_number,true);
 		$criteria->compare('rg_number_complement',$this->rg_number_complement,true);

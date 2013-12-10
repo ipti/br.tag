@@ -32,6 +32,7 @@ array('label'=> Yii::t('default', 'Create a new StudentEnrollment'), 'url'=>arra
 		'classroom_inep_id',
 		'classroom_fk',
 		'enrollment_id',
+                            /*
 		'unified_class',
 		'edcenso_stage_vs_modality_fk',
 		'another_scholarization_place',
@@ -50,6 +51,7 @@ array('label'=> Yii::t('default', 'Create a new StudentEnrollment'), 'url'=>arra
 		'vehicle_type_metro_or_train',
 		'student_entry_form',
 		'id',
+                             */
                      array('class' => 'CButtonColumn',),),
                     )); ?>
                 </div>   

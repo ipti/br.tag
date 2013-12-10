@@ -4,6 +4,7 @@
 )); ?>
 <div class="heading-buttons">
     <?php echo $form->errorSummary($modelStudentIdentification); ?>
+    <?php echo $form->errorSummary($modelStudentDocumentsAndAddress); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.')?></span></h3>
     <div class="buttons pull-right">
         <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
@@ -44,15 +45,17 @@
                                 <?php echo $form->error($modelStudentIdentification,'register_type'); ?>
                             </div>
                         </div>
-
+*/ ?>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'school_inep_id_fk'); ?>
                             <div class="controls">
-                                <?php echo $form->textField($modelStudentIdentification,'school_inep_id_fk',array('size'=>8,'maxlength'=>8)); ?>
+                                <?php echo $form->dropDownList($modelStudentIdentification,'school_inep_id_fk',
+                                        CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt"=>"Selecione uma Escola")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'school_inep_id_fk'); ?>
                             </div>
                         </div>
 
+<?php /*
                         <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'inep_id'); ?>
                             <div class="controls">
@@ -135,7 +138,12 @@
                                             <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'nationality'); ?>
                             <div class="controls">
-                                <?php echo $form->dropDownList($modelStudentIdentification,'nationality', array(null=>"Selecione a nacionalidade", "1"=>"Brasileira", "2"=>"Brasileira: Nascido no exterior ou Naturalizado","3"=>"Estrangeira")); ?>
+                                <?php echo $form->dropDownList($modelStudentIdentification,'nationality', array(null=>"Selecione a nacionalidade", "1"=>"Brasileira", "2"=>"Brasileira: Nascido no exterior ou Naturalizado","3"=>"Estrangeira"),
+                                        array('ajax'=>array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('studentIdentification/getnations'),
+                                                'update' => '#StudentIdentification_edcenso_nation_fk'
+                                            ))); ?>
                                 <?php echo $form->error($modelStudentIdentification,'nationality'); ?>
                             </div>
                         </div>
@@ -143,8 +151,9 @@
                                             <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'edcenso_nation_fk'); ?>
                             <div class="controls">
-                                <?php echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', 
-                                        CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione uma nação","disabled"=>"disabled")); ?>
+                                <?php 
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', 
+                                        CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione uma nação")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'edcenso_nation_fk'); ?>
                             </div>
                         </div>
@@ -157,7 +166,7 @@
                                         array(
                                             'ajax' => array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getcities'),
+                                                'url' => CController::createUrl('studentIdentification/getcities&rt=0'),
                                                 'update' => '#StudentIdentification_edcenso_city_fk'
                                             ),
                                             "prompt"=>"Selecione um estado",
@@ -411,7 +420,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
                         </div>
                     </div>
@@ -419,7 +428,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_complement', array('size' => 4, 'maxlength' => 4)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_complement', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
                         </div>
                     </div>
@@ -427,7 +436,9 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
+                   
+                            <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', 
+                                    CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione um órgão emissor da identidade","disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
                         </div>
                     </div>
@@ -435,7 +446,8 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', 
+                                        CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione um estado","disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                         </div>
                     </div>
@@ -443,7 +455,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
                         </div>
                     </div>
@@ -451,7 +463,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
+                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null=>"Selecione o modelo","1"=>"Modelo Antigo","2"=>"Modelo Novo"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                         </div>
                     </div>
@@ -459,7 +471,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null=>"Selecione o tipo","1"=>"Nascimento","2"=>"Casamento"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                         </div>
                     </div>
@@ -467,7 +479,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                         </div>
                     </div>
@@ -475,7 +487,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
                         </div>
                     </div>
@@ -483,7 +495,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_book', array('size' => 8, 'maxlength' => 8)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_book', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
                         </div>
                     </div>
@@ -491,7 +503,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
                         </div>
                     </div>
@@ -499,7 +511,16 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', 
+                                        CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                        array(
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('studentIdentification/getcities&rt=1'),
+                                                'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
+                                            ),
+                                            "prompt"=>"Selecione um estado",
+                                            "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
                         </div>
                     </div>
@@ -507,7 +528,16 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', 
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), 
+                                        array(
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('studentIdentification/getnotaryoffice'),
+                                                'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
+                                            ),
+                                            "prompt"=>"Selecione uma cidade",
+                                            "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
                         </div>
                     </div>
@@ -515,7 +545,10 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', 
+                                        CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'id', 'name'), 
+                                        array("prompt"=>"Selecione um cartório",
+                                            "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
                         </div>
                     </div>
@@ -523,7 +556,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('size' => 32, 'maxlength' => 32)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('size' => 32, 'maxlength' => 32, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                         </div>
                     </div>
@@ -531,7 +564,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
                         </div>
                     </div>
@@ -539,11 +572,11 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20)); ?>
+                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
                         </div>
                     </div>
-
+<?php /*
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis'); ?>
                         <div class="controls">
@@ -551,11 +584,11 @@
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                         </div>
                     </div>
-
+*/ ?>
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
+                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null=>"Selecione uma justificativa", "1"=>"Aluno não possui documento", "2"=>"Escola não possui informação de documento do aluno")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
                         </div>
                     </div>
@@ -577,7 +610,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
+                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null=>"Selecione uma zona", "1"=>"URBANA", "2"=>"RURAL")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                         </div>
                     </div>
@@ -625,7 +658,15 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', 
+                                        CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                        array(
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('studentIdentification/getcities&rt=2'),
+                                                'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
+                                            ),
+                                            "prompt"=>"Selecione um estado")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                         </div>
                     </div>
@@ -633,11 +674,13 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
+                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', 
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
+                                        array("prompt"=>"Selecione uma cidade")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -648,6 +691,15 @@
         var formIdentification = '#StudentIdentification_';
         var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
         
+        
+        jQuery(function($) {
+            $(formIdentification+'filiation').trigger('change');
+            $(formIdentification+'nationality').trigger('change');
+        }); 
+        
+        
+        //fazer trigger!
+        
         $(formIdentification+'name').focusout(function() { 
             $(this).val($(this).val().toUpperCase());
             var ret = validateNamePerson(($(this).val()));
@@ -655,8 +707,48 @@
                 $(this).attr('value','');
         });
         
+        $(formDocumentsAndAddress+'address').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateStudentAddress($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'number').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateStudentAddressNumber($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'complement').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateStudentAddressComplement($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'neighborhood').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateStudentAddressNeighborhood($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'cpf').focusout(function() { 
+            if(!validateCpf($(this).val())) 
+                $(this).attr('value','');
+        });
+
+        $(formDocumentsAndAddress+'cep').focusout(function() { 
+            if(!validateCEP($(this).val())) 
+                $(this).attr('value','');
+        });
+
         $(formIdentification+'nis').focusout(function() { 
-            if(!validateCPF($(this).val())) 
+            if(!validateNis($(this).val())) 
+                $(this).attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'rg_number').focusout(function() { 
+            $(this).val($(this).val().toUpperCase());
+            if(!validateRG($(this).val())) 
                 $(this).attr('value','');
         });
         
@@ -666,6 +758,14 @@
             birthday = stringToDate($(formIdentification+'birthday').val());    
             if(!validateDate($(formIdentification+'birthday').val())) 
                 $(formIdentification+'birthday').attr('value','');
+        });
+        
+        $(formDocumentsAndAddress+'rg_number_expediction_date, '+ formDocumentsAndAddress+'civil_certification_date').mask("99/99/9999");
+        $(formDocumentsAndAddress+'rg_number_expediction_date, '+ formDocumentsAndAddress+'civil_certification_date').focusout(function() {
+            documentDate = stringToDate($(this).val());   
+            birthday = stringToDate($(formIdentification+'birthday').val());  
+            if(!validateDate($(this).val()) || birthday.asianStr > documentDate.asianStr) 
+                $(this).attr('value','');
         });
         
         $(formIdentification+'filiation').change(function(){
@@ -695,21 +795,49 @@
         });
         
           $(formIdentification+'nationality').change(function(){
-              
-            $(formIdentification+'edcenso_nation_fk').attr("disabled", "disabled");
             $(formIdentification+'edcenso_uf_fk').attr("disabled", "disabled");
             $(formIdentification+'edcenso_city_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'rg_number').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'rg_number_complement').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'rg_number_edcenso_organ_id_emitter_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'rg_number_edcenso_uf_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'rg_number_expediction_date').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification_type').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification_term_number').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification_sheet').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification_book').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_certification_date').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'notary_office_uf_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'notary_office_city_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'edcenso_notary_office_fk').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'civil_register_enrollment_number').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'cpf').attr("disabled", "disabled");
+            $(formDocumentsAndAddress+'foreign_document_or_passport').attr("disabled", "disabled");
             
               if($(this).val() == 3){
-                $(formIdentification+'edcenso_nation_fk').removeAttr("disabled");
                 $(formIdentification+'edcenso_uf_fk').val("");
                 $(formIdentification+'edcenso_city_fk').val("");
-                
+                $(formDocumentsAndAddress+'foreign_document_or_passport').removeAttr("disabled");
               }else{
-                $(formIdentification+'edcenso_nation_fk').val("76");
                 $(formIdentification+'edcenso_uf_fk').removeAttr("disabled");
                 $(formIdentification+'edcenso_city_fk').removeAttr("disabled");
-                  
+                $(formDocumentsAndAddress+'rg_number').removeAttr("disabled");
+                $(formDocumentsAndAddress+'rg_number_complement').removeAttr("disabled");
+                $(formDocumentsAndAddress+'rg_number_edcenso_organ_id_emitter_fk').removeAttr("disabled");
+                $(formDocumentsAndAddress+'rg_number_edcenso_uf_fk').removeAttr("disabled");
+                $(formDocumentsAndAddress+'rg_number_expediction_date').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification_type').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification_term_number').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification_sheet').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification_book').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_certification_date').removeAttr("disabled");
+                $(formDocumentsAndAddress+'notary_office_uf_fk').removeAttr("disabled");
+                $(formDocumentsAndAddress+'notary_office_city_fk').removeAttr("disabled");
+                $(formDocumentsAndAddress+'edcenso_notary_office_fk').removeAttr("disabled");
+                $(formDocumentsAndAddress+'civil_register_enrollment_number').removeAttr("disabled");
+                $(formDocumentsAndAddress+'cpf').removeAttr("disabled");
               }
           });
           
@@ -788,9 +916,7 @@
                 $(formIdentification+'resource_braille_test').val("");
                 $(formIdentification+'resource_none').val("");
                 
-              }else{
               }
-              
           });
           
     </script>

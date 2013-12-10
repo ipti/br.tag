@@ -49,6 +49,6 @@ array('label'=> Yii::t('default', 'List StudentEnrollment'), 'url'=>array('index
             </div>
         </div>
         <div class="columntwo">
-            <?php echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
+            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>
 </div>
