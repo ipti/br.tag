@@ -125,8 +125,8 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
                                     <ul class="collapse" id="menu_escolas">
-                                        <li class=""><a href="#"><span>Adicionar escola</span></a></li>
-                                        <li class=""><a href="#"><span>Listar escolas</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school/create"><span>Adicionar escola</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school"><span>Listar escolas</span></a></li>
                                     </ul>
                                     <span class="count">2</span>
                                 </li>
@@ -136,9 +136,9 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons group" href="#menu_turmas"><i></i><span>Turmas</span></a>
                                     <ul class="collapse" id="menu_turmas">
-                                        <li class=""><a href="#"><span>Adicionar turma</span></a></li>
-                                        <li class=""><a href="#"><span>Listar turmas</span></a></li>
-                                        <li class=""><a href="#"><span>Matricular alunos</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Matricular alunos</span></a></li>
                                         <li class=""><a href="#"><span>Frequencia de alunos</span></a></li>
                                         <li class=""><a href="#"><span>Notas de alunos</span></a></li>
                                     </ul>
@@ -150,8 +150,8 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
                                     <ul class="collapse" id="menu_alunos">
-                                        <li class=""><a href="#"><span>Adicionar aluno</span></a></li>
-                                        <li class=""><a href="#"><span>Listar alunos</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Adicionar aluno</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Listar alunos</span></a></li>
                                     </ul>
                                     <span class="count">2</span>
                                 </li>
@@ -161,8 +161,8 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Docente</span></a>
                                     <ul class="collapse" id="menu_equipe">
-                                        <li class=""><a href="#"><span>Adicionar pessoa</span></a></li>
-                                        <li class=""><a href="#"><span>Adicionar pessoas</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/crate"><span>Adicionar professor</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
                                     </ul>
                                     <span class="count">2</span>
                                 </li>

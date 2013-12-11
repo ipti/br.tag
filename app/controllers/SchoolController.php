@@ -1,6 +1,6 @@
 <?php
 
-class SchoolIdentificationController extends Controller {
+class SchoolController extends Controller {
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
