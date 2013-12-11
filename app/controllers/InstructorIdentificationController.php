@@ -107,7 +107,7 @@ class InstructorIdentificationController extends Controller {
             if (!isset($modelIdentification->deficiency_type_multiple_disabilities)) {
                 $modelIdentification->deficiency_type_multiple_disabilities = 0;
             }
-            
+
             $saveInstructor = true;
 
             //=== MODEL DocumentsAndAddress
@@ -119,23 +119,55 @@ class InstructorIdentificationController extends Controller {
                         isset($modelDocumentsAndAddress->edcenso_uf_fk) && $modelDocumentsAndAddress->edcenso_uf_fk != 0 &&
                         isset($modelDocumentsAndAddress->edcenso_city_fk) && $modelDocumentsAndAddress->edcenso_city_fk != 0) {
 
-                    $saveDocumentsAndAddress = $modelDocumentsAndAddress->save();
+                    $saveDocumentsAndAddress = true;
+                } else {
+                    $error['documentsAndAddress'] = 'CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
                 }
-                $error[0] = 'CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
             }
             //======================================
-            //=== MODEL VariableData
+            //=== MODEL VariableData            
+            if (isset($modelInstructorVariableData->scholarity) &&
+                    $modelInstructorVariableData->scholarity == 6) {
+
+                
+                
+                if (isset($modelInstructorVariableData->high_education_situation_1 ,
+                        $modelInstructorVariableData->high_education_course_code_1_fk ,
+                        $modelInstructorVariableData->high_education_institution_type_1 ,
+                        $modelInstructorVariableData->high_education_institution_code_1_fk)
+                        || isset($modelInstructorVariableData->high_education_situation_2 ,
+                        $modelInstructorVariableData->high_education_course_code_2_fk ,
+                        $modelInstructorVariableData->high_education_institution_type_2 ,
+                        $modelInstructorVariableData->high_education_institution_code_2_fk)
+                        || isset($modelInstructorVariableData->high_education_situation_3 ,
+                        $modelInstructorVariableData->high_education_course_code_3_fk ,
+                        $modelInstructorVariableData->high_education_institution_type_3 ,
+                        $modelInstructorVariableData->high_education_institution_code_3_fk)) {
+                    $saveVariableData = true;
+                } else {
+                    $error['variableData'] = "Pelo menos uma situação do curso superior, código
+do curso superior, tipo de instituição e instituição
+do curso superior deverão ser obrigatoriamente
+preenchidos";
+                }
+            }
+            
+             // 9999999 = Code_Curso;
             
             //============================
             //=== MODEL TeachingData
+            $saveTeachingData = true;
+            
             
             //============================
-            
-            if ($modelIdentification->save() && $modelDocumentsAndAddress->save() &&
-                    $modelInstructorVariableData->save() && $modelInstructorTeachingData->save()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification, DocumentsAndAddress, 
+            if ($saveInstructor && $saveDocumentsAndAddress && $saveTeachingData
+                    && $saveVariableData) {
+                if ($modelIdentification->save() && $modelDocumentsAndAddress->save() &&
+                        $modelInstructorVariableData->save() && $modelInstructorTeachingData->save()) {
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification, DocumentsAndAddress, 
                  InstructorVariableData and InstructorTeachingData Created Successful:'));
-                $this->redirect(array('index'));
+                    $this->redirect(array('index'));
+                }
             }
         }
 

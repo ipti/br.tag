@@ -63,6 +63,7 @@ class InstructorDocumentsAndAddressController extends Controller {
             $model->attributes = $_POST['InstructorDocumentsAndAddress'];
             if (isset($model->cep) && $model->cep != 0) { // VERIFICAR POR que o bairro deve começar com inteiro
                 //Então o endereço, uf e cidade são obrigatórios
+                var_dump(isset($model->neighborhood) && $model->neighborhood != 0);exit();
                 if (isset($model->address) && $model->address !=0 &&
                         isset($model->neighborhood) && $model->neighborhood != 0 && 
                         isset($model->edcenso_uf_fk) && $model->edcenso_uf_fk!=0 &&

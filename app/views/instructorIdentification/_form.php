@@ -194,7 +194,9 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
             <!-- -->
        <?php echo $form->errorSummary($modelDocumentsAndAddress); ?>
-             <?php echo $error[0]; ?>
+             <?php
+             echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '' ;
+             ?>
             <div class="panelGroupHeader"><div class=""> <?php echo $title; ?>
 </div></div>
             <div class="panelGroupBody">
@@ -287,7 +289,11 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php // $this->endWidget(); ?>
             </div>
             <!-- -->
-               <?php echo $form->errorSummary($modelInstructorVariableData); ?>
+               <?php 
+               echo $form->errorSummary($modelInstructorVariableData); 
+               
+               echo isset($error['variableData']) ? $error['variableData'] : '';
+               ?>
     <div class="panelGroupHeader"><div class=""> <?php echo $title; ?>
         </div></div>
     <div class="panelGroupBody">
@@ -331,13 +337,14 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="formField">
             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1'); ?>
-            <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_formation_1', array(0 => 'Não', 1 => 'Sim'),array('disabled'=>'disabled'),array('disabled'=>'disabled')); ?>
+            <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_formation_1', array(0 => 'Não', 1 => 'Sim'),array('disabled'=>'disabled')); ?>
             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_1'); ?>
         </div>
 
         <div class="formField">
             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
-            <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'),array('disabled'=>'disabled'));
+            <?php echo $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                    ,array('prompt'=>'Select Course 1', 'disabled'=>'disabled'));
             ?>
             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
         </div>
@@ -392,7 +399,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="formField">
             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
             <?php
-            echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'),array('disabled'=>'disabled'));
+            echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                    ,array('prompt'=>'Select Course 2', 'disabled'=>'disabled'));
             ?>
             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
         </div>
@@ -446,7 +454,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="formField">
             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
             <?php
-            echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'),array('disabled'=>'disabled'));
+            echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                    ,array('prompt'=>'Select Course 1', 'disabled'=>'disabled'));
             ?>
             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
         </div>
@@ -1128,7 +1137,7 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
    //=============================================
    
    //==============INSTRUCTOR DOCUMENTS AND ADRESS
-       $formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
+       var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
        $(formDocumentsAndAddress+'cpf').on('change',function(){
            var isValidate = validateCpf(this.value);
@@ -1187,14 +1196,16 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
    //=============================================
       
    //==============INSTRUCTOR VARIABLE DATA
-   
+      var formInstructorvariableData = "#InstructorVariableData_";  
    
       $('#InstructorVariableData_high_education_initial_year_1, \n\
 #InstructorVariableData_high_education_initial_year_2,\n\
 #InstructorVariableData_high_education_initial_year_3').on('change',function(){
             if(this.value.length == 4){
                 var data = new Date();
-                alert(anoMinMax(2002,data.getFullYear(),this.value));
+                if(!anoMinMax(2002,data.getFullYear(),this.value)){
+                    $(this).attr('value','');
+                }
             }
         });   
         $('#InstructorVariableData_high_education_final_year_1,\n\
@@ -1202,35 +1213,37 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
 #InstructorVariableData_high_education_final_year_3').on('change',function(){
             if(this.value.length == 4){
                 var data = new Date();
-                alert(anoMinMax(1941,data.getFullYear(),this.value));
+                if(!anoMinMax(1941,data.getFullYear(),this.value)) {
+                    $(this).attr('value','');
+                }
             } 
         }); 
-
+        
          $(formInstructorvariableData+'scholarity').on('change', function(){
             if($(this).val() == 6) { 
                 $(formInstructorvariableData+'high_education_situation_1').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_formation_1').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_course_code_1_fk').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_initial_year_1').removeAttr('disabled');
+          
                 $(formInstructorvariableData+'high_education_final_year_1').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_institution_type_1').removeAttr('disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_1_fk').removeAttr('disabled');
+                $(formInstructorvariableData+'high_education_institution_code_1_fk').removeAttr('disabled');
                 
                 $(formInstructorvariableData+'high_education_situation_2').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_formation_2').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_course_code_2_fk').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_initial_year_2').removeAttr('disabled');
+               
                 $(formInstructorvariableData+'high_education_final_year_2').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_institution_type_2').removeAttr('disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_2_fk').removeAttr('disabled');
+                $(formInstructorvariableData+'high_education_institution_code_2_fk').removeAttr('disabled');
                 
                 $(formInstructorvariableData+'high_education_situation_3').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_formation_3').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_course_code_3_fk').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_initial_year_3').removeAttr('disabled');
+               
                 $(formInstructorvariableData+'high_education_final_year_3').removeAttr('disabled');
                 $(formInstructorvariableData+'high_education_institution_type_3').removeAttr('disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_3_fk').removeAttr('disabled');
+                $(formInstructorvariableData+'high_education_institution_code_3_fk').removeAttr('disabled');
                 
                 
                 //Troca o Valor
@@ -1243,7 +1256,7 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                 $(formInstructorvariableData+'high_education_initial_year_1').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_final_year_1').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_institution_type_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_1_fk').add().attr('disabled','disabled');
+                $(formInstructorvariableData+'high_education_institution_code_1_fk').add().attr('disabled','disabled');
                 
                 $(formInstructorvariableData+'high_education_situation_2').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_formation_2').add().attr('disabled','disabled');
@@ -1251,7 +1264,7 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                 $(formInstructorvariableData+'high_education_initial_year_2').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_final_year_2').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_institution_type_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_2_fk').add().attr('disabled','disabled');
+                $(formInstructorvariableData+'high_education_institution_code_2_fk').add().attr('disabled','disabled');
                 
                 $(formInstructorvariableData+'high_education_situation_3').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_formation_3').add().attr('disabled','disabled');
@@ -1259,8 +1272,77 @@ EdcensoDiscipline::model()->findAll(),'id','name')); ?>
                 $(formInstructorvariableData+'high_education_initial_year_3').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_final_year_3').add().attr('disabled','disabled');
                 $(formInstructorvariableData+'high_education_institution_type_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'_high_education_institution_code_3_fk').add().attr('disabled','disabled');
+                $(formInstructorvariableData+'high_education_institution_code_3_fk').add().attr('disabled','disabled');
             }
+            
+            $(formInstructorvariableData + 'high_education_situation_1').on('change', function(){
+                if($(this).val() == 1) { // Concluído
+                    $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled','disabled');
+                    $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled');
+                }else{ // Em Andamento
+                    $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled');     
+                    $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled','disabled');
+                }
+                           
+            });
+            
+              $(formInstructorvariableData + 'high_education_situation_2').on('change', function(){
+                if($(this).val() == 1) { // Concluído
+                    $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled','disabled');
+                    $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled');
+                }else{ // Em Andamento
+                    $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled');     
+                    $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled','disabled');
+                }
+                           
+            });
+            
+              $(formInstructorvariableData + 'high_education_situation_3').on('change', function(){
+                if($(this).val() == 1) { // Concluído
+                    $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled','disabled');
+                    $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled');
+                }else{ // Em Andamento
+                    $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled');     
+                    $(formInstructorvariableData + 'high_education_final_year_3').add().attr('disabled','disabled');
+                }
+                           
+            });
+            
+           $(formInstructorvariableData + 'high_education_course_code_1_fk').on('change',function(){
+               var course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
+               course = course.toUpperCase();
+              var beforelicenciatura = course.split('LICENCIATURA')[0];
+             if(course != beforelicenciatura) {
+                 // Se é diferente então encontrou a palavra Licenciatura
+                 $(formInstructorvariableData + 'high_education_formation_1').add().attr('disabled','disabled');
+             }else{
+                 $(formInstructorvariableData + 'high_education_formation_1').removeAttr('disabled');
+             }
+           }); 
+           
+            $(formInstructorvariableData + 'high_education_course_code_2_fk').on('change',function(){
+               var course = $(formInstructorvariableData + 'high_education_course_code_2_fk option:selected').text();
+               course = course.toUpperCase();
+              var beforelicenciatura = course.split('LICENCIATURA')[0];
+             if(course != beforelicenciatura) {
+                 // Se é diferente então encontrou a palavra Licenciatura
+                 $(formInstructorvariableData + 'high_education_formation_2').add().attr('disabled','disabled');
+             }else{
+                 $(formInstructorvariableData + 'high_education_formation_2').removeAttr('disabled');
+             }
+           });
+           
+            $(formInstructorvariableData + 'high_education_course_code_3_fk').on('change',function(){
+               var course = $(formInstructorvariableData + 'high_education_course_code_3_fk option:selected').text();
+               course = course.toUpperCase();
+              var beforelicenciatura = course.split('LICENCIATURA')[0];
+             if(course != beforelicenciatura) {
+                 // Se é diferente então encontrou a palavra Licenciatura
+                 $(formInstructorvariableData + 'high_education_formation_3').add().attr('disabled','disabled');
+             }else{
+                 $(formInstructorvariableData + 'high_education_formation_3').removeAttr('disabled');
+             }
+           });
              
         }); 
 
