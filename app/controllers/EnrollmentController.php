@@ -1,6 +1,6 @@
 <?php
 
-class StudentEnrollmentController extends Controller
+class EnrollmentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,7 +27,7 @@ class StudentEnrollmentController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update'),
+				'actions'=>array('index','view','create','update',"updatedependencies"),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -51,6 +51,33 @@ class StudentEnrollmentController extends Controller
 		));
 	}
 
+        
+        public function actionUpdateDependencies(){
+            $enrollment = new StudentEnrollment;
+            $enrollment->attributes = $_POST["StudentEnrollment"];
+
+            $students = StudentIdentification::model()->findAll('school_inep_id_fk=:id', array(':id' => $enrollment->school_inep_id_fk));
+            $students = CHtml::listData($students, 'id', 'name');
+            
+            $classrooms = Classroom::model()->findAll('school_inep_fk=:id', array(':id' => $enrollment->school_inep_id_fk));
+            $classrooms = CHtml::listData($classrooms, 'id', 'name');
+
+            $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
+            foreach ($students as $value => $name) {
+                $result['Students'] .=  CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value?"selected":"deselected") => ($enrollment->student_fk == $value?"selected":"deselected")), CHtml::encode($name), true);
+            }
+            
+            $result['Classrooms'] = CHtml::tag('option', array('value' => null), 'Selecione uma Turma', true);
+            foreach ($classrooms as $value => $name) {
+                $result['Classrooms'] .=  CHtml::tag('option', array('value' => $value,($enrollment->classroom_fk == $value?"selected":"deselected") => ($enrollment->classroom_fk == $value?"selected":"deselected")), CHtml::encode($name), true);
+            }
+            
+            echo json_encode($result);
+        }
+        
+        
+        
+        
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -65,6 +92,9 @@ class StudentEnrollmentController extends Controller
 		if(isset($_POST['StudentEnrollment']))
 		{
 			$model->attributes=$_POST['StudentEnrollment'];
+                        $model->classroom_inep_id = Classroom::model()->findByPk($model->classroom_fk)->inep_id;
+                        $model->student_inep_id = StudentIdentification::model()->findByPk($model->student_fk)->inep_id;
+                        
 			if($model->save()){
                                 Yii::app()->user->setFlash('success', Yii::t('default', 'StudentEnrollment Created Successful:'));
 				$this->redirect(array('index'));
@@ -87,7 +117,12 @@ class StudentEnrollmentController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                
+                if ($model->student_fk == NULL && $model->classroom_fk == NULL){
+                    $model->student_fk = StudentIdentification::model()->find('inep_id="'.$model->student_inep_id.'"')->id;
+                    $model->classroom_fk = Classroom::model()->find('inep_id="'.$model->classroom_inep_id.'"')->id;
+                }
+                
 		if(isset($_POST['StudentEnrollment']))
 		{
 			$model->attributes=$_POST['StudentEnrollment'];
@@ -107,17 +142,27 @@ class StudentEnrollmentController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
-
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+            
+            
+            if($this->loadModel($id)->delete()){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula excluída com sucesso:'));
+                $this->redirect(array('index'));
+            }else{
+                throw new CHttpException(404,'The requested page does not exist.');
+            }
+            
+//		if(Yii::app()->request->isPostRequest)
+//		{
+//                    
+//			// we only allow deletion via POST request
+//			$this->loadModel($id)->delete();
+//
+//			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//			if(!isset($_GET['ajax']))
+//				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+//		}
+//		else
+//			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**

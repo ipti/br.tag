@@ -12,8 +12,8 @@ $this->breadcrumbs=array(
     ?>
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('model'=>$model,'title'=>$title)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array('modelStudentIdentification'=>$modelStudentIdentification,'modelStudentDocumentsAndAddress'=>$modelStudentDocumentsAndAddress,'title'=>$title)); ?>        </div>
         <div class="columntwo">
-            <?php echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
+            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>
 </div>

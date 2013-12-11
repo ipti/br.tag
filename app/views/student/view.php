@@ -1,30 +1,23 @@
-<div id="mainPage" class="main">
 <?php
 $this->breadcrumbs=array(
-	'Student Identifications',
+	'Student Identifications'=>array('index'),
+	$modelStudentIdentification->name,
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
 $this->menu=array(
 array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>array('create'),'description' => Yii::t('default', 'This action create a new StudentIdentification')),
+array('label'=> Yii::t('default', 'List StudentIdentification'), 'url'=>array('index'),'description' => Yii::t('default', 'This action list all Student Identifications, you can search, delete and update')),
 ); 
-
 ?>
-<div class="twoColumn">
+<div id="mainPage" class="main">
+    <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php if (Yii::app()->user->hasFlash('success')): ?>
-                <div class="alert alert-success">
-                    <?php echo Yii::app()->user->getFlash('success') ?>
-                </div>
-                <br/>
-            <?php endif ?>
             <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'Student Identifications')?></div></div>
+                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View StudentIdentification # '.$modelStudentIdentification->id.' :')?></div></div>
                 <div class="panelGroupBody">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $dataProvider,
-                        'enablePagination' => true,
-                        'baseScriptUrl' => Yii::app()->theme->baseUrl . '/plugins/gridview/',
-                        'columns' => array(
+                    <?php $this->widget('zii.widgets.CDetailView', array(
+                    'data'=>$modelStudentIdentification,
+                    'attributes'=>array(
                     		'register_type',
 		'school_inep_id_fk',
 		'inep_id',
@@ -65,13 +58,12 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
 		'resource_zoomed_test_24',
 		'resource_braille_test',
 		'resource_none',
-                     array('class' => 'CButtonColumn',),),
+                    ),
                     )); ?>
                 </div>   
             </div>
         </div>
         <div class="columntwo">
-        </div>
+            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>
-
 </div>

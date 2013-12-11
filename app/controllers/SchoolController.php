@@ -1,12 +1,15 @@
 <?php
 
-class SchoolIdentificationController extends Controller {
+class SchoolController extends Controller {
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = 'fullmenu';
+    
+    private $SCHOOL_IDENTIFICATION = "SchoolIdentification";
+    private $SCHOOL_STRUCTURE = "SchoolStructure";
 
     /**
      * @return array action filters
@@ -228,12 +231,12 @@ class SchoolIdentificationController extends Controller {
 
     public function actionGetCities() {
         $school = new SchoolIdentification();
-        $school->attributes = $_POST['SchoolIdentification'];
+        $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a city)', true);
+        echo CHtml::tag('option', array('value' => null), '(Select a city)', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
@@ -241,12 +244,12 @@ class SchoolIdentificationController extends Controller {
 
     public function actionGetDistricts() {
         $school = new SchoolIdentification();
-        $school->attributes = $_POST['SchoolIdentification'];
+        $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
 
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
         $data = CHtml::listData($data, 'code', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a district)', true);
+        echo CHtml::tag('option', array('value' => null), '(Select a district)', true);
 
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
@@ -259,8 +262,8 @@ class SchoolIdentificationController extends Controller {
      */
     public function actionView($id) {
         $this->render('view', array(
-            'modelSchoolIdentification' => $this->loadModel($id, 'SchoolIdentification'),
-            'modelSchoolStructure' => $this->loadModel($id, 'SchoolStructure'),
+            'modelSchoolIdentification' => $this->loadModel($id, $this->SCHOOL_IDENTIFICATION),
+            'modelSchoolStructure' => $this->loadModel($id, $this->SCHOOL_STRUCTURE),
         ));
     }
 
@@ -270,17 +273,18 @@ class SchoolIdentificationController extends Controller {
      */
     public function actionCreate() {
         $modelSchoolIdentification = new SchoolIdentification;
-        $modelSchoolStructure = new SchoolStructure();
+        $modelSchoolStructure = new SchoolStructure;
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST['SchoolIdentification']) && isset($_POST['SchoolStructure'])) {
-            $modelSchoolIdentification->attributes = $_POST['SchoolIdentification'];
-            $modelSchoolStructure->attributes = $_POST['SchoolStructure'];
-
+        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+            $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+            $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            
+            $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+            
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
-                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
                         || $modelSchoolStructure->operation_location_businness_room
@@ -310,18 +314,19 @@ class SchoolIdentificationController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $modelSchoolIdentification = $this->loadModel($id, "SchoolIdentification");
-        $modelSchoolStructure = $this->loadModel($id, "SchoolStructure");
+        $modelSchoolIdentification = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
 
-        if (isset($_POST['SchoolIdentification']) && isset($_POST['SchoolStructure'])) {
-            $modelSchoolIdentification->attributes = $_POST['SchoolIdentification'];
-            $modelSchoolStructure->attributes = $_POST['SchoolStructure'];
-
+        if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+            $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+            $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+            
+            $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+                
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
-                $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
                         || $modelSchoolStructure->operation_location_businness_room
@@ -350,24 +355,35 @@ class SchoolIdentificationController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        if (Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel($id, "SchoolStructure")->delete();
-            $this->loadModel($id, "SchoolIdentification")->delete();
-
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
-        else
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+            if( $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
+                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()){
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
+                    $this->redirect(array('index'));
+            }else{
+                throw new CHttpException(404,'The requested page does not exist.');
+            }
+        
+        
+        
+//        
+//        if (Yii::app()->request->isPostRequest) {
+//            // we only allow deletion via POST request
+//            $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete();
+//            $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete();
+//
+//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//            if (!isset($_GET['ajax']))
+//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+//        }
+//        else
+//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
     /**
      * Lists all models.
      */
     public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('SchoolIdentification',
+        $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION,
                         array('pagination' => array(
                                 'pageSize' => 12,
                         )));
@@ -385,9 +401,9 @@ class SchoolIdentificationController extends Controller {
         $modelSchoolStructure = new SchoolStructure('search');
         $modelSchoolStructure->unsetAttributes();  // clear any default values
 
-        if (isset($_GET['SchoolIdentification']) && isset($_GET['SchoolStructure'])) {
-            $modelSchoolIdentification->attributes = $_GET['SchoolIdentification'];
-            $modelSchoolStructure->attributes = $_GET['SchoolStructure'];
+        if (isset($_GET[$this->SCHOOL_IDENTIFICATION]) && isset($_GET[$this->SCHOOL_STRUCTURE])) {
+            $modelSchoolIdentification->attributes = $_GET[$this->SCHOOL_IDENTIFICATION];
+            $modelSchoolStructure->attributes = $_GET[$this->SCHOOL_STRUCTURE];
         }
 
         $this->render('admin', array(
@@ -402,17 +418,19 @@ class SchoolIdentificationController extends Controller {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id, $model) {
-        if ($model == "SchoolIdentification") {
-            $modelSchoolIdentification = SchoolIdentification::model()->findByPk($id);
-            if ($modelSchoolIdentification === null)
-                throw new CHttpException(404, 'The requested page does not exist.');
-            return $modelSchoolIdentification;
-        }else if ($model == "SchoolStructure") {
-            $modelSchoolStructure = SchoolStructure::model()->findByPk($id);
-            if ($modelSchoolStructure === null)
-                throw new CHttpException(404, 'The requested page does not exist.');
-            return $modelSchoolStructure;
+        
+        $return = null;
+        
+        if ($model == $this->SCHOOL_IDENTIFICATION) {
+            $return = SchoolIdentification::model()->findByPk($id);
+        }else if ($model == $this->SCHOOL_STRUCTURE) {
+            $return = SchoolStructure::model()->findByPk($id);
         }
+
+        if ($return === null)
+            throw new CHttpException(404, 'The requested page does not exist.');
+        return $return;
+
     }
 
     /**
@@ -420,11 +438,7 @@ class SchoolIdentificationController extends Controller {
      * @param CModel the model to be validated
      */
     protected function performAjaxValidation($model) {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'school-identification-form') {
-            echo CActiveForm::validate($model);
-            Yii::app()->end();
-        }
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'school-structure-form') {
+        if (isset($_POST['ajax']) && $_POST['ajax'] === 'school') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
