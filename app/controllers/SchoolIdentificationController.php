@@ -355,17 +355,28 @@ class SchoolIdentificationController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-        if (Yii::app()->request->isPostRequest) {
-            // we only allow deletion via POST request
-            $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete();
-            $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete();
-
-            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
-                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-        }
-        else
-            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+            if( $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
+                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()){
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
+                    $this->redirect(array('index'));
+            }else{
+                throw new CHttpException(404,'The requested page does not exist.');
+            }
+        
+        
+        
+//        
+//        if (Yii::app()->request->isPostRequest) {
+//            // we only allow deletion via POST request
+//            $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete();
+//            $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete();
+//
+//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+//            if (!isset($_GET['ajax']))
+//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+//        }
+//        else
+//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
     /**
