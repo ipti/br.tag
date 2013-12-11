@@ -1139,58 +1139,57 @@
                             <?php echo $form->labelEx($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
                             <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
                             <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
+                        </div>     
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="school-equipament">
+                    <div class="row-fluid">
+                        <div class=" span6">
+                            <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
                         </div>
 
-                                    
-            </div>
-        </div>
-        
-        <div class="tab-pane" id="school-equipament">
-            <div class="row-fluid">
-                <div class=" span6">
-                    <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        <div class="separator"></div>
+                    </div>
                 </div>
-                      
-                <div class="separator"></div>
-            </div>
-        </div>
-            
-        <div class="tab-pane" id="school-humans">
-            <div class="row-fluid">
-                <div class=" span6">
-                    <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+
+                <div class="tab-pane" id="school-humans">
+                    <div class="row-fluid">
+                        <div class=" span6">
+                            <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        </div>
+
+                        <div class="separator"></div>
+                    </div>
                 </div>
-                      
-                <div class="separator"></div>
-            </div>
-        </div>
-            
-        <div class="tab-pane" id="school-feeding">
-            <div class="row-fluid">
-                <div class=" span6">
-                    <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+
+                <div class="tab-pane" id="school-feeding">
+                    <div class="row-fluid">
+                        <div class=" span6">
+                            <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        </div>
+
+                        <div class="separator"></div>
+                    </div>
                 </div>
-                      
-                <div class="separator"></div>
-            </div>
-        </div>
-            
-        <div class="tab-pane" id="school-education">
-            <div class="row-fluid">
-                <div class=" span6">
-                      
-                    <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+
+                <div class="tab-pane" id="school-education">
+                    <div class="row-fluid">
+                        <div class=" span6">
+
+                            <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        </div>
+
+                        <div class="separator"></div>
+                    </div>
                 </div>
-                      
-                <div class="separator"></div>
+
+
+                <?php $this->endWidget(); ?>
             </div>
         </div>
-                
-            
-        <?php $this->endWidget(); ?>
     </div>
-        
-        
+</div>
         
         
         
