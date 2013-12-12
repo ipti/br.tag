@@ -25,7 +25,7 @@ class InstructorController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getCities'),
+                'actions' => array('index', 'view', 'create', 'update', 'getCities', 'getClassroom'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -152,7 +152,7 @@ preenchidos";
                 }
             }
             
-             // 9999999 = Code_Curso;
+             
             
             //============================
             //=== MODEL TeachingData
@@ -244,6 +244,20 @@ preenchidos";
         ));
     }
 
+    public function actionGetClassroom(){
+        if (isset($_POST['InstructorTeachingData'])) {
+            $model = new InstructorTeachingData();
+            $model->attributes = $_POST['InstructorTeachingData'];
+        } 
+        $data = Classroom::model()->findAllByAttributes(array('school_inep_fk' => (int) $model->school_inep_id_fk));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => 'NULL'), '(Select a ClassRoom)', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+    
     //Método para Solicitação Ajax para o select UF x Cities
 
     public function actionGetCities() {
