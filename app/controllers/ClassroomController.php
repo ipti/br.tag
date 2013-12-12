@@ -28,7 +28,8 @@ class ClassroomController extends Controller
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view','create','update','getassistancetype',
-                                        'updateassistancetypedependencies','updatecomplementaryactivity'),
+                                        'updateassistancetypedependencies','updatecomplementaryactivity',
+                                        'getcomplementaryactivitytype'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -105,7 +106,7 @@ class ClassroomController extends Controller
             $result['AeeActivity'] = $classroom->assistance_type != 5;
             
             $where = '';
-            $result['Modality'] = CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Modality)'), true);
+            $result['Modality'] = CHtml::tag('option', array('value' => null),CHtml::encode('(Select Modality)'), true);
             
             if($result['MaisEdu']){
                 $result['Modality'] .= CHtml::tag('option', array('value' => '3', "selected" => "selected"),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
@@ -114,17 +115,20 @@ class ClassroomController extends Controller
                 $result['Modality'] .= CHtml::tag('option', array('value' => '1', $classroom->modality == 1? "selected" : "deselected" => $classroom->modality == 1? "selected" : "deselected" ),CHtml::encode('Ensino Regular'), true);
                 $result['Modality'] .= CHtml::tag('option', array('value' => '2', $classroom->modality == 2? "selected" : "deselected" => $classroom->modality == 2? "selected" : "deselected" ),CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
             }
-                     
+                   
+            $result['StageEmpty'] = false;
+            
             if($classroom->assistance_type == 2 || $classroom->assistance_type == 3){
                 $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 '.$where);
             }else if($classroom->assistance_type == 4 || $classroom->assistance_type == 5 || $classroom->assistance_type == "null"){
                 $data = array();
+                $result['StageEmpty'] = true;
             }else{
                 $data = EdcensoStageVsModality::model()->findAll($where);
             }
             $data = CHtml::listData($data, 'id', 'name');
 
-            $result['Stage'] = CHtml::tag('option', array('value' => 'NULL'), '(Select Stage vs Modality)', true);
+            $result['Stage'] = CHtml::tag('option', array('value' => null), '(Select Stage vs Modality)', true);
 
             foreach ($data as $value => $name) {
                 $result['Stage'] .= CHtml::tag('option', array('value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" => $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" ), CHtml::encode($name), true);
@@ -132,7 +136,7 @@ class ClassroomController extends Controller
             
             echo json_encode($result);
         }
-
+           
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -188,7 +192,7 @@ class ClassroomController extends Controller
 		}
 
 		$this->render('create',array(
-			'model'=>$model
+			'model'=>$model,'complementary_activities' => array()
 		));
 	}
 
@@ -237,9 +241,23 @@ class ClassroomController extends Controller
                                 $this->redirect(array('view','id'=>$model->id));
                     }
 		}
+                $compActs = array();
+                if(isset($model->complementary_activity_type_1))
+                    array_push($compActs, $model->complementary_activity_type_1);
+                if(isset($model->complementary_activity_type_2))
+                    array_push($compActs, $model->complementary_activity_type_2);
+                if(isset($model->complementary_activity_type_3))
+                    array_push($compActs, $model->complementary_activity_type_3);
+                if(isset($model->complementary_activity_type_4))
+                    array_push($compActs, $model->complementary_activity_type_4);
+                if(isset($model->complementary_activity_type_5))
+                    array_push($compActs, $model->complementary_activity_type_5);
+                if(isset($model->complementary_activity_type_6))
+                    array_push($compActs, $model->complementary_activity_type_6);
 
+                
 		$this->render('update',array(
-			'model'=>$model,
+			'model'=>$model,'complementary_activities' => $compActs
 		));
 	}
 

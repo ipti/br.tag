@@ -153,6 +153,7 @@
                                         $('#Classroom_aee_teaching_of_Portuguese_language_written_modality').prop('disabled', data.AeeActivity);
                                         $('#Classroom_aee_strategy_for_school_environment_autonomy').prop('disabled', data.AeeActivity);
                                         $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage);
+                                        $('#Classroom_edcenso_stage_vs_modality_fk').prop('disabled', data.StageEmpty);
                                         $('#Classroom_modality').html(data.Modality);
                                     }",
                                 ))); ?> 
@@ -534,11 +535,45 @@
             );
             $(form+'school_inep_fk').trigger('change');
             
+            $(form+"complementary_activity_type_1").val(jQuery.parseJSON('<?php echo json_encode($complementary_activities); ?>'));
+            
             
         }); 
         
         
+        $(form+"complementary_activity_type_1").change(function(){
+            while($(this).val().length > 6){
+                $(form+"complementary_activity_type_1").val($(form+"complementary_activity_type_1").val().slice(0,-1));
+            }
+        });
+        
+        var compAct = [];
+        
+        $(form+"complementary_activity_type_1").mousedown(function(){
+            compAct = $(this).val();
+        });
+        
+        $(form+"complementary_activity_type_1").mouseup(function(e){
+            if (!e.shiftKey){
+                value = $(this).val()[0];
+                
+                remove = 0;
+                compAct = jQuery.grep(compAct, function( a ) {
+                    if(a === value) remove++;
+                    return a !== value;
+                });
+                
+                if(remove == 0) compAct.push(value);
+                $(this).val(compAct);
+            }
+        });
+        
+        $(form+"complementary_activity_type_1").keypress(function(e) {
+            console.log();
+        });
 
+
+        
 
         
         $(form+'name').focusout(function() { 
