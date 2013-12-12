@@ -6,6 +6,8 @@ class SiteController extends Controller
 	 * Declares class-based actions.
 	 */
         
+	public $layout='fullmenu';
+
 	public function actions()
 	{
 		return array(

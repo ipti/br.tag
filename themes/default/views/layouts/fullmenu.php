@@ -119,7 +119,7 @@
 
 
                                 <!-- Menu Regular Item -->
-                                <li class="glyphicons display"><a href="#"><i></i><span>Página inicial</span></a></li>
+                                <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
 
                                 <!-- Menu Item Escolas -->
                                 <li class="hasSubmenu">

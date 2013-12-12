@@ -12,7 +12,7 @@ $this->breadcrumbs=array(
     ?>
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('model'=>$model/*,'schoolStructure'=>$schoolStructure*/,'title'=>$title)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array('model'=>$model, 'complementary_activities'=>$complementary_activities,'title'=>$title)); ?>        </div>
         <div class="columntwo">
             <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>

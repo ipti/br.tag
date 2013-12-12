@@ -119,7 +119,7 @@
                                 'prompt' => 'Select State'
                                 ,'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('schoolIdentification/getcities'),
+                                    'url' => CController::createUrl('school/getcities'),
                                     'update' => '#SchoolIdentification_edcenso_city_fk'
                                 )));?>      
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_uf_fk'); ?>
@@ -133,7 +133,7 @@
                             <?php
                             echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelSchoolIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array('ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('schoolIdentification/getdistricts'),
+                                    'url' => CController::createUrl('school/getdistricts'),
                                     'update' => '#SchoolIdentification_edcenso_district_fk',
                                     )));
                             ?>  
