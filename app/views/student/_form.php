@@ -141,7 +141,7 @@
                                 <?php echo $form->dropDownList($modelStudentIdentification,'nationality', array(null=>"Selecione a nacionalidade", "1"=>"Brasileira", "2"=>"Brasileira: Nascido no exterior ou Naturalizado","3"=>"Estrangeira"),
                                         array('ajax'=>array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getnations'),
+                                                'url' => CController::createUrl('student/getnations'),
                                                 'update' => '#StudentIdentification_edcenso_nation_fk'
                                             ))); ?>
                                 <?php echo $form->error($modelStudentIdentification,'nationality'); ?>
@@ -166,7 +166,7 @@
                                         array(
                                             'ajax' => array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getcities&rt=0'),
+                                                'url' => CController::createUrl('student/getcities&rt=0'),
                                                 'update' => '#StudentIdentification_edcenso_city_fk'
                                             ),
                                             "prompt"=>"Selecione um estado",
@@ -516,7 +516,7 @@
                                         array(
                                             'ajax' => array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getcities&rt=1'),
+                                                'url' => CController::createUrl('student/getcities&rt=1'),
                                                 'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                             ),
                                             "prompt"=>"Selecione um estado",
@@ -533,7 +533,7 @@
                                         array(
                                             'ajax' => array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getnotaryoffice'),
+                                                'url' => CController::createUrl('student/getnotaryoffice'),
                                                 'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
                                             ),
                                             "prompt"=>"Selecione uma cidade",
@@ -663,7 +663,7 @@
                                         array(
                                             'ajax' => array(
                                                 'type' => 'POST',
-                                                'url' => CController::createUrl('studentIdentification/getcities&rt=2'),
+                                                'url' => CController::createUrl('student/getcities&rt=2'),
                                                 'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                             ),
                                             "prompt"=>"Selecione um estado")); ?>

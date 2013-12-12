@@ -47,18 +47,21 @@ class ClassroomController extends Controller
 
             $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
             
-            echo CHtml::tag('option', array('value' => 'null'),CHtml::encode('(Select Assistance Type)'), true);
-            
-            if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
-                 echo CHtml::tag('option', array('value' => '4', "selected" =>"selected"),CHtml::encode('Atividade Complementar'), true);
-            }else if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
-                echo CHtml::tag('option', array('value' => '5', "selected" =>"selected"),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
-            }else {
-                echo CHtml::tag('option', array('value' => '0', $classroom->assistance_type == 0 ? "selected" : "deselected" => $classroom->assistance_type == 0 ? "selected" : "deselected" ),CHtml::encode('Não se Aplica'), true);
-                echo CHtml::tag('option', array('value' => '1', $classroom->assistance_type == 1 ? "selected" : "deselected" => $classroom->assistance_type == 1 ? "selected" : "deselected" ),CHtml::encode('Classe Hospitalar'), true);
-                echo CHtml::tag('option', array('value' => '2', $classroom->assistance_type == 2 ? "selected" : "deselected" => $classroom->assistance_type == 2 ? "selected" : "deselected" ),CHtml::encode('Unidade de Internação Socioeducativa'), true);
-                echo CHtml::tag('option', array('value' => '3', $classroom->assistance_type == 3 ? "selected" : "deselected" => $classroom->assistance_type == 3 ? "selected" : "deselected" ),CHtml::encode('Unidade Prisional'), true);
-            }  
+            if($schoolStructure != null){
+                echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de assistencia'), true);
+
+                if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
+                     echo CHtml::tag('option', array('value' => '4', "selected" =>"selected"),CHtml::encode('Atividade Complementar'), true);
+                }else if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
+                    echo CHtml::tag('option', array('value' => '5', "selected" =>"selected"),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
+                }else {
+                    echo CHtml::tag('option', array('value' => '0', $classroom->assistance_type == 0 ? "selected" : "deselected" => $classroom->assistance_type == 0 ? "selected" : "deselected" ),CHtml::encode('Não se Aplica'), true);
+                    echo CHtml::tag('option', array('value' => '1', $classroom->assistance_type == 1 ? "selected" : "deselected" => $classroom->assistance_type == 1 ? "selected" : "deselected" ),CHtml::encode('Classe Hospitalar'), true);
+                    echo CHtml::tag('option', array('value' => '2', $classroom->assistance_type == 2 ? "selected" : "deselected" => $classroom->assistance_type == 2 ? "selected" : "deselected" ),CHtml::encode('Unidade de Internação Socioeducativa'), true);
+                    echo CHtml::tag('option', array('value' => '3', $classroom->assistance_type == 3 ? "selected" : "deselected" => $classroom->assistance_type == 3 ? "selected" : "deselected" ),CHtml::encode('Unidade Prisional'), true);
+                }  
+                
+            }
         }
         
         public function actionUpdateComplementaryActivity(){
@@ -183,7 +186,6 @@ class ClassroomController extends Controller
                                }
                      }
 		}
-                if($model->validate()&&$model2->validate)
 
 		$this->render('create',array(
 			'model'=>$model

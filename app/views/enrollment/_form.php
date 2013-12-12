@@ -26,7 +26,7 @@
                                     array("prompt"=>"Selecione uma Escola",
                                         'ajax' => array(
                                             'type' => 'POST', 
-                                            'url' => CController::createUrl('studentEnrollment/updatedependencies'), 
+                                            'url' => CController::createUrl('enrollment/updatedependencies'), 
                                             'success' => "function(data){
                                                 data = jQuery.parseJSON(data);
                                                 $('#StudentEnrollment_student_fk').html( data.Students);
@@ -242,7 +242,7 @@
             jQuery('body').on('change','#StudentEnrollment_school_inep_id_fk',
                 function(){jQuery.ajax({
                         'type':'POST',
-                        'url':'/tag/index.php?r=studentEnrollment/updatedependencies',
+                        'url':'/tag/index.php?r=enrollment/updatedependencies',
                         'cache':false,
                         'data':jQuery(this).parents("form").serialize(),
                         'success':function(data){
