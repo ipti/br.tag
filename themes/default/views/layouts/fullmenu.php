@@ -74,7 +74,7 @@
 
                     <!-- Profile / Logout menu -->
                     <li class="account">
-                        <a href="#" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
+                        <a href="<?php echo Yii::app()->homeUrl; ?>?r=site/logout" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
 
                     </li>
                 </ul>

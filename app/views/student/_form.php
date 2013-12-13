@@ -32,14 +32,13 @@
             <!-- Tab Student Identify -->
             <div class="tab-pane active" id="student-indentify">
                 <div class="row-fluid">
-                    <div class=" span6">
+                    <!--<div class=" span6">
                         <?php echo Yii::t('default', 'Campos com * são obrigatórios.')?>
-                    </div>
-                    <div class="separator"></div>
+                    </div>-->
                     <div class="separator"></div>
 <?php /*
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'register_type'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'register_type', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'register_type',array('size'=>2,'maxlength'=>2)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'register_type'); ?>
@@ -47,7 +46,7 @@
                         </div>
 */ ?>
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'school_inep_id_fk'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'school_inep_id_fk', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($modelStudentIdentification,'school_inep_id_fk',
                                         CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt"=>"Selecione uma Escola")); ?>
@@ -57,7 +56,7 @@
 
 <?php /*
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'inep_id'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'inep_id' , array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'inep_id',array('size'=>12,'maxlength'=>12)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'inep_id'); ?>
@@ -65,7 +64,7 @@
                         </div>
 */ ?>
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'name'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'name', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'name',array('size'=>60,'maxlength'=>100)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'name'); ?>
@@ -73,7 +72,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'nis'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'nis', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'nis',array('size'=>11,'maxlength'=>11)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'nis'); ?>
@@ -81,7 +80,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'birthday'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'birthday', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'birthday',array('size'=>10,'maxlength'=>10)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'birthday'); ?>
@@ -89,7 +88,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'sex'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'sex', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->DropDownList($modelStudentIdentification,'sex', array(null=>"Selecione o sexo", "1"=>"Masculino", "2"=>"Feminino")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'sex'); ?>
@@ -97,7 +96,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'color_race'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'color_race', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->DropDownList($modelStudentIdentification,'color_race', array(null => "Selecione a cor/raça",
                                 "0" => "Não declarada",
@@ -112,7 +111,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'filiation'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'filiation', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->DropDownList($modelStudentIdentification,'filiation', array(null=>"Selecione a filiação", "0"=>"Não declarado/Ignorado", "1"=>"Pai e/ou Mãe")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'filiation'); ?>
@@ -120,7 +119,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'mother_name'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'mother_name', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'mother_name',array('size'=>60,'maxlength'=>100,"disabled"=> "disabled")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'mother_name'); ?>
@@ -128,7 +127,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'father_name'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'father_name', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->textField($modelStudentIdentification,'father_name',array('size'=>60,'maxlength'=>100,"disabled"=> "disabled")); ?>
                                 <?php echo $form->error($modelStudentIdentification,'father_name'); ?>
@@ -136,7 +135,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'nationality'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'nationality', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($modelStudentIdentification,'nationality', array(null=>"Selecione a nacionalidade", "1"=>"Brasileira", "2"=>"Brasileira: Nascido no exterior ou Naturalizado","3"=>"Estrangeira"),
                                         array('ajax'=>array(
@@ -149,7 +148,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_nation_fk'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_nation_fk', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php 
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', 
@@ -159,7 +158,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_uf_fk'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_uf_fk', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', 
                                         CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
@@ -176,7 +175,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_city_fk'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_city_fk', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', 
                                         CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
@@ -187,7 +186,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency'); ?>
@@ -195,7 +194,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_blindness'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_blindness', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_blindness'); ?>
@@ -203,7 +202,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_low_vision'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_low_vision', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_low_vision'); ?>
@@ -211,7 +210,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_deafness'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_deafness', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_deafness'); ?>
@@ -219,7 +218,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_disability_hearing'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_disability_hearing', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_disability_hearing'); ?>
@@ -227,7 +226,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_deafblindness'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_deafblindness', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_deafblindness'); ?>
@@ -235,7 +234,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_phisical_disability'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_phisical_disability', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_phisical_disability'); ?>
@@ -243,7 +242,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_intelectual_disability'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_intelectual_disability', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_intelectual_disability'); ?>
@@ -251,7 +250,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_multiple_disabilities'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_multiple_disabilities', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_multiple_disabilities'); ?>
@@ -259,7 +258,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_autism'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_autism', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_autism'); ?>
@@ -267,7 +266,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_aspenger_syndrome'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_aspenger_syndrome', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_aspenger_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_aspenger_syndrome'); ?>
@@ -275,7 +274,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_rett_syndrome'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_rett_syndrome', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_rett_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_rett_syndrome'); ?>
@@ -283,7 +282,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_childhood_disintegrative_disorder'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_childhood_disintegrative_disorder', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_childhood_disintegrative_disorder', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_childhood_disintegrative_disorder'); ?>
@@ -291,7 +290,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_gifted'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency_type_gifted', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency_type_gifted'); ?>
@@ -299,7 +298,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_aid_lector'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_aid_lector', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_aid_lector'); ?>
@@ -307,7 +306,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_aid_transcription'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_aid_transcription', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_aid_transcription'); ?>
@@ -315,7 +314,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_interpreter_guide'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_interpreter_guide', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_interpreter_guide'); ?>
@@ -323,7 +322,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_interpreter_libras'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_interpreter_libras', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_interpreter_libras'); ?>
@@ -331,7 +330,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_lip_reading'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_lip_reading', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_lip_reading'); ?>
@@ -339,7 +338,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_16'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_16', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_zoomed_test_16', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_zoomed_test_16'); ?>
@@ -347,7 +346,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_20'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_20', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_zoomed_test_20', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_zoomed_test_20'); ?>
@@ -355,7 +354,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_24'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_zoomed_test_24', array('class' => 'control-label'), array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_zoomed_test_24'); ?>
@@ -363,7 +362,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_braille_test'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_braille_test', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_braille_test'); ?>
@@ -371,7 +370,7 @@
                         </div>
 
                                             <div class="control-group">
-                            <?php echo $form->labelEx($modelStudentIdentification,'resource_none'); ?>
+                            <?php echo $form->labelEx($modelStudentIdentification,'resource_none', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'resource_none'); ?>
@@ -393,7 +392,7 @@
 
                     <?php /*
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'register_type'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'register_type', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'register_type', array('size' => 2, 'maxlength' => 2)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'register_type'); ?>
@@ -401,7 +400,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'school_inep_id_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'school_inep_id_fk'); ?>
@@ -409,7 +408,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'student_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'student_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'student_fk'); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'student_fk'); ?>
@@ -418,7 +417,7 @@
                     */ ?>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
@@ -426,7 +425,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_complement', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_complement', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
@@ -434,7 +433,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                    
                             <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', 
@@ -444,7 +443,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', 
                                         CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione um estado","disabled"=>"disabled")); ?>
@@ -453,7 +452,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
@@ -461,7 +460,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null=>"Selecione o modelo","1"=>"Modelo Antigo","2"=>"Modelo Novo"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
@@ -469,7 +468,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null=>"Selecione o tipo","1"=>"Nascimento","2"=>"Casamento"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
@@ -477,7 +476,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
@@ -485,7 +484,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
@@ -493,7 +492,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_book', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
@@ -501,7 +500,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
@@ -509,7 +508,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', 
                                         CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
@@ -526,7 +525,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', 
                                         CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), 
@@ -543,7 +542,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', 
                                         CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'id', 'name'), 
@@ -554,7 +553,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('size' => 32, 'maxlength' => 32, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
@@ -562,7 +561,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
@@ -570,7 +569,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
@@ -578,7 +577,7 @@
                     </div>
 <?php /*
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
@@ -586,7 +585,7 @@
                     </div>
 */ ?>
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null=>"Selecione uma justificativa", "1"=>"Aluno não possui documento", "2"=>"Escola não possui informação de documento do aluno")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
@@ -608,7 +607,7 @@
                     
                     
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null=>"Selecione uma zona", "1"=>"URBANA", "2"=>"RURAL")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
@@ -616,7 +615,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
@@ -624,7 +623,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
@@ -632,7 +631,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
@@ -640,7 +639,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
@@ -648,7 +647,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
@@ -656,7 +655,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', 
                                         CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
@@ -672,7 +671,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', 
                                         CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
