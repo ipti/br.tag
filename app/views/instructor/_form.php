@@ -7,17 +7,19 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="heading-buttons">
     <?php
-    echo $form->errorSummary($modelIdentification);
-    echo $form->errorSummary($modelDocumentsAndAddress);
+    echo $form->errorSummary($modelInstructorIdentification);
+    echo $form->errorSummary($modelInstructorDocumentsAndAddress);
     echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
     echo $form->errorSummary($modelInstructorVariableData);
     echo isset($error['variableData']) ? $error['variableData'] : '';
     echo $form->errorSummary($modelInstructorTeachingData);
+  
     ?>
+    
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
         <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
-        <?php echo CHtml::submitButton($modelIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+        <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
     </div>
     <div class="clearfix"></div>
 </div>
@@ -51,90 +53,97 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'Código da Escola–INEP'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'Código da Escola–INEP'); ?>
                             <?php
-                            echo $form->DropDownList($modelIdentification, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'));
+                            echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
+                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
+                                'prompt' => 'Select School',
+                                'ajax' => array(
+                                    'type' => 'POST',
+                                    'url' => CController::createUrl('Instructor/getClassroom'),
+                                    'update' => '#InstructorTeachingData_classroom_id_fk',
+                                    )));
                             ?>
-                            <?php echo $form->error($modelIdentification, 'school_inep_id_fk'); ?>
+                  
+                            <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
+                        </div>
+
+<!--                        <div class="formField">
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'Identificação única do Profissional escolar em sala de Aula(INEP)'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'inep_id'); ?>
+                        </div> -->
+
+                        <div class="formField">
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'Nome'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'Identificação única do Profissional escolar em sala de Aula(INEP)'); ?>
-                            <?php echo $form->textField($modelIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelIdentification, 'inep_id'); ?>
-                        </div> 
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'Nome'); ?>
-                            <?php echo $form->textField($modelIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                            <?php echo $form->error($modelIdentification, 'name'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'email'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'email'); ?>
-                            <?php echo $form->textField($modelIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
-                            <?php echo $form->error($modelIdentification, 'email'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'nis'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'nis'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'nis'); ?>
-                            <?php echo $form->textField($modelIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
-                            <?php echo $form->error($modelIdentification, 'nis'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'birthday_date'); ?>
-                            <?php echo $form->textField($modelIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <?php echo $form->error($modelIdentification, 'birthday_date'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'sex'); ?>
+                            <?php echo $form->DropDownlist($modelInstructorIdentification, 'sex', array(1 => 'Masculino', 2 => 'Feminino')); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'sex'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'sex'); ?>
-                            <?php echo $form->DropDownlist($modelIdentification, 'sex', array(1 => 'Masculino', 2 => 'Feminino')); ?>
-                            <?php echo $form->error($modelIdentification, 'sex'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'color_race'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'color_race'); ?>
                             <?php
-                            echo $form->DropDownList($modelIdentification, 'color_race', array(0 => "Não Declarada",
+                            echo $form->DropDownList($modelInstructorIdentification, 'color_race', array(0 => "Não Declarada",
                                 1 => "Branca", 2 => "Preta", 3 => "Parda", 4 => "Amarela", 5 => "Indígena"));
                             ?>
-                            <?php echo $form->error($modelIdentification, 'color_race'); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'color_race'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'mother_name'); ?>
-                            <?php echo $form->textField($modelIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
-                            <?php echo $form->error($modelIdentification, 'mother_name'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name'); ?>
+                            <?php echo $form->textField($modelInstructorIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'nationality'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'nationality'); ?>
                             <?php
-                            echo $form->DropDownList($modelIdentification, 'nationality', array(1 => "Brasileira",
+                            echo $form->DropDownList($modelInstructorIdentification, 'nationality', array(1 => "Brasileira",
                                 2 => "Brasileira nascido no Exterior ou Naturalizado", 3 => "Estrangeira"));
                             ?>
-                            <?php echo $form->error($modelIdentification, 'nationality'); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'nationality'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'edcenso_nation_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                             <?php
-                            echo $form->DropDownList($modelIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))
+                            echo $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))
                                 , 'disabled' => 'true'));
                             ?>
 
 
-                            <?php //echo $form->textField($modelIdentification,'edcenso_nation_fk');   ?>
-                            <?php echo $form->error($modelIdentification, 'edcenso_nation_fk'); ?>
+                            <?php //echo $form->textField($modelInstructorIdentification,'edcenso_nation_fk');   ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                             <?php
-                            echo $form->DropDownList($modelIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
+                            echo $form->DropDownList($modelInstructorIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Select State',
                                 'ajax' => array(
                                     'type' => 'POST',
@@ -143,81 +152,81 @@ $form = $this->beginWidget('CActiveForm', array(
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                     )));
                             ?>                    
-                            <?php echo $form->error($modelIdentification, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'edcenso_city_fk'); ?>
-                            <?php echo $form->DropDownList($modelIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelIdentification->edcenso_uf_fk)), 'id', 'name')); ?>                    
-                            <?php echo $form->error($modelIdentification, 'edcenso_city_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk'); ?>
+                            <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name')); ?>                    
+                            <?php echo $form->error($modelInstructorIdentification, 'edcenso_city_fk'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency'); ?>
 
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency', array(0 => "Não", 1 => "Sim"));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency'); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency', array(0 => "Não", 1 => "Sim"));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_blindness'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_blindness', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency_type_blindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_blindness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness', array('disabled' => true)); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_blindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_low_vision'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_low_vision', array('disabled' => true)); ?>
-                            <?php // echo $form->DropDownList($modelIdentification, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_low_vision'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_low_vision'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('disabled' => true)); ?>
+                            <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_low_vision'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_deafness'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_deafness', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_deafness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafness'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafness', array('disabled' => true)); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafness'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_disability_hearing'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_disability_hearing', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_disability_hearing'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_disability_hearing'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('disabled' => true)); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_disability_hearing'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_deafblindness'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_deafblindness', array('disabled' => true)); ?>
-                            <?php // echo $form->DropDownList($modelIdentification, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_deafblindness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafblindness'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('disabled' => true)); ?>
+                            <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafblindness'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_phisical_disability'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_phisical_disability', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_phisical_disability'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_phisical_disability'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('disabled' => true)); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_phisical_disability'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelIdentification, 'deficiency_type_intelectual_disability'); ?>
-                            <?php echo CHtml::activeCheckBox($modelIdentification, 'deficiency_type_intelectual_disability', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelIdentification, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_intelectual_disability'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_intelectual_disability'); ?>
+                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('disabled' => true)); ?>
+                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_intelectual_disability'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php //echo $form->labelEx($modelIdentification, 'deficiency_type_multiple_disabilities');  ?>
+                            <?php //echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_multiple_disabilities');  ?>
                             <?php //echo $form->DropDownList('', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                 <!--                <select id="dt_multiple_disabilities" disabled="disabled">
                                    <option value="0">Não</option> 
                                    <option value="1">Sim</option> 
                                 </select>-->
-                            <?php echo $form->hiddenField($modelIdentification, 'deficiency_type_multiple_disabilities'); ?>
-                            <?php echo $form->error($modelIdentification, 'deficiency_type_multiple_disabilities'); ?>
+                            <?php echo $form->hiddenField($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
+                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                         </div>
                     </div>
                 </div>
@@ -232,64 +241,64 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="separator"></div>
 
 
+<!--                        <div class="formField">
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
+                        </div>-->
+
+<!--                        <div class="formField">
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
+                        </div>-->
+
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'school_inep_id_fk'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'school_inep_id_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'inep_id'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'inep_id'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence'); ?>
+                            <?php echo $form->DropDownlist($modelInstructorDocumentsAndAddress, 'area_of_residence', array(1 => 'URBANA', 2 => 'RURAL')); ?>                    
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'area_of_residence'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'cpf'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'cpf'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'area_of_residence'); ?>
-                            <?php echo $form->DropDownlist($modelDocumentsAndAddress, 'area_of_residence', array(1 => 'URBANA', 2 => 'RURAL')); ?>                    
-                            <?php echo $form->error($modelDocumentsAndAddress, 'area_of_residence'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'cep'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'cep'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address_number', array('size' => 10, 'maxlength' => 10)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address_number'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'address'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'address'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'complement'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'complement'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'address_number'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'address_number', array('size' => 10, 'maxlength' => 10)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'address_number'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'complement'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'complement'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'neighborhood'); ?>
-                            <?php echo $form->textField($modelDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
-                            <?php echo $form->error($modelDocumentsAndAddress, 'neighborhood'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                             <?php
-                            echo $form->DropDownList($modelDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
+                            echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Select State',
                                 'ajax' => array(
                                     'type' => 'POST',
@@ -298,13 +307,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                     )));
                             ?>                    
-                            <?php echo $form->error($modelDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                         </div>
 
                         <div class="formField">
-                            <?php echo $form->labelEx($modelDocumentsAndAddress, 'edcenso_city_fk'); ?>
-                            <?php echo $form->DropDownList($modelDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name')); ?>                    
-                            <?php echo $form->error($modelDocumentsAndAddress, 'edcenso_city_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
+                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name')); ?>                    
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         </div> 
 
                     </div>
@@ -331,17 +340,17 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
-                        <div class="formField">
+<!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
-                        </div>
+                        </div>-->
 
-                        <div class="formField">
+<!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'inep_id'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'inep_id'); ?>
-                        </div>
+                        </div>-->
 
                         <div class="formField">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'scholarity'); ?>
@@ -638,7 +647,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="separator"></div>
 
 
-                        <div class="formField">
+<!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'school_inep_id_fk'); ?>
                              <?php
                             echo $form->DropDownList($modelInstructorTeachingData, 'school_inep_id_fk', CHtml::listData(
@@ -657,13 +666,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'inep_id'); ?>
                             <?php echo $form->textField($modelInstructorTeachingData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'inep_id'); ?>
-                        </div>
+                        </div>-->
 
-                        <div class="formField">
+<!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_inep_id'); ?>
                             <?php echo $form->textField($modelInstructorTeachingData, 'classroom_inep_id', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'classroom_inep_id'); ?>
-                        </div>
+                        </div>-->
 
                         <div class="formField">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_id_fk'); ?>
@@ -696,123 +705,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_1_fk'); ?>
                             <?php
                             echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_1_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
+                                            EdcensoDiscipline::model()->findAll(), 'id', 'name')
+                                    , array('multiple'=>true, 'key'=>'id'));
                             ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'discipline_1_fk'); ?>
                         </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_2_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_2_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_2_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_3_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_3_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_3_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_4_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_4_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_4_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_5_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_5_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_5_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_6_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_6_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_6_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_7_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_7_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_7_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_8_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_8_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_8_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_9_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_9_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_9_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_10_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_10_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_10_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_11_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_11_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_11_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_12_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_12_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_12_fk'); ?>
-                        </div>
-
-                        <div class="formField">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_13_fk'); ?>
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_13_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_13_fk'); ?>
-                        </div>
-
                     </div> 
                 </div>
-
-
                 <?php $this->endWidget(); ?>
             </div>
         </div>
@@ -1436,8 +1335,38 @@ $form = $this->beginWidget('CActiveForm', array(
 
         //=============================================
         //==============INSTRUCTOR TEACHING DATA
-        //var formInstructorTeachingData = '#InstructorTeachingData_';
-            
+        var formInstructorTeachingData = '#InstructorTeachingData_';
+            $(formInstructorTeachingData+"discipline_1_fk").change(function(){
+            while($(this).val().length > 13){
+                $(formInstructorTeachingData+"discipline_1_fk").val($(formInstructorTeachingData+"discipline_1_fk"));
+                alert('Máximo de disciplinas: 13')
+            }
+        });
+        
+        var compAct = [];
+        
+        $(formInstructorTeachingData+"discipline_1_fk").mousedown(function(){
+            compAct = $(this).val();
+        });
+        
+        $(formInstructorTeachingData+"discipline_1_fk").mouseup(function(e){
+            if (!e.shiftKey){
+                value = $(this).val()[0];
+                
+                remove = 0;
+                compAct = jQuery.grep(compAct, function( a ) {
+                    if(a === value) remove++;
+                    return a !== value;
+                });
+                
+                if(remove == 0) compAct.push(value);
+                $(this).val(compAct);
+            }
+        });
+        
+        $(formInstructorTeachingData+"discipline_1_fk").keypress(function(e) {
+            console.log();
+        });
         //=============================================
         
     });

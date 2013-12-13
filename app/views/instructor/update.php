@@ -2,7 +2,7 @@
     <?php
 $this->breadcrumbs=array(
 	'Instructor Identifications'=>array('index'),
-	$model->name=>array('view','id'=>$model->id),
+	$modelInstructorIdentification->name=>array('view','id'=>$modelInstructorIdentification->id),
 	'Update',
 );
 
@@ -16,7 +16,10 @@ $this->breadcrumbs=array(
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('model'=>$model,'title'=>$title)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array('modelInstructorIdentification'=>$modelInstructorIdentification,
+                'modelInstructorDocumentsAndAddress'=>$modelInstructorDocumentsAndAddress
+                ,'modelInstructorVariableData'=>$modelInstructorVariableData,
+                'modelInstructorTeachingData'=>$modelInstructorTeachingData,'title'=>$title)); ?>        </div>
 <!--        <div class="columntwo">
             <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>-->
