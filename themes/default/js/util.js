@@ -14,6 +14,7 @@ dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9
 
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
+stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
 stringRules.personName = /^[A-Z]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
 stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
@@ -208,4 +209,28 @@ function isset(variable){
 }
 
 
+function errorMessage(id,message){
+    removeErrorMessage(id);
+    id = $(id).attr("id");
+    $("#"+id).parent().append("<span id='"+id+"_error' class='error'><br/>"+message+"</span>");
+}
+function removeErrorMessage(id){
+    $(id+'_error').remove();
+}
+function errorNotification(id){
+    $(id).parent().children().css("border-color", "red");
+    $(id).parent().children().css("color", "red");
+}
+function removeErrorNotification(id){
+    $(id).parent().children().css("border-color", "");
+    $(id).parent().children().css("color", "");
+}
 
+function addError(id, message){
+    errorMessage(id, message);
+    errorNotification(id);
+}
+function removeError(id){
+    removeErrorMessage(id);
+    removeErrorNotification(id);
+}
