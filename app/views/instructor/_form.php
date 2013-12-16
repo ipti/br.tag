@@ -7,6 +7,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="heading-buttons">
     <?php
+    $isModel = isset($modelInstructorIdentification);
     echo $form->errorSummary($modelInstructorIdentification);
     echo $form->errorSummary($modelInstructorDocumentsAndAddress);
     echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
@@ -31,8 +32,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul>
                 <li class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i>Identificação</a></li>
-                <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i>Documentos</a></li>
-                <li><a class="glyphicons imac" href="#instructor-address" data-toggle="tab"><i></i>Endereço</a></li>
+                <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i>Documentos e Endereço</a></li>
                 <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i>Dados Variáveis</a></li>
                 <li><a class="glyphicons cutlery" href="#instructor-teaching" data-toggle="tab"><i></i>Dados de Ensino</a></li>
             </ul>
@@ -48,6 +48,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
                         </div>
 
+                        <div class="separator"></div>
                         <div class="separator"></div>
 
 
@@ -70,7 +71,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'Identificação única do Profissional escolar em sala de Aula(INEP)'); ?>
-                            <?php echo $form->textField($modelInstructorIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
+                            <?php 
+                            echo $form->textField($modelInstructorIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'inep_id'); ?>
                         </div> -->
 
@@ -130,11 +132,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="formField">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
-                            <?php
-                            echo $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))
+                             <?php 
+                            echo ($isModel && isset($modelInstructorIdentification->edcenso_nation_fk) ) ? 
+                             $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))))
+                            : $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))
                                 , 'disabled' => 'true'));
                             ?>
-
 
                             <?php //echo $form->textField($modelInstructorIdentification,'edcenso_nation_fk');   ?>
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
@@ -171,8 +174,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="formField">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
-                            <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness', array('disabled' => true)); ?>
-                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_blindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
+                      
+                            <?php 
+                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_blindness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness')
+                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness', array('disabled' => true));
+                            ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
                         </div>
 
@@ -238,6 +244,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
                         </div>
 
+                        <div class="separator"></div>
                         <div class="separator"></div>
 
 
@@ -326,6 +333,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
 
                         <div class="separator"></div>
+                        <div class="separator"></div>
                     </div>
                 </div>
 
@@ -336,7 +344,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
 
                         <div class="separator"></div>
-
+                        <div class="separator"></div>
 
 
 
@@ -645,7 +653,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
 
                         <div class="separator"></div>
-
+                        <div class="separator"></div> 
 
 <!--                        <div class="formField">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'school_inep_id_fk'); ?>

@@ -33,14 +33,15 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
-	'model'=>$model,
+	'modelInstructorIdentification' => $modelInstructorIdentification,
+
 )); ?>
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'instructor-identification-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
+	'dataProvider'=>$modelInstructorIdentification->search(),
+	'filter'=>$modelInstructorIdentification,
 	'columns'=>array(
 		'register_type',
 		'school_inep_id_fk',

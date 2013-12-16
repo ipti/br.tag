@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Instructor Identifications'=>array('index'),
-	$model->name,
+	$modelInstructorIdentification->name,
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification.');
 $this->menu=array(
@@ -13,10 +13,10 @@ array('label'=> Yii::t('default', 'List InstructorIdentification'), 'url'=>array
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
             <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View InstructorIdentification # '.$model->id.' :')?></div></div>
+                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'View InstructorIdentification # '.$modelInstructorIdentification->id.' :')?></div></div>
                 <div class="panelGroupBody">
                     <?php $this->widget('zii.widgets.CDetailView', array(
-                    'data'=>$model,
+                    'data'=>$modelInstructorIdentification,
                     'attributes'=>array(
                     		'register_type',
 		'school_inep_id_fk',
