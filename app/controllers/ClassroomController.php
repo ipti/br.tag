@@ -48,8 +48,8 @@ class ClassroomController extends Controller
 
             $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
             
+            echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de assistencia'), true);
             if($schoolStructure != null){
-                echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de assistencia'), true);
 
                 if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
                      echo CHtml::tag('option', array('value' => '4', "selected" =>"selected"),CHtml::encode('Atividade Complementar'), true);
@@ -88,7 +88,7 @@ class ClassroomController extends Controller
             $data = EdcensoComplementaryActivityType::model()->findAll($where);
             $data = CHtml::listData($data, 'id', 'name');
             
-            echo CHtml::tag('option', array('value' => 'null'), CHtml::encode('(Select Complementary Activity)'), true);
+            echo CHtml::tag('option', array('value' => 'null'), CHtml::encode('Selecione a atividade complementar'), true);
             foreach ($data as $value => $name) {
                 echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
             }
@@ -106,7 +106,7 @@ class ClassroomController extends Controller
             $result['AeeActivity'] = $classroom->assistance_type != 5;
             
             $where = '';
-            $result['Modality'] = CHtml::tag('option', array('value' => null),CHtml::encode('(Select Modality)'), true);
+            $result['Modality'] = CHtml::tag('option', array('value' => null),CHtml::encode('Selecione a modalidade'), true);
             
             if($result['MaisEdu']){
                 $result['Modality'] .= CHtml::tag('option', array('value' => '3', "selected" => "selected"),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
@@ -128,7 +128,7 @@ class ClassroomController extends Controller
             }
             $data = CHtml::listData($data, 'id', 'name');
 
-            $result['Stage'] = CHtml::tag('option', array('value' => null), '(Select Stage vs Modality)', true);
+            $result['Stage'] = CHtml::tag('option', array('value' => null), 'Selecione o estágio vs modalidade', true);
 
             foreach ($data as $value => $name) {
                 $result['Stage'] .= CHtml::tag('option', array('value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" => $classroom->edcenso_stage_vs_modality_fk == $value? "selected" : "deselected" ), CHtml::encode($name), true);
@@ -185,7 +185,7 @@ class ClassroomController extends Controller
                             || $model->week_days_friday 
                             || $model->week_days_saturday ){
                         if($model->save()){
-                                Yii::app()->user->setFlash('success', Yii::t('default', 'Classroom Created Successful:'));
+                                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma Criada com Sucesso:'));
                                 $this->redirect(array('index'));
                                }
                      }
@@ -273,7 +273,7 @@ class ClassroomController extends Controller
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso:'));
                 $this->redirect(array('index'));
             }else{
-                throw new CHttpException(404,'The requested page does not exist.');
+                throw new CHttpException(404,'A página requisitada não existe.');
             }
             
             
@@ -328,7 +328,7 @@ class ClassroomController extends Controller
 	{
 		$model=Classroom::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+			throw new CHttpException(404,'A página requisitada não existe.');
 		return $model;
 	}
 

@@ -52,26 +52,6 @@
                         
                     <div class="separator"></div>
 
-                    <!--
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'latitude',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'latitude',array('size'=>20,'maxlength'=>20)); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'latitude'); ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <?php //echo $form->labelEx($modelSchoolIdentification,'longitude',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php //echo $form->textField($modelSchoolIdentification,'longitude',array('size'=>20,'maxlength'=>20)); ?>
-                            <?php //echo $form->error($modelSchoolIdentification,'longitude'); ?>
-                        </div>
-                    </div>
-
-                    -->
-
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'CEP', array('class' => 'control-label')); ?>
                         <div class="controls">
@@ -116,7 +96,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'Estado', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                'prompt' => 'Select State'
+                                'prompt' => 'Selecione o estado'
                                 ,'ajax' => array(
                                     'type' => 'POST',
                                     'url' => CController::createUrl('school/getcities'),
@@ -131,10 +111,12 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'Cidade', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
-                            echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelSchoolIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array('ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('school/getdistricts'),
-                                    'update' => '#SchoolIdentification_edcenso_district_fk',
+                            echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelSchoolIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
+                                array('prompt' => 'Selecione a cidade',
+                                    'ajax' => array(
+                                        'type' => 'POST',
+                                        'url' => CController::createUrl('school/getdistricts'),
+                                        'update' => '#SchoolIdentification_edcenso_district_fk',
                                     )));
                             ?>  
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
@@ -144,7 +126,8 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'Distrito', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'));
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'),
+                                    array('prompt' => 'Selecione o distrito',));
                             ?>  
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
                         </div>
@@ -167,17 +150,6 @@
                             <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                         </div>
                     </div>
-                    <!--
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'Telefone Público',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'public_phone_number',array('size'=>8,'maxlength'=>8)); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'public_phone_number'); ?>
-                        </div>
-                    </div>
-
-                    -->
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'Outro telefone', array('class' => 'control-label')); ?>
@@ -186,18 +158,6 @@
                             <?php echo $form->error($modelSchoolIdentification, 'other_phone_number'); ?>
                         </div>
                     </div>
-
-                    <!--
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'Fax',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'fax_number',array('size'=>8,'maxlength'=>8)); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'fax_number'); ?>
-                        </div>
-                    </div>
-
-                    -->
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'E-mail', array('class' => 'control-label')); ?>
@@ -225,7 +185,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(1 => 'Em Atividade', 2 => 'paralisada', 3 => 'extinta')); ?>
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'paralisada', 3 => 'extinta')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                         </div>
                     </div>
@@ -256,7 +216,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'));
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
                             ?>
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                         </div>
@@ -265,7 +225,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada')); ?>
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa',1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
                         </div>
                     </div>
@@ -273,59 +233,16 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'location', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'location', array(1 => 'Urbano', 2 => 'Rural')); ?>
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'location', array(null => 'Selecione a localização',1 => 'Urbano', 2 => 'Rural')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'location'); ?>
                         </div>
                     </div>
 
-                    <!--
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'private_school_category',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'private_school_category'); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'private_school_category'); ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'public_contract',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'public_contract'); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'public_contract'); ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'private_school_maintainer_fk',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php //echo $form->textField($modelSchoolIdentification,'private_school_maintainer_fk'); ?>
-                            <?php //echo $form->error($modelSchoolIdentification,'private_school_maintainer_fk'); ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'private_school_maintainer_cnpj',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'private_school_maintainer_cnpj',array('size'=>14,'maxlength'=>14)); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'private_school_maintainer_cnpj'); ?>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification,'private_school_cnpj',array('class'=>'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification,'private_school_cnpj',array('size'=>14,'maxlength'=>14)); ?>
-                            <?php echo $form->error($modelSchoolIdentification,'private_school_cnpj'); ?>
-                        </div>
-                    </div>
-
-                    -->
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação')); ?>
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação',0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
                         </div>
                     </div>
@@ -340,31 +257,15 @@
                 <div class=" span6">
                     <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
                   
-                <div class="separator"></div>
-                            
-<?php /*
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'register_type'); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'register_type',array('size'=>2,'maxlength'=>2)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'register_type'); ?>
-                    </div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'school_inep_id_fk'); ?>
-
-                        <?php echo $form->textField($modelSchoolStructure,'school_inep_id_fk',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'school_inep_id_fk'); ?>
-                    </div>
-*/ ?>
-                        <div class="separator"></div>
+                    <div class="separator"></div>
+                    <div class="separator"></div>
                             
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'manager_cpf', array('class' => 'control-label')); ?>
                             <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'manager_cpf', array('size' => 11, 'maxlength' => 11)); ?>
                             <?php echo $form->error($modelSchoolStructure, 'manager_cpf'); ?>
-                        </div></div>
+                        </div></div> 
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'manager_name', array('class' => 'control-label')); ?>
@@ -1341,91 +1242,176 @@
         
         $(formIdentification+'initial_date').mask("99/99/9999");
         $(formIdentification+'initial_date').focusout(function() {
+            var id = '#'+$(this).attr("id");
             initial_date = stringToDate($(formIdentification+'initial_date').val());    
             if(!validateDate($(formIdentification+'initial_date').val()) 
                 || !(initial_date.year >= actual_year - 1 
-                && initial_date.year <= actual_year)) 
+                && initial_date.year <= actual_year)) {
                 $(formIdentification+'initial_date').attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formIdentification+'final_date').mask("99/99/9999");
         $(formIdentification+'final_date').focusout(function() {
+            var id = '#'+$(this).attr("id");
             final_date = stringToDate($(formIdentification+'final_date').val());
             if(!validateDate($(formIdentification+'final_date').val())
                 || !(final_date.year >= actual_year 
                 && final_date.year <= actual_year + 1)
-                || !(final_date.asianStr > initial_date.asianStr)
-        ) 
+                || !(final_date.asianStr > initial_date.asianStr)) {
                 $(formIdentification+'final_date').attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formIdentification+'name').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateSchoolName($(this).val())) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateSchoolName($(id).val())) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
-        $(formIdentification+'cep').focusout(function() { 
-            if(!validateCEP($(this).val())) 
-                $(this).attr('value','');
+        $(formIdentification+'cep, '+formIdentification+'inep_id').focusout(function() { 
+            var id = '#'+$(this).attr("id");
+            if(!validateCEP($(id).val())) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
+        
+        
+        $(formIdentification+'ddd').focusout(function() { 
+            var id = '#'+$(this).attr("id");
+            if(!validateDDD($(id).val()))  {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
+        }); 
         
         $(formIdentification+'address').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateAddress($(this).val(),100)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateAddress($(id).val(),100)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         $(formIdentification+'address_number').focusout(function() {
-            $(this).val($(this).val().toUpperCase()); 
-            if(!validateAddress($(this).val(),10)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase()); 
+            if(!validateAddress($(id).val(),10)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         $(formIdentification+'address_complement').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateAddress($(this).val(),20)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateAddress($(id).val(),20)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         $(formIdentification+'address_neighborhood').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateAddress($(this).val(),50)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateAddress($(id).val(),50)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formIdentification+'phone_number').focusout(function() { 
-            if(!validatePhone($(this).val(),9)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            if(!validatePhone($(id).val(),9)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         $(formIdentification+'public_phone_number').focusout(function() { 
-            if(!validatePhone($(this).val(),8)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            if(!validatePhone($(id).val(),8)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         $(formIdentification+'other_phone_number').focusout(function() { 
-            if(!validatePhone($(this).val(),9)) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            if(!validatePhone($(id).val(),9)) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formIdentification+'email').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateEmail($(this).val())) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateEmail($(id).val())) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formStructure+'manager_cpf').focusout(function() { 
-            if(!validateCpf($(this).val())) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            if(!validateCpf($(id).val()))  {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formStructure+'manager_name').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            var ret = validateNamePerson(($(this).val()));
-            if(!ret[0]) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            var ret = validateNamePerson(($(id).val()));
+            if(!ret[0]) {
+                $(id).attr('value','');
+                addError(id, "Campo Endereço não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formStructure+'manager_email').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateEmail($(this).val())) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            $(id).val($(id).val().toUpperCase());
+            if(!validateEmail($(id).val())) {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         $(formStructure+'used_classroom_count, '
@@ -1446,8 +1432,13 @@
             + formStructure+'student_computers_count, '
             + formStructure+'employees_count '
         ).focusout(function() {
-            if(!validateCount($(this).val())) 
-                $(this).attr('value','');
+            var id = '#'+$(this).attr("id");
+            if(!validateCount($(id).val()))  {
+                $(id).attr('value','');
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
         });
         
         

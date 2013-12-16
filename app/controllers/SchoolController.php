@@ -236,7 +236,7 @@ class SchoolController extends Controller {
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => null), '(Select a city)', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione a cidade', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
@@ -249,7 +249,7 @@ class SchoolController extends Controller {
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
         $data = CHtml::listData($data, 'code', 'name');
 
-        echo CHtml::tag('option', array('value' => null), '(Select a district)', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione o distrito', true);
 
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
@@ -295,7 +295,7 @@ class SchoolController extends Controller {
                         || $modelSchoolStructure->operation_location_prison_unity
                         || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'School Created Successful:'));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola criada com sucesso:'));
                         $this->redirect(array('index'));
                     }
                 }
@@ -360,7 +360,7 @@ class SchoolController extends Controller {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
                     $this->redirect(array('index'));
             }else{
-                throw new CHttpException(404,'The requested page does not exist.');
+                throw new CHttpException(404,'A página requisitada não existe.');
             }
         
         
@@ -428,7 +428,7 @@ class SchoolController extends Controller {
         }
 
         if ($return === null)
-            throw new CHttpException(404, 'The requested page does not exist.');
+            throw new CHttpException(404, 'A página requisitada não existe.');
         return $return;
 
     }
