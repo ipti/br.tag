@@ -26,6 +26,8 @@
 
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.min.css" rel="stylesheet" type="text/css" />
+        
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/uniform.css" rel="stylesheet" type="text/css" />
 
         <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
@@ -42,6 +44,8 @@
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
         
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+        
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
