@@ -290,67 +290,46 @@
                         
                         
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_building', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_building'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_temple', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_temple', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_temple'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_businness_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_businness_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_businness_room'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_instructor_house', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_instructor_house', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_instructor_house'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_other_school_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other_school_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_other_school_room'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_barracks', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_barracks', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_barracks'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_socioeducative_unity', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_socioeducative_unity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_socioeducative_unity'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_prison_unity', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_prison_unity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_prison_unity'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'operation_location_other', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'operation_location_other'); ?>
-                        </div></div>
+                            <label class="control-label">Local de Funcionamento da Escola</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Pŕedio escolar
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_temple', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Templo / Igreja
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_businness_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Salas de empresa
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_instructor_house', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Casa do professor
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other_school_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Salas em outra escola
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_barracks', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Galpão/rancho/paiol/galpão
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_socioeducative_unity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Unidade de internação sóioeducativa
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_prison_unity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Unidade de prisional
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Outros
+                                </label>
+                            </div>
+                        </div>
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation', array('class' => 'control-label')); ?>
@@ -417,347 +396,226 @@
                     </div></div>
 */ ?>
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'consumed_water_type', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'consumed_water_type', array(null => "Selecione o tipo de água", "1" => "Não filtrada", "2" => "Filtrada")); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'consumed_water_type'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'water_supply_public', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'water_supply_public'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'water_supply_artesian_well', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_artesian_well', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'water_supply_artesian_well'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'water_supply_well', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_well'); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'water_supply_well'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'water_supply_river', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_river', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'water_supply_river'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'water_supply_inexistent', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'water_supply_inexistent'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'energy_supply_public', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'energy_supply_public'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'energy_supply_generator', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_generator', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'energy_supply_generator'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'energy_supply_other', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_other', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'energy_supply_other'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'energy_supply_inexistent', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'energy_supply_inexistent'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'sewage_public', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'sewage_public'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'sewage_fossa', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'sewage_fossa'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'sewage_inexistent', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'sewage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'sewage_inexistent'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_collect', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_collect', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_collect'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_burn', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_burn', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_burn'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_throw_away', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_throw_away', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_throw_away'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_recycle', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_recycle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_recycle'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_bury', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_bury', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_bury'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'garbage_destination_other', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_other', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'garbage_destination_other'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_principal_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_principal_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_principal_room'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_instructors_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructors_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_instructors_room'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_secretary_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_secretary_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_secretary_room'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_info_lab', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_info_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_info_lab'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_science_lab', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_science_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_science_lab'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_aee_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_aee_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_aee_room'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_indoor_sports_court', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_indoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_indoor_sports_court'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_outdoor_sports_court', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_outdoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_outdoor_sports_court'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_kitchen', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_kitchen', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_kitchen'); ?>
-                        </div></div>
+                            <label class="control-label">Abastecimento de água</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Rede pública
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_artesian_well', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Poço artesiano
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_well'); ?>
+                                    Cacimba / cisterna / poço
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_river', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Fonte / rio / igarapé / riacho / córrego
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Inexistente
+                                </label>
+                            </div>
+                        </div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_library', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_library', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_library'); ?>
-                        </div></div>
+                            <label class="control-label">Abastecimento de energia</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Rede pública
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_generator', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Gerador
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Outros (energia alternativa)
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Inexistente
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Esgoto Sanitário</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Rede pública
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_fossa', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Fossa
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'sewage_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Inexistente
+                                </label>
+                            </div>
+                        </div>
                         
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_reading_room', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_reading_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_reading_room'); ?>
-                        </div></div>
-                        
+                            <label class="control-label">Destinação do Lixo</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_collect', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Coleta Périódica
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_burn', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Queima
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_throw_away', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Joga em outra área
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_recycle', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Recicla
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_bury', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Enterra
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Outros
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_playground', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_playground', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_playground'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_nursery', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_nursery', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_nursery'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_outside_bathroom', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_outside_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_outside_bathroom'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_inside_bathroom', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_inside_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_inside_bathroom'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_child_bathroom', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_child_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_child_bathroom'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_prysical_disability_bathroom', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_prysical_disability_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_prysical_disability_bathroom'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_physical_disability_support', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_physical_disability_support', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_physical_disability_support'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_bathroom_with_shower', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_bathroom_with_shower', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_bathroom_with_shower'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_refectory', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_refectory', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_refectory'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_storeroom', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_storeroom', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_storeroom'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_warehouse', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_warehouse', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_warehouse'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_auditorium', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_auditorium', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_auditorium'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_covered_patio', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_covered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_covered_patio'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_uncovered_patio', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_uncovered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_uncovered_patio'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_student_accomodation', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_student_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_student_accomodation'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_instructor_accomodation', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructor_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_instructor_accomodation'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_green_area', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_green_area', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_green_area'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_laundry', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_laundry', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_laundry'); ?>
-                        </div></div>
-                        
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelSchoolStructure, 'dependencies_none', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'dependencies_none'); ?>
-                        </div></div>
+                            <label class="control-label">Dependências da escola</label>
+                            <div class="widget-body uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_principal_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Sala de diretoria
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructors_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Sala de professores
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_secretary_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Sala de secretaria
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_info_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Laboratório de informática
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_science_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Laboratório de ciências
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_aee_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Sala de recursos multifuncionais para Atendimento Educacional Especializado 
+(AEE)
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_indoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Quadra de esportes coberta
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_outdoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Quadra de esporte descoberta
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_kitchen', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Cozinha
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_library', array('value' => 1, 'uncheckValue' => 0)); ?>                                            Biblioteca
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_reading_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Sala de leitura
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_playground', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Parque infantil
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_nursery', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Berçário
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_outside_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Banheiro fora do prédio
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_inside_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Banheiro dentro do prédio
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_child_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Banheiro adequado a educação infantil
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_prysical_disability_bathroom', array('value' => 1, 'uncheckValue' => 0)); ?><input type="checkbox" class="checkbox" value="1" />
+                                    Banheiro adequado a alunos com deficiência ou mobilidade reduzida
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_physical_disability_support', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Dependências e vias adequadas a alunos com deficiência ou mobildiade reduzida
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_bathroom_with_shower', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Banheiro com chuveiro
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_refectory', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Refeitório
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_storeroom', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Despensa
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_warehouse', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Almoxarifado
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_auditorium', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Auditório
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_covered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Pátio coberto
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_uncovered_patio', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Pátio descoberto
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_student_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Alojamento de aluno
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_instructor_accomodation', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Alojamento de professor
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_green_area', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Área verde
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_laundry', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Lavanderia
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_none', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    Nenhuma das relacionadas
+                                </label>
+                            </div>
+                        </div>
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label')); ?>
