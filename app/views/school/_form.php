@@ -6,7 +6,7 @@
 <div class="heading-buttons">
     <?php echo $form->errorSummary($modelSchoolIdentification); ?>
     <?php echo $form->errorSummary($modelSchoolStructure); ?>
-    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
+    <h3><?php echo $title; ?></h3>
     <div class="buttons pull-right">
         <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
         <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
@@ -352,49 +352,6 @@
                             <?php echo $form->error($modelSchoolStructure, 'shared_school_inep_id_1'); ?>
                         </div></div>
 
-                        <?php /*
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_1', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_1',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_1'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_2', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_2',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_2'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_3', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_3',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_3'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_4', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_4',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_4'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_5', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_5',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_5'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_6', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_6',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_6'); ?>
-                    </div></div>
-*/ ?>
                         <div class="control-group">
                             <label class="control-label">Abastecimento de água</label>
                             <div class="widget-body uniformjs margin-left">
@@ -516,8 +473,7 @@
                                 </label>
                                 <label class="checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_aee_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    Sala de recursos multifuncionais para Atendimento Educacional Especializado 
-(AEE)
+                                    Sala de recursos multifuncionais para Atendimento Educacional Especializado (AEE)
                                 </label>
                                 <label class="checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_indoor_sports_court', array('value' => 1, 'uncheckValue' => 0)); ?>
