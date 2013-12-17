@@ -17,8 +17,8 @@
         <div class="columnone" style="padding-right: 1em">
             <?php
             echo $this->renderPartial('_form', array(
-                'modelIdentification' => $modelIdentification,
-                'modelDocumentsAndAddress' => $modelDocumentsAndAddress,
+                'modelInstructorIdentification' => $modelInstructorIdentification,
+                'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
                 'modelInstructorVariableData' => $modelInstructorVariableData,
                 'modelInstructorTeachingData' => $modelInstructorTeachingData,
                 'error' => $error,
