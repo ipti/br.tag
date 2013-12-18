@@ -7,7 +7,6 @@ class SchoolController extends Controller {
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = 'fullmenu';
-    
     private $SCHOOL_IDENTIFICATION = "SchoolIdentification";
     private $SCHOOL_STRUCTURE = "SchoolStructure";
 
@@ -279,11 +278,27 @@ class SchoolController extends Controller {
         // $this->performAjaxValidation($modelSchoolIdentification);
 
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+            if(isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])){
+                $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
+            }
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] = 
+                    isset($sharedSchools[0]) ? $sharedSchools[0] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] = 
+                    isset($sharedSchools[1]) ? $sharedSchools[1] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] = 
+                    isset($sharedSchools[2]) ? $sharedSchools[2] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] = 
+                    isset($sharedSchools[3]) ? $sharedSchools[3] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] = 
+                    isset($sharedSchools[4]) ? $sharedSchools[4] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] = 
+                    isset($sharedSchools[5]) ? $sharedSchools[5] : null;
+            
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
-            
+
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
-            
+
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
@@ -298,6 +313,8 @@ class SchoolController extends Controller {
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola criada com sucesso:'));
                         $this->redirect(array('index'));
                     }
+                } else {
+                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -321,11 +338,28 @@ class SchoolController extends Controller {
         // $this->performAjaxValidation($modelSchoolIdentification);
 
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
+            
+            if(isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])){
+                $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
+            }
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] = 
+                    isset($sharedSchools[0]) ? $sharedSchools[0] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] = 
+                    isset($sharedSchools[1]) ? $sharedSchools[1] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] = 
+                    isset($sharedSchools[2]) ? $sharedSchools[2] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] = 
+                    isset($sharedSchools[3]) ? $sharedSchools[3] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] = 
+                    isset($sharedSchools[4]) ? $sharedSchools[4] : null;
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] = 
+                    isset($sharedSchools[5]) ? $sharedSchools[5] : null;
+            
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
-            
+
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
-                
+            
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
@@ -339,6 +373,8 @@ class SchoolController extends Controller {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
                         $this->redirect(array('view', 'id' => $modelSchoolIdentification->inep_id));
                     }
+                } else {
+                    $modelSchoolStructure->addError('operation_location_building',  Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -355,28 +391,14 @@ class SchoolController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
-            if( $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
-                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()){
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
-                    $this->redirect(array('index'));
-            }else{
-                throw new CHttpException(404,'A página requisitada não existe.');
-            }
-        
-        
-        
-//        
-//        if (Yii::app()->request->isPostRequest) {
-//            // we only allow deletion via POST request
-//            $this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete();
-//            $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete();
-//
-//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//            if (!isset($_GET['ajax']))
-//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//        }
-//        else
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        if ($this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
+                && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
+            $this->redirect(array('index'));
+        } else {
+            throw new CHttpException(404, 'A página requisitada não existe.');
+        }
+
     }
 
     /**
@@ -418,19 +440,18 @@ class SchoolController extends Controller {
      * @param integer the ID of the model to be loaded
      */
     public function loadModel($id, $model) {
-        
+
         $return = null;
-        
+
         if ($model == $this->SCHOOL_IDENTIFICATION) {
             $return = SchoolIdentification::model()->findByPk($id);
-        }else if ($model == $this->SCHOOL_STRUCTURE) {
+        } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
         }
 
         if ($return === null)
             throw new CHttpException(404, 'A página requisitada não existe.');
         return $return;
-
     }
 
     /**

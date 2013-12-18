@@ -292,6 +292,7 @@
                         <div class="control-group">
                             <label class="control-label">Local de Funcionamento da Escola</label>
                             <div class="widget-body uniformjs margin-left">
+                                <div  id="SchoolStructure_operation_location">
                                 <label class="checkbox">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     Pŕedio escolar
@@ -328,6 +329,7 @@
                                     <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     Outros
                                 </label>
+                                </div>
                             </div>
                         </div>
                         
@@ -1255,6 +1257,35 @@
             }
         });
         
+        $(formStructure+'operation_location').focusout(function(){
+            var id = '#'+$(this).attr("id");
+            if($('#SchoolStructure_operation_location input[type=checkbox]:checked').length == 0){
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
+        })
         
         
+        //multiselect
+        var sharedSchool = [];
+        $(formStructure+"shared_school_inep_id_1").mousedown(function(){
+            sharedSchool = $(this).val();
+        });
+        
+        $(formStructure+"shared_school_inep_id_1").mouseup(function(e){
+            if (!e.shiftKey){
+                value = $(this).val()[0];
+                
+                remove = 0;
+                sharedSchool = jQuery.grep(sharedSchool, function( a ) {
+                    if(a === value) remove++;
+                    return a !== value;
+                });
+                
+                if(remove == 0) sharedSchool.push(value);
+                $(this).val(sharedSchool);
+            }
+        });
+        //multiselect
     </script>

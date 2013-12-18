@@ -163,7 +163,9 @@ class ClassroomController extends Controller
 		{
                     // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
                     // de nao deixar criar com todos os campos igual a 0
-                    $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+                    if(isset($_POST['Classroom']["complementary_activity_type_1"])){
+                        $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+                    }
                     $_POST['Classroom']["complementary_activity_type_1"] = 
                             isset($compActs[0]) ? $compActs[0] : null;
                     $_POST['Classroom']["complementary_activity_type_2"] = 
@@ -216,19 +218,20 @@ class ClassroomController extends Controller
 		{
                     if(isset($_POST['Classroom']["complementary_activity_type_1"])){
                         $compActs = $_POST['Classroom']["complementary_activity_type_1"];
-                        $_POST['Classroom']["complementary_activity_type_1"] = 
-                                isset($compActs[0]) ? $compActs[0] : null;
-                        $_POST['Classroom']["complementary_activity_type_2"] = 
-                                isset($compActs[1]) ? $compActs[1] : null;
-                        $_POST['Classroom']["complementary_activity_type_3"] = 
-                                isset($compActs[2]) ? $compActs[2] : null;
-                        $_POST['Classroom']["complementary_activity_type_4"] = 
-                                isset($compActs[3]) ? $compActs[3] : null;
-                        $_POST['Classroom']["complementary_activity_type_5"] = 
-                                isset($compActs[4]) ? $compActs[4] : null;
-                        $_POST['Classroom']["complementary_activity_type_6"] = 
-                                isset($compActs[5]) ? $compActs[5] : null;
                     }
+                    $_POST['Classroom']["complementary_activity_type_1"] = 
+                            isset($compActs[0]) ? $compActs[0] : null;
+                    $_POST['Classroom']["complementary_activity_type_2"] = 
+                            isset($compActs[1]) ? $compActs[1] : null;
+                    $_POST['Classroom']["complementary_activity_type_3"] = 
+                            isset($compActs[2]) ? $compActs[2] : null;
+                    $_POST['Classroom']["complementary_activity_type_4"] = 
+                            isset($compActs[3]) ? $compActs[3] : null;
+                    $_POST['Classroom']["complementary_activity_type_5"] = 
+                            isset($compActs[4]) ? $compActs[4] : null;
+                    $_POST['Classroom']["complementary_activity_type_6"] = 
+                            isset($compActs[5]) ? $compActs[5] : null;
+                    
                     $model->attributes=$_POST['Classroom'];
                     if($model->week_days_sunday 
                             || $model->week_days_monday 
@@ -277,18 +280,7 @@ class ClassroomController extends Controller
             }
             
             
-//		if(Yii::app()->request->isPostRequest)
-//		{
-//			// we only allow deletion via POST request
-//			$this->loadModel($id)->delete();
-//
-//			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//			if(!isset($_GET['ajax']))
-//				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//		}
-//		else
-//			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
-	}
+        }
 
 	/**
 	 * Lists all models.
