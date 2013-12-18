@@ -4,7 +4,7 @@ $this->breadcrumbs=array(
 	'Student Identifications'=>array('index'),
 	'Create',
 );
-    $title=Yii::t('default', 'Create a new StudentIdentification');
+    $title=Yii::t('default', 'Cadastrar novo aluno');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
     $this->menu=array(
         array('label'=> Yii::t('default', 'List StudentIdentification'), 'url'=>array('index'),'description' => Yii::t('default', 'This action list all Student Identifications, you can search, delete and update')),
