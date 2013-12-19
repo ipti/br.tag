@@ -1,13 +1,36 @@
 <?php
 
 return array(
-    'Create'=>'Criar',
-    'Save'=>'Salvar',
-    'Password'=>'Senha',
-    'Name'=>'Nome',
-    'Username'=>'Usuário',
-    'Forgotten Password?'=>'Esqueceu a senha?',
+    'Create' => 'Criar',
+    'Save' => 'Salvar',
+    'Password' => 'Senha',
+    'Name' => 'Nome',
+    'Username' => 'Usuário',
+    'Forgotten Password?' => 'Esqueceu a senha?',
     'Operation Location' => 'Local de Funcionamento',
-    'Fields with * are required.' => 'Campos com * são obrigatórios.'
-)
+    'Fields with * are required.' => 'Campos com * são obrigatórios.',
+    'Identification' => 'Identificação',
+    'Structure' => '',
+    'Equipments' => '',
+    'Human Resources' => '',
+    'Feed' => '',
+    'Educational Data' => '',
+    'Operation Location' => '',
+    'Water Supply' => '',
+    'Energy Supply' => '',
+    'Sewage' => '',
+    'Garbage Destination' => '',
+    'Dependencies' => '',
+    'Sociocultural Didactic Material' => '',
+    'Native Education Language' => '',
+    'Modalities' => '',
+    'Stage' => '',
+    'Documents' => '',
+    'Address' => '',
+    'Documents and Address' => '',
+    'Variable Data' => '',
+    'Teaching Data' => '',
+    'Add New Teacher' => '',
+    'Add New Student' => ''
+        )
 ?>
