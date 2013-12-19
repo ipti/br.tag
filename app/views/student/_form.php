@@ -19,9 +19,9 @@
 
     <div class="widget-head">
             <ul>
-                <li class="active"><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i>Identificação</a></li>
-                <li><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i>Documentos</a></li>
-                <li><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i>Endereço</a></li>
+                <li class="active"><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
+                <li><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
             </ul>
     </div>
 
@@ -33,7 +33,7 @@
             <div class="tab-pane active" id="student-indentify">
                 <div class="row-fluid">
                     <div class=" span6">
-                        <?php echo Yii::t('default', 'Campos com * são obrigatórios.')?>
+                        <?php echo Yii::t('default', 'Fields with * are required.')?>
                     </div>
                     <div class="separator"></div>
 
@@ -44,13 +44,12 @@
                             ?>
                             <?php echo $form->error($modelStudentIdentification, 'school_inep_id_fk'); ?>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'name', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($modelStudentIdentification,'name',array('size'=>60,'maxlength'=>100)); ?>
+                                <?php echo $form->error($modelStudentIdentification,'name'); ?>
+                            </div>
                         </div>
                     </div>
                         
@@ -61,28 +60,26 @@
                             <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
                         </div>
                     </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'birthday', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($modelStudentIdentification,'birthday',array('size'=>10,'maxlength'=>10)); ?>
+                                <?php echo $form->error($modelStudentIdentification,'birthday'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'sex', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->DropDownList($modelStudentIdentification, 'sex', array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino")); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'sex'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'sex', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->DropDownList($modelStudentIdentification,'sex', array(null=>"Selecione o sexo", "1"=>"Masculino", "2"=>"Feminino")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'sex'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->DropDownList($modelStudentIdentification, 'color_race', array(null => "Selecione a cor/raça",
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'color_race', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->DropDownList($modelStudentIdentification,'color_race', array(null => "Selecione a cor/raça",
                                 "0" => "Não declarada",
                                 "1" => "Branca",
                                 "2" => "Preta",
@@ -92,91 +89,89 @@
                             ));?>
                             <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe")); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
+                                            </div>
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'filiation', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->DropDownList($modelStudentIdentification,'filiation', array(null=>"Selecione a filiação", "0"=>"Não declarado/Ignorado", "1"=>"Pai e/ou Mãe")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'filiation'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'mother_name', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelStudentIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'mother_name'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'mother_name', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($modelStudentIdentification,'mother_name',array('size'=>60,'maxlength'=>100,"disabled"=> "disabled")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'mother_name'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'father_name', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelStudentIdentification, 'father_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'father_name'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'father_name', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($modelStudentIdentification,'father_name',array('size'=>60,'maxlength'=>100,"disabled"=> "disabled")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'father_name'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('student/getnations'),
-                                    'update' => '#StudentIdentification_edcenso_nation_fk'
-                                    )));
-                            ?>
-                            <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'nationality', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->dropDownList($modelStudentIdentification,'nationality', array(null=>"Selecione a nacionalidade", "1"=>"Brasileira", "2"=>"Brasileira: Nascido no exterior ou Naturalizado","3"=>"Estrangeira"),
+                                        array('ajax'=>array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('student/getnations'),
+                                                'update' => '#StudentIdentification_edcenso_nation_fk'
+                                            ))); ?>
+                                <?php echo $form->error($modelStudentIdentification,'nationality'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação"));
-                            ?>
-                            <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_nation_fk', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php 
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', 
+                                        CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione uma nação")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'edcenso_nation_fk'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                'ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('student/getcities&rt=0'),
-                                    'update' => '#StudentIdentification_edcenso_city_fk'
-                                ),
-                                "prompt" => "Selecione um estado",
-                                "disabled" => "disabled"));
-                            ?>
-                            <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_uf_fk', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', 
+                                        CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                        array(
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('student/getcities&rt=0'),
+                                                'update' => '#StudentIdentification_edcenso_city_fk'
+                                            ),
+                                            "prompt"=>"Selecione um estado",
+                                            "disabled"=>"disabled")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'edcenso_uf_fk'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php
-                            echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade",
-                                "disabled" => "disabled"));
-                            ?>
-                            <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'edcenso_city_fk', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', 
+                                        CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
+                                        array("prompt"=>"Selecione uma cidade",
+                                            "disabled"=>"disabled")); ?>
+                                <?php echo $form->error($modelStudentIdentification,'edcenso_city_fk'); ?>
+                            </div>
                         </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
+
+                                            <div class="control-group">
+                            <?php echo $form->labelEx($modelStudentIdentification,'deficiency', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->checkBox($modelStudentIdentification,'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                <?php echo $form->error($modelStudentIdentification,'deficiency'); ?>
+                            </div>
                         </div>
-                    </div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_blindness', array('class' => 'control-label')); ?>
@@ -364,19 +359,18 @@
                 </div>
             </div>   
             
-            
             <!-- Tab Student Documents -->
             <div class="tab-pane" id="student-documents">
                 <div class="row-fluid">
                     <div class=" span6">
-                        <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        <?php echo Yii::t('default', 'Fields with * are required.') ?>
                     </div>
 
                     <div class="separator"></div>
                     <div class="separator"></div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Número da identidade', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
@@ -384,7 +378,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Complementoda identidade', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_complement', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_complement', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
@@ -392,7 +386,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Órgão emissor da identidade', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                    
                             <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', 
@@ -402,7 +396,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'UF da identidade', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', 
                                         CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt"=>"Selecione um estado","disabled"=>"disabled")); ?>
@@ -411,7 +405,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Data de espedição da identidade', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
@@ -419,7 +413,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Certidão civil', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null=>"Selecione o modelo","1"=>"Modelo Antigo","2"=>"Modelo Novo"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
@@ -427,7 +421,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Tipo de certidão civil', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null=>"Selecione o tipo","1"=>"Nascimento","2"=>"Casamento"),array("disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
@@ -435,7 +429,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Número do termo', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
@@ -443,7 +437,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Folha', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('size' => 4, 'maxlength' => 4, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
@@ -451,7 +445,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Livro', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_book', array('size' => 8, 'maxlength' => 8, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
@@ -459,7 +453,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Data de emissão da certidão', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled"=>"disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
@@ -467,7 +461,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'UF do cartórios', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
@@ -484,7 +478,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Município do cartório', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), array(
@@ -501,7 +495,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Código do cartório', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um cartório",
@@ -512,7 +506,7 @@
                     </div>
                         
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Número da matrícula', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('size' => 32, 'maxlength' => 32, "disabled" => "disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
@@ -520,7 +514,7 @@
                     </div>
 
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Número do CPF', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11, "disabled" => "disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
@@ -528,7 +522,7 @@
                     </div>
                         
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Documento estrangeiro / passaporte', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
@@ -536,7 +530,7 @@
                     </div>
                     
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'Justificativa para a falta de documentação do aluno', array('class' => 'control-label')); ?>
+                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null=>"Selecione uma justificativa", "1"=>"Aluno não possui documento", "2"=>"Escola não possui informação de documento do aluno")); ?>
                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
@@ -550,7 +544,7 @@
             <div class="tab-pane" id="student-address">
                 <div class="row-fluid">
                     <div class=" span6">
-                        <?php echo Yii::t('default', 'Campos com * são obrigatórios.') ?>
+                        <?php echo Yii::t('default', 'Fields with * are required.') ?>
                     </div>
 
                     <div class="separator"></div>
