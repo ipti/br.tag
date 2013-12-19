@@ -328,6 +328,7 @@
                                     <?php echo SchoolStructure::model()->attributeLabels()['operation_location_other']; ?>
                                     <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
+                                </div>
                             </div>
                         </div>
                         
@@ -352,49 +353,6 @@
                             <?php echo $form->error($modelSchoolStructure, 'shared_school_inep_id_1'); ?>
                         </div></div>
 
-                        <?php /*
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_1', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_1',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_1'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_2', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_2',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_2'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_3', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_3',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_3'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_4', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_4',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_4'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_5', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_5',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_5'); ?>
-                    </div></div>
-
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolStructure,'shared_school_inep_id_6', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                        <?php echo $form->textField($modelSchoolStructure,'shared_school_inep_id_6',array('size'=>8,'maxlength'=>8)); ?>
-                        <?php echo $form->error($modelSchoolStructure,'shared_school_inep_id_6'); ?>
-                    </div></div>
-*/ ?>
                         <div class="control-group">
                             <label class="control-label"><?php echo Yii::t('default', 'Water Supply'); ?></label>
                             <div class="uniformjs margin-left">
@@ -1254,6 +1212,35 @@
             }
         });
         
+        $(formStructure+'operation_location').focusout(function(){
+            var id = '#'+$(this).attr("id");
+            if($('#SchoolStructure_operation_location input[type=checkbox]:checked').length == 0){
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
+        })
         
         
+        //multiselect
+        var sharedSchool = [];
+        $(formStructure+"shared_school_inep_id_1").mousedown(function(){
+            sharedSchool = $(this).val();
+        });
+        
+        $(formStructure+"shared_school_inep_id_1").mouseup(function(e){
+            if (!e.shiftKey){
+                value = $(this).val()[0];
+                
+                remove = 0;
+                sharedSchool = jQuery.grep(sharedSchool, function( a ) {
+                    if(a === value) remove++;
+                    return a !== value;
+                });
+                
+                if(remove == 0) sharedSchool.push(value);
+                $(this).val(sharedSchool);
+            }
+        });
+        //multiselect
     </script>
