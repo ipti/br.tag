@@ -48,7 +48,7 @@ class InstructorController extends Controller {
      */
     public function actionView($id) {
         $this->render('view', array(
-            'modelInstructorIdentification' => $this->loadModel($id,$this->InstructorIdentification),
+            'modelInstructorIdentification' => $this->loadModel($id, $this->InstructorIdentification),
         ));
     }
 
@@ -72,7 +72,6 @@ class InstructorController extends Controller {
         $error[] = '';
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress']
                         , $_POST['InstructorVariableData'], $_POST['InstructorTeachingData'])) {
-
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
@@ -92,25 +91,24 @@ class InstructorController extends Controller {
             $saveInstructor = true;
 
             //=== MODEL DocumentsAndAddress
-            if (isset($modelInstructorDocumentsAndAddress->cep) && $modelInstructorDocumentsAndAddress->cep != 0) { // VERIFICAR POR que o bairro deve começar com inteiro
+            if (isset($modelInstructorDocumentsAndAddress->cep) && !empty($modelInstructorDocumentsAndAddress->cep)) {
                 //Então o endereço, uf e cidade são obrigatórios
-                // var_dump(isset($modelInstructorDocumentsAndAddress->neighborhood) && $modelInstructorDocumentsAndAddress->neighborhood != 0);exit();
-                if (isset($modelInstructorDocumentsAndAddress->address) && $modelInstructorDocumentsAndAddress->address != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->neighborhood) && $modelInstructorDocumentsAndAddress->neighborhood != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && $modelInstructorDocumentsAndAddress->edcenso_uf_fk != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) && $modelInstructorDocumentsAndAddress->edcenso_city_fk != 0) {
+                if (isset($modelInstructorDocumentsAndAddress->address) && !empty($modelInstructorDocumentsAndAddress->address) &&
+                        isset($modelInstructorDocumentsAndAddress->neighborhood) && !empty($modelInstructorDocumentsAndAddress->neighborhood) &&
+                        isset($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_uf_fk) &&
+                        isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_city_fk)) {
 
                     $saveDocumentsAndAddress = true;
                 } else {
                     $error['documentsAndAddress'] = 'CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
                 }
+            } else {
+                $saveDocumentsAndAddress = true;
             }
             //======================================
             //=== MODEL VariableData            
             if (isset($modelInstructorVariableData->scholarity) &&
                     $modelInstructorVariableData->scholarity == 6) {
-
-
 
                 if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_type_1, $modelInstructorVariableData->high_education_institution_code_1_fk)
                         || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_type_2, $modelInstructorVariableData->high_education_institution_code_2_fk)
@@ -122,50 +120,54 @@ do curso superior, tipo de instituição e instituição
 do curso superior deverão ser obrigatoriamente
 preenchidos";
                 }
+            } else {
+                $saveVariableData = true;
             }
-
-
 
             //============================
             //=== MODEL TeachingData
             $disciplines = $modelInstructorTeachingData->discipline_1_fk;
             $countDisciplines = count($disciplines);
             //Máximo 13           
-            $modelInstructorTeachingData->discipline_1_fk = isset($disciplines[0]) ? $disciplines[0] : NULL;
-            $modelInstructorTeachingData->discipline_2_fk = isset($disciplines[1]) ? $disciplines[1] : NULL;
-            $modelInstructorTeachingData->discipline_3_fk = isset($disciplines[2]) ? $disciplines[2] : NULL;
-            $modelInstructorTeachingData->discipline_4_fk = isset($disciplines[3]) ? $disciplines[3] : NULL;
-            $modelInstructorTeachingData->discipline_5_fk = isset($disciplines[4]) ? $disciplines[4] : NULL;
-            $modelInstructorTeachingData->discipline_6_fk = isset($disciplines[5]) ? $disciplines[5] : NULL;
-            $modelInstructorTeachingData->discipline_7_fk = isset($disciplines[6]) ? $disciplines[6] : NULL;
-            $modelInstructorTeachingData->discipline_8_fk = isset($disciplines[7]) ? $disciplines[7] : NULL;
-            $modelInstructorTeachingData->discipline_9_fk = isset($disciplines[8]) ? $disciplines[8] : NULL;
-            $modelInstructorTeachingData->discipline_10_fk = isset($disciplines[9]) ? $disciplines[9] : NULL;
-            $modelInstructorTeachingData->discipline_11_fk = isset($disciplines[10]) ? $disciplines[10] : NULL;
-            $modelInstructorTeachingData->discipline_12_fk = isset($disciplines[11]) ? $disciplines[11] : NULL;
-            $modelInstructorTeachingData->discipline_13_fk = isset($disciplines[12]) ? $disciplines[12] : NULL;
+            $modelInstructorTeachingData->discipline_1_fk = isset($disciplines[0]) ? $disciplines[0] : 0;
+            $modelInstructorTeachingData->discipline_2_fk = isset($disciplines[1]) ? $disciplines[1] : 0;
+            $modelInstructorTeachingData->discipline_3_fk = isset($disciplines[2]) ? $disciplines[2] : 0;
+            $modelInstructorTeachingData->discipline_4_fk = isset($disciplines[3]) ? $disciplines[3] : 0;
+            $modelInstructorTeachingData->discipline_5_fk = isset($disciplines[4]) ? $disciplines[4] : 0;
+            $modelInstructorTeachingData->discipline_6_fk = isset($disciplines[5]) ? $disciplines[5] : 0;
+            $modelInstructorTeachingData->discipline_7_fk = isset($disciplines[6]) ? $disciplines[6] : 0;
+            $modelInstructorTeachingData->discipline_8_fk = isset($disciplines[7]) ? $disciplines[7] : 0;
+            $modelInstructorTeachingData->discipline_9_fk = isset($disciplines[8]) ? $disciplines[8] : 0;
+            $modelInstructorTeachingData->discipline_10_fk = isset($disciplines[9]) ? $disciplines[9] : 0;
+            $modelInstructorTeachingData->discipline_11_fk = isset($disciplines[10]) ? $disciplines[10] : 0;
+            $modelInstructorTeachingData->discipline_12_fk = isset($disciplines[11]) ? $disciplines[11] : 0;
+            $modelInstructorTeachingData->discipline_13_fk = isset($disciplines[12]) ? $disciplines[12] : 0;
 
             $saveTeachingData = true;
-
-
             //============================
             if ($saveInstructor && $saveDocumentsAndAddress && $saveTeachingData
                     && $saveVariableData) {
-                if ($modelInstructorIdentification->validate() && $modelInstructorIdentification->save())
-                    $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
-                $modelInstructorTeachingData->id = $modelInstructorIdentification->id;
-                $modelInstructorVariableData->id = $modelInstructorIdentification->id;
 
+                // Setar todos os school_inep_id
                 $modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
                 $modelInstructorTeachingData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
                 $modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
 
-                $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
-                $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
-
-                if ($modelInstructorDocumentsAndAddress->validate()
+                if ($modelInstructorIdentification->validate()
+                        && $modelInstructorDocumentsAndAddress->validate()
                         && $modelInstructorTeachingData->validate()
-                        && $modelInstructorVariableData->validate()) {
+                        && $modelInstructorVariableData->validate()
+                        && $modelInstructorIdentification->save()) {
+                    $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
+                    $modelInstructorTeachingData->id = $modelInstructorIdentification->id;
+                    $modelInstructorVariableData->id = $modelInstructorIdentification->id;
+// CORRIGIR !!!!!!!!!!!!!
+                    //Get classInepID
+                    $classRoom = Classroom::model()->findByPk($modelInstructorTeachingData->classroom_id_fk);
+                    $modelInstructorTeachingData->inep_id = $classRoom->inep_id;
+
+                    $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
+                    $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()
@@ -234,10 +236,10 @@ preenchidos";
             if (isset($modelInstructorDocumentsAndAddress->cep) && $modelInstructorDocumentsAndAddress->cep != 0) { // VERIFICAR POR que o bairro deve começar com inteiro
                 //Então o endereço, uf e cidade são obrigatórios
                 // var_dump(isset($modelInstructorDocumentsAndAddress->neighborhood) && $modelInstructorDocumentsAndAddress->neighborhood != 0);exit();
-                if (isset($modelInstructorDocumentsAndAddress->address) && $modelInstructorDocumentsAndAddress->address != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->neighborhood) && $modelInstructorDocumentsAndAddress->neighborhood != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && $modelInstructorDocumentsAndAddress->edcenso_uf_fk != 0 &&
-                        isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) && $modelInstructorDocumentsAndAddress->edcenso_city_fk != 0) {
+                if (isset($modelInstructorDocumentsAndAddress->address) && !empty($modelInstructorDocumentsAndAddress->address) &&
+                        isset($modelInstructorDocumentsAndAddress->neighborhood) && !empty($modelInstructorDocumentsAndAddress->neighborhood) &&
+                        isset($modelInstructorDocumentsAndAddress->edcenso_uf_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_uf_fk) &&
+                        isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) && !empty($modelInstructorDocumentsAndAddress->edcenso_city_fk)) {
 
                     $saveDocumentsAndAddress = true;
                 } else {
@@ -262,7 +264,15 @@ do curso superior deverão ser obrigatoriamente
 preenchidos";
                 }
             }
-
+            if (!isset($modelInstructorVariableData->high_education_institution_code_1_fk)) {
+                $modelInstructorVariableData->high_education_institution_code_1_fk = 0;
+            }
+            if (!isset($modelInstructorVariableData->high_education_institution_code_2_fk)) {
+                $modelInstructorVariableData->high_education_institution_code_2_fk = 0;
+            }
+            if (!isset($modelInstructorVariableData->high_education_institution_code_3_fk)) {
+                $modelInstructorVariableData->high_education_institution_code_3_fk = 0;
+            }
 
 
             //============================
@@ -288,7 +298,6 @@ preenchidos";
 
 
             //=======================================
-
 
             if ($modelInstructorIdentification->validate() && $modelInstructorDocumentsAndAddress->validate()
                     && $modelInstructorVariableData->validate() && $modelInstructorTeachingData->validate()) {
@@ -319,10 +328,16 @@ preenchidos";
      */
     public function actionDelete($id) {
         
-        if ($this->loadModel($id, $this->InstructorIdentification)->delete()
-                && $this->loadModel($id, $this->InstructorDocumentsAndAddress)->delete()
-                && $this->loadModel($id, $this->InstructorVariableData)->delete()
-                && $this->loadModel($id, $this->InstructorTeachingData)->delete()) {
+        $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
+        $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
+        $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
+        $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
+
+        if ( $modelInstructorDocumentsAndAddress->delete()
+                && $modelInstructorVariableData->delete()
+                && $modelInstructorTeachingData->delete()
+                && $modelInstructorIdentification->delete()) {
+            
             Yii::app()->user->setFlash('success', Yii::t('default', 'Instructor excluído com sucesso:'));
             $this->redirect(array('index'));
         } else {
@@ -441,6 +456,7 @@ preenchidos";
         if ($model == $this->InstructorIdentification) {
             $return = InstructorIdentification::model()->findByPk($id);
         } else if ($model == $this->InstructorDocumentsAndAddress) {
+            // CORRIGIR 2.0
             $instructor_inep_ip = InstructorIdentification::model()->findByPk($id)->inep_id;
             $return = InstructorDocumentsAndAddress::model()->findByAttributes(
                     array('inep_id' => $instructor_inep_ip));

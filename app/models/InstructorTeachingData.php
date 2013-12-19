@@ -69,7 +69,7 @@ class InstructorTeachingData extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, classroom_inep_id, role', 'required'),
+			array('school_inep_id_fk, classroom_id_fk, role', 'required'),
 			array('classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, classroom_inep_id', 'length', 'max'=>8),
