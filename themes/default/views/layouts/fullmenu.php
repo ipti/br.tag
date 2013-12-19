@@ -70,8 +70,8 @@
                 <!-- // Menu Toggle Button END -->
                 <div class="menu-search">
                     <div class="input-append">
-                        <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
-                        <button class="btn btn-default" type="button"><i class="icon-search"></i></button>
+                        <?php /** <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
+                        <button class="btn btn-default" type="button"><i class="icon-search"></i></button> **/ ?>
                     </div>
                 </div>
 
@@ -137,7 +137,7 @@
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school/create"><span>Adicionar escola</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school"><span>Listar escolas</span></a></li>
                                     </ul>
-                                    <span class="count">2</span>
+                                    <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Escolas -->
 
@@ -148,10 +148,10 @@
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Matricular alunos</span></a></li>
-                                        <li class=""><a href="#"><span>Frequencia de alunos</span></a></li>
-                                        <li class=""><a href="#"><span>Notas de alunos</span></a></li>
+                                        <?php //<li class=""><a href="#"><span>Frequencia de alunos</span></a></li> ?>
+                                        <?php //<li class=""><a href="#"><span>Notas de alunos</span></a></li> ?>
                                     </ul>
-                                    <span class="count">5</span>
+                                    <?php //<span class="count">5</span> ?>
                                 </li>
                                 <!-- // Menu Item Turmas -->
 
@@ -162,7 +162,7 @@
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Adicionar aluno</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Listar alunos</span></a></li>
                                     </ul>
-                                    <span class="count">2</span>
+                                    <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Alunos -->
 
@@ -173,11 +173,11 @@
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
                                     </ul>
-                                    <span class="count">2</span>
+                                    <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Equipe Escolar -->
 
-                                <!-- Menu Item Relatórios -->
+                  <?php /**             <!-- Menu Item Relatórios -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons charts" href="#menu_relatorios"><i></i><span>Relatórios</span></a>
                                     <ul class="collapse" id="menu_relatorios">
@@ -191,7 +191,7 @@
 
                             </ul>
 
-
+                  **/ ?>
 
                         </div>
                         <!-- // Scrollable Menu wrapper with Maximum Height END -->
@@ -214,7 +214,7 @@
 
                         $this->widget('zii.widgets.CBreadcrumbs', array(
                             'links' => $this->breadcrumbs,
-                            'homeLink' => '<li><a href="#" class="glyphicons home"><i></i> Página Inicial</a></li><li class="divider"></li>',
+                            'homeLink' => '<li><a href="index.php" class="glyphicons home"><i></i> Página Inicial</a></li>',
                             'tagName' => 'ul',
                             'separator' => '',
                             'activeLinkTemplate' => '<li><a href="{url}">{label}</a> <li class="divider"></li></li>',
@@ -224,6 +224,8 @@
                         ?>
                     <?php endif; ?>
                     <!-- // Breadcrumb END -->
+                    
+                    <div class="separator bottom"></div>
 
                     <?php echo $content; ?>
 

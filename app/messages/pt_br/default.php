@@ -370,6 +370,7 @@ return array(
     'Variable Data' => 'Dados Variáveis',
     'Teaching Data' => 'Dados de Ensino',
     'Add New Teacher' => 'Cadastrar Novo Professor',
-    'Add New Student' => 'Cadastrar Novo Aluno'
+    'Add New Student' => 'Cadastrar Novo Aluno',
+    'School Identifications' => 'Escolas'
         )
 ?>
