@@ -32,9 +32,9 @@
             <!-- Tab Student Identify -->
             <div class="tab-pane active" id="student-indentify">
                 <div class="row-fluid">
-                    <!--<div class=" span6">
+                    <div class=" span6">
                         <?php echo Yii::t('default', 'Fields with * are required.')?>
-                    </div>-->
+                    </div>
                     <div class="separator"></div>
 
                     <div class="control-group">
@@ -44,7 +44,6 @@
                             ?>
                             <?php echo $form->error($modelStudentIdentification, 'school_inep_id_fk'); ?>
                         </div>
-*/ ?>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'name', array('class' => 'control-label')); ?>
                             <div class="controls">
@@ -60,7 +59,7 @@
                             <?php echo $form->textField($modelStudentIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
                             <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
                         </div>
-
+                    </div>
                                             <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'birthday', array('class' => 'control-label')); ?>
                             <div class="controls">
@@ -90,7 +89,7 @@
                             ));?>
                             <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
                         </div>
-
+                                            </div>
                                             <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'filiation', array('class' => 'control-label')); ?>
                             <div class="controls">
@@ -173,7 +172,6 @@
                                 <?php echo $form->error($modelStudentIdentification,'deficiency'); ?>
                             </div>
                         </div>
-                    </div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_blindness', array('class' => 'control-label')); ?>
@@ -360,7 +358,6 @@
                     </div>
                 </div>
             </div>   
-            
             
             <!-- Tab Student Documents -->
             <div class="tab-pane" id="student-documents">
