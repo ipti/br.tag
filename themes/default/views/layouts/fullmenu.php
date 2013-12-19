@@ -170,7 +170,7 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Docente</span></a>
                                     <ul class="collapse" id="menu_equipe">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/crate"><span>Adicionar professor</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
                                     </ul>
                                     <span class="count">2</span>
