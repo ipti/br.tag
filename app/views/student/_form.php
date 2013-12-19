@@ -165,195 +165,115 @@
                             </div>
                         </div>
 
-                                            <div class="control-group">
+                        <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'deficiency', array('class' => 'control-label')); ?>
                             <div class="controls">
                                 <?php echo $form->checkBox($modelStudentIdentification,'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 <?php echo $form->error($modelStudentIdentification,'deficiency'); ?>
                             </div>
                         </div>
-                        
+                    
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_blindness', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_blindness'); ?>
+                            <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                            <div class="uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_aspenger_syndrome']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_aspenger_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_rett_syndrome']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_rett_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_childhood_disintegrative_disorder']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                        
+                    
                     <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_low_vision', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_low_vision'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_deafness', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_deafness'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_disability_hearing', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_disability_hearing'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_deafblindness', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_deafblindness'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_phisical_disability', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_phisical_disability'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_intelectual_disability'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_multiple_disabilities'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_autism', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_autism'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_aspenger_syndrome', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_aspenger_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_aspenger_syndrome'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_rett_syndrome', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_rett_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_rett_syndrome'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'deficiency_type_gifted', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'deficiency_type_gifted'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_aid_lector', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_aid_lector'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_aid_transcription', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_aid_transcription'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_interpreter_guide', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_interpreter_guide'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_interpreter_libras', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_interpreter_libras'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_lip_reading', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_lip_reading'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_zoomed_test_16', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_16', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_zoomed_test_16'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_zoomed_test_20', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_20', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_zoomed_test_20'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_zoomed_test_24', array('class' => 'control-label'), array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_zoomed_test_24'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_braille_test', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_braille_test'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelStudentIdentification, 'resource_none', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                            <?php echo $form->error($modelStudentIdentification, 'resource_none'); ?>
+                        <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
+                        <div class="uniformjs margin-left">
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_16']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_16', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_20']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_20', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                            <label class="checkbox">
+                                <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
+                                <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
                         </div>
                     </div>
                 </div>
