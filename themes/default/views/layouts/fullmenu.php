@@ -13,22 +13,27 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
+        <!-- JQuery -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
+
+        <!-- JQueryUI -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
+
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />
 
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.min.css" rel="stylesheet" type="text/css" />
+        
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/uniform.css" rel="stylesheet" type="text/css" />
 
         <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
 
-        <!-- JQuery -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
-
-        
-        <!-- JQueryUI -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <!-- Select2 Plugin -->
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
 
      
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
@@ -38,8 +43,12 @@
 
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
         
-        
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+        
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
+
+        <!-- Select2 Plugin -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
 
     </head>
 
@@ -161,7 +170,7 @@
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Docente</span></a>
                                     <ul class="collapse" id="menu_equipe">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/crate"><span>Adicionar professor</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
                                     </ul>
                                     <span class="count">2</span>

@@ -34,13 +34,15 @@ numberRules.cpf = /^[0-9]{11}$/;
 numberRules.nis = /^[0-9]{11}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
-numberRules.count = /^[0-9]{1,4}$/;
+numberRules.count = /^[0-9]{0,4}$/;
 
 function validateCount(count) {
-    if (count > 0){
-        return(rule(count,numberRules.count));
-    }else{
+    if(count.length == 0){
+        return true;
+    }else if (count == 0){
         return false;
+    }else{
+        return(rule(count,numberRules.count));
     }
 }
 

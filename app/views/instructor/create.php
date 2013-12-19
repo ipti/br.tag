@@ -4,8 +4,7 @@
         'Instructor Identifications' => array('index'),
         'Create',
     );
-    $title = Yii::t('default', 'Create a new InstructorIdentification, DocumentsAndAddress, 
-                 InstructorVariableData and InstructorTeachingData');
+    $title = Yii::t('default', 'Add New Teacher');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification, DocumentsAndAddress, 
                  InstructorVariableData and InstructorTeachingData.');
     $this->menu = array(

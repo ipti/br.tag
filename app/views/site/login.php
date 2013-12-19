@@ -7,47 +7,70 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 $this->breadcrumbs=array(
 	'Login',
 );
-?>
-
-<h1>Login</h1>
-
-<p>Please fill out the following form with your login credentials:</p>
-
-<div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
+$baseUrl = Yii::app()->theme->baseUrl; 
+  $cs = Yii::app()->getClientScript();
+  $cs->registerCssFile($baseUrl.'/css/bootstrap.min.css');
+  $cs->registerCssFile($baseUrl.'/css/responsive.min.css');
+  $cs->registerCssFile($baseUrl.'/css/template.min.css');
+  
+  $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
 	),
-)); ?>
+));
+?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+<body class="login">
+        
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username'); ?>
-		<?php echo $form->error($model,'username'); ?>
+<!-- Wrapper -->
+<div id="login">
+
+	<!-- Box -->
+	<div class="form-signin">
+		<h3>Login</h3>
+		
+		<!-- Row -->
+		<div class="row-fluid row-merge">
+		
+			<!-- Column -->
+			<div class="span12">
+				<div class="inner">
+				
+					<!-- Form -->
+					<form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
+						<label class="strong">Login</label>
+						<?php echo $form->textField($model,'username', array('class' => 'input-block-level')); ?>
+                                                <?php echo $form->error($model,'username'); ?>
+						<label class="strong">Senha<a class="password" href="">esqueceu sua senha?</a></label>
+						<?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
+                                                <?php echo $form->error($model,'password'); ?>
+						<div class="uniformjs"><label class="checkbox"><input type="checkbox" value="remember-me">Lembrar-me</label></div>
+						<div class="row-fluid">
+							<div class="span12 center">
+								<?php echo CHtml::submitButton('Login', array('class' => 'btn btn-block btn-primary')); ?>
+							</div>
+						</div>
+					</form>
+					<!-- // Form END -->
+					
+				</div>
+			</div>
+			<!-- // Column END -->
+			
+			<!-- Column -->
+			
+			<!-- // Column END -->
+			
+		</div>
+		<!-- // Row END -->
 	</div>
+	<!-- // Box END -->
+	
+</div>    
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-		<p class="hint">
-			Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>.
-		</p>
-	</div>
-
-	<div class="row rememberMe">
-		<?php echo $form->checkBox($model,'rememberMe'); ?>
-		<?php echo $form->label($model,'rememberMe'); ?>
-		<?php echo $form->error($model,'rememberMe'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
-
+</body>
+</body>
 <?php $this->endWidget(); ?>
-</div><!-- form -->
