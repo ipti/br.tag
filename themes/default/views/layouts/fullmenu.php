@@ -143,7 +143,7 @@
 
                                 <!-- Menu Item Turmas -->
                                 <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons group" href="#menu_turmas"><i></i><span>Turmas</span></a>
+                                    <a data-toggle="collapse" class="glyphicons adress_book" href="#menu_turmas"><i></i><span>Turmas</span></a>
                                     <ul class="collapse" id="menu_turmas">
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
@@ -153,6 +153,16 @@
                                         <?php //<li class=""><a href="#"><span>Notas de alunos</span></a></li> ?>
                                     </ul>
                                     <?php //<span class="count">5</span> ?>
+                                </li>
+                                <!-- // Menu Item Turmas -->
+                                
+                                <!-- Menu Item Turmas -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons notes_2" href="#menu_matricula"><i></i><span>Matricula</span></a>
+                                    <ul class="collapse" id="menu_matricula">
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment/create"><span>Matricular aluno</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Listar matrículas</span></a></li>
+                                    </ul>
                                 </li>
                                 <!-- // Menu Item Turmas -->
 

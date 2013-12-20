@@ -34,7 +34,12 @@
                         'enablePagination' => true,
                         'columns' => array(
                             'inep_id',
-                            'name',
+                            array(
+                                'class' => 'CLinkColumn',
+                                'header'=>'Escola',
+                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->inep_id)->name',
+                                'urlExpression'=>'"?r=school/update&id=".$data->inep_id',
+                                ),
                             array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     ));
                     ?>
