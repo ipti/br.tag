@@ -20,7 +20,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
         <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
-        <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+        <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?><div class="controls">
     </div>
     <div class="clearfix"></div>
 </div>
@@ -46,7 +46,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
 
                         <div class="separator"></div>
                         <div class="separator"></div>
@@ -54,7 +53,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'school_inep_id_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
+                            <div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
                                             SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
@@ -67,71 +67,71 @@ $form = $this->beginWidget('CActiveForm', array(
                             ?>
                   
                             <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
-                        </div>
+                        </div></div>
 
 <!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'inep_id'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'inep_id', array('class' => 'control-label')); ?>
                             <?php 
                             echo $form->textField($modelInstructorIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'inep_id'); ?>
                         </div> -->
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'name'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'email'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'nis'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'nis', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'nis'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'sex'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'sex', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->DropDownlist($modelInstructorIdentification, 'sex', array(1 => 'Masculino', 2 => 'Feminino')); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'sex'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'color_race'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'color_race', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'color_race', array(0 => "Não Declarada",
                                 1 => "Branca", 2 => "Preta", 3 => "Parda", 4 => "Amarela", 5 => "Indígena"));
                             ?>
                             <?php echo $form->error($modelInstructorIdentification, 'color_race'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'nationality'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'nationality', array(1 => "Brasileira",
                                 2 => "Brasileira nascido no Exterior ou Naturalizado", 3 => "Estrangeira"));
                             ?>
                             <?php echo $form->error($modelInstructorIdentification, 'nationality'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?><div class="controls">
                              <?php 
                             echo ($isModel && isset($modelInstructorIdentification->edcenso_nation_fk) ) ? 
                              $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array('options' => array(76 => array('selected' => true))))
@@ -141,10 +141,10 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <?php //echo $form->textField($modelInstructorIdentification,'edcenso_nation_fk');   ?>
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
@@ -156,93 +156,93 @@ $form = $this->beginWidget('CActiveForm', array(
                                     )));
                             ?>                    
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk'); ?>
-                            <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name')); ?>                    
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?><div class="controls">
+                            <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name')); ?>                  
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_city_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency', array('class' => 'control-label')); ?><div class="controls">
                              <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency');
                             ?>
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency', array(0 => "Não", 1 => "Sim"));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_blindness', array('class' => 'control-label')); ?><div class="controls">
                       
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_blindness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness', array('disabled' => true));
                             ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_low_vision'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_low_vision', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_low_vision)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_low_vision')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('disabled' => true));
                             ?>
                             <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_low_vision'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafness', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_deafness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafness')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafness', array('disabled' => true));
                             ?>
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafness'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_disability_hearing'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_disability_hearing)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_disability_hearing')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('disabled' => true));
                             ?>
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_disability_hearing'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafblindness'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafblindness', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_deafblindness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafblindness')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('disabled' => true));
                             ?>
                             <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafblindness'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_phisical_disability'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_phisical_disability)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_phisical_disability')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('disabled' => true));
                             ?>
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_phisical_disability'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_intelectual_disability'); ?>
+                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorIdentification->deficiency_type_intelectual_disability)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability')
                             : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('disabled' => true));
                             ?>
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_intelectual_disability'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
                             <?php //echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_multiple_disabilities');  ?>
@@ -256,13 +256,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
+            </div>
 
 
                 <div class="tab-pane" id="instructor-documents">
                     <div class="row-fluid">
                         <div class=" span6">
                             <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
 
                         <div class="separator"></div>
                         <div class="separator"></div>
@@ -272,58 +272,58 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
-                        </div>-->
+                        </div></div>-->
 
 <!--                        <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
-                        </div>-->
+                        </div></div>-->
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence'); ?>
-                            <?php echo $form->DropDownlist($modelInstructorDocumentsAndAddress, 'area_of_residence', array(1 => 'URBANA', 2 => 'RURAL')); ?>                    
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label')); ?><div class="controls">
+                            <?php echo $form->DropDownlist($modelInstructorDocumentsAndAddress, 'area_of_residence', array(1 => 'URBANA', 2 => 'RURAL')); ?>                 
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'area_of_residence'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address_number', array('size' => 10, 'maxlength' => 10)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address_number'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'complement'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'complement'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
@@ -335,25 +335,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                     )));
                             ?>                    
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
-                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name')); ?>                    
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?><div class="controls">
+                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name')); ?><div class="controls">                    
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
-                        </div> 
+                        </div></div> 
 
                     </div>
                 </div>
-
+                    </div>
+                </div>
                 <div class="tab-pane" id="instructor-address">
                     <div class="row-fluid">
                         <div class=" span6">
                             <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
 
-                        <div class="separator"></div>
-                        <div class="separator"></div>
+                            <div class="separator"></div>
+                            <div class="separator"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -361,10 +362,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
 
-                        <div class="separator"></div>
-                        <div class="separator"></div>
+                            <div class="separator"></div>
+                            <div class="separator"></div>
 
 
 
@@ -372,45 +372,45 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
-                        </div>-->
+                        </div></div>-->
 
 <!--                        <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'inep_id'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'inep_id'); ?>
-                        </div>-->
+                        </div></div>-->
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'scholarity'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'scholarity', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownlist($modelInstructorVariableData, 'scholarity', array(1 => 'Fundamental Incompleto', 2 => 'Fundamental Completo',
                                 3 => 'Ensino Médio - Normal/Magistério', 4 => 'Ensino Médio - Normal/Magistério Indígena',
                                 5 => 'Ensino Médio', 6 => 'Superior'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'scholarity'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_situation_1)) ?
                             $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(1 => 'Concluído', 2 => 'Em andamento'))
                              : $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(1 => 'Concluído', 2 => 'Em andamento'), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_1'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?><div class="controls">
                              <?php echo ($isModel && isset($modelInstructorVariableData->high_education_formation_1)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1')
                              : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1', array('disabled' => 'disabled'));
                             ?>
                             
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_1'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
                             $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
                                     , array('prompt' => 'Select Course 1'))
@@ -418,29 +418,29 @@ $form = $this->beginWidget('CActiveForm', array(
                                     , array('prompt' => 'Select Course 1', 'disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_1', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_1)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4))
                             : $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
                                 ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_1)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4))
                             :$form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_1)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(1 => "Pública", 2 => "Privada"))
@@ -448,20 +448,20 @@ $form = $this->beginWidget('CActiveForm', array(
                             
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
                              :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_situation_2)) ?
                               $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(
@@ -472,19 +472,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_2'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_2'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_2', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->high_education_formation_2)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_2'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                            echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_2_fk)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
@@ -493,47 +493,47 @@ $form = $this->beginWidget('CActiveForm', array(
                                     , array('prompt' => 'Select Course 2', 'disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
                             : $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
                             :$form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_2'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_2)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(1 => "Pública", 2 => "Privada"))
                             :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_2_fk)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
                             :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_situation_3)) ?
                            $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(
@@ -544,19 +544,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_3'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_3'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_3', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->high_education_formation_3)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3')
                             :CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_3'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_3_fk)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
@@ -565,206 +565,206 @@ $form = $this->beginWidget('CActiveForm', array(
                                     , array('prompt' => 'Select Course 1', 'disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_3', array('class' => 'control-label')); ?><div class="controls">
                             <?php  echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_3)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4))
                             :$form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_3)) ?
                             $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4))
                            : $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_3)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(1 => "Pública", 2 => "Privada"))
                             : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled')); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?> 
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label')); ?><div class="controls"> 
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_3_fk)) ?
                             $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
                            : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_specialization'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_specialization', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_specialization)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_specialization')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_specialization', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'post_graduation_specialization'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_master'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_master', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_master)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_master')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_master', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'post_graduation_master'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_doctorate'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_doctorate', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_doctorate)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_doctorate')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_doctorate', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'post_graduation_doctorate'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_none'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_none', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_none)) ?
                              CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_none')
                            : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_none', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'post_graduation_none'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_nursery'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_nursery', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_nursery)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_nursery')
                             :CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_nursery', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_nursery'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_pre_school'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_pre_school', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_pre_school)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_pre_school')
                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_pre_school', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_pre_school'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_initial_years'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_basic_education_initial_years)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_basic_education_initial_years'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_final_years'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->other_courses_basic_education_final_years)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_final_years')
                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_basic_education_final_years'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_high_school'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_high_school', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_high_school)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_high_school')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_high_school', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_high_school'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->other_courses_education_of_youth_and_adults)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_special_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_special_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_special_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_special_education')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_special_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_special_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_native_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_native_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->other_courses_native_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_native_education')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_native_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_native_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_field_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_field_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_field_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_field_education')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_field_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_field_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_environment_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_environment_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php 
                             echo ($isModel && isset($modelInstructorVariableData->other_courses_environment_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_environment_education')
                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_environment_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_environment_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_human_rights_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_human_rights_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_human_rights_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_human_rights_education')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_human_rights_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_sexual_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_sexual_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_sexual_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_sexual_education')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_sexual_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_sexual_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_child_and_teenage_rights'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_child_and_teenage_rights)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_child_and_teenage_rights'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_ethnic_education'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_ethnic_education', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_ethnic_education)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_ethnic_education')
                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_ethnic_education', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_ethnic_education'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_other'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_other', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_other)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_other')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_other', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_other'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_none'); ?>
+                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_none', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_none)) ?
                             CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_none')
                             : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_none', array('disabled' => true)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'other_courses_none'); ?>
+                        </div></div>
                         </div>
-
                     </div>
                 </div>
 
@@ -776,7 +776,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
 
                         <div class="separator"></div>
-                        <div class="separator"></div> 
+                        <div class="separator"></div>
 
 <!--                        <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'school_inep_id_fk'); ?>
@@ -791,60 +791,60 @@ $form = $this->beginWidget('CActiveForm', array(
                                     )));
                             ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'school_inep_id_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'inep_id'); ?>
                             <?php echo $form->textField($modelInstructorTeachingData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'inep_id'); ?>
-                        </div>
+                        </div></div>
 
 <!--                        <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_inep_id'); ?>
                             <?php echo $form->textField($modelInstructorTeachingData, 'classroom_inep_id', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'classroom_inep_id'); ?>
-                        </div>-->
+                        </div></div>-->
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_id_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_id_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->DropDownList($modelInstructorTeachingData, 'classroom_id_fk', CHtml::listData(
                             Classroom::model()->findAllByAttributes(array('school_inep_fk'=>$modelInstructorTeachingData->school_inep_id_fk)), 'id', 'name'),
                                     array(
                                         'prompt' =>'Primeiro Selecione uma Escola'
                                     )); ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'classroom_id_fk'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'role'); ?>
+                            <?php echo $form->labelEx($modelInstructorTeachingData, 'role', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownlist($modelInstructorTeachingData, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
                                 3 => 'Profissional/Monitor de Atividade Complementar',
                                 4 => 'Tradutor Intérprete de LIBRAS'));
                             ?>                    
                             <?php echo $form->error($modelInstructorTeachingData, 'role'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'contract_type'); ?>        
+                            <?php echo $form->labelEx($modelInstructorTeachingData, 'contract_type', array('class' => 'control-label')); ?><div class="controls">        
                             <?php
                             echo $form->DropDownlist($modelInstructorTeachingData, 'contract_type', array(1 => 'Concursado/efetivo/estável', 2 => 'Contrato temporário',
                                 3 => 'Contrato terceirizado',
                                 4 => 'Contrato CLT'));
                             ?>  
                             <?php echo $form->error($modelInstructorTeachingData, 'contract_type'); ?>
-                        </div>
+                        </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_1_fk'); ?>
+                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_1_fk', CHtml::listData(
                                             EdcensoDiscipline::model()->findAll(), 'id', 'name')
                                     , array('multiple'=>true, 'key'=>'id'));
                             ?>
                             <?php echo $form->error($modelInstructorTeachingData, 'discipline_1_fk'); ?>
-                        </div>
-                    </div> 
+                        </div></div>
+                    </div>
                 </div>
                 <?php $this->endWidget(); ?>
             </div>
@@ -1488,5 +1488,4 @@ $form = $this->beginWidget('CActiveForm', array(
     
  
     
-</script>
-
+</script

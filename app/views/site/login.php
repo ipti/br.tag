@@ -44,7 +44,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 						<label class="strong">Login</label>
 						<?php echo $form->textField($model,'username', array('class' => 'input-block-level')); ?>
                                                 <?php echo $form->error($model,'username'); ?>
-						<label class="strong">Senha<a class="password" href="">esqueceu sua senha?</a></label>
+						<label class="strong">Senha</label>
 						<?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
                                                 <?php echo $form->error($model,'password'); ?>
 						<div class="uniformjs"><label class="checkbox"><input type="checkbox" value="remember-me">Lembrar-me</label></div>
