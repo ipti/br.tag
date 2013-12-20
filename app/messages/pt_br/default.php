@@ -452,6 +452,16 @@ return array(
     'Teaching Data' => 'Dados de Ensino',
     'Add New Teacher' => 'Cadastrar Novo Professor',
     'Add New Student' => 'Cadastrar Novo Aluno',
-    'School Identifications' => 'Escolas'
+    'School Identifications' => 'Escolas',
+    'Create a new SchoolIdentification' => 'Criar nova Escola',
+    'Create a new Classroom' => 'Criar nova Turma',
+    'Classrooms' => 'Turmas',
+    'Classroom' => 'Turma',
+    'Initial Minute' => 'Minuto inicial',
+    'Final Minute' => 'Minuto final',
+    'Student Enrollments' => 'Matrículas dos Alunos',
+    'Student Identifications' => 'Identificações dos Alunos',
+    'Instructor Identifications' => 'Identificações dos Professores',
+    'Create a new StudentEnrollment' => 'Matricular novo Aluno',
         )
 ?>
