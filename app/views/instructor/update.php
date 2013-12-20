@@ -16,11 +16,13 @@
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('modelInstructorIdentification'=>$modelInstructorIdentification,
-                'modelInstructorDocumentsAndAddress'=>$modelInstructorDocumentsAndAddress
-                ,'modelInstructorVariableData'=>$modelInstructorVariableData,
-                'title'=>$title,'error' => $error)); ?>        </div>
-<!--        <div class="columntwo">
-            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
-    </div>-->
+            <?php
+            echo $this->renderPartial('_form', array('modelInstructorIdentification' => $modelInstructorIdentification,
+                'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress
+                , 'modelInstructorVariableData' => $modelInstructorVariableData,
+                'title' => $title, 'error' => $error));
+            ?>        </div>
+        <div class="columntwo">
+        </div>
+    </div>
 </div>
