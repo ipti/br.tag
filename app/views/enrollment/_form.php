@@ -1,9 +1,7 @@
-<?php
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'student-enrollment-form',
-    'enableAjaxValidation' => false,
-        ));
-?>
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'student-enrollment-form',
+	'enableAjaxValidation'=>false,
+)); ?>
 
 <div class="heading-buttons">
     <?php echo $form->errorSummary($model); ?>
