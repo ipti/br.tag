@@ -19,7 +19,6 @@
                 'modelInstructorIdentification' => $modelInstructorIdentification,
                 'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
                 'modelInstructorVariableData' => $modelInstructorVariableData,
-                'modelInstructorTeachingData' => $modelInstructorTeachingData,
                 'error' => $error,
                 'title' => $title));
             ?>        </div>
