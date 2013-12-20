@@ -9,29 +9,36 @@ array('label'=> Yii::t('default', 'Create a new StudentEnrollment'), 'url'=>arra
 ); 
 
 ?>
-<div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+    
+<div class="heading-buttons">
+	<h3><?php echo Yii::t('default', 'Student Enrollments')?></h3>
+	<div class="buttons pull-right">
+		<a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
+	</div>
+	<div class="clearfix"></div>
+</div>
+    
+<div class="innerLR">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'Student Enrollments')?></div></div>
-                <div class="panelGroupBody">
+            <div class="widget">
+                <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
-                        'baseScriptUrl' => Yii::app()->theme->baseUrl . '/plugins/gridview/',
+                        'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-                    		'register_type',
+                    		//'register_type',
 		'school_inep_id_fk',
 		'student_inep_id',
 		'student_fk',
 		'classroom_inep_id',
 		'classroom_fk',
-		'enrollment_id',
+		//'enrollment_id',
                             /*
 		'unified_class',
 		'edcenso_stage_vs_modality_fk',
