@@ -79,59 +79,39 @@
                                     <?php echo $form->error($model, 'final_minute'); ?>
                                 </div>
                             </div>
+                            
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_sunday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_sunday'); ?>
-                                    <?php echo $form->error($model, 'week_days_sunday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_monday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_monday'); ?>
-                                    <?php echo $form->error($model, 'week_days_monday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_tuesday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_tuesday'); ?>
-                                    <?php echo $form->error($model, 'week_days_tuesday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_wednesday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_wednesday'); ?>
-                                    <?php echo $form->error($model, 'week_days_wednesday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_thursday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_thursday'); ?>
-                                    <?php echo $form->error($model, 'week_days_thursday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_friday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_friday'); ?>
-                                    <?php echo $form->error($model, 'week_days_friday'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'week_days_saturday', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'week_days_saturday'); ?>
-                                    <?php echo $form->error($model, 'week_days_saturday'); ?>
+                            <label class="control-label"><?php echo Yii::t('default', 'Week Days'); ?></label>
+                            <div class="uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php 
+                                    echo Classroom::model()->attributeLabels()['week_days_sunday'];
+                                    echo $form->checkBox($model, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_tuesday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_wednesday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_thursday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_friday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['week_days_saturday']; ?>
+                                    <?php echo $form->checkBox($model, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
                                 </div>
                             </div>
                                 
@@ -182,92 +162,55 @@
                                     <?php echo $form->error($model, 'complementary_activity_type_1'); ?>
                                 </div>
                             </div>
-                                
+                            
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_braille_system_education', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_braille_system_education', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_braille_system_education'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_optical_and_non_optical_resources', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_optical_and_non_optical_resources', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_optical_and_non_optical_resources'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_mental_processes_development_strategies', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_mental_processes_development_strategies', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_mental_processes_development_strategies'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_mobility_and_orientation_techniques', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_mobility_and_orientation_techniques', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_mobility_and_orientation_techniques'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_libras', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_libras', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_libras'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_caa_use_education', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_caa_use_education', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_caa_use_education'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_curriculum_enrichment_strategy', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_curriculum_enrichment_strategy', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_curriculum_enrichment_strategy'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_soroban_use_education', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_soroban_use_education', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_soroban_use_education'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_usability_and_functionality_of_computer_accessible_education', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_usability_and_functionality_of_computer_accessible_education', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_usability_and_functionality_of_computer_accessible_education'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_teaching_of_Portuguese_language_written_modality', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_teaching_of_Portuguese_language_written_modality', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_teaching_of_Portuguese_language_written_modality'); ?>
-                                </div>
-                            </div>
-                                
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'aee_strategy_for_school_environment_autonomy', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'aee_strategy_for_school_environment_autonomy', array('disabled' => 'disabled')); ?>
-                                    <?php echo $form->error($model, 'aee_strategy_for_school_environment_autonomy'); ?>
+                            <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
+                            <div class="uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php 
+                                    echo Classroom::model()->attributeLabels()['aee_braille_system_education'];
+                                    echo $form->checkBox($model, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_optical_and_non_optical_resources']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_optical_and_non_optical_resources', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_mental_processes_development_strategies']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_mental_processes_development_strategies', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_mobility_and_orientation_techniques']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_mobility_and_orientation_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_libras']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_caa_use_education']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_caa_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_curriculum_enrichment_strategy']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_curriculum_enrichment_strategy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_soroban_use_education']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_soroban_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_usability_and_functionality_of_computer_accessible_education']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_usability_and_functionality_of_computer_accessible_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_teaching_of_Portuguese_language_written_modality']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_teaching_of_Portuguese_language_written_modality', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['aee_strategy_for_school_environment_autonomy']; ?>
+                                    <?php echo $form->checkBox($model, 'aee_strategy_for_school_environment_autonomy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
                                 </div>
                             </div>
                                 
