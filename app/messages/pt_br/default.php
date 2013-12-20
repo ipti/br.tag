@@ -2,50 +2,54 @@
 
 return array(
     //Botões
-    'Create'=>'Criar',
-    'Save'=>'Salvar',
+    'Create' => 'Criar',
+    'Save' => 'Salvar',
+    'Update' => 'Atualizar',
+    
     
     //Mensagens
-    'Forgotten Password?'=>'Esqueceu a senha?',
+    'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
     
+    
     //Campos das tabelas
+
     //School Identification
     'Register Type' => 'Tipo de Registro',
     'Inep' => 'Código do Inep',
     'Situation' => 'Situação',
     'Initial Date' => 'Data Inicial',
     'Final Date' => 'Data Final',
-    'Name'=>'Nome',
-    'Latitude'=>'Latitude',
-    'Longitude'=>'Longitude',
-    'Cep'=>'CEP',
-    'Address'=>'Endereço',
-    'Address Number'=>'Nº',
-    'Address Complement'=>'Complemento',
-    'Address Neighborhood'=>'Bairro',
-    'Edcenso Uf Fk'=>'Estado',
-    'Edcenso City Fk'=>'City',
-    'Edcenso District Fk'=>'Distrito',
-    'Ddd'=>'DDD',
-    'Phone Number'=>'Telefone',
-    'Public Phone Number'=>'Telefone Público',
-    'Other Phone Number'=>'Outro Telefone',
-    'Fax Number'=>'Fax',
-    'Email'=>'E-Mail',
-    'Edcenso Regional Education Organ Fk'=>'Orgão Regional de Educação',
-    'Administrative Dependence'=>'Dependencia de Administrativa',
-    'Location'=>'Localização',
-    'Private School Category'=>'Categoria de Escola Privada',
-    'Public Contract'=>'Contrato Público',
-    'Private School Business Or Individual'=>'Empresa ou Pessoa Física',
-    'Private School Syndicate Or Association'=>'Associação ou Sindicato',
-    'Private School Ong Or Oscip'=>'ONG ou Oscip',
-    'Private School Non Profit Institutions'=>'Instituição sem fins lucrativos',
-    'Private School S System'=>'Sistema S',
-    'Private School Maintainer Cnpj'=>'CNPJ da Mantenedora',
-    'Private School Cnpj'=>'CNPJ',
-    'Regulation'=>'Regulamentação',
+    'Name' => 'Nome',
+    'Latitude' => 'Latitude',
+    'Longitude' => 'Longitude',
+    'Cep' => 'CEP',
+    'Address' => 'Endereço',
+    'Address Number' => 'Nº',
+    'Address Complement' => 'Complemento',
+    'Address Neighborhood' => 'Bairro',
+    'Edcenso Uf Fk' => 'Estado',
+    'Edcenso City Fk' => 'City',
+    'Edcenso District Fk' => 'Distrito',
+    'Ddd' => 'DDD',
+    'Phone Number' => 'Telefone',
+    'Public Phone Number' => 'Telefone Público',
+    'Other Phone Number' => 'Outro Telefone',
+    'Fax Number' => 'Fax',
+    'Email' => 'E-Mail',
+    'Edcenso Regional Education Organ Fk' => 'Orgão Regional de Educação',
+    'Administrative Dependence' => 'Dependencia de Administrativa',
+    'Location' => 'Localização',
+    'Private School Category' => 'Categoria de Escola Privada',
+    'Public Contract' => 'Contrato Público',
+    'Private School Business Or Individual' => 'Empresa ou Pessoa Física',
+    'Private School Syndicate Or Association' => 'Associação ou Sindicato',
+    'Private School Ong Or Oscip' => 'ONG ou Oscip',
+    'Private School Non Profit Institutions' => 'Instituição sem fins lucrativos',
+    'Private School S System' => 'Sistema S',
+    'Private School Maintainer Cnpj' => 'CNPJ da Mantenedora',
+    'Private School Cnpj' => 'CNPJ',
+    'Regulation' => 'Regulamentação',
     
     //School Structure
     'School Inep Id Fk' => 'Escola',
@@ -243,7 +247,6 @@ return array(
     'Instructor Situation' => 'Turma Sem Docente',
     
     //Student Identification
-    'Name' => 'Nome Completo',
     'Nis' => 'Nº de Identificação Social (INEP)',
     'Birthday' => 'Data de Nascimento',
     'Sex' => 'Sexo',
@@ -253,8 +256,8 @@ return array(
     'Father Name' => 'Nome do Pai',
     'Nationality' => 'Nacionalidade do aluno',
     'Edcenso Nation Fk' => 'País de origem',
-    'Estado' => 'Estado de nascimento',
-    'City' => 'Município de nascimento',
+    'Estado' => 'Estado',
+    'City' => 'Município',
     'Deficiency Type' => 'Tipos de deficiência',
     'Deficiency' => 'Alunos com deficiência ou altas habilidades',
     'Deficiency Type Blindness' => 'Cegueira',
@@ -281,7 +284,6 @@ return array(
     'Resource Zoomed Test 24' => 'Prova Ampliada (Fonte tamanho 24)',
     'Resource Braille Test' => 'Prova em Braille',
     'Resource None' => 'Nenhum',
-
     
     //Student Documents And Address
     'Student Fk' => 'Aluno',
@@ -312,7 +314,7 @@ return array(
     'Neighborhood' => 'Bairro',
     'State' => 'Estado',
     'City' => 'Município',
-
+    
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
     'Student Fk' => 'Aluno',
@@ -406,36 +408,43 @@ return array(
     'Other Courses None' => 'Nenhum',
     
     // Instructor-TeachingData
-   'Classroom Inep' => 'Inep da turma',
-   'Classroom Id Fk' => 'Turma',
-   'Role' => 'Função que exerce na escola / Turma',
-   'Contract Type' => 'Situação funcional / Regime de contratação / Tipo de Vínculo',
-   'Discipline 1 Fk' => 'Disciplina',
-   'Discipline 2 Fk' => '',
-   'Discipline 3 Fk' => '',
-   'Discipline 4 Fk' => '',
-   'Discipline 5 Fk' => '',
-   'Discipline 6 Fk' => '',
-   'Discipline 7 Fk' => '',
-   'Discipline 8 Fk' => '',
-   'Discipline 9 Fk' => '',
-   'Discipline 10 Fk' => '',
-   'Discipline 11 Fk' => '',
-   'Discipline 12 Fk' => '',
-   'Discipline 13 Fk' => '',
-
+    'Classroom Inep' => 'Inep da turma',
+    'Classroom Id Fk' => 'Turma',
+    'Role' => 'Função que exerce na escola / Turma',
+    'Contract Type' => 'Situação funcional / Regime de contratação / Tipo de Vínculo',
+    'Discipline 1 Fk' => 'Disciplina',
+    'Discipline 2 Fk' => '',
+    'Discipline 3 Fk' => '',
+    'Discipline 4 Fk' => '',
+    'Discipline 5 Fk' => '',
+    'Discipline 6 Fk' => '',
+    'Discipline 7 Fk' => '',
+    'Discipline 8 Fk' => '',
+    'Discipline 9 Fk' => '',
+    'Discipline 10 Fk' => '',
+    'Discipline 11 Fk' => '',
+    'Discipline 12 Fk' => '',
+    'Discipline 13 Fk' => '',
     
     //Labels
-    'Password'=>'Senha',
-    'Username'=>'Usuário',
-    'Operation Location' => 'Local de Funcionamento',
+    'Password' => 'Senha',
+    'Username' => 'Usuário',
+    
+    //Abas
     'Identification' => 'Identificação',
     'Structure' => 'Estrutura',
     'Equipments' => 'Equipamentos',
     'Human Resources' => 'Recursos Humanos',
     'Feed' => 'Alimentação',
     'Educational Data' => 'Dados Educacionáis',
-    'Operation Location' => 'Local de Operação',
+    'Documents' => 'Documentos',
+    'Address' => 'Endereço',
+    'Documents and Address' => 'Documentos e Endereço',
+    'Variable Data' => 'Dados Variáveis',
+    'Teaching Data' => 'Dados de Ensino',
+    
+    //Labels de Grupos
+    'Operation Location' => 'Local de Funcionamento',
     'Water Supply' => 'Suprimento de Água',
     'Energy Supply' => 'Suprimento de Energia',
     'Sewage' => 'Esgoto',
@@ -445,23 +454,33 @@ return array(
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
     'Stage' => 'Estágio',
-    'Documents' => 'Documentos',
-    'Address' => 'Endereço',
-    'Documents and Address' => 'Documentos e Endereço',
-    'Variable Data' => 'Dados Variáveis',
-    'Teaching Data' => 'Dados de Ensino',
-    'Add New Teacher' => 'Cadastrar Novo Professor',
-    'Add New Student' => 'Cadastrar Novo Aluno',
+    
+    //Titulos
     'School Identifications' => 'Escolas',
-    'Create a new SchoolIdentification' => 'Criar nova Escola',
-    'Create a new Classroom' => 'Criar nova Turma',
     'Classrooms' => 'Turmas',
     'Classroom' => 'Turma',
-    'Initial Minute' => 'Minuto inicial',
-    'Final Minute' => 'Minuto final',
     'Student Enrollments' => 'Matrículas dos Alunos',
-    'Student Identifications' => 'Identificações dos Alunos',
-    'Instructor Identifications' => 'Identificações dos Professores',
-    'Create a new StudentEnrollment' => 'Matricular novo Aluno',
+    'Student Identifications' => 'Alunos',
+    'Instructor Identifications' => 'Professores',
+    
+    //Novo
+    'Add New Teacher' => 'Adicionar Professor',
+    'Add New Student' => 'Adicionar Aluno',
+    
+    'Create a new StudentEnrollment' => 'Matricular Aluno',
+    'Create a new SchoolIdentification' => 'Adicionar Escola',
+    'Create a new Classroom' => 'Adicionar Turma',
+    'Create a new InstructorIdentification' => 'Adicionar Professor',
+    'Create a new StudentIdentification' => 'Adicionar Aluno',
+    
+    //Atualizar
+    'Update Classroom' => 'Atualizar Turma',
+    'Update StudentEnrollment' => 'Atualizar Matrícula',
+    'Update StudentIdentification' => 'Atualizar Aluno',
+    'Update SchoolIdentification' => 'Atualizar Escola',
+    'Update InstructorIdentification' => 'Atualizar Professor',
+    
+    
+    
         )
 ?>
