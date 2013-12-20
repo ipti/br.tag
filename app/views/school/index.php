@@ -35,7 +35,7 @@
                         'columns' => array(
                             'inep_id',
                             'name',
-                            array('class' => 'CButtonColumn',),),
+                            array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     ));
                     ?>
                 </div>   
