@@ -25,6 +25,7 @@
  * @property integer $discipline_11_fk
  * @property integer $discipline_12_fk
  * @property integer $discipline_13_fk
+ * @property integer $instructor_fk
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -69,14 +70,14 @@ class InstructorTeachingData extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, classroom_id_fk, role', 'required'),
-			array('classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk', 'numerical', 'integerOnly'=>true),
+			array('school_inep_id_fk, classroom_id_fk, role, instructor_fk', 'required'),
+			array('classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, instructor_fk', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, classroom_inep_id', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, inep_id, id, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, inep_id, id, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, instructor_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -131,6 +132,7 @@ class InstructorTeachingData extends CActiveRecord
 			'discipline_11_fk' => Yii::t('default', 'Discipline 11 Fk'),
 			'discipline_12_fk' => Yii::t('default', 'Discipline 12 Fk'),
 			'discipline_13_fk' => Yii::t('default', 'Discipline 13 Fk'),
+			'instructor_fk' => Yii::t('default', 'Instructor Fk'),
 		);
 	}
 
@@ -166,6 +168,7 @@ class InstructorTeachingData extends CActiveRecord
 		$criteria->compare('discipline_11_fk',$this->discipline_11_fk);
 		$criteria->compare('discipline_12_fk',$this->discipline_12_fk);
 		$criteria->compare('discipline_13_fk',$this->discipline_13_fk);
+		$criteria->compare('instructor_fk',$this->instructor_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

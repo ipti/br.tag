@@ -13,7 +13,6 @@ $form = $this->beginWidget('CActiveForm', array(
     echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
     echo $form->errorSummary($modelInstructorVariableData);
     echo isset($error['variableData']) ? $error['variableData'] : '';
-    echo $form->errorSummary($modelInstructorTeachingData);
   
     ?>
     
@@ -34,7 +33,10 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
                 <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Variable Data') ?></a></li>
-                <li><a class="glyphicons cutlery" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Teaching Data') ?></a></li>
+              <?php if($isModel) {
+                 echo '<li><a class="glyphicons parents" href="'.Yii::app()->baseUrl.'/index.php?r=InstructorTeachingData/create&instructor_id='. $modelInstructorIdentification->id .' "><i></i>'. Yii::t("default", "Dados do Professor") . '</a></li>';
+              }
+                  ?>
             </ul>
         </div>
 
@@ -57,13 +59,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
-                                'prompt' => 'Select School',
-                                'ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getClassroom'),
-                                    'update' => '#InstructorTeachingData_classroom_id_fk',
-                                    )));
+                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'));
                             ?>
                   
                             <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
@@ -767,85 +763,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-
-
-                <div class="tab-pane" id="instructor-teaching">
-                    <div class="row-fluid">
-                        <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
-
-                        <div class="separator"></div>
-                        <div class="separator"></div>
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'school_inep_id_fk'); ?>
-                             <?php
-                            echo $form->DropDownList($modelInstructorTeachingData, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
-                                'prompt' => 'Select School',
-                                'ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getClassroom'),
-                                    'update' => '#InstructorTeachingData_classroom_id_fk',
-                                    )));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'school_inep_id_fk'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'inep_id'); ?>
-                            <?php echo $form->textField($modelInstructorTeachingData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'inep_id'); ?>
-                        </div></div>
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_inep_id'); ?>
-                            <?php echo $form->textField($modelInstructorTeachingData, 'classroom_inep_id', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'classroom_inep_id'); ?>
-                        </div></div>-->
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'classroom_id_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->DropDownList($modelInstructorTeachingData, 'classroom_id_fk', CHtml::listData(
-                            Classroom::model()->findAllByAttributes(array('school_inep_fk'=>$modelInstructorTeachingData->school_inep_id_fk)), 'id', 'name'),
-                                    array(
-                                        'prompt' =>'Primeiro Selecione uma Escola'
-                                    )); ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'classroom_id_fk'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'role', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
-                                3 => 'Profissional/Monitor de Atividade Complementar',
-                                4 => 'Tradutor Intérprete de LIBRAS'));
-                            ?>                    
-                            <?php echo $form->error($modelInstructorTeachingData, 'role'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'contract_type', array('class' => 'control-label')); ?><div class="controls">        
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'contract_type', array(1 => 'Concursado/efetivo/estável', 2 => 'Contrato temporário',
-                                3 => 'Contrato terceirizado',
-                                4 => 'Contrato CLT'));
-                            ?>  
-                            <?php echo $form->error($modelInstructorTeachingData, 'contract_type'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorTeachingData, 'discipline_1_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo $form->DropDownlist($modelInstructorTeachingData, 'discipline_1_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name')
-                                    , array('multiple'=>true, 'key'=>'id'));
-                            ?>
-                            <?php echo $form->error($modelInstructorTeachingData, 'discipline_1_fk'); ?>
-                        </div></div>
-                    </div>
-                </div>
+             
                 <?php $this->endWidget(); ?>
             </div>
         </div>
@@ -1448,44 +1366,11 @@ $form = $this->beginWidget('CActiveForm', array(
         }); 
 
         //=============================================
-        //==============INSTRUCTOR TEACHING DATA
-        var formInstructorTeachingData = '#InstructorTeachingData_';
-            $(formInstructorTeachingData+"discipline_1_fk").change(function(){
-            while($(this).val().length > 13){
-                $(formInstructorTeachingData+"discipline_1_fk").val($(formInstructorTeachingData+"discipline_1_fk"));
-                alert('Máximo de disciplinas: 13')
-            }
-        });
         
-        var compAct = [];
-        
-        $(formInstructorTeachingData+"discipline_1_fk").mousedown(function(){
-            compAct = $(this).val();
-        });
-        
-        $(formInstructorTeachingData+"discipline_1_fk").mouseup(function(e){
-            if (!e.shiftKey){
-                value = $(this).val()[0];
-                
-                remove = 0;
-                compAct = jQuery.grep(compAct, function( a ) {
-                    if(a === value) remove++;
-                    return a !== value;
-                });
-                
-                if(remove == 0) compAct.push(value);
-                $(this).val(compAct);
-            }
-        });
-        
-        $(formInstructorTeachingData+"discipline_1_fk").keypress(function(e) {
-            console.log();
-        });
-        //=============================================
         
     });
     
     
  
     
-</script
+</script>

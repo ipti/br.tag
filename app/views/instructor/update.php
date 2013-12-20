@@ -19,7 +19,7 @@ $this->breadcrumbs=array(
             <?php echo $this->renderPartial('_form', array('modelInstructorIdentification'=>$modelInstructorIdentification,
                 'modelInstructorDocumentsAndAddress'=>$modelInstructorDocumentsAndAddress
                 ,'modelInstructorVariableData'=>$modelInstructorVariableData,
-                'modelInstructorTeachingData'=>$modelInstructorTeachingData,'title'=>$title)); ?>        </div>
+                'title'=>$title,'error' => $error)); ?>        </div>
 <!--        <div class="columntwo">
             <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
     </div>-->
