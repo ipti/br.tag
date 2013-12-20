@@ -2,14 +2,14 @@
 	'id'=>'school',
 	'enableAjaxValidation'=>false,
 )); ?>
+
+
     
 <div class="heading-buttons">
     <?php echo $form->errorSummary($modelSchoolIdentification); ?>
     <?php echo $form->errorSummary($modelSchoolStructure); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
-        <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
-        
     </div>
     <div class="clearfix"></div>
 </div>
@@ -38,8 +38,6 @@
             <div class="row-fluid">
                 <div class=" span5">
                     
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                         
                     <div class="separator"></div>
                         
                     <div class="control-group">
@@ -50,8 +48,6 @@
                         </div>
                     </div>
                         
-                    <div class="separator"></div>
-
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
@@ -171,7 +167,6 @@
                 <div class="span6">
                     
                     <div class="separator"></div>
-                    <div class="separator"></div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
@@ -181,12 +176,10 @@
                         </div>
                     </div>
                         
-                    <div class="separator"></div>
-                        
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'paralisada', 3 => 'extinta')); ?>
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                         </div>
                     </div>
@@ -195,22 +188,20 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <div class="input-append">
                             <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Initial Date Help'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
                         </div>
-                    </div></div>
+                    </div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <div class="input-append">
                             <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Final Date Help'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'final_date'); ?>
                         </div>
-                    </div></div>
-                        
-                    <div class="separator"></div>
+                    </div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
@@ -253,9 +244,7 @@
         <div class="tab-pane" id="school-structure">
             <div class="row-fluid">
                 <div class=" span5">
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
                   
-                    <div class="separator"></div>
                     <div class="separator"></div>
                             
                         <div class="control-group">
@@ -329,7 +318,7 @@
                                 </label>
                                 </div>
                             </div>
-                        </div>
+                      
                         
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation', array('class' => 'control-label')); ?>
@@ -447,10 +436,9 @@
                                 </label>
                             </div>
                         </div>
-                         
+                </div>
                     <div class="span6">
                         
-                        <div class="separator"></div>
                         <div class="separator"></div>
                         
                         <div class="control-group">
@@ -601,7 +589,6 @@
         <div class="tab-pane" id="school-equipament">
             <div class="row-fluid">
                 <div class=" span5">
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
 
                 <div class="separator"></div>
 
@@ -672,7 +659,6 @@
             <div class="span6">
 
                 <div class="separator"></div>
-                <div class="separator"></div>
 
                 <div class="control-group">
                     <?php echo $form->labelEx($modelSchoolStructure, 'equipments_fax', array('class' => 'control-label')); ?>
@@ -730,7 +716,6 @@
         <div class="tab-pane" id="school-humans">
             <div class="row-fluid">
                 <div class=" span5">
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
 
                 <div class="separator"></div>
 
@@ -747,7 +732,6 @@
         <div class="tab-pane" id="school-feeding">
             <div class="row-fluid">
                 <div class=" span5">
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
 
                 <div class="separator"></div>
 
@@ -765,7 +749,6 @@
         <div class="tab-pane" id="school-education">
             <div class="row-fluid">
                 <div class=" span5">
-                    <?php echo Yii::t('default', 'Fields with * are required.') ?>
 
                 <div class="separator"></div>
 
@@ -878,7 +861,6 @@
             <div class="span7">
 
                 <div class="separator"></div>
-                <div class="separator"></div>
 
                 <div class="control-group">
                 <label class="control-label"><?php echo Yii::t('default', 'Modalities'); ?></label>
@@ -989,9 +971,10 @@
             </div>
             </div>
         </div>
+            <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
         </div>
 
-                <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+                
                 <?php $this->endWidget(); ?>
             </div>
         </div>

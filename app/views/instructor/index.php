@@ -9,47 +9,37 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
 ); 
 
 ?>
-<div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+    
+<div class="heading-buttons">
+	<h3><?php echo Yii::t('default', 'Instructor Identifications')?></h3>
+	<div class="buttons pull-right">
+		<a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
+	</div>
+	<div class="clearfix"></div>
+</div>
+    
+<div class="innerLR">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
                 </div>
                 <br/>
             <?php endif ?>
-            <div class="panelGroup form">
-                <div class="panelGroupHeader"><div class=""><?php echo Yii::t('default', 'Instructor Identifications')?></div></div>
-                <div class="panelGroupBody">
+            <div class="widget">
+                <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
-                        'baseScriptUrl' => Yii::app()->theme->baseUrl . '/plugins/gridview/',
+                        'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-//                    		'register_type',
-//		'school_inep_id_fk',
-		'inep_id',
-		'id',
-		'name',
-//		'email',
-//		'nis',
-//		'birthday_date',
-//		'sex',
-//		'color_race',
-//		'mother_name',
-//		'nationality',
-//		'edcenso_nation_fk',
-//		'edcenso_uf_fk',
-//		'edcenso_city_fk',
-//		'deficiency',
-//		'deficiency_type_blindness',
-//		'deficiency_type_low_vision',
-//		'deficiency_type_deafness',
-//		'deficiency_type_disability_hearing',
-//		'deficiency_type_deafblindness',
-//		'deficiency_type_phisical_disability',
-//		'deficiency_type_intelectual_disability',
-//		'deficiency_type_multiple_disabilities',
-                     array('class' => 'CButtonColumn',),),
+                            array(
+                                'class' => 'CLinkColumn',
+                                'header'=>'Escola',
+                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
+                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
+                                ),
+                            'name',
+                     array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     )); ?>
                 </div>   
             </div>

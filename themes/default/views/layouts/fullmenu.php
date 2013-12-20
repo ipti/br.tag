@@ -147,7 +147,8 @@
                                     <ul class="collapse" id="menu_turmas">
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Matricular alunos</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment/create"><span>Matricular aluno</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Listar matrículas</span></a></li>
                                         <?php //<li class=""><a href="#"><span>Frequencia de alunos</span></a></li> ?>
                                         <?php //<li class=""><a href="#"><span>Notas de alunos</span></a></li> ?>
                                     </ul>
@@ -205,13 +206,15 @@
                 <!-- Content -->
                 <div id="content">
 
-                    <!-- Breadcrumb -->
+<!--                     Breadcrumb -->
                     <?php
                     if (isset($this->breadcrumbs)):
 
+                        $newBread = array();
+                    
                         if (Yii::app()->controller->route !== 'site/index')
-                            $this->breadcrumbs = array_merge(array(Yii::t('zii', '') => Yii::app()->homeUrl), $this->breadcrumbs);
-
+                            $this->breadcrumbs = array_merge(array(Yii::t('default', '') => Yii::app()->homeUrl),$this->breadcrumbs);
+                        
                         $this->widget('zii.widgets.CBreadcrumbs', array(
                             'links' => $this->breadcrumbs,
                             'homeLink' => '<li><a href="index.php" class="glyphicons home"><i></i> Página Inicial</a></li>',
@@ -221,9 +224,9 @@
                             'inactiveLinkTemplate' => '<li><span>{label}</span></li>',
                             'htmlOptions' => array('class' => 'breadcrumb')
                         ));
+                        endif; 
                         ?>
-                    <?php endif; ?>
-                    <!-- // Breadcrumb END -->
+<!--                     Breadcrumb END -->
                     
                     <div class="separator bottom"></div>
 
