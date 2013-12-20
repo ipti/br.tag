@@ -1,7 +1,7 @@
 <div id="mainPage" class="main">
 <?php
 $this->breadcrumbs=array(
-	'Student Identifications',
+	Yii::t('default', 'Student Identifications'),
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
 $this->menu=array(

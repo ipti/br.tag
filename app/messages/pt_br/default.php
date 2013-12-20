@@ -324,7 +324,7 @@ return array(
     'Classroom Fk' => 'Turma',
     'Enrollment' => 'Matrícula',
     'Unified Class' => 'Turma unificada',
-    'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
+    'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno',
     'Another Scholarization Place' => 'Recebe escolarização em outro espaço (diferente da escola)',
     'Public Transport' => 'Transporte escolar público',
     'Transport Responsable Government' => 'Poder público responsável pelo transporte escolar',
@@ -482,6 +482,10 @@ return array(
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
     
+    //Ajuda
+    'Initial Date Help' => 'Data de inicio do ano letivo',
+    'Final Date Help' => 'Data do final do ano letivo',
+    'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente'
     
     
         )

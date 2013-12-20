@@ -78,8 +78,8 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa"));
-                                    ?>
+                                    <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa"));?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
                                     <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
@@ -107,95 +107,57 @@
                                     <?php echo $form->error($model, 'transport_responsable_government'); ?>
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_van', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_van'); ?>
+                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_microbus']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bus']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_bus', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_animal_vehicle']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_other_vehicle']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_other_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5_15']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5_15', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_15_35']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_15_35', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
                                 </div>
                             </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_microbus', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_microbus'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_bus', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_bus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_bus'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_bike', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_bike'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_animal_vehicle', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_animal_vehicle'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_other_vehicle', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_other_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_other_vehicle'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_waterway_boat_5', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_waterway_boat_5'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_waterway_boat_5_15', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5_15', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_waterway_boat_5_15'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_waterway_boat_15_35', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_15_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_waterway_boat_15_35'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_waterway_boat_35', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_waterway_boat_35'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'vehicle_type_metro_or_train', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($model, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($model, 'vehicle_type_metro_or_train'); ?>
-                                </div>
-                            </div>
-
+                            
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 'control-label')); ?>
                                 <div class="controls">
