@@ -6,11 +6,13 @@
 <div class="heading-buttons">
     <?php echo $form->errorSummary($model); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
+    <div class="buttons pull-right">
+    </div>
     <div class="clearfix"></div>
 </div>
-    
 
-<div class="innerLR">    
+<div class="innerLR">
+
     <div class="widget widget-tabs border-bottom-none">
 
         <div class="widget-head">
@@ -18,17 +20,18 @@
                 <li class="active"><a class="glyphicons edit" href="#enrollment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Enrollment') ?></a></li>
             </ul>
         </div>
-    
-     <div class="widget-body form-horizontal">
+
+        <div class="widget-body form-horizontal">
+
             <div class="tab-content">
 
                 <!-- Tab content -->
-                <div class="tab-pane active" id="enrollment">
+                <div class="tab-pane active" id="classroom">
                     <div class="row-fluid">
-                        <div class=" span6">
-                            
+                        <div class=" span5">
+
                             <div class="separator"></div>
-                
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -38,10 +41,10 @@
                                             'type' => 'POST',
                                             'url' => CController::createUrl('enrollment/updatedependencies'),
                                             'success' => "function(data){
-                                                                    data = jQuery.parseJSON(data);
-                                                                    $('#StudentEnrollment_student_fk').html( data.Students);
-                                                                    $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
-                                                                }",
+                                                data = jQuery.parseJSON(data);
+                                                $('#StudentEnrollment_student_fk').html( data.Students);
+                                                $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
+                                            }",
                                             )));
                                     ?>
                                     <?php echo $form->error($model, 'school_inep_id_fk'); ?>
@@ -102,56 +105,6 @@
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal")); ?>
                                     <?php echo $form->error($model, 'transport_responsable_government'); ?>
-                                </div>
-                            </div>
-                            
-                            <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
-                                <div class="uniformjs margin-left">
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_microbus']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bus']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_bus', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_animal_vehicle']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_other_vehicle']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_other_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5_15']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_5_15', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_15_35']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_15_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
-                                        <?php echo $form->checkBox($model, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
                                 </div>
                             </div>
 
@@ -261,17 +214,16 @@
                                     <?php echo $form->error($model, 'student_entry_form'); ?>
                                 </div>
                             </div>
+
+                            <div class="formField buttonWizardBar">
+                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+                            </div>
+                            <?php $this->endWidget(); ?>
                         </div>
                     </div>
                 </div>
             </div>
-     </div>
-</div>
-    
-        <div class="formField buttonWizardBar">
-        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'buttonLink button')); ?>
         </div>
-        <?php $this->endWidget(); ?>
     </div>
 </div>
 <script type="text/javascript">

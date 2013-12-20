@@ -206,13 +206,15 @@
                 <!-- Content -->
                 <div id="content">
 
-                    <!-- Breadcrumb -->
+<!--                     Breadcrumb -->
                     <?php
                     if (isset($this->breadcrumbs)):
 
+                        $newBread = array();
+                    
                         if (Yii::app()->controller->route !== 'site/index')
-                            $this->breadcrumbs = array_merge(array(Yii::t('zii', '') => Yii::app()->homeUrl), $this->breadcrumbs);
-
+                            $this->breadcrumbs = array_merge(array(Yii::t('default', '') => Yii::app()->homeUrl),$this->breadcrumbs);
+                        
                         $this->widget('zii.widgets.CBreadcrumbs', array(
                             'links' => $this->breadcrumbs,
                             'homeLink' => '<li><a href="index.php" class="glyphicons home"><i></i> Página Inicial</a></li>',
@@ -222,9 +224,9 @@
                             'inactiveLinkTemplate' => '<li><span>{label}</span></li>',
                             'htmlOptions' => array('class' => 'breadcrumb')
                         ));
+                        endif; 
                         ?>
-                    <?php endif; ?>
-                    <!-- // Breadcrumb END -->
+<!--                     Breadcrumb END -->
                     
                     <div class="separator bottom"></div>
 
