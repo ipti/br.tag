@@ -44,9 +44,9 @@
 <!--                      </div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($model, 'inep_id'); ?>
-                            <?php echo $form->textField($model, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($model, 'inep_id'); ?>
+                            <?php echo $form->labelEx($model, 'instructor_inep_id'); ?>
+                            <?php echo $form->textField($model, 'instructor_inep_id', array('size' => 12, 'maxlength' => 12)); ?>
+                            <?php echo $form->error($model, 'instructor_inep_id'); ?>
                         </div></div>
 
 <!--                        <div class="control-group">

@@ -44,7 +44,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'register_type',
 		'school_inep_id_fk',
-		'inep_id',
+		'instructor_inep_id',
 		'id',
 		'classroom_inep_id',
 		'classroom_id_fk',

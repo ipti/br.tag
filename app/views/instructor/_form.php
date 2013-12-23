@@ -7,13 +7,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="heading-buttons">
     <?php
-    $isModel = isset($modelInstructorIdentification);
+    $isModel = isset($modelInstructorIdentification); // Corrigir se precisar acessar os atributos
     echo $form->errorSummary($modelInstructorIdentification);
     echo $form->errorSummary($modelInstructorDocumentsAndAddress);
     echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
     echo $form->errorSummary($modelInstructorVariableData);
     echo isset($error['variableData']) ? $error['variableData'] : '';
-  
     ?>
     
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>

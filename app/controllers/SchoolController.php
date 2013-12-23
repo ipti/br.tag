@@ -56,7 +56,7 @@ class SchoolController extends Controller {
             (`business_or_individual`, `syndicate_or_association`, `ong_or_oscip`, `non_profit_institutions`,`s_system`) VALUES ";
 
 
-        $filedir = '/home/ipti009/Área de Trabalho/2013_98018493.TXT';
+        $filedir = '/home/ipti002/Desktop/TAG/db/SQL -  23-12-2013/2013_98018493.TXT';
         $mode = 'r';
 
         $file = fopen($filedir, $mode);
@@ -101,6 +101,10 @@ class SchoolController extends Controller {
             $preInserts[$regType] = [];
 
             $totalLines = count($lines) - 1;
+            $isRegInstructorIdentification = ($regType == "30");
+            if ($isRegInstructorIdentification) {
+                $instructorInepIds[] = '';
+            }
             for ($line = 0; $line <= $totalLines; $line++) {
                 $preInsertsTableIndex = 0;
                 $preInserts[$regType][$preInsertsTableIndex] = "";
@@ -110,6 +114,11 @@ class SchoolController extends Controller {
                         $insertValue[$regType].= "(";
                     }
 
+                    $value = $lines[$line][$column];
+                    
+                    if ($isRegInstructorIdentification && $column == 2) {
+                        $instructorInepIds[$line] = $value;
+                    }
                     /* $return = [];
                       //retorna [0] column, [1] values, [2] Array Values
                       $return = $this->getPreInsertValues($regType, $column, $lines[$line]);
@@ -135,11 +144,13 @@ class SchoolController extends Controller {
                       }
                       }
                       else{ */
-                    $value = $lines[$line][$column];
+
                     if ($value == "GILLIANY DA SILVA LEITE") {
                         $lines[$line][sizeof($lines[$line])] = 'null';
                         $totalColumns++;
                     }
+
+
                     $value = ($value == 'null') ? $value : "\"" . $value . "\"";
                     //}
 
@@ -157,6 +168,7 @@ class SchoolController extends Controller {
             };
         endforeach;
         $str_fields = [];
+        $teachingData = [];
         foreach ($insertValue as $regType => $lines):
             switch ($regType) {
                 case '00': {
@@ -183,8 +195,9 @@ class SchoolController extends Controller {
                         $str_fields[$regType] = "INSERT INTO instructor_variable_data VALUES " . $lines;
                         break;
                     }
+                    
                 case '51': {
-                        $str_fields[$regType] = "INSERT INTO instructor_teaching_data VALUES " . $lines;
+                        $str_fields[$regType] = "INSERT INTO `TAG_SGE`.`instructor_teaching_data`(`register_type`,`school_inep_id_fk`,`instructor_inep_id`,`instructor_fk`,`classroom_inep_id`,`classroom_id_fk`,`role`,`contract_type`,`discipline_1_fk`,`discipline_2_fk`,`discipline_3_fk`,`discipline_4_fk`,`discipline_5_fk`,`discipline_6_fk`,`discipline_7_fk`,`discipline_8_fk`,`discipline_9_fk`,`discipline_10_fk`,`discipline_11_fk`,`discipline_12_fk`,`discipline_13_fk`) VALUES " . $lines;
                         break;
                     }
                 case '60': {
@@ -210,6 +223,12 @@ class SchoolController extends Controller {
         Yii::app()->db->createCommand($str_fields['20'])->query();
         echo "done 20<br>";
         Yii::app()->db->createCommand($str_fields['30'])->query();
+//        //=====================
+        $instructorId_inepId = [];
+        foreach($instructorInepIds as $inepId):
+          $instructorId_inepId[$inepId] =  Yii::app()->db->createCommand("SELECT id FROM TAG_SGE.instructor_identification WHERE inep_id =". $inepId .";")->queryAll();
+        endforeach;
+//        //=====================
         echo "done 30<br>";
         Yii::app()->db->createCommand($str_fields['40'])->query();
         echo "done 40<br>";
@@ -217,6 +236,13 @@ class SchoolController extends Controller {
         echo "done 50<br>";
         Yii::app()->db->createCommand($str_fields['51'])->query();
         echo "done 51<br>";
+//          //===============
+
+          foreach ($instructorId_inepId as $inepId=>$id):
+              $comando = "UPDATE TAG_SGE.instructor_teaching_data SET instructor_fk =".$id[0]['id']." WHERE instructor_inep_id =".$inepId. ";";
+              Yii::app()->db->createCommand($comando)->query();
+          endforeach;
+//        //===============
         Yii::app()->db->createCommand($str_fields['60'])->query();
         echo "done 60<br>";
         Yii::app()->db->createCommand($str_fields['70'])->query();
@@ -278,22 +304,22 @@ class SchoolController extends Controller {
         // $this->performAjaxValidation($modelSchoolIdentification);
 
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
-            if(isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])){
+            if (isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
             }
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] =
                     isset($sharedSchools[0]) ? $sharedSchools[0] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] =
                     isset($sharedSchools[1]) ? $sharedSchools[1] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] =
                     isset($sharedSchools[2]) ? $sharedSchools[2] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] =
                     isset($sharedSchools[3]) ? $sharedSchools[3] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] =
                     isset($sharedSchools[4]) ? $sharedSchools[4] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] =
                     isset($sharedSchools[5]) ? $sharedSchools[5] : null;
-            
+
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
 
@@ -314,7 +340,7 @@ class SchoolController extends Controller {
                         $this->redirect(array('index'));
                     }
                 } else {
-                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
+                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -338,28 +364,28 @@ class SchoolController extends Controller {
         // $this->performAjaxValidation($modelSchoolIdentification);
 
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
-            
-            if(isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])){
+
+            if (isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
             }
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"] =
                     isset($sharedSchools[0]) ? $sharedSchools[0] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_2"] =
                     isset($sharedSchools[1]) ? $sharedSchools[1] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_3"] =
                     isset($sharedSchools[2]) ? $sharedSchools[2] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_4"] =
                     isset($sharedSchools[3]) ? $sharedSchools[3] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] =
                     isset($sharedSchools[4]) ? $sharedSchools[4] : null;
-            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] = 
+            $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] =
                     isset($sharedSchools[5]) ? $sharedSchools[5] : null;
-            
+
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
-            
+
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building
                         || $modelSchoolStructure->operation_location_temple
@@ -374,7 +400,7 @@ class SchoolController extends Controller {
                         $this->redirect(array('view', 'id' => $modelSchoolIdentification->inep_id));
                     }
                 } else {
-                    $modelSchoolStructure->addError('operation_location_building',  Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
+                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -398,7 +424,6 @@ class SchoolController extends Controller {
         } else {
             throw new CHttpException(404, 'A página requisitada não existe.');
         }
-
     }
 
     /**

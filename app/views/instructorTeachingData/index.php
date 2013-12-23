@@ -27,7 +27,7 @@ array('label'=> Yii::t('default', 'Create a new InstructorTeachingData'), 'url'=
                         'columns' => array(
                     		'register_type',
 		'school_inep_id_fk',
-		'inep_id',
+		'instructor_inep_id',
 		'id',
 		'classroom_inep_id',
 		'classroom_id_fk',
