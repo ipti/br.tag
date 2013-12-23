@@ -17,9 +17,9 @@
         
         <div class="widget-head">
             <ul>
-                <li class="active"><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
-                <li><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
+                <li id="tab-student-indentify" class="active" ><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-student-documents"  ><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
+                <li id="tab-student-address"    ><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
             </ul>
         </div>
             
@@ -276,6 +276,9 @@
                             </div>
                         </div>
                     </div>   
+                    <div class="control-group buttonWizardBar nextBar">
+                        <a href="#student-documents" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+                    </div>
                 </div>
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
@@ -454,6 +457,9 @@
                                 
                         </div>
                     </div>   
+                    <div class="control-group buttonWizardBar nextBar">
+                        <a href="#student-address" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+                    </div>
                 </div>
                 <!-- Tab Student Address -->
                 <div class="tab-pane" id="student-address">
@@ -536,12 +542,11 @@
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
-                                
-                            <div class="control-group buttonWizardBar">
-                                <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Criar') : Yii::t('default', 'Salvar'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
-                    
-                            </div>
+                             
                         </div>
+                    </div>   
+                    <div class="control-group buttonWizardBar nextBar">
+                        <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Criar') : Yii::t('default', 'Salvar'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                 </div>
                     
@@ -845,5 +850,11 @@
         }
     });
     
+    $('.next').click(function(){
+        $('li[class="active"]').removeClass("active");
+        var id = '#tab-'+($(this).attr("href")).substring(1);
+        $(id).addClass("active");
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    });
 </script>
     

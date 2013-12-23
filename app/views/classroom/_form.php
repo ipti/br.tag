@@ -18,8 +18,8 @@
         
         <div class="widget-head">
             <ul>
-                <li class="active"><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li><a class="glyphicons edit" href="#disciplines" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Disciplines') ?></a></li>
+                <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
+                <li id="tab-disciplines"><a class="glyphicons edit" href="#disciplines" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Disciplines') ?></a></li>
             </ul>
         </div>
             
@@ -250,8 +250,10 @@
                                     <?php echo $form->error($model, 'instructor_situation'); ?>
                                 </div>
                             </div>
-                                
                         </div>
+                    </div>
+                    <div class="control-group buttonWizardBar nextBar">
+                        <a href="#disciplines" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
                     </div>
                 </div>
                 <div class="tab-pane" id="disciplines">
@@ -466,12 +468,12 @@
                                     <?php echo $form->error($model, 'discipline_others'); ?>
                                 </div>
                             </div>
-                            <div class="control-group buttonWizardBar">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary')); ?>
-                            </div>
-                            <?php $this->endWidget(); ?>
                         </div>
                     </div>
+                    <div class="control-group buttonWizardBar nextBar">
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon next btn-primary')); ?>
+                    </div>
+                    <?php $this->endWidget(); ?>
                 </div>
             </div>
         </div>
@@ -607,5 +609,12 @@
         }else{
             removeError(id);
         }
+    });
+    
+    $('.next').click(function(){
+        $('li[class="active"]').removeClass("active");
+        var id = '#tab-'+($(this).attr("href")).substring(1);
+        $(id).addClass("active");
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
     });
 </script>

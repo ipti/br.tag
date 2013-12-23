@@ -20,12 +20,12 @@
     
         <div class="widget-head">
             <ul>
-                <li class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
-                <li><a class="glyphicons imac" href="#school-equipament" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
-                <li><a class="glyphicons parents" href="#school-humans" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Human Resources') ?></a></li>
-                <li><a class="glyphicons cutlery" href="#school-feeding" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Feed') ?></a></li>
-                <li><a class="glyphicons book" href="#school-education" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?></a></li>
+                <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-school-structure"   ><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
+                <li id="tab-school-equipament"  ><a class="glyphicons imac"     href="#school-equipament" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
+                <li id="tab-school-humans"      ><a class="glyphicons parents"  href="#school-humans" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Human Resources') ?></a></li>
+                <li id="tab-school-feeding"     ><a class="glyphicons cutlery"  href="#school-feeding" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Feed') ?></a></li>
+                <li id="tab-school-education"   ><a class="glyphicons book"     href="#school-education" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?></a></li>
             </ul>
         </div>
         
@@ -238,6 +238,9 @@
                     </div>
                 </div>
                     
+            </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <a href="#school-structure" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
             </div>
         </div>
     
@@ -584,6 +587,9 @@
                     </div>
                         
                     </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <a href="#school-equipament" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+            </div>
         </div>
 
         <div class="tab-pane" id="school-equipament">
@@ -711,6 +717,9 @@
 
             </div>
         </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <a href="#school-humans" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+            </div>
         </div>
 
         <div class="tab-pane" id="school-humans">
@@ -727,6 +736,9 @@
                 </div></div>
             </div>
         </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <a href="#school-feeding" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+            </div>
         </div>
 
         <div class="tab-pane" id="school-feeding">
@@ -744,6 +756,9 @@
 
             </div>
         </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <a href="#school-education" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
+            </div>
         </div>
 
         <div class="tab-pane" id="school-education">
@@ -971,8 +986,10 @@
             </div>
             </div>
         </div>
-            <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
-        </div>
+            <div class="control-group buttonWizardBar nextBar">
+                <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+            </div>
+            </div>
 
                 
                 <?php $this->endWidget(); ?>
@@ -1233,4 +1250,12 @@
             }
         });
         //multiselect
-    </script>
+        
+        
+    $('.next').click(function(){
+        $('li[class="active"]').removeClass("active");
+        var id = '#tab-'+($(this).attr("href")).substring(1);
+        $(id).addClass("active");
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    });
+</script>

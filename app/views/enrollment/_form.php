@@ -109,7 +109,7 @@
                             </div>
                             
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                                <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
@@ -176,13 +176,12 @@
                                     <?php echo $form->error($model, 'student_entry_form'); ?>
                                 </div>
                             </div>
-
-                            <div class="formField buttonWizardBar">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
-                            </div>
-                            <?php $this->endWidget(); ?>
                         </div>
                     </div>
+                    <div class="formField buttonWizardBar nextBar">
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+                    </div>
+                    <?php $this->endWidget(); ?>
                 </div>
             </div>
         </div>

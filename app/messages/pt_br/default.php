@@ -5,7 +5,7 @@ return array(
     'Create' => 'Criar',
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
-    
+    'Next' => 'Próximo',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
@@ -329,6 +329,7 @@ return array(
     'Another Scholarization Place' => 'Recebe escolarização em outro espaço (diferente da escola)',
     'Public Transport' => 'Transporte escolar público',
     'Transport Responsable Government' => 'Poder público responsável pelo transporte escolar',
+    'Transport Type' => 'Tipo de Transporte',
     'Vehicle Type Van' => 'Rodoviário - Vans/Kombis',
     'Vehicle Type Microbus' => 'Rodoviário - Microônibus',
     'Vehicle Type Bus' => 'Rodoviário - Ônibus',
