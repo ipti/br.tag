@@ -12,7 +12,7 @@
     <div class="heading-buttons">
         <h3><?php echo Yii::t('default', 'Student Enrollments') ?></h3>
         <div class="buttons pull-right">
-            <a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
+            <a href="?r=enrollment/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -45,7 +45,8 @@
                                 ($data->student_inep_id === null) 
                                 ? StudentIdentification::model()->findByAttributes(array("id" => $data->student_fk))["name"] 
                                 : StudentIdentification::model()->findByAttributes(array("inep_id" => $data->student_inep_id))["name"]',
-                                'urlExpression'=>'"?r=student/update&id=".($data->student_fk == "" ? $data->student_inep_id : $data->student_fk)',
+                                'urlExpression'=>'"?r=student/update&id=".(($data->student_fk === null) 
+                                ? StudentIdentification::model()->findByAttributes(array("inep_id" => $data->student_inep_id))["id"]: $data->student_fk)',
                                 ),
                             array(
                                 'class' => 'CLinkColumn',
@@ -54,7 +55,8 @@
                                 ($data->classroom_inep_id === null) 
                                 ? Classroom::model()->findByAttributes(array("id" => $data->classroom_fk))["name"] 
                                 : Classroom::model()->findByAttributes(array("inep_id" => $data->classroom_inep_id))["name"]',
-                                'urlExpression'=>'"?r=classroom/update&id=".($data->classroom_fk == "" ? $data->classroom_inep_id : $data->classroom_fk)',
+                                'urlExpression'=>'"?r=classroom/update&id=".(($data->classroom_fk === null) 
+                                ? Classroom::model()->findByAttributes(array("inep_id" => $data->classroom_inep_id))["id"]: $data->classroom_fk)',
                                 ),
                         'enrollment_id', 
                         array('class' => 'CButtonColumn','template'=>'{update} {delete}'),),

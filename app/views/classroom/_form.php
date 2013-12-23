@@ -19,6 +19,7 @@
         <div class="widget-head">
             <ul>
                 <li class="active"><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
+                <li><a class="glyphicons edit" href="#disciplines" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Disciplines') ?></a></li>
             </ul>
         </div>
             
@@ -82,7 +83,7 @@
                             
                             <div class="control-group">
                             <label class="control-label"><?php echo Yii::t('default', 'Week Days'); ?></label>
-                            <div class="uniformjs margin-left">
+                            <div class="uniformjs margin-left" id="Classroom_week_days">
                                 <label class="checkbox">
                                     <?php 
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
@@ -241,6 +242,22 @@
                                 </div>
                             </div>
                                 
+                            <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com docente", "1" => "Turma sem docente"); ?>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($model, 'instructor_situation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($model, 'instructor_situation', $instructorSituationEnum); ?>
+                                    <?php echo $form->error($model, 'instructor_situation'); ?>
+                                </div>
+                            </div>
+                                
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="disciplines">
+                    <div class="row-fluid">
+                        <div class=" span5">
+                            <div class="separator"></div>
                             <?php $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'discipline_chemistry', array('class' => 'control-label')); ?>
@@ -449,18 +466,8 @@
                                     <?php echo $form->error($model, 'discipline_others'); ?>
                                 </div>
                             </div>
-                                
-                            <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com docente", "1" => "Turma sem docente"); ?>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'instructor_situation', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'instructor_situation', $instructorSituationEnum); ?>
-                                    <?php echo $form->error($model, 'instructor_situation'); ?>
-                                </div>
-                            </div>
-                                
                             <div class="control-group buttonWizardBar">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary')); ?>
                             </div>
                             <?php $this->endWidget(); ?>
                         </div>
@@ -580,6 +587,24 @@
             time[1] = Math.floor(time[1]/5) * 5;
             $(hour).attr('value',time[0]=='0'?'00':time[0]);
             $(minute).attr('value',time[1]=='0'?'00':time[1]);
+            removeError(id);
+        }
+    });
+    
+    
+    $(form+'week_days input[type=checkbox]').change(function(){
+        var id = '#'+$(form+'week_days').attr("id");
+        if($('#Classroom_week_days input[type=checkbox]:checked').length == 0){
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    $(form+'week_days').focusout(function(){
+        var id = '#'+$(this).attr("id");
+        if($('#Classroom_week_days input[type=checkbox]:checked').length == 0){
+            addError(id, "Campo não está dentro das regras.");
+        }else{
             removeError(id);
         }
     });

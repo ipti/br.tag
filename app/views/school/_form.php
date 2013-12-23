@@ -278,7 +278,7 @@
                         
                         <div class="control-group">
                             <label class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
-                            <div class="uniformjs margin-left">
+                            <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                 <label class="checkbox">
                                     <?php 
                                     echo SchoolStructure::model()->attributeLabels()['operation_location_building'];
@@ -1192,6 +1192,15 @@
                 removeError(id);
             }
         });
+        
+        $(formStructure+'operation_location input[type=checkbox]').change(function(){
+            var id = '#'+$(formStructure+'operation_location').attr("id");
+            if($('#SchoolStructure_operation_location input[type=checkbox]:checked').length == 0){
+                addError(id, "Campo não está dentro das regras.");
+            }else{
+                removeError(id);
+            }
+        })
         
         $(formStructure+'operation_location').focusout(function(){
             var id = '#'+$(this).attr("id");

@@ -257,11 +257,11 @@ class StudentController extends Controller {
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $student_inep_ip = StudentIdentification::model()->findByPk($id)->inep_id;
+            $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
             
-            $return = ($student_inep_ip === null) 
+            $return = ($student_inep_id === null) 
                     ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
-                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_ip));
+                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
         }
         
         if ($return === null){
