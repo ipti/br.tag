@@ -7,7 +7,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="heading-buttons">
     <?php
-    $isModel = isset($modelInstructorIdentification); // Corrigir se precisar acessar os atributos
+    $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
     echo $form->errorSummary($modelInstructorIdentification);
     echo $form->errorSummary($modelInstructorDocumentsAndAddress);
     echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
