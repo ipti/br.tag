@@ -26,7 +26,7 @@
             <div class="tab-content">
 
                 <!-- Tab content -->
-                <div class="tab-pane active" id="classroom">
+                <div class="tab-pane active" id="enrollment">
                     <div class="row-fluid">
                         <div class=" span5">
 
@@ -181,6 +181,7 @@
                     <div class="formField buttonWizardBar nextBar">
                         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
+                    <span style="clear:both;display:block"></span>
                     <?php $this->endWidget(); ?>
                 </div>
             </div>

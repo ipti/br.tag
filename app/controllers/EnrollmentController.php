@@ -91,6 +91,7 @@ class EnrollmentController extends Controller
 
 		if(isset($_POST['StudentEnrollment']))
 		{
+                    if($model->validate()){
 			$model->attributes=$_POST['StudentEnrollment'];
                         $model->classroom_inep_id = Classroom::model()->findByPk($model->classroom_fk)->inep_id;
                         $model->student_inep_id = StudentIdentification::model()->findByPk($model->student_fk)->inep_id;
@@ -99,6 +100,7 @@ class EnrollmentController extends Controller
                                 Yii::app()->user->setFlash('success', Yii::t('default', 'StudentEnrollment Created Successful:'));
 				$this->redirect(array('index'));
                                }
+                    }
 		}
 
 		$this->render('create',array(
@@ -125,9 +127,13 @@ class EnrollmentController extends Controller
                 
 		if(isset($_POST['StudentEnrollment']))
 		{
+                    if($model->validate()){
 			$model->attributes=$_POST['StudentEnrollment'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			if($model->save()){
+                                Yii::app()->user->setFlash('success', Yii::t('default', 'StudentEnrollment Edited Successful:'));
+				$this->redirect(array('index'));
+                               }
+                    }
 		}
 
 		$this->render('update',array(

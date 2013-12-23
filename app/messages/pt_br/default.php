@@ -10,6 +10,7 @@ return array(
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
+    'cannot be blank' => 'não pode ser vazio.',
     
     
     //Campos das tabelas
