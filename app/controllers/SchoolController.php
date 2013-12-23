@@ -397,7 +397,8 @@ class SchoolController extends Controller {
                         || $modelSchoolStructure->operation_location_prison_unity
                         || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        $this->redirect(array('view', 'id' => $modelSchoolIdentification->inep_id));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso:'));
+                        $this->redirect(array('index'));
                     }
                 } else {
                     $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));

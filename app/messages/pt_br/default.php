@@ -5,11 +5,12 @@ return array(
     'Create' => 'Criar',
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
-    
+    'Next' => 'Próximo',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
+    'cannot be blank' => 'não pode ser vazio.',
     
     
     //Campos das tabelas
@@ -29,7 +30,7 @@ return array(
     'Address Complement' => 'Complemento',
     'Address Neighborhood' => 'Bairro',
     'Edcenso Uf Fk' => 'Estado',
-    'Edcenso City Fk' => 'City',
+    'Edcenso City Fk' => 'Cidade',
     'Edcenso District Fk' => 'Distrito',
     'Ddd' => 'DDD',
     'Phone Number' => 'Telefone',
@@ -220,6 +221,7 @@ return array(
     'Modality' => 'Modalidade',
     'Edcenso Stage Vs Modality Fk' => 'Etapas de Ensino',
     'Edcenso Professional Education Course Fk' => 'Código Curso Educação Profissional',
+    'Disciplines' => 'Disciplinas',
     'Discipline Chemistry' => 'Química',
     'Discipline Physics' => 'Física',
     'Discipline Mathematics' => 'Matemática',
@@ -328,6 +330,7 @@ return array(
     'Another Scholarization Place' => 'Recebe escolarização em outro espaço (diferente da escola)',
     'Public Transport' => 'Transporte escolar público',
     'Transport Responsable Government' => 'Poder público responsável pelo transporte escolar',
+    'Transport Type' => 'Tipo de Transporte',
     'Vehicle Type Van' => 'Rodoviário - Vans/Kombis',
     'Vehicle Type Microbus' => 'Rodoviário - Microônibus',
     'Vehicle Type Bus' => 'Rodoviário - Ônibus',

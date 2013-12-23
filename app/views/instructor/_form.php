@@ -17,8 +17,6 @@ $form = $this->beginWidget('CActiveForm', array(
     
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
-        <button type="button" class="btn btn-icon btn-default glyphicons unshare"><i></i>Voltar</button>
-        <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?><div class="controls">
     </div>
     <div class="clearfix"></div>
 </div>
@@ -761,9 +759,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div></div>
                         </div>
                     </div>
+                    <div>
+                    <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary')); ?>
+                    </div>          
+                   <?php $this->endWidget(); ?>
                 </div>
-             
-                <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>

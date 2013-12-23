@@ -178,20 +178,23 @@ class ClassroomController extends Controller
                             isset($compActs[4]) ? $compActs[4] : null;
                     $_POST['Classroom']["complementary_activity_type_6"] = 
                             isset($compActs[5]) ? $compActs[5] : null;
-                    $model->attributes=$_POST['Classroom'];
-                    if($model->week_days_sunday
-                            || $model->week_days_monday 
-                            || $model->week_days_tuesday 
-                            || $model->week_days_wednesday 
-                            || $model->week_days_thursday 
-                            || $model->week_days_friday 
-                            || $model->week_days_saturday ){
-                        if($model->save()){
-                                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma Criada com Sucesso:'));
-                                $this->redirect(array('index'));
-                               }
-                     }
-		}
+                    $model->attributes = $_POST['Classroom'];
+                    if ($model->week_days_sunday
+                            || $model->week_days_monday
+                            || $model->week_days_tuesday
+                            || $model->week_days_wednesday
+                            || $model->week_days_thursday
+                            || $model->week_days_friday
+                            || $model->week_days_saturday) {
+                        if ($model->validate() && $model->save()) {
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma Criada com Sucesso:'));
+                            $this->redirect(array('index'));
+                        }
+                        
+                    } else {
+                        $model->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
+                    }
+                }
 
 		$this->render('create',array(
 			'model'=>$model,'complementary_activities' => array()
@@ -240,8 +243,12 @@ class ClassroomController extends Controller
                             || $model->week_days_thursday 
                             || $model->week_days_friday 
                             || $model->week_days_saturday ){
-                        if($model->save())
-                                $this->redirect(array('view','id'=>$model->id));
+                        if($model->validate() && $model->save()) {
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma modificada com Sucesso:'));
+                            $this->redirect(array('index'));
+                        }     
+                    } else {
+                        $model->addError('week_days_sunday',  Yii::t('default', 'Week Days').' '.Yii::t('default', 'cannot be blank'));
                     }
 		}
                 $compActs = array();
