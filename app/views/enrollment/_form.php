@@ -178,7 +178,7 @@
                             </div>
 
                             <div class="formField buttonWizardBar">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+                                <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary')); ?>
                             </div>
                             <?php $this->endWidget(); ?>
                         </div>

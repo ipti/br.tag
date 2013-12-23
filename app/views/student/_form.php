@@ -538,7 +538,7 @@
                             </div>
                                 
                             <div class="control-group buttonWizardBar">
-                                <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Criar') : Yii::t('default', 'Salvar'), array('class' => 'btn btn-icon btn-primary glyphicons circle_ok')); ?>
+                                <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Criar') : Yii::t('default', 'Salvar'), array('class' => 'btn btn-icon btn-primary')); ?>
                     
                             </div>
                         </div>
