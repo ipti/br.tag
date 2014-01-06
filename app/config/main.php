@@ -1,5 +1,11 @@
 <?php
-
+//@todo 28 - ACL Controle de permissões e login através do banco de dados, criação de usuários para os secretários na escola e perfil.
+//@todo 29 - ACL O Yii já possui modulo pronto para isso é somente configurar e inseri as permissões no bano, NÃO FAÇAM NA MÃO
+// @todo 31 - Lembrar de associar o usuário a escola para fazer as filtragem necessárias nas telas.
+// @todo 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
+// @todo 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
+// @todo 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
+// 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 

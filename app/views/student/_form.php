@@ -32,9 +32,10 @@
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="separator"></div>
-                                
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
+                                <?php 
+                                //@todo 11 - Não precisar selecionar a escola, ele já estará em uma
+                                echo $form->labelEx($modelStudentIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelStudentIdentification, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola"));
                                     ?>

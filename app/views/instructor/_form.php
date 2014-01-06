@@ -1,4 +1,7 @@
 <?php
+//@todo 26 - Melhorar a diagramação desta tela e textos.
+//@todo 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'instructor-form',
     'enableAjaxValidation' => false,
@@ -29,7 +32,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <ul>
                 <li class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
-                <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Variable Data') ?></a></li>
+                <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@todo 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
               <?php if($isModel) {
                  echo '<li><a class="glyphicons parents" href="'.Yii::app()->baseUrl.'/index.php?r=InstructorTeachingData/create&instructor_id='. $modelInstructorIdentification->id .' "><i></i>'. Yii::t("default", "Dados do Professor") . '</a></li>';
               }
@@ -317,6 +320,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
+                            //@todo 22 - Este filtro da cidade não está funcionando.
                             echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
                                 'ajax' => array(
@@ -402,7 +406,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div></div>
 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
+                            <?php 
+                            //@todo 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
+                            echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
                             $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
                                     , array('prompt' => 'Select Course 1'))
