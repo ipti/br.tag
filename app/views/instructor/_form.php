@@ -44,8 +44,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="instructor-indentify">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-
+                          
                         <div class="separator"></div>
                         <div class="separator"></div>
 
