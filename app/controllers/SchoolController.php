@@ -27,7 +27,8 @@ class SchoolController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities', 'getdistricts'),
+                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities', 
+                    'getdistricts', 'getorgans', 'updateufdependencies'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -40,9 +41,8 @@ class SchoolController extends Controller {
         );
     }
 
+    //@todo - Mover para o controle de Import
     public function actionEdcenso_import() {
-
-
         $selects = [];
         $selects['00'][0] = 'SELECT id from `private_school_maintainer` where (
         `business_or_individual` = "%value0%"
@@ -253,32 +253,72 @@ class SchoolController extends Controller {
         set_time_limit(30);
         fclose($file);
     }
-
-    public function actionGetCities() {
+ 
+    //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
+    public function actionUpdateUfDependencies(){
         $school = new SchoolIdentification();
         $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+        
+        $uf = $school->edcenso_uf_fk;
+        
+        $result = array('Organ'=>'', 'City'=>'');
+        $result['City'] = $this->actionGetCities($uf);
+        $result['Organ'] = $this->actionGetOrgans($uf);
+
+        echo json_encode($result);
+    }
+    
+    public function actionGetCities($Uf = null) {
+        if(isset($_POST[$this->SCHOOL_IDENTIFICATION])){
+            $school = new SchoolIdentification();
+            $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+        }
+        $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => null), 'Selecione a cidade', true);
+        $result =  CHtml::tag('option', array('value' => null), 'Selecione a cidade', true);
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+
+        return $result;   
     }
 
+    //@done s1 - Modificar a tabela EdcensoRegionalEducationOrgan para acidionar o campo de estado
+    public function actionGetOrgans($Uf = null) {
+        if(isset($_POST[$this->SCHOOL_IDENTIFICATION])){
+            $school = new SchoolIdentification();
+            $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+        }
+        $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
+        
+        $data = EdcensoRegionalEducationOrgan::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = CHtml::listData($data, 'code', 'name');
+
+        $result = CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o órgão'), true);
+        foreach ($data as $value => $name) {
+            $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+
+        return $result;
+    }
+    
     public function actionGetDistricts() {
         $school = new SchoolIdentification();
         $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
 
-        $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk));
+        $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk ));
         $data = CHtml::listData($data, 'code', 'name');
 
-        echo CHtml::tag('option', array('value' => null), 'Selecione o distrito', true);
+        $result = CHtml::tag('option', array('value' => null), 'Selecione o distrito', true);
 
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+        
+        echo $result;
     }
 
     /**
