@@ -12,8 +12,8 @@
 	<?php echo CHtml::encode($data->school_inep_id_fk); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('inep_id')); ?>:</b>
-	<?php echo CHtml::encode($data->inep_id); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('instructor_inep_id')); ?>:</b>
+	<?php echo CHtml::encode($data->instructor_inep_id); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('classroom_inep_id')); ?>:</b>

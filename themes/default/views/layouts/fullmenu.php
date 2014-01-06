@@ -61,7 +61,7 @@
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <a href="#" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/a3.png" style="float:left;padding:10px 10px 0;" /><span>TAG <span>v3.0</span></span></a>
+                <a href="#" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 4px 0 0 28px;height: 40px;" /><span><span>v3.0</span></span></a>
 
                 <!-- Menu Toggle Button --
                 <button type="button" class="btn btn-navbar">
@@ -109,7 +109,7 @@
                         <!-- Scrollable menu wrapper with Maximum height -->
                         <div class="slim-scroll" data-scroll-height="800px">
 
-                            <!-- Sidebar Mini Stats -->
+ <?php /**                           <!-- Sidebar Mini Stats -->
                             <div id="notif">
                                 <div class="user">
                                     <strong>José Agnaldo Jr.</strong>
@@ -121,7 +121,7 @@
                                 </div>
 
                             </div>
-                            <!-- // Sidebar Mini Stats END -->
+                            <!-- // Sidebar Mini Stats END --> **/ ?>
 
                             <!-- Regular Size Menu -->
                             <ul>
@@ -177,7 +177,7 @@
 
                                 <!-- Menu Item Equipe Escolar -->
                                 <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Docente</span></a>
+                                    <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Professores</span></a>
                                     <ul class="collapse" id="menu_equipe">
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>

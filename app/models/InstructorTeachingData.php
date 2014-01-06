@@ -6,8 +6,8 @@
  * The followings are the available columns in table 'instructor_teaching_data':
  * @property string $register_type
  * @property string $school_inep_id_fk
- * @property string $inep_id
- * @property integer $id
+ * @property string $instructor_inep_id
+ * @property integer $instructor_fk
  * @property string $classroom_inep_id
  * @property integer $classroom_id_fk
  * @property integer $role
@@ -25,7 +25,7 @@
  * @property integer $discipline_11_fk
  * @property integer $discipline_12_fk
  * @property integer $discipline_13_fk
- * @property integer $instructor_fk
+ * @property integer $id
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -70,14 +70,14 @@ class InstructorTeachingData extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, classroom_id_fk, role, instructor_fk', 'required'),
-			array('classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, instructor_fk', 'numerical', 'integerOnly'=>true),
+			array('school_inep_id_fk, role', 'required'),
+			array('instructor_fk, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, classroom_inep_id', 'length', 'max'=>8),
-			array('inep_id', 'length', 'max'=>12),
+			array('instructor_inep_id', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, inep_id, id, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, instructor_fk', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, instructor_inep_id, instructor_fk, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -113,8 +113,8 @@ class InstructorTeachingData extends CActiveRecord
 		return array(
 			'register_type' => Yii::t('default', 'Register Type'),
 			'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
-			'inep_id' => Yii::t('default', 'Inep'),
-			'id' => Yii::t('default', 'ID'),
+			'instructor_inep_id' => Yii::t('default', 'Instructor Inep'),
+			'instructor_fk' => Yii::t('default', 'Instructor Fk'),
 			'classroom_inep_id' => Yii::t('default', 'Classroom Inep'),
 			'classroom_id_fk' => Yii::t('default', 'Classroom Id Fk'),
 			'role' => Yii::t('default', 'Role'),
@@ -132,7 +132,7 @@ class InstructorTeachingData extends CActiveRecord
 			'discipline_11_fk' => Yii::t('default', 'Discipline 11 Fk'),
 			'discipline_12_fk' => Yii::t('default', 'Discipline 12 Fk'),
 			'discipline_13_fk' => Yii::t('default', 'Discipline 13 Fk'),
-			'instructor_fk' => Yii::t('default', 'Instructor Fk'),
+			'id' => Yii::t('default', 'ID'),
 		);
 	}
 
@@ -149,8 +149,8 @@ class InstructorTeachingData extends CActiveRecord
 
 		$criteria->compare('register_type',$this->register_type,true);
 		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
-		$criteria->compare('inep_id',$this->inep_id,true);
-		$criteria->compare('id',$this->id);
+		$criteria->compare('instructor_inep_id',$this->instructor_inep_id,true);
+		$criteria->compare('instructor_fk',$this->instructor_fk);
 		$criteria->compare('classroom_inep_id',$this->classroom_inep_id,true);
 		$criteria->compare('classroom_id_fk',$this->classroom_id_fk);
 		$criteria->compare('role',$this->role);
@@ -168,7 +168,7 @@ class InstructorTeachingData extends CActiveRecord
 		$criteria->compare('discipline_11_fk',$this->discipline_11_fk);
 		$criteria->compare('discipline_12_fk',$this->discipline_12_fk);
 		$criteria->compare('discipline_13_fk',$this->discipline_13_fk);
-		$criteria->compare('instructor_fk',$this->instructor_fk);
+		$criteria->compare('id',$this->id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

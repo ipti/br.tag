@@ -16,8 +16,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'inep_id'); ?>
-		<?php echo $form->textField($model,'inep_id',array('size'=>12,'maxlength'=>12)); ?>
+		<?php echo $form->label($model,'instructor_inep_id'); ?>
+		<?php echo $form->textField($model,'instructor_inep_id',array('size'=>12,'maxlength'=>12)); ?>
 	</div>
 
 	<div class="row">
