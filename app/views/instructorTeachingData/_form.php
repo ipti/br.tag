@@ -1,4 +1,6 @@
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php 
+//@todo 27 - InstructorTeachingData é o processo na turma e não a turma no professor.
+$form=$this->beginWidget('CActiveForm', array(
 	'id'=>'instructor-teaching-data-form',
 	'enableAjaxValidation'=>false,
 )); ?>

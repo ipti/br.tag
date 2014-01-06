@@ -1,4 +1,6 @@
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php 
+//@todo 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
+$form=$this->beginWidget('CActiveForm', array(
 	'id'=>'student-enrollment-form',
 	'enableAjaxValidation'=>false,
 )); ?>
@@ -54,13 +56,18 @@
                                 <?php echo $form->labelEx($model, 'student_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
+                                    //@todo 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
+                                    //@todo 17 - Precisa estar em ordem alfabetica
+                                    //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
                                     echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
                                     <?php echo $form->error($model, 'student_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
+                                <?php 
+                                //@todo 18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
+                                echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma"));
                                     ?>
@@ -93,7 +100,9 @@
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
+                                <?php 
+                                //FIXME 01 - Erro meu faz todo sentido o transporte escolar ser selecionado na matricula.
+                                echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza")); ?>
                                     <?php echo $form->error($model, 'public_transport'); ?>
@@ -179,6 +188,7 @@
                         </div>
                     </div>
                     <div class="formField buttonWizardBar nextBar">
+                        <!--//@todo 19 - O nome do botão é matricular e não criar-->
                         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                     <span style="clear:both;display:block"></span>

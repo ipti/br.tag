@@ -39,7 +39,7 @@
                 <div class=" span5">
                     
                     <div class="separator"></div>
-                        
+                     <!--//@todo 03 - O Campo de nome está muito pequeno, aumentar -->   
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                         <div class="controls">
@@ -204,6 +204,7 @@
                     </div>
                         
                     <div class="control-group">
+                        <?php //@todo 02 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
@@ -336,7 +337,7 @@
                             <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
                             <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
                         </div></div>
-
+                       <!-- //@todo 01 - Lista de Escolas muito pequena, aumentar -->
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'shared_school_inep_id_1', array('class' => 'control-label')); ?>
                             <div class="controls">
@@ -593,6 +594,7 @@
         </div>
 
         <div class="tab-pane" id="school-equipament">
+            <!--//@todo 04 - Equipamento é uma quantidade, não faz sentido os campos serem tão grandes. -->
             <div class="row-fluid">
                 <div class=" span5">
 
@@ -723,6 +725,7 @@
         </div>
 
         <div class="tab-pane" id="school-humans">
+            <!--//@todo 05 - Recursos humanos só tem um campo, não faz sentido manter essa aba com um campo apenas -->
             <div class="row-fluid">
                 <div class=" span5">
 
@@ -742,6 +745,7 @@
         </div>
 
         <div class="tab-pane" id="school-feeding">
+            <!--//@todo 06 - Apenas uma campo inseri em uma outra aba  -->
             <div class="row-fluid">
                 <div class=" span5">
 

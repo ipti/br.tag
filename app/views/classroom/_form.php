@@ -1,4 +1,7 @@
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php 
+//@todo 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
+//@todo 23 - Lembra de associar o professor a turma.
+$form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
 	'enableAjaxValidation'=>false,
 )); 
@@ -34,6 +37,7 @@
                             
                             <div class="separator"></div>
                             <div class="control-group">
+                                <?php //@todo 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
                                 <?php echo $form->labelEx($model, 'school_inep_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
@@ -53,7 +57,9 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
+                                <?php 
+                                //@todo 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
+                                echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 80)); ?>
                                     <?php echo $form->error($model, 'name'); ?>
@@ -86,6 +92,7 @@
                             <div class="uniformjs margin-left" id="Classroom_week_days">
                                 <label class="checkbox">
                                     <?php 
+                                    //@todo 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
                                     echo $form->checkBox($model, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
@@ -260,7 +267,9 @@
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="separator"></div>
-                            <?php $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
+                            <?php 
+                            //@todo 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
+                            $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'discipline_chemistry', array('class' => 'control-label')); ?>
                                 <div class="controls">
