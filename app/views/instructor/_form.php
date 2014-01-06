@@ -1,6 +1,7 @@
 <?php
 //@todo 26 - Melhorar a diagramação desta tela e textos.
-//@todo 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
+//@done s1 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
+//@done s1 - Vem predefinido a escola, precisa alterar isso para um valor default.
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'instructor-form',
@@ -32,7 +33,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <ul>
                 <li class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
-                <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@todo 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
+                <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
               <?php if($isModel) {
                  echo '<li><a class="glyphicons parents" href="'.Yii::app()->baseUrl.'/index.php?r=InstructorTeachingData/create&instructor_id='. $modelInstructorIdentification->id .' "><i></i>'. Yii::t("default", "Dados do Professor") . '</a></li>';
               }
@@ -58,7 +59,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'));
+                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'),array('prompt'=>'SELECIONE A ESCOLA'));
                             ?>
                   
                             <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
@@ -145,7 +146,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 'prompt' => 'Selecione um estado',
                                 'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getcities'),
+                                    'url' => CController::createUrl('Instructor/getcity1'),
                                     'update' => '#InstructorIdentification_edcenso_city_fk',
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                     )));
@@ -257,8 +258,6 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="instructor-documents">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-
                         <div class="separator"></div>
                         <div class="separator"></div>
 
@@ -320,12 +319,12 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
-                            //@todo 22 - Este filtro da cidade não está funcionando.
+                            //@done s1 22 - Este filtro da cidade não está funcionando.
                             echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
                                 'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getcities'),
+                                    'url' => CController::createUrl('Instructor/getcity2'),
                                     'update' => '#InstructorDocumentsAndAddress_edcenso_city_fk',
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                     )));
@@ -338,16 +337,15 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name')); ?><div class="controls">                    
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         </div></div> 
-
+            
                     </div>
                 </div>
                     </div>
                 </div>
+                
                 <div class="tab-pane" id="instructor-address">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-
                             <div class="separator"></div>
                             <div class="separator"></div>
                         </div>
@@ -357,15 +355,16 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="instructor-data">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-
                             <div class="separator"></div>
                             <div class="separator"></div>
 
 
 
 <!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
+
+                            <?php 
+//@todo s1-Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
+                                  echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                         </div></div>-->
@@ -452,8 +451,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
-                             :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('disabled' => 'disabled'));
+                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),
+                                   array('prompt'=>'Selecione IES'))
+                             :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('disabled' => 'disabled','prompt'=>'Selecione IES'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                         </div></div>
@@ -524,8 +524,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_2_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
-                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled'));
+                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione IES'))
+                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled','prompt'=>'Selecione IES'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
                         </div></div>
@@ -593,8 +593,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label')); ?><div class="controls"> 
                             <?php
                             echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_3_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'))
-                           : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled'));
+                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione IES'))
+                           : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt'=>'Selecione IES'));
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
                         </div></div>

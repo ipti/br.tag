@@ -441,11 +441,11 @@ return array(
     'Equipments' => 'Equipamentos',
     'Human Resources' => 'Recursos Humanos',
     'Feed' => 'Alimentação',
-    'Educational Data' => 'Dados Educacionáis',
+    'Educational Data' => 'Dados Educacionais',
     'Documents' => 'Documentos',
     'Address' => 'Endereço',
     'Documents and Address' => 'Documentos e Endereço',
-    'Variable Data' => 'Dados Variáveis',
+    'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
     
     //Labels de Grupos
@@ -488,8 +488,7 @@ return array(
     //Ajuda
     'Initial Date Help' => 'Data de inicio do ano letivo',
     'Final Date Help' => 'Data do final do ano letivo',
-    'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente'
-    
+    'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
     
         )
 ?>
