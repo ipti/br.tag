@@ -88,15 +88,23 @@
                         </div>
                     </div>
                         
+                            
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
+                            <?php //@done s1 - Atualizar a lista de Orgão Regional de Educação também.
+                            echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado'
                                 ,'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('school/getcities'),
-                                    'update' => '#SchoolIdentification_edcenso_city_fk'
+//                                    'url' => CController::createUrl('school/getcities'),
+//                                    'update' => '#SchoolIdentification_edcenso_city_fk',
+                                    'url' => CController::createUrl('school/updateUfDependencies'),
+                                    'success' => "function(data){
+                                            data = jQuery.parseJSON(data);
+                                            $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Organ);
+                                            $('#SchoolIdentification_edcenso_city_fk').html(data.City);
+                                        }",
                                 )));?>      
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_uf_fk'); ?>
                         </div>
@@ -113,7 +121,7 @@
                                         'type' => 'POST',
                                         'url' => CController::createUrl('school/getdistricts'),
                                         'update' => '#SchoolIdentification_edcenso_district_fk',
-                                    )));
+                                        )));
                             ?>  
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
                         </div>
@@ -204,7 +212,7 @@
                     </div>
                         
                     <div class="control-group">
-                        <?php //@todo 02 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
+                        <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
@@ -337,11 +345,11 @@
                             <?php echo $form->checkBox($modelSchoolStructure, 'shared_building_with_school', array('value' => 1, 'uncheckValue' => 0)); ?>
                             <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
                         </div></div>
-                       <!-- //@todo 01 - Lista de Escolas muito pequena, aumentar -->
+                       <!-- //@done s1 - Lista de Escolas muito pequena, aumentar -->
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'shared_school_inep_id_1', array('class' => 'control-label')); ?>
                             <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolStructure, 'shared_school_inep_id_1', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array('multiple' => true, 'key' => 'inep_id'));?>
+                            <?php echo $form->dropDownList($modelSchoolStructure, 'shared_school_inep_id_1', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array('multiple' => true, 'key' => 'inep_id', 'class' => 'multiselect'));?>
                             <?php echo $form->error($modelSchoolStructure, 'shared_school_inep_id_1'); ?>
                         </div></div>
 
