@@ -29,7 +29,7 @@ class InstructorController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getCity1','getCity2'),
+                'actions' => array('index', 'view', 'create', 'update', 'getCity'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -322,14 +322,11 @@ preenchidos";
 
     //Método para Solicitação Ajax para o select UF x Cities
 
-    public function actionGetCity1() {
-
-        if (isset($_POST['InstructorIdentification'])) {
-            $model = new InstructorIdentification();
-            $model->attributes = $_POST['InstructorIdentification'];
-        }
-
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $model->edcenso_uf_fk));
+    public function actionGetCity() {
+        
+        $edcenso_uf_fk = $_POST['edcenso_uf_fk'];
+        
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
         echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Cidade', true);
@@ -338,21 +335,6 @@ preenchidos";
         }  
     }
 
-     public function actionGetCity2() {
-
-        if (isset($_POST['InstructorDocumentsAndAddress'])) {
-            $model = new InstructorDocumentsAndAddress();
-            $model->attributes = $_POST['InstructorDocumentsAndAddress'];
-        }
-
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $model->edcenso_uf_fk));
-        $data = CHtml::listData($data, 'id', 'name');
-
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Cidade', true);
-        foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-        }  
-    }
     /**
      * Manages all models.
      */

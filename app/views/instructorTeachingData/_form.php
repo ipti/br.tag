@@ -38,11 +38,9 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <?php echo Yii::t('default', 'Fields with * are required.') ?>
-                        </div>
 
                         <div class="separator"></div>
                         <div class="separator"></div>
-
 <!--                      </div>
 
                         <div class="control-group">
@@ -101,7 +99,10 @@ $form=$this->beginWidget('CActiveForm', array(
                             ?>  
                             <?php echo $form->error($model, 'contract_type'); ?>
                         </div></div>
-
+                        </div>
+                        <div class="span6">
+                        <div class="separator"></div>
+                        <div class="separator"></div>
                         <div class="control-group">
                             <?php echo $form->labelEx($model, 'discipline_1_fk', array('class' => 'control-label')); ?>
                             <div class="controls">
