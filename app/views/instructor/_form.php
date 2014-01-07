@@ -1,8 +1,8 @@
 <?php
-//@todo 26 - Melhorar a diagramação desta tela e textos.
+//@done s1 - Melhorar a diagramação desta tela e textos.
 //@done s1 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
 //@done s1 - Vem predefinido a escola, precisa alterar isso para um valor default.
-
+//@done s1 - Usar um único método para solicitação ajax dos 2 campos de Estados
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'instructor-form',
     'enableAjaxValidation' => false,
@@ -47,7 +47,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab content -->
                 <div class="tab-pane active" id="instructor-indentify">
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                           
                         <div class="separator"></div>
                         <div class="separator"></div>
@@ -59,7 +59,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="controls">
                             <?php
                             echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'),array('prompt'=>'SELECIONE A ESCOLA'));
+                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'),array('prompt'=>'Selecione a Escola'));
                             ?>
                   
                             <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
@@ -139,6 +139,10 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                         </div></div>
 
+                        </div>
+                        <div class=" span5">
+                        <div class="separator"></div>
+                        <div class="separator"></div>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
@@ -146,10 +150,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 'prompt' => 'Selecione um estado',
                                 'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getcity1'),
+                                    'url' => CController::createUrl('Instructor/getcity'),
                                     'update' => '#InstructorIdentification_edcenso_city_fk',
+                                    'data' => array('edcenso_uf_fk'=>'js:this.value'),
+                                      ),
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
-                                    )));
+                                    ));
                             ?>                    
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_uf_fk'); ?>
                         </div></div>
@@ -324,8 +330,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 'prompt' => 'Selecione um estado',
                                 'ajax' => array(
                                     'type' => 'POST',
-                                    'url' => CController::createUrl('Instructor/getcity2'),
+                                    'url' => CController::createUrl('Instructor/getcity'),
                                     'update' => '#InstructorDocumentsAndAddress_edcenso_city_fk',
+                                    'data' => array('edcenso_uf_fk'=>'js:this.value' ),
                                 // 'data'=>array('edcenso_uf_fk'=>'js:this.value'),
                                     )));
                             ?>                    
@@ -598,7 +605,10 @@ $form = $this->beginWidget('CActiveForm', array(
                             ?>
                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
                         </div></div>
-
+                       </div>
+                         <div class="span6">
+                       <div class="separator"></div>
+                        <div class="separator"></div>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_specialization', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_specialization)) ?
