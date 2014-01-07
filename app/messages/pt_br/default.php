@@ -6,6 +6,7 @@ return array(
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
     'Next' => 'Próximo',
+    'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
     
     //Mensagens
