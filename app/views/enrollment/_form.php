@@ -189,7 +189,7 @@ $form=$this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="formField buttonWizardBar nextBar">
                         <!--//@todo 19 - O nome do botão é matricular e não criar-->
-                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                     <span style="clear:both;display:block"></span>
                     <?php $this->endWidget(); ?>

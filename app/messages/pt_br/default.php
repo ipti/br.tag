@@ -6,6 +6,7 @@ return array(
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
     'Next' => 'Próximo',
+    'Enroll'=> 'Matricular',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
