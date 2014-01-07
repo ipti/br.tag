@@ -29,7 +29,7 @@ class SchoolController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities', 
                     'getdistricts', 'getorgans', 'updateufdependencies'),
-                'users' => array('@'),
+                'users' => array('admin'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete'),

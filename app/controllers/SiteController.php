@@ -7,7 +7,17 @@ class SiteController extends Controller
 	 */
         
 	public $layout='fullmenu';
-
+        
+	public function accessRules()
+	{
+		return array(
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('changeschool'),
+				'users'=>array('@'),
+			),
+		);
+	}
+        
 	public function actions()
 	{
 		return array(
@@ -119,4 +129,14 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+        
+        public function actionChangeSchool()
+        {
+            if(isset($_POST['UsersSchool']['school_fk']) && !empty($_POST['UsersSchool']['school_fk']))
+                Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
+	
+            $this->redirect(Yii::app()->user->returnUrl);
+            
+        }
+        
 }
