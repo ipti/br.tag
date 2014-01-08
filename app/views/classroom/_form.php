@@ -1,6 +1,9 @@
 <?php 
 //@todo 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
-//@todo 23 - Lembra de associar o professor a turma.
+//@todo 23 - Lembrar de associar o professor a turma.
+//@todo s1 - Retirar aba Disciplinas. Add disciplinas em teachingData e vincular as disciplinas(checkbox) com os prof (dropdown) 
+
+
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
 	'enableAjaxValidation'=>false,
@@ -8,7 +11,7 @@ $form=$this->beginWidget('CActiveForm', array(
 ?>
     
 <div class="heading-buttons">
-    <?php echo $form->errorSummary($model); ?>
+    <?php echo $form->errorSummary($modelClassroom); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
     </div>
@@ -23,6 +26,8 @@ $form=$this->beginWidget('CActiveForm', array(
             <ul>
                 <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-disciplines"><a class="glyphicons edit" href="#disciplines" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Disciplines') ?></a></li>
+                <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor Teaching Data') ?></a></li> 
+            
             </ul>
         </div>
             
@@ -38,10 +43,10 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="separator"></div>
                             <div class="control-group">
                                 <?php //@todo 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
-                                <?php echo $form->labelEx($model, 'school_inep_fk', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'school_inep_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($model, 'school_inep_fk', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
+                                    echo $form->dropDownList($modelClassroom, 'school_inep_fk', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
                                         'prompt' => 'Selecione a escola',
                                         'ajax' => array(
                                             'type' => 'POST',
@@ -53,37 +58,47 @@ $form=$this->beginWidget('CActiveForm', array(
                                 }')
                                     ));
                                     ?>  
-                                    <?php echo $form->error($model, 'school_inep_fk'); ?>
+                                    <?php echo $form->error($modelClassroom, 'school_inep_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php 
                                 //@todo 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
-                                echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
+                                echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 80)); ?>
-                                    <?php echo $form->error($model, 'name'); ?>
+                                    <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80)); ?>
+                                    <?php echo $form->error($modelClassroom, 'name'); ?>
                                 </div>
                             </div>
-                                
+                            <?php /*
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'initial_hour', array('class' => 'control-label')); ?>
+
+                               <?php 
+                                echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->hiddenField($model, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo $form->hiddenField($model, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_initial_time', $model->initial_hour . ':' . $model->initial_minute, array('size' => 5, 'maxlength' => 5)); ?>
-                                    <?php echo $form->error($model, 'initial_hour'); ?>
-                                    <?php echo $form->error($model, 'initial_minute'); ?>
+                                    <?php echo $form->textField($modelClassroom, 'school_year', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <?php echo $form->error($modelClassroom, 'school_year'); ?>
+                                </div>
+                            </div>
+  */  ?>                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                    <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                    <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . ':' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
+                                    <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'final_hour', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->hiddenField($model, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo $form->hiddenField($model, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_final_time', $model->final_hour . ':' . $model->final_minute, array('size' => 5, 'maxlength' => 5)); ?>
-                                    <?php echo $form->error($model, 'final_hour'); ?>
-                                    <?php echo $form->error($model, 'final_minute'); ?>
+                                    <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                    <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                    <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . ':' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <?php echo $form->error($modelClassroom, 'final_hour'); ?>
+                                    <?php echo $form->error($modelClassroom, 'final_minute'); ?>
                                 </div>
                             </div>
                             
@@ -94,40 +109,40 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php 
                                     //@todo 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
-                                    echo $form->checkBox($model, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_tuesday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_wednesday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_thursday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_friday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_saturday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'assistance_type', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($model, 'assistance_type', array(null => 'Selecione o tipo de assistencia'), array('ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de assistencia'), array('ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -150,24 +165,24 @@ $form=$this->beginWidget('CActiveForm', array(
                                                 }",
                                             )));
                                     ?> 
-                                    <?php echo $form->error($model, 'assistance_type'); ?>
+                                    <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'mais_educacao_participator', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->checkBox($model, 'mais_educacao_participator'); ?>
-                                    <?php echo $form->error($model, 'mais_educacao_participator'); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
+                                    <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
                                 </div>
                             </div>
                                 
                             <!-- dar uma olhada no http://mind2soft.com/labs/jquery/multiselect/ -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'key' => 'id')); ?>
-                                    <?php echo $form->error($model, 'complementary_activity_type_1'); ?>
+                                    <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'key' => 'id')); ?>
+                                    <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
                                 </div>
                             </div>
                             
@@ -177,84 +192,84 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <label class="checkbox">
                                     <?php 
                                     echo Classroom::model()->attributeLabels()['aee_braille_system_education'];
-                                    echo $form->checkBox($model, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    echo $form->checkBox($modelClassroom, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_optical_and_non_optical_resources']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_optical_and_non_optical_resources', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_optical_and_non_optical_resources', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_mental_processes_development_strategies']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_mental_processes_development_strategies', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_mental_processes_development_strategies', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_mobility_and_orientation_techniques']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_mobility_and_orientation_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_mobility_and_orientation_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_libras']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_caa_use_education']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_caa_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_caa_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_curriculum_enrichment_strategy']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_curriculum_enrichment_strategy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_curriculum_enrichment_strategy', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_soroban_use_education']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_soroban_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_soroban_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_usability_and_functionality_of_computer_accessible_education']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_usability_and_functionality_of_computer_accessible_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_usability_and_functionality_of_computer_accessible_education', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_teaching_of_Portuguese_language_written_modality']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_teaching_of_Portuguese_language_written_modality', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_teaching_of_Portuguese_language_written_modality', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['aee_strategy_for_school_environment_autonomy']; ?>
-                                    <?php echo $form->checkBox($model, 'aee_strategy_for_school_environment_autonomy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'aee_strategy_for_school_environment_autonomy', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'modality', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'modality', array(null => 'Selecione a modalidade',
+                                    <?php echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
                                         '1' => '(Ensino Regular)',
                                         '2' => '(Educação Especial - Modalidade Substitutiva)',
                                         '3' => '(Educação de Jovens e Adultos (EJA))')); ?>
-                                    <?php echo $form->error($model, 'modality'); ?>
+                                    <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => '(Select Stage vs Modality)')); ?>
-                                    <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => '(Select Stage vs Modality)')); ?>
+                                    <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'edcenso_professional_education_course_fk', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso',)); ?>
-                                    <?php echo $form->error($model, 'edcenso_professional_education_course_fk'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso',)); ?>
+                                    <?php echo $form->error($modelClassroom, 'edcenso_professional_education_course_fk'); ?>
                                 </div>
                             </div>
                                 
                             <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com docente", "1" => "Turma sem docente"); ?>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'instructor_situation', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'instructor_situation', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'instructor_situation', $instructorSituationEnum); ?>
-                                    <?php echo $form->error($model, 'instructor_situation'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'instructor_situation', $instructorSituationEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'instructor_situation'); ?>
                                 </div>
                             </div>
                         </div>
@@ -271,219 +286,275 @@ $form=$this->beginWidget('CActiveForm', array(
                             //@todo 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
                             $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_chemistry', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_chemistry', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_chemistry', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_chemistry'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_chemistry', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_chemistry'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_physics', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_physics', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_physics', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_physics'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_physics', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_physics'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_mathematics', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_mathematics', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_mathematics', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_mathematics'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_mathematics', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_mathematics'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_biology', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_biology', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_biology', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_biology'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_biology', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_biology'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_science', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_science', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_science', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_science'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_science', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_science'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_language_portuguese_literature', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_language_portuguese_literature', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_language_portuguese_literature', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_language_portuguese_literature'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_language_portuguese_literature', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_language_portuguese_literature'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_foreign_language_english', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_foreign_language_english', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_foreign_language_english', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_foreign_language_english'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_foreign_language_english', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_english'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_foreign_language_spanish', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_foreign_language_spanish', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_foreign_language_spanish', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_foreign_language_spanish'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_foreign_language_spanish', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_spanish'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_foreign_language_franch', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_foreign_language_franch', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_foreign_language_franch', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_foreign_language_franch'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_foreign_language_franch', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_franch'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_foreign_language_other', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_foreign_language_other', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_foreign_language_other', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_foreign_language_other'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_foreign_language_other', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_other'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_arts', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_arts', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_arts', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_arts'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_arts', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_arts'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_physical_education', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_physical_education', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_physical_education', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_physical_education'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_physical_education', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_physical_education'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_history', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_history', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_history', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_history'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_history', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_history'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_geography', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_geography', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_geography', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_geography'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_geography', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_geography'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_philosophy', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_philosophy', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_philosophy', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_philosophy'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_philosophy', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_philosophy'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_social_study', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_social_study', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_social_study', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_social_study'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_social_study', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_social_study'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_sociology', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_sociology', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_sociology', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_sociology'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_sociology', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_sociology'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_informatics', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_informatics', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_informatics', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_informatics'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_informatics', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_informatics'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_professional_disciplines', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_professional_disciplines', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_professional_disciplines', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_professional_disciplines'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_professional_disciplines', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_professional_disciplines'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_special_education_and_inclusive_practices', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_special_education_and_inclusive_practices', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_special_education_and_inclusive_practices', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_special_education_and_inclusive_practices'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_special_education_and_inclusive_practices', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_special_education_and_inclusive_practices'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_sociocultural_diversity', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_sociocultural_diversity', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_sociocultural_diversity', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_sociocultural_diversity'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_sociocultural_diversity', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_sociocultural_diversity'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_libras', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_libras', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_libras', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_libras'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_libras', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_libras'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_pedagogical', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_pedagogical', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_pedagogical', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_pedagogical'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_pedagogical', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_pedagogical'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_religious', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_religious', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_religious', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_religious'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_religious', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_religious'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_native_language', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_native_language', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_native_language', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_native_language'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_native_language', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_native_language'); ?>
                                 </div>
                             </div>
                                 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'discipline_others', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'discipline_others', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'discipline_others', $disciplinesEnum); ?>
-                                    <?php echo $form->error($model, 'discipline_others'); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'discipline_others', $disciplinesEnum); ?>
+                                    <?php echo $form->error($modelClassroom, 'discipline_others'); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="control-group buttonWizardBar nextBar">
-                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon next btn-primary')); ?>
+                        <?php echo CHtml::submitButton($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon next btn-primary')); ?>
                     </div>
-                    <?php $this->endWidget(); ?>
                 </div>
+                
+                              <div class="tab-pane active" id="instructor-teaching">
+                    <div class="row-fluid">
+                        <div class=" span6">
+                        <div class="separator"></div>
+                        <div class="separator"></div>
+                        
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelTeachingData, 'role', array('class' => 'control-label')); ?><div class="controls">
+                            <?php
+                            echo $form->DropDownlist($modelTeachingData, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
+                                3 => 'Profissional/Monitor de Atividade Complementar',
+                                4 => 'Tradutor Intérprete de LIBRAS'));
+                            ?>                    
+                            <?php echo $form->error($modelTeachingData, 'role'); ?>
+                        </div></div>
+
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelTeachingData, 'contract_type', array('class' => 'control-label')); ?><div class="controls">        
+                            <?php
+                            echo $form->DropDownlist($modelTeachingData, 'contract_type', array(1 => 'Concursado/efetivo/estável', 2 => 'Contrato temporário',
+                                3 => 'Contrato terceirizado',
+                                4 => 'Contrato CLT'));
+                            ?>  
+                            <?php echo $form->error($modelTeachingData, 'contract_type'); ?>
+                        </div></div>
+                        </div>
+                        <div class="span6">
+                        <div class="separator"></div>
+                        <div class="separator"></div>
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelTeachingData, 'discipline_1_fk', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                            <?php
+                            echo $form->DropDownlist($modelTeachingData, 'discipline_1_fk', CHtml::listData(
+                                            EdcensoDiscipline::model()->findAll(), 'id', 'name')
+                                    , array('multiple'=>true, 'key'=>'id'));
+                            ?>
+                            <?php echo $form->error($modelTeachingData, 'discipline_1_fk'); ?>
+                        </div></div>
+                       <div class="control-group">
+                        <div class="controls">
+                            <?php echo $form->hiddenField($modelTeachingData,'instructor_fk',array('value'=>$instructor_id)); ?>
+                            <?php echo $form->error($modelTeachingData,'instructor_fk'); ?>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>    
+               
+
+                <div class="formField buttonWizardBar">
+                    <?php echo CHtml::submitButton($modelTeachingData->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'),array('class' => 'buttonLink button')); ?>
+                </div>
+                <?php $this->endWidget(); ?>
+            </div>
+                
             </div>
         </div>
     </div>

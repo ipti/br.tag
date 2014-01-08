@@ -1,5 +1,11 @@
 <?php 
-//@todo 27 - InstructorTeachingData é o processo na turma e não a turma no professor.
+//@todo 27 - InstructorTeachingData é o processo na turma e não no professor.
+//@done s1 - Retirar campos de Escola e Turma TD
+//@todo s1 - Adicionar campo para selecionar o instrutor TD
+//@todo s1 - Criar lista de professores TD
+//@todo s1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
+//@todo s1 - Edição de teaching data - excluir o professor TD
+//@done s1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'instructor-teaching-data-form',
 	'enableAjaxValidation'=>false,
@@ -34,101 +40,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="widget-body form-horizontal">
             <div class="tab-content">
 
-                    <div class="tab-pane active" id="instructor-teaching">
-                    <div class="row-fluid">
-                        <div class=" span6">
-                            <?php echo Yii::t('default', 'Fields with * are required.') ?>
-
-                        <div class="separator"></div>
-                        <div class="separator"></div>
-<!--                      </div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'instructor_inep_id'); ?>
-                            <?php echo $form->textField($model, 'instructor_inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($model, 'instructor_inep_id'); ?>
-                        </div></div>
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'classroom_inep_id'); ?>
-                            <?php echo $form->textField($model, 'classroom_inep_id', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($model, 'classroom_inep_id'); ?>
-                        </div></div>-->
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'school_inep_id_fk', array('class' => 'control-label')); ?><div class="controls">
-                             <?php
-                            echo $form->DropDownList($model, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
-                                'prompt' => 'Select School',
-                                'ajax' => array(
-                                    'type' => 'POST',
-                                    'url' => CController::createUrl('InstructorTeachingData/getClassroom'),
-                                    'update' => '#InstructorTeachingData_classroom_id_fk',
-                                    )));
-                            ?>
-                            <?php echo $form->error($model, 'school_inep_id_fk'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'classroom_id_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->DropDownList($model, 'classroom_id_fk', CHtml::listData(
-                            Classroom::model()->findAllByAttributes(array('school_inep_fk'=>$model->school_inep_id_fk)), 'id', 'name'),
-                                    array(
-                                        'prompt' =>'Primeiro Selecione uma Escola'
-                                    )); ?>
-                            <?php echo $form->error($model, 'classroom_id_fk'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'role', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo $form->DropDownlist($model, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
-                                3 => 'Profissional/Monitor de Atividade Complementar',
-                                4 => 'Tradutor Intérprete de LIBRAS'));
-                            ?>                    
-                            <?php echo $form->error($model, 'role'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'contract_type', array('class' => 'control-label')); ?><div class="controls">        
-                            <?php
-                            echo $form->DropDownlist($model, 'contract_type', array(1 => 'Concursado/efetivo/estável', 2 => 'Contrato temporário',
-                                3 => 'Contrato terceirizado',
-                                4 => 'Contrato CLT'));
-                            ?>  
-                            <?php echo $form->error($model, 'contract_type'); ?>
-                        </div></div>
-                        </div>
-                        <div class="span6">
-                        <div class="separator"></div>
-                        <div class="separator"></div>
-                        <div class="control-group">
-                            <?php echo $form->labelEx($model, 'discipline_1_fk', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php
-                            echo $form->DropDownlist($model, 'discipline_1_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name')
-                                    , array('multiple'=>true, 'key'=>'id'));
-                            ?>
-                            <?php echo $form->error($model, 'discipline_1_fk'); ?>
-                        </div></div>
-                       <div class="control-group">
-                        <div class="controls">
-                            <?php echo $form->hiddenField($model,'instructor_fk',array('value'=>$instructor_id)); ?>
-                            <?php echo $form->error($model,'instructor_fk'); ?>
-                        </div>
-                    </div>
-
-                    </div>
-                </div>    
-               
-
-                <div class="formField buttonWizardBar">
-                    <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'),array('class' => 'buttonLink button')); ?>
-                </div>
-                <?php $this->endWidget(); ?>
-            </div>
+      
         </div>
 
         

@@ -186,6 +186,7 @@ return array(
     //Classroom
     'School Inep Fk' => 'Escola',
     'ID' => 'ID',
+    'school_year' => 'Ano Letivo',
     'Initial Hour' => 'Horário Inicial',
     'Initial Minute' => '',
     'Final Hour' => 'Horário Final',
