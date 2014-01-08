@@ -1243,6 +1243,9 @@
         });
         //multiselect
         
+        $("#SchoolIdentification_edcenso_regional_education_organ_fk").select2({ width: 'resolve' });
+        $("#SchoolIdentification_administrative_dependence").select2({ width: 'resolve' });
+        $("#SchoolStructure_shared_school_inep_id_1").select2({ width: 'resolve' , placeholder: '<?php echo Yii::t('default', 'Select School'); ?>'});
         
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
