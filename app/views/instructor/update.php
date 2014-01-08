@@ -1,9 +1,9 @@
 <div id="mainPage" class="main">
     <?php
     $this->breadcrumbs = array(
-        'Instructor Identifications' => array('index'),
+        Yii::t('default', 'Instructor Identifications') => array('index'),
         $modelInstructorIdentification->name => array('view', 'id' => $modelInstructorIdentification->id),
-        'Update',
+        Yii::t('default', 'Update'),
     );
 
     $title = Yii::t('default', 'Update InstructorIdentification');

@@ -1,9 +1,9 @@
 <div id="mainPage" class="main">
     <?php
     $this->breadcrumbs = array(
-        'Student Enrollments' => array('index'),
+        Yii::t('default', 'Student Enrollments')=> array('index'),
         $model->id => array('view', 'id' => $model->id),
-        'Update',
+        Yii::t('default', 'Update'),
     );
 
     $title = Yii::t('default', 'Update StudentEnrollment');

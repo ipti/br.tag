@@ -3,7 +3,7 @@
     //@todo 14 - Lista de matricula, precisa de busca pelo nome do aluno.
     
     $this->breadcrumbs = array(
-        'Student Enrollments',
+        Yii::t('default', 'Student Enrollments'),
     );
     $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentEnrollment.');
     $this->menu = array(
