@@ -26,7 +26,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="span4">
                     <div class="buttons">
-                         
+                        <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
+                        <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+                        <?php echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary last', 'style' => 'display:none')); ?>
                     </div>
                 </div>
             </div>
@@ -40,9 +42,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-head">
             <ul>
-                <li class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
-                <li><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
+                <li id="tab-instructor-indentify"class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-instructor-documents"><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
+                <li id="tab-instructor-data"><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
               <?php if($isModel) {
                  echo '<li><a class="glyphicons parents" href="'.Yii::app()->baseUrl.'/index.php?r=InstructorTeachingData/create&instructor_id='. $modelInstructorIdentification->id .' "><i></i>'. Yii::t("default", "Dados do Professor") . '</a></li>';
               }
@@ -1393,7 +1395,57 @@ $form = $this->beginWidget('CActiveForm', array(
         
     });
     
+    $('.next').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-instructor-indentify';
+        var li2 = 'tab-instructor-documents';
+        var li3 = 'tab-instructor-data';
+        var next = '';
+        switch(classActive.attr('id')) {
+            case li1 : next = li2; 
+                $('.prev').show(); break;
+            case li2 : next = li3;
+                $('.next').hide();
+                $('.last').show(); break;
+            case li3 : next = li3; break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+next).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
     
+    $('.prev').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-instructor-indentify';
+        var li2 = 'tab-instructor-documents';
+        var li3 = 'tab-instructor-data';
+        var previous = '';
+        switch(classActive.attr('id')) {
+            case li1 : previous = li1; break;
+            case li2 : previous = li1; 
+                $('.prev').hide(); break;
+            case li3 : previous = li2; 
+                $('.last').hide();
+                $('.next').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var previous_content = previous.substring(4);
+        previous = previous.toString();
+        $('#'+previous).addClass("active");
+        $('#'+previous_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
+    
+    $('.heading-buttons').css('width', $('#content').width());
  
     
 </script>
