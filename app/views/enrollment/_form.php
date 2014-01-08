@@ -15,7 +15,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="span4">
                     <div class="buttons">
-                        <!--//@todo 19 - O nome do botão é matricular e não criar-->
+                        <!--//@done 19 - O nome do botão é matricular e não criar-->
                         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'student_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    //@todo 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
+                                    //@done 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
                                     //@todo 17 - Precisa estar em ordem alfabetica
                                     //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
                                     echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
@@ -229,6 +229,8 @@ $form=$this->beginWidget('CActiveForm', array(
         
         
     }); 
+    
+    $("#StudentEnrollment_student_fk").select2({ width: 'resolve' });
     
     $('.heading-buttons').css('width', $('#content').width());
 </script>
