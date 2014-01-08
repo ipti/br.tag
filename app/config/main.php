@@ -1,18 +1,22 @@
 <?php
-//@todo 28 - ACL Controle de permissões e login através do banco de dados, criação de usuários para os secretários na escola e perfil.
+//@done S1 - 08 - 28 - ACL Controle de permissões e login através do banco de dados, criação de usuários para os secretários na escola e perfil.
 //@done S1 - 09 - Criar Tabela de Usuário
 //@done S1 - 09 - Criar Tabela NtoN Usuário Escola
 //@done S1 - 09 - Criar Models
 //@done S1 - 09 - Criar formulário de seleção de Escola
 //
-//@todo 29 - ACL O Yii já possui modulo pronto para isso é somente configurar e inseri as permissões no banco, NÃO FAÇAM NA MÃO
-//@done S1 - Criar o modelo ACL
-//@todo S1 - Configurar o modelo ACL - http://www.yiiframework.com/doc/guide/1.1/pt_br/topics.auth#sec-4
+//@done S1 - 08 - 29 - ACL O Yii já possui modulo pronto para isso é somente configurar e inseri as permissões no banco, NÃO FAÇAM NA MÃO
+//@done S1 - 09 - Criar o modelo ACL
+//@done S1 - 08 - Configurar o modelo ACL - http://www.yiiframework.com/doc/guide/1.1/pt_br/topics.auth#sec-4
 //
 // @todo 31 - Lembrar de associar o usuário a escola para fazer as filtragem necessárias nas telas.
 // @todo 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
 // @todo 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
 // @todo 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
+// @done S1 - 08 - Filtrar a listagem das turmas por escola da sessão
+// @done S1 - 08 - Filtrar a listagem das alunos por escola da sessão
+// @done S1 - 08 - Filtrar a listagem das matrículas por escola da sessão
+// @done S1 - 08 - Filtrar a listagem das professores por escola da sessão
 // 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -73,6 +77,10 @@ return array(
 			'password' => 'p@s4ipti',
 			'charset' => 'utf8',
 		),
+                'authManager'=>array(
+                    'class'=>'CDbAuthManager',
+                    'connectionID'=>'db',
+                ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
