@@ -32,12 +32,12 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
                         'enablePagination' => true,
                         'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-                            array(
-                                'class' => 'CLinkColumn',
-                                'header'=>'Escola',
-                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
-                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
-                                ),
+//                            array(
+//                                'class' => 'CLinkColumn',
+//                                'header'=>'Escola',
+//                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
+//                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
+//                                ),
                             'name',
                      array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     )); ?>

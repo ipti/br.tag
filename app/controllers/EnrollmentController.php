@@ -174,16 +174,23 @@ class EnrollmentController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('StudentEnrollment',
-                array('pagination' => array(
-                        'pageSize' => 12,
-                        )));
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+	public function actionIndex() {
+            $school = Yii::app()->user->school;
+            $dataProvider = new CActiveDataProvider('StudentEnrollment',
+                            array(
+                                'criteria' => array(
+                                    'condition' => 'school_inep_id_fk=' . $school,
+                                ),
+                                'pagination' => array(
+                                    'pageSize' => 12,
+                                ),
+
+                                ));
+            
+            $this->render('index', array(
+                'dataProvider' => $dataProvider,
+            ));
+        }
 
 	/**
 	 * Manages all models.

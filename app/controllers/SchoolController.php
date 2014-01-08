@@ -27,9 +27,10 @@ class SchoolController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'edcenso_import', 'getcities', 
-                    'getdistricts', 'getorgans', 'updateufdependencies'),
-                'users' => array('admin'),
+                'actions' => array('index', 'view', 'create', 'update', 
+                    'edcenso_import', 'configacl',
+                    'getcities','getdistricts', 'getorgans', 'updateufdependencies'),
+                'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete'),
@@ -41,7 +42,7 @@ class SchoolController extends Controller {
         );
     }
 
-    //@todo - Mover para o controle de Import
+    //@todo S2 - Mover para o controle de Import
     public function actionEdcenso_import() {
         $selects = [];
         $selects['00'][0] = 'SELECT id from `private_school_maintainer` where (
@@ -254,6 +255,67 @@ class SchoolController extends Controller {
         fclose($file);
     }
  
+    
+    
+    public function actionConfigACL(){
+        $auth=Yii::app()->authManager;
+        
+        $auth->createOperation('createSchool','create a School');
+        $auth->createOperation('updateSchool','update a School');
+        $auth->createOperation('deleteSchool','delete a School');
+        
+        $auth->createOperation('createClassroom','create a classrrom');
+        $auth->createOperation('updateClassroom','update a Classroom');
+        $auth->createOperation('deleteClassroom','delete a Classroom');
+        
+        $auth->createOperation('createStudent','create a Student');
+        $auth->createOperation('updateStudent','update a Student');
+        $auth->createOperation('deleteStudent','delete a Student');
+        
+        $auth->createOperation('createInstructor','create a Instructor');
+        $auth->createOperation('updateInstructor','update a Instructor');
+        $auth->createOperation('deleteInstructor','delete a Instructor');
+        
+        $auth->createOperation('createEnrollment','create a Enrollment');
+        $auth->createOperation('updateEnrollment','update a Enrollment');
+        $auth->createOperation('deleteEnrollment','delete a Enrollment');
+
+        
+        $role=$auth->createRole('manager');
+            $role->addChild('createClassroom');
+            $role->addChild('updateClassroom');
+            $role->addChild('deleteClassroom');
+
+            $role->addChild('createStudent');
+            $role->addChild('updateStudent');
+            $role->addChild('deleteStudent');
+
+            $role->addChild('createInstructor');
+            $role->addChild('updateInstructor');
+            $role->addChild('deleteInstructor');
+
+            $role->addChild('createEnrollment');
+            $role->addChild('updateEnrollment');
+            $role->addChild('deleteEnrollment');
+        
+        
+        $role=$auth->createRole('admin');
+            $role->addChild('manager');
+            $role->addChild('createSchool');
+            $role->addChild('updateSchool');
+            $role->addChild('deleteSchool');
+        
+        
+        $auth->assign('manager',1);
+        $auth->assign('admin',2);
+        
+        echo Yii::app()->user->loginInfos->name."<br>";
+        $userId = Yii::app()->user->loginInfos->id;
+        var_dump(Yii::app()->getAuthManager()->checkAccess('createSchool',$userId));
+        var_dump(Yii::app()->getAuthManager()->checkAccess('createStudent',$userId));
+        
+    }
+    
     //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
     public function actionUpdateUfDependencies(){
         $school = new SchoolIdentification();

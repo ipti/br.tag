@@ -114,7 +114,11 @@
                             <div id="notif">
                                 <div class="user">
                                     <strong><?php echo Yii::app()->user->loginInfos->name; ?></strong>
-                                    <p><?php //echo Yii::app()->user->loginInfos->roleFk->name; ?></p>
+                                    <p><?php 
+                                        $userId = Yii::app()->user->loginInfos->id;
+                                        foreach (Yii::app()->getAuthManager()->getAuthItems(2,$userId) as $role => $roleOb)
+                                                echo Yii::t('default',$role)." ";
+                                             ?></p>
                                 </div>
 
                                 <form class="school" action="?r=site/changeschool" method="Post">

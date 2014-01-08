@@ -49,6 +49,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
+                                    //@todo S1 - Remover campo
                                     echo $form->dropDownList($model, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola",
                                         'ajax' => array(
                                             'type' => 'POST',
@@ -70,7 +71,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     //@todo 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
                                     //@todo 17 - Precisa estar em ordem alfabetica
                                     //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
-                                    echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
+                                    echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
                                     <?php echo $form->error($model, 'student_fk'); ?>
                                 </div>

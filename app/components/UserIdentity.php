@@ -41,7 +41,7 @@ class UserIdentity extends CUserIdentity
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
             $this->setState('loginInfos', $record);
-            $school = $record->usersSchools[0]->school_fk;
+            $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : 'null';
             $this->setState('school',$school);
             $this->errorCode = self::ERROR_NONE;
         }

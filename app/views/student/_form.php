@@ -48,12 +48,13 @@
                             <div class="separator"></div>
                             <div class="control-group">
                                 <?php 
-                                //@todo 11 - Não precisar selecionar a escola, ele já estará em uma
-                                echo $form->labelEx($modelStudentIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
+                                //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
+                                ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelStudentIdentification, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola"));
+                                     <?php
+                                    echo $form->hiddenField($modelStudentIdentification,'school_inep_id_fk',array('value'=>Yii::app()->user->school));
                                     ?>
-                                    <?php echo $form->error($modelStudentIdentification, 'school_inep_id_fk'); ?>
+                                    
                                 </div>
                             </div>
                             <div class="control-group">

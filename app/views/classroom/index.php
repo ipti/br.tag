@@ -35,12 +35,12 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
                         'columns' => array(
                             'inep_id',
                             'name',
-                            array(
-                                'class' => 'CLinkColumn',
-                                'header'=>'Escola',
-                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_fk)->name',
-                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_fk',
-                                ),
+//                            array(
+//                                'class' => 'CLinkColumn',
+//                                'header'=>'Escola',
+//                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_fk)->name',
+//                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_fk',
+//                                ),
                             array('class' => 'CButtonColumn','template'=>'{update} {delete}'),),
                     ));
                     ?>
