@@ -102,8 +102,8 @@ class Classroom extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type', 'required'),
-			array('week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation', 'numerical', 'integerOnly'=>true),
+			array('name, school_inep_fk, school_year, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type', 'required'),
+			array('week_days_sunday, school_year, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation', 'numerical', 'integerOnly'=>true),
 			array('register_type, initial_hour, initial_minute, final_hour, final_minute, edcenso_stage_vs_modality_fk', 'length', 'max'=>2),
 			array('school_inep_fk', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>10),
@@ -137,6 +137,7 @@ class Classroom extends CActiveRecord
 			'school_inep_fk' => Yii::t('default', 'School Inep Fk'),
 			'inep_id' => Yii::t('default', 'Inep'),
 			'id' => Yii::t('default', 'ID'),
+                        'school_year' => Yii::t('default', 'School Year'),
 			'name' => Yii::t('default', 'Name'),
 			'initial_hour' => Yii::t('default', 'Initial Hour'),
 			'initial_minute' => Yii::t('default', 'Initial Minute'),
@@ -171,19 +172,19 @@ class Classroom extends CActiveRecord
 			'modality' => Yii::t('default', 'Modality'),
 			'edcenso_stage_vs_modality_fk' => Yii::t('default', 'Edcenso Stage Vs Modality Fk'),
 			'edcenso_professional_education_course_fk' => Yii::t('default', 'Edcenso Professional Education Course Fk'),
-			'discipline_chemistry' => Yii::t('default', 'Discipline Chemistry'),
-			'discipline_physics' => Yii::t('default', 'Discipline Physics'),
-			'discipline_mathematics' => Yii::t('default', 'Discipline Mathematics'),
-			'discipline_biology' => Yii::t('default', 'Discipline Biology'),
-			'discipline_science' => Yii::t('default', 'Discipline Science'),
-			'discipline_language_portuguese_literature' => Yii::t('default', 'Discipline Language Portuguese Literature'),
-			'discipline_foreign_language_english' => Yii::t('default', 'Discipline Foreign Language English'),
-			'discipline_foreign_language_spanish' => Yii::t('default', 'Discipline Foreign Language Spanish'),
-			'discipline_foreign_language_franch' => Yii::t('default', 'Discipline Foreign Language Franch'),
-			'discipline_foreign_language_other' => Yii::t('default', 'Discipline Foreign Language Other'),
-			'discipline_arts' => Yii::t('default', 'Discipline Arts'),
-			'discipline_physical_education' => Yii::t('default', 'Discipline Physical Education'),
-			'discipline_history' => Yii::t('default', 'Discipline History'),
+			'discipline_1_fk' => Yii::t('default', 'Discipline Chemistry'),
+			'discipline_2_fk' => Yii::t('default', 'Discipline Physics'),
+			'discipline_3_fk' => Yii::t('default', 'Discipline Mathematics'),
+			'discipline_4_fk' => Yii::t('default', 'Discipline Biology'),
+			'discipline_5_fk' => Yii::t('default', 'Discipline Science'),
+			'discipline_6_fk' => Yii::t('default', 'Discipline Language Portuguese Literature'),
+			'discipline_7_fk' => Yii::t('default', 'Discipline Foreign Language English'),
+			'discipline_8_fk' => Yii::t('default', 'Discipline Foreign Language Spanish'),
+			'discipline_9_fk' => Yii::t('default', 'Discipline Foreign Language Franch'),
+			'discipline_10_fk' => Yii::t('default', 'Discipline Foreign Language Other'),
+			'discipline_11_fk' => Yii::t('default', 'Discipline Arts'),
+			'discipline_12_fk' => Yii::t('default', 'Discipline Physical Education'),
+			'discipline_13_fk' => Yii::t('default', 'Discipline History'),
 			'discipline_geography' => Yii::t('default', 'Discipline Geography'),
 			'discipline_philosophy' => Yii::t('default', 'Discipline Philosophy'),
 			'discipline_social_study' => Yii::t('default', 'Discipline Social Study'),
@@ -217,6 +218,7 @@ class Classroom extends CActiveRecord
 		$criteria->compare('inep_id',$this->inep_id,true);
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+                $criteria->compare('school_year',$this->school_year,true);
 		$criteria->compare('initial_hour',$this->initial_hour,true);
 		$criteria->compare('initial_minute',$this->initial_minute,true);
 		$criteria->compare('final_hour',$this->final_hour,true);

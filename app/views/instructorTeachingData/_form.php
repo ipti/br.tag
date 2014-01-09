@@ -1,11 +1,6 @@
 <?php 
-//@todo 27 - InstructorTeachingData é o processo na turma e não no professor.
-//@done s1 - Retirar campos de Escola e Turma TD
-//@todo s1 - Adicionar campo para selecionar o instrutor TD
-//@todo s1 - Criar lista de professores TD
-//@todo s1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
-//@todo s1 - Edição de teaching data - excluir o professor TD
-//@done s1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
+//@done 27 - InstructorTeachingData é o processo na turma e não no professor.
+
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'instructor-teaching-data-form',
 	'enableAjaxValidation'=>false,

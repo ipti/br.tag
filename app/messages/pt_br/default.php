@@ -187,8 +187,7 @@ return array(
     
     //Classroom
     'School Inep Fk' => 'Escola',
-    'ID' => 'ID',
-    'school_year' => 'Ano Letivo',
+    'School Year' => 'Ano Letivo',
     'Initial Hour' => 'Horário Inicial',
     'Initial Minute' => '',
     'Final Hour' => 'Horário Final',
@@ -416,11 +415,13 @@ return array(
     'Other Courses None' => 'Nenhum',
     
     // Instructor-TeachingData
+    'ID' => 'Professor',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
     'Contract Type' => 'Situação funcional / Regime de contratação / Tipo de Vínculo',
-    'Discipline 1 Fk' => 'Disciplina',
+    'Add Teacher' => 'Vincular professor',
+    'Discipline 1 Fk' => '',
     'Discipline 2 Fk' => '',
     'Discipline 3 Fk' => '',
     'Discipline 4 Fk' => '',
@@ -433,6 +434,7 @@ return array(
     'Discipline 11 Fk' => '',
     'Discipline 12 Fk' => '',
     'Discipline 13 Fk' => '',
+    
     
     //Labels
     'Password' => 'Senha',

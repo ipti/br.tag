@@ -1,8 +1,8 @@
 <?php 
-//@todo 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
-//@todo 23 - Lembrar de associar o professor a turma.
+//@done 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
+//@done 23 - Lembrar de associar o professor a turma.
 //@todo s1 - Retirar aba Disciplinas. Add disciplinas em teachingData e vincular as disciplinas(checkbox) com os prof (dropdown) 
-
+//@todo s2 - Add validação para os campos que esão faltando
 
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
@@ -25,7 +25,6 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul>
                 <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li id="tab-disciplines"><a class="glyphicons edit" href="#disciplines" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Disciplines') ?></a></li>
                 <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor Teaching Data') ?></a></li> 
             
             </ul>
@@ -45,7 +44,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php //@done S1 - 08 - 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->hiddenField($model,'school_inep_fk',array('value'=>Yii::app()->user->school));
+                                    echo $form->hiddenField($modelClassroom,'school_inep_fk',array('value'=>Yii::app()->user->school));
                                     ?>  
                                 </div>
                             </div>
@@ -58,17 +57,16 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelClassroom, 'name'); ?>
                                 </div>
                             </div>
-                            <?php /*
                             <div class="control-group">
 
                                <?php 
                                 echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelClassroom, 'school_year', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <?php echo $form->textField($modelClassroom, 'school_year', array('size' => 5, 'maxlength' => 5)); ?>
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
-  */  ?>                            
+                          
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -101,23 +99,23 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_monday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_monday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_tuesday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_tuesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_wednesday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_wednesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_thursday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_thursday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_friday']; ?>
-                                    <?php echo $form->checkBox($model, 'week_days_friday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($modelClassroom, 'week_days_friday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_saturday']; ?>
@@ -228,11 +226,11 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'modality', array(null => 'Selecione a modalidade',
+                                    <?php echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
                                         '1' => 'Ensino Regular',
                                         '2' => 'Educação Especial - Modalidade Substitutiva',
                                         '3' => 'Educação de Jovens e Adultos (EJA)')); ?>
-                                    <?php echo $form->error($model, 'modality'); ?>
+                                    <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
                             </div>
                                 
@@ -493,10 +491,27 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="separator"></div>
                         <div class="separator"></div>
                         
+                        <?php 
+                        //@done s1 - Retirar campos de Escola e Turma TD
+                        //@done s1 - Adicionar campo para selecionar o instrutor TD
+                        //@done s1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
+                        //@todo s1 - Criar lista de professores TD
+                        //@todo s1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
+                        //@todo s1 - Edição de teaching data - excluir o professor TD
+                        ?>
+                            
+                         <div class="control-group">
+                            <?php echo $form->labelEx($modelTeachingData, 'id', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modelTeachingData,'id', CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione o Professor'));
+                            ?>
+                            <?php echo $form->error($modelTeachingData,'id'); ?>
+                        </div>
+                    </div>
+                        
                         <div class="control-group">
                             <?php echo $form->labelEx($modelTeachingData, 'role', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo $form->DropDownlist($modelTeachingData, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
+                            <?php echo $form->DropDownlist($modelTeachingData, 'role', array(1 => 'Docente', 2 => 'Auxiliar/Assistente Educacional',
                                 3 => 'Profissional/Monitor de Atividade Complementar',
                                 4 => 'Tradutor Intérprete de LIBRAS'));
                             ?>                    
@@ -512,20 +527,73 @@ $form=$this->beginWidget('CActiveForm', array(
                             ?>  
                             <?php echo $form->error($modelTeachingData, 'contract_type'); ?>
                         </div></div>
+                        
                         </div>
                         <div class="span6">
+                        <?php echo $form->labelEx($modelTeachingData, 'Disciplines', array('class' => 'control-label')); ?>
                         <div class="separator"></div>
-                        <div class="separator"></div>
+                        <div class="separator"></div> 
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelTeachingData, 'discipline_1_fk', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php
-                            echo $form->DropDownlist($modelTeachingData, 'discipline_1_fk', CHtml::listData(
-                                            EdcensoDiscipline::model()->findAll(), 'id', 'name')
-                                    , array('multiple'=>true, 'key'=>'id'));
-                            ?>
-                            <?php echo $form->error($modelTeachingData, 'discipline_1_fk'); ?>
-                        </div></div>
+                   
+                        <div>
+                            <label class="checkbox">
+                                    
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_1_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_1_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_2_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_2_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_3_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_3_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_4_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_4_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_5_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_5_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_6_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_6_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_7_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_7_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_8_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_8_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_9_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_9_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_10_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_10_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_11_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_11_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_12_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_12_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                             <label class="checkbox">
+                                    <?php echo Classroom::model()->attributeLabels()['discipline_13_fk']; ?>
+                                    <?php echo $form->checkBox($modelTeachingData, 'discipline_13_fk', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            </label>
+                 
+                        </div>
+                        
+                        
                        <div class="control-group">
                         <div class="controls">
                             <?php echo $form->hiddenField($modelTeachingData,'instructor_fk',array('value'=>$instructor_id)); ?>
@@ -592,11 +660,7 @@ $form=$this->beginWidget('CActiveForm', array(
         }
     });
     //multiselect
-    
-    
-    
-    
-    
+  
     $(form+'name').focusout(function() {
         var id = '#'+$(this).attr("id");
         
