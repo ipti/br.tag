@@ -211,8 +211,6 @@ $form=$this->beginWidget('CActiveForm', array(
             }
         });    
     
-        $("#StudentEnrollment_student_fk").select2({width: 'resolve'});
-    
     }); 
     
     $('.heading-buttons').css('width', $('#content').width());

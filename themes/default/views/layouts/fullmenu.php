@@ -53,7 +53,17 @@
             $(document).ready(function(){
                 $("select").select2({width: 'resolve'}); 
                 $("select[multiple]").select2({width: 'resolve', maximumSelectionSize: 6}); 
-            });</script>
+            });
+        </script>
+        
+        <!-- Auto Submit Dropdown School -->
+        <script>               
+            $(function() {
+                $("#UsersSchool_school_fk").change(function() {
+                    $(".school").submit();
+                });
+              });            
+        </script>
     </head>
 
     <body>
@@ -133,7 +143,9 @@
                                             Chtml::listData(Yii::app()->user->loginInfos->usersSchools, 'school_fk', 'schoolFk.name'),
                                             array('empty'=>'Selecione a escola','class'=>'span2','options' => array(Yii::app()->user->school=>array('selected'=>true))));
                                     ?>
-                                    <button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
+<?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
+                                    <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
+**/ ?>                          <div class="separator"></div>
                                 </form>
 
                             </div>
