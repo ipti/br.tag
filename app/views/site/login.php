@@ -47,9 +47,9 @@ $baseUrl = Yii::app()->theme->baseUrl;
 						<label class="strong">Senha</label>
 						<?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
                                                 <?php echo $form->error($model,'password'); 
-                                                // @todo S1 - Alinhar o checkbox com os inputs
+                                                // @done S1 - Alinhar o checkbox com os inputs
                                                 ?>
-						<div class="uniformjs"><label class="checkbox"><input type="checkbox" value="remember-me">Lembrar-me</label></div>
+						<div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 4px 0 0"value="remember-me">Lembrar-me</label></div>
 						<div class="row-fluid">
 							<div class="span12 center">
 								<?php echo CHtml::submitButton('Login', array('class' => 'btn btn-block btn-primary')); ?>

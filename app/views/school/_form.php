@@ -38,8 +38,8 @@
         <!-- Tab content -->
         <div class="tab-pane active" id="school-indentify">
             <div class="row-fluid">
-                <?php // @todo S1 - Alinhar o campo nome, o span12 não esta funcionando devidamente(remover o style e corrigir no css) ?>
-                <div class=" span12" style="margin-left: 1.05263%;">
+                <?php // @done S1 - Alinhar o campo nome, o span12 não esta funcionando devidamente(remover o style e corrigir no css) ?>
+                <div class="span12">
                     <div class="separator"></div>
                     <!--//@done S1 - 09 - O Campo de nome está muito pequeno, aumentar -->   
                     <div class="control-group">
@@ -49,10 +49,85 @@
                             <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
                         </div>
                     </div>
-                </div>
-                
-                <div class=" span5">
                     <div class="separator"></div>
+                </div>
+            </div>
+            
+            <div class="row-fluid">    
+                <div class=" span5">
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'class' => 'span10')); ?>
+                            <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
+                            ?>
+                            <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
+                        </div>
+                    </div>
+                        
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa',1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada')); ?>
+                            <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span6">
+                        
+                    
+                        
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta')); ?>
+                            <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
+                        </div>
+                    </div>
+                        
+                        
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Initial Date Help'); ?>"><i></i></span>
+                            <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
+                        </div>
+                    </div>
+                        
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Final Date Help'); ?>"><i></i></span>
+                            <?php echo $form->error($modelSchoolIdentification, 'final_date'); ?>
+                        </div>
+                    </div>
+                        
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação',0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação')); ?>
+                            <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
+                        </div>
+                    </div>
+                    <div class="separator"></div>
+                </div>
+            </div>
+            
+            <div class="row-fluid">    
+                <div class=" span5">
+                    
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
@@ -178,61 +253,6 @@
                 </div>
 
                 <div class="span6">
-                    
-                    <div class="separator"></div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'class' => 'span10')); ?>
-                            <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta')); ?>
-                            <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
-                        </div>
-                    </div>
-                        
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Initial Date Help'); ?>"><i></i></span>
-                            <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Final Date Help'); ?>"><i></i></span>
-                            <?php echo $form->error($modelSchoolIdentification, 'final_date'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
-                            ?>
-                            <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
-                        </div>
-                    </div>
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa',1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada')); ?>
-                            <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
-                        </div>
-                    </div>
                         
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'location', array('class' => 'control-label')); ?>
@@ -241,18 +261,31 @@
                             <?php echo $form->error($modelSchoolIdentification, 'location'); ?>
                         </div>
                     </div>
-
-                        
-                    <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 'control-label')); ?>
-                        <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação',0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação')); ?>
-                            <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
-                        </div>
-                    </div>
                 </div>
-                    
             </div>
+            <?php //@todo (executando Júnior) Reordenando todos os campos da View ?>
+            
+            <div class="row-fluid">    
+                <div class=" span4">
+                    
+                </div>
+                <div class=" span4">
+                    
+                </div>
+                <div class=" span4">
+                    
+                </div>
+            </div>
+            
+            <div class="row-fluid">    
+                <div class=" span4">
+                    
+                </div>
+                <div class=" span4">
+                    
+                </div>
+            </div>
+            
         </div>
     
         <div class="tab-pane" id="school-structure">
