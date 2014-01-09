@@ -1,8 +1,8 @@
 <div id="mainPage" class="main">
     <?php
     $this->breadcrumbs = array(
-        'Instructor Identifications' => array('index'),
-        'Create',
+        Yii::t('default', 'Instructor Identifications')=> array('index'),
+        Yii::t('default', 'Create'),
     );
     $title = Yii::t('default', 'Add New Teacher');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification, DocumentsAndAddress, 

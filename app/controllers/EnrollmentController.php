@@ -56,10 +56,10 @@ class EnrollmentController extends Controller
             $enrollment = new StudentEnrollment;
             $enrollment->attributes = $_POST["StudentEnrollment"];
 
-            $students = StudentIdentification::model()->findAll('school_inep_id_fk=:id', array(':id' => $enrollment->school_inep_id_fk));
+            $students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
             $students = CHtml::listData($students, 'id', 'name');
             
-            $classrooms = Classroom::model()->findAll('school_inep_fk=:id', array(':id' => $enrollment->school_inep_id_fk));
+            $classrooms = Classroom::model()->findAll('school_inep_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
             $classrooms = CHtml::listData($classrooms, 'id', 'name');
 
             $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);

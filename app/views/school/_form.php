@@ -6,11 +6,14 @@
 
 <?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs?>
     
-<div class="heading-buttons">
+<div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
     <?php echo $form->errorSummary($modelSchoolIdentification); ?>
     <?php echo $form->errorSummary($modelSchoolStructure); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
+        <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
+        <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+        <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary last', 'style' => 'display:none')); ?>
     </div>
     <div class="clearfix"></div>
 </div>
@@ -249,9 +252,6 @@
                     </div>
                 </div>
                     
-            </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <a href="#school-structure" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
             </div>
         </div>
     
@@ -620,9 +620,6 @@
                     </div>
                         
                     </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <a href="#school-equipament" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-            </div>
         </div>
 
         <div class="tab-pane" id="school-equipament">
@@ -755,9 +752,6 @@
                         </div></div>
                     
                 </div>
-            </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <a href="#school-education" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
             </div>
         </div>
 
@@ -987,9 +981,6 @@
             </div>
             </div>
         </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <?php echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
-            </div>
             </div>
 
                 
@@ -1252,11 +1243,63 @@
         });
         //multiselect
         
+        $("#SchoolIdentification_edcenso_regional_education_organ_fk").select2({ width: 'resolve' });
+        $("#SchoolIdentification_administrative_dependence").select2({ width: 'resolve' });
+        $("#SchoolStructure_shared_school_inep_id_1").select2({ width: 'resolve' , placeholder: '<?php echo Yii::t('default', 'Select School'); ?>'});
         
     $('.next').click(function(){
-        $('li[class="active"]').removeClass("active");
-        var id = '#tab-'+($(this).attr("href")).substring(1);
-        $(id).addClass("active");
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-school-indentify';
+        var li2 = 'tab-school-structure';
+        var li3 = 'tab-school-equipament';
+        var li4 = 'tab-school-education';
+        var next = '';
+        switch(classActive.attr('id')) {
+            case li1 : next = li2; 
+                $('.prev').show(); break;
+            case li2 : next = li3; break;
+            case li3 : next = li4;
+                $('.next').hide();
+                $('.last').show(); break;
+            case li4 : next = li4; break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+next).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
     });
+    
+    $('.prev').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-school-indentify';
+        var li2 = 'tab-school-structure';
+        var li3 = 'tab-school-equipament';
+        var li4 = 'tab-school-education';
+        var previous = '';
+        switch(classActive.attr('id')) {
+            case li1 : previous = li1; break;
+            case li2 : previous = li1; 
+                $('.prev').hide(); break;
+            case li3 : previous = li2; break;
+            case li4 : previous = li3; 
+                $('.last').hide();
+                $('.next').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var previous_content = previous.substring(4);
+        previous = previous.toString();
+        $('#'+previous).addClass("active");
+        $('#'+previous_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
+    
+    $('.heading-buttons').css('width', $('#content').width());
 </script>

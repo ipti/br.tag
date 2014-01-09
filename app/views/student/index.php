@@ -27,7 +27,14 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
         <?php endif ?>
         <div class="widget">
                 <div class="widget-body">
-                    <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    <?php 
+                    
+                    echo CHtml::activeDropDownList(StudentIdentification::model(),'id', $students, array('prompt'=>'Selecione o Aluno'));           
+                    
+                    echo CHtml::tag('a',array('id'=>'StudentIdentification_id_link','class'=>'btn btn-icon btn-primary glyphicons circle_ok','style'=>'margin-left:5px'), '<i></i>'.CHtml::encode('OK'), true);
+                    //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
+                    
+                    $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
                         'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
@@ -49,3 +56,14 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function(){
+            
+        $("#StudentIdentification_id").select2({width: 'resolve'});
+        $("#StudentIdentification_id").change(function(){
+            var id = $("#StudentIdentification_id").val();
+            $("#StudentIdentification_id_link").attr("href", "?r=student/update&id="+id);
+        });
+    })
+</script>

@@ -1,8 +1,8 @@
 <div id="mainPage" class="main">
     <?php
 $this->breadcrumbs=array(
-	'Classrooms'=>array('index'),
-	'Create',
+	Yii::t('default', 'Classrooms')=>array('index'),
+	Yii::t('default', 'Create'),
 );
     $title=Yii::t('default', 'Create a new Classroom');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');

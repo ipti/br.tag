@@ -49,7 +49,11 @@
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-
+        <script>
+            $(document).ready(function(){
+                $("select").select2({width: 'resolve'}); 
+                $("select[multiple]").select2({width: 'resolve', maximumSelectionSize: 6}); 
+            });</script>
     </head>
 
     <body>

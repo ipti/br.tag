@@ -213,6 +213,20 @@ class StudentController extends Controller {
 //            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
+    public function actionGetStudents(){
+        $school = Yii::app()->user->school;
+        
+        $data = StudentIdentification::model()->findAllByAttributes(array('school_inep_id_fk' => $school), array('order'=>'name ASC'));
+
+        $data = CHtml::listData($data, 'id', 'name');
+//        $students = CHtml::tag('option', array('value' => ''), CHtml::encode('Escolha um aluno'), true);
+//        foreach ($data as $value => $name) {
+//            $students .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+//        }
+        return $data;
+        
+    }
+    
     /**
      * Lists all models.
      */
@@ -223,14 +237,17 @@ class StudentController extends Controller {
                         array(
                             'criteria'=>array(
                                 'condition'=>'school_inep_id_fk='.$school,
-                                'order'=>'name ASC',
+                                //'order'=>'name ASC',
                             ),
                             
                             'pagination' => array(
                                 'pageSize' => 12,
                         )));
+        
+        $students = $this->actionGetStudents();
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'students' => $students
         ));
     }
 

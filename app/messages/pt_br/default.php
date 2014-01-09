@@ -1,5 +1,7 @@
 <?php
 
+//@done S2: Traduzir breadcrumbs (migalhas de pão)
+
 return array(
     //Botões
     'Create' => 'Criar',
@@ -464,6 +466,9 @@ return array(
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
     'Stage' => 'Estágio',
+    
+    //Selects de Dorpdowns
+    'Select School' => 'Selecione a escola',
     
     //Titulos
     'School Identifications' => 'Escolas',

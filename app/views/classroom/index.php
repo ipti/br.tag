@@ -1,7 +1,7 @@
 <div id="mainPage" class="main">
 <?php
 $this->breadcrumbs=array(
-	'Classrooms',
+	Yii::t('default', 'Classrooms'),
 );
 $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');
 $this->menu=array(
