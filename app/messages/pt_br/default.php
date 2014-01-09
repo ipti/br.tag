@@ -6,6 +6,8 @@ return array(
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
     'Next' => 'Próximo',
+    'Previous' => 'Anterior',
+    'Enroll'=> 'Matricular',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
@@ -491,5 +493,9 @@ return array(
     'Final Date Help' => 'Data do final do ano letivo',
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
     
+    
+    //Autenticação
+    'manager' => 'Diretor',
+    'admin' => 'Administrador',
         )
 ?>

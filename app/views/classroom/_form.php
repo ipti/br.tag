@@ -42,23 +42,11 @@ $form=$this->beginWidget('CActiveForm', array(
                             
                             <div class="separator"></div>
                             <div class="control-group">
-                                <?php //@todo 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
-                                <?php echo $form->labelEx($modelClassroom, 'school_inep_fk', array('class' => 'control-label')); ?>
+                                <?php //@done S1 - 08 - 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelClassroom, 'school_inep_fk', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array(
-                                        'prompt' => 'Selecione a escola',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('classroom/getassistancetype'),
-                                            'update' => '#Classroom_assistance_type',
-                                            'success' => 'function(html){
-                                    $("#Classroom_assistance_type").html(html); 
-                                    $("#Classroom_assistance_type").trigger("change");                                                
-                                }')
-                                    ));
+                                    echo $form->hiddenField($model,'school_inep_fk',array('value'=>Yii::app()->user->school));
                                     ?>  
-                                    <?php echo $form->error($modelClassroom, 'school_inep_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -107,29 +95,29 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="uniformjs margin-left" id="Classroom_week_days">
                                 <label class="checkbox">
                                     <?php 
-                                    //@todo 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
+                                    //@done s1-08-08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
                                     echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($model, 'week_days_monday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_tuesday']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($model, 'week_days_tuesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_wednesday']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($model, 'week_days_wednesday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_thursday']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($model, 'week_days_thursday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_friday']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->checkBox($model, 'week_days_friday', array("checked"=>"checked",'value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_saturday']; ?>
@@ -240,11 +228,11 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
-                                        '1' => '(Ensino Regular)',
-                                        '2' => '(Educação Especial - Modalidade Substitutiva)',
-                                        '3' => '(Educação de Jovens e Adultos (EJA))')); ?>
-                                    <?php echo $form->error($modelClassroom, 'modality'); ?>
+                                    <?php echo $form->DropDownList($model, 'modality', array(null => 'Selecione a modalidade',
+                                        '1' => 'Ensino Regular',
+                                        '2' => 'Educação Especial - Modalidade Substitutiva',
+                                        '3' => 'Educação de Jovens e Adultos (EJA)')); ?>
+                                    <?php echo $form->error($model, 'modality'); ?>
                                 </div>
                             </div>
                                 
@@ -564,23 +552,17 @@ $form=$this->beginWidget('CActiveForm', array(
     
     var form = '#Classroom_';
     jQuery(function($) {
-        jQuery('body').on('change','#Classroom_school_inep_fk',
-        function(){jQuery.ajax({
-                'type':'POST',
-                'url':'/tag/index.php?r=classroom/getassistancetype',
-                'cache':false,
-                'data':jQuery(this).parents("form").serialize(),
-                'success':function(html){
-                    jQuery("#Classroom_assistance_type").html(html); 
-                    jQuery("#Classroom_assistance_type").trigger('change');
-                }});
-            return false;}
-    );
-        $(form+'school_inep_fk').trigger('change');
-        
+        jQuery.ajax({
+            'type':'POST',
+            'url':'/tag/index.php?r=classroom/getassistancetype',
+            'cache':false,
+            'data':jQuery('#Classroom_school_inep_fk').parents("form").serialize(),
+            'success':function(html){
+                jQuery("#Classroom_assistance_type").html(html); 
+                jQuery("#Classroom_assistance_type").trigger('change');
+            }});
         $(form+"complementary_activity_type_1").val(jQuery.parseJSON('<?php echo json_encode($complementary_activities); ?>'));
     }); 
-    
     
     $(form+"complementary_activity_type_1").change(function(){
         while($(this).val().length > 6){

@@ -217,8 +217,16 @@ class StudentController extends Controller {
      * Lists all models.
      */
     public function actionIndex() {
+        $school = Yii::app()->user->school;
+        
         $dataProvider = new CActiveDataProvider($this->STUDENT_IDENTIFICATION,
-                        array('pagination' => array(
+                        array(
+                            'criteria'=>array(
+                                'condition'=>'school_inep_id_fk='.$school,
+                                'order'=>'name ASC',
+                            ),
+                            
+                            'pagination' => array(
                                 'pageSize' => 12,
                         )));
         $this->render('index', array(

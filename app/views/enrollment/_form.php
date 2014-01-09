@@ -5,12 +5,23 @@ $form=$this->beginWidget('CActiveForm', array(
 	'enableAjaxValidation'=>false,
 )); ?>
 
-<div class="heading-buttons">
-    <?php echo $form->errorSummary($model); ?>
-    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
-    <div class="buttons pull-right">
+<div class="row-fluid">
+    <div class="span12">
+        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
+            <?php echo $form->errorSummary($model); ?>
+            <div class="row-fluid">
+                <div class="span8">
+                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
+                </div>
+                <div class="span4">
+                    <div class="buttons">
+                        <!--//@todo 19 - O nome do botão é matricular e não criar-->
+                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
-    <div class="clearfix"></div>
 </div>
 
 <div class="innerLR">
@@ -38,6 +49,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
+                                    //@todo S1 - Remover campo
                                     echo $form->dropDownList($model, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola",
                                         'ajax' => array(
                                             'type' => 'POST',
@@ -59,7 +71,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     //@todo 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
                                     //@todo 17 - Precisa estar em ordem alfabetica
                                     //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
-                                    echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
+                                    echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
                                     <?php echo $form->error($model, 'student_fk'); ?>
                                 </div>
@@ -187,10 +199,6 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="formField buttonWizardBar nextBar">
-                        <!--//@todo 19 - O nome do botão é matricular e não criar-->
-                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
-                    </div>
                     <span style="clear:both;display:block"></span>
                     <?php $this->endWidget(); ?>
                 </div>
@@ -221,4 +229,6 @@ $form=$this->beginWidget('CActiveForm', array(
         
         
     }); 
+    
+    $('.heading-buttons').css('width', $('#content').width());
 </script>

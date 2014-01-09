@@ -608,3 +608,7 @@ div.uploader input {
   border: none;
   cursor: default;
 }
+
+.equipments_input {
+    width: 30px;
+}

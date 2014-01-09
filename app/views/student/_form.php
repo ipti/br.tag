@@ -2,13 +2,27 @@
 	'id'=>'student',
 	'enableAjaxValidation'=>false,
 )); ?>
-<div class="heading-buttons">
-    <?php echo $form->errorSummary($modelStudentIdentification); ?>
-    <?php echo $form->errorSummary($modelStudentDocumentsAndAddress); ?>
-    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
-    <div class="buttons pull-right">
+
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
+            <?php echo $form->errorSummary($modelStudentIdentification); ?>
+            <?php echo $form->errorSummary($modelStudentDocumentsAndAddress); ?>
+            <div class="row-fluid">
+                <div class="span8">
+                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
+                </div>
+                <div class="span4">
+                    <div class="buttons">
+                         <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
+                         <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+                         <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary last', 'style' => 'display:none')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
-    <div class="clearfix"></div>
 </div>
     
 <div class="innerLR">
@@ -17,9 +31,9 @@
         
         <div class="widget-head">
             <ul>
-                <li id="tab-student-indentify" class="active" ><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li id="tab-student-documents"  ><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
-                <li id="tab-student-address"    ><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
+                <li id="tab-student-indentify" class="active"><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-student-documents"><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
+                <li id="tab-student-address"><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
             </ul>
         </div>
             
@@ -34,12 +48,13 @@
                             <div class="separator"></div>
                             <div class="control-group">
                                 <?php 
-                                //@todo 11 - Não precisar selecionar a escola, ele já estará em uma
-                                echo $form->labelEx($modelStudentIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
+                                //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
+                                ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelStudentIdentification, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola"));
+                                     <?php
+                                    echo $form->hiddenField($modelStudentIdentification,'school_inep_id_fk',array('value'=>Yii::app()->user->school));
                                     ?>
-                                    <?php echo $form->error($modelStudentIdentification, 'school_inep_id_fk'); ?>
+                                    
                                 </div>
                             </div>
                             <div class="control-group">
@@ -277,9 +292,6 @@
                             </div>
                         </div>
                     </div>   
-                    <div class="control-group buttonWizardBar nextBar">
-                        <a href="#student-documents" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-                    </div>
                 </div>
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
@@ -458,9 +470,6 @@
                                 
                         </div>
                     </div>   
-                    <div class="control-group buttonWizardBar nextBar">
-                        <a href="#student-address" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-                    </div>
                 </div>
                 <!-- Tab Student Address -->
                 <div class="tab-pane" id="student-address">
@@ -545,9 +554,6 @@
                             </div>
                              
                         </div>
-                    </div>   
-                    <div class="control-group buttonWizardBar nextBar">
-                        <?php echo CHtml::submitButton($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Criar') : Yii::t('default', 'Salvar'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                 </div>
                     
@@ -851,11 +857,57 @@
         }
     });
     
-    $('.next').click(function(){
-        $('li[class="active"]').removeClass("active");
-        var id = '#tab-'+($(this).attr("href")).substring(1);
-        $(id).addClass("active");
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-    });
-</script>
     
+    $('.next').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-student-indentify';
+        var li2 = 'tab-student-documents';
+        var li3 = 'tab-student-address';
+        var next = '';
+        switch(classActive.attr('id')) {
+            case li1 : next = li2; 
+                $('.prev').show(); break;
+            case li2 : next = li3;
+                $('.next').hide();
+                $('.last').show(); break;
+            case li3 : next = li3; break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+next).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
+    
+    $('.prev').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-student-indentify';
+        var li2 = 'tab-student-documents';
+        var li3 = 'tab-student-address';
+        var previous = '';
+        switch(classActive.attr('id')) {
+            case li1 : previous = li1; break;
+            case li2 : previous = li1; 
+                $('.prev').hide(); break;
+            case li3 : previous = li2; 
+                $('.last').hide();
+                $('.next').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var previous_content = previous.substring(4);
+        previous = previous.toString();
+        $('#'+previous).addClass("active");
+        $('#'+previous_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
+    
+    $('.heading-buttons').css('width', $('#content').width());
+    
+</script>

@@ -110,19 +110,30 @@
                         <!-- Scrollable menu wrapper with Maximum height -->
                         <div class="slim-scroll" data-scroll-height="800px">
 
- <?php /**                           <!-- Sidebar Mini Stats -->
+                        <!-- Sidebar Mini Stats -->
                             <div id="notif">
                                 <div class="user">
-                                    <strong>José Agnaldo Jr.</strong>
-                                    <p>Secretário</p>
+                                    <strong><?php echo Yii::app()->user->loginInfos->name; ?></strong>
+                                    <p><?php 
+                                        $userId = Yii::app()->user->loginInfos->id;
+                                        foreach (Yii::app()->getAuthManager()->getAuthItems(2,$userId) as $role => $roleOb)
+                                                echo Yii::t('default',$role)." ";
+                                             ?></p>
                                 </div>
 
-                                <div class="school">
-                                    <p>E.M.F.E. Fundamental</p>
-                                </div>
+                                <form class="school" action="?r=site/changeschool" method="Post">
+                                    
+                                    <?php
+                                    echo CHtml::activeDropDownList(
+                                            UsersSchool::model(), 'school_fk',  
+                                            Chtml::listData(Yii::app()->user->loginInfos->usersSchools, 'school_fk', 'schoolFk.name'),
+                                            array('empty'=>'Selecione a escola','class'=>'span2','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                    ?>
+                                    <button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
+                                </form>
 
                             </div>
-                            <!-- // Sidebar Mini Stats END --> **/ ?>
+                            <!-- // Sidebar Mini Stats END --> 
 
                             <!-- Regular Size Menu -->
                             <ul>

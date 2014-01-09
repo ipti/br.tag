@@ -4,6 +4,7 @@
 )); ?>
 
 
+<?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs?>
     
 <div class="heading-buttons">
     <?php echo $form->errorSummary($modelSchoolIdentification); ?>
@@ -23,8 +24,6 @@
                 <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li id="tab-school-structure"   ><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
                 <li id="tab-school-equipament"  ><a class="glyphicons imac"     href="#school-equipament" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
-                <li id="tab-school-humans"      ><a class="glyphicons parents"  href="#school-humans" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Human Resources') ?></a></li>
-                <li id="tab-school-feeding"     ><a class="glyphicons cutlery"  href="#school-feeding" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Feed') ?></a></li>
                 <li id="tab-school-education"   ><a class="glyphicons book"     href="#school-education" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?></a></li>
             </ul>
         </div>
@@ -36,18 +35,21 @@
         <!-- Tab content -->
         <div class="tab-pane active" id="school-indentify">
             <div class="row-fluid">
-                <div class=" span5">
-                    
+                <?php // @todo S1 - Alinhar o campo nome, o span12 não esta funcionando devidamente(remover o style e corrigir no css) ?>
+                <div class=" span12" style="margin-left: 1.05263%;">
                     <div class="separator"></div>
-                     <!--//@todo 03 - O Campo de nome está muito pequeno, aumentar -->   
+                    <!--//@done S1 - 09 - O Campo de nome está muito pequeno, aumentar -->   
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 'span10')); ?>
+                            <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'class' => 'span10')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
                         </div>
                     </div>
-                        
+                </div>
+                
+                <div class=" span5">
+                    <div class="separator"></div>
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
@@ -137,7 +139,7 @@
                         </div>
                     </div>
 
-                    <?php // @TODO Campo de DDD tem que estar junto com o campo de Telefone ?> 
+                    <?php // @todo S1 - Campo de DDD tem que estar junto com o campo de Telefone ?> 
 
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
@@ -578,21 +580,43 @@
                                 </label>
                             </div>
                         </div>
-                        
+                            
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label')); ?>
                             <div class="controls">
-                            <?php echo $form->textField($modelSchoolStructure, 'classroom_count'); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'classroom_count'); ?>
-                        </div></div>
-
+                                <?php echo $form->textField($modelSchoolStructure, 'classroom_count'); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'classroom_count'); ?>
+                            </div>
+                        </div>
+                            
                         <div class="control-group">
                             <?php echo $form->labelEx($modelSchoolStructure, 'used_classroom_count', array('class' => 'control-label')); ?>
                             <div class="controls">
-                            <?php echo $form->textField($modelSchoolStructure, 'used_classroom_count'); ?>
-                            <?php echo $form->error($modelSchoolStructure, 'used_classroom_count'); ?>
-                        </div></div>
+                                <?php echo $form->textField($modelSchoolStructure, 'used_classroom_count'); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'used_classroom_count'); ?>
+                            </div>
+                        </div>
+                    
+                        <?php 
+                        //@done S1 - 09 - Recursos humanos só tem um campo, não faz sentido manter essa aba com um campo apenas 
+                        //@done S1 - 09 - Apenas uma campo inseri em uma outra aba  
+                        //@done S1 - 09 - Remover abas, corrigir botão de next.
+                        ?>
                         
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->textField($modelSchoolStructure, 'employees_count'); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'employees_count'); ?>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelSchoolStructure, 'feeding', array('class' => 'control-label')); ?>
+                            <div class="controls">
+                                <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece")); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'feeding'); ?>
+                            </div>
+                        </div>
                     </div>
                         
                     </div>
@@ -602,176 +626,141 @@
         </div>
 
         <div class="tab-pane" id="school-equipament">
-            <!--//@todo 04 - Equipamento é uma quantidade, não faz sentido os campos serem tão grandes. -->
+            <!--//@done S1 - 09 - Equipamento é uma quantidade, não faz sentido os campos serem tão grandes. -->
             <div class="row-fluid">
-                <div class=" span5">
-
-                <div class="separator"></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_tv de TV', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_tv'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_tv'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_vcr', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_vcr'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_vcr'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_dvd', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_dvd'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_dvd'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_satellite_dish', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_satellite_dish'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_satellite_dish'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_copier', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_copier'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_copier'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_overhead_projector', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_overhead_projector'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_overhead_projector'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_printer', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_printer'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_printer'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_stereo_system', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_stereo_system'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_stereo_system'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_data_show', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_data_show'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_data_show'); ?>
-                </div></div>
-
+                <div class=" span4">
+                    
+                    <div class="separator"></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_tv', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_tv', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_tv'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_vcr', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_vcr', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_vcr'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_dvd', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_dvd', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_dvd'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_satellite_dish', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_satellite_dish', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_satellite_dish'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_copier', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_copier', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_copier'); ?>
+                        </div></div>
+                    
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'internet_access', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->checkBox($modelSchoolStructure, 'internet_access', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'internet_access'); ?>
+                        </div></div>
+                    </div>
+                <div class=" span4">
+                
+                    <div class="separator"></div>
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_overhead_projector', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_overhead_projector', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_overhead_projector'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_printer', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_printer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_printer'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_stereo_system', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_stereo_system', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_stereo_system'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_data_show', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_data_show', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_data_show'); ?>
+                        </div></div>
+                    
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_fax', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_fax', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_fax'); ?>
+                        </div></div>
+                    
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                        </div></div>
+                    </div>
+                
+                <div class=" span4">
+                
+                    <div class="separator"></div>
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_camera', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_camera', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_camera'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'equipments_computer', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'equipments_computer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'equipments_computer'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'administrative_computers_count', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'administrative_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'administrative_computers_count'); ?>
+                        </div></div>
+                    
+                    <div class="control-group">
+                        <?php echo $form->labelEx($modelSchoolStructure, 'student_computers_count', array('class' => 'control-label')); ?>
+                        <div class="controls">
+                            <?php echo $form->textField($modelSchoolStructure, 'student_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <?php echo $form->error($modelSchoolStructure, 'student_computers_count'); ?>
+                        </div></div>
+                    
+                </div>
             </div>
-            <div class="span6">
-
-                <div class="separator"></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_fax', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_fax'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_fax'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_camera', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_camera'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_camera'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'equipments_computer', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'equipments_computer'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'equipments_computer'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'administrative_computers_count', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'administrative_computers_count'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'administrative_computers_count'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'student_computers_count', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'student_computers_count'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'student_computers_count'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'internet_access', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->checkBox($modelSchoolStructure, 'internet_access', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'internet_access'); ?>
-                </div></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
-                </div></div>
-
-            </div>
-        </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <a href="#school-humans" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="school-humans">
-            <!--//@todo 05 - Recursos humanos só tem um campo, não faz sentido manter essa aba com um campo apenas -->
-            <div class="row-fluid">
-                <div class=" span5">
-
-                <div class="separator"></div>
-
-                <div class="control-group">
-                    <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                    <?php echo $form->textField($modelSchoolStructure, 'employees_count'); ?>
-                    <?php echo $form->error($modelSchoolStructure, 'employees_count'); ?>
-                </div></div>
-            </div>
-        </div>
-            <div class="control-group buttonWizardBar nextBar">
-                <a href="#school-feeding" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-            </div>
-        </div>
-
-        <div class="tab-pane" id="school-feeding">
-            <!--//@todo 06 - Apenas uma campo inseri em uma outra aba  -->
-            <div class="row-fluid">
-                <div class=" span5">
-
-                <div class="separator"></div>
-
-                 <div class="control-group">
-                <?php echo $form->labelEx($modelSchoolStructure, 'feeding', array('class' => 'control-label')); ?>
-                <div class="controls">
-                <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece")); ?>
-                <?php echo $form->error($modelSchoolStructure, 'feeding'); ?>
-            </div></div>
-
-            </div>
-        </div>
             <div class="control-group buttonWizardBar nextBar">
                 <a href="#school-education" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
             </div>
         </div>
+
 
         <div class="tab-pane" id="school-education">
             <div class="row-fluid">

@@ -9,20 +9,29 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 ?>
 
-<div class="heading-buttons">
-    <?php
-    $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
-    echo $form->errorSummary($modelInstructorIdentification);
-    echo $form->errorSummary($modelInstructorDocumentsAndAddress);
-    echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
-    echo $form->errorSummary($modelInstructorVariableData);
-    echo isset($error['variableData']) ? $error['variableData'] : '';
-    ?>
-    
-    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
-    <div class="buttons pull-right">
+<div class="row-fluid">
+    <div class="span12">
+        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
+            <?php
+            $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
+            echo $form->errorSummary($modelInstructorIdentification);
+            echo $form->errorSummary($modelInstructorDocumentsAndAddress);
+            echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
+            echo $form->errorSummary($modelInstructorVariableData);
+            echo isset($error['variableData']) ? $error['variableData'] : '';
+            ?>
+            <div class="row-fluid">
+                <div class="span8">
+                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
+                </div>
+                <div class="span4">
+                    <div class="buttons">
+                         
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
-    <div class="clearfix"></div>
 </div>
 
 <div class="innerLR">
@@ -370,7 +379,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <!--                        <div class="control-group">
 
                             <?php 
-//@todo s1-Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
+//@todo S1 - Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
                                   echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
