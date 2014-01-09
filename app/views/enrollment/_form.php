@@ -46,30 +46,19 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="separator"></div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'school_inep_id_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    //@todo S1 - Remover campo
-                                    echo $form->dropDownList($model, 'school_inep_id_fk', CHtml::listData(SchoolIdentification::model()->findAll(array('order' => 'name')), 'inep_id', 'name'), array("prompt" => "Selecione uma Escola",
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('enrollment/updatedependencies'),
-                                            'success' => "function(data){
-                                                data = jQuery.parseJSON(data);
-                                                $('#StudentEnrollment_student_fk').html( data.Students);
-                                                $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
-                                            }",
-                                            )));
+                                    //@done S1 - 07 - Remover campo
+                                    echo $form->hiddenField($model,'school_inep_id_fk',array('value'=>Yii::app()->user->school));
                                     ?>
-                                    <?php echo $form->error($model, 'school_inep_id_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'student_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    //@done 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
-                                    //@todo 17 - Precisa estar em ordem alfabetica
+                                    //@done S1 - 07 - 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
+                                    //@done 17 - Precisa estar em ordem alfabetica
                                     //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
                                     echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
@@ -210,27 +199,21 @@ $form=$this->beginWidget('CActiveForm', array(
     
     var form = '#StudentEnrollment_';
     jQuery(function($) {
-        jQuery('body').on('change','#StudentEnrollment_school_inep_id_fk',
-        function(){jQuery.ajax({
-                'type':'POST',
-                'url':'/tag/index.php?r=enrollment/updatedependencies',
-                'cache':false,
-                'data':jQuery(this).parents("form").serialize(),
-                'success':function(data){
-                    data = jQuery.parseJSON(data);
-                    $('#StudentEnrollment_student_fk').html(data.Students);
-                    $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
-                }
-            });
-            return false;
-        }
-    );
-        $(form+'school_inep_id_fk').trigger('change');
-        
-        
-    }); 
+        jQuery.ajax({
+            'type':'POST',
+            'url':'/tag/index.php?r=enrollment/updatedependencies',
+            'cache':false,
+            'data':jQuery("#StudentEnrollment_school_inep_id_fk").parents("form").serialize(),
+            'success':function(data){
+                data = jQuery.parseJSON(data);
+                $('#StudentEnrollment_student_fk').html(data.Students);
+                $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
+            }
+        });    
     
-    $("#StudentEnrollment_student_fk").select2({ width: 'resolve' });
+        $("#StudentEnrollment_student_fk").select2({width: 'resolve'});
+    
+    }); 
     
     $('.heading-buttons').css('width', $('#content').width());
 </script>

@@ -80,7 +80,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="uniformjs margin-left" id="Classroom_week_days">
                                 <label class="checkbox">
                                     <?php 
-                                    //@done s1-08-08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
+                                    //@done S1 - 08 - 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
                                     echo $form->checkBox($model, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
                                 </label>

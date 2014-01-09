@@ -1,7 +1,7 @@
 <div class="wide form">
 
 <?php 
-//@todo 12 - Implementar a busca de alunos na tela de listagem
+//@done S1 - 07 - 12 - Implementar a busca de alunos na tela de listagem
 //@done S1 - 08 - 13 - Na listagem de alunos o link está no nome da escola????, o link deveria estar no nome do aluno
 $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),
