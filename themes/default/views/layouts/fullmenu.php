@@ -59,7 +59,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         <script>
             $(document).ready(function(){
-                $("select").select2({width: 'resolve'}); 
+                $("select").select2({width: 'resolve',minimumResultsForSearch: -1}); 
                 $("select[multiple]").select2({width: 'resolve', maximumSelectionSize: 6}); 
             });
         </script>
