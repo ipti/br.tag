@@ -1,9 +1,9 @@
 <?php 
-//@done 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
-//@done 23 - Lembrar de associar o professor a turma.
-//@done s3 - Organizar os campos do form_classroom
-//@todo s1 - Retirar aba Disciplinas. Add disciplinas em teachingData e vincular as disciplinas(checkbox) com os prof (dropdown) 
-//@todo s2 - Add validação para os campos que esão faltando
+//@done S1 - 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
+//@done S1 - 23 - Lembrar de associar o professor a turma.
+//@done S1 - Organizar os campos do form_classroom
+//@todo S1 - Retirar aba Disciplinas. Add disciplinas em teachingData e vincular as disciplinas(checkbox) com os prof (dropdown) 
+//@later S2 - Add validação para os campos que esão faltando
 
 
 $form=$this->beginWidget('CActiveForm', array(
@@ -52,7 +52,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <?php 
-                                //@todo 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
+                                //@todo S1 - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
                                 echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80)); ?>
@@ -279,12 +279,12 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="separator"></div>
                         
                         <?php 
-                        //@done s1 - Retirar campos de Escola e Turma TD
-                        //@done s1 - Adicionar campo para selecionar o instrutor TD
-                        //@done s1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
-                        //@todo s1 - Criar lista de professores TD
-                        //@todo s1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
-                        //@todo s1 - Edição de teaching data - excluir o professor TD
+                        //@done S1 - Retirar campos de Escola e Turma TD
+                        //@done S1 - Adicionar campo para selecionar o instrutor TD
+                        //@done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
+                        //@todo S1 - Criar lista de professores TD
+                        //@todo S1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
+                        //@todo S1 - Edição de teaching data - excluir o professor TD
                         ?>
                         
                          <div class="checkbox">
@@ -402,7 +402,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div>
                              
                              <?php 
-                            //@todo 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
+                            //@todo S1 - 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
                             $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
                            
                                 

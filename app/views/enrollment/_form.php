@@ -1,5 +1,5 @@
 <?php 
-//@todo 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
+//@todo S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'student-enrollment-form',
 	'enableAjaxValidation'=>false,
@@ -15,7 +15,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="span4">
                     <div class="buttons">
-                        <!--//@done 19 - O nome do botão é matricular e não criar-->
+                        <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
                         <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                 </div>
@@ -58,11 +58,11 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
                                     //@done S1 - 07 - 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
-                                    //@done 17 - Precisa estar em ordem alfabetica
+                                    //@done S1 - 17 - Precisa estar em ordem alfabetica
                                     //@done S1 - 10 - 20 - Melhorar o desempenho da criação dos alunos
-                                    //@done s1 - 05 - Resolver problema de pane no sistema com matrícula duplicada(urgente)
+                                    //@done S1 - 05 - Resolver problema de pane no sistema com matrícula duplicada(urgente)
                                     //@done S1 - 10 - Traduzir mensagens de sucesso edição e falha
-                                    //@todo - Remover a busca de todos os dropdowns
+                                    //@todo S1 - Remover a busca de todos os dropdowns
                                     echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
                                     <?php echo $form->error($model, 'student_fk'); ?>
@@ -70,7 +70,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <?php 
-                                //@todo 18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
+                                //@todo S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma"));

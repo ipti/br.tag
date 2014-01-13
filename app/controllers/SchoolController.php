@@ -42,7 +42,7 @@ class SchoolController extends Controller {
         );
     }
 
-    //@todo S2 - Mover para o controle de Import
+    //@later S2 - Mover para o controle de Import
     public function actionEdcenso_import() {
         $selects = [];
         $selects['00'][0] = 'SELECT id from `private_school_maintainer` where (
@@ -56,8 +56,8 @@ class SchoolController extends Controller {
         $inserts['00'][0] = "INSERT INTO `private_school_maintainer` 
             (`business_or_individual`, `syndicate_or_association`, `ong_or_oscip`, `non_profit_institutions`,`s_system`) VALUES ";
 
-
-        $filedir = '/home/ipti002/Desktop/TAG/db/SQL -  23-12-2013/2013_98018493.TXT';
+        $path = Yii::app()->basePath;
+        $filedir = $path.'/import/2013_98018493.TXT';
         $mode = 'r';
 
         $file = fopen($filedir, $mode);
@@ -102,6 +102,7 @@ class SchoolController extends Controller {
             $preInserts[$regType] = [];
 
             $totalLines = count($lines) - 1;
+            
             $isRegInstructorIdentification = ($regType == "30");
             if ($isRegInstructorIdentification) {
                 $instructorInepIds[] = '';
@@ -155,8 +156,11 @@ class SchoolController extends Controller {
                     $value = ($value == 'null') ? $value : "\"" . $value . "\"";
                     //}
 
-
                     if ($column + 1 > $totalColumns) {
+                        if($regType == 20){
+                            $year = date("Y");
+                            $value.= ','.$year;
+                        }
                         if ($line == ($totalLines)) {
                             $insertValue[$regType].= $value . ");";
                         } else {

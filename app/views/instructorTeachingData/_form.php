@@ -1,5 +1,5 @@
 <?php 
-//@done 27 - InstructorTeachingData é o processo na turma e não no professor.
+//@done S1 - 27 - InstructorTeachingData é o processo na turma e não no professor.
 
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'instructor-teaching-data-form',

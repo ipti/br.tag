@@ -2,7 +2,7 @@
     <?php
     $this->breadcrumbs = array(
         Yii::t('default', 'Classrooms') => array('index'),
-        $model->name => array('view', 'id' => $model->id),
+        $modelClassroom->name => array('view', 'id' => $modelClassroom->id),
         Yii::t('default', 'Update'),
     );
 
@@ -16,7 +16,7 @@
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('model' => $model, 'title' => $title, 'complementary_activities' => $complementary_activities)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom, 'modelTeachingData'=> $modelTeachingData, 'title' => $title, 'complementary_activities' => $complementary_activities)); ?>        </div>
         <div class="columntwo">
         </div>
     </div>

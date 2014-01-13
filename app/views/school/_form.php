@@ -263,7 +263,7 @@
                     </div>
                 </div>
             </div>
-            <?php //@todo (executando Júnior) Reordenando todos os campos da View ?>
+            <?php //@todo S1 - (executando Júnior) Reordenando todos os campos da View ?>
             
             <div class="row-fluid">    
                 <div class=" span4">

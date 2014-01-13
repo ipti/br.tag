@@ -28,11 +28,6 @@
  * @property integer $vehicle_type_waterway_boat_35
  * @property integer $vehicle_type_metro_or_train
  * @property integer $student_entry_form
- * @property integer $id
- *
- * The followings are the available model relations:
- * @property SchoolIdentification $schoolInepIdFk
- * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  */
 class StudentEnrollment extends CActiveRecord
 {
@@ -62,14 +57,14 @@ class StudentEnrollment extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk', 'required'),
+			array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
 			array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk', 'length', 'max'=>8),
 			array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,6 +78,8 @@ class StudentEnrollment extends CActiveRecord
 		return array(
 			'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
 			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+			'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
+			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 		);
 	}
 
@@ -116,7 +113,6 @@ class StudentEnrollment extends CActiveRecord
 			'vehicle_type_waterway_boat_35' => Yii::t('default', 'Vehicle Type Waterway Boat 35'),
 			'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'),
 			'student_entry_form' => Yii::t('default', 'Student Entry Form'),
-			'id' => Yii::t('default', 'ID'),
 		);
 	}
 
@@ -155,7 +151,6 @@ class StudentEnrollment extends CActiveRecord
 		$criteria->compare('vehicle_type_waterway_boat_35',$this->vehicle_type_waterway_boat_35);
 		$criteria->compare('vehicle_type_metro_or_train',$this->vehicle_type_metro_or_train);
 		$criteria->compare('student_entry_form',$this->student_entry_form);
-		$criteria->compare('id',$this->id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

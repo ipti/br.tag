@@ -424,7 +424,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="control-group">
                             <?php 
-                            //@todo 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
+                            //@todo S1 - 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
                             echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
                             $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
