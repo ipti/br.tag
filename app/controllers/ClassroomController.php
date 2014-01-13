@@ -234,7 +234,7 @@ class ClassroomController extends Controller
         
         if ($saveClassroom && $saveTeachingData && $modelClassroom->save() 
                          && $modelTeachingData->save()) {
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma Criada com Sucesso:'));
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                             $this->redirect(array('index'));
                         }
 
@@ -363,7 +363,7 @@ class ClassroomController extends Controller
                     $modelTeachingData->classroom_inep_id = $classRoom->inep_id;
 
                     if ($saveClassroom && $saveTeachingData && $modelClassroom->save() && $modelTeachingData->save() ) {
-                         Yii::app()->user->setFlash('success', Yii::t('default', 'Turma modificada com Sucesso:'));
+                         Yii::app()->user->setFlash('success', Yii::t('default', 'Turma alterada com sucesso!'));
                            // $this->redirect(array('index'));
                         $this->redirect(array('view', 'id' => $modelClassroom->id));
                     }
@@ -391,7 +391,7 @@ class ClassroomController extends Controller
 	{
             
             if($this->loadModel($id)->delete()){
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso:'));
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
                 $this->redirect(array('index'));
             }else{
                 throw new CHttpException(404,'A página requisitada não existe.');
