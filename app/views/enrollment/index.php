@@ -31,17 +31,20 @@
                 <?php
                 
                 $this->widget('zii.widgets.grid.CGridView', array(
-                    'dataProvider' => $dataProvider,
+                    'dataProvider' => $model->search(),
                     'enablePagination' => true,
-                    'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'filter'=>$model,
+                    'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
-//                            array(
-//                                'class' => 'CLinkColumn',
-//                                'header'=>'Escola',
-//                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
-//                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
-//                                ),
                             'enrollment_id', 
+                        //@todo s1 - Modificar o banco para ter a relação estrangeira dos alunos e turmas
+                        //@todo s1 - Criar Trigger ou solução similar para colocar o auto increment do aluno no student_fk da turma
+                        //@todo s1 - Modificar as colunas para a estutura abaixo:
+                        //     array(
+//                                'name' => 'name',
+//                                'type' => 'raw',
+//                                'value' => 'CHtml::link("Texto","?r=classroom/update&id=".$data->id)'
+//                            ),
                             array(
                                 'class' => 'CLinkColumn',
                                 'header'=>'Aluno',
@@ -70,6 +73,4 @@
     </div>
     <div class="columntwo">
     </div>
-</div>
-
 </div>

@@ -137,8 +137,7 @@ preenchidos";
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorIdentification, DocumentsAndAddress, 
-                            InstructorVariableData Created Successful:'));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Professor adicionado com sucesso!'));
                         $this->redirect(array('index'));
                     }
                 }
@@ -246,6 +245,7 @@ preenchidos";
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Professor alterado com sucesso!'));
                         $this->redirect(array('view', 'id' => $modelInstructorIdentification->id));
                     }
                 }
@@ -278,7 +278,7 @@ preenchidos";
                 && $modelInstructorTeachingData->delete()
                 && $modelInstructorIdentification->delete()) {
             
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Instructor excluído com sucesso:'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor excluído com sucesso!'));
             $this->redirect(array('index'));
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -309,6 +309,11 @@ preenchidos";
      * Lists all models.
      */
     public function actionIndex() {
+        $filter = new InstructorIdentification('search');
+        $filter->unsetAttributes();  // clear any default values
+        if (isset($_GET['InstructorIdentification'])) {
+            $filter->attributes = $_GET['InstructorIdentification'];
+        }
         $school = Yii::app()->user->school;
         $dataProvider = new CActiveDataProvider('InstructorIdentification',
                         array('criteria'=>array(
@@ -319,6 +324,7 @@ preenchidos";
                         )));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'filter' => $filter,
         ));
     }
 

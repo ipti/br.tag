@@ -132,7 +132,7 @@ class StudentController extends Controller {
                     
                     if($modelStudentDocumentsAndAddress->validate()){
                         if ($modelStudentDocumentsAndAddress->save()) {
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Student Created Successful:'));
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno adicionado com sucesso!'));
                             $this->redirect(array('index'));
                         }
                     }
@@ -170,7 +170,8 @@ class StudentController extends Controller {
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     if ($modelStudentDocumentsAndAddress->save()) {
-                        $this->redirect(array('view', 'id' => $modelStudentIdentification->id));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno alterado com sucesso!'));
+                        $this->redirect(array('index'));
                     }
                 }
             }
@@ -191,7 +192,7 @@ class StudentController extends Controller {
         
             if( $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS)->delete()
                 && $this->loadModel($id, $this->STUDENT_IDENTIFICATION)->delete()){
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso:'));
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
                     $this->redirect(array('index'));
             }else{
                 throw new CHttpException(404,'The requested page does not exist.');
@@ -213,26 +214,16 @@ class StudentController extends Controller {
 //            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
-    public function actionGetStudents(){
-        $school = Yii::app()->user->school;
-        
-        $data = StudentIdentification::model()->findAllByAttributes(array('school_inep_id_fk' => $school), array('order'=>'name ASC'));
-
-        $data = CHtml::listData($data, 'id', 'name');
-//        $students = CHtml::tag('option', array('value' => ''), CHtml::encode('Escolha um aluno'), true);
-//        foreach ($data as $value => $name) {
-//            $students .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
-//        }
-        return $data;
-        
-    }
-    
     /**
      * Lists all models.
      */
     public function actionIndex() {
+        $filter = new StudentIdentification('search');
+        $filter->unsetAttributes();  // clear any default values
+        if (isset($_GET['StudentIdentification'])) {
+            $filter->attributes = $_GET['StudentIdentification'];
+        }
         $school = Yii::app()->user->school;
-        
         $dataProvider = new CActiveDataProvider($this->STUDENT_IDENTIFICATION,
                         array(
                             'criteria'=>array(
@@ -244,10 +235,9 @@ class StudentController extends Controller {
                                 'pageSize' => 12,
                         )));
         
-        $students = $this->actionGetStudents();
         $this->render('index', array(
             'dataProvider' => $dataProvider,
-            'students' => $students
+            'filter' => $filter
         ));
     }
 

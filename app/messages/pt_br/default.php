@@ -15,6 +15,7 @@ return array(
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
     'cannot be blank' => 'não pode ser vazio.',
+    'No matches found' => 'nenhuma referência encontrada',
     
     
     //Campos das tabelas
@@ -500,6 +501,9 @@ return array(
     'Final Date Help' => 'Data do final do ano letivo',
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
     
+    //Erros
+    'already enrolled in this classroom.' =>'já matriculado na turma.',
+    'already have in this student enrolled.' =>'já possui o aluno matriculado.',
     
     //Autenticação
     'manager' => 'Diretor',

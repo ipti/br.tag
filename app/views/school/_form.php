@@ -217,12 +217,12 @@
                         </div>
                     </div>
 
-                    <?php // @todo S1 - Campo de DDD tem que estar junto com o campo de Telefone ?> 
+                    <?php // @done S1 -10 - Campo de DDD tem que estar junto com o campo de Telefone (cancelado) ?> 
 
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'ddd', array('size' => 2, 'maxlength' => 2)); ?>
+                            <?php echo $form->textField($modelSchoolIdentification, 'ddd', array('size' => 2, 'maxlength' => 2, 'class' => 'span2')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'ddd'); ?>
                         </div>
                     </div>

@@ -108,7 +108,7 @@ class InstructorTeachingDataController extends Controller {
                    
                     
                     if ($modelInstructorTeachingData->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'InstructorTeachingData Created Successful:'));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Dados de docência do Professor adicionados com sucesso!'));
                         $this->redirect(array('index'));
                     }
                 }
@@ -173,6 +173,7 @@ class InstructorTeachingDataController extends Controller {
                     $modelInstructorTeachingData->classroom_inep_id = $classRoom->inep_id;
 
                     if ($modelInstructorTeachingData->save()) {
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Dados de docência do Professor alterados com sucesso!'));
                         $this->redirect(array('view', 'id' => $modelInstructorTeachingData->id));
                     }
                 }
@@ -201,6 +202,7 @@ class InstructorTeachingDataController extends Controller {
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Dados de docência do Professor excluídos com sucesso!'));
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
         }
         else

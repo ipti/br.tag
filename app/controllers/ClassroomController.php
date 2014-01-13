@@ -405,13 +405,19 @@ class ClassroomController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Classroom',
-                array('pagination' => array(
-                        'pageSize' => 12,
-                        )));
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
+            $filter = new Classroom('search');
+            $filter->unsetAttributes();  // clear any default values
+            if (isset($_GET['Classroom'])) {
+                $filter->attributes = $_GET['Classroom'];
+            }
+            $dataProvider=new CActiveDataProvider('Classroom',
+            array('pagination' => array(
+                    'pageSize' => 12,
+                    )));
+            $this->render('index',array(
+                    'dataProvider'=>$dataProvider,
+                    'filter'=>$filter,
+            ));
 	}
 
 	/**

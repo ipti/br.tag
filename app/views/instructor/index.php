@@ -28,17 +28,16 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
             <div class="widget">
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $dataProvider,
+                        'dataProvider' => $filter->search(),
                         'enablePagination' => true,
-                        'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'filter' => $filter,
+                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-//                            array(
-//                                'class' => 'CLinkColumn',
-//                                'header'=>'Escola',
-//                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
-//                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
-//                                ),
-                            'name',
+                            array(
+                                'name' => 'name',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)'
+                            ),
                      array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     )); ?>
                 </div>   

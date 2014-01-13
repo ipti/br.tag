@@ -438,7 +438,7 @@ class SchoolController extends Controller {
                         || $modelSchoolStructure->operation_location_prison_unity
                         || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola criada com sucesso:'));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
                         $this->redirect(array('index'));
                     }
                 } else {
@@ -499,7 +499,7 @@ class SchoolController extends Controller {
                         || $modelSchoolStructure->operation_location_prison_unity
                         || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso:'));
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
                         $this->redirect(array('index'));
                     }
                 } else {
@@ -522,7 +522,7 @@ class SchoolController extends Controller {
     public function actionDelete($id) {
         if ($this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete()
                 && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso:'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso!'));
             $this->redirect(array('index'));
         } else {
             throw new CHttpException(404, 'A página requisitada não existe.');
@@ -533,12 +533,18 @@ class SchoolController extends Controller {
      * Lists all models.
      */
     public function actionIndex() {
+        $filter = new SchoolIdentification('search');
+        $filter->unsetAttributes();  // clear any default values
+        if (isset($_GET['SchoolIdentification'])) {
+            $filter->attributes = $_GET['SchoolIdentification'];
+        }
         $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION,
                         array('pagination' => array(
                                 'pageSize' => 12,
                         )));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'filter' => $filter
         ));
     }
 

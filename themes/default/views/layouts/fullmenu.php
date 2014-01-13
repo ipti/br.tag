@@ -1,3 +1,13 @@
+<?php
+$cs=Yii::app()->clientScript;
+$cs->scriptMap=array(
+    'jquery.js'=>false,
+    'jquery.ba-bbq.js'=>false
+);
+$baseUrl = Yii::app()->theme->baseUrl; 
+$cs->registerScriptFile($baseUrl.'/js/jquery.min.js',CClientScript::POS_HEAD);
+$cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD);
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
@@ -13,9 +23,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
-        <!-- JQuery -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
-
+        
         <!-- JQueryUI -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
 

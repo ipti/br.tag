@@ -59,7 +59,10 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php
                                     //@done S1 - 07 - 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
                                     //@done 17 - Precisa estar em ordem alfabetica
-                                    //@todo 20 - Pode ser uma lista de alunos, possibilitando a matricula em lote
+                                    //@done S1 - 10 - 20 - Melhorar o desempenho da criação dos alunos
+                                    //@done s1 - 05 - Resolver problema de pane no sistema com matrícula duplicada(urgente)
+                                    //@done S1 - 10 - Traduzir mensagens de sucesso edição e falha
+                                    //@todo - Remover a busca de todos os dropdowns
                                     echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno"));
                                     ?> 
                                     <?php echo $form->error($model, 'student_fk'); ?>

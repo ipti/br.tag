@@ -9,7 +9,6 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
 ); 
 
 ?>
-    
 <div class="heading-buttons">
 	<h3><?php echo Yii::t('default', 'Student Identifications')?></h3>
 	<div class="buttons pull-right">
@@ -29,23 +28,19 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
                 <div class="widget-body">
                     <?php 
                     
-                    echo CHtml::activeDropDownList(StudentIdentification::model(),'id', $students, array('prompt'=>'Selecione o Aluno'));           
-                    
-                    echo CHtml::tag('a',array('id'=>'StudentIdentification_id_link','class'=>'btn btn-icon btn-primary glyphicons circle_ok','style'=>'margin-left:5px'), '<i></i>'.CHtml::encode('OK'), true);
                     //<button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
-                    
+                    //@done S1 - 05 - Tirar borda esquerda e direita do filtro por nome dos alunos
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $dataProvider,
+                        'dataProvider' => $filter->search(),
                         'enablePagination' => true,
-                        'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'filter'=>$filter,
+                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-//                            array(
-//                                'class' => 'CLinkColumn',
-//                                'header'=>'Escola',
-//                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->school_inep_id_fk)->name',
-//                                'urlExpression'=>'"?r=school/update&id=".$data->school_inep_id_fk',
-//                                ),
-                            'name',
+                            array(
+                                'name' => 'name',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->name,"?r=student/update&id=".$data->id)'
+                            ),
                      array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
                     )); ?>
                 </div>   
@@ -56,14 +51,3 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
     </div>
 
 </div>
-
-<script>
-    $(document).ready(function(){
-            
-        $("#StudentIdentification_id").select2({width: 'resolve'});
-        $("#StudentIdentification_id").change(function(){
-            var id = $("#StudentIdentification_id").val();
-            $("#StudentIdentification_id_link").attr("href", "?r=student/update&id="+id);
-        });
-    })
-</script>

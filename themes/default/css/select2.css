@@ -279,7 +279,7 @@ Version: @@ver@@ Timestamp: @@timestamp@@
 /* results */
 .select2-results {
     max-height: 200px;
-    margin: 4px 4px 4px 0;
+    margin: 4px 0 4px 0;
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;

@@ -29,18 +29,18 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $dataProvider,
-                        'itemsCssClass' => 'table table-bordered table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'dataProvider' => $filter->search(),
+                        'filter' => $filter,
+                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
                         'columns' => array(
                             'inep_id',
                             array(
-                                'class' => 'CLinkColumn',
-                                'header'=>'Escola',
-                                'labelExpression'=>'SchoolIdentification::model()->findByPk($data->inep_id)->name',
-                                'urlExpression'=>'"?r=school/update&id=".$data->inep_id',
-                                ),
-                            array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
+                                'name' => 'name',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->name,"?r=school/update&id=".$data->inep_id)'
+                            ),
+                            array('class' => 'CButtonColumn', 'template' => '{update} {delete}',),),
                     ));
                     ?>
                 </div>   
