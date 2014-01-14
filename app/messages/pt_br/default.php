@@ -355,7 +355,7 @@ return array(
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
     'Mother Name' => 'Nome Completo da Mãe',
-    'Nationality' => 'Nacionalidade do Profissional escolar em sala de Aula',
+    'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Deficiency' => 'Deficiência',
     'Deficiency Type Blindness' => 'Cegueira',

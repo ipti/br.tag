@@ -17,7 +17,9 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="span4">
                     <div class="buttons">
                         <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
-                        <?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+                        <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save')),
+                                    array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit'));?>
+                        <?php //echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
                     </div>
                 </div>
             </div>
