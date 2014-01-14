@@ -5,10 +5,11 @@
 
 
 <?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs?>
-    
+
+<?php echo $form->errorSummary($modelSchoolIdentification); ?>
+<?php echo $form->errorSummary($modelSchoolStructure); ?>
+
 <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-    <?php echo $form->errorSummary($modelSchoolIdentification); ?>
-    <?php echo $form->errorSummary($modelSchoolStructure); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
         <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>

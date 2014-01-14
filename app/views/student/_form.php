@@ -3,12 +3,12 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
+<?php echo $form->errorSummary($modelStudentIdentification); ?>
+<?php echo $form->errorSummary($modelStudentDocumentsAndAddress); ?>
 
 <div class="row-fluid">
     <div class="span12">
         <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <?php echo $form->errorSummary($modelStudentIdentification); ?>
-            <?php echo $form->errorSummary($modelStudentDocumentsAndAddress); ?>
             <div class="row-fluid">
                 <div class="span8">
                     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        

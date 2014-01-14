@@ -11,9 +11,9 @@ $form=$this->beginWidget('CActiveForm', array(
 	'enableAjaxValidation'=>false,
 )); 
 ?>
-    
+<?php echo $form->errorSummary($modelClassroom); ?>
+
 <div class="heading-buttons">
-    <?php echo $form->errorSummary($modelClassroom); ?>
     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
     <div class="buttons pull-right">
     </div>

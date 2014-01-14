@@ -9,10 +9,7 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 ?>
 
-<div class="row-fluid">
-    <div class="span12">
-        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <?php
+<?php
             $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
             echo $form->errorSummary($modelInstructorIdentification);
             echo $form->errorSummary($modelInstructorDocumentsAndAddress);
@@ -20,6 +17,10 @@ $form = $this->beginWidget('CActiveForm', array(
             echo $form->errorSummary($modelInstructorVariableData);
             echo isset($error['variableData']) ? $error['variableData'] : '';
             ?>
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
             <div class="row-fluid">
                 <div class="span8">
                     <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
