@@ -40,7 +40,7 @@
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=school/update&id=".$data->inep_id)'
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{update} {delete}',),),
+                            array('class' => 'CButtonColumn', 'template' => '{delete}',),),
                     ));
                     ?>
                 </div>   

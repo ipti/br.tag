@@ -2,8 +2,7 @@
     <?php
     $this->breadcrumbs = array(
         Yii::t('default', 'Student Enrollments')=> array('index'),
-        $model->id => array('view', 'id' => $model->id),
-        Yii::t('default', 'Update'),
+        $model->studentFk->name.' - '.$model->classroomFk->name,
     );
 
     $title = Yii::t('default', 'Update StudentEnrollment');

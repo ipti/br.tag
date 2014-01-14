@@ -38,7 +38,7 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)'
                             ),
-                     array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
+                     array('class' => 'CButtonColumn','template'=>' {delete}',),),
                     )); ?>
                 </div>   
             </div>

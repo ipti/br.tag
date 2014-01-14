@@ -41,7 +41,7 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=student/update&id=".$data->id)'
                             ),
-                     array('class' => 'CButtonColumn','template'=>'{update} {delete}',),),
+                     array('class' => 'CButtonColumn','template'=>'{delete}',),),
                     )); ?>
                 </div>   
             </div>

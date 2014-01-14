@@ -271,22 +271,64 @@ $form=$this->beginWidget('CActiveForm', array(
                         <a href="#disciplines" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
                     </div>
                 </div>
-                
                   <div class="tab-pane" id="instructor-teaching">
                     <div class="row-fluid">
                         <div class=" span6">
                         <div class="separator"></div>
-                        <div class="separator"></div>
+                            
+                        <div>
+                        <div class="control-group">
+                            <?php echo CHtml::label("Instructors", "Instructors", array('class' => 'control-label'))?>
+                            <div class="controls">
+                                <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(array('order' => 'name')), 'id', 'name')); ?>
+                                <button class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Incluir</i></button>
+
+                            </div>
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="controls">
+                            <ul>
+                                <?php 
+                                 foreach ($modelTeachingData as $key => $model) {
+                                     echo "<li><span id='instructorSelect' instructor='".$key."'>".$model->instructorFk->name."</span></li>";
+                                 }
+                                ?>
+                            </ul>
+                            </div>
+                        </div>
+                        </div>
                         
                         <?php 
                         //@done S1 - Retirar campos de Escola e Turma TD
                         //@done S1 - Adicionar campo para selecionar o instrutor TD
                         //@done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
-                        //@todo S1 - Criar lista de professores TD
+                        //@done S1 - Criar lista de professores TD
                         //@todo S1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
                         //@todo S1 - Edição de teaching data - excluir o professor TD
+                        
+                        
+                        foreach ($modelTeachingData as $key => $model) {
+                            
+                            ?>
+                           <div id="teachingData[<?php echo $key ?>]">
+                            <div class="control-group">
+                                <?php echo $form->labelEx($model, 'instructor_fk', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo $form->textField($model, 'instructor_fk');
+                                    echo $model->instructorFk->name;
+                                    ?> 
+                                    <?php echo $form->error($model, 'instructor_fk'); ?>
+                                </div>
+                            </div>
+                            </div>
+                        <?php 
+                        
+                        } 
                         ?>
                         
+<?php /*             
                          <div class="checkbox">
                             <?php echo "Without Teacher?"; ?> 
                             <?php echo CHtml::checkBox('without_teacher'); ?>
@@ -508,6 +550,7 @@ $form=$this->beginWidget('CActiveForm', array(
                     ?>
                 
                 </div>
+                */?>
                 <?php $this->endWidget(); ?>
             </div>
                 
@@ -542,7 +585,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 jQuery("#Classroom_assistance_type").html(html); 
                 jQuery("#Classroom_assistance_type").trigger('change');
             }});
-        $(form+"complementary_activity_type_1").val(jQuery.parseJSON('<?php echo json_encode($complementary_activities); ?>'));
+        $(form+"complementary_activity_type_1").val(jQuery.parseJSON('<?php echo json_encode($complementaryActivities); ?>'));
     }); 
     
     $(form+"complementary_activity_type_1").change(function(){

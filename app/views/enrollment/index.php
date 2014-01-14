@@ -1,6 +1,6 @@
 <div id="mainPage" class="main">
     <?php
-    //@todo S1 - 14 - Lista de matricula, precisa de busca pelo nome do aluno.
+    //@done S1 - 14 - Lista de matricula, precisa de busca pelo nome do aluno.
     
     $this->breadcrumbs = array(
         Yii::t('default', 'Student Enrollments'),
@@ -37,20 +37,25 @@
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                             'enrollment_id', 
-                        //@done S1 - Modificar o banco para ter a relação estrangeira dos alunos e turmas
-                        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do aluno no student_fk da turma
-                        //@todo S1 - Modificar as colunas para a estutura abaixo:
+                        //@done S1 - 05 - Modificar o banco para ter a relação estrangeira dos alunos e turmas
+                        //@done S1 - 05 - Criar Trigger ou solução similar para colocar o auto increment do aluno no student_fk da turma
+                        //@done S1 - Modificar as colunas para a estutura abaixo:
                         //     array(
 //                                'name' => 'name',
 //                                'type' => 'raw',
 //                                'value' => 'CHtml::link("Texto","?r=classroom/update&id=".$data->id)'
 //                            ),
-                        //@todo S1 - Corrigir o controler do enrollment.
+                        //@done S1 - Corrigir o controler do enrollment.
                         array(
                                 'name' => 'student_fk',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->student_fk->name,"?r=student/update&id=".$data->student_fk)'
+                                'value' => 'CHtml::link($data->studentFk->name,"?r=enrollment/update&id=".$data->id)',
                             ),
+                        array(
+                                'name' => 'classroom_fk',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->classroomFk->name,"?r=enrollment/update&id=".$data->id)',
+                        ),
 //                            array(
 //                                'class' => 'CLinkColumn',
 //                                'header'=>'Aluno',
@@ -71,7 +76,7 @@
 //                                'urlExpression'=>'"?r=classroom/update&id=".(($data->classroom_fk === null) 
 //                                    ? Classroom::model()->findByAttributes(array("inep_id" => $data->classroom_inep_id))["id"]: $data->classroom_fk)',
 //                                ),
-                        array('class' => 'CButtonColumn','template'=>'{update} {delete}'),),
+                        array('class' => 'CButtonColumn','template'=>' {delete}'),),
                     ));
                 ?>
             </div>   

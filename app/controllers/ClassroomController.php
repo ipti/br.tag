@@ -259,12 +259,12 @@ class ClassroomController extends Controller
 	public function actionUpdate($id)
 	{
             
-                //@todo S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
-                //@todo S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+                //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+                //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
                         
-		$modelClassroom=$this->loadModel($id,$this->MODEL_CLASSROOM);
+		$modelClassroom = $this->loadModel($id,$this->MODEL_CLASSROOM);
+                $modelTeachingData = $this->loadModel($id,$this->MODEL_TEACHING_DATA);
                 
-                $modelTeachingData = array();
                 $saveClassroom = false;
                 $saveTeachingData = false;
 
@@ -317,9 +317,11 @@ class ClassroomController extends Controller
 
                 
 		$this->render('update',array(
-			'modelClassroom'=>$modelClassroom,'complementary_activities' => $compActs
+                    'modelClassroom'=>$modelClassroom,
+                    'modelTeachingData'=>$modelTeachingData,
+                    'complementaryActivities' => $compActs
 		));
-                
+/*                
                 //===== TEACHING DATA =====
                 //=======================================
 
@@ -381,6 +383,8 @@ class ClassroomController extends Controller
         //=====================================================
 
                 //=================================
+ * 
+ */
 	}
 
 	/**
@@ -443,28 +447,20 @@ class ClassroomController extends Controller
 	 */
 	public function loadModel($id, $model)
 	{
-		$model=Classroom::model()->findByPk($id);
-		if($model===null)
-			throw new CHttpException(404,'A página requisitada não existe.');
-		return $model;
-                
-                /*        
-        $return = null;
+            $return = null;
 
-        if ($model == $this->STUDENT_IDENTIFICATION) {
-            $return = StudentIdentification::model()->findByPk($id);
-        } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
-            
-            $return = ($student_inep_id === null) 
-                    ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
-                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
-        }
-        
-        if ($return === null){
-            throw new CHttpException(404, 'The requested page does not exist.');
-        }
-        return $return;*/
+            if ($model == $this->MODEL_CLASSROOM) {
+                $return = Classroom::model()->findByPk($id);
+            } else if ($model == $this->MODEL_TEACHING_DATA) {
+                $classroom = $id;
+                $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = '.$classroom);
+                $return = $instructors;
+            }
+
+            if ($return === null){
+                throw new CHttpException(404, 'The requested page does not exist.');
+            }
+            return $return;
                 
                 
 	}
