@@ -1,9 +1,10 @@
 <div id="mainPage" class="main">
     <?php
-$this->breadcrumbs=array(
-	Yii::t('default', 'Student Enrollments')=>array('index'),
-	Yii::t('default', 'Create'),
-);
+    $this->setPageTitle('TAG - ' . Yii::t('default','Create a new StudentEnrollment'));
+    $this->breadcrumbs=array(
+            Yii::t('default', 'Student Enrollments')=>array('index'),
+            Yii::t('default', 'Create'),
+    );
     $title=Yii::t('default', 'Create a new StudentEnrollment');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentEnrollment.');
     $this->menu=array(

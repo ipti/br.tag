@@ -4,7 +4,7 @@
 )); ?>
 
 
-<?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs?>
+<?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs ?>
 
 <?php echo $form->errorSummary($modelSchoolIdentification); ?>
 <?php echo $form->errorSummary($modelSchoolStructure); ?>

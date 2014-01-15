@@ -1,5 +1,6 @@
 <div id="mainPage" class="main">
 <?php
+$this->setPageTitle('TAG - ' . Yii::t('default','Instructor Identifications'));
 $this->breadcrumbs=array(
 	Yii::t('default', 'Instructor Identifications'),
 );

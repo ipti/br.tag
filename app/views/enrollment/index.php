@@ -1,7 +1,7 @@
 <div id="mainPage" class="main">
     <?php
     //@done S1 - 14 - Lista de matricula, precisa de busca pelo nome do aluno.
-    
+    $this->setPageTitle('TAG - ' . Yii::t('default','Student Enrollments'));
     $this->breadcrumbs = array(
         Yii::t('default', 'Student Enrollments'),
     );

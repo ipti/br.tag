@@ -1,5 +1,6 @@
 <div id="mainPage" class="main">
     <?php
+    $this->setPageTitle('TAG - ' . Yii::t('default','Update SchoolIdentification'));
     $this->breadcrumbs = array(
         Yii::t('default', 'School Identifications') => array('index'),
         $modelSchoolIdentification->name,

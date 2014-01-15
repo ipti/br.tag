@@ -1,5 +1,6 @@
 <div id="mainPage" class="main">
     <?php
+    $this->setPageTitle('TAG - ' . Yii::t('default','Update StudentEnrollment'));
     $this->breadcrumbs = array(
         Yii::t('default', 'Student Enrollments')=> array('index'),
         $model->studentFk->name.' - '.$model->classroomFk->name,
