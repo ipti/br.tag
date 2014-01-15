@@ -149,8 +149,41 @@ class ClassroomController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+        
+        
+        static function discipline2array($instructor) {
+            $disciplines = array();
+            
+            if (isset($instructor->discipline_1_fk))
+                array_push($disciplines, $instructor->discipline1Fk);
+            if (isset($instructor->discipline_2_fk))
+                array_push($disciplines, $instructor->discipline2Fk);
+            if (isset($instructor->discipline_3_fk))
+                array_push($disciplines, $instructor->discipline3Fk);
+            if (isset($instructor->discipline_4_fk))
+                array_push($disciplines, $instructor->discipline4Fk);
+            if (isset($instructor->discipline_5_fk))
+                array_push($disciplines, $instructor->discipline5Fk);
+            if (isset($instructor->discipline_6_fk))
+                array_push($disciplines, $instructor->discipline6Fk);
+            if (isset($instructor->discipline_7_fk))
+                array_push($disciplines, $instructor->discipline7Fk);
+            if (isset($instructor->discipline_8_fk))
+                array_push($disciplines, $instructor->discipline8Fk);
+            if (isset($instructor->discipline_9_fk))
+                array_push($disciplines, $instructor->discipline9Fk);
+            if (isset($instructor->discipline_10_fk))
+                array_push($disciplines, $instructor->discipline10Fk);
+            if (isset($instructor->discipline_11_fk))
+                array_push($disciplines, $instructor->discipline11Fk);
+            if (isset($instructor->discipline_12_fk))
+                array_push($disciplines, $instructor->discipline12Fk);
+            if (isset($instructor->discipline_13_fk))
+                array_push($disciplines, $instructor->discipline13Fk);
+            return $disciplines;
+        }
 
-	/**
+    /**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */

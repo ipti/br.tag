@@ -27,8 +27,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul>
                 <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor Teaching Data') ?></a></li> 
-                <li id="tab-relations-classroom-teaching"><a class="glyphicons edit" href="#relations-classroom-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Relations Classroom Teaching') ?></a></li> 
+                <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor') ?></a></li> 
             </ul>
         </div>
             
@@ -271,62 +270,196 @@ $form=$this->beginWidget('CActiveForm', array(
                         <a href="#disciplines" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
                     </div>
                 </div>
-                  <div class="tab-pane" id="instructor-teaching">
+                <div class="tab-pane" id="instructor-teaching">
                     <div class="row-fluid">
                         <div class=" span6">
-                        <div class="separator"></div>
-                            
-                        <div>
-                        <div class="control-group">
-                            <?php echo CHtml::label("Instructors", "Instructors", array('class' => 'control-label'))?>
-                            <div class="controls">
-                                <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(array('order' => 'name')), 'id', 'name')); ?>
-                                <button class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Incluir</i></button>
-
-                            </div>
-                        </div>
-                        
-                        <div class="control-group">
-                            <div class="controls">
-                            <ul>
-                                <?php 
-                                 foreach ($modelTeachingData as $key => $model) {
-                                     echo "<li><span id='instructorSelect' instructor='".$key."'>".$model->instructorFk->name."</span></li>";
-                                 }
-                                ?>
-                            </ul>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <?php 
-                        //@done S1 - Retirar campos de Escola e Turma TD
-                        //@done S1 - Adicionar campo para selecionar o instrutor TD
-                        //@done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
-                        //@done S1 - Criar lista de professores TD
-                        //@todo S1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
-                        //@todo S1 - Edição de teaching data - excluir o professor TD
-                        
-                        
-                        foreach ($modelTeachingData as $key => $model) {
-                            
-                            ?>
-                           <div id="teachingData[<?php echo $key ?>]">
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'instructor_fk', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo $form->textField($model, 'instructor_fk');
-                                    echo $model->instructorFk->name;
-                                    ?> 
-                                    <?php echo $form->error($model, 'instructor_fk'); ?>
+                            <div class="separator"></div>
+                                
+                            <div>
+                                <div class="control-group">
+                                    <?php echo CHtml::label("Instructors", "Instructors", array('class' => 'control-label')) ?>
+                                    <div class="controls">
+                                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(array('order' => 'name')), 'id', 'name')); ?>
+                                        <button class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Add</i></button>
+                                            
+                                    </div>
                                 </div>
-                            </div>
-                            </div>
-                        <?php 
-                        
-                        } 
-                        ?>
+                                    
+                                <div class="separator"></div> 
+                                <div class="control-group">
+                                    <div>
+                                        <div class="span6">
+                                            <div class="separator"></div>
+                                                <?php 
+                                               //@todo S1 - 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
+                                               $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
+                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_chemistry']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_chemistry', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_chemistry'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_physics']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_physics', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_physics'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_mathematics']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_mathematics', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_mathematics'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_biology']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_biology', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_biology'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_science']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_science', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_science'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_language_portuguese_literature']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_language_portuguese_literature', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_language_portuguese_literature'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_foreign_language_english']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_english', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_foreign_language_english'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_foreign_language_spanish']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_spanish', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_foreign_language_spanish'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_foreign_language_franch']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_franch', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_foreign_language_franch'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_foreign_language_other']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_foreign_language_other'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_arts']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_arts', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_arts'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_physical_education']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_physical_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_physical_education'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_history']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_history', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_history'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_geography']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_geography', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_geography'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_philosophy']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_philosophy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_philosophy'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_social_study']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_social_study', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_social_study'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_sociology']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_sociology', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_sociology'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_informatics']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_informatics', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_informatics'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_professional_disciplines']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_professional_disciplines', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_professional_disciplines'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_special_education_and_inclusive_practices']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_special_education_and_inclusive_practices', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_special_education_and_inclusive_practices'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_sociocultural_diversity']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_sociocultural_diversity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_sociocultural_diversity'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_libras']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_libras'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_pedagogical']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_pedagogical', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_pedagogical'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_religious']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_religious', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_religious'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_native_language']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_native_language', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_native_language'); ?>
+                                            </div>
+                                                
+                                            <div class="checkbox">
+                                                <?php echo Classroom::model()->attributeLabels()['discipline_others']; ?>
+                                                <?php echo $form->checkBox($modelClassroom, 'discipline_others', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->error($modelClassroom, 'discipline_others'); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <?php
+                                    //@done S1 - Retirar campos de Escola e Turma TD
+                                    //@done S1 - Adicionar campo para selecionar o instrutor TD
+                                    //@done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
+                                    //@done S1 - Criar lista de professores TD
+                                    //@todo S1 - Quando associar uma disciplina a um prof numa determinada turma essa disciplina não pode ser escolhida novamente naquela turma(desabilitar disciplina) TD
+                                    //@todo S1 - Edição de teaching data - excluir o professor TD
+                                    ?>
                         
 <?php /*             
                          <div class="checkbox">
@@ -363,175 +496,9 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                         <?php echo $form->labelEx($modelTeachingData, 'Disciplinas', array('class' => 'control-label')); ?>
                         </div>
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_chemistry']; ?>
-                               <?php  echo $form->checkBox($modelClassroom, 'discipline_chemistry', array('value' => 1, 'uncheckValue' => 0)); ?>
-                               <?php  echo $form->error($modelClassroom, 'discipline_chemistry'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_physics']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_physics', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_physics'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_mathematics']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_mathematics', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_mathematics'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_biology']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_biology', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_biology'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_science']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_science', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_science'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                                <?php  echo Classroom::model()->attributeLabels()['discipline_language_portuguese_literature']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_language_portuguese_literature', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_language_portuguese_literature'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_foreign_language_english']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_english', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_english'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_foreign_language_spanish']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_spanish', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_spanish'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_foreign_language_franch']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_franch', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_franch'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_foreign_language_other']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_foreign_language_other', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_foreign_language_other'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_arts']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_arts', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_arts'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_physical_education']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_physical_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_physical_education'); ?>
-                            </div>
                         
                         </div>
-                        <div class="span6">
-                        <div class="separator"></div>
-                        <div class="separator"></div> 
-                        <div class="control-group">
-                   
-                        <div>
-                             
-                             <?php 
-                            //@todo S1 - 10 - Melhorar a forma com é feita esta seleção pode ser feita através de uma tabela, lembrando que eles vão precisar fazer isso para varias turmas no inicio do ano. 
-                            $disciplinesEnum = array(null => 'Selecione a oferta da disciplina', "0" => "Não oferece disciplina", "1" => "Sim, oferece disciplina com docente vinculado", "2" => "Sim, oferece disciplina sem docente vinculado"); ?>
-                           
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_history']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_history', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_history'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_geography']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_geography', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_geography'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_philosophy']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_philosophy', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_philosophy'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                                <?php  echo Classroom::model()->attributeLabels()['discipline_social_study']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_social_study', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_social_study'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_sociology']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_sociology', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_sociology'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                             <?php  echo Classroom::model()->attributeLabels()['discipline_informatics']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_informatics', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_informatics'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_professional_disciplines']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_professional_disciplines', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_professional_disciplines'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_special_education_and_inclusive_practices']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_special_education_and_inclusive_practices', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_special_education_and_inclusive_practices'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_sociocultural_diversity']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_sociocultural_diversity', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_sociocultural_diversity'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_libras']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_libras'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                              <?php  echo Classroom::model()->attributeLabels()['discipline_pedagogical']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_pedagogical', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_pedagogical'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                             <?php  echo Classroom::model()->attributeLabels()['discipline_religious']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_religious', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_religious'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_native_language']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_native_language', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_native_language'); ?>
-                            </div>
-                                
-                            <div class="checkbox">
-                               <?php  echo Classroom::model()->attributeLabels()['discipline_others']; ?>
-                                    <?php echo $form->checkBox($modelClassroom, 'discipline_others', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelClassroom, 'discipline_others'); ?>
-                            </div>
-                        </div>
+                        
                         
                        <div class="control-group">
                         <div class="controls">
@@ -551,27 +518,58 @@ $form=$this->beginWidget('CActiveForm', array(
                 
                 </div>
                 */?>
-                <?php $this->endWidget(); ?>
-            </div>
-                
-            </div>
-                <div class="tab-pane" id="relations-classroom-teaching">
-                    <div class="row-fluid">
+                                </div>
+                                    
+                            </div>
+                        </div>
+                        
                         <div class=" span6">
-                        <div class="separator"></div>
-                        <div class="separator"></div>
-                        <div id="relations">
+                            <div class="separator"></div>
+                                
+                            <?php
                             
-                        </div>
-                        
-                        
-                        </div>
+                            $teachingDataList = "<ul>";
+                            foreach ($modelTeachingData as $key => $model) {
+                                //$model = InstructorTeachingData::model();
+                                $disciplines = ClassroomController::discipline2array($model);
+                                $teachingDataList .= "<li teachingData='".$model->id."'><span>" . $model->instructorFk->name ."</span>"
+                                        .'<a  style="background: url(\'/tag/assets/efeae7e/gridview/delete.png\');
+                                                display: block;
+                                                height: 10px;
+                                                width: 10px;" class="deleteTeachingData delete" title="Excluir">
+                                          </a>';
+                                $teachingDataList .= "<ul>";
+                                foreach ($disciplines as $discipline) {
+                                    $teachingDataList .= "<li discipline='".$discipline->id."'>".$discipline->name
+                                        .'<a style="background: url(\'/tag/assets/efeae7e/gridview/delete.png\');
+                                                display: block;
+                                                height: 10px;
+                                                width: 10px;" class="deleteTeachingData delete" title="Excluir">
+                                          </a>'
+                                        ."</li>";
+                                }
+                                $teachingDataList .= "</ul></li>";
+                            }
+                            $teachingDataList .= "</ul>";
+                            ?>
+                                            
+                                            
+                                            
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $teachingDataList; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                        
+                </div>
+                <?php $this->endWidget(); ?>
+            </div>
         </div>
     </div>
 </div>
-    
+
 <script type="text/javascript">
     
     var form = '#Classroom_';
@@ -592,6 +590,11 @@ $form=$this->beginWidget('CActiveForm', array(
         while($(this).val().length > 6){
             $(form+"complementary_activity_type_1").val($(form+"complementary_activity_type_1").val().slice(0,-1));
         }
+    });
+    
+    $(".deleteTeachingData").on('click',function(){
+        alert($(this).parent().attr("teachingData"));
+        alert($(this).parent().attr("discipline"));
     });
     
     

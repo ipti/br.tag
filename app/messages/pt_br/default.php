@@ -418,6 +418,7 @@ return array(
     'Other Courses None' => 'Nenhum',
     
     // Instructor-TeachingData
+    'Instructor' => 'Professor',
     'ID' => 'Professor',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
