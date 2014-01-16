@@ -150,8 +150,111 @@ class ClassroomController extends Controller
 		));
 	}
         
+        public function setDisciplines($discipline){
+                    
+            $modelClassroom->discipline_chemistry                               = $discipline[1];
+            $modelClassroom->discipline_physics                                 = $discipline[2];
+            $modelClassroom->discipline_mathematics                             = $discipline[3];
+            $modelClassroom->discipline_biology                                 = $discipline[4];
+            $modelClassroom->discipline_science                                 = $discipline[5];
+            $modelClassroom->discipline_language_portuguese_literature          = $discipline[6];
+            $modelClassroom->discipline_foreign_language_english                = $discipline[7];
+            $modelClassroom->discipline_foreign_language_spanish                = $discipline[8];
+            $modelClassroom->discipline_foreign_language_other                  = $discipline[9];
+            $modelClassroom->discipline_arts                                    = $discipline[10];
+            $modelClassroom->discipline_physical_education                      = $discipline[11];
+            $modelClassroom->discipline_history                                 = $discipline[12];
+            $modelClassroom->discipline_geography                               = $discipline[13];
+            $modelClassroom->discipline_philosophy                              = $discipline[14];
+            $modelClassroom->discipline_informatics                             = $discipline[16];
+            $modelClassroom->discipline_professional_disciplines                = $discipline[17];
+            $modelClassroom->discipline_special_education_and_inclusive_practices = $discipline[20];
+            $modelClassroom->discipline_sociocultural_diversity                 = $discipline[21];
+            $modelClassroom->discipline_libras                                  = $discipline[23];
+            $modelClassroom->discipline_religious                               = $discipline[25];
+            $modelClassroom->discipline_native_language                         = $discipline[26];
+            $modelClassroom->discipline_pedagogical                             = $discipline[27];
+            $modelClassroom->discipline_social_study                            = $discipline[28];
+            $modelClassroom->discipline_sociology                               = $discipline[29];
+            $modelClassroom->discipline_foreign_language_franch                 = $discipline[30];
+            $modelClassroom->discipline_others                                  = $discipline[99];
+                    
+                    
+        }
         
-        static function discipline2array($instructor) {
+        //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
+        
+        static function classroomDisciplineLabelArray(){
+            $labels = array();
+            $labels[1] = Classroom::model()->attributeLabels()['discipline_chemistry'];
+            $labels[2] = Classroom::model()->attributeLabels()['discipline_physics'];
+            $labels[3] = Classroom::model()->attributeLabels()['discipline_mathematics'];
+            $labels[4] = Classroom::model()->attributeLabels()['discipline_biology'];
+            $labels[5] = Classroom::model()->attributeLabels()['discipline_science'];
+            $labels[6] = Classroom::model()->attributeLabels()['discipline_language_portuguese_literature'];
+            $labels[7] = Classroom::model()->attributeLabels()['discipline_foreign_language_english'];
+            $labels[8] = Classroom::model()->attributeLabels()['discipline_foreign_language_spanish'];
+            $labels[9] = Classroom::model()->attributeLabels()['discipline_foreign_language_other'];
+            $labels[10] = Classroom::model()->attributeLabels()['discipline_arts'];
+            $labels[11] = Classroom::model()->attributeLabels()['discipline_physical_education'];
+            $labels[12] = Classroom::model()->attributeLabels()['discipline_history'];
+            $labels[13] = Classroom::model()->attributeLabels()['discipline_geography'];
+            $labels[14] = Classroom::model()->attributeLabels()['discipline_philosophy'];
+            $labels[16] = Classroom::model()->attributeLabels()['discipline_informatics'];
+            $labels[17] = Classroom::model()->attributeLabels()['discipline_professional_disciplines'];
+            $labels[20] = Classroom::model()->attributeLabels()['discipline_special_education_and_inclusive_practices'];
+            $labels[21] = Classroom::model()->attributeLabels()['discipline_sociocultural_diversity'];
+            $labels[23] = Classroom::model()->attributeLabels()['discipline_libras'];
+            $labels[25] = Classroom::model()->attributeLabels()['discipline_religious'];
+            $labels[26] = Classroom::model()->attributeLabels()['discipline_native_language'];
+            $labels[27] = Classroom::model()->attributeLabels()['discipline_pedagogical'];
+            $labels[28] = Classroom::model()->attributeLabels()['discipline_social_study'];
+            $labels[29] = Classroom::model()->attributeLabels()['discipline_sociology'];
+            $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
+            $labels[99] = Classroom::model()->attributeLabels()['discipline_others'];
+            
+            return $labels;
+        }
+        
+        //@done s1 - criar função para transformar as disciplinas do Classroom em Array
+        
+        static function classroomDiscipline2array($classroom){
+            $disciplines = array();
+                        
+            $disciplines[1] = $classroom->discipline_chemistry;
+            $disciplines[2] = $classroom->discipline_physics;
+            $disciplines[3] = $classroom->discipline_mathematics;
+            $disciplines[4] = $classroom->discipline_biology;
+            $disciplines[5] = $classroom->discipline_science;
+            $disciplines[6] = $classroom->discipline_language_portuguese_literature;
+            $disciplines[7] = $classroom->discipline_foreign_language_english;
+            $disciplines[8] = $classroom->discipline_foreign_language_spanish;
+            $disciplines[9] = $classroom->discipline_foreign_language_other;
+            $disciplines[10] = $classroom->discipline_arts;
+            $disciplines[11] = $classroom->discipline_physical_education;
+            $disciplines[12] = $classroom->discipline_history;
+            $disciplines[13] = $classroom->discipline_geography;
+            $disciplines[14] = $classroom->discipline_philosophy;
+            $disciplines[16] = $classroom->discipline_informatics;
+            $disciplines[17] = $classroom->discipline_professional_disciplines;
+            $disciplines[20] = $classroom->discipline_special_education_and_inclusive_practices;
+            $disciplines[21] = $classroom->discipline_sociocultural_diversity;
+            $disciplines[23] = $classroom->discipline_libras;
+            $disciplines[25] = $classroom->discipline_religious;
+            $disciplines[26] = $classroom->discipline_native_language;
+            $disciplines[27] = $classroom->discipline_pedagogical;
+            $disciplines[28] = $classroom->discipline_social_study;
+            $disciplines[29] = $classroom->discipline_sociology;
+            $disciplines[30] = $classroom->discipline_foreign_language_franch;
+            $disciplines[99] = $classroom->discipline_others;
+                
+            return $disciplines;
+        }
+        
+        
+        //@done s1 - criar função para transformas as Disciplinas do TeachingData em Array
+        
+        static function teachingDataDiscipline2array($instructor) {
             $disciplines = array();
             
             if (isset($instructor->discipline_1_fk))
