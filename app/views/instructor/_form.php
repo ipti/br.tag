@@ -189,77 +189,42 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency', array(0 => "Não", 1 => "Sim"));  ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency'); ?>
                         </div></div>
-
+                        
                         <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_blindness', array('class' => 'control-label')); ?><div class="controls">
-                      
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_blindness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_blindness', array('disabled' => true));
-                            ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_blindness'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_low_vision', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_low_vision)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_low_vision')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('disabled' => true));
-                            ?>
-                            <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_low_vision', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_low_vision'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafness', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_deafness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafness')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafness', array('disabled' => true));
-                            ?>
-                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafness'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_disability_hearing)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_disability_hearing')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('disabled' => true));
-                            ?>
-                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_disability_hearing', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_disability_hearing'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_deafblindness', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_deafblindness)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafblindness')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('disabled' => true));
-                            ?>
-                            <?php // echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_deafblindness', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_deafblindness'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_phisical_disability)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_phisical_disability')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('disabled' => true));
-                            ?>
-                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_phisical_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_phisical_disability'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorIdentification->deficiency_type_intelectual_disability)) ? CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability')
-                            : CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('disabled' => true));
-                            ?>
-                            <?php //echo $form->DropDownList($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_intelectual_disability'); ?>
-                        </div></div>
-
+                            <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                            <div class="uniformjs margin-left" id="InstructorIdentification_operation_location">
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
+                                    echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
+                                    <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0 ,'disabled' => true)); ?>
+                                </label>
+                            </div>
+                        </div>
+                        
                         <div class="control-group">
                             <?php //echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_multiple_disabilities');  ?>
                             <?php //echo $form->DropDownList('', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>

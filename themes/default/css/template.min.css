@@ -60,11 +60,11 @@
     float:right;
     
 }
-li[teachingData]:hover {
+li[instructor]:hover {
     background-color: lightblue;
 }
 
-li[teachingData]{
+li[instructor]{
     background-color: white;
     padding:2px;
 }
@@ -73,6 +73,6 @@ li[discipline]:hover {
     background-color: lightcyan;
 }
 
-li[teachingData], li[discipline] {
+li[instructor], li[discipline] {
     list-style-type:none;
 }

@@ -2,7 +2,8 @@
 //@done S1 - 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
 //@done S1 - 23 - Lembrar de associar o professor a turma.
 //@done S1 - Organizar os campos do form_classroom
-//@todo S1 - Retirar aba Disciplinas. Add disciplinas em teachingData e vincular as disciplinas(checkbox) com os prof (dropdown) 
+//@done S1 - Modificar aba disciplinas para Teaching Data.
+//@todo S1 - Vincular disciplinas do classroom com as do teachingdata
 //@later S2 - Add validação para os campos que esão faltando
 
 
@@ -164,7 +165,6 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                                 
-                            <!-- dar uma olhada no http://mind2soft.com/labs/jquery/multiselect/ -->
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -326,7 +326,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                             4=>'CLT',
                                             )); ?> 
                                         
-                                        <button class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Add</i></button>
+                                        <a href="#" class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Add</i></a>
                                     </div>
                                 </div>
                                     
@@ -340,15 +340,15 @@ $form=$this->beginWidget('CActiveForm', array(
                             
                                 $teachingDataList = "<ul>"
                                                     ."<li><span><b>Disciplinas com Instrutores</b></span>"
-                                                    .'<ul>';
+                                                    ."<ul id='DisciplinesWithInstructors'>";
                                 $teachingDataArray = array();
                                 $teachingDataDisciplines = array();
                                 $i = 0;
                                 foreach ($modelTeachingData as $key => $model) {
                                     $disciplines = ClassroomController::teachingDataDiscipline2array($model);
 
-                                    $teachingDataList .= "<li teachingData='".$model->id."'><span>" . $model->instructorFk->name ."</span>"
-                                            .'<a  class="deleteTeachingData delete" title="Excluir">
+                                    $teachingDataList .= "<li instructor='".$model->instructor_fk."'><span>" . $model->instructorFk->name ."</span>"
+                                            .'<a  href="#" class="deleteTeachingData delete" title="Excluir">
                                               </a>';
                                     $teachingDataList .= "<ul>";
 
@@ -359,7 +359,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     
                                     foreach ($disciplines as $discipline) {
                                         $teachingDataList .= "<li discipline='".$discipline->id."'>".$discipline->name
-                                            .'<a class="deleteTeachingData delete" title="Excluir">
+                                            .'<a href="#" class="deleteTeachingData delete" title="Excluir">
                                               </a>'
                                             ."</li>";
                                         array_push($teachingDataDisciplines, $discipline->id);
@@ -380,12 +380,12 @@ $form=$this->beginWidget('CActiveForm', array(
                                 
                                 //monta a lista com as disciplinas que não possuem instrutor                                
                                 $teachingDataList .= "<li><span><b>Disciplinas sem Instrutores</b></span>"
-                                        .'<ul>';
+                                        ."<ul id='DisciplinesWithoutInstructors'>";
                                 foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
                                     if($value == 2){
                                         $labels = ClassroomController::classroomDisciplineLabelArray();
                                         $teachingDataList .= "<li discipline='".$disciplineId."'><span>" . $labels[$disciplineId] ."</span>"
-                                                .'<a  class="deleteTeachingData delete" title="Excluir"></a>';
+                                                .'<a href="#" class="deleteTeachingData delete" title="Excluir"></a>';
                                     }
                                 }
                                 $teachingDataList .= "</ul></ul>";
@@ -434,10 +434,157 @@ $form=$this->beginWidget('CActiveForm', array(
         }
     });
     
-    <?php //@todo s1 - Criar exclusão do teachingData e Disciplinas das arrays ao clicar em excluir?>
-    $(".deleteTeachingData").on('click',function(){
-        alert($(this).parent().attr("teachingData"));
-        alert($(this).parent().attr("discipline"));
+    
+    
+    
+    <?php //@todo s1 - Criar exclusão do teachingData e verificar a não exclusão de novos dados (vem undefined) ?>
+    var removeTeachingData = function(){
+        var instructor = $(this).parent().parent().parent().attr("instructor");
+        var discipline = ($(this).parent().attr("discipline"));
+        if (instructor == undefined){
+            instructor = $(this).parent().attr("instructor");
+            removeInstructor(instructor);
+        }
+        else{
+            removeDiscipline(instructor,discipline);
+        }
+    
+    }
+    
+    var removeInstructor = function(instructor){
+        for(var i = 0; i < teachingData.length; i++){
+            if(teachingData[i].Instructor == instructor){
+                for(var j = 0; j < teachingData[i].Disciplines.length;j++){
+                    removeDiscipline(instructor,teachingData[i].Disciplines[j])
+                }
+                
+                teachingData.splice(i, 1);
+            }
+        }
+        $("li[instructor = "+instructor+"]").remove();
+        
+    }
+    
+    
+    
+    //@todo remover Disciplinas das arrays ao clicar em excluir
+    var removeDiscipline = function(instructor, discipline){
+        
+        var count = 0;
+        for(var i = 0; i < teachingData.length; i++){
+            for(var j = 0; j < teachingData[i].Disciplines.length;j++){
+                if(discipline == teachingData[i].Disciplines[j])
+                    count++;
+            }
+        }
+        
+        for(var i = teachingData.length; i--;) {
+            if(teachingData[i].Instructor == instructor) {
+                teachingData[i].Disciplines.splice(i, 1);
+                if(teachingData[i].Disciplines.length == 0){
+                    teachingData.splice(i, 1);
+                    $("li[instructor = "+instructor+"]").remove();
+                }
+                if(count <= 1){
+                    disciplines[discipline] = 0;
+                }
+            }
+        }
+        $("li[instructor = "+instructor+"] li[discipline = "+discipline+"]").remove();
+        
+        
+    }
+        
+    $(document).on('click','.deleteTeachingData',removeTeachingData);
+    
+    
+    <?php //@done s1 - Criar função addInstructor que adiciona o instrutor e suas disciplinas na array ?>
+    $("#addInstructor").on('click', function(){
+        var instructorName = $('#s2id_Instructors span').text();
+        var instructorId = $('#Instructors').val();
+        
+        var disciplineList = $("#Disciplines").val(); 
+        var disciplineNameList = [];
+        
+        var role = $("#Role").val(); 
+        var contract = $("#ContractType").val(); 
+        
+        $.each($("#s2id_Disciplines li.select2-search-choice"), function(i,v){
+            disciplineNameList[i] = $(v).text();
+        });
+        
+        //Se for uma string vazia
+        if(instructorId.length == 0){
+            $.each(disciplineNameList, function(i,name){
+                if($("#DisciplinesWithoutInstructors li[discipline="+disciplineList[i]+"]").length == 0){
+                    $("#DisciplinesWithoutInstructors").append(""
+                        +"<li discipline='"+disciplineList[i]+"'><span>"+name+"</span>"
+                        +"<a href='#' class='deleteTeachingData delete' title='Excluir'> </a> "
+                        +"</li>");
+                }
+                disciplines[disciplineList[i]] = 2;
+            });
+        }else{
+            var td = {
+                Instructor : instructorId,
+                Classroom : null,
+                Role : role,
+                ContractType : contract,
+                Disciplines : []
+            };
+            var html = "";
+            var tag = "";
+            
+            if ($("li[instructor = "+instructorId+"]").length == 0){
+                tag = "#DisciplinesWithInstructors";
+                html = "<li instructor='"+instructorId+"'><span>"+instructorName+"</span>"
+                    +"<a href='#' class='deleteTeachingData delete' title='Excluir'> </a>"
+                    +"<ul>";
+            }else{
+                tag = "#DisciplinesWithInstructors li[instructor = "+instructorId+"] ul";
+            }
+            
+            $.each(disciplineNameList, function(i,name){
+                if($("li[instructor = "+instructorId+"] li[discipline="+disciplineList[i]+"]").length == 0){
+                    html += "<li discipline='"+disciplineList[i]+"'>"+name
+                            +"<a href='#' class='deleteTeachingData delete' title='Excluir'></a>"
+                            +"</li>";
+                }
+                    
+                td.Disciplines.push(disciplineList[i]);
+                disciplines[disciplineList[i]] = 1;
+            });
+                           
+            
+            if ($("li[instructor = "+instructorId+"]").length == 0){
+                html += "</ul>"
+                        +"</li>";
+            }
+            $(tag).append(html);
+
+            //aff que codigo lixo cubico n³, ajeitar se possível
+            var hasInstructor = false;
+            for(var i = 0; i < teachingData.length; i++){
+                    if(td.Instructor == teachingData[i].Instructor){
+                        hasInstructor = true;
+                        for(var j = 0; j < teachingData[i].Disciplines.length;j++){
+                            for (var k = 0; k < td.Disciplines.length; k++){
+                                if(teachingData[i].Disciplines == td.Disciplines[k]){
+                                    //if errado ainda
+                                //tem que dar um push apenas na disciplina de um instructor já inserido no teachingData
+                                }
+                            }
+                        }
+                    }
+                    
+                    
+            }
+            if(!hasInstructor){
+                teachingData.push(td);
+            }
+            
+        }
+        
     });
     
     

@@ -1141,7 +1141,7 @@
                 removeError(id);
             }
         });
-        $(formIdentification+'address_complement').focusout(function() { 
+        /*$(formIdentification+'address_complement').focusout(function() { 
             var id = '#'+$(this).attr("id");
             $(id).val($(id).val().toUpperCase());
             if(!validateAddress($(id).val(),20)) {
@@ -1150,7 +1150,7 @@
             }else{
                 removeError(id);
             }
-        });
+        });*/
         $(formIdentification+'address_neighborhood').focusout(function() { 
             var id = '#'+$(this).attr("id");
             $(id).val($(id).val().toUpperCase());
