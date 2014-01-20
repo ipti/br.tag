@@ -14,13 +14,27 @@ $form=$this->beginWidget('CActiveForm', array(
 ?>
 <?php echo $form->errorSummary($modelClassroom); ?>
 
-<div class="heading-buttons">
-    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>
-    <div class="buttons pull-right">
+<div class="row-fluid">
+    <div class="span12">
+        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
+            <div class="row-fluid">
+                <div class="span8">
+                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
+                </div>
+                <div class="span4">
+                    <div class="buttons">
+                         <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
+                         <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+                         <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')),
+                                    array('id'=>'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'button'));?>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
-    <div class="clearfix"></div>
 </div>
-    
+
+
 <div class="innerLR">
     
     <div class="widget widget-tabs border-bottom-none">
@@ -47,6 +61,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
                                     echo $form->hiddenField($modelClassroom,'school_inep_fk',array('value'=>Yii::app()->user->school));
+                                    echo CHtml::hiddenField("teachingData",'',array('id'=>'teachingData'));
+                                    echo CHtml::hiddenField("disciplines",'',array('id'=>'disciplines'));
                                     ?>  
                                 </div>
                             </div>
@@ -266,9 +282,6 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="control-group buttonWizardBar nextBar">
-                        <a href="#disciplines" data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('deafult','Next') ?><i></i></a>
-                    </div>
                 </div>
                 
                                          
@@ -326,7 +339,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                             4=>'CLT',
                                             )); ?> 
                                         
-                                        <a href="#" class="btn btn-icon btn-primary next glyphicons circle_plus" id="addInstructor"><i>Add</i></a>
+                            <div class="separator"></div>
+                                        <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="addInstructor"><i>Add</i></a>
                                     </div>
                                 </div>
                                     
@@ -437,13 +451,18 @@ $form=$this->beginWidget('CActiveForm', array(
     
     
     
-    <?php //@todo s1 - Criar exclusão do teachingData e verificar a não exclusão de novos dados (vem undefined) ?>
+    <?php //@done s1 - Criar exclusão do teachingData e verificar a não exclusão de novos dados (vem undefined) ?>
     var removeTeachingData = function(){
         var instructor = $(this).parent().parent().parent().attr("instructor");
         var discipline = ($(this).parent().attr("discipline"));
         if (instructor == undefined){
             instructor = $(this).parent().attr("instructor");
-            removeInstructor(instructor);
+            if (instructor == undefined){
+                disciplines[discipline] = 0;
+                $("#DisciplinesWithoutInstructors li[discipline = "+discipline+"]").remove();
+            }else{
+                removeInstructor(instructor);
+            }
         }
         else{
             removeDiscipline(instructor,discipline);
@@ -480,7 +499,11 @@ $form=$this->beginWidget('CActiveForm', array(
         
         for(var i = teachingData.length; i--;) {
             if(teachingData[i].Instructor == instructor) {
-                teachingData[i].Disciplines.splice(i, 1);
+                for(var j = teachingData[i].Disciplines.length; j--;){
+                    if(teachingData[i].Disciplines[j] == discipline)
+                        teachingData[i].Disciplines.splice(j, 1);
+                }
+                
                 if(teachingData[i].Disciplines.length == 0){
                     teachingData.splice(i, 1);
                     $("li[instructor = "+instructor+"]").remove();
@@ -502,17 +525,17 @@ $form=$this->beginWidget('CActiveForm', array(
     $("#addInstructor").on('click', function(){
         var instructorName = $('#s2id_Instructors span').text();
         var instructorId = $('#Instructors').val();
-        
+
         var disciplineList = $("#Disciplines").val(); 
         var disciplineNameList = [];
-        
+
         var role = $("#Role").val(); 
         var contract = $("#ContractType").val(); 
-        
+
         $.each($("#s2id_Disciplines li.select2-search-choice"), function(i,v){
             disciplineNameList[i] = $(v).text();
         });
-        
+
         //Se for uma string vazia
         if(instructorId.length == 0){
             $.each(disciplineNameList, function(i,name){
@@ -534,59 +557,47 @@ $form=$this->beginWidget('CActiveForm', array(
             };
             var html = "";
             var tag = "";
-            
-            if ($("li[instructor = "+instructorId+"]").length == 0){
+
+            var hasInstructor = $("li[instructor = "+instructorId+"]").length != 0;
+            var instructorIndex = -1;
+
+            if (!hasInstructor){
                 tag = "#DisciplinesWithInstructors";
                 html = "<li instructor='"+instructorId+"'><span>"+instructorName+"</span>"
                     +"<a href='#' class='deleteTeachingData delete' title='Excluir'> </a>"
                     +"<ul>";
             }else{
+                $.each(teachingData, function(i, data){
+                    if(data.Instructor == instructorId)
+                        instructorIndex = i;
+                });
                 tag = "#DisciplinesWithInstructors li[instructor = "+instructorId+"] ul";
             }
-            
+
             $.each(disciplineNameList, function(i,name){
-                if($("li[instructor = "+instructorId+"] li[discipline="+disciplineList[i]+"]").length == 0){
+                var hasDiscipline = $("li[instructor = "+instructorId+"] li[discipline="+disciplineList[i]+"]").length != 0;
+                if(!hasDiscipline){
                     html += "<li discipline='"+disciplineList[i]+"'>"+name
-                            +"<a href='#' class='deleteTeachingData delete' title='Excluir'></a>"
-                            +"</li>";
+                        +"<a href='#' class='deleteTeachingData delete' title='Excluir'></a>"
+                        +"</li>";
+                    if(!hasInstructor)
+                        td.Disciplines.push(disciplineList[i]);
+                    else
+                        teachingData[instructorIndex].Disciplines.push(disciplineList[i]);
                 }
-                    
-                td.Disciplines.push(disciplineList[i]);
                 disciplines[disciplineList[i]] = 1;
             });
-                           
-            
-            if ($("li[instructor = "+instructorId+"]").length == 0){
-                html += "</ul>"
-                        +"</li>";
-            }
-            $(tag).append(html);
 
-            //aff que codigo lixo cubico n³, ajeitar se possível
-            var hasInstructor = false;
-            for(var i = 0; i < teachingData.length; i++){
-                    if(td.Instructor == teachingData[i].Instructor){
-                        hasInstructor = true;
-                        for(var j = 0; j < teachingData[i].Disciplines.length;j++){
-                            for (var k = 0; k < td.Disciplines.length; k++){
-                                if(teachingData[i].Disciplines == td.Disciplines[k]){
-                                    //if errado ainda
-                                //tem que dar um push apenas na disciplina de um instructor já inserido no teachingData
-                                }
-                            }
-                        }
-                    }
-                    
-                    
-            }
-            if(!hasInstructor){
+
+            if (!hasInstructor){
+                html += "</ul>"
+                    +"</li>";
                 teachingData.push(td);
             }
-            
+            $(tag).append(html);
         }
-        
     });
-    
+
     
     //multiselect
     var compAct = [];
@@ -686,147 +697,62 @@ $form=$this->beginWidget('CActiveForm', array(
         }
     });
     
-    $('.next').click(function(){
-        $('li[class="active"]').removeClass("active");
-        var id = '#tab-'+($(this).attr("href")).substring(1);
-        $(id).addClass("active");
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-    });
-    
     var form_teaching = '#InstructorTeachingData_';
-    
-    $('#without_teacher').on('change', function(){
-        window.alert($('#without_teacher').is(':checked'));
-        
-        if( $('#without_teacher').is(':checked') ){
-            $(form_teaching+'id').add().attr('disabled','disabled');
-            $(form_teaching+'role').add().attr('disabled','disabled');
-            $(form_teaching+'contract_type').add().attr('disabled','disabled');
-        }else{
-            $(form_teaching+'id').removeAttr('disabled');
-            $(form_teaching+'role').removeAttr('disabled');
-            $(form_teaching+'contract_type').removeAttr('disabled');
-        }
-            
-       
-        
 
-                                    
+     
+    $('.next').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-classroom';
+        var li2 = 'tab-instructor-teaching';
+        var next = '';
+        switch(classActive.attr('id')) {
+            case li1 : next = li2; 
+                $('.prev').show();
+                $('.next').hide();
+                $('.last').show(); break;
+            case li2 : next = li2; break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+next).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
     });
     
-       // Classe Teachind_Data
-       
-     function teaching_data() {
-        var id;
-        var instructor_fk;
-        var classroom_id_fk;
-        var discipline_1_fk;
-        var discipline_2_fk;
-        var discipline_3_fk;
-        var discipline_4_fk;
-        var discipline_5_fk;
-        var discipline_6_fk;
-        var discipline_7_fk;
-        var discipline_8_fk;
-        var discipline_9_fk;
-        var discipline_10_fk;
-        var discipline_11_fk;
-        var discipline_12_fk;
-        var discipline_13_fk;
-        var role;
-        var contract_type;
-        
-        this.setFields = function(id_val, instructor_fk_val, classroom_id_fk_val,
-        role_val, contract_type_val,
-         discipline_1_fk_val, discipline_2_fk_val, discipline_3_fk_val,
-         discipline_4_fk_val, discipline_5_fk_val, discipline_6_fk_val,
-         discipline_7_fk_val, discipline_8_fk_val, discipline_9_fk_val,
-         discipline_10_fk_val, discipline_11_fk_val,   discipline_12_fk_val,
-         discipline_13_fk_val){
-             
-         id = id_val;
-         instructor_fk = instructor_fk_val;
-         classroom_id_fk = classroom_id_fk_val;
-         role = role_val;
-         contract_type =contract_type_val;
-         discipline_1_fk = discipline_1_fk_val;
-         discipline_2_fk = discipline_2_fk_val;
-         discipline_3_fk = discipline_3_fk_val;
-         discipline_4_fk = discipline_4_fk_val;
-         discipline_5_fk = discipline_5_fk_val;
-         discipline_6_fk = discipline_6_fk_val;
-         discipline_7_fk = discipline_7_fk_val;
-         discipline_8_fk = discipline_8_fk_val;
-         discipline_9_fk = discipline_9_fk_val;
-         discipline_10_fk = discipline_10_fk_val;
-         discipline_11_fk = discipline_11_fk_val;
-         discipline_12_fk = discipline_12_fk_val;
-         discipline_13_fk = discipline_13_fk_val;    
+    $('.prev').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-classroom';
+        var li2 = 'tab-instructor-teaching';
+        var previous = '';
+        switch(classActive.attr('id')) {
+            case li1 : previous = li1;  break;
+            case li2 : previous = li1; 
+                $('.prev').hide();
+                $('.last').hide();
+                $('.next').show(); break;
         }
-        this.isvalidate = function(){
-        
-            if(isset(instructor_fk) && instructor_fk != '' 
-               && isset(role) && role == 1){
-                //Se existe professor é obrigatório a existência de pelo menos 1 disciplina
-                if(isset(discipline_1_fk)  || isset(discipline_2_fk)|| isset(discipline_3_fk)||
-                    isset(discipline_4_fk)|| isset(discipline_5_fk)|| isset(discipline_6_fk)|| isset(discipline_7_fk)||
-                    isset(discipline_8_fk)|| isset(discipline_9_fk)|| isset(discipline_10_fk)|| isset(discipline_11_fk)||
-                    isset(discipline_12_fk)|| isset(discipline_13_fk)){
-                       return true;
-                }else{
-                    return "Selecione Pelo Menos Uma Matéria";
-                }      
-            }else{
-                return "Professor ou Função que Exerce NÃO selecionado(s)";
-            }
-            
-            
-        }
-        
-       }
-       
-       //=======================
-    
-        
-        var teachingDatas= [];
-        $('#bt_relate').click(function(){
-            
-        var id = 0;
-        var instructor_fk = $(form_teaching+'instructor_fk').val();
-        var classroom_id_fk = $(form_teaching+'classroom_id_fk').val();
-        var discipline_1_fk= $(form_teaching+'discipline_1_fk').val();
-        var discipline_2_fk= $(form_teaching+'discipline_2_fk').val();
-        var discipline_3_fk= $(form_teaching+'discipline_3_fk').val();
-        var discipline_4_fk= $(form_teaching+'discipline_4_fk').val();
-        var discipline_5_fk= $(form_teaching+'discipline_5_fk').val();
-        var discipline_6_fk= $(form_teaching+'discipline_6_fk').val();
-        var discipline_7_fk= $(form_teaching+'discipline_7_fk').val();
-        var discipline_8_fk= $(form_teaching+'discipline_8_fk').val();
-        var discipline_9_fk= $(form_teaching+'discipline_9_fk').val();
-        var discipline_10_fk= $(form_teaching+'discipline_10_fk').val();
-        var discipline_11_fk= $(form_teaching+'discipline_11_fk').val();
-        var discipline_12_fk= $(form_teaching+'discipline_12_fk').val();
-        var discipline_13_fk= $(form_teaching+'discipline_13_fk').val();
-        var role= $(form_teaching+'role').val();
-        var contract_type= $(form_teaching+'contract_type').val();
-        var newTeachingData = new teaching_data();
-        newTeachingData.setFields(id, instructor_fk, classroom_id_fk,
-        role, contract_type,
-         discipline_1_fk, discipline_2_fk, discipline_3_fk,
-         discipline_4_fk, discipline_5_fk, discipline_6_fk,
-         discipline_7_fk, discipline_8_fk, discipline_9_fk,
-         discipline_10_fk, discipline_11_fk,   discipline_12_fk,
-         discipline_13_fk);
          
-            window.alert(newTeachingData.isvalidate());
-            
-            
-            $('#relations').append('Novo Professor<br>');
-                        var idTeacher = $(form_teaching+'id').val(); 
-                        
-                        
-            
-        });
-        
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var previous_content = previous.substring(4);
+        previous = previous.toString();
+        $('#'+previous).addClass("active");
+        $('#'+previous_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
     
+    $('.heading-buttons').css('width', $('#content').width());
+    
+    
+    
+    $('#enviar_essa_bagaca').click(function() { 
+        $('#teachingData').val(JSON.stringify(teachingData)); 
+        $('#disciplines').val(JSON.stringify(disciplines));
+        $('form').submit();
+    });
 </script>

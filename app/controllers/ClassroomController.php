@@ -150,7 +150,7 @@ class ClassroomController extends Controller
 		));
 	}
         
-        public function setDisciplines($discipline){
+        public function setDisciplines($modelClassroom,$discipline){
                     
             $modelClassroom->discipline_chemistry                               = $discipline[1];
             $modelClassroom->discipline_physics                                 = $discipline[2];
@@ -299,8 +299,10 @@ class ClassroomController extends Controller
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
 
-            if(isset($_POST['Classroom']))
-            {
+            if(isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
+                $teachingData = json_decode($_POST['teachingData']);
+                $disciplines = json_decode($_POST['disciplines']);
+                
                 // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
                 // de nao deixar criar com todos os campos igual a 0
                 if(isset($_POST['Classroom']["complementary_activity_type_1"])){
@@ -318,7 +320,12 @@ class ClassroomController extends Controller
                         isset($compActs[4]) ? $compActs[4] : null;
                 $_POST['Classroom']["complementary_activity_type_6"] = 
                         isset($compActs[5]) ? $compActs[5] : null;
+                
                 $modelClassroom->attributes = $_POST['Classroom'];
+                
+                $this->setDisciplines($modelClassroom,$disciplines);
+                
+                //var_dump($disciplines); exit;
                 if ($modelClassroom->week_days_sunday
                         || $modelClassroom->week_days_monday
                         || $modelClassroom->week_days_tuesday
@@ -326,64 +333,49 @@ class ClassroomController extends Controller
                         || $modelClassroom->week_days_thursday
                         || $modelClassroom->week_days_friday
                         || $modelClassroom->week_days_saturday) {
-                    $saveClassroom = $modelClassroom->validate();
 
+                    if ($modelClassroom->validate() && $modelClassroom->save()) {
+                        $save = true;
+                        foreach ($teachingData as $key => $td){
+
+                            $modelTeachingData = new InstructorTeachingData;
+                            $modelTeachingData->classroom_id_fk = $modelClassroom->id;
+                            $modelTeachingData->instructor_fk = $td->Instructor;
+                            $modelTeachingData->role = $td->Role;
+                            $modelTeachingData->contract_type = $td->ContractType;
+
+                            $modelTeachingData->discipline_1_fk  = isset($td->Disciplines[0])  ? $td->Disciplines[0]  : NULL;
+                            $modelTeachingData->discipline_2_fk  = isset($td->Disciplines[1])  ? $td->Disciplines[1]  : NULL;
+                            $modelTeachingData->discipline_3_fk  = isset($td->Disciplines[2])  ? $td->Disciplines[2]  : NULL;
+                            $modelTeachingData->discipline_4_fk  = isset($td->Disciplines[3])  ? $td->Disciplines[3]  : NULL;
+                            $modelTeachingData->discipline_5_fk  = isset($td->Disciplines[4])  ? $td->Disciplines[4]  : NULL;
+                            $modelTeachingData->discipline_6_fk  = isset($td->Disciplines[5])  ? $td->Disciplines[5]  : NULL;
+                            $modelTeachingData->discipline_7_fk  = isset($td->Disciplines[6])  ? $td->Disciplines[6]  : NULL;
+                            $modelTeachingData->discipline_8_fk  = isset($td->Disciplines[7])  ? $td->Disciplines[7]  : NULL;
+                            $modelTeachingData->discipline_9_fk  = isset($td->Disciplines[8])  ? $td->Disciplines[8]  : NULL;
+                            $modelTeachingData->discipline_10_fk = isset($td->Disciplines[9])  ? $td->Disciplines[9]  : NULL;
+                            $modelTeachingData->discipline_11_fk = isset($td->Disciplines[10]) ? $td->Disciplines[10] : NULL;
+                            $modelTeachingData->discipline_12_fk = isset($td->Disciplines[11]) ? $td->Disciplines[11] : NULL;
+                            $modelTeachingData->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
+
+                            $save = $save && $modelTeachingData->validate() && $modelTeachingData->save();
+                        }
+                        
+                        if ($save){
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
+                            $this->redirect(array('index'));
+                        }
+                    }
                 } else {
                     $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
                 }
             }
 
 
-            //==============TEACHING DATA 
-            $error = '';
-            if (isset($_POST['InstructorTeachingData'])) {
-                $modelTeachingData->attributes = $_POST['InstructorTeachingData'];
-                //Setar a foreing key
-                //=== MODEL TeachingData
-                $disciplines = $modelTeachingData->discipline_1_fk;
-                $countDisciplines = count($disciplines);
-                //Máximo 13           
-                $modelTeachingData->discipline_1_fk = isset($disciplines[0]) ? $disciplines[0] : NULL;
-                $modelTeachingData->discipline_2_fk = isset($disciplines[1]) ? $disciplines[1] : NULL;
-                $modelTeachingData->discipline_3_fk = isset($disciplines[2]) ? $disciplines[2] : NULL;
-                $modelTeachingData->discipline_4_fk = isset($disciplines[3]) ? $disciplines[3] : NULL;
-                $modelTeachingData->discipline_5_fk = isset($disciplines[4]) ? $disciplines[4] : NULL;
-                $modelTeachingData->discipline_6_fk = isset($disciplines[5]) ? $disciplines[5] : NULL;
-                $modelTeachingData->discipline_7_fk = isset($disciplines[6]) ? $disciplines[6] : NULL;
-                $modelTeachingData->discipline_8_fk = isset($disciplines[7]) ? $disciplines[7] : NULL;
-                $modelTeachingData->discipline_9_fk = isset($disciplines[8]) ? $disciplines[8] : NULL;
-                $modelTeachingData->discipline_10_fk = isset($disciplines[9]) ? $disciplines[9] : NULL;
-                $modelTeachingData->discipline_11_fk = isset($disciplines[10]) ? $disciplines[10] : NULL;
-                $modelTeachingData->discipline_12_fk = isset($disciplines[11]) ? $disciplines[11] : NULL;
-                $modelTeachingData->discipline_13_fk = isset($disciplines[12]) ? $disciplines[12] : NULL;
-
-
-                //============================
-                // Setar todos os school_inep_id
-
-                if ($modelTeachingData->validate()) {
-                    //Get classInepID
-                    $classRoom = Classroom::model()->findByPk($modelTeachingData->classroom_id_fk);
-                    $modelTeachingData->classroom_inep_id = $classRoom->inep_id;
-                    $saveTeachingData = true;
-                }
-            }
-
-            if ($saveClassroom && $saveTeachingData && $modelClassroom->save()
-                    && $modelTeachingData->save()) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
-                $this->redirect(array('index'));
-            }
-
-            $instructor_id = isset($_GET['instructor_id']) ? $_GET['instructor_id'] : NULL;
-            //===================================         
-
             $this->render('create', array(
                 'modelClassroom' => $modelClassroom,
                 'complementary_activities' => array(),
-                'modelTeachingData' => $modelTeachingData,
-                'error' => $error,
-                'instructor_id' => $instructor_id,
+                'modelTeachingData' => array(),
             ));
 	}
 
@@ -403,7 +395,7 @@ class ClassroomController extends Controller
                 
                 $saveClassroom = false;
                 $saveTeachingData = false;
-
+                //var_dump($_POST);exit;
 		if(isset($_POST['Classroom']))
 		{
                     if(isset($_POST['Classroom']["complementary_activity_type_1"])){
