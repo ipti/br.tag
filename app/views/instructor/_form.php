@@ -17,7 +17,8 @@ $form = $this->beginWidget('CActiveForm', array(
             echo $form->errorSummary($modelInstructorVariableData);
             echo isset($error['variableData']) ? $error['variableData'] : '';
             ?>
-
+<?php //@done S1 - alterar redirecionamento do instructor pra index
+      //@done S1 - Remover aba de teaching data no update?>
 <div class="row-fluid">
     <div class="span12">
         <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
@@ -44,14 +45,10 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <div class="widget-head">
-            <ul>
-                <li id="tab-instructor-indentify"class="active"><a class="glyphicons edit" href="#instructor-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+            <ul class="tab-instructor">
+                <li id="tab-instructor-identify"class="active"><a class="glyphicons edit" href="#instructor-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li id="tab-instructor-documents"><a class="glyphicons settings" href="#instructor-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents and Address') ?></a></li>
                 <li id="tab-instructor-data"><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
-              <?php if($isModel) {
-                 echo '<li><a class="glyphicons parents" href="'.Yii::app()->baseUrl.'/index.php?r=InstructorTeachingData/create&instructor_id='. $modelInstructorIdentification->id .' "><i></i>'. Yii::t("default", "Dados do Professor") . '</a></li>';
-              }
-                  ?>
             </ul>
         </div>
 
@@ -59,7 +56,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="tab-content">
 
                 <!-- Tab content -->
-                <div class="tab-pane active" id="instructor-indentify">
+                <div class="tab-pane active" id="instructor-identify">
                     <div class="row-fluid">
                         <div class=" span5">
                           
@@ -1362,11 +1359,42 @@ $form = $this->beginWidget('CActiveForm', array(
         
         
     });
+
+    $('.tab-instructor li a').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-instructor-identify';
+        var li2 = 'tab-instructor-documents';
+        var li3 = 'tab-instructor-data';
+        var tab = '';
+        switch($(this).parent().attr('id')) {
+            case li1 : tab = li1; 
+                $('.prev').hide();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li2 : tab = li2;
+                $('.prev').show();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li3 : tab = li3; 
+                $('.prev').show();
+                $('.next').hide();
+                $('.last').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+tab).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
     
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
-        var li1 = 'tab-instructor-indentify';
+        var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-documents';
         var li3 = 'tab-instructor-data';
         var next = '';
@@ -1391,7 +1419,7 @@ $form = $this->beginWidget('CActiveForm', array(
     $('.prev').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
-        var li1 = 'tab-instructor-indentify';
+        var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-documents';
         var li3 = 'tab-instructor-data';
         var previous = '';

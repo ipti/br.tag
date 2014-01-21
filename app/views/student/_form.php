@@ -32,8 +32,8 @@
     <div class="widget widget-tabs border-bottom-none">
         
         <div class="widget-head">
-            <ul>
-                <li id="tab-student-indentify" class="active"><a class="glyphicons edit" href="#student-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+            <ul class="tab-student">
+                <li id="tab-student-identify" class="active"><a class="glyphicons edit" href="#student-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li id="tab-student-documents"><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
                 <li id="tab-student-address"><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
             </ul>
@@ -44,7 +44,7 @@
             <div class="tab-content">
                 <!-- Tab content -->
                 <!-- Tab Student Identify -->
-                <div class="tab-pane active" id="student-indentify">
+                <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="separator"></div>
@@ -353,10 +353,11 @@
                                 </div>
                             </div>
                                 
+                            <?php //@done S1 - Alterar tipo de certidão civil para dropdown?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("disabled" => "disabled")); ?>
+                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("disabled" => "disabled")); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                                 </div>
                             </div>
@@ -859,11 +860,41 @@
         }
     });
     
+    $('.tab-student li a').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-student-identify';
+        var li2 = 'tab-student-documents';
+        var li3 = 'tab-student-address';
+        var tab = '';
+        switch($(this).parent().attr('id')) {
+            case li1 : tab = li1; 
+                $('.prev').hide();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li2 : tab = li2; 
+                $('.prev').show();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li3 : tab = li3;
+                $('.prev').show();
+                $('.next').hide();
+                $('.last').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = tab.substring(4);
+        next_content = next_content.toString();
+        $('#'+tab).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    })
     
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
-        var li1 = 'tab-student-indentify';
+        var li1 = 'tab-student-identify';
         var li2 = 'tab-student-documents';
         var li3 = 'tab-student-address';
         var next = '';
@@ -888,7 +919,7 @@
     $('.prev').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
-        var li1 = 'tab-student-indentify';
+        var li1 = 'tab-student-identify';
         var li2 = 'tab-student-documents';
         var li3 = 'tab-student-address';
         var previous = '';
