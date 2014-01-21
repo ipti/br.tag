@@ -26,7 +26,7 @@
     <div class="widget widget-tabs border-bottom-none">
     
         <div class="widget-head">
-            <ul>
+            <ul class="tab-school">
                 <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li id="tab-school-structure"   ><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
                 <li id="tab-school-equipament"  ><a class="glyphicons imac"     href="#school-equipament" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
@@ -1306,6 +1306,42 @@
         $("#SchoolIdentification_administrative_dependence").select2({ width: 'resolve' });
         $("#SchoolStructure_shared_school_inep_id_1").select2({ width: 'resolve' , placeholder: '<?php echo Yii::t('default', 'Select School'); ?>'});
         
+    $('.tab-school li a').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-school-indentify';
+        var li2 = 'tab-school-structure';
+        var li3 = 'tab-school-equipament';
+        var li4 = 'tab-school-education';
+        var tab = '';
+        switch($(this).parent().attr('id')) {
+            case li1 : tab = li1; 
+                $('.prev').hide();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li2 : tab = li2; 
+                $('.prev').show();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li3 : tab = li3;
+                $('.prev').show();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li4 : tab = li4; 
+                $('.prev').show();
+                $('.next').hide();
+                $('.last').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = tab.substring(4);
+        next_content = next_content.toString();
+        $('#'+tab).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    }) 
+    
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');

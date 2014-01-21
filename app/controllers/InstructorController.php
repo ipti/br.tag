@@ -246,7 +246,7 @@ preenchidos";
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Professor alterado com sucesso!'));
-                        $this->redirect(array('view', 'id' => $modelInstructorIdentification->id));
+                        $this->redirect(array('index'));
                     }
                 }
             }
