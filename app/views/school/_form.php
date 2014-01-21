@@ -49,6 +49,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'class' => 'span10')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name of school'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
                         </div>
                     </div>
@@ -63,6 +64,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'class' => 'span10')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'School code in the registration INEP'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
                         </div>
                     </div>
@@ -94,6 +96,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Current situation school run'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                         </div>
                     </div>
@@ -103,7 +106,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Initial Date Help'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Initial Date Help'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
                         </div>
                     </div>
@@ -112,7 +115,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Final Date Help'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Final Date Help'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'final_date'); ?>
                         </div>
                     </div>
@@ -135,6 +138,7 @@
                             <?php echo $form->labelEx($modelSchoolStructure, 'manager_cpf', array('class' => 'control-label')); ?>
                             <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'manager_cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                                <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'CPF school manager. Numbers only.'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_cpf'); ?>
                         </div></div> 
                         
@@ -142,6 +146,7 @@
                             <?php echo $form->labelEx($modelSchoolStructure, 'manager_name', array('class' => 'control-label')); ?>
                             <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'manager_name', array('size' => 60, 'maxlength' => 100)); ?>
+                                <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name of school manager'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_name'); ?>
                         </div></div>
 
@@ -151,6 +156,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'manager_role', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo")); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Role of the school manager'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_role'); ?>
                         </div>
                     </div>
@@ -159,6 +165,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'manager_email', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'manager_email', array('size' => 50, 'maxlength' => 50)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'E-mail the school manager. Example: joao@ipti.org.br'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_email'); ?>
                         </div>
                     </div>

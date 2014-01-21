@@ -1,7 +1,7 @@
 <?php
 
 class SchoolController extends Controller {
-
+    //@TODO s2 - Recuperar endereço pelo CEP
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.

@@ -68,7 +68,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <?php 
-                                //@todo S1 - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
+                                //@later Sx - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
                                 echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80)); ?>
@@ -259,7 +259,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => '(Select Stage vs Modality)')); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade')); ?>
                                     <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
@@ -369,6 +369,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                     $teachingDataArray[$i] = array();
                                     $teachingDataArray[$i]['Instructor'] = $model->instructor_fk;
                                     $teachingDataArray[$i]['Classroom'] = $model->classroom_id_fk;
+                                    $teachingDataArray[$i]['Role'] = $model->role;
+                                    $teachingDataArray[$i]['ContractType'] = $model->contract_type;
                                     $teachingDataArray[$i]['Disciplines'] = array();
                                     
                                     foreach ($disciplines as $discipline) {

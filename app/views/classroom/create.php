@@ -11,13 +11,11 @@
         array('label'=> Yii::t('default', 'List Classroom'), 'url'=>array('index'),'description' => Yii::t('default', 'This action list all Classrooms, you can search, delete and update')),
     );
     ?>
-    <div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('modelClassroom'=>$modelClassroom, 
-                'complementaryActivities'=>$complementary_activities,
-                'modelTeachingData' => $modelTeachingData,
-                'title'=>$title)); ?>        </div>
-        <div class="columntwo">
-            <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?>        </div>
-    </div>
+    <?php echo $this->renderPartial('_form', array('modelClassroom'=>$modelClassroom, 
+        'complementaryActivities'=>$complementary_activities,
+        'modelTeachingData' => $modelTeachingData,
+        'title'=>$title)); ?>
+
+    <?php //echo $this->renderPartial('////common/defaultcontext', array('contextDesc'=>$contextDesc)); ?> 
+
 </div>

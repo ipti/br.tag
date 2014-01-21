@@ -2,6 +2,11 @@
 
 class EnrollmentController extends Controller {
 
+    //@TODO s2 - Validar Ano Letivo na matricula(um aluno não pode estar em duas turmas REGULARES ao mesmo tempo)
+    //@TODO s2 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
+    //@TODO s2 - Filtrar aluno e turma por escola
+    
+    
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.

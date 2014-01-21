@@ -349,7 +349,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <!--                        <div class="control-group">
 
                             <?php 
-//@todo S1 - Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
+//@done S1 - Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
                                   echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
                             <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
                             <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
