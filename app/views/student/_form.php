@@ -85,7 +85,7 @@
                             <div class="control-group">
                             <?php echo $form->labelEx($modelStudentIdentification,'sex', array('class' => 'control-label')); ?>
                             <div class="controls">
-                                <?php echo $form->DropDownList($modelStudentIdentification,'sex', array(null=>"Selecione o sexo", "1"=>"Masculino", "2"=>"Feminino")); ?>
+                                <?php echo $form->DropDownList($modelStudentIdentification,'sex', array(null=>"Selecione o sexo", "1"=>"Masculino", "2"=>"Feminino"),array('class' => 'select-search-off')); ?>
                                 <?php echo $form->error($modelStudentIdentification,'sex'); ?>
                             </div>
                             </div>
@@ -100,7 +100,7 @@
                                         "2" => "Preta",
                                         "3" => "Parda",
                                         "4" => "Amarela",
-                                        "5" => "Indígena"));
+                                        "5" => "Indígena"),array('class' => 'select-search-off'));
                                     ?>
                                 <?php echo $form->error($modelStudentIdentification, 'color_race'); ?>
                                 </div>
@@ -108,7 +108,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe")); ?>
+                                    <?php echo $form->DropDownList($modelStudentIdentification, 'filiation', array(null => "Selecione a filiação", "0" => "Não declarado/Ignorado", "1" => "Pai e/ou Mãe"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'filiation'); ?>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('ajax' => array(
+                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),array('class' => 'select-search-off'), array('ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('student/getnations'),
                                             'update' => '#StudentIdentification_edcenso_nation_fk'
@@ -147,7 +147,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação"));
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação",'class' => 'select-search-on'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
@@ -164,6 +164,7 @@
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
+                                        "class" => "select-search-on",
                                         "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
@@ -175,7 +176,7 @@
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade",
-                                        "disabled" => "disabled"));
+                                        "disabled" => "disabled", 'class'=>'select-search-on'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
                                 </div>
@@ -322,7 +323,7 @@
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     
-                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "disabled" => "disabled"));
+                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "class"=>"select-search-on", "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
                                 </div>
@@ -331,7 +332,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado", "disabled" => "disabled"));
+                                    <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado","class"=>"select-search-on", "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                                 </div>
@@ -348,7 +349,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("disabled" => "disabled")); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class"=>"select-search-off", "disabled" => "disabled")); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                 </div>
                             </div>
@@ -357,7 +358,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("disabled" => "disabled")); ?>
+                                    <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class"=>"select-search-off", "disabled" => "disabled")); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                                 </div>
                             </div>
@@ -405,6 +406,7 @@
                                             'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
+                                        "class"=> "select-search-on",
                                         "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
@@ -422,6 +424,7 @@
                                             'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
                                         ),
                                         "prompt" => "Selecione uma cidade",
+                                        "class" => "select-search-on",
                                         "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
@@ -433,7 +436,7 @@
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um cartório",
-                                        "disabled" => "disabled"));
+                                        "class"=>"select-search-on", "disabled" => "disabled"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
                                 </div>
@@ -466,7 +469,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null => "Selecione uma justificativa", "1" => "Aluno não possui documento", "2" => "Escola não possui informação de documento do aluno")); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null => "Selecione uma justificativa", "1" => "Aluno não possui documento", "2" => "Escola não possui informação de documento do aluno"),array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
                                 </div>
                             </div>
@@ -485,7 +488,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL")); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"),array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                                 </div>
                             </div>
@@ -540,7 +543,8 @@
                                             'url' => CController::createUrl('student/getcities&rt=2'),
                                             'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                         ),
-                                        "prompt" => "Selecione um estado"));
+                                        "prompt" => "Selecione um estado",
+                                        "class" => "select-search-on"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
                                 </div>
@@ -550,7 +554,7 @@
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade"));
+                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade","class"=>"select-search-on"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>

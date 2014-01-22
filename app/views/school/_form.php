@@ -310,7 +310,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'location', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'location', array(null => 'Selecione a localização',1 => 'Urbano', 2 => 'Rural')); ?>
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'location', array(null => 'Selecione a localização',1 => 'Urbano', 2 => 'Rural'),array('class' => 'select-search-off')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'location'); ?>
                         </div>
                     </div>
@@ -357,7 +357,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolStructure, 'feeding', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece"),array('class' => 'select-search-off')); ?>
                             <?php echo $form->error($modelSchoolStructure, 'feeding'); ?>
                         </div>                             
                     </div>
@@ -415,7 +415,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array(null => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array(null => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido"),array('class' => 'select-search-off')); ?>
                             <?php echo $form->error($modelSchoolStructure, 'building_occupation_situation'); ?>
                         </div>
                     </div>
@@ -833,14 +833,14 @@
                 <div class="control-group">
                 <?php echo $form->labelEx($modelSchoolStructure, 'aee', array('class' => 'control-label')); ?>
                 <div class="controls">
-                <?php echo $form->DropDownList($modelSchoolStructure, 'aee', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
+                <?php echo $form->DropDownList($modelSchoolStructure, 'aee', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente"),array('class' => 'select-search-off')); ?>
                 <?php echo $form->error($modelSchoolStructure, 'aee'); ?>
             </div></div>
 
             <div class="control-group">
                 <?php echo $form->labelEx($modelSchoolStructure, 'complementary_activities', array('class' => 'control-label')); ?>
                 <div class="controls">
-                <?php echo $form->DropDownList($modelSchoolStructure, 'complementary_activities', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente")); ?>
+                <?php echo $form->DropDownList($modelSchoolStructure, 'complementary_activities', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Não exclusivamente", "2" => "Exclusivamente"),array('class' => 'select-search-off')); ?>
                 <?php echo $form->error($modelSchoolStructure, 'complementary_activities'); ?>
             </div></div>
 
@@ -863,7 +863,7 @@
                     "5" => "Unidade de uso sustentável em terra indígena",
                     "6" => "Unidade de uso sustentável em área remanescente de quilombos",
                     "7" => "Não se aplica",
-                ));
+                ),array('class' => 'select-search-off'));
                 ?>
             <?php echo $form->error($modelSchoolStructure, 'different_location'); ?>
             </div></div>
@@ -910,7 +910,7 @@
             <div class="control-group">
                 <?php echo $form->labelEx($modelSchoolStructure, 'edcenso_native_languages_fk', array('class' => 'control-label')); ?>
                 <div class="controls">
-                <?php echo $form->DropDownList($modelSchoolStructure, 'edcenso_native_languages_fk', CHtml::listData(EdcensoNativeLanguages::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione a língua indígena"));
+                <?php echo $form->DropDownList($modelSchoolStructure, 'edcenso_native_languages_fk', CHtml::listData(EdcensoNativeLanguages::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione a língua indígena",'class' => 'select-search-on'));
                 ?>
                 <?php echo $form->error($modelSchoolStructure, 'edcenso_native_languages_fk'); ?>
             </div></div>
