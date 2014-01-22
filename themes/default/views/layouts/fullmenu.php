@@ -69,7 +69,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <script>               
             $(function() {
                 $("#UsersSchool_school_fk").change(function() {
-                    alert('<?php echo Yii::app()->user->school; ?>');
                     $(".school").submit();
                 });
               });            
