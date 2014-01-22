@@ -333,18 +333,12 @@ class ClassroomController extends Controller
                 if(isset($_POST['Classroom']["complementary_activity_type_1"])){
                     $compActs = $_POST['Classroom']["complementary_activity_type_1"];
                 }
-                $_POST['Classroom']["complementary_activity_type_1"] = 
-                        isset($compActs[0]) ? $compActs[0] : null;
-                $_POST['Classroom']["complementary_activity_type_2"] = 
-                        isset($compActs[1]) ? $compActs[1] : null;
-                $_POST['Classroom']["complementary_activity_type_3"] = 
-                        isset($compActs[2]) ? $compActs[2] : null;
-                $_POST['Classroom']["complementary_activity_type_4"] = 
-                        isset($compActs[3]) ? $compActs[3] : null;
-                $_POST['Classroom']["complementary_activity_type_5"] = 
-                        isset($compActs[4]) ? $compActs[4] : null;
-                $_POST['Classroom']["complementary_activity_type_6"] = 
-                        isset($compActs[5]) ? $compActs[5] : null;
+                $_POST['Classroom']["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
+                $_POST['Classroom']["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
+                $_POST['Classroom']["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
+                $_POST['Classroom']["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
+                $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
+                $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
                 
                 $modelClassroom->attributes = $_POST['Classroom'];
                 

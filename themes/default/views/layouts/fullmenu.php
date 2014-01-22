@@ -146,6 +146,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                                 <form class="school" action="?r=site/changeschool" method="Post">
                                     
+                                    <div class="row">
+                                    
                                     <?php
                                     echo CHtml::activeDropDownList(
                                             UsersSchool::model(), 'school_fk',  
@@ -155,6 +157,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 <?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
                                     <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
 **/ ?>                          <div class="separator"></div>
+                                    </div>
                                 </form>
 
                             </div>
