@@ -59,7 +59,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         <script>
             $(document).ready(function(){
-                $("select").select2({width: 'resolve',minimumResultsForSearch: -1}); 
+                $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
+                $(".select-search-on").select2({width: 'resolve'}); 
                 $("select[multiple]").select2({width: 'resolve', maximumSelectionSize: 6}); 
             });
         </script>
@@ -152,7 +153,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                     echo CHtml::activeDropDownList(
                                             UsersSchool::model(), 'school_fk',  
                                             Chtml::listData(Yii::app()->user->loginInfos->usersSchools, 'school_fk', 'schoolFk.name'),
-                                            array('empty'=>'Selecione a escola','class'=>'span2','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                            array('empty'=>'Selecione a escola','class'=>'span2 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
                                     ?>
 <?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
                                     <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>

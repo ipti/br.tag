@@ -1,5 +1,5 @@
 <?php 
-//@todo S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
+//@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'student-enrollment-form',
 	'enableAjaxValidation'=>false,

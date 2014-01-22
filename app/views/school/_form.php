@@ -73,7 +73,7 @@
                         <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão'));
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione o órgão','class' => 'select-search-on'));
                             ?>
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                         </div>
@@ -82,7 +82,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa',1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada')); ?>
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa',1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'),array('class' => 'select-search-off')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'administrative_dependence'); ?>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta')); ?>
+                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta'),array('class' => 'select-search-off')); ?>
                             <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Current situation school run'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                         </div>
@@ -123,7 +123,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'regulation', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação',0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação')); ?>
+                            <?php echo $form->dropDownList($modelSchoolIdentification, 'regulation', array(null => 'Selecione a situação de regulamentação',0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação'),array('class' => 'select-search-off')); ?>
                             <?php echo $form->error($modelSchoolIdentification, 'regulation'); ?>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolStructure, 'manager_role', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo")); ?>
+                            <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"),array('class' => 'select-search-off')); ?>
                             <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Role of the school manager'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_role'); ?>
                         </div>
@@ -260,8 +260,9 @@
                         <div class="controls">
                             <?php //@done s1 - Atualizar a lista de Orgão Regional de Educação também.
                             echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                'prompt' => 'Selecione um estado'
-                                ,'ajax' => array(
+                                'prompt' => 'Selecione um estado',
+                                'class' => 'select-search-on',
+                                'ajax' => array(
                                     'type' => 'POST',
 //                                    'url' => CController::createUrl('school/getcities'),
 //                                    'update' => '#SchoolIdentification_edcenso_city_fk',
@@ -283,6 +284,7 @@
                             <?php
                             echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelSchoolIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
                                 array('prompt' => 'Selecione uma cidade',
+                                    'class' => 'select-search-on',
                                     'ajax' => array(
                                         'type' => 'POST',
                                         'url' => CController::createUrl('school/getdistricts'),
@@ -297,7 +299,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_district_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'),
-                                    array('prompt' => 'Selecione um distrito',));
+                                    array('prompt' => 'Selecione um distrito','class' => 'select-search-on'));
                             ?>  
                             <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
                         </div>
@@ -1309,9 +1311,9 @@
         });
         //multiselect
         
-        $("#SchoolIdentification_edcenso_regional_education_organ_fk").select2({ width: 'resolve' });
-        $("#SchoolIdentification_administrative_dependence").select2({ width: 'resolve' });
-        $("#SchoolStructure_shared_school_inep_id_1").select2({ width: 'resolve' , placeholder: '<?php echo Yii::t('default', 'Select School'); ?>'});
+//        $("#SchoolIdentification_edcenso_regional_education_organ_fk").select2({ width: 'resolve' });
+//        $("#SchoolIdentification_administrative_dependence").select2({ width: 'resolve' });
+//        $("#SchoolStructure_shared_school_inep_id_1").select2({ width: 'resolve' , placeholder: '<?php echo Yii::t('default', 'Select School'); ?>'});
         
     $('.tab-school li a').click(function(){
         var classActive = $('li[class="active"]');

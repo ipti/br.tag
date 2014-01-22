@@ -40,7 +40,7 @@ $form=$this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
         
         <div class="widget-head">
-            <ul>
+            <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor') ?></a></li> 
             </ul>
@@ -701,6 +701,31 @@ $form=$this->beginWidget('CActiveForm', array(
     
     var form_teaching = '#InstructorTeachingData_';
 
+    $('.tab-classroom li a').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-classroom';
+        var li2 = 'tab-instructor-teaching';
+        var tab = '';
+        switch($(this).parent().attr('id')) {
+            case li1 : tab = li1; 
+                $('.prev').hide();
+                $('.next').show();
+                $('.last').hide(); break;
+            case li2 : tab = li2;
+                $('.prev').show();
+                $('.next').hide();
+                $('.last').show(); break;
+        }
+         
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = next.substring(4);
+        next_content = next_content.toString();
+        $('#'+tab).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
      
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
