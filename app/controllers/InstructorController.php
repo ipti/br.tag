@@ -126,6 +126,7 @@ preenchidos";
             if ($saveInstructor && $saveDocumentsAndAddress && $saveVariableData) {
 
                 // Setar todos os school_inep_id
+                $modelInstructorIdentification->school_inep_id_fk = Yii::app()->user->school;
                 $modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
                 $modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
 

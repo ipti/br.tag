@@ -146,7 +146,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de assistencia'), array('ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de assistencia'),array('class' => 'select-search-off'),
+                                            array('ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -251,7 +252,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
                                         '1' => 'Ensino Regular',
                                         '2' => 'Educação Especial - Modalidade Substitutiva',
-                                        '3' => 'Educação de Jovens e Adultos (EJA)')); ?>
+                                        '3' => 'Educação de Jovens e Adultos (EJA)'),array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
                             </div>
@@ -259,7 +260,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade')); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade','class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
@@ -267,7 +268,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso',)); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso','class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelClassroom, 'edcenso_professional_education_course_fk'); ?>
                                 </div>
                             </div>
@@ -276,7 +277,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'instructor_situation', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'instructor_situation', $instructorSituationEnum); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'instructor_situation', $instructorSituationEnum, array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelClassroom, 'instructor_situation'); ?>
                                 </div>
                             </div>
@@ -305,7 +306,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="control-group">
                                     <?php echo CHtml::label("Instructors", "Instructors", array('class' => 'control-label')) ?>
                                     <div class="controls">
-                                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'),array('prompt'=>'Sem Instrutor')); ?>
+                                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'),array('prompt'=>'Sem Instrutor','class' => 'select-search-on')); ?>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -324,7 +325,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                             2=>'Auxiliar',
                                             3=>'Monitor',
                                             4=>'Intérprete',
-                                            )); ?>
+                                            ),array('class' => 'select-search-off')); ?>
                                             
                                     </div>
                                 </div>
@@ -337,7 +338,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                             2=>'Temporário',
                                             3=>'Terceirizado',
                                             4=>'CLT',
-                                            )); ?> 
+                                            ),array('class' => 'select-search-off')); ?> 
                                         
                             <div class="separator"></div>
                                         <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="addInstructor"><i>Add</i></a>

@@ -8,8 +8,10 @@
  * @property integer $edcenso_city_fk
  * @property string $code
  * @property string $name
+ * @property integer $edcenso_uf_fk
  *
  * The followings are the available model relations:
+ * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
 class EdcensoRegionalEducationOrgan extends CActiveRecord
@@ -40,13 +42,13 @@ class EdcensoRegionalEducationOrgan extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_city_fk, code, name', 'required'),
-			array('edcenso_city_fk', 'numerical', 'integerOnly'=>true),
+			array('edcenso_city_fk, code, name, edcenso_uf_fk', 'required'),
+			array('edcenso_city_fk, edcenso_uf_fk', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>5),
 			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, edcenso_city_fk, code, name', 'safe', 'on'=>'search'),
+			array('id, edcenso_city_fk, code, name, edcenso_uf_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +60,7 @@ class EdcensoRegionalEducationOrgan extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
 			'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
 		);
 	}
@@ -72,6 +75,7 @@ class EdcensoRegionalEducationOrgan extends CActiveRecord
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
 			'code' => Yii::t('default', 'Code'),
 			'name' => Yii::t('default', 'Name'),
+			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 		);
 	}
 
@@ -90,6 +94,7 @@ class EdcensoRegionalEducationOrgan extends CActiveRecord
 		$criteria->compare('edcenso_city_fk',$this->edcenso_city_fk);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('edcenso_uf_fk',$this->edcenso_uf_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
