@@ -25,7 +25,7 @@
 // @done S1 - remover botão de atualizar 
 // 
 // @todo S1 - Atualização dos campos apartir da escola.
-// verificar se o criteria do index.php esta funcionando
+// verificar se o criteria do index.php esta funcionando 
 // 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
