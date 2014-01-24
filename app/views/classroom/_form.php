@@ -3,7 +3,7 @@
 //@done S1 - 23 - Lembrar de associar o professor a turma.
 //@done S1 - Organizar os campos do form_classroom
 //@done S1 - Modificar aba disciplinas para Teaching Data.
-//@todo S1 - Vincular disciplinas do classroom com as do teachingdata
+//@done S1 - Vincular disciplinas do classroom com as do teachingdata
 //@later S2 - Add validação para os campos que esão faltando
 
 
@@ -292,7 +292,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 //@done S1 - Adicionar campo para selecionar o instrutor TD
                 //@done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
 
-                //@todo S1 - Edição de teaching data - excluir o professor TD
+                //@done S1 - Edição de teaching data - excluir o professor TD
 
                 //@done s1 - criar estutura da tela de TeachingData no Classroom 
                 

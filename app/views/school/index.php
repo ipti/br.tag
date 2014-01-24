@@ -39,7 +39,8 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,"?r=school/update&id=".$data->inep_id)'
+                                'value' => 'CHtml::link($data->name,"?r=school/update&id=".$data->inep_id)',
+                                'htmlOptions' => array('width'=> '70%')
                             ),
                             array('class' => 'CButtonColumn', 'template' => '{delete}',),),
                     ));

@@ -9,8 +9,10 @@ class ClassroomController extends Controller
 	public $layout='fullmenu';
         public $MODEL_CLASSROOM = 'Classroom';
         public $MODEL_TEACHING_DATA = 'InstructorTeachingData';
-        
-	/**
+        public $MODEL_STUDENT_ENROLLMENT = 'StudentEnrollment';
+
+
+        /**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -31,11 +33,11 @@ class ClassroomController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view','create','update','getassistancetype',
                                         'updateassistancetypedependencies','updatecomplementaryactivity',
-                                        'getcomplementaryactivitytype'),
+                                        'getcomplementaryactivitytype','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -290,7 +292,7 @@ class ClassroomController extends Controller
 	 */
 	public function actionCreate()
 	{
-            //@todo s1 - salvar o teachingdata junto com o classroom
+            //@done s1 - salvar o teachingdata junto com o classroom
             //@done s1 - retornar os valores do teachingdata caso exista algum erro
             
             $modelClassroom=new Classroom;
@@ -396,7 +398,7 @@ class ClassroomController extends Controller
                 //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
                 //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
                 
-                //@todo S1 - Atualizar o teachingdata ao atualizar o classroom
+                //@done s1 - Atualizar o teachingdata ao atualizar o classroom
             
 		$modelClassroom = $this->loadModel($id,$this->MODEL_CLASSROOM);
                 $modelTeachingData = $this->loadModel($id,$this->MODEL_TEACHING_DATA);
@@ -407,42 +409,32 @@ class ClassroomController extends Controller
                 
                 $mtdLength = count($modelTeachingData);
                 
+                foreach($modelTeachingData as $key => $td){
+                    $td->delete();
+                }
+                
                 foreach ($teachingData as $key => $td){
                     $update = false;
                     
-                    $i = 0;
-                    while (!$update && $i < $mtdLength) {
-                        if (isset($modelTeachingData[$i])
-                            && ($modelTeachingData[$i]->instructor_fk == $td->Instructor)
-                            && ($modelTeachingData[$i]->classroom_id_fk == $td->Classroom)){
-                            $update = true;
-                        }else{
-                            $i++;
-                        }
-                    }
+                    $modelTeachingData[$key] = new InstructorTeachingData;
+                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
                     
-                    if(!$update){
-                        $i = count($modelTeachingData);
-                        $modelTeachingData[$i] = new InstructorTeachingData;
-                        $modelTeachingData[$i]->instructor_fk = $td->Instructor;
-                    }
-                    
-                    $modelTeachingData[$i]->role = $td->Role;
-                    $modelTeachingData[$i]->contract_type = $td->ContractType;
+                    $modelTeachingData[$key]->role = $td->Role;
+                    $modelTeachingData[$key]->contract_type = $td->ContractType;
 
-                    $modelTeachingData[$i]->discipline_1_fk  = isset($td->Disciplines[0])  ? $td->Disciplines[0]  : NULL;
-                    $modelTeachingData[$i]->discipline_2_fk  = isset($td->Disciplines[1])  ? $td->Disciplines[1]  : NULL;
-                    $modelTeachingData[$i]->discipline_3_fk  = isset($td->Disciplines[2])  ? $td->Disciplines[2]  : NULL;
-                    $modelTeachingData[$i]->discipline_4_fk  = isset($td->Disciplines[3])  ? $td->Disciplines[3]  : NULL;
-                    $modelTeachingData[$i]->discipline_5_fk  = isset($td->Disciplines[4])  ? $td->Disciplines[4]  : NULL;
-                    $modelTeachingData[$i]->discipline_6_fk  = isset($td->Disciplines[5])  ? $td->Disciplines[5]  : NULL;
-                    $modelTeachingData[$i]->discipline_7_fk  = isset($td->Disciplines[6])  ? $td->Disciplines[6]  : NULL;
-                    $modelTeachingData[$i]->discipline_8_fk  = isset($td->Disciplines[7])  ? $td->Disciplines[7]  : NULL;
-                    $modelTeachingData[$i]->discipline_9_fk  = isset($td->Disciplines[8])  ? $td->Disciplines[8]  : NULL;
-                    $modelTeachingData[$i]->discipline_10_fk = isset($td->Disciplines[9])  ? $td->Disciplines[9]  : NULL;
-                    $modelTeachingData[$i]->discipline_11_fk = isset($td->Disciplines[10]) ? $td->Disciplines[10] : NULL;
-                    $modelTeachingData[$i]->discipline_12_fk = isset($td->Disciplines[11]) ? $td->Disciplines[11] : NULL;
-                    $modelTeachingData[$i]->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
+                    $modelTeachingData[$key]->discipline_1_fk  = isset($td->Disciplines[0])  ? $td->Disciplines[0]  : NULL;
+                    $modelTeachingData[$key]->discipline_2_fk  = isset($td->Disciplines[1])  ? $td->Disciplines[1]  : NULL;
+                    $modelTeachingData[$key]->discipline_3_fk  = isset($td->Disciplines[2])  ? $td->Disciplines[2]  : NULL;
+                    $modelTeachingData[$key]->discipline_4_fk  = isset($td->Disciplines[3])  ? $td->Disciplines[3]  : NULL;
+                    $modelTeachingData[$key]->discipline_5_fk  = isset($td->Disciplines[4])  ? $td->Disciplines[4]  : NULL;
+                    $modelTeachingData[$key]->discipline_6_fk  = isset($td->Disciplines[5])  ? $td->Disciplines[5]  : NULL;
+                    $modelTeachingData[$key]->discipline_7_fk  = isset($td->Disciplines[6])  ? $td->Disciplines[6]  : NULL;
+                    $modelTeachingData[$key]->discipline_8_fk  = isset($td->Disciplines[7])  ? $td->Disciplines[7]  : NULL;
+                    $modelTeachingData[$key]->discipline_9_fk  = isset($td->Disciplines[8])  ? $td->Disciplines[8]  : NULL;
+                    $modelTeachingData[$key]->discipline_10_fk = isset($td->Disciplines[9])  ? $td->Disciplines[9]  : NULL;
+                    $modelTeachingData[$key]->discipline_11_fk = isset($td->Disciplines[10]) ? $td->Disciplines[10] : NULL;
+                    $modelTeachingData[$key]->discipline_12_fk = isset($td->Disciplines[11]) ? $td->Disciplines[11] : NULL;
+                    $modelTeachingData[$key]->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
                 }
                 
                 // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
@@ -483,19 +475,13 @@ class ClassroomController extends Controller
                             $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
                             $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
                             
-                            
                             $validate = $validate && $modelTeachingData[$key]->validate();
                             
                         }
                         if($validate){
-                            //foreach ($modelTeachingData as $key => $td){
-                             //$save = $save && $modelTeachingData[$key]->save();
-                            //}
-                             $mtemp = new InstructorTeachingData();
-                             $mtemp->setAttributes($modelTeachingData[0]->getAttributes($mtemp));
-                             var_dump($mtemp->attributes);
-                             $mtemp->save();EXIT;
-                        //exit;
+                            foreach ($modelTeachingData as $key => $td){
+                                $save = $save && $modelTeachingData[$key]->save();
+                            } 
                             if ($save){
                                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turma atualizada com sucesso!'));
                                 $this->redirect(array('index'));
@@ -533,11 +519,21 @@ class ClassroomController extends Controller
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
+         */
+
+        //@done s1 - excluir Matriculas, TeachingData e Turma
+        public function actionDelete($id)
 	{
-            
-            if($this->loadModel($id)->delete()){
+            $students = $this->loadModel($id,$this->MODEL_STUDENT_ENROLLMENT);
+            $instructors = $this->loadModel($id,$this->MODEL_TEACHING_DATA);
+            foreach ($students as $key => $value) {
+                $value->delete();
+            }
+            foreach ($instructors as $key => $value) {
+                $value->delete();
+            }
+
+            if($this->loadModel($id,$this->MODEL_CLASSROOM)->delete()){
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
                 $this->redirect(array('index'));
             }else{
@@ -597,6 +593,10 @@ class ClassroomController extends Controller
                 $classroom = $id;
                 $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = '.$classroom);
                 $return = $instructors;
+            } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
+                $classroom = $id;
+                $student = StudentEnrollment::model()->findAll('classroom_fk = '.$classroom);
+                $return = $student;
             }
 
             if ($return === null){

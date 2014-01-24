@@ -50,11 +50,13 @@
                                 'name' => 'student_fk',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->studentFk->name,"?r=enrollment/update&id=".$data->id)',
+                                'htmlOptions' => array('width'=>'35%')
                             ),
                         array(
                                 'name' => 'classroom_fk',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->classroomFk->name,"?r=enrollment/update&id=".$data->id)',
+                                'htmlOptions' => array('width'=>'35%')
                         ),
 //                            array(
 //                                'class' => 'CLinkColumn',

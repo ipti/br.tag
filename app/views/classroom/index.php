@@ -39,7 +39,8 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,"?r=classroom/update&id=".$data->id)'
+                                'value' => 'CHtml::link($data->name,"?r=classroom/update&id=".$data->id)',
+                                'htmlOptions' => array('width'=> '70%')
                             ),
                             array('class' => 'CButtonColumn','template'=>'{delete}'),),
                     ));

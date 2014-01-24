@@ -112,11 +112,24 @@ class SchoolController extends Controller {
                 $preInserts[$regType][$preInsertsTableIndex] = "";
                 $totalColumns = count($lines[$line]) - 2;
                 for ($column = 0; $column <= $totalColumns; $column++) {
+                    $value = $lines[$line][$column];
+                    $withoutcomma = false;
+                    
                     if ($column == 0) {
                         $insertValue[$regType].= "(";
+                    }else if($regType == '51' && $column == 3){
+                        $withoutcomma = true;
+                        $value = "(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY ". $lines[$line][2]." LIMIT 0,1)";
+                    }else if($regType == '51' && $column == 5){
+                        $withoutcomma = true;
+                        $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ". $lines[$line][4]." LIMIT 0,1)";
+                    }else if($regType == '80' && $column == 3){
+                        $withoutcomma = true;
+                        $value = "(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY ". $lines[$line][2]." LIMIT 0,1)";
+                    }else if($regType == '80' && $column == 5){
+                        $withoutcomma = true;
+                        $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY ". $lines[$line][4]." LIMIT 0,1)";
                     }
-
-                    $value = $lines[$line][$column];
                     
                     if ($isRegInstructorIdentification && $column == 2) {
                         $instructorInepIds[$line] = $value;
@@ -152,8 +165,8 @@ class SchoolController extends Controller {
                         $totalColumns++;
                     }
 
-
-                    $value = ($value == 'null') ? $value : "\"" . $value . "\"";
+                    
+                    $value = ($value == 'null' || $withoutcomma) ? $value : "\"" . $value . "\"";
                     //}
 
                     if ($column + 1 > $totalColumns) {
@@ -214,6 +227,7 @@ class SchoolController extends Controller {
                         break;
                     }
                 case '80': {
+                    
                         $str_fields[$regType] = "INSERT INTO student_enrollment (`register_type`,`school_inep_id_fk`,`student_inep_id`,`student_fk`,`classroom_inep_id`,`classroom_fk`,`enrollment_id`,`unified_class`,`edcenso_stage_vs_modality_fk`,`another_scholarization_place`,`public_transport`,`transport_responsable_government`,`vehicle_type_van`,`vehicle_type_microbus`,`vehicle_type_bus`,`vehicle_type_bike`,`vehicle_type_animal_vehicle`,`vehicle_type_other_vehicle`,`vehicle_type_waterway_boat_5`,`vehicle_type_waterway_boat_5_15`,`vehicle_type_waterway_boat_15_35`,`vehicle_type_waterway_boat_35`,`vehicle_type_metro_or_train`,`student_entry_form`) VALUES " . $lines;
                         break;
                     }

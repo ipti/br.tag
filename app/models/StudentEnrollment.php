@@ -137,7 +137,7 @@ class StudentEnrollment extends CActiveRecord {
 //                //$criteria->compare('student_fk',$this->student_fk, true);
 //                $criteria->compare('classroom_inep_id',$this->classroom_inep_id,true);
 //                $criteria->compare('classroom_fk',$this->classroom_fk);
-//                $criteria->compare('enrollment_id',$this->enrollment_id,true);
+                $criteria->compare('enrollment_id',$this->enrollment_id,true);
 //                $criteria->compare('unified_class',$this->unified_class);
 //                $criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 //                $criteria->compare('another_scholarization_place',$this->another_scholarization_place);
