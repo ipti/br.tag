@@ -246,19 +246,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span6">
                         <div class="separator"></div>
 
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
-                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'school_inep_id_fk'); ?>
-                        </div></div>-->
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
-                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'inep_id'); ?>
-                        </div></div>-->
-
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->DropDownlist($modelInstructorDocumentsAndAddress, 'area_of_residence', array(null=>"Selecione uma localização",1 => 'URBANA', 2 => 'RURAL'), array("class"=>"select-search-off")); ?>                 
@@ -328,418 +315,425 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <div class="separator"></div>
-
-
-
-<!--                        <div class="control-group">
-
-                            <?php 
-//@done S1 - Botões de salvar e voltar devem aparecer no topo da ultima aba apenas(acompanhando o scroll).
-                                  echo $form->labelEx($modelInstructorVariableData, 'school_inep_id_fk'); ?>
-                            <?php echo $form->textField($modelInstructorVariableData, 'school_inep_id_fk', array('size' => 8, 'maxlength' => 8)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'school_inep_id_fk'); ?>
-                        </div></div>-->
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'inep_id'); ?>
-                            <?php echo $form->textField($modelInstructorVariableData, 'inep_id', array('size' => 12, 'maxlength' => 12)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'inep_id'); ?>
-                        </div></div>-->
-
-                        <div class="control-group">
+                            <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorVariableData, 'scholarity', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo $form->DropDownlist($modelInstructorVariableData, 'scholarity', array(null=>"Selecione uma escolaridade", 1 => 'Fundamental Incompleto', 2 => 'Fundamental Completo',
-                                3 => 'Ensino Médio - Normal/Magistério', 4 => 'Ensino Médio - Normal/Magistério Indígena',
-                                5 => 'Ensino Médio', 6 => 'Superior'), array("class"=>"select-search-off"));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'scholarity'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_situation_1)) ?
-                            $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class'=>'select-search-off'))
-                             : $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class'=>'select-search-off','disabled' => 'disabled'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_1'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?><div class="controls">
-                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_formation_1)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1')
-                             : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1', array('disabled' => 'disabled'));
-                            ?>
-                            
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_1'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php 
-                            //@todo S1 - 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
-                            echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
-                            $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                    , array('prompt' => 'Selecione o curso 1',"class"=>"select-search-on"))
-                             : $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                    , array('prompt' => 'Selecione o curso 1',"class"=>"select-search-on", 'disabled' => 'disabled'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_1', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_1)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4))
-                            : $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
+                                <?php
+                                echo $form->DropDownlist($modelInstructorVariableData, 'scholarity', array(null => "Selecione uma escolaridade", 1 => 'Fundamental Incompleto', 2 => 'Fundamental Completo',
+                                    3 => 'Ensino Médio - Normal/Magistério', 4 => 'Ensino Médio - Normal/Magistério Indígena',
+                                    5 => 'Ensino Médio', 6 => 'Superior'), array("class" => "select-search-off"));
                                 ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
-                        </div></div>
+                                <?php echo $form->error($modelInstructorVariableData, 'scholarity'); ?>
+                            </div></div>
+                                                        
+                            <div class="separator"></div>
+                               
+                            <div class="control-group">
+                                <label class="control-label">Pos-Graduação</label>
+                                <div class="uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['post_graduation_specialization'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->post_graduation_specialization);
+                                    echo $form->checkBox($modelInstructorVariableData, 'post_graduation_specialization', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['post_graduation_master'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->post_graduation_master);
+                                    echo $form->checkBox($modelInstructorVariableData, 'post_graduation_master', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['post_graduation_doctorate'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->post_graduation_doctorate);
+                                    echo $form->checkBox($modelInstructorVariableData, 'post_graduation_doctorate', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['post_graduation_none'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->post_graduation_none);
+                                    echo $form->checkBox($modelInstructorVariableData, 'post_graduation_none', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); ?>
+                                </label>
+                                </div>
+                           </div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_1)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4))
-                            :$form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
-                                <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_1)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array("class"=>"select-search-off"))
-                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled',"class"=>"select-search-off"));
+                           <div class="control-group">
+                                <label class="control-label">Outros Cursos</label>
+                                <div class="uniformjs margin-left">
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_nursery'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_nursery);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_nursery', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_pre_school'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_pre_school);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_pre_school', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_basic_education_initial_years'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_basic_education_initial_years);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_basic_education_final_years'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_basic_education_final_years);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_high_school'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_high_school);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_high_school', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_education_of_youth_and_adults'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_education_of_youth_and_adults);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_special_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_special_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_special_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_native_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_native_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_native_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_field_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_field_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_field_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_environment_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_environment_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_environment_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_human_rights_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_human_rights_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_sexual_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_sexual_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_sexual_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_child_and_teenage_rights'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_child_and_teenage_rights);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_ethnic_education'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_ethnic_education);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_ethnic_education', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_other'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_other);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_other', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                <label class="checkbox">
+                                    <?php 
+                                    echo InstructorVariableData::model()->attributeLabels()['other_courses_none'];
+                                    $validate = $isModel && isset($modelInstructorVariableData->other_courses_none);
+                                    echo $form->checkBox($modelInstructorVariableData, 'other_courses_none', array('disabled' => !$validate, 'value' => 1, 'uncheckValue' => 0)); 
+                                    ?>
+                                </label>
+                                </div>
+                           </div>
+                        </div>    
+                        
+                        <div class="span6">
                             
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
-                        </div></div>
+                            <div class="separator"></div>
+                            <div class="innerLR" id="instructorVariableData">
+                                <div class="widget widget-tabs border-bottom-none">
+                                    <div class="widget-head">
+                                        <ul class="tab-instructordata">
+                                            <li id="tab-instructor-data1" class="active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
+                                            <li id="tab-instructor-data2"><a class="glyphicons settings" href="#instructor-data2" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 2' ?></a></li>
+                                            <li id="tab-instructor-data3"><a class="glyphicons parents" href="#instructor-data3" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 3' ?></a></li>
+                                        </ul>
+                                    </div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),
-                                   array('prompt'=>'Selecione a instituição',"class"=>"select-search-on"))
-                             :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('disabled' => 'disabled','prompt'=>'Selecione a instituição',"class"=>"select-search-on"));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
-                        </div></div>
+                                    <div class="widget-body form-horizontal">
+                                        <div class="tab-content">
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_situation_2)) ?
-                              $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(
-                                null=>"Selecione a situação",1 => 'Concluído', 2 => 'Em Andamento'
-                                    ),array("class"=>"select-search-off"))
-                            : $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(
-                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
-                                    ), array('disabled' => 'disabled',"class"=>"select-search-off"));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_2'); ?>
-                        </div></div>
+                                            <!-- Tab content -->
+                                            <div class="tab-pane active" id="instructor-data1">
+                                                <div class="row-fluid">
+                                                    <div class=" span5">
+                                                        <div class="separator"></div>
+                                                            
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label')); ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_situation_1)) ?
+                                                                        $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class' => 'select-search-off')) : $form->DropDownlist($modelInstructorVariableData, 'high_education_situation_1', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em andamento'), array('class' => 'select-search-off', 'disabled' => 'disabled'));
+                                                                ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_1'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_formation_1)) ?
+                                                                        CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1') : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1', array('disabled' => 'disabled'));
+                                                                ?>
+                                                                
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_1'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                            <?php
+                                                            //@todo S1 - 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
+                                                            echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label'));
+                                                            ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
+                                                                        $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
+                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on")) : $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
+                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on", 'disabled' => 'disabled'));
+                                                                ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_1', array('class' => 'control-label')); ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_1)) ?
+                                                                        $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4)) : $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
+                                                                ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_1)) ?
+                                                                        $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)) : $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
+                                                                ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1', array('class' => 'control-label')); ?><div class="controls">
+                                                                <?php
+                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_1)) ?
+                                                                        $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array("class" => "select-search-off")) : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled', "class" => "select-search-off"));
+                                                                ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
+                                                            </div></div>
+                                                            
+                                                        <div class="control-group">
+                                                        <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk)) ?
+                                                                    $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione a instituição', "class" => "select-search-on")) : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt' => 'Selecione a instituição', "class" => "select-search-on"));
+                                                            ?>
+                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
+                                                            </div></div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="instructor-data2">
+                                                <div class="row-fluid">
+                                                    <div class=" span5">
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_2', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_formation_2)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_2'); ?>
-                        </div></div>
+                                                        <div class="separator"></div>
+                                                        
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_situation_2)) ?
+                                                              $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(
+                                                                null=>"Selecione a situação",1 => 'Concluído', 2 => 'Em Andamento'
+                                                                    ),array("class"=>"select-search-off"))
+                                                            : $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(
+                                                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
+                                                                    ), array('disabled' => 'disabled',"class"=>"select-search-off"));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_2'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                           echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_2_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                    , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on'))
-                            :$form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                    , array('prompt' => 'Select o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_2', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php 
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_formation_2)) ?
+                                                            CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2')
+                                                            : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2', array('disabled' => true)); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_2'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
-                            : $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                           echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_2_fk)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                                                                    , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on'))
+                                                            :$form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                                                                    , array('prompt' => 'Select o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
-                            :$form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_2'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php 
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
+                                                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
+                                                            : $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_2)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
-                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php 
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
+                                                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
+                                                            :$form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_2'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_2_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
-                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled','prompt'=>'Selecione a instituição','class'=>'select-search-on'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_2)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
+                                                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_situation_3)) ?
-                           $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(
-                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
-                                    ), array('class'=>'select-search-off'))
-                            : $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(
-                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
-                                    ), array('disabled' => 'disabled','class'=>'select-search-off'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_3'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_2_fk)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
+                                                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled','prompt'=>'Selecione a instituição','class'=>'select-search-on'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
+                                                        </div></div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="instructor-data3">
+                                                <div class="row-fluid">
+                                                    <div class=" span5">
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_3', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_formation_3)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3')
-                            :CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_3'); ?>
-                        </div></div>
+                                                        <div class="separator"></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_situation_3)) ?
+                                                           $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(
+                                                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
+                                                                    ), array('class'=>'select-search-off'))
+                                                            : $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(
+                                                                null=>"Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'
+                                                                    ), array('disabled' => 'disabled','class'=>'select-search-off'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_3'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_3_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                    , array('prompt' => 'Selecione o curso 3','class'=>'select-search-on'))
-                            : $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                    , array('prompt' => 'Select o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_3', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php 
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_formation_3)) ?
+                                                            CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3')
+                                                            :CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3', array('disabled' => true)); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_3'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_3', array('class' => 'control-label')); ?><div class="controls">
-                            <?php  echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_3)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4))
-                            :$form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_3_fk)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                                                                    , array('prompt' => 'Selecione o curso 3','class'=>'select-search-on'))
+                                                            : $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
+                                                                    , array('prompt' => 'Select o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_3)) ?
-                            $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4))
-                           : $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_3', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php  echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_3)) ?
+                                                            $form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4))
+                                                            :$form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_3)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
-                            : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off')); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_3)) ?
+                                                            $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4))
+                                                           : $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label')); ?><div class="controls"> 
-                            <?php
-                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_3_fk)) ?
-                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
-                           : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt'=>'Selecione a instituição','class'=>'select-search-on'));
-                            ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
-                        </div></div>
-                       </div>
-                         <div class="span6">
-                       <div class="separator"></div>
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_specialization', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_specialization)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_specialization')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_specialization', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'post_graduation_specialization'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_3)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
+                                                            : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off')); ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_master', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_master)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_master')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_master', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'post_graduation_master'); ?>
-                        </div></div>
+                                                        <div class="control-group">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label')); ?><div class="controls"> 
+                                                            <?php
+                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_3_fk)) ?
+                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
+                                                           : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt'=>'Selecione a instituição','class'=>'select-search-on'));
+                                                            ?>
+                                                            <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
+                                                        </div></div>
 
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_doctorate', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_doctorate)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_doctorate')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_doctorate', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'post_graduation_doctorate'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'post_graduation_none', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->post_graduation_none)) ?
-                             CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_none')
-                           : CHtml::activeCheckBox($modelInstructorVariableData, 'post_graduation_none', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'post_graduation_none'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_nursery', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_nursery)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_nursery')
-                            :CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_nursery', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_nursery'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_pre_school', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_pre_school)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_pre_school')
-                           : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_pre_school', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_pre_school'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_basic_education_initial_years)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_basic_education_initial_years'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->other_courses_basic_education_final_years)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_final_years')
-                           : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_basic_education_final_years'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_high_school', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_high_school)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_high_school')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_high_school', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_high_school'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->other_courses_education_of_youth_and_adults)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_special_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_special_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_special_education')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_special_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_special_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_native_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->other_courses_native_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_native_education')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_native_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_native_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_field_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_field_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_field_education')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_field_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_field_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_environment_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php 
-                            echo ($isModel && isset($modelInstructorVariableData->other_courses_environment_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_environment_education')
-                           : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_environment_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_environment_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_human_rights_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_human_rights_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_human_rights_education')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_human_rights_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_sexual_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_sexual_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_sexual_education')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_sexual_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_sexual_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_child_and_teenage_rights)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_child_and_teenage_rights'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_ethnic_education', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_ethnic_education)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_ethnic_education')
-                           : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_ethnic_education', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_ethnic_education'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_other', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_other)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_other')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_other', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_other'); ?>
-                        </div></div>
-
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorVariableData, 'other_courses_none', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo ($isModel && isset($modelInstructorVariableData->other_courses_none)) ?
-                            CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_none')
-                            : CHtml::activeCheckBox($modelInstructorVariableData, 'other_courses_none', array('disabled' => true)); ?>
-                            <?php echo $form->error($modelInstructorVariableData, 'other_courses_none'); ?>
-                        </div></div>
-                        </div>
-                    </div>
-                    <div>
-                    <?php // echo CHtml::submitButton($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary')); ?>
-                    </div>          
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            
+                        </div>     
                    <?php $this->endWidget(); ?>
                 </div>
             </div>
@@ -747,606 +741,631 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-
+    
 <script type="text/javascript">
     //==============INSTRUCTOR IDENTIFICATION
     var formInstructorIdentification = '#InstructorIdentification_';
-    $(document).ready(function(){
-        $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
+    var formInstructorvariableData = "#InstructorVariableData_";  
+    $(formInstructorIdentification +'name,'+formInstructorIdentification +'mother_name').on('focusout', function(){
+        var id = '#'+$(this).attr("id");
         
-        $(formInstructorIdentification +'name,'+formInstructorIdentification +'mother_name').on('focusout', function(){
-            $(this).val($(this).val().toUpperCase());
-            var isValidate = validateNamePerson(this.value);
-            if(!isValidate[0]){
-                $(this).attr('value','');
-            }
-        });
-        $(formInstructorIdentification+'email').on('focusout', function(){
-            $(this).val($(this).val().toUpperCase());
-            if(!validateEmail($(this).val())) 
-                $(this).attr('value','');
-        });
+        $(this).val($(this).val().toUpperCase());
         
-        $(formInstructorIdentification+'birthday_date').on('focusout', function(){
-            $(this).val($(this).val().toUpperCase());
-            if(!validadeBirthdayPerson(this.value)) 
-                $(this).attr('value','');
-        });
-        
-        $(formInstructorIdentification+'nationality').on('change', function(){
-            if($(this).val() == 3) { // ESTRANGEIRO
-                $(formInstructorIdentification+'edcenso_nation_fk').removeAttr('disabled');
-            }else{
-                $(formInstructorIdentification+'edcenso_nation_fk').val(76);
-                $(formInstructorIdentification+'edcenso_nation_fk').add().attr('disabled','disabled');
-            }
-            
-            if($(this).val() != 1) {
-                $(formInstructorIdentification+'edcenso_uf_fk').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'edcenso_uf_fk').val('');
-                $(formInstructorIdentification+'edcenso_city_fk').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'edcenso_city_fk').val('');
-            }else{
-                $(formInstructorIdentification+'edcenso_uf_fk').removeAttr('disabled'); 
-                $(formInstructorIdentification+'edcenso_city_fk').removeAttr('disabled');
-            }
-                
-        });
-        
-        $(formInstructorIdentification+'deficiency').on('change', function(){
-            if($(this).is(':checked')) { 
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_phisical_disability').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_intelectual_disability').removeAttr('disabled');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_phisical_disability').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_intelectual_disability').add().attr('disabled','disabled'); 
-            }
-        }); 
-        
-        $(formInstructorIdentification+'deficiency_type_blindness').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }         
-               
-            if($(this).is(':checked')) { // 
-                $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled'); 
-            }
-        });
-        
-        $(formInstructorIdentification+'deficiency_type_low_vision').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }   
-            if($(this).is(':checked')) { // 
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled'); 
-            }else{
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-            }
-        });
-        
-        $(formInstructorIdentification+'deficiency_type_deafness').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }   
-            if($(this).is(':checked')) { // 
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');  
-            }else{
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');      
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-            }
-        });
-        
-        $(formInstructorIdentification+'deficiency_type_disability_hearing').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }      
-            if($(this).is(':checked')) { // 
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');    
-                $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-                
-            }
-        }); 
-        $(formInstructorIdentification+'deficiency_type_deafblindness').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }       
-            
-            if($(this).is(':checked')) { // 
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('checked','checked');
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled'); 
-            }else{
-                $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');    
-                $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled'); 
-                $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');    
-                $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
-            }
-        });
-    
-        $(formInstructorIdentification+'deficiency_type_phisical_disability').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }    
-        });
-       
-        $(formInstructorIdentification+'deficiency_type_intelectual_disability').on('click', function(){
-            if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
-                || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
-                || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
-        ) {
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
-            }else{
-                $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
-            }    
-        });
-    
-        
-        //        $('#dt_multiple_disabilities').on('change', function(){
-        //            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').val($(this).val());
-        //        });
-        //        
-        //          $(formInstructorIdentification+'deficiency_type_multiple_disabilities').on('change', function(){
-        //            $('#dt_multiple_disabilities').val($(this).val());
-        //        });
-        
-        //=============================================
-   
-        //==============INSTRUCTOR DOCUMENTS AND ADRESS
-        var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
-
-        $(formDocumentsAndAddress+'cpf').on('change',function(){
-            var isValidate = validateCpf(this.value);
-            if(!isValidate){
-                $(this).attr('value','');
-            }
-        });
-       
-        $(formDocumentsAndAddress+'cep').focusout(function() { 
-            if(!validateCEP($(this).val())){
-                $(this).attr('value',''); 
-                $(formDocumentsAndAddress+'address').add().attr('disabled','disabled');
-                $(formDocumentsAndAddress+'address_number').add().attr('disabled','disabled');
-                $(formDocumentsAndAddress+'neighborhood').add().attr('disabled','disabled');
-                $(formDocumentsAndAddress+'complement').add().attr('disabled','disabled');
-                $(formDocumentsAndAddress+'edcenso_uf_fk').add().attr('disabled','disabled');
-                $(formDocumentsAndAddress+'edcenso_city_fk').add().attr('disabled','disabled');
-            }else{
-                $(formDocumentsAndAddress+'address').val(null);
-                $(formDocumentsAndAddress+'address').removeAttr('disabled');
-                $(formDocumentsAndAddress+'address_number').val(null);
-                $(formDocumentsAndAddress+'address_number').removeAttr('disabled');
-                $(formDocumentsAndAddress+'neighborhood').val(null);
-                $(formDocumentsAndAddress+'neighborhood').removeAttr('disabled');
-                $(formDocumentsAndAddress+'complement').val(null);
-                $(formDocumentsAndAddress+'complement').removeAttr('disabled');
-                $(formDocumentsAndAddress+'edcenso_uf_fk').val(null);
-                $(formDocumentsAndAddress+'edcenso_uf_fk').removeAttr('disabled');
-                $(formDocumentsAndAddress+'edcenso_city_fk').val(null);
-                $(formDocumentsAndAddress+'edcenso_city_fk').removeAttr('disabled');  
-                
-            } 
-                
-        });
-        
-        $(formDocumentsAndAddress+'address').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateInstructorAddress($(this).val())) 
-                $(this).attr('value','');
-        });
-        $(formDocumentsAndAddress+'address_number').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateInstructorAddressNumber($(this).val())) 
-                $(this).attr('value','');
-        });
-        $(formDocumentsAndAddress+'neighborhood').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateInstructorAddressNeighborhood($(this).val())) 
-                $(this).attr('value','');
-        });
-        $(formDocumentsAndAddress+'complement').focusout(function() { 
-            $(this).val($(this).val().toUpperCase());
-            if(!validateInstructorAddressComplement($(this).val())) 
-                $(this).attr('value','');
-        });
-        //=============================================
-      
-        //==============INSTRUCTOR VARIABLE DATA
-        var formInstructorvariableData = "#InstructorVariableData_";  
-   
-        $('#InstructorVariableData_high_education_initial_year_1, \n\
-#InstructorVariableData_high_education_initial_year_2,\n\
-#InstructorVariableData_high_education_initial_year_3').on('change',function(){
-            if(this.value.length == 4){
-                var data = new Date();
-                if(!anoMinMax(2002,data.getFullYear(),this.value)){
-                    $(this).attr('value','');
-                }
-            }
-        });   
-        $('#InstructorVariableData_high_education_final_year_1,\n\
-#InstructorVariableData_high_education_final_year_2,\n\
-#InstructorVariableData_high_education_final_year_3').on('change',function(){
-            if(this.value.length == 4){
-                var data = new Date();
-                if(!anoMinMax(1941,data.getFullYear(),this.value)) {
-                    $(this).attr('value','');
-                }
-            } 
-        }); 
-        
-        $(formInstructorvariableData+'scholarity').on('change', function(){
-            if($(this).val() == 6) { 
-                $(formInstructorvariableData+'high_education_situation_1').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_formation_1').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_course_code_1_fk').removeAttr('disabled');
-          
-                $(formInstructorvariableData+'high_education_final_year_1').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_type_1').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_code_1_fk').removeAttr('disabled');
-                
-                $(formInstructorvariableData+'high_education_situation_2').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_formation_2').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_course_code_2_fk').removeAttr('disabled');
-               
-                $(formInstructorvariableData+'high_education_final_year_2').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_type_2').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_code_2_fk').removeAttr('disabled');
-                
-                $(formInstructorvariableData+'high_education_situation_3').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_formation_3').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_course_code_3_fk').removeAttr('disabled');
-               
-                $(formInstructorvariableData+'high_education_final_year_3').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_type_3').removeAttr('disabled');
-                $(formInstructorvariableData+'high_education_institution_code_3_fk').removeAttr('disabled');
-                
-                $(formInstructorvariableData+'post_graduation_specialization').removeAttr('disabled');
-                $(formInstructorvariableData+'post_graduation_master').removeAttr('disabled');
-                $(formInstructorvariableData+'post_graduation_doctorate').removeAttr('disabled');
-                $(formInstructorvariableData+'post_graduation_none').removeAttr('disabled');
-                
-                $(formInstructorvariableData+'other_courses_nursery').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_pre_school').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_basic_education_initial_years').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_basic_education_final_years').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_high_school').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_education_of_youth_and_adults').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_special_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_native_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_field_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_environment_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_human_rights_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_sexual_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_child_and_teenage_rights').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_ethnic_education').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_other').removeAttr('disabled');
-                $(formInstructorvariableData+'other_courses_none').removeAttr('disabled');
-                
-                //Troca o Valor
-                //$(this).val(0);
-            }else{
-                
-                $(formInstructorvariableData+'high_education_situation_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_formation_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_course_code_1_fk').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_initial_year_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_final_year_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_type_1').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_code_1_fk').add().attr('disabled','disabled');
-                
-                $(formInstructorvariableData+'high_education_situation_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_formation_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_course_code_2_fk').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_initial_year_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_final_year_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_type_2').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_code_2_fk').add().attr('disabled','disabled');
-                
-                $(formInstructorvariableData+'high_education_situation_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_formation_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_course_code_3_fk').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_initial_year_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_final_year_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_type_3').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'high_education_institution_code_3_fk').add().attr('disabled','disabled');
-                
-                $(formInstructorvariableData+'post_graduation_specialization').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'post_graduation_master').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'post_graduation_doctorate').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'post_graduation_none').add().attr('disabled','disabled');
-                
-                $(formInstructorvariableData+'other_courses_nursery').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_pre_school').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_basic_education_initial_years').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_basic_education_final_years').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_high_school').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_education_of_youth_and_adults').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_special_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_native_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_field_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_environment_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_human_rights_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_sexual_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_child_and_teenage_rights').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_ethnic_education').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_other').add().attr('disabled','disabled');
-                $(formInstructorvariableData+'other_courses_none').add().attr('disabled','disabled');
-    
-
-            }
-            
-            $(formInstructorvariableData + 'high_education_situation_1').on('change', function(){
-                if($(this).val() == 1) { // Concluído
-                    $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled');
-                }else{ // Em Andamento
-                    $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled');     
-                    $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled','disabled');
-                }
-                           
-            });
-            
-            $(formInstructorvariableData + 'high_education_situation_2').on('change', function(){
-                if($(this).val() == 1) { // Concluído
-                    $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled');
-                }else{ // Em Andamento
-                    $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled');     
-                    $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled','disabled');
-                }
-                           
-            });
-            
-            $(formInstructorvariableData + 'high_education_situation_3').on('change', function(){
-                if($(this).val() == 1) { // Concluído
-                    $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled');
-                }else{ // Em Andamento
-                    $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled');     
-                    $(formInstructorvariableData + 'high_education_final_year_3').add().attr('disabled','disabled');
-                }
-                           
-            });
-            
-            $(formInstructorvariableData + 'high_education_course_code_1_fk').on('change',function(){
-                var course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
-                course = course.toUpperCase();
-                var beforelicenciatura = course.split('LICENCIATURA')[0];
-                if(course != beforelicenciatura) {
-                    // Se é diferente então encontrou a palavra Licenciatura
-                    $(formInstructorvariableData + 'high_education_formation_1').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'high_education_formation_1').removeAttr('disabled');
-                }
-            }); 
-           
-            $(formInstructorvariableData + 'high_education_course_code_2_fk').on('change',function(){
-                var course = $(formInstructorvariableData + 'high_education_course_code_2_fk option:selected').text();
-                course = course.toUpperCase();
-                var beforelicenciatura = course.split('LICENCIATURA')[0];
-                if(course != beforelicenciatura) {
-                    // Se é diferente então encontrou a palavra Licenciatura
-                    $(formInstructorvariableData + 'high_education_formation_2').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'high_education_formation_2').removeAttr('disabled');
-                }
-            });
-           
-            $(formInstructorvariableData + 'high_education_course_code_3_fk').on('change',function(){
-                var course = $(formInstructorvariableData + 'high_education_course_code_3_fk option:selected').text();
-                course = course.toUpperCase();
-                var beforelicenciatura = course.split('LICENCIATURA')[0];
-                if(course != beforelicenciatura) {
-                    // Se é diferente então encontrou a palavra Licenciatura
-                    $(formInstructorvariableData + 'high_education_formation_3').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'high_education_formation_3').removeAttr('disabled');
-                }
-            });
-            
-            
-            
-            $(formInstructorvariableData + 'post_graduation_specialization').on('change',function(){           
-                if($(this).is(':checked')) {
-                    $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
-                } 
-            });
-            $(formInstructorvariableData + 'post_graduation_master').on('change',function(){           
-                if($(this).is(':checked')) {
-                    $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
-                } 
-            });
-            $(formInstructorvariableData + 'post_graduation_doctorate').on('change',function(){           
-                if($(this).is(':checked')) {
-                    $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
-                } 
-            });
-            $(formInstructorvariableData + 'post_graduation_none').on('change',function(){           
-                if($(this).is(':checked')) {
-                    $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
-                }else{
-                    $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-                    $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-                } 
-            });
-            
-            
-            
-            
-             
-        }); 
-
-        //=============================================
-        
+        if(!validateNamePerson(this.value)[0]){ 
+            $(id).attr('value','');
+            addError(id, "Campo Nome não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
         
     });
-
+    $(formInstructorIdentification+'email').on('focusout', function(){
+        var id = '#'+$(this).attr("id");
+        
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateEmail($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo Email não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+        
+    });
+    
+    $(formInstructorIdentification+'birthday_date').on('focusout', function(){
+        var id = '#'+$(this).attr("id");
+        
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateBirthdayPerson($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo Data não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    
+    $(formInstructorIdentification+'nationality').on('change', function(){
+        if($(this).val() == 3) {
+            $(formInstructorIdentification+'edcenso_nation_fk').removeAttr('disabled');
+        }else{
+            $(formInstructorIdentification+'edcenso_nation_fk').val(76);
+            $(formInstructorIdentification+'edcenso_nation_fk').add().attr('disabled','disabled');
+        }
+        
+        if($(this).val() != 1) {
+            $(formInstructorIdentification+'edcenso_uf_fk').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'edcenso_uf_fk').val('');
+            $(formInstructorIdentification+'edcenso_city_fk').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'edcenso_city_fk').val('');
+        }else{
+            $(formInstructorIdentification+'edcenso_uf_fk').removeAttr('disabled'); 
+            $(formInstructorIdentification+'edcenso_city_fk').removeAttr('disabled');
+        }
+        
+    });
+    
+    $(formInstructorIdentification+'deficiency').on('change', function(){
+        if($(this).is(':checked')) { 
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_phisical_disability').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_intelectual_disability').removeAttr('disabled');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_phisical_disability').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_intelectual_disability').add().attr('disabled','disabled'); 
+        }
+    }); 
+    
+    $(formInstructorIdentification+'deficiency_type_blindness').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }         
+        
+        if($(this).is(':checked')) { // 
+            $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled'); 
+        }
+    });
+    
+    $(formInstructorIdentification+'deficiency_type_low_vision').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }   
+        if($(this).is(':checked')) { // 
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled'); 
+        }else{
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
+        }
+    });
+    
+    $(formInstructorIdentification+'deficiency_type_deafness').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }   
+        if($(this).is(':checked')) { // 
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');  
+        }else{
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');      
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
+        }
+    });
+    
+    $(formInstructorIdentification+'deficiency_type_disability_hearing').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }      
+        if($(this).is(':checked')) { // 
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');    
+            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
+            
+        }
+    }); 
+    $(formInstructorIdentification+'deficiency_type_deafblindness').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }       
+        
+        if($(this).is(':checked')) { // 
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('checked','checked');
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled'); 
+        }else{
+            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');    
+            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled'); 
+            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');    
+            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
+        }
+    });
+    
+    $(formInstructorIdentification+'deficiency_type_phisical_disability').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }    
+    });
+    
+    $(formInstructorIdentification+'deficiency_type_intelectual_disability').on('click', function(){
+        if(($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked')) 
+            || ($(formInstructorIdentification+'deficiency_type_blindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_deafblindness').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_deafness').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_low_vision').is(':checked') && $(formInstructorIdentification+'deficiency_type_disability_hearing').is(':checked'))
+            || ($(formInstructorIdentification+'deficiency_type_phisical_disability').is(':checked') && $(formInstructorIdentification+'deficiency_type_intelectual_disability').is(':checked'))
+    ) {
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').add().attr('checked','checked');
+        }else{
+            $(formInstructorIdentification+'deficiency_type_multiple_disabilities').removeAttr('checked','checked');
+        }    
+    });
+    
+    var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
+    
+    $(formDocumentsAndAddress+'cpf').on('change',function(){
+        var id = '#'+$(this).attr("id");
+        
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateCpf($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo CPF não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    
+    $(formDocumentsAndAddress+'cep').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateCEP($(id).val())){
+            $(this).attr('value',''); 
+            addError(id, "Campo CEP não está dentro das regras.");
+        }else{
+            removeError(id);
+            
+        } 
+        
+    });
+    
+    $(formDocumentsAndAddress+'address').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateInstructorAddress($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo Endereço não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    
+    $(formDocumentsAndAddress+'address_number').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateInstructorAddressNumber($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    $(formDocumentsAndAddress+'neighborhood').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateInstructorAddressNeighborhood($(this).val())) { 
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    $(formDocumentsAndAddress+'complement').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateInstructorAddressComplement($(this).val())) { 
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    
+    
+    $('#InstructorVariableData_high_education_initial_year_1, \n\
+    #InstructorVariableData_high_education_initial_year_2,\n\
+    #InstructorVariableData_high_education_initial_year_3').on('change',function(){
+        if(this.value.length == 4){
+            var data = new Date();
+            if(!anoMinMax(2002,data.getFullYear(),this.value)){
+                $(this).attr('value','');
+            }
+        }
+    });   
+    $('#InstructorVariableData_high_education_final_year_1,\n\
+    #InstructorVariableData_high_education_final_year_2,\n\
+    #InstructorVariableData_high_education_final_year_3').on('change',function(){
+        if(this.value.length == 4){
+            var data = new Date();
+            if(!anoMinMax(1941,data.getFullYear(),this.value)) {
+                $(this).attr('value','');
+            }
+        } 
+    }); 
+    
+    $(formInstructorvariableData+'scholarity').on('change', function(){
+        if($(this).val() == 6) { 
+            $("#instructorVariableData").show();
+            $("#tab-instructor-data1").attr('class','active');
+            $("#instructor-data1").attr('class','active');
+            $(formInstructorvariableData+'high_education_situation_1').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_formation_1').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_course_code_1_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'high_education_final_year_1').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_type_1').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_code_1_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'high_education_situation_2').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_formation_2').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_course_code_2_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'high_education_final_year_2').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_type_2').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_code_2_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'high_education_situation_3').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_formation_3').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_course_code_3_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'high_education_final_year_3').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_type_3').removeAttr('disabled');
+            $(formInstructorvariableData+'high_education_institution_code_3_fk').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'post_graduation_specialization').removeAttr('disabled');
+            $(formInstructorvariableData+'post_graduation_master').removeAttr('disabled');
+            $(formInstructorvariableData+'post_graduation_doctorate').removeAttr('disabled');
+            $(formInstructorvariableData+'post_graduation_none').removeAttr('disabled');
+            
+            $(formInstructorvariableData+'other_courses_nursery').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_pre_school').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_basic_education_initial_years').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_basic_education_final_years').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_high_school').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_education_of_youth_and_adults').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_special_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_native_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_field_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_environment_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_human_rights_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_sexual_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_child_and_teenage_rights').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_ethnic_education').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_other').removeAttr('disabled');
+            $(formInstructorvariableData+'other_courses_none').removeAttr('disabled');
+            
+            //Troca o Valor
+            //$(this).val(0);
+        }else{
+            
+            $("#instructorVariableData").hide();
+            $(formInstructorvariableData+'high_education_situation_1').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_formation_1').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_course_code_1_fk').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_initial_year_1').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_final_year_1').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_type_1').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_code_1_fk').add().attr('disabled','disabled');
+            
+            $(formInstructorvariableData+'high_education_situation_2').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_formation_2').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_course_code_2_fk').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_initial_year_2').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_final_year_2').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_type_2').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_code_2_fk').add().attr('disabled','disabled');
+            
+            $(formInstructorvariableData+'high_education_situation_3').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_formation_3').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_course_code_3_fk').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_initial_year_3').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_final_year_3').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_type_3').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'high_education_institution_code_3_fk').add().attr('disabled','disabled');
+            
+            $(formInstructorvariableData+'post_graduation_specialization').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'post_graduation_master').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'post_graduation_doctorate').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'post_graduation_none').add().attr('disabled','disabled');
+            
+            $(formInstructorvariableData+'other_courses_nursery').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_pre_school').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_basic_education_initial_years').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_basic_education_final_years').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_high_school').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_education_of_youth_and_adults').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_special_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_native_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_field_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_environment_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_human_rights_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_sexual_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_child_and_teenage_rights').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_ethnic_education').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_other').add().attr('disabled','disabled');
+            $(formInstructorvariableData+'other_courses_none').add().attr('disabled','disabled');
+            
+            
+        }
+        
+        $(formInstructorvariableData + 'high_education_situation_1').on('change', function(){
+            if($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled');
+            }else{ // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled');     
+                $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled','disabled');
+            }
+            
+        });
+        
+        $(formInstructorvariableData + 'high_education_situation_2').on('change', function(){
+            if($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled');
+            }else{ // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled');     
+                $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled','disabled');
+            }
+            
+        });
+        
+        $(formInstructorvariableData + 'high_education_situation_3').on('change', function(){
+            if($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled');
+            }else{ // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled');     
+                $(formInstructorvariableData + 'high_education_final_year_3').add().attr('disabled','disabled');
+            }
+            
+        });
+        
+        $(formInstructorvariableData + 'high_education_course_code_1_fk').on('change',function(){
+            var course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
+            course = course.toUpperCase();
+            var beforelicenciatura = course.split('LICENCIATURA')[0];
+            if(course != beforelicenciatura) {
+                // Se é diferente então encontrou a palavra Licenciatura
+                $(formInstructorvariableData + 'high_education_formation_1').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'high_education_formation_1').removeAttr('disabled');
+            }
+        }); 
+        
+        $(formInstructorvariableData + 'high_education_course_code_2_fk').on('change',function(){
+            var course = $(formInstructorvariableData + 'high_education_course_code_2_fk option:selected').text();
+            course = course.toUpperCase();
+            var beforelicenciatura = course.split('LICENCIATURA')[0];
+            if(course != beforelicenciatura) {
+                // Se é diferente então encontrou a palavra Licenciatura
+                $(formInstructorvariableData + 'high_education_formation_2').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'high_education_formation_2').removeAttr('disabled');
+            }
+        });
+        
+        $(formInstructorvariableData + 'high_education_course_code_3_fk').on('change',function(){
+            var course = $(formInstructorvariableData + 'high_education_course_code_3_fk option:selected').text();
+            course = course.toUpperCase();
+            var beforelicenciatura = course.split('LICENCIATURA')[0];
+            if(course != beforelicenciatura) {
+                // Se é diferente então encontrou a palavra Licenciatura
+                $(formInstructorvariableData + 'high_education_formation_3').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'high_education_formation_3').removeAttr('disabled');
+            }
+        });
+        
+        
+        
+        $(formInstructorvariableData + 'post_graduation_specialization').on('change',function(){           
+            if($(this).is(':checked')) {
+                $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
+            } 
+        });
+        $(formInstructorvariableData + 'post_graduation_master').on('change',function(){           
+            if($(this).is(':checked')) {
+                $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
+            } 
+        });
+        $(formInstructorvariableData + 'post_graduation_doctorate').on('change',function(){           
+            if($(this).is(':checked')) {
+                $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
+            } 
+        });
+        $(formInstructorvariableData + 'post_graduation_none').on('change',function(){           
+            if($(this).is(':checked')) {
+                $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled','disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled','disabled');
+            }else{
+                $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
+                $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
+            } 
+        });
+        
+        
+        
+        
+        
+    }); 
+    
+    //=============================================
+    
+    
+    
     $('.tab-instructor li a').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
@@ -1366,12 +1385,12 @@ $form = $this->beginWidget('CActiveForm', array(
             case li3 : tab = li3; 
                 $('.prev').show();
                 $('.next').hide();
-                $('.last').show(); break;
+                $('.last').show();  break;
         }
-         
+        
         classActive.removeClass("active");
         divActive.removeClass("active");
-        var next_content = next.substring(4);
+        var next_content = tab.substring(4);
         next_content = next_content.toString();
         $('#'+tab).addClass("active");
         $('#'+next_content).addClass("active");
@@ -1391,9 +1410,9 @@ $form = $this->beginWidget('CActiveForm', array(
             case li2 : next = li3;
                 $('.next').hide();
                 $('.last').show(); break;
-            case li3 : next = li3; break;
+            case li3 : next = li3;  break;
         }
-         
+        
         classActive.removeClass("active");
         divActive.removeClass("active");
         var next_content = next.substring(4);
@@ -1418,7 +1437,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('.last').hide();
                 $('.next').show(); break;
         }
-         
+        
         classActive.removeClass("active");
         divActive.removeClass("active");
         var previous_content = previous.substring(4);
@@ -1429,6 +1448,43 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $('.heading-buttons').css('width', $('#content').width());
- 
     
+    //@todo s1 ajeitar mudança de sub-abas
+    $('.tab-instructordata li a').click(function(){
+        var classActive = $('li[class="active"]');
+        var divActive = $('div .active');
+        var li1 = 'tab-instructor-data1';
+        var li2 = 'tab-instructor-data2';
+        var li3 = 'tab-instructor-data3';
+        var tab = '';
+        switch($(this).parent().attr('id')) {
+            case li1 : tab = li1; 
+                $('#instructor-data1').show();
+                $('#instructor-data2').hide();
+                $('#instructor-data3').hide(); break;
+            case li2 : tab = li2;
+                $('#instructor-data1').hide();
+                $('#instructor-data2').show();
+                $('#instructor-data3').hide(); break;
+            case li3 : tab = li3; 
+                $('#instructor-data1').hide();
+                $('#instructor-data2').hide();
+                $('#instructor-data3').show(); break;
+        }
+        
+        classActive.removeClass("active");
+        divActive.removeClass("active");
+        var next_content = tab.substring(4);
+        next_content = next_content.toString();
+        $('#'+tab).addClass("active");
+        $('#'+next_content).addClass("active");
+        $('html, body').animate({ scrollTop: 85 }, 'fast');
+    });
+    
+    
+    $(document).ready(function(){
+        $(formInstructorvariableData+'scholarity').trigger('change');
+        
+        $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
+    });
 </script>

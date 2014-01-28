@@ -128,30 +128,31 @@ class InstructorIdentification extends CActiveRecord {
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('register_type', $this->register_type, true);
-        $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
+        $criteria->compare('register_type', $this->register_type, true);        
+        $school = Yii::app()->user->school;
+        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('email', $this->email, true);
-        $criteria->compare('nis', $this->nis, true);
-        $criteria->compare('birthday_date', $this->birthday_date, true);
-        $criteria->compare('sex', $this->sex);
-        $criteria->compare('color_race', $this->color_race);
-        $criteria->compare('mother_name', $this->mother_name, true);
-        $criteria->compare('nationality', $this->nationality);
-        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
-        $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
-        $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
-        $criteria->compare('deficiency', $this->deficiency);
-        $criteria->compare('deficiency_type_blindness', $this->deficiency_type_blindness);
-        $criteria->compare('deficiency_type_low_vision', $this->deficiency_type_low_vision);
-        $criteria->compare('deficiency_type_deafness', $this->deficiency_type_deafness);
-        $criteria->compare('deficiency_type_disability_hearing', $this->deficiency_type_disability_hearing);
-        $criteria->compare('deficiency_type_deafblindness', $this->deficiency_type_deafblindness);
-        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
-        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
-        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
+//        $criteria->compare('email', $this->email, true);
+//        $criteria->compare('nis', $this->nis, true);
+//        $criteria->compare('birthday_date', $this->birthday_date, true);
+//        $criteria->compare('sex', $this->sex);
+//        $criteria->compare('color_race', $this->color_race);
+//        $criteria->compare('mother_name', $this->mother_name, true);
+//        $criteria->compare('nationality', $this->nationality);
+//        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
+//        $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
+//        $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
+//        $criteria->compare('deficiency', $this->deficiency);
+//        $criteria->compare('deficiency_type_blindness', $this->deficiency_type_blindness);
+//        $criteria->compare('deficiency_type_low_vision', $this->deficiency_type_low_vision);
+//        $criteria->compare('deficiency_type_deafness', $this->deficiency_type_deafness);
+//        $criteria->compare('deficiency_type_disability_hearing', $this->deficiency_type_disability_hearing);
+//        $criteria->compare('deficiency_type_deafblindness', $this->deficiency_type_deafblindness);
+//        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
+//        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
+//        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -159,6 +160,9 @@ class InstructorIdentification extends CActiveRecord {
                         'defaultOrder' => array(
                             'name' => CSort::SORT_ASC
                         ),
+                    ),
+                    'pagination' => array(
+                        'pageSize' => 12,
                     ),
                 ));
     }

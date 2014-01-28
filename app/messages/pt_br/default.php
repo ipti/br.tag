@@ -497,9 +497,9 @@ return array(
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
     
-    //Ajuda
-    'Initial Date Help' => 'Data de inicio do ano letivo',
-    'Final Date Help' => 'Data do final do ano letivo',
+    //Ajuda School
+    'Date of start of the school year' => 'Data de inicio do ano letivo',
+    'End date of the school year' => 'Data do final do ano letivo',
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
     'Full name of school' => 'Nome completo da escola',
     'School code in the registration INEP' => 'Código da escola no cadastro do INEP',

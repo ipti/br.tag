@@ -142,7 +142,7 @@ function anoMinMax(min,max,ano) {
     return false;
 }
 
-function validadeBirthdayPerson(date){
+function validateBirthdayPerson(date){
     if(validateDate(date)){
         var fullDate = new Date(date);
         var year = fullDate.getFullYear();

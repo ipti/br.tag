@@ -180,12 +180,14 @@ class EnrollmentController extends Controller {
         if (isset($_GET['StudentEnrollment'])) {
             $model->attributes = $_GET['StudentEnrollment'];
         }
+        
         $school = Yii::app()->user->school;
+        
+        $criteria = new CDbCriteria;
+        $criteria->compare('school_inep_id_fk', "'$school'");
         $dataProvider = new CActiveDataProvider('StudentEnrollment',
                         array(
-                            'criteria' => array(
-                                'condition' => 'school_inep_id_fk=' . $school,
-                            ),
+                            'criteria' => $criteria,
                             'pagination' => array(
                                 'pageSize' => 12,
                             ),

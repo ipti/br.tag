@@ -4,7 +4,6 @@
 )); ?>
 
 
-<?php //@todo S1 - A quebra de linha dos labels esta desalinhando os inputs ?>
 
 <?php echo $form->errorSummary($modelSchoolIdentification); ?>
 <?php echo $form->errorSummary($modelSchoolStructure); ?>
@@ -29,7 +28,7 @@
             <ul class="tab-school">
                 <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
                 <li id="tab-school-structure"   ><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
-                <li id="tab-school-equipament"  ><a class="glyphicons imac"     href="#school-equipament" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
+                <li id="tab-school-equipment"  ><a class="glyphicons imac"     href="#school-equipment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
                 <li id="tab-school-education"   ><a class="glyphicons book"     href="#school-education" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?></a></li>
             </ul>
         </div>
@@ -690,8 +689,8 @@
             </div>
         </div>
 
-        <div class="tab-pane" id="school-equipament">
-            <!--//@done S1 - 09 - Equipamento é uma quantidade, não faz sentido os campos serem tão grandes. -->
+        <div class="tab-pane" id="school-equipment">
+            <!--//@done S1 - 09 - equipmento é uma quantidade, não faz sentido os campos serem tão grandes. -->
             <div class="row-fluid">
                 <div class=" span4">
                     
@@ -1320,7 +1319,7 @@
         var divActive = $('div .active');
         var li1 = 'tab-school-indentify';
         var li2 = 'tab-school-structure';
-        var li3 = 'tab-school-equipament';
+        var li3 = 'tab-school-equipment';
         var li4 = 'tab-school-education';
         var tab = '';
         switch($(this).parent().attr('id')) {
@@ -1356,7 +1355,7 @@
         var divActive = $('div .active');
         var li1 = 'tab-school-indentify';
         var li2 = 'tab-school-structure';
-        var li3 = 'tab-school-equipament';
+        var li3 = 'tab-school-equipment';
         var li4 = 'tab-school-education';
         var next = '';
         switch(classActive.attr('id')) {
@@ -1383,7 +1382,7 @@
         var divActive = $('div .active');
         var li1 = 'tab-school-indentify';
         var li2 = 'tab-school-structure';
-        var li3 = 'tab-school-equipament';
+        var li3 = 'tab-school-equipment';
         var li4 = 'tab-school-education';
         var previous = '';
         switch(classActive.attr('id')) {

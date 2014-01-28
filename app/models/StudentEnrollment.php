@@ -130,14 +130,14 @@ class StudentEnrollment extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->with = array('studentFk', 'classroomFk');
         $criteria->together = true;
-
+        
 //                $criteria->compare('register_type',$this->register_type,true);
 //                $criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
 //                $criteria->compare('student_inep_id',$this->student_inep_id,true);
 //                //$criteria->compare('student_fk',$this->student_fk, true);
 //                $criteria->compare('classroom_inep_id',$this->classroom_inep_id,true);
 //                $criteria->compare('classroom_fk',$this->classroom_fk);
-                $criteria->compare('enrollment_id',$this->enrollment_id,true);
+        $criteria->compare('enrollment_id',$this->enrollment_id,true);
 //                $criteria->compare('unified_class',$this->unified_class);
 //                $criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 //                $criteria->compare('another_scholarization_place',$this->another_scholarization_place);
@@ -156,6 +156,8 @@ class StudentEnrollment extends CActiveRecord {
 //                $criteria->compare('vehicle_type_metro_or_train',$this->vehicle_type_metro_or_train);
 //                $criteria->compare('student_entry_form',$this->student_entry_form);
         $criteria->compare('id', $this->id);
+        $school = Yii::app()->user->school;
+        $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');
         $criteria->addCondition('classroomFk.name like "%' . $this->classroom_fk . '%"');
 
@@ -179,6 +181,9 @@ class StudentEnrollment extends CActiveRecord {
                         'defaultOrder' => array(
                             'studentFk.name' => CSort::SORT_ASC
                         ),
+                    ),
+                    'pagination' => array(
+                        'pageSize' => 12,
                     ),
                 ));
     }

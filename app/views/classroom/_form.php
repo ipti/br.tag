@@ -194,10 +194,10 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="span5">
                             <div class="separator"></div>
-                             <div class="separator"></div>
+                            <div class="separator"></div>
                             <div class="control-group">
-                            <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
-                            <div class="uniformjs margin-left">
+                                <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
+                                <div class="uniformjs margin-left">
                                 <label class="checkbox">
                                     <?php 
                                     echo Classroom::model()->attributeLabels()['aee_braille_system_education'];
@@ -721,7 +721,7 @@ $form=$this->beginWidget('CActiveForm', array(
          
         classActive.removeClass("active");
         divActive.removeClass("active");
-        var next_content = next.substring(4);
+        var next_content = tab.substring(4);
         next_content = next_content.toString();
         $('#'+tab).addClass("active");
         $('#'+next_content).addClass("active");
