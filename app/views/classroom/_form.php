@@ -304,20 +304,20 @@ $form=$this->beginWidget('CActiveForm', array(
                                 
                             <div>
                                 <div class="control-group">
-                                    <?php echo CHtml::label("Instructors", "Instructors", array('class' => 'control-label')) ?>
+                                    <?php echo CHtml::label(Yii::t("default","Instructor"), "Instructors", array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'),array('prompt'=>'Sem Instrutor','class' => 'select-search-on')); ?>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <?php echo CHtml::label("Disciplines", "Disciplines", array('class' => 'control-label')) ?>
+                                    <?php echo CHtml::label(Yii::t("default","Disciplines"), "Disciplines", array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php echo CHtml::DropDownList("Disciplines", '', ClassroomController::classroomDisciplineLabelArray(),array('multiple'=>'multiple')); ?>
                                             
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <?php echo CHtml::label("Role", "Role", array('class' => 'control-label')) ?>
+                                    <?php echo CHtml::label(Yii::t("default","Role"), "Role", array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php echo CHtml::DropDownList("Role", '', array(
                                             null=>'Selecione um Cargo',
@@ -330,7 +330,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <?php echo CHtml::label("ContractType", "ContractType", array('class' => 'control-label')) ?>
+                                    <?php echo CHtml::label(Yii::t("default","Contract Type"), "ContractType", array('class' => 'control-label')) ?>
                                     <div class="controls">
                                         <?php echo CHtml::DropDownList("ContractType", '', array(
                                             null=>'Selecione tipo de Contrato',

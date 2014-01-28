@@ -242,12 +242,12 @@ class SchoolController extends Controller {
         Yii::app()->db->createCommand($str_fields['20'])->query();
         echo "done 20<br>";
         Yii::app()->db->createCommand($str_fields['30'])->query();
-//        //=====================
+    //        //=====================
         $instructorId_inepId = [];
         foreach($instructorInepIds as $inepId):
           $instructorId_inepId[$inepId] =  Yii::app()->db->createCommand("SELECT id FROM TAG_SGE.instructor_identification WHERE inep_id =". $inepId .";")->queryAll();
         endforeach;
-//        //=====================
+    //        //=====================
         echo "done 30<br>";
         Yii::app()->db->createCommand($str_fields['40'])->query();
         echo "done 40<br>";
@@ -255,13 +255,13 @@ class SchoolController extends Controller {
         echo "done 50<br>";
         Yii::app()->db->createCommand($str_fields['51'])->query();
         echo "done 51<br>";
-//          //===============
+    //          //===============
 
           foreach ($instructorId_inepId as $inepId=>$id):
               $comando = "UPDATE TAG_SGE.instructor_teaching_data SET instructor_fk =".$id[0]['id']." WHERE instructor_inep_id =".$inepId. ";";
               Yii::app()->db->createCommand($comando)->query();
           endforeach;
-//        //===============
+    //        //===============
         Yii::app()->db->createCommand($str_fields['60'])->query();
         echo "done 60<br>";
         Yii::app()->db->createCommand($str_fields['70'])->query();

@@ -508,7 +508,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </div></div>
                                                             
                                                         <div class="control-group">
-                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?>
+                                                            <div class="controls">
                                                                 <?php
                                                                 echo ($isModel && isset($modelInstructorVariableData->high_education_formation_1)) ?
                                                                         CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1') : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1', array('disabled' => 'disabled'));
@@ -518,17 +519,36 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </div></div>
                                                             
                                                         <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_1_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="control-group">
                                                             <?php
-                                                            //@todo S1 - 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
+                                                            //@done S1 - 25 - Talvez um pre-filtro com a area de autação e 
+                                                            //@done s1 - depois os cursos ORDENADOS por nome
                                                             echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label'));
                                                             ?><div class="controls">
                                                                 <?php
-                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
-                                                                        $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on")) : $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on", 'disabled' => 'disabled'));
-                                                                ?>
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk);
+                                                                echo  $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                                                        array(
+                                                                            'prompt' => 'Selecione o curso 1', 
+                                                                            "class" => "select-search-on", 
+                                                                            'disabled' => !$validate
+                                                                            ));
+                                                                echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
                                                             </div></div>
                                                             
                                                         <div class="control-group">
@@ -616,7 +636,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2', array('disabled' => true)); ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_2'); ?>
                                                         </div></div>
-
+                                                                                                                    
+                                                        <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_2_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php
@@ -696,6 +732,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             :CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3', array('disabled' => true)); ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_3'); ?>
                                                         </div></div>
+                                                        
+                                                                                                                    
+                                                        <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_3_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
+
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?><div class="controls">

@@ -34,7 +34,7 @@ class InstructorController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getCity', 'getInstitutions'),
+                'actions' => array('index', 'view', 'create', 'update', 'getCity', 'getInstitutions', 'getCourses'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -364,6 +364,20 @@ preenchidos";
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }  
     }
+    
+    //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
+    public function actionGetCourses(){
+        
+        $area = $_POST['high_education_course_area'];
+        $data = EdcensoCourseOfHigherEducation::model()->findAll(array('order'=>'name', 'condition'=>'cod=:x', 'params'=>array(':x'=>$area)));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione o Curso', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }  
+    }
+    
     /**
      * Manages all models.
      */

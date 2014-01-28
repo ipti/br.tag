@@ -4,6 +4,8 @@
  * This is the model class for table "edcenso_course_of_higher_education".
  *
  * The followings are the available columns in table 'edcenso_course_of_higher_education':
+ * @property integer $cod
+ * @property string $area
  * @property string $id
  * @property string $name
  * @property string $degree
@@ -41,13 +43,15 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name, degree', 'required'),
+			array('cod, area, id, name, degree', 'required'),
+			array('cod', 'numerical', 'integerOnly'=>true),
+			array('area', 'length', 'max'=>45),
 			array('id', 'length', 'max'=>6),
-			array('name', 'length', 'max'=>50),
+			array('name', 'length', 'max'=>100),
 			array('degree', 'length', 'max'=>12),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, degree', 'safe', 'on'=>'search'),
+			array('cod, area, id, name, degree', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +75,8 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
+			'cod' => Yii::t('default', 'Cod'),
+			'area' => Yii::t('default', 'Area'),
 			'id' => Yii::t('default', 'ID'),
 			'name' => Yii::t('default', 'Name'),
 			'degree' => Yii::t('default', 'Degree'),
@@ -88,6 +94,8 @@ class EdcensoCourseOfHigherEducation extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->compare('cod',$this->cod);
+		$criteria->compare('area',$this->area,true);
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('degree',$this->degree,true);
