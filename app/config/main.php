@@ -19,12 +19,13 @@
 // @done S1 - 08 - Filtrar a listagem das professores por escola da sessão
 // @done S1 - Adicionar os inputs nos filtros necessarios
 // @done S1 - Inserir o prompt dos campos de instrutor
-// @todo S1 - AJEITAR A PORRA DO INSTRUCTOR Q TA FERRADÃO
+// @todo S1 - AJEITAR O INSTRUCTOR
 // 
 // 
 // @done S1 - 04 - Retirar os links para view do breadcrumb e remover o "atualizar" do final
 // 
-// @todo S1 - Tabelas redimensionando, colocar para não redimensionar.
+// @done S1 - ajeitar o filtro do enrollment np index do enrollment
+// @done S1 - Tabelas redimensionando, colocar para não redimensionar.
 // @done S1 - Ordenar todas as listas dos dados
 // @done S1 - remover botão de atualizar 
 // @done S1 - Corrigir problema de mudança de aba de forma manual do school
@@ -32,7 +33,7 @@
 // @done S1 - Corrigir problema de mudança de aba de forma manual do instructor
 // @done S1 - Corrigir problema de mudança de aba de forma manual do classroom
 // 
-// @todo S1 - Atualização dos campos apartir da escola.
+// @done S1 - Atualização dos campos apartir da escola.
 // verificar se o criteria do index.php esta funcionando 
 // 
 // uncomment the following to define a path alias
