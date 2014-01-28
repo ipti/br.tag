@@ -136,10 +136,12 @@ preenchidos";
                         && $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
-// CORRIGIR !!!!!!!!!!!!!
                     
                     $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
                     $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
+                    $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk)? null : $modelInstructorVariableData->high_education_course_code_1_fk;
+                    $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk)? null : $modelInstructorVariableData->high_education_course_code_2_fk;
+                    $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk)? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
@@ -238,16 +240,23 @@ preenchidos";
                 $modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
                 $modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
 
+                $modelInstructorVariableData->high_education_institution_code_1_fk = empty($modelInstructorVariableData->high_education_institution_code_1_fk)? null : $modelInstructorVariableData->high_education_institution_code_1_fk;
+                $modelInstructorVariableData->high_education_institution_code_2_fk = empty($modelInstructorVariableData->high_education_institution_code_2_fk)? null : $modelInstructorVariableData->high_education_institution_code_2_fk;
+                $modelInstructorVariableData->high_education_institution_code_3_fk = empty($modelInstructorVariableData->high_education_institution_code_3_fk)? null : $modelInstructorVariableData->high_education_institution_code_3_fk;
+
                 if ($modelInstructorIdentification->validate()
                         && $modelInstructorDocumentsAndAddress->validate()
                         && $modelInstructorVariableData->validate()
                         && $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
-// CORRIGIR !!!!!!!!!!!!!
                     
                     $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
                     $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
+                    
+                    $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk)? null : $modelInstructorVariableData->high_education_course_code_1_fk;
+                    $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk)? null : $modelInstructorVariableData->high_education_course_code_2_fk;
+                    $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk)? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
