@@ -552,8 +552,22 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1', array('class' => 'control-label')); ?><div class="controls">
                                                                 <?php
-                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_1)) ?
-                                                                        $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array("class" => "select-search-off")) : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled', "class" => "select-search-off"));
+                                                                //@done s1 - filtrar for high_education_institution_type.
+                                                                //@done s1 - ordenar alfabeticamente.
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_type_1);
+                                                                echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', 
+                                                                        array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), 
+                                                                        array(
+                                                                            "class" => "select-search-off",
+                                                                            'ajax' => array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getInstitutions'),
+                                                                                'update' => '#InstructorVariableData_high_education_institution_code_1_fk',                                                                              
+                                                                            ),
+                                                                            'disabled' => !$validate,
+                                                                        )
+                                                                    ); 
+                                                                            
                                                                 ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
                                                             </div></div>
@@ -561,12 +575,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <div class="control-group">
                                                         <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php
-                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk)) ?
-                                                                    $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione a instituição', "class" => "select-search-on")) : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt' => 'Selecione a instituição', "class" => "select-search-on"));
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk);
+                                                                    echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), 
+                                                                            array(
+                                                                                'prompt' => 'Selecione a instituição', 
+                                                                                "class" => "select-search-on",
+                                                                                'disabled' => !$validate
+                                                                                ));
                                                             ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                                                             </div></div>
-                                                        
                                                     </div>
                                                 </div>
                                             </div>

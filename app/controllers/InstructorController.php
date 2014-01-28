@@ -34,7 +34,7 @@ class InstructorController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getCity'),
+                'actions' => array('index', 'view', 'create', 'update', 'getCity', 'getInstitutions'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -351,6 +351,19 @@ preenchidos";
         }  
     }
 
+    //@done s1 - Criar Função que retorna instituições filtrando por tipo
+    public function actionGetInstitutions() {
+        
+        $institution_type = $_POST['InstructorVariableData']['high_education_institution_type_1'] == 1? 'PÚBLICA' : 'PRIVADA';
+        $data = EdcensoIES::model()->findAll(array('order'=>'name', 'condition'=>'institution_type=:x', 'params'=>array(':x'=>$institution_type)));
+
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Instituição', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }  
+    }
     /**
      * Manages all models.
      */
