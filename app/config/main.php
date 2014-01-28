@@ -92,7 +92,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=TAG_SGE',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'p@s4ipti',
+			'password' => 'IPTI008',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(
