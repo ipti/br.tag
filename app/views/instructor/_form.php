@@ -483,7 +483,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">
                                         <ul class="tab-instructordata">
-                                            <li id="tab-instructor-data1" class="active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
+                                            <li id="tab-instructor-data1" class="sub-active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
                                             <li id="tab-instructor-data2"><a class="glyphicons settings" href="#instructor-data2" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 2' ?></a></li>
                                             <li id="tab-instructor-data3"><a class="glyphicons parents" href="#instructor-data3" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 3' ?></a></li>
                                         </ul>
@@ -493,7 +493,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="tab-content">
 
                                             <!-- Tab content -->
-                                            <div class="tab-pane active" id="instructor-data1">
+                                            <div class="sub-active" id="instructor-data1">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
                                                         <div class="separator"></div>
@@ -570,7 +570,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="instructor-data2">
+                                            <div id="instructor-data2">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
 
@@ -651,7 +651,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="instructor-data3">
+                                            <div id="instructor-data3">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
 
@@ -1367,8 +1367,8 @@ $form = $this->beginWidget('CActiveForm', array(
     
     
     $('.tab-instructor li a').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1387,7 +1387,6 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('.next').hide();
                 $('.last').show();  break;
         }
-        
         classActive.removeClass("active");
         divActive.removeClass("active");
         var next_content = tab.substring(4);
@@ -1398,8 +1397,8 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $('.next').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1423,8 +1422,8 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $('.prev').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1449,10 +1448,9 @@ $form = $this->beginWidget('CActiveForm', array(
     
     $('.heading-buttons').css('width', $('#content').width());
     
-    //@todo s1 ajeitar mudança de sub-abas
+    //@done s1 ajeitar mudança de sub-abas
     $('.tab-instructordata li a').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('li[class="sub-active"]');
         var li1 = 'tab-instructor-data1';
         var li2 = 'tab-instructor-data2';
         var li3 = 'tab-instructor-data3';
@@ -1471,14 +1469,10 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('#instructor-data2').hide();
                 $('#instructor-data3').show(); break;
         }
-        
-        classActive.removeClass("active");
-        divActive.removeClass("active");
+        classActive.removeClass("sub-active");
         var next_content = tab.substring(4);
         next_content = next_content.toString();
-        $('#'+tab).addClass("active");
-        $('#'+next_content).addClass("active");
-        $('html, body').animate({ scrollTop: 85 }, 'fast');
+        $('#'+next_content).addClass("sub-active");
     });
     
     
