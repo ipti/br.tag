@@ -2,9 +2,9 @@
 
 class EnrollmentController extends Controller {
 
-    //@TODO s2 - Validar Ano Letivo na matricula(um aluno não pode estar em duas turmas REGULARES ao mesmo tempo)
-    //@TODO s2 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
-    //@TODO s2 - Filtrar aluno e turma por escola
+    //@TODO s1 - Validar Ano Letivo na matricula(um aluno não pode estar em duas turmas REGULARES ao mesmo tempo)
+    //@TODO s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
+    //@TODO s1 - Filtrar aluno e turma por escola
     
     
     /**

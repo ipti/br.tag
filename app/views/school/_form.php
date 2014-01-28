@@ -236,6 +236,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'email', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'email', array('size' => 50, 'maxlength' => 50)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'exemplo@email.com'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'email'); ?>
                         </div>
                     </div>

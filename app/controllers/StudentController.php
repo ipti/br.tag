@@ -1,11 +1,11 @@
 <?php
 
 class StudentController extends Controller {
-    //@TODO s2 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
-    //@TODO s2 - Recuperar endereço pelo CEP
-    //@TODO s2 - validar CPF
-    //@TODO s2 - Campo Cartórios - Colocar em ordem alfabética
-    //@TODO s2 - Campo TIpo de Certidão Civil (Add as opções)
+    //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
+    //@TODO s1 - Recuperar endereço pelo CEP
+    //@TODO s1 - validar CPF
+    //@TODO s1 - Campo Cartórios - Colocar em ordem alfabética
+    //@TODO s1 - Campo TIpo de Certidão Civil (Add as opções)
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning

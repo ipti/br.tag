@@ -85,12 +85,20 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
+                        </div></div>
+
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'exemplo@email.com'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
                         </div></div>
 
@@ -103,6 +111,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'DD/MM/AAAA'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                         </div></div>
 
@@ -124,6 +133,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full mothers name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
                         </div></div>
 
@@ -231,11 +241,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->hiddenField($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                         </div>
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
-                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
-                        </div></div>
+                       
                     </div>
                 </div>
             </div>
@@ -255,6 +261,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Only numbers, max 8'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div></div>
 
@@ -1174,17 +1181,17 @@ $form = $this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-    $(formDocumentsAndAddress+'complement').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        $(id).val($(id).val().toUpperCase());
-        
-        if(!validateInstructorAddressComplement($(this).val())) { 
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
+//    $(formDocumentsAndAddress+'complement').focusout(function() { 
+//        var id = '#'+$(this).attr("id");
+//        $(id).val($(id).val().toUpperCase());
+//        
+//        if(!validateInstructorAddressComplement($(this).val())) { 
+//            $(id).attr('value','');
+//            addError(id, "Campo não está dentro das regras.");
+//        }else{
+//            removeError(id);
+//        }
+//    });
     
     
     $('#InstructorVariableData_high_education_initial_year_1, \n\
