@@ -63,6 +63,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -78,6 +79,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'DD/MM/AAAA'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
                                 </div>
                             </div>
@@ -117,6 +119,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'mother_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full mothers name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentIdentification, 'mother_name'); ?>
                                 </div>
                             </div>
@@ -125,6 +128,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'father_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'father_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full fathers name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentIdentification, 'father_name'); ?>
                                 </div>
                             </div>
@@ -497,6 +501,7 @@
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Only numbers, max 8'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
                                 </div>
                             </div>
