@@ -354,24 +354,37 @@ preenchidos";
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Cidade', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione uma Cidade', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }  
     }
 
     //@done s1 - Criar Função que retorna instituições filtrando por tipo
-    public function actionGetInstitutions() {
+    //@done s1 - Modificar função para que ela fique mais rápida
+    public function actionGetInstitutions($q,$f,$page) {
+
+        $institution_type = $f == 0 ? '' : ($f == 1 ? 'PÚBLICA' : 'PRIVADA');
         
-        $institution_type = $_POST['InstructorVariableData']['high_education_institution_type_1'] == 1? 'PÚBLICA' : 'PRIVADA';
-        $data = EdcensoIES::model()->findAll(array('order'=>'name', 'condition'=>'institution_type=:x', 'params'=>array(':x'=>$institution_type)));
-
+        $condition = $f == 0 ? '' : "institution_type='$institution_type' AND ";
+        $condition .= "name like '%$q%'";
+        
+        $sql = "SELECT COUNT(*) as total FROM edcenso_ies where ".$condition;
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        $total = (int)$results[0]["total"];
+        
+        $data = EdcensoIES::model()->findAll("$condition ORDER BY name LIMIT ".(($page-1)*10).",10");
         $data = CHtml::listData($data, 'id', 'name');
-
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Instituição', true);
+        
+        $return = array();
+        $return['total'] = $total;
+        $return['ies'] = array();
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            array_push($return['ies'], array('id'=> CHtml::encode($value), 'name'=>CHtml::encode($name)));
         }  
+        
+        echo json_encode($return);
     }
     
     //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
@@ -381,7 +394,7 @@ preenchidos";
         $data = EdcensoCourseOfHigherEducation::model()->findAll(array('order'=>'name', 'condition'=>'cod=:x', 'params'=>array(':x'=>$area)));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione o Curso', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione o Curso', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }  
