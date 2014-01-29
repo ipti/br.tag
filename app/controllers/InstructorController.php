@@ -2,9 +2,9 @@
 
 class InstructorController extends Controller {
     
-   //@TODO s1 - Tirar Aba Dados do Instrutor do update de instrutor
+   //@todo s1 - Tirar Aba Dados do Instrutor do update de instrutor
    //@done s1 - Adicionar validações em todos os campos que estão faltando
-   //@TODO s1 - validar CPF
+   //@todo s1 - validar CPF
 
 
     /**
