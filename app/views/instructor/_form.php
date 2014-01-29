@@ -500,7 +500,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="tab-content">
 
                                             <!-- Tab content -->
-                                            <div class="tab-pane active" id="instructor-data1">
+                                            <div class="sub-active" id="instructor-data1">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
                                                         <div class="separator"></div>
@@ -615,7 +615,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="instructor-data2">
+                                            <div id="instructor-data2">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
 
@@ -667,7 +667,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
                                                                     , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on'))
                                                             :$form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                                                    , array('prompt' => 'Select o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
+                                                                    , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
                                                             ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
                                                         </div></div>
@@ -712,7 +712,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="instructor-data3">
+                                            <div id="instructor-data3">
                                                 <div class="row-fluid">
                                                     <div class=" span5">
 
@@ -766,7 +766,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
                                                                     , array('prompt' => 'Selecione o curso 3','class'=>'select-search-on'))
                                                             : $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                                                    , array('prompt' => 'Select o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
+                                                                    , array('prompt' => 'Selecione o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
                                                             ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
                                                         </div></div>
@@ -1218,8 +1218,10 @@ $form = $this->beginWidget('CActiveForm', array(
     $(formInstructorvariableData+'scholarity').on('change', function(){
         if($(this).val() == 6) { 
             $("#instructorVariableData").show();
-            $("#tab-instructor-data1").attr('class','active');
-            $("#instructor-data1").attr('class','active');
+            $("#tab-instructor-data1").attr('class','active sub-active');
+            $("#instructor-data1").attr('class','active sub-active');
+            $("#instructor-data2").hide();
+            $("#instructor-data3").hide();
             $(formInstructorvariableData+'high_education_situation_1').removeAttr('disabled');
             $(formInstructorvariableData+'high_education_formation_1').removeAttr('disabled');
             $(formInstructorvariableData+'high_education_course_code_1_fk').removeAttr('disabled');
@@ -1442,13 +1444,9 @@ $form = $this->beginWidget('CActiveForm', array(
         
     }); 
     
-    //=============================================
-    
-    
-    
     $('.tab-instructor li a').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1467,7 +1465,6 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('.next').hide();
                 $('.last').show();  break;
         }
-        
         classActive.removeClass("active");
         divActive.removeClass("active");
         var next_content = tab.substring(4);
@@ -1478,8 +1475,8 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $('.next').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1503,8 +1500,8 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $('.prev').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('ul.tab-instructor li[class="active"]');
+        var divActive = $('div.active');
         var li1 = 'tab-instructor-identify';
         var li2 = 'tab-instructor-address';
         var li3 = 'tab-instructor-data';
@@ -1529,10 +1526,10 @@ $form = $this->beginWidget('CActiveForm', array(
     
     $('.heading-buttons').css('width', $('#content').width());
     
-    //@todo s1 ajeitar mudança de sub-abas
+    //@done s1 ajeitar mudança de sub-abas
     $('.tab-instructordata li a').click(function(){
-        var classActive = $('li[class="active"]');
-        var divActive = $('div .active');
+        var classActive = $('li[class="sub-active"]');
+        var divActive = $('div.sub-active');
         var li1 = 'tab-instructor-data1';
         var li2 = 'tab-instructor-data2';
         var li3 = 'tab-instructor-data3';
@@ -1551,16 +1548,13 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('#instructor-data2').hide();
                 $('#instructor-data3').show(); break;
         }
-        
-        classActive.removeClass("active");
-        divActive.removeClass("active");
+        classActive.removeClass("sub-active");
+        divActive.removeClass("sub-active")
         var next_content = tab.substring(4);
         next_content = next_content.toString();
-        $('#'+tab).addClass("active");
-        $('#'+next_content).addClass("active");
-        $('html, body').animate({ scrollTop: 85 }, 'fast');
+        $('#'+next_content).addClass("sub-active");
+        $('#'+tab).addClass("sub-active");
     });
-    
     
     $(document).ready(function(){
         $(formInstructorvariableData+'scholarity').trigger('change');
