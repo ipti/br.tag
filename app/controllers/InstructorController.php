@@ -375,9 +375,9 @@ preenchidos";
     }
     
     //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
-    public function actionGetCourses(){
+    public function actionGetCourses($tdid = 1){
         
-        $area = $_POST['high_education_course_area'];
+        $area = $_POST['high_education_course_area'.$tdid];
         $data = EdcensoCourseOfHigherEducation::model()->findAll(array('order'=>'name', 'condition'=>'cod=:x', 'params'=>array(':x'=>$area)));
         $data = CHtml::listData($data, 'id', 'name');
 

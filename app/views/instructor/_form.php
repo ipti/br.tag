@@ -526,16 +526,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </div></div>
                                                             
                                                         <div class="control-group">
-                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area1', array('class' => 'control-label'));
                                                             ?>
                                                             <div class="controls">
-                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                <?php echo CHtml::DropDownList('high_education_course_area1', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
                                                                         array(
                                                                             'class'=>'select-search-off', 
                                                                             'prompt'=>'Selecione a Área de Atuação',
                                                                             'ajax'=>array(
                                                                                 'type' => 'POST',
-                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=1'),
                                                                                 'update' => '#InstructorVariableData_high_education_course_code_1_fk',                                                                              
                                                                             )));?>
                                                             </div>
@@ -645,16 +645,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         </div></div>
                                                                                                                     
                                                         <div class="control-group">
-                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area2', array('class' => 'control-label'));
                                                             ?>
                                                             <div class="controls">
-                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                <?php echo CHtml::DropDownList('high_education_course_area2', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
                                                                         array(
                                                                             'class'=>'select-search-off', 
                                                                             'prompt'=>'Selecione a Área de Atuação',
                                                                             'ajax'=>array(
                                                                                 'type' => 'POST',
-                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=2'),
                                                                                 'update' => '#InstructorVariableData_high_education_course_code_2_fk',                                                                              
                                                                             )));?>
                                                             </div>
@@ -742,16 +742,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         
                                                                                                                     
                                                         <div class="control-group">
-                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area', array('class' => 'control-label'));
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area3', array('class' => 'control-label'));
                                                             ?>
                                                             <div class="controls">
-                                                                <?php echo CHtml::DropDownList('high_education_course_area', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                <?php echo CHtml::DropDownList('high_education_course_area3', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
                                                                         array(
                                                                             'class'=>'select-search-off', 
                                                                             'prompt'=>'Selecione a Área de Atuação',
                                                                             'ajax'=>array(
                                                                                 'type' => 'POST',
-                                                                                'url' => CController::createUrl('instructor/getCourses'),
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=3'),
                                                                                 'update' => '#InstructorVariableData_high_education_course_code_3_fk',                                                                              
                                                                             )));?>
                                                             </div>
@@ -866,20 +866,24 @@ $form = $this->beginWidget('CActiveForm', array(
         }
     });
     
+    <?php //@done s1 - corrigir a validação da nacionalidade 
+          //@done s1 - atualizar o select2 para versão 2.3.4
+    ?>
+        
     $(formInstructorIdentification+'nationality').on('change', function(){
         var nationality = $(this).val();
         var nation = $(formInstructorIdentification+'edcenso_nation_fk');
         var uf = $(formInstructorIdentification+'edcenso_uf_fk');
         var city = $(formInstructorIdentification+'edcenso_city_fk');
         
-        if(nationality == 1) {
-            nation.val(76).trigger('change').add().attr('disabled','disabled');
-            uf.val('').trigger('change').removeAttr('disabled');
-            city.val('').trigger('change').removeAttr('disabled');
+        if(nationality != 3) {
+            nation.val(76).trigger('change').add().select2('readonly', true);
+            uf.val('').trigger('change').select2('enable', true);
+            city.val('').trigger('change').select2('enable', true);
         }else{
-            nation.removeAttr('disabled');
-            uf.val('').trigger('change').add().attr('disabled','disabled');
-            city.val('').trigger('change').add().attr('disabled','disabled');
+            nation.select2('readonly', false);
+            uf.val('').trigger('change').add().select2('disable', true);
+            city.val('').trigger('change').add().select2('disable', true);
         }        
     });
     
@@ -1166,18 +1170,7 @@ $form = $this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-//    $(formDocumentsAndAddress+'complement').focusout(function() { 
-//        var id = '#'+$(this).attr("id");
-//        $(id).val($(id).val().toUpperCase());
-//        
-//        if(!validateInstructorAddressComplement($(this).val())) { 
-//            $(id).attr('value','');
-//            addError(id, "Campo não está dentro das regras.");
-//        }else{
-//            removeError(id);
-//        }
-//    });
-    
+
     
     $('#InstructorVariableData_high_education_initial_year_1, \n\
     #InstructorVariableData_high_education_initial_year_2,\n\
