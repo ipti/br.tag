@@ -198,7 +198,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         
                         <div class="control-group">
                             <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
-                            <div class="uniformjs margin-left" id="InstructorIdentification_operation_location">
+                            <div class="uniformjs margin-left" id="InstructorIdentification_deficiencies">
                                 <label class="checkbox">
                                     <?php 
                                     echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
@@ -867,42 +867,27 @@ $form = $this->beginWidget('CActiveForm', array(
     });
     
     $(formInstructorIdentification+'nationality').on('change', function(){
-        if($(this).val() == 3) {
-            $(formInstructorIdentification+'edcenso_nation_fk').removeAttr('disabled');
-        }else{
-            $(formInstructorIdentification+'edcenso_nation_fk').val(76);
-            $(formInstructorIdentification+'edcenso_nation_fk').add().attr('disabled','disabled');
-        }
+        var nationality = $(this).val();
+        var nation = $(formInstructorIdentification+'edcenso_nation_fk');
+        var uf = $(formInstructorIdentification+'edcenso_uf_fk');
+        var city = $(formInstructorIdentification+'edcenso_city_fk');
         
-        if($(this).val() != 1) {
-            $(formInstructorIdentification+'edcenso_uf_fk').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'edcenso_uf_fk').val('');
-            $(formInstructorIdentification+'edcenso_city_fk').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'edcenso_city_fk').val('');
+        if(nationality == 1) {
+            nation.val(76).trigger('change').add().attr('disabled','disabled');
+            uf.val('').trigger('change').removeAttr('disabled');
+            city.val('').trigger('change').removeAttr('disabled');
         }else{
-            $(formInstructorIdentification+'edcenso_uf_fk').removeAttr('disabled'); 
-            $(formInstructorIdentification+'edcenso_city_fk').removeAttr('disabled');
-        }
-        
+            nation.removeAttr('disabled');
+            uf.val('').trigger('change').add().attr('disabled','disabled');
+            city.val('').trigger('change').add().attr('disabled','disabled');
+        }        
     });
     
     $(formInstructorIdentification+'deficiency').on('change', function(){
         if($(this).is(':checked')) { 
-            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_phisical_disability').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_intelectual_disability').removeAttr('disabled');
+            $("#InstructorIdentification_deficiencies input").removeAttr('disabled');
         }else{
-            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_phisical_disability').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_intelectual_disability').add().attr('disabled','disabled'); 
+            $("#InstructorIdentification_deficiencies input").removeAttr('checked').add().attr('disabled','disabled');
         }
     }); 
     
