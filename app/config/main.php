@@ -11,6 +11,7 @@
 //
 // @done S1 - 31 - Lembrar de associar o usuário a escola para fazer as filtragem necessárias nas telas.
 // @later S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
+// @later S2 - Popar a interrogação durante um intervalo de tempo ao falhar na regra do javascript
 // @later S2 - 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
 // @later S2 - 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
 // @done S1 - 08 - Filtrar a listagem das turmas por escola da sessão
