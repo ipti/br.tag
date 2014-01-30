@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'edcenso_stage_vs_modality':
  * @property integer $id
  * @property string $name
+ * @property integer $stage
  *
  * The followings are the available model relations:
  * @property StudentEnrollment[] $studentEnrollments
@@ -38,10 +39,12 @@ class EdcensoStageVsModality extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('name, stage', 'required'),
+			array('stage', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, name, stage', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +68,7 @@ class EdcensoStageVsModality extends CActiveRecord
 		return array(
 			'id' => Yii::t('default', 'ID'),
 			'name' => Yii::t('default', 'Name'),
+			'stage' => Yii::t('default', 'Stage'),
 		);
 	}
 
@@ -81,6 +85,7 @@ class EdcensoStageVsModality extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('stage',$this->stage);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

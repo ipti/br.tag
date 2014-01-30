@@ -5,8 +5,8 @@ class InstructorController extends Controller {
    //@done s1 - Tirar Aba Dados do Instrutor do update de instrutor
    //@done s1 - Adicionar validações em todos os campos que estão faltando
    //@done s1 - validar CPF
-
-
+   //@todo s1 - corrigir o delete do instructor
+    
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.

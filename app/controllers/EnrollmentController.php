@@ -30,7 +30,7 @@ class EnrollmentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies"),
+                'actions' => array('index', 'view', 'create', 'update', "updatedependencies", 'getmodalities'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -76,6 +76,16 @@ class EnrollmentController extends Controller {
         echo json_encode($result);
     }
 
+    public function actionGetModalities() {
+        $stage = $_POST['Stage'];
+        $where = ($stage == "0") ? "" : "stage = $stage";
+        $data = EdcensoStageVsModality::model()->findAll($where);
+        $data = CHtml::listData($data, 'id', 'name');
+
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.

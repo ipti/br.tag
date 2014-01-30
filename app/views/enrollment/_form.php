@@ -73,7 +73,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <?php 
-                                //@todo S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
+                                //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class'=>'select-search-on'));
@@ -86,6 +86,32 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($model, 'unified_class'); ?>
+                                </div>
+                            </div>
+                            
+                            <?php //@done s1 - criar campo de selecionar o Stage
+                                //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
+                                //@done s1 - criar requisição ajax para filtrar a modalidade por Stage?>
+                            <div class="control-group">
+                                <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::dropDownList("Stage", null, array(
+                                            "0" => "Selecione a Modalidade", 
+                                            "1" => "Infantil",    
+                                            "2" => "Fundamental Menor",
+                                            "3" => "Fundamental Maior",
+                                            "4" => "Médio",
+                                            "5" => "Profissional",
+                                            "6" => "EJA",
+                                            "7" => "Outros",
+                                        ),array(
+                                            'class' => 'select-search-off',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('enrollment/getmodalities'),
+                                                'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
+                                            ),
+                                            )); ?>
                                 </div>
                             </div>
 
