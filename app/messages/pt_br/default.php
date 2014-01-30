@@ -357,6 +357,10 @@ return array(
     'Mother Name' => 'Nome Completo da Mãe',
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
+    'Full name' => 'Nome completo',
+    'Full mothers name' => 'Nome completo da mãe',
+    'Full fathers name' => 'Nome completo do pai',
+    'Only numbers, max 8' => 'Apenas numeros, deve conter 8 digitos',
     'Deficiency' => 'Deficiência',
     'Deficiency Type Blindness' => 'Cegueira',
     'Deficiency Type Low Vision' => 'Baixa visão',
@@ -423,7 +427,7 @@ return array(
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
-    'Contract Type' => 'Situação funcional / Regime de contratação / Tipo de Vínculo',
+    'Contract Type' => 'Tipo de Contrato',
     'Add Teacher' => 'Vincular professor',
     'Discipline 1 Fk' => '',
     'Discipline 2 Fk' => '',
@@ -456,6 +460,9 @@ return array(
     'Documents and Address' => 'Documentos e Endereço',
     'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
+    
+    //
+    'Area' => 'Área de Atuação',
     
     //Labels de Grupos
     'Operation Location' => 'Local de Funcionamento',

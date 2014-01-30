@@ -85,12 +85,20 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
+                        </div></div>
+
+                        <div class="control-group">
+                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
+                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'exemplo@email.com'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
                         </div></div>
 
@@ -103,6 +111,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'DD/MM/AAAA'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                         </div></div>
 
@@ -124,6 +133,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full mothers name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
                         </div></div>
 
@@ -188,7 +198,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         
                         <div class="control-group">
                             <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
-                            <div class="uniformjs margin-left" id="InstructorIdentification_operation_location">
+                            <div class="uniformjs margin-left" id="InstructorIdentification_deficiencies">
                                 <label class="checkbox">
                                     <?php 
                                     echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
@@ -231,11 +241,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->hiddenField($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                         </div>
-                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
-                            <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
-                        </div></div>
+                       
                     </div>
                 </div>
             </div>
@@ -255,6 +261,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Only numbers, max 8'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div></div>
 
@@ -302,7 +309,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt"=> "Selecione uma cidade", "class"=>"select-search-on")); ?><div class="controls">                    
+                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt"=>"Selecione uma cidade", "class"=>"select-search-on")); ?><div class="controls">                    
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         </div></div> 
             
@@ -508,7 +515,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </div></div>
                                                             
                                                         <div class="control-group">
-                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?><div class="controls">
+                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_formation_1', array('class' => 'control-label')); ?>
+                                                            <div class="controls">
                                                                 <?php
                                                                 echo ($isModel && isset($modelInstructorVariableData->high_education_formation_1)) ?
                                                                         CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1') : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_1', array('disabled' => 'disabled'));
@@ -518,17 +526,36 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             </div></div>
                                                             
                                                         <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area1', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area1', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=1'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_1_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="control-group">
                                                             <?php
-                                                            //@todo S1 - 25 - Talvez um pre-filtro com a area de autação e depois os cursos ORDENADOS por nome
+                                                            //@done S1 - 25 - Talvez um pre-filtro com a area de autação e 
+                                                            //@done s1 - depois os cursos ORDENADOS por nome
                                                             echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_1_fk', array('class' => 'control-label'));
                                                             ?><div class="controls">
                                                                 <?php
-                                                                echo ($isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk)) ?
-                                                                        $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on")) : $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'id DESC')), 'id', 'name')
-                                                                                , array('prompt' => 'Selecione o curso 1', "class" => "select-search-on", 'disabled' => 'disabled'));
-                                                                ?>
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_course_code_1_fk);
+                                                                echo  $form->DropDownlist($modelInstructorVariableData, 'high_education_course_code_1_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                                                        array(
+                                                                            'prompt' => 'Selecione o curso 1', 
+                                                                            "class" => "select-search-on", 
+                                                                            'disabled' => !$validate
+                                                                            ));
+                                                                echo $form->error($modelInstructorVariableData, 'high_education_course_code_1_fk'); ?>
                                                             </div></div>
                                                             
                                                         <div class="control-group">
@@ -556,17 +583,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 //@done s1 - ordenar alfabeticamente.
                                                                 $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_type_1);
                                                                 echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', 
-                                                                        array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), 
-                                                                        array(
-                                                                            "class" => "select-search-off",
-                                                                            'ajax' => array(
-                                                                                'type' => 'POST',
-                                                                                'url' => CController::createUrl('instructor/getInstitutions'),
-                                                                                'update' => '#InstructorVariableData_high_education_institution_code_1_fk',                                                                              
-                                                                            ),
-                                                                            'disabled' => !$validate,
-                                                                        )
-                                                                    ); 
+                                                                        array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"),
+                                                                        array('class'=>'select-search-off')); 
                                                                             
                                                                 ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
@@ -576,13 +594,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php
                                                                 $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk);
-                                                                    echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_1_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), 
-                                                                            array(
-                                                                                'prompt' => 'Selecione a instituição', 
-                                                                                "class" => "select-search-on",
-                                                                                'disabled' => !$validate
-                                                                                ));
-                                                            ?>
+                                                                    echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style"=>"width:220px;","disabled" => !$validate));
+                                                            ?>                                                            
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_1_fk'); ?>
                                                             </div></div>
                                                     </div>
@@ -616,7 +629,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             : CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_2', array('disabled' => true)); ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_2'); ?>
                                                         </div></div>
-
+                                                                                                                    
+                                                        <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area2', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area2', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=2'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_2_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php
@@ -624,7 +653,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
                                                                     , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on'))
                                                             :$form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                                                    , array('prompt' => 'Select o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
+                                                                    , array('prompt' => 'Selecione o curso 2','class'=>'select-search-on', 'disabled' => 'disabled'));
                                                             ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
                                                         </div></div>
@@ -649,20 +678,21 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2', array('class' => 'control-label')); ?><div class="controls">
-                                                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_2)) ?
-                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
-                                                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null=>"Selecione o tipo",1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off'));
-                                                            ?>
+                                                            <?php 
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_type_2);
+                                                                echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', 
+                                                                        array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"),
+                                                                        array('class'=>'select-search-off')); 
+                                                                            ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
                                                         </div></div>
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php
-                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_2_fk)) ?
-                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
-                                                            :$form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_2_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled','prompt'=>'Selecione a instituição','class'=>'select-search-on'));
-                                                            ?>
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk);
+                                                                    echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style"=>"width:220px;","disabled" => !$validate));
+                                                            ?>   
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_2_fk'); ?>
                                                         </div></div>
                                                         
@@ -696,6 +726,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             :CHtml::activeCheckBox($modelInstructorVariableData, 'high_education_formation_3', array('disabled' => true)); ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_formation_3'); ?>
                                                         </div></div>
+                                                        
+                                                                                                                    
+                                                        <div class="control-group">
+                                                            <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area3', array('class' => 'control-label'));
+                                                            ?>
+                                                            <div class="controls">
+                                                                <?php echo CHtml::DropDownList('high_education_course_area3', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group'=>'cod')), 'cod', 'area'),
+                                                                        array(
+                                                                            'class'=>'select-search-off', 
+                                                                            'prompt'=>'Selecione a Área de Atuação',
+                                                                            'ajax'=>array(
+                                                                                'type' => 'POST',
+                                                                                'url' => CController::createUrl('instructor/getCourses&tdid=3'),
+                                                                                'update' => '#InstructorVariableData_high_education_course_code_3_fk',                                                                              
+                                                                            )));?>
+                                                            </div>
+                                                        </div>
+                                                        
+
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?><div class="controls">
@@ -704,7 +753,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
                                                                     , array('prompt' => 'Selecione o curso 3','class'=>'select-search-on'))
                                                             : $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name')
-                                                                    , array('prompt' => 'Select o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
+                                                                    , array('prompt' => 'Selecione o curso 3', 'disabled' => 'disabled','class'=>'select-search-on'));
                                                             ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
                                                         </div></div>
@@ -727,19 +776,21 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3', array('class' => 'control-label')); ?><div class="controls">
-                                                            <?php echo ($isModel && isset($modelInstructorVariableData->high_education_institution_type_3)) ?
-                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class'=>'select-search-off'))
-                                                            : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null=>"Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('disabled' => 'disabled','class'=>'select-search-off')); ?>
+                                                            <?php 
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_type_3);
+                                                                echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', 
+                                                                        array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"),
+                                                                        array('class'=>'select-search-off')); 
+                                                            ?>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
                                                         </div></div>
 
                                                         <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label')); ?><div class="controls"> 
                                                             <?php
-                                                            echo ($isModel && isset($modelInstructorVariableData->high_education_institution_code_3_fk)) ?
-                                                            $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'),array('prompt'=>'Selecione a instituição','class'=>'select-search-on'))
-                                                           : $form->DropDownList($modelInstructorVariableData, 'high_education_institution_code_3_fk', CHtml::listData(EdcensoIES::model()->findAll(), 'id', 'name'), array('disabled' => 'disabled', 'prompt'=>'Selecione a instituição','class'=>'select-search-on'));
-                                                            ?>
+                                                                $validate = $isModel && isset($modelInstructorVariableData->high_education_institution_code_1_fk);
+                                                                    echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style"=>"width:220px;","disabled" => !$validate));
+                                                            ?>   
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_code_3_fk'); ?>
                                                         </div></div>
 
@@ -761,9 +812,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
     
 <script type="text/javascript">
-    //==============INSTRUCTOR IDENTIFICATION
     var formInstructorIdentification = '#InstructorIdentification_';
     var formInstructorvariableData = "#InstructorVariableData_";  
+    
+    var filter = {1:0, 2:0, 3:0};
+    
     $(formInstructorIdentification +'name,'+formInstructorIdentification +'mother_name').on('focusout', function(){
         var id = '#'+$(this).attr("id");
         
@@ -804,43 +857,32 @@ $form = $this->beginWidget('CActiveForm', array(
         }
     });
     
+    <?php //@done s1 - corrigir a validação da nacionalidade 
+          //@done s1 - atualizar o select2 para versão 2.3.4
+    ?>
+        
     $(formInstructorIdentification+'nationality').on('change', function(){
-        if($(this).val() == 3) {
-            $(formInstructorIdentification+'edcenso_nation_fk').removeAttr('disabled');
-        }else{
-            $(formInstructorIdentification+'edcenso_nation_fk').val(76);
-            $(formInstructorIdentification+'edcenso_nation_fk').add().attr('disabled','disabled');
-        }
+        var nationality = $(this).val();
+        var nation = $(formInstructorIdentification+'edcenso_nation_fk');
+        var uf = $(formInstructorIdentification+'edcenso_uf_fk');
+        var city = $(formInstructorIdentification+'edcenso_city_fk');
         
-        if($(this).val() != 1) {
-            $(formInstructorIdentification+'edcenso_uf_fk').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'edcenso_uf_fk').val('');
-            $(formInstructorIdentification+'edcenso_city_fk').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'edcenso_city_fk').val('');
+        if(nationality != 3) {
+            nation.val(76).trigger('change').add().select2('readonly', true);
+            uf.val('').trigger('change').select2('enable', true);
+            city.val('').trigger('change').select2('enable', true);
         }else{
-            $(formInstructorIdentification+'edcenso_uf_fk').removeAttr('disabled'); 
-            $(formInstructorIdentification+'edcenso_city_fk').removeAttr('disabled');
-        }
-        
+            nation.select2('readonly', false);
+            uf.val('').trigger('change').add().select2('disable', true);
+            city.val('').trigger('change').add().select2('disable', true);
+        }        
     });
     
     $(formInstructorIdentification+'deficiency').on('change', function(){
         if($(this).is(':checked')) { 
-            $(formInstructorIdentification+'deficiency_type_blindness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_low_vision').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_deafness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_disability_hearing').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_deafblindness').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_phisical_disability').removeAttr('disabled');
-            $(formInstructorIdentification+'deficiency_type_intelectual_disability').removeAttr('disabled');
+            $("#InstructorIdentification_deficiencies input").removeAttr('disabled');
         }else{
-            $(formInstructorIdentification+'deficiency_type_blindness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_low_vision').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_deafness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_disability_hearing').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_deafblindness').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_phisical_disability').add().attr('disabled','disabled');
-            $(formInstructorIdentification+'deficiency_type_intelectual_disability').add().attr('disabled','disabled'); 
+            $("#InstructorIdentification_deficiencies input").removeAttr('checked').add().attr('disabled','disabled');
         }
     }); 
     
@@ -1119,18 +1161,7 @@ $form = $this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-    $(formDocumentsAndAddress+'complement').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        $(id).val($(id).val().toUpperCase());
-        
-        if(!validateInstructorAddressComplement($(this).val())) { 
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
-    
+
     
     $('#InstructorVariableData_high_education_initial_year_1, \n\
     #InstructorVariableData_high_education_initial_year_2,\n\
@@ -1153,11 +1184,23 @@ $form = $this->beginWidget('CActiveForm', array(
         } 
     }); 
     
+    $(formInstructorvariableData+'high_education_institution_type_1').on('change', function(){
+        filter[1] = $(this).val();
+    });
+    $(formInstructorvariableData+'high_education_institution_type_2').on('change', function(){
+        filter[2] = $(this).val();
+    });
+    $(formInstructorvariableData+'high_education_institution_type_3').on('change', function(){
+        filter[3] = $(this).val();
+    });
+    
     $(formInstructorvariableData+'scholarity').on('change', function(){
         if($(this).val() == 6) { 
             $("#instructorVariableData").show();
-            $("#tab-instructor-data1").attr('class','active');
-            $("#instructor-data1").attr('class','active');
+            $("#tab-instructor-data1").attr('class','active sub-active');
+            $("#instructor-data1").attr('class','active sub-active');
+            $("#instructor-data2").hide();
+            $("#instructor-data3").hide();
             $(formInstructorvariableData+'high_education_situation_1').removeAttr('disabled');
             $(formInstructorvariableData+'high_education_formation_1').removeAttr('disabled');
             $(formInstructorvariableData+'high_education_course_code_1_fk').removeAttr('disabled');
@@ -1380,10 +1423,6 @@ $form = $this->beginWidget('CActiveForm', array(
         
     }); 
     
-    //=============================================
-    
-    
-    
     $('.tab-instructor li a').click(function(){
         var classActive = $('ul.tab-instructor li[class="active"]');
         var divActive = $('div.active');
@@ -1469,6 +1508,7 @@ $form = $this->beginWidget('CActiveForm', array(
     //@done s1 ajeitar mudança de sub-abas
     $('.tab-instructordata li a').click(function(){
         var classActive = $('li[class="sub-active"]');
+        var divActive = $('div.sub-active');
         var li1 = 'tab-instructor-data1';
         var li2 = 'tab-instructor-data2';
         var li3 = 'tab-instructor-data3';
@@ -1488,15 +1528,57 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('#instructor-data3').show(); break;
         }
         classActive.removeClass("sub-active");
+        divActive.removeClass("sub-active")
         var next_content = tab.substring(4);
         next_content = next_content.toString();
         $('#'+next_content).addClass("sub-active");
+        $('#'+tab).addClass("sub-active");
     });
-    
     
     $(document).ready(function(){
         $(formInstructorvariableData+'scholarity').trigger('change');
         
         $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
-    });
+        
+        <?php //@done s1 - Deixar a seleção de instituições mais rápida ?>
+        $(formInstructorvariableData+"high_education_institution_code_1_fk, "
+            +formInstructorvariableData+"high_education_institution_code_2_fk, "
+            +formInstructorvariableData+"high_education_institution_code_3_fk").select2({
+            
+            placeholder: "Selecione a Instituição",
+            minimumInputLength: 3,
+            ajax: {
+                url: "<?php echo CController::createUrl('instructor/getInstitutions'); ?>",
+                dataType: 'json',
+                quietMillis: 500,
+                data: function (term, page) { // page is the one-based page number tracked by Select2
+                    return {
+                        q: term, //search term
+                        f: filter[1],
+                        page: page // page number
+                    };
+                },
+                results: function (data, page) {
+                    var more = (page * 10) < data.total; // whether or not there are more results available
+
+                    // notice we return the value of more so Select2 knows if more results can be loaded
+                    return {results: data.ies, more: more};
+                }
+            },
+            formatResult: function(institution) {
+                var markup = "<table class='institution-result'><tr>";
+                markup += "<td class='institution-info'><div class='institution-name'>" + institution.name + "</div>";
+                markup += "</td></tr></table>";
+                return markup;
+            },
+            formatSelection:function(institution) {
+                return institution.name;
+            },
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+            escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+        });       
+        $(formInstructorvariableData+"high_education_institution_code_1_fk, "
+            +formInstructorvariableData+"high_education_institution_code_2_fk, "
+            +formInstructorvariableData+"high_education_institution_code_3_fk").select2('enable', true);
+    });     
 </script>

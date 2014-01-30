@@ -2,9 +2,9 @@
 
 class InstructorController extends Controller {
     
-   //@TODO s2 - Tirar Aba Dados do Instrutor do update de instrutor
-   //@TODO s2 - Adicionar validações em todos os campos que erstão faltando
-   //@TODO s2 - validar CPF
+   //@todo s1 - Tirar Aba Dados do Instrutor do update de instrutor
+   //@done s1 - Adicionar validações em todos os campos que estão faltando
+   //@todo s1 - validar CPF
 
 
     /**
@@ -34,7 +34,7 @@ class InstructorController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getCity', 'getInstitutions'),
+                'actions' => array('index', 'view', 'create', 'update', 'getCity', 'getInstitutions', 'getCourses'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -136,10 +136,12 @@ preenchidos";
                         && $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
-// CORRIGIR !!!!!!!!!!!!!
                     
                     $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
                     $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
+                    $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk)? null : $modelInstructorVariableData->high_education_course_code_1_fk;
+                    $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk)? null : $modelInstructorVariableData->high_education_course_code_2_fk;
+                    $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk)? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
@@ -238,16 +240,23 @@ preenchidos";
                 $modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
                 $modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
 
+                $modelInstructorVariableData->high_education_institution_code_1_fk = empty($modelInstructorVariableData->high_education_institution_code_1_fk)? null : $modelInstructorVariableData->high_education_institution_code_1_fk;
+                $modelInstructorVariableData->high_education_institution_code_2_fk = empty($modelInstructorVariableData->high_education_institution_code_2_fk)? null : $modelInstructorVariableData->high_education_institution_code_2_fk;
+                $modelInstructorVariableData->high_education_institution_code_3_fk = empty($modelInstructorVariableData->high_education_institution_code_3_fk)? null : $modelInstructorVariableData->high_education_institution_code_3_fk;
+
                 if ($modelInstructorIdentification->validate()
                         && $modelInstructorDocumentsAndAddress->validate()
                         && $modelInstructorVariableData->validate()
                         && $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
-// CORRIGIR !!!!!!!!!!!!!
                     
                     $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
                     $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
+                    
+                    $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk)? null : $modelInstructorVariableData->high_education_course_code_1_fk;
+                    $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk)? null : $modelInstructorVariableData->high_education_course_code_2_fk;
+                    $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk)? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save()
                             && $modelInstructorVariableData->save()) {
@@ -345,25 +354,52 @@ preenchidos";
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Cidade', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione uma Cidade', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }  
     }
 
     //@done s1 - Criar Função que retorna instituições filtrando por tipo
-    public function actionGetInstitutions() {
-        
-        $institution_type = $_POST['InstructorVariableData']['high_education_institution_type_1'] == 1? 'PÚBLICA' : 'PRIVADA';
-        $data = EdcensoIES::model()->findAll(array('order'=>'name', 'condition'=>'institution_type=:x', 'params'=>array(':x'=>$institution_type)));
+    //@done s1 - Modificar função para que ela fique mais rápida
+    public function actionGetInstitutions($q,$f,$page) {
 
+        $institution_type = $f == 0 ? '' : ($f == 1 ? 'PÚBLICA' : 'PRIVADA');
+        
+        $condition = $f == 0 ? '' : "institution_type='$institution_type' AND ";
+        $condition .= "name like '%$q%'";
+        
+        $sql = "SELECT COUNT(*) as total FROM edcenso_ies where ".$condition;
+        $command = Yii::app()->db->createCommand($sql);
+        $results = $command->queryAll();
+        $total = (int)$results[0]["total"];
+        
+        $data = EdcensoIES::model()->findAll("$condition ORDER BY name LIMIT ".(($page-1)*10).",10");
+        $data = CHtml::listData($data, 'id', 'name');
+        
+        $return = array();
+        $return['total'] = $total;
+        $return['ies'] = array();
+        foreach ($data as $value => $name) {
+            array_push($return['ies'], array('id'=> CHtml::encode($value), 'name'=>CHtml::encode($name)));
+        }  
+        
+        echo json_encode($return);
+    }
+    
+    //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
+    public function actionGetCourses($tdid = 1){
+        
+        $area = $_POST['high_education_course_area'.$tdid];
+        $data = EdcensoCourseOfHigherEducation::model()->findAll(array('order'=>'name', 'condition'=>'cod=:x', 'params'=>array(':x'=>$area)));
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'NULL'), 'Selecione a Instituição', true);
+        echo CHtml::tag('option', array('value' => null), 'Selecione o Curso', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }  
     }
+    
     /**
      * Manages all models.
      */
