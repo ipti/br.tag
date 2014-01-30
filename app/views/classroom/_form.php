@@ -41,8 +41,8 @@ $form=$this->beginWidget('CActiveForm', array(
         
         <div class="widget-head">
             <ul class="tab-classroom">
-                <li id="tab-classroom" class="active" ><a class="glyphicons edit" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li id="tab-instructor-teaching"><a class="glyphicons edit" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor') ?></a></li> 
+                <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
+                <li id="tab-instructor-teaching"><a class="glyphicons nameplate" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor') ?></a></li> 
             </ul>
         </div>
             

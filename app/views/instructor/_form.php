@@ -46,9 +46,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="widget-head">
             <ul class="tab-instructor">
-                <li id="tab-instructor-identify"class="active"><a class="glyphicons edit" href="#instructor-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li id="tab-instructor-address"><a class="glyphicons settings" href="#instructor-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
-                <li id="tab-instructor-data"><a class="glyphicons parents" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
+                <li id="tab-instructor-identify"class="active"><a class="glyphicons vcard" href="#instructor-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-instructor-address"><a class="glyphicons home" href="#instructor-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
+                <li id="tab-instructor-data"><a class="glyphicons certificate" href="#instructor-data" data-toggle="tab"><i></i><?php /*@done s1 24 - Dado Variavel é melhor dados educacionais???*/ echo Yii::t('default', 'Variable Data') ?></a></li>
             </ul>
         </div>
 

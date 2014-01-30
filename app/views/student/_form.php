@@ -33,9 +33,9 @@
         
         <div class="widget-head">
             <ul class="tab-student">
-                <li id="tab-student-identify" class="active"><a class="glyphicons edit" href="#student-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li id="tab-student-documents"><a class="glyphicons settings" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
-                <li id="tab-student-address"><a class="glyphicons imac" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
+                <li id="tab-student-identify" class="active"><a class="glyphicons vcard" href="#student-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
+                <li id="tab-student-documents"><a class="glyphicons credit_card" href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
+                <li id="tab-student-address"><a class="glyphicons home" href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
             </ul>
         </div>
             
