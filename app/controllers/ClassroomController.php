@@ -34,7 +34,7 @@ class ClassroomController extends Controller
 				'actions'=>array('index','view','create','update','getassistancetype',
                                         'updateassistancetypedependencies','updatecomplementaryactivity',
                                         'getcomplementaryactivitytype','delete'),
-				'users'=>array('manager'),
+				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin'),
