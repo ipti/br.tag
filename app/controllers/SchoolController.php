@@ -30,7 +30,7 @@ class SchoolController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 
                     'edcenso_import', 'configacl',
                     'getcities','getdistricts', 'getorgans', 'updateufdependencies'),
-                'users' => array('@'),
+                'users' => array('admin'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete'),

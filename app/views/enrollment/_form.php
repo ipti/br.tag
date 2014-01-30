@@ -46,8 +46,6 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span5">
 
-                            <div class="separator"></div>
-
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
