@@ -151,7 +151,7 @@
                                 <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação",'class' => 'select-search-on'));
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma nação",'class' => 'select-search-on','disabled'=>'disabled'));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
@@ -583,7 +583,7 @@
     
     jQuery(function($) {
         $(formIdentification+'filiation').trigger('change');
-        $(formIdentification+'nationality').trigger('change');
+        $(formIdentification+'deficiency').trigger('change');
     }); 
     
     
@@ -745,6 +745,7 @@
     });
     
     $(formIdentification+'nationality').change(function(){
+        $(formIdentification+'edcenso_nation_fk').attr("disabled", "disabled");
         $(formIdentification+'edcenso_uf_fk').attr("disabled", "disabled");
         $(formIdentification+'edcenso_city_fk').attr("disabled", "disabled");
         $(formDocumentsAndAddress+'rg_number').attr("disabled", "disabled");
@@ -766,10 +767,20 @@
         $(formDocumentsAndAddress+'foreign_document_or_passport').attr("disabled", "disabled");
         
         if($(this).val() == 3){
+            $(formIdentification+'edcenso_nation_fk').removeAttr("disabled");
+            $(formIdentification+'edcenso_nation_fk').val(null).trigger('change');
             $(formIdentification+'edcenso_uf_fk').val("");
             $(formIdentification+'edcenso_city_fk').val("");
             $(formDocumentsAndAddress+'foreign_document_or_passport').removeAttr("disabled");
+        }else if ($(this).val() == ""){
+            $(formIdentification+'edcenso_nation_fk').val(null).trigger('change');
+            $(formIdentification+'edcenso_nation_fk').attr("disabled", "disabled");
+            $(formIdentification+'edcenso_uf_fk').attr("disabled", "disabled");
+            $(formIdentification+'edcenso_city_fk').attr("disabled", "disabled");
         }else{
+            $(formIdentification+'edcenso_nation_fk').val(76).trigger('change');
+            $(formIdentification+'edcenso_nation_fk').removeAttr("disabled");
+            $(formIdentification+'edcenso_nation_fk').select2('readonly', true);
             $(formIdentification+'edcenso_uf_fk').removeAttr("disabled");
             $(formIdentification+'edcenso_city_fk').removeAttr("disabled");
             $(formDocumentsAndAddress+'rg_number').removeAttr("disabled");
