@@ -6,6 +6,7 @@ class StudentController extends Controller {
     //@done s1 - validar CPF
     //@done s1 - Campo Cartórios - Colocar em ordem alfabética
     //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
+    //@done s1 - atualizar dependencia de select2
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -32,11 +33,11 @@ class StudentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations'),
-                'users' => array('@'),
+                'actions' => array('index', 'view', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'users' => array('manager'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
+                'actions' => array('admin'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users

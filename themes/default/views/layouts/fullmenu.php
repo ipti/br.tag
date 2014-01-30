@@ -170,6 +170,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <!-- Menu Regular Item -->
                                 <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
 
+                                <?php if(Yii::app()->getAuthManager()->checkAccess('createSchool',Yii::app()->user->loginInfos->id)){ ?>
                                 <!-- Menu Item Escolas -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
@@ -180,7 +181,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                     <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Escolas -->
-
+                                <?php } ?>
                                 <!-- Menu Item Turmas -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons adress_book" href="#menu_turmas"><i></i><span>Turmas</span></a>
