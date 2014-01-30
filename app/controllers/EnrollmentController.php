@@ -2,7 +2,7 @@
 
 class EnrollmentController extends Controller {
 
-    //@todo s1 - Validar Ano Letivo na matricula(um aluno não pode estar em duas turmas REGULARES ao mesmo tempo)
+    //@done s1 - Validar Ano Letivo
     //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
     //@done s1 - Filtrar aluno e turma por escola
     
@@ -30,11 +30,11 @@ class EnrollmentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies"),
-                'users' => array('@'),
+                'actions' => array('index', 'view', 'create', 'update', "updatedependencies",'delete'),
+                'users' => array('manager'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete'),
+                'actions' => array('admin'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users

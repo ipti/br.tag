@@ -27,12 +27,11 @@ class SchoolController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('edcenso_import'),
+                'actions' => array('edcenso_import','configacl'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete','index', 'view', 'create', 'update', 
-                    'edcenso_import', 'configacl',
                     'getcities','getdistricts', 'getorgans', 'updateufdependencies'),
                 'users' => array('admin'),
             ),
