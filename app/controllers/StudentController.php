@@ -3,10 +3,9 @@
 class StudentController extends Controller {
     //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
     //@todo s1 - Recuperar endereço pelo CEP
-    //@todo s1 - validar CPF
-    //@todo s1 - Campo Cartórios - Colocar em ordem alfabética
-    //@todo s1 - Campo TIpo de Certidão Civil (Add as opções)
-    //@done s1 - atualizar dependencia de select2
+    //@done s1 - validar CPF
+    //@done s1 - Campo Cartórios - Colocar em ordem alfabética
+    //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -87,7 +86,7 @@ class StudentController extends Controller {
         $student = new StudentDocumentsAndAddress();
         $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
 
-        $data = EdcensoNotaryOffice::model()->findAll('city=:city_id', array(':city_id' => (int) $student->notary_office_city_fk));
+        $data = EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => (int) $student->notary_office_city_fk), array('order' => 'name'));
         $data = CHtml::listData($data, 'id', 'name');
 
         echo CHtml::tag('option', array('value' => null), 'Selecione um cartório', true);
