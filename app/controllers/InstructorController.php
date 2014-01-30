@@ -5,7 +5,7 @@ class InstructorController extends Controller {
    //@done s1 - Tirar Aba Dados do Instrutor do update de instrutor
    //@done s1 - Adicionar validações em todos os campos que estão faltando
    //@done s1 - validar CPF
-   //@todo s1 - corrigir o delete do instructor
+   //@done s1 - corrigir o delete do instructor
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -287,14 +287,16 @@ preenchidos";
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
-
+        
+        $delete = true;
+        
         if ( $modelInstructorDocumentsAndAddress->delete()
-                && $modelInstructorVariableData->delete()
-                && $modelInstructorTeachingData->delete()
-                && $modelInstructorIdentification->delete()) {
-            
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor excluído com sucesso!'));
-            $this->redirect(array('index'));
+                && $modelInstructorVariableData->delete()) {
+            foreach($modelInstructorTeachingData as $td)    $delete = $delete && $td->delete();
+            if ($delete && $modelInstructorIdentification->delete()){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Professor excluído com sucesso!'));
+                $this->redirect(array('index'));
+            }
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -459,10 +461,11 @@ preenchidos";
             }
         } else if ($model == $this->InstructorTeachingData) {
               if(isset($instructor->inep_id) && !empty($instructor->inep_id)){ // VEr possível correção !!!!
-                $return = InstructorTeachingData::model()->findByAttributes(
-                    array('inep_id' => $instructor_inepid_id));
+                $return = InstructorTeachingData::model()->findAllByAttributes(
+                    array('instructor_inep_id' => $instructor_inepid_id));
             }else{
-                $return = InstructorTeachingData::model()->findByPk($instructor_inepid_id);
+                $return = InstructorTeachingData::model()->find->findAllByAttributes(
+                    array('instructor_fk' => $instructor_inepid_id));
             }
             
         }

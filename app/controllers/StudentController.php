@@ -7,6 +7,7 @@ class StudentController extends Controller {
     //@done s1 - Campo Cartórios - Colocar em ordem alfabética
     //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
     //@done s1 - atualizar dependencia de select2
+    //@done s1 - corrigir o deletar
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -15,6 +16,7 @@ class StudentController extends Controller {
     public $layout = 'fullmenu';
     private $STUDENT_IDENTIFICATION = 'StudentIdentification';
     private $STUDENT_DOCUMENTS_AND_ADDRESS = 'StudentDocumentsAndAddress';
+    private $STUDENT_ENROLLMENT = 'StudentEnrollment';
 
     /**
      * @return array action filters
@@ -195,14 +197,18 @@ class StudentController extends Controller {
      * @param integer $id the ID of the model to be deleted
      */
     public function actionDelete($id) {
+        $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+        $delete = true;
+        foreach ($enrollment as $e) {$delete = $delete && $e->delete();}
         
-            if( $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS)->delete()
-                && $this->loadModel($id, $this->STUDENT_IDENTIFICATION)->delete()){
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
-                    $this->redirect(array('index'));
-            }else{
-                throw new CHttpException(404,'The requested page does not exist.');
-            }
+        if( $delete
+            && $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS)->delete()
+            && $this->loadModel($id, $this->STUDENT_IDENTIFICATION)->delete()){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
+                $this->redirect(array('index'));
+        }else{
+            throw new CHttpException(404,'The requested page does not exist.');
+        }
         
         
         
@@ -283,8 +289,9 @@ class StudentController extends Controller {
             $return = ($student_inep_id === null) 
                     ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
+        } else if ($model == $this->STUDENT_ENROLLMENT){            
+            $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
         }
-        
         if ($return === null){
             throw new CHttpException(404, 'The requested page does not exist.');
         }
