@@ -583,6 +583,7 @@
     
     jQuery(function($) {
         $(formIdentification+'filiation').trigger('change');
+        $(formIdentification+'nationality').trigger('change');
         $(formIdentification+'deficiency').trigger('change');
     }); 
     
