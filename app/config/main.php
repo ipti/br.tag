@@ -19,7 +19,7 @@
 // @done S1 - 08 - Filtrar a listagem das professores por escola da sessão
 // @done S1 - Adicionar os inputs nos filtros necessarios
 // @done S1 - Inserir o prompt dos campos de instrutor
-// @todo S1 - AJEITAR O INSTRUCTOR
+// @done S1 - AJEITAR O INSTRUCTOR
 // 
 // 
 // @done S1 - 04 - Retirar os links para view do breadcrumb e remover o "atualizar" do final
@@ -92,7 +92,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=TAG_SGE',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'IPTI008',
+			'password' => 'p@s4ipti',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(
