@@ -6,6 +6,7 @@ class StudentController extends Controller {
     //@done s1 - validar CPF
     //@done s1 - Campo Cartórios - Colocar em ordem alfabética
     //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
+    //@done s1 - atualizar dependencia de select2
     
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
