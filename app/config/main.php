@@ -32,7 +32,7 @@
 // @done S1 - Corrigir problema de mudança de aba de forma manual do student
 // @done S1 - Corrigir problema de mudança de aba de forma manual do instructor
 // @done S1 - Corrigir problema de mudança de aba de forma manual do classroom
-// 
+// @done S1 - Corrigir permissões de acesso às telas
 // @done S1 - Atualização dos campos apartir da escola.
 // verificar se o criteria do index.php esta funcionando 
 // 
