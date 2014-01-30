@@ -196,6 +196,54 @@ function validateNamePerson(personName){
 }
 
 function validateCpf(cpf){
+    if (cpf == "00000000000" || cpf == "11111111111"
+        || cpf == "22222222222" || cpf == "33333333333"
+        || cpf == "44444444444" || cpf == "55555555555"
+        || cpf == "66666666666" || cpf == "77777777777"
+        || cpf == "88888888888" || cpf == "99999999999"
+        || !rule(cpf, numberRules.cpf)){
+         return false;
+    }else{
+        var a = [];
+        var b = new Number;
+        var c = 11;
+        
+        for (var i=0; i<11; i++){
+            a[i] = cpf.charAt(i);
+            if (i < 9) 
+                b += (a[i] * --c);
+        }
+        var x = b % 11;
+        
+        if (x < 2) { 
+            a[9] = 0 
+        } else { 
+            a[9] = 11-x 
+        }
+        b = 0;
+        c = 11;
+        for (var y=0; y<10; y++) {
+            b += (a[y] * c--);
+        }
+        
+        x = b % 11;
+        if (x < 2){ 
+            a[10] = 0; 
+        } else { 
+            a[10] = 11-x; 
+        }
+
+        return ((cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]))
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     if(cpf == "00000000000" || cpf == "00000000191")
         return false;
     else
