@@ -314,7 +314,7 @@ return array(
     'Cpf' => 'Nº do CPF',
     'Foreign Document Or Passport' => 'Documento Estrangeiro / Passaporte',
     'Nis' => 'Nº de Identificação Social (NIS)',
-    'Document Failure Lack' => 'Justificativa para a falta de documentaçãodo aluno',
+    'Document Failure Lack' => 'Justificativa para a falta de documentação do aluno',
     'Residence Zone' => 'Localização / Zona de residência',
     'CEP' => 'CEP',
     'Address' => 'Endereço',

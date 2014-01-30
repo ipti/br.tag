@@ -136,7 +136,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full mothers name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
                         </div></div>
-
+                        </div>
+                        <div class=" span5">
+                        <div class="separator"></div>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label')); ?><div class="controls">
                             <?php
@@ -158,10 +160,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php //echo $form->textField($modelInstructorIdentification,'edcenso_nation_fk');   ?>
                             <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                         </div></div>
-
-                        </div>
-                        <div class=" span5">
-                        <div class="separator"></div>
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php

@@ -47,7 +47,6 @@
                 <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
                         <div class=" span5">
-                            <div class="separator"></div>
                             <div class="control-group">
                                 <?php 
                                 //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
@@ -132,7 +131,7 @@
                                     <?php echo $form->error($modelStudentIdentification, 'father_name'); ?>
                                 </div>
                             </div>
-                                
+                            
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -185,6 +184,9 @@
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
+                        </div>
+                        <div class=" span5">
+                            <div class="separator"></div>
                                 
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
@@ -366,7 +368,6 @@
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                                 </div>
                             </div>
-                                
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -390,6 +391,11 @@
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
                                 </div>
                             </div>
+                        </div>
+                        <div class=" span5">
+                            
+                            <div class="separator"></div>
+                            
                                 
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 'control-label')); ?>

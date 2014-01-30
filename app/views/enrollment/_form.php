@@ -129,17 +129,28 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
-
                             <div class="control-group">
-                                <?php 
-                                //FIXME 01 - Erro meu faz todo sentido o transporte escolar ser selecionado na matricula.
-                                echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza"),array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($model, 'public_transport'); ?>
+                                    <?php
+                                    echo $form->DropDownList($model, 'student_entry_form', array(null => "Selecione a forma de ingresso do aluno",
+                                        "1" => "Sem processo seletivo",
+                                        "2" => "Sorteio",
+                                        "3" => "Transferência",
+                                        "4" => "Exame de seleção sem reserva de vaga",
+                                        "5" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino",
+                                        "6" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda e autodeclarado preto, pardo ou indígena",
+                                        "7" => "Exame de seleção, vaga reservada para outros programas de ação afirmativa",
+                                        "8" => "Outra forma de ingresso",
+                                        "9" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda"),array('class' => 'select-search-off'));
+                                    ?>
+                                    <?php echo $form->error($model, 'student_entry_form'); ?>
                                 </div>
                             </div>
 
+                        </div>
+                        <div class=" span5">
+                        <div class="separator"></div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -197,23 +208,14 @@ $form=$this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            
+                        
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 'control-label')); ?>
+                                <?php 
+                                //FIXME 01 - Erro meu faz todo sentido o transporte escolar ser selecionado na matricula.
+                                echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php
-                                    echo $form->DropDownList($model, 'student_entry_form', array(null => "Selecione a forma de ingresso do aluno",
-                                        "1" => "Sem processo seletivo",
-                                        "2" => "Sorteio",
-                                        "3" => "Transferência",
-                                        "4" => "Exame de seleção sem reserva de vaga",
-                                        "5" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino",
-                                        "6" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda e autodeclarado preto, pardo ou indígena",
-                                        "7" => "Exame de seleção, vaga reservada para outros programas de ação afirmativa",
-                                        "8" => "Outra forma de ingresso",
-                                        "9" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda"),array('class' => 'select-search-off'));
-                                    ?>
-                                    <?php echo $form->error($model, 'student_entry_form'); ?>
+                                    <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($model, 'public_transport'); ?>
                                 </div>
                             </div>
                         </div>
