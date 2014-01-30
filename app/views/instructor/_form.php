@@ -490,7 +490,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">
                                         <ul class="tab-instructordata">
-                                            <li id="tab-instructor-data1" class="active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
+                                            <li id="tab-instructor-data1" class="sub-active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
                                             <li id="tab-instructor-data2"><a class="glyphicons settings" href="#instructor-data2" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 2' ?></a></li>
                                             <li id="tab-instructor-data3"><a class="glyphicons parents" href="#instructor-data3" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 3' ?></a></li>
                                         </ul>
