@@ -27,49 +27,42 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
 <!-- Wrapper -->
 <div id="login">
+    
+    <div class="taglogo">
+        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_login.png" style="padding: 125px 50px;height: 100px;position: absolute;top: 0;" />
+    </div>
 
-	<!-- Box -->
 	<div class="form-signin">
-		<h3>Login</h3>
 		
-		<!-- Row -->
+
 		<div class="row-fluid row-merge">
 		
-			<!-- Column -->
-			<div class="span12">
-				<div class="inner">
-				
-					<!-- Form -->
-					<form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
-						<label class="strong">Login</label>
-						<?php echo $form->textField($model,'username', array('class' => 'input-block-level')); ?>
-                                                <?php echo $form->error($model,'username'); ?>
-						<label class="strong">Senha</label>
-						<?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
-                                                <?php echo $form->error($model,'password'); 
-                                                // @done S1 - Alinhar o checkbox com os inputs
-                                                ?>
-						<div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 4px 0 0"value="remember-me">Lembrar-me</label></div>
-						<div class="row-fluid">
-							<div class="span12 center">
-								<?php echo CHtml::submitButton('Login', array('class' => 'btn btn-block btn-primary')); ?>
-							</div>
-						</div>
-					</form>
-					<!-- // Form END -->
-					
-				</div>
-			</div>
-			<!-- // Column END -->
-			
-			<!-- Column -->
-			
-			<!-- // Column END -->
-			
+
+                        <div class="offset5 span6 login-input">
+                            <div class="inner">
+                                <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
+                                    <label class="strong">Usuário</label>
+                                    <?php echo $form->textField($model,'username', array('class' => 'input-block-level')); ?>
+                                    <?php echo $form->error($model,'username'); ?>
+                                    <label class="strong">Senha</label>
+                                    <?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
+                                    <?php echo $form->error($model,'password'); 
+                                    // @done S1 - Alinhar o checkbox com os inputs
+                                    ?>
+                                    <div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 4px 0 0"value="remember-me">Lembrar-me</label></div>
+                                    <div class="row-fluid">
+                                            <div class="offset7 span5 center">
+                                                    <?php echo CHtml::submitButton('Login', array('class' => 'btn btn-block btn-primary')); ?>
+                                            </div>
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
 		</div>
-		<!-- // Row END -->
 	</div>
-	<!-- // Box END -->
+        <span class="iptilogo">Uma tecnologia desenvolvida pelo</span>
+        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" />
 	
 </div>    
 

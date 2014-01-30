@@ -85,7 +85,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Brand -->
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 4px 0 0 28px;height: 40px;" /><span><span>v3.0</span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 7px 5px 0 44px;height: 34px;" /><span><span>v3.0</span></span></a>
 
                 <!-- Menu Toggle Button --
                 <button type="button" class="btn btn-navbar">
