@@ -149,8 +149,17 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
 
                         </div>
-                        <div class=" span5">
+                        <div class=" span6">
                         <div class="separator"></div>
+                        
+                            <div class="control-group">
+                                <?php 
+                                echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($model, 'public_transport'); ?>
+                                </div>
+                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -206,16 +215,6 @@ $form=$this->beginWidget('CActiveForm', array(
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
                                         <?php echo $form->checkBox($model, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                </div>
-                            </div>
-                        
-                            <div class="control-group">
-                                <?php 
-                                //FIXME 01 - Erro meu faz todo sentido o transporte escolar ser selecionado na matricula.
-                                echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza"),array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($model, 'public_transport'); ?>
                                 </div>
                             </div>
                         </div>

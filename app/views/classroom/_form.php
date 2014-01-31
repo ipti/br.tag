@@ -77,10 +77,10 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
 
-                               <?php 
+                               <?php //@done s1 - colocar o ano atual como valor padrão
                                 echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelClassroom, 'school_year', array('size' => 5, 'maxlength' => 5)); ?>
+                                    <?php echo $form->textField($modelClassroom, 'school_year', array('value'=>isset($modelClassroom->school_year)? $modelClassroom->school_year :date("Y"),'size' => 5, 'maxlength' => 5)); ?>
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
@@ -636,8 +636,19 @@ $form=$this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-    
-    
+    <?php //@done s1 - Validar se o ano é apenas número e mandar erro?>
+    $(form+'school_year').focusout(function() {
+        var id = '#'+$(this).attr("id");
+        
+        $(id).val($(id).val().toUpperCase());
+        
+        if(!validateYear($(id).val())){ 
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
     $(form+'initial_time').mask("99:99");
     $(form+'initial_time').focusout(function() { 
         var id = '#'+$(this).attr("id");

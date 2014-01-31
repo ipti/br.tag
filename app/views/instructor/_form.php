@@ -62,26 +62,6 @@ $form = $this->beginWidget('CActiveForm', array(
                           
                         <div class="separator"></div>
 
-
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'school_inep_id_fk', array('class' => 'control-label')); ?>
-                            <div class="controls">
-                            <?php
-                            echo $form->DropDownList($modelInstructorIdentification, 'school_inep_id_fk', CHtml::listData(
-                                            SchoolIdentification::model()->findAll(), 'inep_id', 'name'),array('prompt'=>'Selecione a Escola', 'class'=>''));
-                            ?>
-                  
-                            <?php echo $form->error($modelInstructorIdentification, 'school_inep_id_fk'); ?>
-                        </div></div>-->
-
-<!--                        <div class="control-group">
-                            <?php echo $form->labelEx($modelInstructorIdentification, 'inep_id', array('class' => 'control-label')); ?>
-                            <?php 
-                            echo $form->textField($modelInstructorIdentification, 'inep_id', array('size' => 12, 'maxlength' => 12), array('disabled' => 'disabled')); ?>
-                            <?php echo $form->error($modelInstructorIdentification, 'inep_id'); ?>
-                        </div> -->
-
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
@@ -230,12 +210,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         
                         <div class="control-group">
-                            <?php //echo $form->labelEx($modelInstructorIdentification, 'deficiency_type_multiple_disabilities');  ?>
-                            <?php //echo $form->DropDownList('', array(0 => "Não", 1 => "Sim"),array('disabled'=>'disabled'));  ?>
-                <!--                <select id="dt_multiple_disabilities" disabled="disabled">
-                                   <option value="0">Não</option> 
-                                   <option value="1">Sim</option> 
-                                </select>-->
                             <?php echo $form->hiddenField($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                             <?php echo $form->error($modelInstructorIdentification, 'deficiency_type_multiple_disabilities'); ?>
                         </div>
@@ -488,9 +462,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="widget widget-tabs border-bottom-none">
                                     <div class="widget-head">
                                         <ul class="tab-instructordata">
-                                            <li id="tab-instructor-data1" class="sub-active"><a class="glyphicons edit" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
-                                            <li id="tab-instructor-data2"><a class="glyphicons settings" href="#instructor-data2" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 2' ?></a></li>
-                                            <li id="tab-instructor-data3"><a class="glyphicons parents" href="#instructor-data3" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 3' ?></a></li>
+                                            <?php //@done s1 - Modificar o icone das abas?>
+                                            <li id="tab-instructor-data1" class="sub-active"><a class="glyphicons certificate" href="#instructor-data1" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 1' ?></a></li>
+                                            <li id="tab-instructor-data2"><a class="glyphicons certificate" href="#instructor-data2" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 2' ?></a></li>
+                                            <li id="tab-instructor-data3"><a class="glyphicons certificate" href="#instructor-data3" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Data').' 3' ?></a></li>
                                         </ul>
                                     </div>
 
@@ -814,7 +789,13 @@ $form = $this->beginWidget('CActiveForm', array(
     var formInstructorvariableData = "#InstructorVariableData_";  
     
     var filter = {1:0, 2:0, 3:0};
+    <?php //@done s1 - correção na filtragem por tipo de instituição?>
+    var actualFilter = 0;
     
+    var id = { 1: formInstructorvariableData+"high_education_institution_code_1_fk", 
+               2: formInstructorvariableData+"high_education_institution_code_2_fk",
+               3: formInstructorvariableData+"high_education_institution_code_3_fk"};
+                
     $(formInstructorIdentification +'name,'+formInstructorIdentification +'mother_name').on('focusout', function(){
         var id = '#'+$(this).attr("id");
         
@@ -1184,12 +1165,15 @@ $form = $this->beginWidget('CActiveForm', array(
     
     $(formInstructorvariableData+'high_education_institution_type_1').on('change', function(){
         filter[1] = $(this).val();
+        actualFilter = filter[1];
     });
     $(formInstructorvariableData+'high_education_institution_type_2').on('change', function(){
         filter[2] = $(this).val();
+        actualFilter = filter[2];
     });
     $(formInstructorvariableData+'high_education_institution_type_3').on('change', function(){
         filter[3] = $(this).val();
+        actualFilter = filter[3];
     });
     
     $(formInstructorvariableData+'scholarity').on('change', function(){
@@ -1515,15 +1499,18 @@ $form = $this->beginWidget('CActiveForm', array(
             case li1 : tab = li1; 
                 $('#instructor-data1').show();
                 $('#instructor-data2').hide();
-                $('#instructor-data3').hide(); break;
+                $('#instructor-data3').hide(); 
+                actualFilter = filter[1];break;
             case li2 : tab = li2;
                 $('#instructor-data1').hide();
                 $('#instructor-data2').show();
-                $('#instructor-data3').hide(); break;
+                $('#instructor-data3').hide(); 
+                actualFilter = filter[2];break;
             case li3 : tab = li3; 
                 $('#instructor-data1').hide();
                 $('#instructor-data2').hide();
-                $('#instructor-data3').show(); break;
+                $('#instructor-data3').show(); 
+                actualFilter = filter[3];break;
         }
         classActive.removeClass("sub-active");
         divActive.removeClass("sub-active")
@@ -1537,11 +1524,13 @@ $form = $this->beginWidget('CActiveForm', array(
         $(formInstructorvariableData+'scholarity').trigger('change');
         
         $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
-        
+            
+            
         <?php //@done s1 - Deixar a seleção de instituições mais rápida ?>
         $(formInstructorvariableData+"high_education_institution_code_1_fk, "
             +formInstructorvariableData+"high_education_institution_code_2_fk, "
             +formInstructorvariableData+"high_education_institution_code_3_fk").select2({
+            
             
             placeholder: "Selecione a Instituição",
             minimumInputLength: 3,
@@ -1552,7 +1541,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 data: function (term, page) { // page is the one-based page number tracked by Select2
                     return {
                         q: term, //search term
-                        f: filter[1],
+                        f: actualFilter,
+                        
                         page: page // page number
                     };
                 },

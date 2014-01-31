@@ -35,6 +35,14 @@ numberRules.nis = /^[0-9]{11}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 numberRules.phone = /^([9]?)+([0-9]{8})$/;
 numberRules.count = /^[0-9]{0,4}$/;
+numberRules.num = /^[0-9]*$/;
+
+
+function validateYear(year, min, max){
+    min = (typeof min == 'undefined') ? 1900 : min;
+    max = (typeof max == 'undefined') ? new Date().getFullYear() : max;
+    return (rule(year,numberRules.num) && year >= min && year <=max);
+}
 
 function validateCount(count) {
     if(count.length == 0){
