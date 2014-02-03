@@ -30,6 +30,14 @@ return array(
 
     //Ajuda profesor
     'Only numbers, max 8' => 'Apenas números, deve conter 8 dígitos',
+    
+    //Ajuda Alunno
+    'Full name' => 'Nome completo. Aceita somente letras de A a Z. Deve ter pelo menos nome e sobrenome.',
+    'Date' => 'Apenas números, seguindo a estrutura: Dia/Mês/Ano',
+    'Only characters A-Z, 0-9, ª, º, space and -.' => 'Aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -.',
+    'Only Numbers' => 'Apenas números.',
+    'Max length' => 'Tamanho máximo: ',
+    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
 );
 
 ?>

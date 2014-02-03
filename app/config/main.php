@@ -24,7 +24,7 @@
 // @todo S1 - preencher os tooltip helpers da tela de escola
 // @done S1 - preencher os tooltip helpers da tela de turma
 // @done S1 - preencher os tooltip helpers da tela de matrícula
-// @todo S1 - preencher os tooltip helpers da tela de aluno
+// @done S1 - preencher os tooltip helpers da tela de aluno
 // @todo S1 - preencher os tooltip helpers da tela de professor
 // 
 // 
