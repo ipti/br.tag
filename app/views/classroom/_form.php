@@ -93,6 +93,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . ':' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
                                     <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
                                 </div>
@@ -103,6 +104,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . ':' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'final_hour'); ?>
                                     <?php echo $form->error($modelClassroom, 'final_minute'); ?>
                                 </div>
@@ -116,6 +118,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     //@done S1 - 08 - 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
                                     echo Classroom::model()->attributeLabels()['week_days_sunday'];
                                     echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Week days'); ?>"><i></i></span>
                                 </label>
                                 <label class="checkbox">
                                     <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>

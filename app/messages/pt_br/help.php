@@ -23,9 +23,11 @@ return array(
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
     
     //Ajuda turma
-    'Classroom Name' => 'Somente aceita os seguintes caracteres: A a Z, 0 a 9, ª,º,-. Deve ter no mínimo 4 posições.',
-    'School year' => '',
-    
+    'Classroom Name' => 'Somente aceita os seguintes caracteres: A a Z, 0 a 9, espaço, ª,º,-. Deve ter no mínimo 4 posições.',
+    'School year' => 'Deve possuir um ano válido.',
+    'Time' => 'Deve possuir um horário válido. O horário inicial não pode ser maior ou igual ao horário final.',
+    'Week days' => 'Pelo menos um dos campos deve ser selecionado.',
+
     //Ajuda profesor
     'Only numbers, max 8' => 'Apenas números, deve conter 8 dígitos',
 );
