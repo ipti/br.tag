@@ -233,7 +233,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Only numbers, max 8'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only numbers, max 8'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div></div>
 

@@ -117,7 +117,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa",'class'=>'select-search-on'));?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
                                     <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>

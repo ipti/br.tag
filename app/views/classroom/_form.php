@@ -72,6 +72,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80)); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Classroom Name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'name'); ?>
                                 </div>
                             </div>
@@ -81,6 +82,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelClassroom, 'school_year', array('value'=>isset($modelClassroom->school_year)? $modelClassroom->school_year :date("Y"),'size' => 5, 'maxlength' => 5)); ?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
