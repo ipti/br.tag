@@ -776,6 +776,7 @@
         if($(this).val() == 3){
             $(formIdentification+'edcenso_nation_fk').removeAttr("disabled");
             $(formIdentification+'edcenso_nation_fk').val(null).trigger('change');
+            $(formIdentification+'edcenso_nation_fk').select2('readonly', false);
             $(formIdentification+'edcenso_uf_fk').val("");
             $(formIdentification+'edcenso_city_fk').val("");
             $(formDocumentsAndAddress+'foreign_document_or_passport').removeAttr("disabled");
