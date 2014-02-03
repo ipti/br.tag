@@ -3,6 +3,8 @@
 //@done s1 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
 //@done s1 - Vem predefinido a escola, precisa alterar isso para um valor default.
 //@done s1 - Usar um único método para solicitação ajax dos 2 campos de Estados
+//@done s1 - corrigir trigger da aba de dados variáveis.
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'instructor-form',
     'enableAjaxValidation' => false,
@@ -1424,7 +1426,8 @@ $form = $this->beginWidget('CActiveForm', array(
             case li3 : tab = li3; 
                 $('.prev').show();
                 $('.next').hide();
-                $('.last').show();  break;
+                $('.last').show();  
+                $('#instructorVariableData').hide();break;
         }
         classActive.removeClass("active");
         divActive.removeClass("active");
@@ -1447,8 +1450,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('.prev').show(); break;
             case li2 : next = li3;
                 $('.next').hide();
-                $('.last').show(); break;
-            case li3 : next = li3;  break;
+                $('.last').show(); 
+                $('#instructorVariableData').hide();break;
+            case li3 : next = li3;break;
         }
         
         classActive.removeClass("active");
@@ -1524,8 +1528,7 @@ $form = $this->beginWidget('CActiveForm', array(
         $(formInstructorvariableData+'scholarity').trigger('change');
         
         $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
-            
-            
+                    
         <?php //@done s1 - Deixar a seleção de instituições mais rápida ?>
         $(formInstructorvariableData+"high_education_institution_code_1_fk, "
             +formInstructorvariableData+"high_education_institution_code_2_fk, "
