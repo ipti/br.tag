@@ -24,7 +24,7 @@ return array(
     
     //Ajuda turma
     'Classroom Name' => 'Aceita somente os seguintes caracteres: A a Z, 0 a 9, espaço, ª,º,-. Deve ter no mínimo 4 posições.',
-    'School year' => 'Deve possuir um ano válido.',
+    'School year' => 'Deve possuir um ano válido, inferior ou igual ao ano atual.',
     'Time' => 'Deve possuir um horário válido. O horário inicial não pode ser maior ou igual ao horário final.',
     'Week days' => 'Pelo menos um dos campos deve ser selecionado.',
 
