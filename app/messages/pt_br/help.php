@@ -24,7 +24,7 @@ return array(
     
     //Ajuda turma
     'Classroom Name' => 'Somente aceita os seguintes caracteres: A a Z, 0 a 9, ª,º,-. Deve ter no mínimo 4 posições.',
-    'School year' => ''
+    'School year' => '',
     
     //Ajuda profesor
     'Only numbers, max 8' => 'Apenas números, deve conter 8 dígitos',
