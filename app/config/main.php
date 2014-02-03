@@ -22,7 +22,7 @@
 // @done S1 - Inserir o prompt dos campos de instrutor
 // @done S1 - AJEITAR O INSTRUCTOR
 // @todo S1 - preencher os tooltip helpers da tela de escola
-// @todo S1 - preencher os tooltip helpers da tela de turma
+// @done S1 - preencher os tooltip helpers da tela de turma
 // @done S1 - preencher os tooltip helpers da tela de matrícula
 // @todo S1 - preencher os tooltip helpers da tela de aluno
 // @todo S1 - preencher os tooltip helpers da tela de professor
