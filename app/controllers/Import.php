@@ -114,7 +114,7 @@ function getPreInsertValues($regType, $column, $line){
             break;
         }
         case '80': {
-            echo "INSERT INTO student_identification VALUES " . $lines;
+            echo "INSERT INTO student_enrollment VALUES " . $lines;
             break;
         }
     }
