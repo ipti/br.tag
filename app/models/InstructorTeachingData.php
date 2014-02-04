@@ -28,9 +28,9 @@
  * @property integer $id
  *
  * The followings are the available model relations:
- * @property EdcensoDiscipline $discipline1Fk
  * @property InstructorIdentification $instructorFk
  * @property Classroom $classroomIdFk
+ * @property EdcensoDiscipline $discipline1Fk
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoDiscipline $discipline10Fk
  * @property EdcensoDiscipline $discipline11Fk
@@ -92,9 +92,9 @@ class InstructorTeachingData extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'discipline1Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_1_fk'),
 			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
 			'classroomIdFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_id_fk'),
+			'discipline1Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_1_fk'),
 			'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
 			'discipline10Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_10_fk'),
 			'discipline11Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_11_fk'),

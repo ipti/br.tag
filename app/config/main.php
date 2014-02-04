@@ -21,7 +21,7 @@
 // @done S1 - Adicionar os inputs nos filtros necessarios
 // @done S1 - Inserir o prompt dos campos de instrutor
 // @done S1 - AJEITAR O INSTRUCTOR
-// @todo S1 - preencher os tooltip helpers da tela de escola
+// @done S1 - preencher os tooltip helpers da tela de escola
 // @done S1 - preencher os tooltip helpers da tela de turma
 // @done S1 - preencher os tooltip helpers da tela de matrícula
 // @done S1 - preencher os tooltip helpers da tela de aluno
