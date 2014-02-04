@@ -25,7 +25,7 @@
 // @done S1 - preencher os tooltip helpers da tela de turma
 // @done S1 - preencher os tooltip helpers da tela de matrícula
 // @done S1 - preencher os tooltip helpers da tela de aluno
-// @todo S1 - preencher os tooltip helpers da tela de professor
+// @done S1 - preencher os tooltip helpers da tela de professor
 // 
 // 
 // @done S1 - 04 - Retirar os links para view do breadcrumb e remover o "atualizar" do final
