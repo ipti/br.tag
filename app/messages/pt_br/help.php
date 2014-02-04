@@ -30,6 +30,7 @@ return array(
 
     //Ajuda profesor
     'Only numbers, max 8' => 'Apenas números, deve conter 8 dígitos',
+    'Email' => 'exemplo@email.com.br',
     
     //Ajuda Alunno
     'Full name' => 'Nome completo. Aceita somente letras de A a Z. Deve ter pelo menos nome e sobrenome.',

@@ -67,33 +67,35 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'exemplo@email.com'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Email'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'nis', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers').' '.Yii::t('help','Max length').'11'; ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'nis'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'DD/MM/AAAA'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                         </div></div>
 
@@ -115,7 +117,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'mother_name', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full mothers name'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorIdentification, 'mother_name'); ?>
                         </div></div>
                         </div>
@@ -235,31 +237,35 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only numbers, max 8'); ?>"><i></i></span>
+                                <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address_number', array('size' => 10, 'maxlength' => 10)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address_number'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'complement'); ?>
                         </div></div>
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?><div class="controls">
                             <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
                         </div></div>
 
@@ -477,7 +483,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <!-- Tab content -->
                                             <div class="sub-active" id="instructor-data1">
                                                 <div class="row-fluid">
-                                                    <div class=" span5">
+                                                    <div class=" span6">
                                                         <div class="separator"></div>
                                                             
                                                         <div class="control-group">
@@ -539,6 +545,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_1)) ?
                                                                         $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4)) : $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
                                                                 ?>
+                                                                <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
                                                             </div></div>
                                                             
@@ -548,6 +555,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                                 echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_1)) ?
                                                                         $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)) : $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled'));
                                                                 ?>
+                                                                <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
                                                             </div></div>
                                                             
@@ -578,7 +586,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </div>
                                             <div id="instructor-data2">
                                                 <div class="row-fluid">
-                                                    <div class=" span5">
+                                                    <div class=" span6">
 
                                                         <div class="separator"></div>
                                                         
@@ -639,6 +647,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
                                                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
                                                             : $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
                                                         </div></div>
 
@@ -648,6 +657,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_2)) ?
                                                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4))
                                                             :$form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_2'); ?>
                                                         </div></div>
 
@@ -676,7 +686,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </div>
                                             <div id="instructor-data3">
                                                 <div class="row-fluid">
-                                                    <div class=" span5">
+                                                    <div class=" span6">
 
                                                         <div class="separator"></div>
                                                         <div class="control-group">
@@ -738,6 +748,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             <?php  echo ($isModel && isset($modelInstructorVariableData->high_education_initial_year_3)) ?
                                                             $form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4))
                                                             :$form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
                                                         </div></div>
 
@@ -745,7 +756,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3', array('class' => 'control-label')); ?><div class="controls">
                                                             <?php echo ($isModel && isset($modelInstructorVariableData->high_education_final_year_3)) ?
                                                             $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4))
-                                                           : $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            : $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4, 'disabled' => 'disabled')); ?>
+                                                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                             <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
                                                         </div></div>
 

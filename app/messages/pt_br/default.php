@@ -10,6 +10,7 @@ return array(
     'Next' => 'Próximo',
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
+    'Add'=> 'Adicionar',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',

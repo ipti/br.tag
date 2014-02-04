@@ -346,7 +346,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                             ),array('class' => 'select-search-off')); ?> 
                                         
                             <div class="separator"></div>
-                                        <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="addInstructor"><i>Add</i></a>
+                                        <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="addInstructor"><i></i><?php echo Yii::t('default', 'Add') ?></a>
                                     </div>
                                 </div>
                                     
