@@ -11,13 +11,19 @@ return array(
     'Full name of school' => 'Nome completo da escola',
     'School code in the registration INEP' => 'Código da escola no cadastro do INEP',
     'Current situation school run' => 'Situação atual do funcionamento da escola',
-    'CPF school manager. Numbers only.' => 'CPF do gestor escolar. Somente números.',
-    'Full name of school manager' => 'Nome completo do gestor escolar',
+    'CPF school manager. Numbers only.' => 'O CPF informado deve ser válido, não sendo aceito os valores 00000000000 ou 00000000191. Somente números são aceitos.',
+    'Full name of school manager' => 'Somente aceita os seguintes caracteres: A a Z. Deve ter mais de uma palavra informada. Não é possǘel informar mais de 4 letras repetidas em sequência.',
     'Role of the school manager' => 'Cargo do gestor escolar',
-    'E-mail the school manager. Example: joao@ipti.org.br' => 'E-mail do gestor escolar. Exemplo: joao@ipti.org.br',
+    'E-mail' => 'Somente aceita os seguintes caracteres: A a Z, 0 a 9, @, ., -, _, espaço. Exemplo: joao@ipti.org.br',
     'Existing dependencies in school' => 'Dependências existentes na escola',
     'Tell the choice with which the building is shared' => 'Informe a escolha com  a qual o prédio é compartilhado',
     'Full name of school' => 'Nome completo da escola',
+    'School equipment' => 'Caso a escola não tenha o equipamento, o campo deverá vir nulo.',
+    'Count' => 'Não poderá ser preenchido com zero.',
+    'Initial Date Help' => 'O valor informado deve corresponder a uma data válida. O formato é dd/mm/aaaa.',
+    'Final Date Help' => 'O valor informado deve corresponder a uma data válida. O formato é dd/mm/aaaa.',
+    'CEP' => 'Apenas números deverão ser informados. Os 8 dígitos devem ser informados. Não pode ter todos os algarismos iguais.',
+    'Phone' => 'Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.',
     
     //Ajuda matrícula
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',
@@ -29,15 +35,15 @@ return array(
     'Week days' => 'Pelo menos um dos campos deve ser selecionado.',
 
     //Ajuda profesor
-    'Only numbers, max 8' => 'Apenas números, deve conter 8 dígitos',
     'Email' => 'exemplo@email.com.br',
     
-    //Ajuda Alunno
+    //Ajuda Aluno
     'Full name' => 'Nome completo. Aceita somente letras de A a Z. Deve ter pelo menos nome e sobrenome.',
     'Date' => 'Apenas números, seguindo a estrutura: Dia/Mês/Ano',
     'Only characters A-Z, 0-9, ª, º, space and -.' => 'Aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -.',
-    'Only Numbers' => 'Apenas números.',
+    'Only Numbers' => 'Apenas números são aceitos.',
     'Max length' => 'Tamanho máximo: ',
+    'Min length' => 'Tamanho mínimo: ',
     'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
 );
 

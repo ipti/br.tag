@@ -48,7 +48,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'class' => 'span10')); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.') . " " . Yii::t('help', 'Min length') . '4'; ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'manager_email', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'manager_email', array('size' => 50, 'maxlength' => 50)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail the school manager. Example: joao@ipti.org.br'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'manager_email'); ?>
                         </div>
                     </div>
@@ -178,6 +178,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'address', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'address', array('size' => 60, 'maxlength' => 100, 'class' => 'span10')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'address'); ?>
                         </div>
                     </div>
@@ -186,6 +187,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'address_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'address_number', array('size' => 10, 'maxlength' => 10, 'class' => 'span2')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'address_number'); ?>
                         </div>
                     </div>
@@ -194,6 +196,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'address_complement', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'address_complement', array('size' => 20, 'maxlength' => 20, 'class' => 'span10')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'address_complement'); ?>
                         </div>
                     </div>
@@ -202,6 +205,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'address_neighborhood', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'address_neighborhood', array('size' => 50, 'maxlength' => 50, 'class' => 'span10')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'address_neighborhood'); ?>
                         </div>
                     </div>
@@ -212,6 +216,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'ddd', array('size' => 2, 'maxlength' => 2, 'class' => 'span2')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'ddd'); ?>
                         </div>
                     </div>
@@ -220,6 +225,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " ". Yii::t('help', 'Phone'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                         </div>
                     </div>
@@ -228,6 +234,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'other_phone_number', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'other_phone_number', array('size' => 9, 'maxlength' => 9)); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " ". Yii::t('help', 'Phone'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'other_phone_number'); ?>
                         </div>
                     </div>
@@ -236,7 +243,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'email', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'email', array('size' => 50, 'maxlength' => 50)); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'exemplo@email.com'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'email'); ?>
                         </div>
                     </div>
@@ -248,6 +255,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolIdentification, 'cep', array('size' => 8, 'maxlength' => 8, 'class' => 'span5')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CEP'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolIdentification, 'cep'); ?>
                         </div>
                     </div>
@@ -327,6 +335,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'classroom_count'); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'). " " .Yii::t('help', 'Count'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'classroom_count'); ?>
                         </div>
                     </div>
@@ -335,6 +344,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'used_classroom_count', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'used_classroom_count'); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'). " " .Yii::t('help', 'Count'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'used_classroom_count'); ?>
                         </div>
                     </div>    
@@ -351,6 +361,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'employees_count'); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'). " " .Yii::t('help', 'Count'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'employees_count'); ?>
                         </div>
                     </div>
@@ -701,6 +712,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_tv', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_tv', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_tv'); ?>
                         </div></div>
                     
@@ -708,6 +720,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_vcr', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_vcr', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_vcr'); ?>
                         </div></div>
                     
@@ -715,6 +728,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_dvd', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_dvd', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_dvd'); ?>
                         </div></div>
                     
@@ -722,6 +736,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_satellite_dish', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_satellite_dish', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_satellite_dish'); ?>
                         </div></div>
                     
@@ -729,6 +744,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_copier', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_copier', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_copier'); ?>
                         </div></div>
                     
@@ -747,6 +763,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_overhead_projector', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_overhead_projector', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_overhead_projector'); ?>
                         </div></div>
                     
@@ -754,6 +771,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_printer', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_printer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_printer'); ?>
                         </div></div>
                     
@@ -761,6 +779,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_stereo_system', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_stereo_system', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_stereo_system'); ?>
                         </div></div>
                     
@@ -768,6 +787,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_data_show', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_data_show', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_data_show'); ?>
                         </div></div>
                     
@@ -776,6 +796,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_fax', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_fax', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_fax'); ?>
                         </div></div>
                     
@@ -795,6 +816,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_camera', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_camera', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_camera'); ?>
                         </div></div>
                     
@@ -802,6 +824,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'equipments_computer', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'equipments_computer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count'). " " .Yii::t('help', 'School equipment'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'equipments_computer'); ?>
                         </div></div>
                     
@@ -809,6 +832,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'administrative_computers_count', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'administrative_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'). " " .Yii::t('help', 'Count'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'administrative_computers_count'); ?>
                         </div></div>
                     
@@ -816,6 +840,7 @@
                         <?php echo $form->labelEx($modelSchoolStructure, 'student_computers_count', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php echo $form->textField($modelSchoolStructure, 'student_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'). " " .Yii::t('help', 'Count'); ?>"><i></i></span>
                             <?php echo $form->error($modelSchoolStructure, 'student_computers_count'); ?>
                         </div></div>
                     

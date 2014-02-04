@@ -279,7 +279,7 @@ function errorNotification(id){
     $(id).parent().children().css("border-color", "red");
     $(id).parent().children().css("color", "red");
     $(id).parent().children().trigger("mouseover");
-    setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 10000);
+    setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
 }
 function removeErrorNotification(id){
     $(id).parent().children().css("border-color", "");
