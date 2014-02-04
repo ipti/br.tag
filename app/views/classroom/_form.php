@@ -1,11 +1,4 @@
 <?php 
-//@done S1 - 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
-//@done S1 - 23 - Lembrar de associar o professor a turma.
-//@done S1 - Organizar os campos do form_classroom
-//@done S1 - Modificar aba disciplinas para Teaching Data.
-//@done S1 - Vincular disciplinas do classroom com as do teachingdata
-//@todo S2 - Add validação para os campos que esão faltando
-
 
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',

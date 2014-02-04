@@ -1,7 +1,5 @@
 <?php
 
-//@done S2: Traduzir breadcrumbs (migalhas de pão)
-
 return array(
     //Botões
     'Create' => 'Criar',
