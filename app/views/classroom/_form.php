@@ -4,7 +4,7 @@
 //@done S1 - Organizar os campos do form_classroom
 //@done S1 - Modificar aba disciplinas para Teaching Data.
 //@done S1 - Vincular disciplinas do classroom com as do teachingdata
-//@later S2 - Add validação para os campos que esão faltando
+//@todo S2 - Add validação para os campos que esão faltando
 
 
 $form=$this->beginWidget('CActiveForm', array(

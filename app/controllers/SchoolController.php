@@ -41,7 +41,7 @@ class SchoolController extends Controller {
         );
     }
 
-    //@later S2 - Mover para o controle de Import
+    //@todo S2 - Mover para o controle de Import
     public function actionEdcenso_import() {
         $selects = [];
         $selects['00'][0] = 'SELECT id from `private_school_maintainer` where (

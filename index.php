@@ -1,5 +1,5 @@
 <?php
-// @later S2 - Atualizar o netbeans para versão mais nova e instalar o plugin do yii
+// @done S2 - Atualizar o netbeans para versão mais nova e instalar o plugin do yii
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../yii/framework/yii.php';
