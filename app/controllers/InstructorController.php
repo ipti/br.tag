@@ -4,6 +4,7 @@ class InstructorController extends Controller {
     
    //@done s1 - Tirar Aba Dados do Instrutor do update de instrutor
    //@done s1 - Adicionar validações em todos os campos que estão faltando
+   //@done s1 - Recuperar endereço pelo CEP
    //@done s1 - validar CPF
    //@done s1 - corrigir o delete do instructor
     

@@ -2,7 +2,7 @@
 
 class StudentController extends Controller {
     //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
-    //@todo s1 - Recuperar endereço pelo CEP
+    //@done s1 - Recuperar endereço pelo CEP
     //@done s1 - validar CPF
     //@done s1 - Campo Cartórios - Colocar em ordem alfabética
     //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
