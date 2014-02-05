@@ -350,9 +350,12 @@ preenchidos";
     
     public function actionGetCityByCep(){
         $cep = $_POST['cep'];
-        $data = EdcensoCity::model()->find('cep_initial <= '.$cep. ' and cep_final >= '.$cep);
-       
-        $result = array('UF'=>$data->edcenso_uf_fk, 'City'=>$data->id);
+        $data = null;
+        
+        if(!empty($cep)){
+            $data = EdcensoCity::model()->find('cep_initial <= '.$cep. ' and cep_final >= '.$cep);
+        }
+        $result = ($data == null) ? array('UF'=>null, 'City'=>null) : array('UF'=>$data->edcenso_uf_fk, 'City'=>$data->id);
         echo json_encode($result);
     }
 

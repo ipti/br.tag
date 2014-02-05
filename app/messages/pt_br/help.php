@@ -24,6 +24,7 @@ return array(
     'Final Date Help' => 'O valor informado deve corresponder a uma data válida. O formato é dd/mm/aaaa.',
     'CEP' => 'Apenas números deverão ser informados. Os 8 dígitos devem ser informados. Não pode ter todos os algarismos iguais.',
     'Phone' => 'Não pode ter todos os algarismos iguais. Deve ter 8 ou 9 números. Se houver 9 números, o primeiro algarismo deve ser o dígito 9.',
+    'Valid Cep' => 'Digite um CEP cadastrado nos correios.',
     
     //Ajuda matrícula
     'Edcenso Stage Vs Modality Fk Help' => 'Etapa do aluno em turma multietapa / multi / correção de fluxo / EJA presencial e semipresencial - anos iniciais e anos finais / Educação profissional mista - concomitante e subsequente',

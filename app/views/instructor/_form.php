@@ -246,12 +246,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'data' => array('cep'=>'js:this.value' ),
                                     'success' => "function(data){
                                      data = jQuery.parseJSON(data);
-                                     $(formDocumentsAndAddress+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',true);
-                                     $(formDocumentsAndAddress+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',true);
+                                     if(data.UF == null) $(formDocumentsAndAddress+'cep').val('').trigger('focusout');
+                                     $(formDocumentsAndAddress+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
+                                     setTimeout(function(){
+                                        $(formDocumentsAndAddress+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
+                                        }, 500);
                                     }"
                                     )));
                             ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep'). " " .Yii::t('help', 'Only Numbers').' '.Yii::t('help', 'Max length').'8.'; ?>"><i></i></span>
                         <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                         </div></div>
 
@@ -303,7 +306,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?><div class="controls">
-                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt"=>"Selecione uma cidade", "class"=>"select-search-on")); ?><div class="controls">                    
+                            <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAll(array("order"=>"name")), 'id', 'name'), array("prompt"=>"Selecione uma cidade", "class"=>"select-search-on")); ?><div class="controls">                    
                             <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                         </div></div> 
             
@@ -1136,6 +1139,10 @@ $form = $this->beginWidget('CActiveForm', array(
             removeError(id);
             
         } 
+        if ($(id).val().length == 0){
+            $(formDocumentsAndAddress+'edcenso_uf_fk').val("").trigger('change').select2("readonly",false);
+            $(formDocumentsAndAddress+'edcenso_city_fk').val("").trigger('change').select2("readonly",false);
+        }
         
     });
     

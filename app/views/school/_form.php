@@ -254,8 +254,23 @@
                     <div class="control-group">
                         <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                         <div class="controls">
-                            <?php echo $form->textField($modelSchoolIdentification, 'cep', array('size' => 8, 'maxlength' => 8, 'class' => 'span5')); ?>
-                            <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CEP'); ?>"><i></i></span>
+                            <?php echo $form->textField($modelSchoolIdentification, 'cep', array('size' => 8, 'maxlength' => 8,
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('Instructor/getcitybycep'),
+                                            'data' => array('cep' => 'js:this.value'),
+                                            'success' => "function(data){
+                                     data = jQuery.parseJSON(data);
+                                     if(data.UF == null) $(formIdentification+'cep').val('').trigger('focusout');
+                                     $(formIdentification+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
+                                     setTimeout(function(){
+                                        $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
+                                        }, 500);
+                                    }"
+                                    )));
+                                    ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep'). " " .Yii::t('help', 'Only Numbers').' '.Yii::t('help', 'Max length').'8.'; ?>"><i></i></span>
+                                    
                             <?php echo $form->error($modelSchoolIdentification, 'cep'); ?>
                         </div>
                     </div>
@@ -290,7 +305,7 @@
                         <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?php
-                            echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelSchoolIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), 
+                            echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAll(array('order' => 'name')), 'id', 'name'), 
                                 array('prompt' => 'Selecione uma cidade',
                                     'class' => 'select-search-on',
                                     'ajax' => array(
