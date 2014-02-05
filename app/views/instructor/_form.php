@@ -148,7 +148,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="control-group">
                             <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
-                            echo $form->DropDownList($modelInstructorIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
+                            echo $form->DropDownList($modelInstructorIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order"=>"name")), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
                                 'class' => 'select-search-on',
                                 'ajax' => array(
@@ -287,7 +287,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?><div class="controls">
                             <?php
                             //@done s1 22 - Este filtro da cidade não está funcionando.
-                            echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(), 'id', 'name'), array(
+                            echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array("order"=>"name")), 'id', 'name'), array(
                                 'prompt' => 'Selecione um estado',
                                 'class' => 'select-search-on',
                                 'ajax' => array(
@@ -874,14 +874,19 @@ $form = $this->beginWidget('CActiveForm', array(
         var uf = $(formInstructorIdentification+'edcenso_uf_fk');
         var city = $(formInstructorIdentification+'edcenso_city_fk');
         
-        if(nationality != 3) {
+        if(nationality == 2 || nationality == 1) {
             nation.val(76).trigger('change').add().select2('readonly', true);
             uf.val('').trigger('change').select2('enable', true);
             city.val('').trigger('change').select2('enable', true);
-        }else{
-            nation.select2('readonly', false);
+        }else if(nationality==3){
+            nation.val('').trigger('change').select2("enable", true);
+            nation.val('').trigger('change').select2('readonly', false);
             uf.val('').trigger('change').add().select2('disable', true);
             city.val('').trigger('change').add().select2('disable', true);
+        }else{
+            nation.val('').trigger('change').select2("disable", true);
+            uf.val('').trigger('change').select2("disable", true);
+            city.val('').trigger('change').select2("disable", true);
         }        
     });
     
@@ -1597,5 +1602,8 @@ $form = $this->beginWidget('CActiveForm', array(
         $(formInstructorvariableData+"high_education_institution_code_1_fk, "
             +formInstructorvariableData+"high_education_institution_code_2_fk, "
             +formInstructorvariableData+"high_education_institution_code_3_fk").select2('enable', true);
+        $(formInstructorIdentification+"edcenso_nation_fk").select2("disable","true");
+        $(formInstructorIdentification+"edcenso_uf_fk").select2("disable","true");
+        $(formInstructorIdentification+"edcenso_city_fk").select2("disable","true");
     });     
 </script>
