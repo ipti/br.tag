@@ -10,6 +10,7 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 
 <?php
+
             $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar acessar os atributos
             echo $form->errorSummary($modelInstructorIdentification);
             echo $form->errorSummary($modelInstructorDocumentsAndAddress);
