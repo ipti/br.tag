@@ -75,7 +75,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
               });            
         </script>
         
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>
+<!--        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>-->
         
     </head>
 
