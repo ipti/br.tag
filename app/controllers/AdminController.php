@@ -5,8 +5,9 @@
 //@done S2 - Mover o código do import de SchoolController.php para AdminController.php
 //@done S2 - Mover o código do configACL de SchoolController.php para AdminController.php
 //@done S2 - Criar método de limparBanco
-//@todo s2 - Criar tela de index do AdminController.php
-
+//@Francisco S2 - Criar tela de index do AdminController.php
+//@done S2 - Mensagens de retorno ao executar os scripts.
+                
 class AdminController extends Controller {
 
     public function accessRules() {
@@ -43,7 +44,9 @@ class AdminController extends Controller {
         set_time_limit(0);
         ignore_user_abort();
         Yii::app()->db->createCommand($command)->query();
-        echo "Done";
+        
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpo com sucesso'));
+        $this->redirect(array('index'));
     }
 
     public function actionImport($fileDir = null) {
@@ -107,30 +110,21 @@ class AdminController extends Controller {
         
         set_time_limit(0);
         ignore_user_abort();
-        echo "done?<br>";
         Yii::app()->db->createCommand($str_fields['00'])->query();
-        echo "done 00<br>";
         Yii::app()->db->createCommand($str_fields['10'])->query();
-        echo "done 10<br>";
         Yii::app()->db->createCommand($str_fields['20'])->query();
-        echo "done 20<br>";
         Yii::app()->db->createCommand($str_fields['30'])->query();
-        echo "done 30<br>";
         Yii::app()->db->createCommand($str_fields['40'])->query();
-        echo "done 40<br>";
         Yii::app()->db->createCommand($str_fields['50'])->query();
-        echo "done 50<br>";
         Yii::app()->db->createCommand($str_fields['51'])->query();
-        echo "done 51<br>";
         Yii::app()->db->createCommand($str_fields['60'])->query();
-        echo "done 60<br>";
         Yii::app()->db->createCommand($str_fields['80'])->query();
-        echo "done 80<br>";
         Yii::app()->db->createCommand($str_fields['70'])->query();
-        echo "done 70<br>";
-        echo "done!<br>";
         set_time_limit(30);
         fclose($file);
+        
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso.'));
+        $this->redirect(array('index'));
     }
 
     public function actionACL() {
@@ -185,10 +179,8 @@ class AdminController extends Controller {
         $auth->assign('manager', 1);
         $auth->assign('admin', 2);
 
-        echo Yii::app()->user->loginInfos->name . "<br>";
-        $userId = Yii::app()->user->loginInfos->id;
-        var_dump(Yii::app()->getAuthManager()->checkAccess('createSchool', $userId));
-        var_dump(Yii::app()->getAuthManager()->checkAccess('createStudent', $userId));
+        Yii::app()->user->setFlash('success', Yii::t('default', 'ACL configurada com sucesso.'));
+        $this->redirect(array('index'));
     }
 
     //Retorna uma Array com 2 arrays. InsertValue e InstructorInepID
