@@ -41,7 +41,6 @@
  * @done S2 - Add validação para os campos que esão faltando
  * @done S2 - Popar a interrogação durante um intervalo de tempo ao falhar na regra do javascript
  * @done S2 Traduzir breadcrumbs (migalhas de pão)
- * @done S2 - Atualizar o netbeans para versão mais nova e instalar o plugin do yii
  * 
  * @done S2 - Criar nova branch
  * @todo S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
