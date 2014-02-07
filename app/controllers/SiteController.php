@@ -2,7 +2,7 @@
 
 class SiteController extends Controller {
 
-    //@todo s2 -FAzer Cadastro de usuário
+    //@todo S2 -FAzer Cadastro de usuário
     //@done s1 -Limitar a escolha de escolas apenas para o Administrador
     
     /**
