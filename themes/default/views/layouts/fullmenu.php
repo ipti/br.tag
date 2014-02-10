@@ -91,8 +91,10 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 });
               });            
         </script>
-        
-<!--        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>-->
+
+<!--  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/modernizr.js"></script>
+      <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>  -->
+    
         
     </head>
 
@@ -108,8 +110,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 7px 5px 0 44px;height: 34px;" /><span><span>v3.0</span></span></a>
 
-                <!-- Menu Toggle Button --
-                <button type="button" class="btn btn-navbar hidden-desktop">
+                <!-- Menu Toggle Button -->
+                <button id="button-menu" type="button" class="btn btn-navbar">
                         <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
                 <!-- // Menu Toggle Button END -->
@@ -192,11 +194,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
                                 <?php if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){?>
                                 
-                                <!-- Menu Item Admin -->
-                                <li class="glyphicons lock"><a href="<?php echo Yii::app()->homeUrl; ?>?r=admin"><i></i><span>Administração</span></a></li>
-                                <?php
-                                }
-                                if(Yii::app()->getAuthManager()->checkAccess('createSchool',Yii::app()->user->loginInfos->id)){ ?>
                                 <!-- Menu Item Escolas -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
@@ -252,6 +249,23 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                     <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Equipe Escolar -->
+                                
+                                <!-- Menu Item Frequência -->
+                                <li class="hasSubmenu">
+                                    <a data-toggle="collapse" class="glyphicons check" href="#menu_frequencia"><i></i><span>Frequência</span></a>
+                                    <ul class="collapse" id="menu_frequencia">
+                                        <li class=""><a href="#"><span>Quadro de aulas</span></a></li>
+                                        <li class=""><a href="#"><span>Frequência de Alunos</span></a></li>
+                                    </ul>
+                                    <?php //<span class="count">2</span> ?>
+                                </li>
+                                
+                                <!-- Menu Item Admin -->
+                                <?php if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){?>
+                                <li class="glyphicons lock"><a href="<?php echo Yii::app()->homeUrl; ?>?r=admin"><i></i><span>Administração</span></a></li>
+                                <?php } ?>
+                                
+                                
 
                   <?php /**             <!-- Menu Item Relatórios -->
                                 <li class="hasSubmenu">
