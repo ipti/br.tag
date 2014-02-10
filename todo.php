@@ -44,6 +44,7 @@
  * 
  * @done S2 - Criar nova branch
  * @Francisco S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
+ * @done S2 - Atualizar Model do Usuário
  * @Francisco S2 - Criar formulário de cadastro de usuários.
  * @todo S2 - Criar tela de listagem de usuários.
  * @Francisco S2 - Fazer associação de escolas com usuários.
@@ -55,6 +56,14 @@
  * @todo S2 - 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
  * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
+ * 
+ * @todo S2 - Criar tabelas de aulas e faltas
+ * @todo S2 - inserir aba/botão de cadastrar aulas na tela de turma
+ * @todo S2 - inserir aba de frequência no fullmenu
+ * @todo S2 - Criar tela de criar quadro de aulas
+ * @todo S2 - Gerar calendário a partir do quadro de aulas
+ * @todo S2 - Criar tela de exibir quadro de aulas
+ * 
  * 
  * * * RESPONSIVE DESIGN * * *
  * 

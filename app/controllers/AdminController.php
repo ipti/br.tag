@@ -20,7 +20,7 @@ class AdminController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array( 'import', 'clearDB', 'acl', 'registerUser'),
+                'actions' => array( 'import', 'clearDB', 'acl', 'CreateUser'),
                 'users' => array('@'),
             ),
         );
@@ -38,7 +38,9 @@ class AdminController extends Controller {
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
                 // form inputs are valid, do something here
-                return;
+                
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Pegadinha do malandro! Rá!'));
+                $this->redirect(array('index'));
             }
         }
         $this->render('createUser', array('model' => $model));
@@ -177,11 +179,6 @@ class AdminController extends Controller {
         $this->redirect(array('index'));
     }
     
-    public function actionRegisterUser(){
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Pegadinha do malandro! Rá!'));
-        $this->redirect(array('index'));
-    }
-
     public function actionACL() {
         $auth = Yii::app()->authManager;
 

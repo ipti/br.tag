@@ -17,13 +17,13 @@
 	if(strpos($field,'password')!==false)
 		continue;
 ?>
-	<div class="row">
+	<div class="controls">
 		<?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
 	</div>
 
 <?php endforeach; ?>
-	<div class="row buttons">
+	<div class="controls buttons">
 		<?php echo "<?php echo CHtml::submitButton('Search'); ?>\n"; ?>
 	</div>
 
