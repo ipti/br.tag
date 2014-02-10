@@ -1,14 +1,14 @@
 <?php
 /* @var $this AdminController */
 
-$this->pageTitle = Yii::app()->name . '';
+$this->pageTitle = Yii::app()->name . ' - Administração';
 $this->breadcrumbs = array(
-    '',
+    'Administração',
 );
 ?>
 
 <div class="heading-buttons">
-    <h3>Área de Administração</h3>
+    <h3>Administração</h3>
 </div>
 
 <div class="innerLR home">
@@ -24,7 +24,7 @@ $this->breadcrumbs = array(
                 <div class="span3">
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/ACL" class="widget-stats">
                         <span class="glyphicons flag"><i></i></span>
-                        <span class="txt">Config. Permissões</span>
+                        <span class="txt">Config. Permissões (Em manutenção!)</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
@@ -39,6 +39,13 @@ $this->breadcrumbs = array(
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/clearDB" class="widget-stats">
                         <span class="glyphicons database_minus"><i></i></span>
                         <span class="txt">Limpar Banco</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+                <div class="span3">
+                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/registerUser" class="widget-stats">
+                        <span class="glyphicons user"><i></i></span>
+                        <span class="txt">Cadastrar usuário (Em manutenção!)</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>

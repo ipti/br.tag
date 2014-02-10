@@ -20,7 +20,7 @@ class AdminController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('import', 'clearDB', 'acl'),
+                'actions' => array( 'import', 'clearDB', 'acl', 'registerUser'),
                 'users' => array('@'),
             ),
         );
@@ -174,6 +174,11 @@ class AdminController extends Controller {
         fclose($file);
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso.'));
+        $this->redirect(array('index'));
+    }
+    
+    public function actionRegisterUser(){
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Pegadinha do malandro! Rá!'));
         $this->redirect(array('index'));
     }
 
