@@ -43,7 +43,14 @@
  * @done S2 Traduzir breadcrumbs (migalhas de pão)
  * 
  * @done S2 - Criar nova branch
- * @todo S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
+ * @Francisco S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
+ * @Francisco S2 - Criar formulário de cadastro de usuários.
+ * @todo S2 - Criar tela de listagem de usuários.
+ * @Francisco S2 - Fazer associação de escolas com usuários.
+ * @Francisco S2 - Criar action de criar usuários.
+ * @todo S2 - Criar action de update de usuários.
+ * @todo S2 - Criar action de listagem de usuários.
+ * @todo S2 - Criar action de remoção de usuários.
  * @todo S2 - 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
  * @todo S2 - 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
  * 
