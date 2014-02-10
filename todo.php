@@ -47,4 +47,22 @@
  * @todo S2 - 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
  * @todo S2 - 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
  * 
+ * @done S2 - As vezes o botão de remover professor da turma não aparece.
+ * 
+ * * * RESPONSIVE DESIGN * * *
+ * 
+ * @todo S2 - Bugs em campos (todas as telas)
+ * @todo S2 - Menu lateral (ocuta mas continua ocupando espaço em telas pequenas)
+ * @todo S2 - Posição do logotipo (tela de login e todo a app)
+ * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
+ * @todo S2 - Retirar CSS desnecessaŕio
+ * @todo S2 - Retirar JS desnecessário
+ * 
+ * * * USER EXPERIENCE * * *
+ * 
+ * @todo S2 - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
+ * @todo S2 - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
+ * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
+ * @done S2 - Traduzir frases em inglês do Select2
+ * 
 */?>

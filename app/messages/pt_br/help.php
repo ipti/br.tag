@@ -39,7 +39,9 @@ return array(
     'Email' => 'exemplo@email.com.br',
     
     //Ajuda Aluno
-    'Full name' => 'Nome completo. Aceita somente letras de A a Z. Deve ter pelo menos nome e sobrenome.',
+    'Student Full Name' => 'Informe o nome completo do aluno.',
+    'NIS' => 'Número de Identifucação Social para famílias que participam de programas sociais do governo como o Bolsa Família.',
+    'Birthday' => 'Data de nascimento completa do aluno.',
     'Date' => 'Apenas números, seguindo a estrutura: Dia/Mês/Ano',
     'Only characters A-Z, 0-9, ª, º, space and -.' => 'Aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -.',
     'Only Numbers' => 'Apenas números são aceitos.',
