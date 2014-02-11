@@ -48,6 +48,9 @@ return array(
     'Max length' => 'Tamanho máximo: ',
     'Min length' => 'Tamanho mínimo: ',
     'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
+    
+    //
+    'Confirm' => 'O valor tem que ser igual ao da senha.'
 );
 
 ?>

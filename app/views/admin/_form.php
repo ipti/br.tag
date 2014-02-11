@@ -28,7 +28,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord 
                                 ? Yii::t('default', 'Create') 
                                 : Yii::t('default', 'Save')), 
-                              array('id' => 'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+                              array( 'type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok'));
                         ?>
                     </div>
                 </div>
@@ -61,9 +61,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'User Name'); ?>"><i></i></span>
                                     <?php echo $form->error($model, 'name'); ?>
                                 </div>
-
                             </div>
-                            
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -73,49 +71,90 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'username', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'username'); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Login'); ?>"><i></i></span>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."4"; ?>"><i></i></span>
                                     <?php echo $form->error($model, 'username'); ?>
                                 </div>
-
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Password'); ?>"><i></i></span>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."6"; ?>"><i></i></span>
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
-
                             </div>
                             <div class="control-group">
                                 <?php echo CHtml::label('Confirm Password', 'Confirm', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo CHtml::passwordField('Confirm','',array('size'=>32,'maxlength'=>32)); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Password'); ?>"><i></i></span>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm'); ?>"><i></i></span>
                                 </div>
-
                             </div>
                         </div>
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label('Role', 'Role', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label( Yii::t('default','Role'), 'Role', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo CHtml::dropDownList('Role','',array(),array('class'=>'select-search-off')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Password'); ?>"><i></i></span>
+                                    <?php echo CHtml::dropDownList('Role','',  CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name','name'),array('class'=>'select-search-off')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo CHtml::label('Schools', 'schools', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label( Yii::t('default','Schools'), 'schools', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools','',array(),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Password'); ?>"><i></i></span>
+                                    <?php echo CHtml::dropDownList('schools','',CHtml::listData(SchoolIdentification::model()->findAll(array('order'=>'name')), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
-            </div>
+            </div
         </div>
     </div>
 </div>
+<script>
+    var form = '#Users_';
+    
+    $(form+'name').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        $(id).val($(id).val().toUpperCase());
+        if(!validateSchoolName($(id).val())) {
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+    
+    $(form+'username').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        if(!validateLogin($(id).val())) {
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+
+    $(form+'password').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        if(!validatePassword($(id).val())) {
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+
+    $('#Confirm').focusout(function() { 
+        var id = '#'+$(this).attr("id");
+        var passId = form+'password';
+        
+        if($(id).val() != $(passId).val()) {
+            $(id).attr('value','');
+            addError(id, "Campo não está dentro das regras.");
+        }else{
+            removeError(id);
+        }
+    });
+</script>

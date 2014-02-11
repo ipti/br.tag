@@ -444,6 +444,7 @@ return array(
     
     //Labels
     'Password' => 'Senha',
+    'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
     
     //Abas
@@ -473,6 +474,8 @@ return array(
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
     'Stage' => 'Estágio',
+    'Schools' => 'Escolas',
+    'Role' => 'Cargo',
     
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
