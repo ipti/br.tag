@@ -121,6 +121,8 @@ class SiteController extends Controller {
     public function actionChangeSchool() {
         if (isset($_POST['UsersSchool']['school_fk']) && !empty($_POST['UsersSchool']['school_fk']))
             Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
+        else if (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id']))
+            Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }

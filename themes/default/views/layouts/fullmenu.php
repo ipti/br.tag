@@ -86,7 +86,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <!-- Auto Submit Dropdown School -->
         <script>               
             $(function() {
-                $("#UsersSchool_school_fk").change(function() {
+                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function() {
                     $(".school").submit();
                 });
               });            
@@ -159,7 +159,11 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                         <!-- Sidebar Mini Stats -->
                             <div id="notif">
                                 <div class="user">
-                                    <strong><?php echo Yii::app()->user->loginInfos->name; ?></strong>
+                                    <strong><?php if(isset(Yii::app()->user->loginInfos->name))
+                                                        echo Yii::app()->user->loginInfos->name;
+                                                  else
+                                                        $this->redirect(Yii::app()->homeUrl . '?r=site/login');
+                                             ?></strong>
                                     <p><?php 
                                         $userId = Yii::app()->user->loginInfos->id;
                                         foreach (Yii::app()->getAuthManager()->getAuthItems(2,$userId) as $role => $roleOb)
@@ -172,10 +176,18 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                     <div class="row-fluid">
                                     
                                     <?php
-                                    echo CHtml::activeDropDownList(
-                                            UsersSchool::model(), 'school_fk',  
-                                            Chtml::listData(Yii::app()->user->loginInfos->usersSchools, 'school_fk', 'schoolFk.name'),
-                                            array('empty'=>'Selecione a escola','class'=>'span12 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                     if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){
+                                        echo CHtml::activeDropDownList(
+                                                SchoolIdentification::model(), 'inep_id',  
+                                                Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+                                                array('empty'=>'Selecione a escola','class'=>'span12 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                     }else{
+                                          echo CHtml::activeDropDownList(
+                                                UsersSchool::model(), 'school_fk',  
+                                                Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
+                                                array('empty'=>'Selecione a escola','class'=>'span12 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                     
+                                     }
                                     ?>
 <?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
                                     <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>

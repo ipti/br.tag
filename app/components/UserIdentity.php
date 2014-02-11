@@ -40,8 +40,17 @@ class UserIdentity extends CUserIdentity
         else if ($record->password !== md5($this->password))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
+            if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)){
+                $userSchools = [];
+                $userSchools = SchoolIdentification::model()->findAll(array('order'=>'name'));
+                $school =  isset($userSchools[0])? $userSchools[0]->inep_id : '';
+            }else{
+                $userSchools = $record->usersSchools;
+                $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : null;
+            }   
             $this->setState('loginInfos', $record);
-            $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : 'null';
+
+            $this->setState('usersSchools',$userSchools);
             $this->setState('school',$school);
             $this->errorCode = self::ERROR_NONE;
         }

@@ -57,9 +57,10 @@
  * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
  * 
- * @todo S2 - Criar tabelas de aulas e faltas
+ * @done S2 - Visualizar todas as escolas pelo admin
+ * @done S2 - Criar tabelas de aulas e faltas
  * @todo S2 - inserir aba/botão de cadastrar aulas na tela de turma
- * @todo S2 - inserir aba de frequência no fullmenu
+ * @done S2 - inserir aba de frequência no fullmenu
  * @todo S2 - Criar tela de criar quadro de aulas
  * @todo S2 - Gerar calendário a partir do quadro de aulas
  * @todo S2 - Criar tela de exibir quadro de aulas

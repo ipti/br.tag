@@ -56,26 +56,27 @@ class AdminController extends Controller {
                         (1, 'Administrador', '$admin_login', '$admin_password', 1);";
         Yii::app()->db->createCommand($command)->query();
 
-        //Criar usuário de teste, remover depois.
-        /*         * ************************************************************************************************ */
-        /**/$command = "INSERT INTO `users`VALUES"
-                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-        /**/Yii::app()->db->createCommand($command)->query();
-        /*         * ************************************************************************************************ */
+        $auth = Yii::app()->authManager;
+        $auth->assign('admin', 1);
+        
+//        //Criar usuário de teste, remover depois.
+//        /*         * ************************************************************************************************ */
+//        /**/$command = "INSERT INTO `users`VALUES"
+//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
+//        /**/Yii::app()->db->createCommand($command)->query();
+//        /*         * ************************************************************************************************ */
     }
 
     public function actionClearDB() {
         $command = "
             delete from AuthAssignment;
-            delete from AuthItem;
-            delete from AuthItemChild;
             
-            delete from users;
             delete from users_school;
+            delete from users;
 
             delete from student_enrollment;
             delete from student_identification;
@@ -96,8 +97,8 @@ class AdminController extends Controller {
         Yii::app()->db->createCommand($command)->query();
 
         $this->addTestUsers();
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpo com sucesso'));
+        
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
 
@@ -175,7 +176,7 @@ class AdminController extends Controller {
         set_time_limit(30);
         fclose($file);
 
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso.'));
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
     
@@ -227,8 +228,6 @@ class AdminController extends Controller {
         $role->addChild('updateSchool');
         $role->addChild('deleteSchool');
 
-        $auth->assign('admin', 1);
-        $auth->assign('manager', 2);
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'ACL configurada com sucesso.'));
         $this->redirect(array('index'));
