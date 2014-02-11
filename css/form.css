@@ -60,7 +60,7 @@ div.form label
 	display: block;
 }
 
-div.form .row
+div.form .controls
 {
 	margin: 5px 0;
 }
@@ -152,7 +152,7 @@ div.wide.form label
 	width: 100px;
 }
 
-div.wide.form .row
+div.wide.form .controls
 {
 	clear: left;
 }
