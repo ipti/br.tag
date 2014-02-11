@@ -72,6 +72,8 @@
  * @done S2 - Problemas do login - Limpagem do banco
  * @done S2 - Problemas do Login - Cadastro do admin
  * 
+ * @done S2 - Adiconar links de Frequência no menu
+ * 
  * * * RESPONSIVE DESIGN * * *
  * 
  * @todo S2 - Bugs em campos (todas as telas)
