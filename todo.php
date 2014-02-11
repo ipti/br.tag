@@ -65,6 +65,8 @@
  * @todo S2 - Gerar calendário a partir do quadro de aulas
  * @todo S2 - Criar tela de exibir quadro de aulas
  * 
+ * @done S2 - Problemas do login - Limpagem do banco
+ * @done S2 - Problemas do Login - Cadastro do admin
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
