@@ -20,7 +20,7 @@ class AdminController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array( 'import', 'clearDB', 'acl', 'CreateUser'),
+                'actions' => array('import', 'clearDB', 'acl', 'CreateUser'),
                 'users' => array('@'),
             ),
         );
@@ -34,13 +34,33 @@ class AdminController extends Controller {
     public function actionCreateUser() {
         $model = new Users;
 
-        if (isset($_POST['Users'])) {
+        if (isset($_POST['Users'], $_POST['Confirm'])) {
+                    
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
-                // form inputs are valid, do something here
-                
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Pegadinha do malandro! Rá!'));
-                $this->redirect(array('index'));
+                $password = md5($_POST['Users']['password']);
+                $confirm = md5($_POST['Confirm']);
+                if ($password == $confirm) {
+                    $model->password = $password;
+                    // form inputs are valid, do something here
+                    if ($model->save()) {
+                        $save = true;
+                        foreach ($_POST['schools'] as $school){
+                            $userSchool = new UsersSchool;
+                            $userSchool->user_fk = $model->id;
+                            $userSchool->school_fk = $school;
+                            $save = $save && $userSchool->validate() && $userSchool->save();
+                        }
+                        if($save){
+                            $auth = Yii::app()->authManager;
+                            $auth->assign($_POST['Role'], $model->id);
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário adicionado com sucesso!'));
+                            $this->redirect(array('index'));
+                        }
+                    }
+                } else {
+                    $model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+                }
             }
         }
         $this->render('createUser', array('model' => $model));
@@ -179,7 +199,7 @@ class AdminController extends Controller {
         Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
-    
+
     public function actionACL() {
         $auth = Yii::app()->authManager;
 

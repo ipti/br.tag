@@ -44,6 +44,14 @@ function validateYear(year, min, max){
     return (rule(year,numberRules.num) && year >= min && year <=max);
 }
 
+function validateLogin(pass){
+    return pass.length >= 4;
+}
+
+function validatePassword(pass){
+    return pass.length >= 6;
+}
+
 function validateCount(count) {
     if(count.length == 0){
         return true;

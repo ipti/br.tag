@@ -43,9 +43,9 @@ $this->breadcrumbs = array(
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/registerUser" class="widget-stats">
+                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/createUser" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
-                        <span class="txt">Cadastrar usuário (Em manutenção!)</span>
+                        <span class="txt">Cadastrar usuário</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
