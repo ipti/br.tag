@@ -61,6 +61,8 @@
  * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
  * 
+ * @done S2 - Gerar crud das tabelas do banco
+ * @done S2 - Gerar modelos das tabelas do banco
  * @done S2 - Traduzir tela de criar usuário
  * @done S2 - Visualizar todas as escolas pelo admin
  * @done S2 - Criar tabelas de aulas e faltas

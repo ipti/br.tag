@@ -35,7 +35,6 @@ class AdminController extends Controller {
         $model = new Users;
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
-                    
             $model->attributes = $_POST['Users'];
             if ($model->validate()) {
                 $password = md5($_POST['Users']['password']);
@@ -54,7 +53,7 @@ class AdminController extends Controller {
                         if($save){
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário adicionado com sucesso!'));
+                            Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
                             $this->redirect(array('index'));
                         }
                     }
