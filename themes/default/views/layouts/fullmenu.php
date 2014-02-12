@@ -58,6 +58,11 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         
+        <!-- Calendar -->
+        <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
+        <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
+        <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
+        
         <script>
             $(document).ready(function(){
                 $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
@@ -279,8 +284,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons check" href="#menu_frequencia"><i></i><span>Frequência</span></a>
                                     <ul class="collapse" id="menu_frequencia">
-                                        <li class=""><a href="#"><span>Quadro de aulas</span></a></li>
-                                        <li class=""><a href="#"><span>Frequência de Alunos</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classBoard"><span>Quadro de aulas</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classes"><span>Frequência de Alunos</span></a></li>
                                     </ul>
                                     <?php //<span class="count">2</span> ?>
                                 </li>

@@ -76,6 +76,19 @@
  * @done S2 - Problemas do Login - Cadastro do admin
  * 
  * @done S2 - Adiconar links de Frequência no menu
+ * @done S2 - Alterar links do menu de Frequência (ClassBoard e Classes)
+ * 
+ * @done S2 - Criar estrutura da tela de Frequência - ClassBoard.
+ * @todo S2 - Não permitir criar uma aula com mais de 1 horário
+ * @todo S2 - Adicionar Filtro de Turma à Tela de Frequência - ClassBoard.
+ * @todo S2 - Adicionar Filtro de Turno à Tela de Frequência - ClassBoard.
+ * 
+ * @todo S2 - Alterar permissões no ACL.
+ * @todo S2 - Alterar permissões de uso de ClassBoard.
+ * @todo S2 - Alterar permissões de uso de Classes.
+ * @todo S2 - Alterar permissões de uso de ClassesFaults.
+ * 
+ * @todo S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
