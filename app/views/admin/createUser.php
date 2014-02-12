@@ -2,7 +2,7 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default','Create a new User'));
     $this->breadcrumbs=array(
-            Yii::t('default', 'Users')=>array('index'),
+            Yii::t('default', 'User')=>array('index'),
             Yii::t('default', 'Create'),
     );
     $title=Yii::t('default', 'Create a new User');

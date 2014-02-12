@@ -443,6 +443,7 @@ return array(
     
     
     //Labels
+    'User' => 'Usuário',
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
@@ -497,6 +498,7 @@ return array(
     'Create a new Classroom' => 'Adicionar Turma',
     'Create a new InstructorIdentification' => 'Adicionar Professor',
     'Create a new StudentIdentification' => 'Adicionar Aluno',
+    'Create a new User' => 'Cadastrar Usuário',
     
     //Atualizar
     'Update Classroom' => 'Atualizar Turma',

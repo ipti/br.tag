@@ -50,7 +50,8 @@ return array(
     'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
     
     //
-    'Confirm' => 'O valor tem que ser igual ao da senha.'
+    'Confirm' => 'O valor tem que ser igual ao da senha.',
+    'Full Name' => 'Nome completo'
 );
 
 ?>

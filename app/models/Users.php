@@ -63,9 +63,9 @@ class Users extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'username' => 'Username',
-			'password' => 'Password',
+			'name' => Yii::t('default', 'Name'),
+			'username' => Yii::t('default', 'Username'),
+			'password' => Yii::t('default', 'Password'),
 			'active' => 'Active',
 		);
 	}

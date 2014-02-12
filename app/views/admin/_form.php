@@ -58,7 +58,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'name',array('size'=>100,'maxlength'=>150, 'class' => 'span10')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'User Name'); ?>"><i></i></span>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span>
                                     <?php echo $form->error($model, 'name'); ?>
                                 </div>
                             </div>
@@ -84,9 +84,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo CHtml::label('Confirm Password', 'Confirm', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(Yii::t('default', 'Confirm Password'), 'Confirm Password', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo CHtml::passwordField('Confirm','',array('size'=>32,'maxlength'=>32)); ?>
+                                    <?php echo CHtml::passwordField('Confirm Password','',array('size'=>32,'maxlength'=>32)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm'); ?>"><i></i></span>
                                 </div>
                             </div>
