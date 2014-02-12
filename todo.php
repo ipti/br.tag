@@ -79,8 +79,8 @@
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
- * @todo S2 - Bugs em campos (todas as telas)
- * @todo S2 - Menu lateral (ocuta mas continua ocupando espaço em telas pequenas)
+ * @todo S2 - Bugs no alinhamento dos campos no modo responsive (todas as telas)
+ * @done S2 - Menu lateral sem ocultar
  * @todo S2 - Posição do logotipo (tela de login e todo a app)
  * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
  * @todo S2 - Retirar CSS desnecessaŕio

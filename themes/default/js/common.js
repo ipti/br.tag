@@ -13,13 +13,6 @@ $(function()
 		$(this).parents('.hasSubmenu:first').removeClass('active');
 	});
 	
-	// main menu visibility toggle
-	$('.navbar.main .btn-navbar').click(function()
-	{
-		var disabled = typeof toggleMenuButtonWhileTourOpen != 'undefined' ? toggleMenuButtonWhileTourOpen(true) : false;
-		if (!disabled)
-			toggleMenuHidden();
-	});
 	
 	// multi-level top menu
 	$('.submenu').hover(function()

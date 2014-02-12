@@ -94,6 +94,19 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
 <!--  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/modernizr.js"></script>
       <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>  -->
+        
+        <script>
+            var bagaca = true;
+            $(document).on('click','#button-menu', function(){
+                if(bagaca){
+                    $('#content').css('margin','0');
+                }else{
+                    $('#content').css('margin','0 0 0 204px');
+                }
+                bagaca = !bagaca;
+                    
+            });
+        </script>
     
         
     </head>
@@ -110,8 +123,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 7px 5px 0 44px;height: 34px;" /><span><span>v3.0</span></span></a>
 
-                <!-- Menu Toggle Button --
-                <button id="button-menu" type="button" class="btn btn-navbar">
+                <!-- Menu Toggle Button -->
+                <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
                         <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
                 <!-- // Menu Toggle Button END -->
