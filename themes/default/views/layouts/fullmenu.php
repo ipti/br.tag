@@ -167,9 +167,9 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Sidebar Menu -->
 
-                <div class="hidden-phone"data-spy="affix" data-offset-top="45" data-offset-bottom="0">
+                <div class=""data-spy="affix" data-offset-top="45" data-offset-bottom="0">
 
-                    <div id="menu" class="hidden-phone hidden-print">
+                    <div id="menu" class="hidden-print">
 
                         <!-- Scrollable menu wrapper with Maximum height -->
                         <div class="slim-scroll" data-scroll-height="800px">
