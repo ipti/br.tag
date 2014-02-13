@@ -68,18 +68,18 @@ class ClassBoard extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'discipline_fk' => 'Discipline Fk',
-			'classroom_fk' => 'Classroom Fk',
-			'week_day_monday' => 'Week Day Monday',
-			'week_day_tuesday' => 'Week Day Tuesday',
-			'week_day_wednesday' => 'Week Day Wednesday',
-			'week_day_thursday' => 'Week Day Thursday',
-			'week_day_friday' => 'Week Day Friday',
-			'week_day_saturday' => 'Week Day Saturday',
-			'week_day_sunday' => 'Week Day Sunday',
-			'estimated_classes' => 'Estimated Classes',
-			'given_classes' => 'Given Classes',
-			'replaced_classes' => 'Replaced Classes',
+			'discipline_fk' => Yii::t('default', 'Discipline Fk'),
+			'classroom_fk' => Yii::t('default', 'Classroom Fk'),
+			'week_day_monday' => Yii::t('default', 'Week Day Monday'),
+			'week_day_tuesday' => Yii::t('default', 'Week Day Tuesday'),
+			'week_day_wednesday' => Yii::t('default', 'Week Day Wednesday'),
+			'week_day_thursday' => Yii::t('default', 'Week Day Thursday'),
+			'week_day_friday' => Yii::t('default', 'Week Day Friday'),
+			'week_day_saturday' => Yii::t('default', 'Week Day Saturday'),
+			'week_day_sunday' => Yii::t('default', 'Week Day Sunday'),
+			'estimated_classes' => Yii::t('default', 'Estimated Classes'),
+			'given_classes' => Yii::t('default', 'Given Classes'),
+			'replaced_classes' => Yii::t('default', 'Replaced Classes'),
 		);
 	}
 

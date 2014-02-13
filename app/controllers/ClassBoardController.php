@@ -27,12 +27,9 @@ class ClassBoardController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
+
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('index','view','getClassBoard','create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -55,6 +52,48 @@ class ClassBoardController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+        
+        
+        public function actionGetClassBoard(){
+            $year = 1995;
+            $month = 1;
+            
+            $classroom = $_POST['ClassBoard']['classroom_fk'];
+            
+            $classboard = ClassBoard::model()->findAll("classroom_fk = $classroom");
+            
+            $events = array();
+            foreach($classboard as $cb){
+                $discipline = $cb->disciplineFk;
+                $classes = Classes::model()->findAll("classroom_fk = $classroom and discipline_fk = ".$discipline->id);
+                foreach($classes as $class) {
+                    $day = $class->day;
+                    $schedule = $class->schedule;
+                    
+                    $event = array(
+                        'id' => $cb->id,
+                        'title' => $discipline->name,
+                        'start' =>  date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day, $year))
+                    );
+                    array_push($events, $event);
+                }
+            }
+            
+            echo json_encode($events);
+
+//            echo json_encode(array(
+//                array(
+//                    'id' => 111,
+//                    'title' => "Event1",
+//                    'start' => date(DateTime::ISO8601, mktime(4, 0, 0, $month, 1, $year)),
+//                ),
+//                array(
+//                    'id' => 222,
+//                    'title' => "Event2",
+//                    'start' => date(DateTime::ISO8601, mktime(4, 0, 0, $month, 2, $year)),
+//                )
+//            ));
+        }
 
 	/**
 	 * Creates a new model.
@@ -123,8 +162,11 @@ class ClassBoardController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('ClassBoard');
+                $model = new ClassBoard;
+                
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+			'model'=>$model,
 		));
 	}
 
