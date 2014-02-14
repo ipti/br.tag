@@ -87,13 +87,15 @@
  * 
  * @done S2 - Adicionar Função do Filtro de Turma à Tela de Frequência - ClassBoard.
  * 
- * @todo S2 - Adicionar Turno como atributo de Classroom
+ * @done S2 - Adicionar Turno como atributo de Classroom
  * 
  * @todo S2 - Alterar permissões no ACL.
  * @todo S2 - Alterar permissões de uso de ClassBoard.
  * @todo S2 - Alterar permissões de uso de Classes.
  * @todo S2 - Alterar permissões de uso de ClassesFaults.
  * 
+ * @done S2 -  Remover cursor pointer dos labels
+ * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
  * @todo S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
  * 
  * * * RESPONSIVE DESIGN * * *

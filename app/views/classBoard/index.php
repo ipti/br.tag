@@ -131,6 +131,7 @@ $form=$this->beginWidget('CActiveForm', array(
 			slotEventOverlap: false,
 			disableResizing: true,
 			editable: true,
+                        resizable: false,
 
                         <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário?>
 			firstHour: 1,

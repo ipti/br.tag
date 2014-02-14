@@ -69,21 +69,18 @@
  * @property integer $discipline_native_language
  * @property integer $discipline_others
  * @property integer $instructor_situation
+ * @property integer $school_year
+ * @property string $turn
  *
  * The followings are the available model relations:
+ * @property Class[] $classes
+ * @property ClassBoard[] $classBoards
  * @property SchoolIdentification $schoolInepFk
  * @property EdcensoProfessionalEducationCourse $edcensoProfessionalEducationCourseFk
+ * @property InstructorTeachingData[] $instructorTeachingDatas
+ * @property StudentEnrollment[] $studentEnrollments
  */
 class Classroom extends CActiveRecord {
-
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return Classroom the static model class
-     */
-    public static function model($className = __CLASS__) {
-        return parent::model($className);
-    }
 
     /**
      * @return string the associated database table name
@@ -99,15 +96,16 @@ class Classroom extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, school_inep_fk, school_year, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type', 'required'),
-            array('week_days_sunday, school_year, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation', 'numerical', 'integerOnly' => true),
+            array('school_inep_fk, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, school_year', 'required'),
+            array('week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation, school_year', 'numerical', 'integerOnly' => true),
             array('register_type, initial_hour, initial_minute, final_hour, final_minute, edcenso_stage_vs_modality_fk', 'length', 'max' => 2),
             array('school_inep_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 10),
             array('name', 'length', 'max' => 80),
+            array('turn', 'length', 'max' => 45),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('register_type, school_inep_fk, inep_id, id, name, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('register_type, school_inep_fk, inep_id, id, name, initial_hour, initial_minute, final_hour, final_minute, week_days_sunday, week_days_monday, week_days_tuesday, week_days_wednesday, week_days_thursday, week_days_friday, week_days_saturday, assistance_type, mais_educacao_participator, complementary_activity_type_1, complementary_activity_type_2, complementary_activity_type_3, complementary_activity_type_4, complementary_activity_type_5, complementary_activity_type_6, aee_braille_system_education, aee_optical_and_non_optical_resources, aee_mental_processes_development_strategies, aee_mobility_and_orientation_techniques, aee_libras, aee_caa_use_education, aee_curriculum_enrichment_strategy, aee_soroban_use_education, aee_usability_and_functionality_of_computer_accessible_education, aee_teaching_of_Portuguese_language_written_modality, aee_strategy_for_school_environment_autonomy, modality, edcenso_stage_vs_modality_fk, edcenso_professional_education_course_fk, discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology, discipline_science, discipline_language_portuguese_literature, discipline_foreign_language_english, discipline_foreign_language_spanish, discipline_foreign_language_franch, discipline_foreign_language_other, discipline_arts, discipline_physical_education, discipline_history, discipline_geography, discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics, discipline_professional_disciplines, discipline_special_education_and_inclusive_practices, discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical, discipline_religious, discipline_native_language, discipline_others, instructor_situation, school_year, turn', 'safe', 'on' => 'search'),
         );
     }
 
@@ -118,8 +116,12 @@ class Classroom extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'classes' => array(self::HAS_MANY, 'Class', 'classroom_fk'),
+            'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
+            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
+            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk'),
         );
     }
 
@@ -132,7 +134,6 @@ class Classroom extends CActiveRecord {
             'school_inep_fk' => Yii::t('default', 'School Inep Fk'),
             'inep_id' => Yii::t('default', 'Inep'),
             'id' => Yii::t('default', 'ID'),
-            'school_year' => Yii::t('default', 'School Year'),
             'name' => Yii::t('default', 'Name'),
             'initial_hour' => Yii::t('default', 'Initial Hour'),
             'initial_minute' => Yii::t('default', 'Initial Minute'),
@@ -194,27 +195,34 @@ class Classroom extends CActiveRecord {
             'discipline_native_language' => Yii::t('default', 'Discipline Native Language'),
             'discipline_others' => Yii::t('default', 'Discipline Others'),
             'instructor_situation' => Yii::t('default', 'Instructor Situation'),
+            'school_year' => Yii::t('default', 'School Year'),
+            'turn' => Yii::t('default', 'Turn'),
         );
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     *
+     * Typical usecase:
+     * - Initialize the model fields with values from filter form.
+     * - Execute this method to get CActiveDataProvider instance which will filter
+     * models according to data in model fields.
+     * - Pass data provider to CGridView, CListView or any similar widget.
+     *
+     * @return CActiveDataProvider the data provider that can return the models
+     * based on the search/filter conditions.
      */
     public function search() {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
+        //  Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
-//        $criteria->compare('school_inep_fk', $this->school_inep_fk, true);
         $school = Yii::app()->user->school;
         $criteria->compare('school_inep_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-//        $criteria->compare('school_year', $this->school_year, true);
 //        $criteria->compare('initial_hour', $this->initial_hour, true);
 //        $criteria->compare('initial_minute', $this->initial_minute, true);
 //        $criteria->compare('final_hour', $this->final_hour, true);
@@ -275,19 +283,30 @@ class Classroom extends CActiveRecord {
 //        $criteria->compare('discipline_native_language', $this->discipline_native_language);
 //        $criteria->compare('discipline_others', $this->discipline_others);
 //        $criteria->compare('instructor_situation', $this->instructor_situation);
+//        $criteria->compare('school_year', $this->school_year);
+//        $criteria->compare('turn', $this->turn, true);
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => array(
-                        'defaultOrder' => array(
-                            'name' => CSort::SORT_ASC
-                        ),
-                    ),
-                    'pagination' => array(
-                        'pageSize' => 12,
-                    ),
+            'criteria' => $criteria,
+            'sort' => array(
+                'defaultOrder' => array(
+                    'name' => CSort::SORT_ASC
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 12,
+            ),
+        ));
+    }
 
-                ));
+    /**
+     * Returns the static model of the specified AR class.
+     * Please note that you should have this exact method in all your CActiveRecord descendants!
+     * @param string $className active record class name.
+     * @return Classroom the static model class
+     */
+    public static function model($className = __CLASS__) {
+        return parent::model($className);
     }
 
 }

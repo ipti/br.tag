@@ -69,6 +69,21 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelClassroom, 'name'); ?>
                                 </div>
                             </div>
+                            
+                            <div class="control-group">
+
+                               <?php
+                                echo $form->labelEx($modelClassroom, 'turn', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'turn', array(null => 'Selecione o turno',
+                                        'M' => 'Manhã',
+                                        'T' => 'Tarde',
+                                        'N' => 'Noite',
+                                        'I' => 'Integral'),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelClassroom, 'turn'); ?>
+                                </div>
+                            </div>
+                            
                             <div class="control-group">
 
                                <?php //@done s1 - colocar o ano atual como valor padrão
