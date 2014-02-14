@@ -1,14 +1,14 @@
 <?php
 /* @var $this AdminController */
 
-$this->pageTitle = Yii::app()->name . ' - Administração';
+$this->pageTitle = 'TAG - ' . Yii::t('default','Administration');
 $this->breadcrumbs = array(
-    'Administração',
+    Yii::t('default','Administration'),
 );
 ?>
 
 <div class="heading-buttons">
-    <h3>Administração</h3>
+    <h3><?php echo Yii::t('default','Administration'); ?></h3>
 </div>
 
 <div class="innerLR home">

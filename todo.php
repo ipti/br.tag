@@ -94,7 +94,13 @@
  * @todo S2 - Alterar permissões de uso de Classes.
  * @todo S2 - Alterar permissões de uso de ClassesFaults.
  * 
+ * @todo S2 - Bug com o quadro de aulas (JS está escrevendo uma classe ui-widget-header e ui-widget-content e o correto é fc-widget-header e fc-widget-content)
  * @todo S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
+ * 
+ * @done s2 - Título da página de Admin não está no arquivo de tradução
+ * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
+ * 
+ * @done s2 - Deminificar template.min.css e mudar a chamada de arquivo no fullmenu
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
@@ -111,5 +117,8 @@
  * @todo S2 - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
  * @done S2 - Traduzir frases em inglês do Select2
+ * @todo s2 - Subtítulos com descrição da tela atual
+ * @todo s2 - Mover aviso de campos obrigatórios
+ * @done s2 - BUG: botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
  * 
 */?>

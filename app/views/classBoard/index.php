@@ -23,7 +23,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
             <div class="row-fluid">
                 <div class="span8">
-                    <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
+                    <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('help', 'ClassBoard Subtitle') ?></span></h3>        
                 </div>
             </div>
         </div>        
@@ -46,7 +46,6 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="classboard">
                     <div class="row-fluid">
                         <div class="span6">
-                            <div class="separator"></div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -73,7 +72,6 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
 
                         <div class="span6">
-                            <div class="separator"></div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'estimated_classes', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -140,12 +138,13 @@ $form=$this->beginWidget('CActiveForm', array(
 			slotMinutes: 60,
 			defaultEventMinutes: 60,
 
-			axisFormat: "H 'Horário'",
+			axisFormat: "H'º' 'Horário'",
 			timeFormat: { agenda: 'h{ - h}' },
 
 			columnFormat: { week: 'dddd', },
-
-			header: { left: '', center: 'title', right: '', },
+                        
+                        <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro) ?>
+			header: { left: '', center: '', right: '', },
 
 			titleFormat: { week: "MMMM", },
 
