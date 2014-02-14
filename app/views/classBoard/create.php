@@ -3,7 +3,7 @@
 /* @var $model ClassBoard */
 
 $this->breadcrumbs=array(
-	'Class Boards'=>array('index'),
+	Yii::t('default', 'Class Boards')=>array('index'),
 	'Create',
 );
 
@@ -13,6 +13,5 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create ClassBoard</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

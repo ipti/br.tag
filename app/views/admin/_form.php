@@ -108,7 +108,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
                 <?php $this->endWidget(); ?>
-            </div
+            </div>
         </div>
     </div>
 </div>

@@ -441,6 +441,12 @@ return array(
     'Discipline 12 Fk' => '',
     'Discipline 13 Fk' => '',
     
+    //
+    'Class Boards' => 'Quadro de Aulas',
+    'Turn' => 'Turno',
+    'Estimated Classes' =>'Aulas Previstas',
+    'Given Classes' =>'Aulas Dadas',
+    'Replaced Classes' =>'Aulas Repostas',
     
     //Labels
     'User' => 'Usuário',

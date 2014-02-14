@@ -79,9 +79,15 @@
  * @done S2 - Alterar links do menu de Frequência (ClassBoard e Classes)
  * 
  * @done S2 - Criar estrutura da tela de Frequência - ClassBoard.
+ * @done S2 - Traduzir a tela de ClassBoard.
+ * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
+ * 
  * @todo S2 - Não permitir criar uma aula com mais de 1 horário
- * @todo S2 - Adicionar Filtro de Turma à Tela de Frequência - ClassBoard.
- * @todo S2 - Adicionar Filtro de Turno à Tela de Frequência - ClassBoard.
+ * @done S2 - Adicionar Campo de Filtro de Turma à Tela de Frequência - ClassBoard.
+ * 
+ * @done S2 - Adicionar Função do Filtro de Turma à Tela de Frequência - ClassBoard.
+ * 
+ * @todo S2 - Adicionar Turno como atributo de Classroom
  * 
  * @todo S2 - Alterar permissões no ACL.
  * @todo S2 - Alterar permissões de uso de ClassBoard.
