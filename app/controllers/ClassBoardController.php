@@ -55,7 +55,7 @@ class ClassBoardController extends Controller
         
         
         public function actionGetClassBoard(){
-            $year = 1995;
+            $year = 1996;
             $month = 1;
             
             $classroom = $_POST['ClassBoard']['classroom_fk'];
