@@ -24,7 +24,7 @@ $this->breadcrumbs = array(
                 <div class="span3">
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/ACL" class="widget-stats">
                         <span class="glyphicons flag"><i></i></span>
-                        <span class="txt">Config. Permissões (Em manutenção!)</span>
+                        <span class="txt">Config. Permissões</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>

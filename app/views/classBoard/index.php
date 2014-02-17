@@ -116,7 +116,7 @@ $form=$this->beginWidget('CActiveForm', array(
 	$(document).ready(function() {
 		calendar = $('#calendar').fullCalendar({
                         <?php //@done s2 - Colocar data padrão?>
-                        year: 1995, //Porque eu nasci em 1993.
+                        year: 1996, //Porque eu nasci em 1993.
                         month: 0,
                         date: 1,
                         theme: true,
@@ -128,7 +128,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
 			slotEventOverlap: false,
 			disableResizing: true,
-			editable: true,
+			editable: false,
 
                         <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário?>
 			firstHour: 1,
@@ -150,7 +150,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
                         <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar?>
 			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setenbro','Outubro','Novembro','Dezembro'],
-			dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+			dayNames: ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
 
 			selectable: true,
 			selectHelper: true,                        

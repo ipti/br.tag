@@ -253,6 +253,7 @@ return array(
     'Discipline Native Language' => 'Língua Indígena',
     'Discipline Others' => 'Outras disciplinas',
     'Instructor Situation' => 'Turma Sem Docente',
+    'Turn' => 'Turno',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
