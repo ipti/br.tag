@@ -40,7 +40,7 @@ return array(
     
     //Ajuda Aluno
     'Student Full Name' => 'Informe o nome completo do aluno.',
-    'NIS' => 'Número de Identifucação Social para famílias que participam de programas sociais do governo como o Bolsa Família.',
+    'NIS' => 'Número de Identificação Social para famílias que participam de programas sociais do governo como o Bolsa Família.',
     'Birthday' => 'Data de nascimento completa do aluno.',
     'Date' => 'Apenas números, seguindo a estrutura: Dia/Mês/Ano',
     'Only characters A-Z, 0-9, ª, º, space and -.' => 'Aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -.',
@@ -51,7 +51,11 @@ return array(
     
     //
     'Confirm' => 'O valor tem que ser igual ao da senha.',
-    'Full Name' => 'Nome completo'
+    'Full Name' => 'Nome completo',
+    
+    //Subtítulos
+    'ClassBoard Subtitle' => 'Veja e edite o horário semanal da turma',
+       
 );
 
 ?>

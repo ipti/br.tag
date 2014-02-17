@@ -519,7 +519,10 @@ return array(
     'already have in this student enrolled.' =>'já possui o aluno matriculado.',
     
     //Autenticação
+    'Users' => 'Usuários',
     'manager' => 'Diretor',
     'admin' => 'Administrador',
+    
+    'Administration' => 'Administração',
         )
 ?>
