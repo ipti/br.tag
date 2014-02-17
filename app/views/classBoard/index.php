@@ -122,7 +122,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         month: 0,
                         date: 1,
                         theme: true,
-                        
+                        firstDay:1,
 			defaultView: 'agendaWeek',
 
 			allDaySlot: false,
@@ -130,7 +130,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
 			slotEventOverlap: false,
 			disableResizing: true,
-			editable: false,
+			editable: true,
 
                         <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário?>
 			firstHour: 1,
@@ -151,7 +151,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
                         <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar?>
 			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setenbro','Outubro','Novembro','Dezembro'],
-			dayNames: ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],
+			dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
 
 			selectable: true,
 			selectHelper: true,                        
