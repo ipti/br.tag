@@ -54,7 +54,7 @@ return array(
     'Full Name' => 'Nome completo',
     
     //Subtítulos
-    'ClassBoard Subtitle' => 'Veja e edite o horário semanal da turma',
+    'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
        
 );
 

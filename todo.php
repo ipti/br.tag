@@ -51,13 +51,11 @@
  * @done S2 - Fazer associação de escolas com usuários.
  * @done S2 - Criar action de criar usuários.
  * 
- * @todo S2 - Criar action de update de usuários.
- * @todo S2 - Criar tela de listagem de usuários.
- * @todo S2 - Criar action de listagem de usuários.
- * @todo S2 - Criar action de remoção de usuários.
+ * @later S3 - Criar action de update de usuários.
+ * @later S3 - Criar tela de listagem de usuários.
+ * @later S3 - Criar action de listagem de usuários.
+ * @later S3 - Criar action de remoção de usuários.
  * 
- * @todo S2 - 33 - Criar um sistema de frequencia como no tag antigo lembrando de associar esta frequencia ao aluno e a turma, inicialmente de forma básica.
- * @todo S2 - 34 - A frequencia pode ser feita utilizando como base o diario e o que discutimos anteriormente lembrando da necessidade do BOLSA FAMILIA
  * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
  * 
@@ -99,7 +97,7 @@
  * @done S2 - Deixar a tabela editável
  * @done S2 -  Remover cursor pointer dos labels
  * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
- * @todo S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
+ * @done S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
  * 
  * @done s2 - Título da página de Admin não está no arquivo de tradução
  * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
@@ -108,21 +106,21 @@
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
- * @todo S2 - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @done S2 - Menu lateral sem ocultar
- * @todo S2 - Posição do logotipo (tela de login e todo a app)
- * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
- * @todo S2 - Retirar CSS desnecessaŕio
- * @todo S2 - Retirar JS desnecessário
+ * @todo S2 JOSÉ AGNALDO - Bugs no alinhamento dos campos no modo responsive (todas as telas)
+ * @done S2 JOSÉ AGNALDO - Menu lateral sem ocultar
+ * @todo S2 JOSÉ AGNALDO - Posição do logotipo (tela de login e todo a app)
+ * @todo S2 JOSÉ AGNALDO - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
+ * @todo S2 JOSÉ AGNALDO - Retirar CSS desnecessaŕio
+ * @todo S2 JOSÉ AGNALDO - Retirar JS desnecessário
  * 
  * * * USER EXPERIENCE * * *
  * 
- * @todo S2 - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
- * @todo S2 - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
- * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @done S2 - Traduzir frases em inglês do Select2
- * @todo s2 - Subtítulos com descrição da tela atual
- * @todo s2 - Mover aviso de campos obrigatórios
- * @done s2 - BUG: botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
+ * @todo S2 JOSÉ AGNALDO - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
+ * @todo S2 JOSÉ AGNALDO - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
+ * @todo S2 JOSÉ AGNALDO - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
+ * @done S2 JOSÉ AGNALDO - Traduzir frases em inglês do Select2
+ * @todo s2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
+ * @todo s2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
+ * @done s2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
  * 
 */?>
