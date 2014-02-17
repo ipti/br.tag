@@ -2,19 +2,19 @@
 /* @var $this ClassBoardController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	Yii::t('default', 'Class Boards'),
+$this->breadcrumbs = array(
+    Yii::t('default', 'Class Boards'),
 );
 
-$this->menu=array(
-	array('label'=>'Create ClassBoard', 'url'=>array('create')),
-	array('label'=>'Manage ClassBoard', 'url'=>array('admin')),
+$this->menu = array(
+    array('label' => 'Create ClassBoard', 'url' => array('create')),
+    array('label' => 'Manage ClassBoard', 'url' => array('admin')),
 );
 
-$form=$this->beginWidget('CActiveForm', array(
-	'id'=>'classroom-form',
-	'enableAjaxValidation'=>false,
-)); 
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'classroom-form',
+    'enableAjaxValidation' => false,
+        ));
 ?>
 
 <?php echo $form->errorSummary($model); ?>
@@ -25,12 +25,16 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="span8">
                     <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('help', 'ClassBoard Subtitle') ?></span></h3>        
                 </div>
+                <div class="buttons pull-right">
+                    <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i>New Class</button>
+                </div>
             </div>
         </div>        
     </div>
 </div>
 
 <div class="innerLR">
+
 
     <div class="widget widget-tabs border-bottom-none">
 
@@ -106,96 +110,141 @@ $form=$this->beginWidget('CActiveForm', array(
 </div>
 
 
+
+<div id="dialog-form" title="Create new user">
+    <p class="validateTips">All form fields are required.</p>
+    <form>
+        <fieldset>
+            <label for="discipline">Disciplina</label>
+            <input type="text" name="discipline" id="discipline" class="text ui-widget-content ui-corner-all">
+        </fieldset>
+    </form>
+</div>
+
+
+
 <script type='text/javascript'>
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-        var calendar;
+
+    <?php //@done s2 - Criar modal ao clicar na tabela ?>
+    <?php //@done s2 - Corrigir problemas do submit automático ?>
+    <?php //@done s2 - Corrigir problemas do Layout ?>
+    var lesson_id = 0;
+    var lesson_start = 1;
+    var lesson_end = 2;
+    
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var calendar;
+    
+    var myDialog;
+    
+    var discipline = $("#discipline"),
+    tips = $(".validateTips");
+    
+    $('#dialog-form').keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+            e.preventDefault();
+            createNewLesson();
+        }
+    });
+    
+    createNewLesson = function() {
+        lesson = {
+            id: lesson_id++,
+            id_db: 0,
+            title: discipline.val(),
+            discipline_cod: 0,
+            start: lesson_start,
+            end: lesson_end
+        };
+        calendar.fullCalendar('renderEvent',lesson,true);
+        myDialog.dialog("close");
+    }
+    
+    $(document).ready(function() {
+        myDialog = $("#dialog-form").dialog({
+            autoOpen: false,
+            height: 300,
+            width: 350,
+            modal: true,
+            buttons: {
+                "<?php echo Yii::t('default','Create New Lesson'); ?>": createNewLesson,
+                Cancel: function() {
+                    $(this).dialog("close");
+                }
+            },
+        });
+
+        $("#new-class").click(function(event) {
+            event.preventDefault();
+            $("#dialog-form").dialog("open");
+        });
         
-	$(document).ready(function() {
-		calendar = $('#calendar').fullCalendar({
-                        <?php //@done s2 - Colocar data padrão?>
-                        year: 1996, //Porque eu nasci em 1993.
-                        month: 0,
-                        date: 1,
-                        theme: true,
-                        firstDay:1,
-			defaultView: 'agendaWeek',
+        calendar = $('#calendar').fullCalendar({
+            <?php //@done s2 - Colocar data padrão        ?>
+            year: 1996, //Porque eu nasci em 1993.
+            month: 0,
+            date: 1,
+            theme: true,
+            firstDay:1,
+            defaultView: 'agendaWeek',
+            allDaySlot: false,
+            allDayDefault: false,
+            slotEventOverlap: false,
+            disableResizing: true,
+            editable: true,
 
-			allDaySlot: false,
-			allDayDefault: false,
+            <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário        ?>
+            firstHour: 1,
+            minTime: 1,
+            maxTime: 11,
+            slotMinutes: 60,
+            defaultEventMinutes: 60,
+            axisFormat: "H'º' 'Horário'",
+            timeFormat: { agenda: "" },
+            columnFormat: { week: 'dddd', },
 
-			slotEventOverlap: false,
-			disableResizing: true,
-			editable: true,
+            <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro)         ?>
+            header: { left: '', center: '', right: '', },
+            titleFormat: { week: "MMMM", },
 
-                        <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário?>
-			firstHour: 1,
-			minTime: 1,
-			maxTime: 11,
+            <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setenbro', 'Outubro', 'Novembro', 'Dezembro'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            selectable: true,
+            selectHelper: true,
 
-			slotMinutes: 60,
-			defaultEventMinutes: 60,
+            <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
+            events: '<?php echo CController::createUrl('classBoard/getClassBoard'); ?>',
 
-			axisFormat: "H'º' 'Horário'",
-			timeFormat: { agenda: 'h{ - h}' },
+            <?php //@todo s2 - Criar tela de dialogo para CRIAR da aula        ?>
+            select: function(start, end, allDay) {
+                lesson_start = start;
+                lesson_end = end;
+                $("#dialog-form").dialog("open");
+                calendar.fullCalendar('unselect');
+            },
 
-			columnFormat: { week: 'dddd', },
-                        
-                        <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro) ?>
-			header: { left: '', center: '', right: '', },
+            eventClick: function(event){
+            <?php //@todo s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
+            <?php //@todo s2 - Criar função de REMOVER aula        ?>
+            <?php //@todo s2 - Criar função de ATUALIZAR aula        ?>
+                calendar.fullCalendar('removeEvents', event.id);
+            },
 
-			titleFormat: { week: "MMMM", },
+            <?php //@todo s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        ?>
+            eventDrop: function(event, delta) {
+                alert(event.title + ' was moved ' + delta + ' days\n' +
+                    '(should probably update your database)');
+            },
+            loading: function(bool) {
+                if (bool) $('#loading').show();
+                else $('#loading').hide();
+            }
 
-                        <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar?>
-			monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setenbro','Outubro','Novembro','Dezembro'],
-			dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-
-			selectable: true,
-			selectHelper: true,                        
-                        
-                        <?php //@done s2 - Criar o evento que importa os dados do banco?>             
-                        events: '<?php echo CController::createUrl('classBoard/getClassBoard');?>',
-                                
-                        <?php //@todo s2 - Criar tela de dialogo para CRIAR da aula?>
-			select: function(start, end, allDay) {
-				var title = prompt('Event Title:');
-				if (title) {
-					calendar.fullCalendar('renderEvent',
-						{
-							title: title,
-							start: start,
-							end: end,
-							allDay: allDay
-						},
-						true // make the event "stick"
-					);
-				}
-				calendar.fullCalendar('unselect');
-			},
-                
-			eventClick: function(event){
-                                <?php //@todo s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula?>
-                                <?php //@todo s2 - Criar função de REMOVER aula?>
-                                <?php //@todo s2 - Criar função de ATUALIZAR aula?>
-				calendar.fullCalendar( 'removeEvents' , event.id );		
-			},
-                        
-			
-                        <?php //@todo s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula?>
-			eventDrop: function(event, delta) {
-				alert(event.title + ' was moved ' + delta + ' days\n' +
-					'(should probably update your database)');
-			},
-			
-			loading: function(bool) {
-				if (bool) $('#loading').show();
-				else $('#loading').hide();
-			}
-                        
-		});
-		
-	});
+        });
+    });
 
 </script>

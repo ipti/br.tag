@@ -124,7 +124,7 @@ html .fc,
 
 .fc-widget-header,    /* <th>, usually */
 .fc-widget-content {  /* <td>, usually */
-    border: 1px solid #ccc;
+	border: 1px solid #ccc;
 }
 
 .fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
@@ -489,11 +489,6 @@ table.fc-border-separate {
 
 .fc-agenda-days th {
     text-align: center;
-    border-right:1px solid #fff
-}
-
-.fc-agenda-days td{
-    border-right:1px solid #ccc
 }
 
 .fc-agenda .fc-agenda-axis {
@@ -503,7 +498,6 @@ table.fc-border-separate {
     text-align: right;
     white-space: nowrap;
     font-weight: normal;
-    border-bottom:1px solid #fff
 }
 
 .fc-agenda .fc-day-content {
@@ -551,7 +545,6 @@ table.fc-border-separate {
 .fc-agenda-slots td {
     border-width: 1px 0 0;
     background: none;
-    border-bottom:1px solid #ccc;
     cursor:pointer;
 }
 
