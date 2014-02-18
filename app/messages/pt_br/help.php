@@ -55,6 +55,7 @@ return array(
     
     //Subtítulos
     'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
+    'Estimated classes' => 'Quantidade de aulas previstas',
        
 );
 

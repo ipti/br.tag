@@ -64,7 +64,6 @@
  * @done S2 - Traduzir tela de criar usuário
  * @done S2 - Visualizar todas as escolas pelo admin
  * @done S2 - Criar tabelas de aulas e faltas
- * @todo S2 - inserir aba/botão de cadastrar aulas na tela de turma
  * @done S2 - inserir aba de frequência no fullmenu
  * @todo S2 - Criar tela de criar quadro de aulas
  * @todo S2 - Gerar calendário a partir do quadro de aulas
@@ -88,6 +87,9 @@
  * @done S2 - Adicionar Função do Filtro de Turma à Tela de Frequência - ClassBoard.
  * 
  * @done S2 - Adicionar Turno como atributo de Classroom
+ * 
+ * @done S2 - Deixar o modal correto
+ * @todo S2 - Alterar a tela de classboard para trazer os atributos necessários
  * 
  * @todo S2 - Alterar permissões no ACL.
  * @todo S2 - Alterar permissões de uso de ClassBoard.

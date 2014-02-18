@@ -9,6 +9,7 @@ return array(
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
     'Add'=> 'Adicionar',
+    'Cancel' => 'Cancelar',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
@@ -226,6 +227,7 @@ return array(
     'Edcenso Stage Vs Modality Fk' => 'Etapas de Ensino',
     'Edcenso Professional Education Course Fk' => 'Código Curso Educação Profissional',
     'Disciplines' => 'Disciplinas',
+    'Discipline' => 'Disciplina',
     'Discipline Chemistry' => 'Química',
     'Discipline Physics' => 'Física',
     'Discipline Mathematics' => 'Matemática',
@@ -442,7 +444,9 @@ return array(
     'Discipline 12 Fk' => '',
     'Discipline 13 Fk' => '',
     
-    //
+    //Classboards
+    'Insert class' => 'Inserir aula',
+    'Create New Lesson' => 'Criar novo evento',
     'Class Boards' => 'Quadro de Aulas',
     'Turn' => 'Turno',
     'Estimated Classes' =>'Aulas Previstas',

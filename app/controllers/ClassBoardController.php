@@ -59,7 +59,6 @@ class ClassBoardController extends Controller
             $month = 1;
             
             $classroom = $_POST['ClassBoard']['classroom_fk'];
-            
             $classboard = ClassBoard::model()->findAll("classroom_fk = $classroom");
             
             $events = array();
