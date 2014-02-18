@@ -102,13 +102,13 @@
  * @done s2 - Título da página de Admin não está no arquivo de tradução
  * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
  * 
- * @done s2 - Deminificar template.min.css e mudar a chamada de arquivo no fullmenu
+ * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
  * @todo S2 JOSÉ AGNALDO - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @done S2 JOSÉ AGNALDO - Menu lateral sem ocultar
- * @todo S2 JOSÉ AGNALDO - Posição do logotipo (tela de login e todo a app)
+ * @done S2 - Menu lateral sem ocultar
+ * @todo S2 JOSÉ AGNALDO - Posição do logotipo
  * @todo S2 JOSÉ AGNALDO - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
  * @todo S2 JOSÉ AGNALDO - Retirar CSS desnecessaŕio
  * @todo S2 JOSÉ AGNALDO - Retirar JS desnecessário
@@ -118,7 +118,7 @@
  * @todo S2 JOSÉ AGNALDO - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
  * @todo S2 JOSÉ AGNALDO - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * @todo S2 JOSÉ AGNALDO - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @done S2 JOSÉ AGNALDO - Traduzir frases em inglês do Select2
+ * @done S2 - Traduzir frases em inglês do Select2
  * @todo s2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
  * @todo s2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
  * @done s2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
