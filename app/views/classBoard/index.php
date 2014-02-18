@@ -110,13 +110,16 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 
-
-<div id="dialog-form" title="Create new user">
-    <p class="validateTips">All form fields are required.</p>
+<div id="dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
+    <p class="validateTips"></p>
     <form>
         <fieldset>
-            <label for="discipline">Disciplina</label>
-            <input type="text" name="discipline" id="discipline" class="text ui-widget-content ui-corner-all">
+            <div class="control-group">
+                <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
+                <div class="controls">
+                    <?php echo CHtml::dropDownList('discipline', '', CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+                </div>
+            </div>
         </fieldset>
     </form>
 </div>
@@ -125,6 +128,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <script type='text/javascript'>
 
+    var form = "#ClassBoard_";
     <?php //@done s2 - Criar modal ao clicar na tabela ?>
     <?php //@done s2 - Corrigir problemas do submit automático ?>
     <?php //@done s2 - Corrigir problemas do Layout ?>
@@ -154,8 +158,8 @@ $form = $this->beginWidget('CActiveForm', array(
         lesson = {
             id: lesson_id++,
             id_db: 0,
-            title: discipline.val(),
-            discipline_cod: 0,
+            title: discipline.find('option:selected').text(),
+            discipline_cod: discipline.val(),
             start: lesson_start,
             end: lesson_end
         };
@@ -166,12 +170,12 @@ $form = $this->beginWidget('CActiveForm', array(
     $(document).ready(function() {
         myDialog = $("#dialog-form").dialog({
             autoOpen: false,
-            height: 300,
+            height: 250,
             width: 350,
             modal: true,
             buttons: {
-                "<?php echo Yii::t('default','Create New Lesson'); ?>": createNewLesson,
-                Cancel: function() {
+                "<?php echo Yii::t('default','Create'); ?>": createNewLesson,
+                <?php echo Yii::t('default','Cancel'); ?>: function() {
                     $(this).dialog("close");
                 }
             },
