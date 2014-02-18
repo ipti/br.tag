@@ -105,6 +105,8 @@
  * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
  * 
  * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
+ * @done s2 - BUG - Quadro de aulas fica por cima do título ao rola para baixo
+ * @done s2 - Botão de New Class deve ficar fixo ao rolar página para baixo
  * 
  * * * RESPONSIVE DESIGN * * *
  * 

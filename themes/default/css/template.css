@@ -6550,6 +6550,7 @@ div.glyphicons.glyphicon-primary i:before {
 .heading-buttons.affix {
   opacity: 0.9;
   background: #ffffff url(../img/pattern1.png) repeat;
+  z-index: 3;
 }
 .grid-view {
   padding: 0;

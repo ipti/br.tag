@@ -25,8 +25,10 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="span8">
                     <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('help', 'ClassBoard Subtitle') ?></span></h3>        
                 </div>
-                <div class="buttons pull-right">
-                    <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i>New Class</button>
+                <div class="span4">
+                    <div class="buttons">
+                        <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i>New Class</button>
+                    </div>
                 </div>
             </div>
         </div>        
@@ -215,7 +217,7 @@ $form = $this->beginWidget('CActiveForm', array(
             titleFormat: { week: "MMMM", },
 
             <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
-            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setenbro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             selectable: true,
             selectHelper: true,
@@ -251,4 +253,5 @@ $form = $this->beginWidget('CActiveForm', array(
         });
     });
 
+    $('.heading-buttons').css('width', $('#content').width());
 </script>
