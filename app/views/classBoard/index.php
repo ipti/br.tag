@@ -25,10 +25,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="span8">
                     <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('help', 'ClassBoard Subtitle') ?></span></h3>        
                 </div>
-                <div class="span4">
-                    <div class="buttons">
-                        <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i>New Class</button>
-                    </div>
+                <div class="buttons pull-right">
+                    <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i><?php echo Yii::t('default', 'Generate classes') ?></button>
                 </div>
             </div>
         </div>        
@@ -77,7 +75,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
 
-                        <div class="span6">
+<!--                        <div class="span6">
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'estimated_classes', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -98,7 +96,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="row-fluid">         
                         <div id='loading' style='display:none'>loading...</div>
@@ -132,7 +130,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php //@done s2 - Criar modal ao clicar na tabela ?>
     <?php //@done s2 - Corrigir problemas do submit automático ?>
     <?php //@done s2 - Corrigir problemas do Layout ?>
-    var lesson_id = 0;
+    var lesson_id = 1;
     var lesson_start = 1;
     var lesson_end = 2;
     
@@ -158,8 +156,8 @@ $form = $this->beginWidget('CActiveForm', array(
         lesson = {
             id: lesson_id++,
             id_db: 0,
-            title: discipline.find('option:selected').text(),
-            discipline: discipline.val(),
+            title: (discipline.find('option:selected').text().length > 40) ? discipline.find('option:selected').text().substring(0,37) + "..." : discipline.find('option:selected').text(),
+            discipline_cod: discipline.val(),
             start: lesson_start,
             end: lesson_end,
             classroom: $(form+'classroom_fk').val(),
@@ -233,7 +231,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
             events: '<?php echo CController::createUrl('classBoard/getClassBoard'); ?>',
 
-            <?php //@todo s2 - Criar tela de dialogo para CRIAR da aula        ?>
+            <?php //@done s2 - Criar tela de dialogo para CRIAR da aula        ?>
             select: function(start, end, allDay) {
                 lesson_start = start;
                 lesson_end = end;
@@ -242,6 +240,7 @@ $form = $this->beginWidget('CActiveForm', array(
             },
 
             eventClick: function(event){
+                alert(event.id);
             <?php //@todo s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
             <?php //@todo s2 - Criar função de REMOVER aula        ?>
             <?php //@todo s2 - Criar função de ATUALIZAR aula        ?>

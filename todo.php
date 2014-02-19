@@ -31,7 +31,6 @@
  * @done S1 - Corrigir problema de mudança de aba de forma manual do classroom
  * @done S1 - Corrigir permissões de acesso às telas
  * @done S1 - Atualização dos campos apartir da escola.
- * 
  * @done S1 - 21 - A turma precisa de um periodo letivo senão ela fica atemporal.
  * @done S1 - 23 - Lembrar de associar o professor a turma.
  * @done S1 - Organizar os campos do form_classroom
@@ -41,7 +40,6 @@
  * @done S2 - Add validação para os campos que esão faltando
  * @done S2 - Popar a interrogação durante um intervalo de tempo ao falhar na regra do javascript
  * @done S2 Traduzir breadcrumbs (migalhas de pão)
- * 
  * @done S2 - Criar nova branch
  * @done S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
  * @done S2 - Atualizar Model do Usuário
@@ -51,10 +49,6 @@
  * @done S2 - Fazer associação de escolas com usuários.
  * @done S2 - Criar action de criar usuários.
  * 
- * @later S3 - Criar action de update de usuários.
- * @later S3 - Criar tela de listagem de usuários.
- * @later S3 - Criar action de listagem de usuários.
- * @later S3 - Criar action de remoção de usuários.
  * 
  * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
@@ -126,5 +120,10 @@
  * @todo s2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
  * @todo s2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
  * @done s2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
+ * 
+ * @later S3 - Criar action de update de usuários.
+ * @later S3 - Criar tela de listagem de usuários.
+ * @later S3 - Criar action de listagem de usuários.
+ * @later S3 - Criar action de remoção de usuários.
  * 
 */?>
