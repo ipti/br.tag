@@ -157,7 +157,7 @@ $form = $this->beginWidget('CActiveForm', array(
             id: lesson_id++,
             id_db: 0,
             title: (discipline.find('option:selected').text().length > 40) ? discipline.find('option:selected').text().substring(0,37) + "..." : discipline.find('option:selected').text(),
-            discipline_cod: discipline.val(),
+            discipline: discipline.val(),
             start: lesson_start,
             end: lesson_end,
             classroom: $(form+'classroom_fk').val(),
