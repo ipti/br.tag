@@ -7,13 +7,13 @@
  * @property integer $id
  * @property integer $discipline_fk
  * @property integer $classroom_fk
- * @property integer $week_day_monday
- * @property integer $week_day_tuesday
- * @property integer $week_day_wednesday
- * @property integer $week_day_thursday
- * @property integer $week_day_friday
- * @property integer $week_day_saturday
- * @property integer $week_day_sunday
+ * @property string $week_day_monday
+ * @property string $week_day_tuesday
+ * @property string $week_day_wednesday
+ * @property string $week_day_thursday
+ * @property string $week_day_friday
+ * @property string $week_day_saturday
+ * @property string $week_day_sunday
  * @property integer $estimated_classes
  * @property integer $given_classes
  * @property integer $replaced_classes
@@ -41,7 +41,8 @@ class ClassBoard extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('discipline_fk, classroom_fk', 'required'),
-			array('discipline_fk, classroom_fk, week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday, estimated_classes, given_classes, replaced_classes', 'numerical', 'integerOnly'=>true),
+			array('discipline_fk, classroom_fk, estimated_classes, given_classes, replaced_classes', 'numerical', 'integerOnly'=>true),
+			array('week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, discipline_fk, classroom_fk, week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday, estimated_classes, given_classes, replaced_classes', 'safe', 'on'=>'search'),
@@ -68,18 +69,18 @@ class ClassBoard extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'discipline_fk' => Yii::t('default', 'Discipline Fk'),
-			'classroom_fk' => Yii::t('default', 'Classroom Fk'),
-			'week_day_monday' => Yii::t('default', 'Week Day Monday'),
-			'week_day_tuesday' => Yii::t('default', 'Week Day Tuesday'),
-			'week_day_wednesday' => Yii::t('default', 'Week Day Wednesday'),
-			'week_day_thursday' => Yii::t('default', 'Week Day Thursday'),
-			'week_day_friday' => Yii::t('default', 'Week Day Friday'),
-			'week_day_saturday' => Yii::t('default', 'Week Day Saturday'),
-			'week_day_sunday' => Yii::t('default', 'Week Day Sunday'),
-			'estimated_classes' => Yii::t('default', 'Estimated Classes'),
-			'given_classes' => Yii::t('default', 'Given Classes'),
-			'replaced_classes' => Yii::t('default', 'Replaced Classes'),
+			'discipline_fk' => 'Discipline Fk',
+			'classroom_fk' => 'Classroom Fk',
+			'week_day_monday' => 'Week Day Monday',
+			'week_day_tuesday' => 'Week Day Tuesday',
+			'week_day_wednesday' => 'Week Day Wednesday',
+			'week_day_thursday' => 'Week Day Thursday',
+			'week_day_friday' => 'Week Day Friday',
+			'week_day_saturday' => 'Week Day Saturday',
+			'week_day_sunday' => 'Week Day Sunday',
+			'estimated_classes' => 'Estimated Classes',
+			'given_classes' => 'Given Classes',
+			'replaced_classes' => 'Replaced Classes',
 		);
 	}
 
@@ -104,13 +105,13 @@ class ClassBoard extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
 		$criteria->compare('classroom_fk',$this->classroom_fk);
-		$criteria->compare('week_day_monday',$this->week_day_monday);
-		$criteria->compare('week_day_tuesday',$this->week_day_tuesday);
-		$criteria->compare('week_day_wednesday',$this->week_day_wednesday);
-		$criteria->compare('week_day_thursday',$this->week_day_thursday);
-		$criteria->compare('week_day_friday',$this->week_day_friday);
-		$criteria->compare('week_day_saturday',$this->week_day_saturday);
-		$criteria->compare('week_day_sunday',$this->week_day_sunday);
+		$criteria->compare('week_day_monday',$this->week_day_monday,true);
+		$criteria->compare('week_day_tuesday',$this->week_day_tuesday,true);
+		$criteria->compare('week_day_wednesday',$this->week_day_wednesday,true);
+		$criteria->compare('week_day_thursday',$this->week_day_thursday,true);
+		$criteria->compare('week_day_friday',$this->week_day_friday,true);
+		$criteria->compare('week_day_saturday',$this->week_day_saturday,true);
+		$criteria->compare('week_day_sunday',$this->week_day_sunday,true);
 		$criteria->compare('estimated_classes',$this->estimated_classes);
 		$criteria->compare('given_classes',$this->given_classes);
 		$criteria->compare('replaced_classes',$this->replaced_classes);

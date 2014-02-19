@@ -29,7 +29,7 @@ class ClassBoardController extends Controller
 		return array(
 
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','getClassBoard','create','update'),
+				'actions'=>array('index','view','getClassBoard','create','update', 'addLesson'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -53,6 +53,23 @@ class ClassBoardController extends Controller
 		));
 	}
         
+        public function actionAddLesson(){
+            $lesson = $_POST['lesson'];
+            $classroom = $lesson->classroom;
+            $discipline = $lesson->discipline;
+            $classboard = ClassBoard::model()->find("classroom_fk = $classroom and discipline_fk =$discipline");
+            if ($classboard == null) {
+                $classboard = new ClassBoard;
+                $classboard->classroom_fk = $classroom;
+                $classboard->discipline_fk = $discipline;
+                //new
+            }else{
+                //update
+            }
+            
+        }
+
+
         
         public function actionGetClassBoard(){
             $year = 1996;
