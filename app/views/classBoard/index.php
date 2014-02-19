@@ -113,19 +113,17 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 <div id="dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
-    <p class="validateTips"></p>
-    <form>
-        <fieldset>
+    <div class="row-fluid">
+        <div class=" span5">
             <div class="control-group">
                 <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::dropDownList('discipline', '', CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
                 </div>
             </div>
-        </fieldset>
-    </form>
+        </div>
+    </div>
 </div>
-
 
 
 <script type='text/javascript'>
@@ -161,12 +159,20 @@ $form = $this->beginWidget('CActiveForm', array(
             id: lesson_id++,
             id_db: 0,
             title: discipline.find('option:selected').text(),
-            discipline_cod: discipline.val(),
+            discipline: discipline.val(),
             start: lesson_start,
-            end: lesson_end
+            end: lesson_end,
+            classroom: $(form+'classroom_fk').val(),
         };
         calendar.fullCalendar('renderEvent',lesson,true);
-        myDialog.dialog("close");
+        <?php //@todo s2 - Ajax da criação de lessons?>
+        $.ajax({
+            type: "POST",
+            url: "<?php echo CController::createUrl('classBoard/addLesson'); ?>",
+            data: {'lesson': lesson },
+        }).done(function() {myDialog.dialog("close");});
+        
+        
     }
     
     $(document).ready(function() {
@@ -175,6 +181,8 @@ $form = $this->beginWidget('CActiveForm', array(
             height: 250,
             width: 350,
             modal: true,
+            draggable: false,
+            resizable: false,
             buttons: {
                 "<?php echo Yii::t('default','Create'); ?>": createNewLesson,
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
