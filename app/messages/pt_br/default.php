@@ -452,6 +452,7 @@ return array(
     'Estimated Classes' =>'Aulas Previstas',
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
+    'Generate classes' => 'Gerar aulas',
     
     //Labels
     'User' => 'Usuário',
