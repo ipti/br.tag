@@ -63,10 +63,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'url' => CController::createUrl('classBoard/getClassBoard'),
                                             'success' => "function(events){
                                                 var events = jQuery.parseJSON(events);
-                                                calendar.fullCalendar( 'removeEvents');
-                                                $.each(events, function(i, event){
-                                                    calendar.fullCalendar('renderEvent',event);
-                                                });     
+                                                if(events != null){
+                                                    $.each(events, function(i, event){
+                                                        calendar.fullCalendar('renderEvent',event);
+                                                    });     
+                                                }
                                                 }",
                                     )));
                                     ?>
@@ -107,21 +108,35 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
-</div>
 
+    <div id="create-dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('discipline', '', CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div id="dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
-    <div class="row-fluid">
-        <div class=" span5">
-            <div class="control-group">
-                <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
-                <div class="controls">
-                    <?php echo CHtml::dropDownList('discipline', '', CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+    <div id="update-dialog-form" title="<?php echo Yii::t('default', 'Update class'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Discipline'), 'update-discipline', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('update-discipline', '', CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 <script type='text/javascript'>
@@ -130,6 +145,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php //@done s2 - Criar modal ao clicar na tabela ?>
     <?php //@done s2 - Corrigir problemas do submit automático ?>
     <?php //@done s2 - Corrigir problemas do Layout ?>
+    var lesson = {};
     var lesson_id = 1;
     var lesson_start = 1;
     var lesson_end = 2;
@@ -140,18 +156,15 @@ $form = $this->beginWidget('CActiveForm', array(
     var y = date.getFullYear();
     var calendar;
     
-    var myDialog;
+    var myCreateDialog;
+    var myUpdateDialog;
     
-    var discipline = $("#discipline"),
-    tips = $(".validateTips");
+    var discipline = $("#discipline");
+    var uDiscipline = $("#update-discipline");
     
-    $('#dialog-form').keypress(function(e) {
-        if (e.keyCode == $.ui.keyCode.ENTER) {
-            e.preventDefault();
-            createNewLesson();
-        }
-    });
-    
+    //Cria estrutura de uma aula
+    //Retorna um array
+    //O Ajax da problema de recursividade se colocado aqui
     createNewLesson = function() {
         lesson = {
             id: lesson_id++,
@@ -162,38 +175,153 @@ $form = $this->beginWidget('CActiveForm', array(
             end: lesson_end,
             classroom: $(form+'classroom_fk').val(),
         };
-        calendar.fullCalendar('renderEvent',lesson,true);
-        <?php //@todo s2 - Ajax da criação de lessons?>
-        $.ajax({
-            type: "POST",
-            url: "<?php echo CController::createUrl('classBoard/addLesson'); ?>",
-            data: {'lesson': lesson },
-        }).done(function() {myDialog.dialog("close");});
-        
-        
+        return lesson;
     }
     
+    //Atualiza estrutura de uma aula
+    //Retorna um array
+    //O Ajax da problema de recursividade se colocado aqui
+    updateLesson = function(l) {
+        lesson = {
+            id: l.id,
+            db: l.db,
+            title: l.title,
+            discipline: uDiscipline.val(),
+            start: l.start,
+            end: l.end,
+            classroom: l.classroom,
+        };
+        return lesson;
+    }
+    
+    
+    
+    //Ao clicar ENTER no formulário adicionar aula
+    $('#dialog-form').keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+            e.preventDefault();
+        }
+    });
+   
+   <?php //@done s2 - Validação da disciplina?>
+    //Validação da disciplina
+    $("#discipline").change(function(){
+        var id = '#discipline';
+        if($(id).val().length == 0){
+            addError(id, "Selecione a Disciplina."); 
+        }else{
+            removeError(id);
+        }
+    });
+    
+   <?php //@done s2 - Validação da classroom?>
+    //Validação da Classroom
+    $(form+'classroom_fk').change(function(){
+        var id = form+'classroom_fk';
+        calendar.fullCalendar('removeEvents');
+        if($(id).val().length == 0){
+            addError(id, "Selecione a Turma."); 
+        }else{
+            removeError(id);
+        }
+    });
+    
+    
+    
     $(document).ready(function() {
-        myDialog = $("#dialog-form").dialog({
+    
+        //Cria o Dialogo de CRIAÇÃO
+        myCreateDialog = $("#create-dialog-form").dialog({
             autoOpen: false,
-            height: 250,
-            width: 350,
+            height: 215,
+            width: 230,
             modal: true,
             draggable: false,
             resizable: false,
             buttons: {
-                "<?php echo Yii::t('default','Create'); ?>": createNewLesson,
+                "<?php echo Yii::t('default','Create'); ?>": function(){
+                    if(discipline.val().length != 0){
+                        var l = createNewLesson();                    
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classBoard/addLesson'); ?>',
+                            success:function(e){
+                                var event = jQuery.parseJSON(e);
+                                calendar.fullCalendar('renderEvent',event,true);
+                                myCreateDialog.dialog("close");
+                            },
+                            data:{'lesson': l }
+                        });
+                    }else{
+                        var id = '#discipline';
+                        addError(id, "Selecione a Disciplina");              
+                    }
+                },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     $(this).dialog("close");
                 }
             },
         });
 
-        $("#new-class").click(function(event) {
-            event.preventDefault();
-            $("#dialog-form").dialog("open");
+
+        //Cria o Dialogo de ALTERAÇÃO e REMOÇÃO
+        myUpdateDialog = $("#update-dialog-form").dialog({
+            autoOpen: false,
+            height: 215,
+            width: 250,
+            modal: true,
+            draggable: false,
+            resizable: false,
+            create: function( event, ui ) {
+                uDiscipline.val(lesson.discipline).trigger('change');
+            },
+            buttons: {
+                "<?php echo Yii::t('default','Update'); ?>": function(){
+                    if(uDiscipline.val().length != 0){
+                        lesson.discipline = uDiscipline.val();
+                        var l = lesson;  
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classBoard/updateLesson'); ?>',
+                            success:function(e){
+                                var event = jQuery.parseJSON(e);
+                                calendar.fullCalendar('removeEvents',event.id);
+                                calendar.fullCalendar('renderEvent',event,true);
+                                myUpdateDialog.dialog("close");
+                            },
+                            data:{'lesson': l }
+                        });
+                    }else{
+                        var id = '#update-discipline';
+                        addError(id, "Selecione a Disciplina");              
+                    }
+                },
+                <?php echo Yii::t('default','Delete'); ?>: function() {
+                        lesson.discipline = uDiscipline.val();
+                        var l = lesson;  
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classBoard/deleteLesson'); ?>',
+                            success:function(){
+                                calendar.fullCalendar('removeEvents',l.id);
+                                myUpdateDialog.dialog("close");
+                            },
+                            data:{'lesson': l }
+                        });
+                },
+                <?php echo Yii::t('default','Cancel'); ?>: function() {
+                    myUpdateDialog.dialog("close");
+                }
+            },
         });
+
+
+
         
+        //Cria o calendário semanal de aulas
         calendar = $('#calendar').fullCalendar({
             <?php //@done s2 - Colocar data padrão        ?>
             year: 1996, //Porque eu nasci em 1993.
@@ -204,7 +332,7 @@ $form = $this->beginWidget('CActiveForm', array(
             defaultView: 'agendaWeek',
             allDaySlot: false,
             allDayDefault: false,
-            slotEventOverlap: false,
+            slotEventOverlap: true,
             disableResizing: true,
             editable: true,
 
@@ -229,29 +357,69 @@ $form = $this->beginWidget('CActiveForm', array(
             selectHelper: true,
 
             <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
-            events: '<?php echo CController::createUrl('classBoard/getClassBoard'); ?>',
+            <?php //@done s2 - Atualizar para a nova estrutura do bando o evento que importa os dados do banco        ?>
+            events: '', //'<?php echo CController::createUrl('classBoard/getClassBoard'); ?>',
 
+            //Evento ao selecionar nos blocos de horários
+            //Criar uma nova aula
             <?php //@done s2 - Criar tela de dialogo para CRIAR da aula        ?>
             select: function(start, end, allDay) {
-                lesson_start = start;
-                lesson_end = end;
-                $("#dialog-form").dialog("open");
-                calendar.fullCalendar('unselect');
+                var id = form+'classroom_fk';
+                if($(id).val().length != 0){
+                    lesson_start = start;
+                    lesson_end = end;
+                    $("#create-dialog-form").dialog("open");
+                    calendar.fullCalendar('unselect');
+                }else{
+                    addError(id, "Selecione a Turma");
+                } 
             },
-
+            
+            
+            //Evento ao clicar nos blocos de horários existentes
+            //Atualizar e Remover bloco
             eventClick: function(event){
-                alert(event.id);
-            <?php //@todo s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
-            <?php //@todo s2 - Criar função de REMOVER aula        ?>
-            <?php //@todo s2 - Criar função de ATUALIZAR aula        ?>
-                calendar.fullCalendar('removeEvents', event.id);
+                lesson = updateLesson(event);
+                <?php //@done s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
+                <?php //@done s2 - Criar função de REMOVER aula        ?>
+                <?php //@done s2 - Criar função de ATUALIZAR aula        ?>
+                var id = form+'classroom_fk';
+                if($(id).val().length != 0){
+                    uDiscipline.val(event.discipline).trigger('change');
+                    $("#update-dialog-form").dialog("open");
+                    calendar.fullCalendar('unselect');
+                }else{
+                    addError(id, "Selecione a Turma");
+                } 
             },
-
-            <?php //@todo s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        ?>
-            eventDrop: function(event, delta) {
-                alert(event.title + ' was moved ' + delta + ' days\n' +
-                    '(should probably update your database)');
+                    
+                    
+            //Evento ao mover um bloco de horário
+            //Atualizar o bloco
+            <?php //@Francisco s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
+                  //Esta adicionando o novo, mas não esta excluindo o velho
+                  //@todo s2 - Verificar choque de horários?>
+            
+            eventDrop: function(event) {
+                lesson = updateLesson(event);
+                lesson.discipline = event.discipline;
+                var l = lesson;  
+                $.ajax({
+                    type:'POST',
+                    url:'<?php echo CController::createUrl('classBoard/updateLesson'); ?>',
+                    success:function(e){
+                        var event = jQuery.parseJSON(e);
+                        calendar.fullCalendar('removeEvents',event.id);
+                        calendar.fullCalendar('renderEvent',event,true);
+                        myUpdateDialog.dialog("close");
+                    },
+                    data:{'lesson': l }
+                });
+                
             },
+                    
+                    
+            //Evento de carregamento do calendário
             loading: function(bool) {
                 if (bool) $('#loading').show();
                 else $('#loading').hide();
