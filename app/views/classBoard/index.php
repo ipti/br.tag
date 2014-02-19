@@ -215,7 +215,7 @@ $form = $this->beginWidget('CActiveForm', array(
             titleFormat: { week: "MMMM", },
 
             <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
-            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setenbro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
             dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             selectable: true,
             selectHelper: true,
@@ -252,4 +252,5 @@ $form = $this->beginWidget('CActiveForm', array(
         });
     });
 
+    $('.heading-buttons').css('width', $('#content').width());
 </script>
