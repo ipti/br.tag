@@ -159,6 +159,9 @@ $form = $this->beginWidget('CActiveForm', array(
     var discipline = $("#discipline");
     var uDiscipline = $("#update-discipline");
     
+    
+    //@done S2 - Reduzir caracteres do evento
+    //@done S2 - Comportar o horário na tabela de classboard
     //Cria estrutura de uma aula
     //Retorna um array
     //O Ajax da problema de recursividade se colocado aqui
