@@ -25,9 +25,6 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="span8">
                     <h3><?php echo Yii::t('default', 'Class Boards'); ?><span> | <?php echo Yii::t('help', 'ClassBoard Subtitle') ?></span></h3>        
                 </div>
-                <div class="buttons pull-right">
-                    <button class="btn btn-primary btn-icon glyphicons circle_plus" id="new-class"><i></i><?php echo Yii::t('default', 'Generate classes') ?></button>
-                </div>
             </div>
         </div>        
     </div>
