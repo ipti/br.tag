@@ -91,7 +91,7 @@
  * @todo S2 - Alterar permissões de uso de ClassesFaults.
  * 
  * @done S2 - Deixar a tabela editável
- * @done S2 -  Remover cursor pointer dos labels
+ * @done S2 - Remover cursor pointer dos labels
  * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
  * @done S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
  * 
@@ -99,7 +99,7 @@
  * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
  * 
  * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
- * @done s2 - BUG - Quadro de aulas fica por cima do título ao rola para baixo
+ * @done s2 - BUG - Quadro de aulas fica por cima do título ao rolar para baixo
  * @done s2 - Botão de New Class deve ficar fixo ao rolar página para baixo
  * 
  * * * RESPONSIVE DESIGN * * *
