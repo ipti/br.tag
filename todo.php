@@ -59,9 +59,9 @@
  * @done S2 - Visualizar todas as escolas pelo admin
  * @done S2 - Criar tabelas de aulas e faltas
  * @done S2 - inserir aba de frequência no fullmenu
- * @todo S2 - Criar tela de criar quadro de aulas
- * @todo S2 - Gerar calendário a partir do quadro de aulas
- * @todo S2 - Criar tela de exibir quadro de aulas
+ * @done S2 - Criar tela de criar quadro de aulas
+ * @done S2 - Gerar calendário a partir do quadro de aulas
+ * @done S2 - Criar tela de exibir quadro de aulas
  * 
  * @done S2 - Problemas do login - Limpagem do banco
  * @done S2 - Problemas do Login - Cadastro do admin
@@ -83,7 +83,7 @@
  * @done S2 - Adicionar Turno como atributo de Classroom
  * 
  * @done S2 - Deixar o modal correto
- * @todo S2 - Alterar a tela de classboard para trazer os atributos necessários
+ * @done S2 - Alterar a tela de classboard para trazer os atributos necessários
  * 
  * @todo S2 - Alterar permissões no ACL.
  * @todo S2 - Alterar permissões de uso de ClassBoard.
