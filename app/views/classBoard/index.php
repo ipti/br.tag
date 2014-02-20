@@ -143,6 +143,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php //@done s2 - Corrigir problemas do submit automático ?>
     <?php //@done s2 - Corrigir problemas do Layout ?>
     var lesson = {};
+    var oldLesson = {};
     var lesson_id = 1;
     var lesson_start = 1;
     var lesson_end = 2;
@@ -193,7 +194,6 @@ $form = $this->beginWidget('CActiveForm', array(
         };
         return lesson;
     }
-    
     
     
     //Ao clicar ENTER no formulário adicionar aula
@@ -396,11 +396,11 @@ $form = $this->beginWidget('CActiveForm', array(
                     
             //Evento ao mover um bloco de horário
             //Atualizar o bloco
-            <?php //@Francisco s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
+            <?php //@done s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
                   //Esta adicionando o novo, mas não esta excluindo o velho
+                  //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona
                   //@todo s2 - Verificar choque de horários?>
-            
-            eventDrop: function(event) {
+            eventDrop: function(event, dayDelta, minuteDelta) {
                 lesson = updateLesson(event);
                 lesson.discipline = event.discipline;
                 var l = lesson;  
@@ -413,7 +413,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         calendar.fullCalendar('renderEvent',event,true);
                         myUpdateDialog.dialog("close");
                     },
-                    data:{'lesson': l }
+                    data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta}
                 });
                 
             },

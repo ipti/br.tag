@@ -82,6 +82,8 @@
  * 
  * @done S2 - Adicionar Turno como atributo de Classroom
  * 
+ * @todo S2 - Ajeitar o design dos eventos
+ * @done S2 - Deixar o modal de update correto
  * @done S2 - Deixar o modal correto
  * @done S2 - Alterar a tela de classboard para trazer os atributos necessários
  * 

@@ -5,6 +5,7 @@ return array(
     'Create' => 'Criar',
     'Save' => 'Salvar',
     'Update' => 'Atualizar',
+    'Delete' => 'Excluir',
     'Next' => 'Próximo',
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
@@ -446,6 +447,7 @@ return array(
     
     //Classboards
     'Insert class' => 'Inserir aula',
+    'Update class' => 'Atualizar aula',
     'Create New Lesson' => 'Criar novo evento',
     'Class Boards' => 'Quadro de Aulas',
     'Turn' => 'Turno',
