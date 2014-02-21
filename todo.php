@@ -71,7 +71,6 @@
  * 
  * @done S2 - Criar estrutura da tela de Frequência - ClassBoard.
  * @done S2 - Traduzir a tela de ClassBoard.
- * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
  * 
  * @done S2 - Iniciar a tabela pela segunda
  * @done S2 - Aumentar tamanho das linhas do calendário
@@ -87,11 +86,6 @@
  * @done S2 - Deixar o modal correto
  * @done S2 - Alterar a tela de classboard para trazer os atributos necessários
  * 
- * @todo S2 - Alterar permissões no ACL.
- * @todo S2 - Alterar permissões de uso de ClassBoard.
- * @todo S2 - Alterar permissões de uso de Classes.
- * @todo S2 - Alterar permissões de uso de ClassesFaults.
- * 
  * @done S2 - Deixar a tabela editável
  * @done S2 - Remover cursor pointer dos labels
  * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
@@ -103,6 +97,32 @@
  * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
  * @done s2 - BUG - Quadro de aulas fica por cima do título ao rolar para baixo
  * @done s2 - Botão de New Class deve ficar fixo ao rolar página para baixo
+ * 
+ * 
+ * @todo S2 - Alterar permissões no ACL.
+ * @todo S2 - Alterar permissões de uso de ClassBoard.
+ * @todo S2 - Alterar permissões de uso de Classes.
+ * @todo S2 - Alterar permissões de uso de ClassesFaults.
+ * 
+ * @todo S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
+ * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
+ * @todo s2 - Adicionar professor na tabela de ClassBoard
+ * @todo s2 - Colocar Tela de Classboard no ClassRoom
+ * @todo s2 - Transformar TeachingData em um Modal
+ * @todo s2 - Mostrar o professor da aula no ClassBoard
+ * @todo s2 - Modificar lista de disciplinas do EDCenso para as do Classroom
+ * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
+ * 
+ * @todo s2 - Criar tela de Frenquência
+ * @todo s2 - Criar filtros para selecionar Classroom e Discipline - Frequência
+ * @todo s2 - Criar gerador de aulas que faltam.
+ * @todo s2 - Cadastrar Faltas
+ * @todo s2 - Justificar Faltas
+ * @todo s2 - Cadastrar que dia não houve aula
+ * @todo s2 - Cadastrar reposição
+ * 
+ * 
+ * 
  * 
  * * * RESPONSIVE DESIGN * * *
  * 

@@ -60,6 +60,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'url' => CController::createUrl('classBoard/getClassBoard'),
                                             'success' => "function(events){
                                                 var events = jQuery.parseJSON(events);
+                                                lessons = events;
                                                 if(events != null){
                                                     $.each(events, function(i, event){
                                                         calendar.fullCalendar('renderEvent',event);
@@ -143,7 +144,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php //@done s2 - Corrigir problemas do submit automático ?>
     <?php //@done s2 - Corrigir problemas do Layout ?>
     var lesson = {};
-    var oldLesson = {};
+    var lessons = {};
     var lesson_id = 1;
     var lesson_start = 1;
     var lesson_end = 2;
@@ -161,6 +162,7 @@ $form = $this->beginWidget('CActiveForm', array(
     var uDiscipline = $("#update-discipline");
     
     
+    
     //@done S2 - Reduzir caracteres do evento
     //@done S2 - Comportar o horário na tabela de classboard
     //Cria estrutura de uma aula
@@ -175,6 +177,7 @@ $form = $this->beginWidget('CActiveForm', array(
             start: lesson_start,
             end: lesson_end,
             classroom: $(form+'classroom_fk').val(),
+            description: 'This is a cool event'
         };
         return lesson;
     }
@@ -191,6 +194,7 @@ $form = $this->beginWidget('CActiveForm', array(
             start: l.start,
             end: l.end,
             classroom: l.classroom,
+            description: 'This is a cool event'
         };
         return lesson;
     }
@@ -239,7 +243,7 @@ $form = $this->beginWidget('CActiveForm', array(
             draggable: false,
             resizable: false,
             buttons: {
-                "<?php echo Yii::t('default','Create'); ?>": function(){
+                "<?php echo Yii::t('default','Create'); ?>": function(){                    
                     if(discipline.val().length != 0){
                         var l = createNewLesson();                    
                         <?php //@done s2 - Ajax da criação de lessons ?>
@@ -368,7 +372,28 @@ $form = $this->beginWidget('CActiveForm', array(
                 if($(id).val().length != 0){
                     lesson_start = start;
                     lesson_end = end;
+                    
                     $("#create-dialog-form").dialog("open");
+                    
+                    <?php //@done s2 - Não permitir que crie eventos no mesmo horário
+                          //@todo s2 - Verificar choque de horários  
+                          //@todo s2 - Verificar se o professor já esta dando aula neste horário?>
+                    $(lessons).each(function(i, val){ 
+                        v1 = val.start.getTime();
+                        v2 = val.end == null ? v1 : val.end.getTime();
+                        l1 = lesson_start.getTime();
+                        l2 = lesson_end == null ? l1 : lesson_end.getTime();
+
+                        console.log((l1 < v1 && l2 < v1) + ' || ' + (l1 > v2 && l2 > v2));
+                        console.log((l1 < v1 && l2 < v1)  ||  (l1 > v2 && l2 > v2));
+
+                        if ((l1 < v1 && l2 <= v1)
+                           || (l1 > v2 && l2 > v2)){
+                        }else{
+                            myCreateDialog.dialog('close');
+                            //Pode-se criar um dialog para avisar o que ocorreu, mas acho que ficaria muito spam.
+                        }
+                    });
                     calendar.fullCalendar('unselect');
                 }else{
                     addError(id, "Selecione a Turma");
@@ -397,9 +422,7 @@ $form = $this->beginWidget('CActiveForm', array(
             //Evento ao mover um bloco de horário
             //Atualizar o bloco
             <?php //@done s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
-                  //Esta adicionando o novo, mas não esta excluindo o velho
-                  //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona
-                  //@todo s2 - Verificar choque de horários?>
+                  //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona?>
             eventDrop: function(event, dayDelta, minuteDelta) {
                 lesson = updateLesson(event);
                 lesson.discipline = event.discipline;
