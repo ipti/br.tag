@@ -212,20 +212,21 @@ class ClassBoardController extends Controller {
 
         $classroom = $_POST['ClassBoard']['classroom_fk'];
         $classboard = ClassBoard::model()->findAll("classroom_fk = $classroom");
-
+        //$instructor = InstructorTeachingData::model()->findAll("classroom_id_fk = $classroom");
         $lessons = 0;
 
         $events = array();
         foreach ($classboard as $cb) {
             $discipline = $cb->disciplineFk;
             $week = $this->getSchedule($cb);
+            $title = $discipline->name;
             foreach ($week as $day => $d) {
                 foreach ($d as $schedule) {
                     if ($schedule != 0) {
                         $event = array(
                             'id' => ++$lessons,
                             'db' => $cb->id,
-                            'title' => strlen($discipline->name) > 40 ? substr($discipline->name, 0, 37) . "..." : $discipline->name,
+                            'title' => strlen($title) > 40 ? substr($title, 0, 37) . "..." : $title,
                             'discipline' => $discipline->id,
                             'classroom' => $classroom,
                             'start' => date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day, $year))
