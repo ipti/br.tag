@@ -122,10 +122,15 @@
  * @todo s2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
  * @todo s2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
  * @done s2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
+ *
  * 
  * @later S3 - Criar action de update de usuários.
  * @later S3 - Criar tela de listagem de usuários.
  * @later S3 - Criar action de listagem de usuários.
  * @later S3 - Criar action de remoção de usuários.
+ * 
+ * @done S2 - Evitar scroll no modal da class board
+ * 
+ * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 
 */?>

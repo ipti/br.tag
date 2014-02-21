@@ -250,6 +250,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 var event = jQuery.parseJSON(e);
                                 calendar.fullCalendar('renderEvent',event,true);
                                 myCreateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
@@ -260,6 +261,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     $(this).dialog("close");
+                    $('body').css('overflow','scroll');
                 }
             },
         });
@@ -290,6 +292,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 calendar.fullCalendar('removeEvents',event.id);
                                 calendar.fullCalendar('renderEvent',event,true);
                                 myUpdateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
@@ -308,12 +311,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             success:function(){
                                 calendar.fullCalendar('removeEvents',l.id);
                                 myUpdateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     myUpdateDialog.dialog("close");
+                    $('body').css('overflow','scroll');
                 }
             },
         });
@@ -370,6 +375,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     lesson_end = end;
                     $("#create-dialog-form").dialog("open");
                     calendar.fullCalendar('unselect');
+                    $('body').css('overflow','hidden');
                 }else{
                     addError(id, "Selecione a Turma");
                 } 
@@ -388,6 +394,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     uDiscipline.val(event.discipline).trigger('change');
                     $("#update-dialog-form").dialog("open");
                     calendar.fullCalendar('unselect');
+                    $('body').css('overflow','hidden');
                 }else{
                     addError(id, "Selecione a Turma");
                 } 
