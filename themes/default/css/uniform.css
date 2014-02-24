@@ -612,3 +612,8 @@ div.uploader input {
 .equipments_input {
     width: 30px;
 }
+
+.disciplines-list{
+    padding-right: 16px;
+    word-wrap: break-word;
+}

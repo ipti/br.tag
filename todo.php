@@ -106,11 +106,17 @@
  * 
  * @todo S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
  * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
- * @todo s2 - Adicionar professor na tabela de ClassBoard
- * @todo s2 - Colocar Tela de Classboard no ClassRoom
- * @todo s2 - Transformar TeachingData em um Modal
+ * @done s2 - Adicionar professor na tabela de ClassBoard.
+ * @done s2 - Gerar novo modelo de ClassBoard.
+ * 
+ * @done s2 - Colocar Tela de Classboard no ClassRoom
+ * @todo s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
+ * @done s2 - Transformar TeachingData em um Modal
+ * @todo s2 - Só mostrar aba do horário quando salvar a turma OU modificar o código para salvar eventos em lote
+ * @done s2 - Remover Classboard do menu.
+ * 
  * @todo s2 - Mostrar o professor da aula no ClassBoard
- * @todo s2 - Modificar lista de disciplinas do EDCenso para as do Classroom
+ * @done s2 - Modificar lista de disciplinas do EDCenso para as do Classroom
  * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * @todo s2 - Criar tela de Frenquência

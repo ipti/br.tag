@@ -35,7 +35,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li id="tab-instructor-teaching"><a class="glyphicons nameplate" href="#instructor-teaching" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructor') ?></a></li> 
+                <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
             </ul>
         </div>
             
@@ -310,67 +310,27 @@ $form=$this->beginWidget('CActiveForm', array(
                 //@done s1 - criar estutura da tela de TeachingData no Classroom 
                 
                 ?>
-                <div class="tab-pane" id="instructor-teaching">
+                <div class="tab-pane" id="classboard">
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span8">
                             <div class="separator"></div>
-                                
-                            <div>
-                                <div class="control-group">
-                                    <?php echo CHtml::label(Yii::t("default","Instructor"), "Instructors", array('class' => 'control-label')) ?>
-                                    <div class="controls">
-                                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'),array('prompt'=>'Sem Instrutor','class' => 'select-search-on')); ?>
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <?php echo CHtml::label(Yii::t("default","Disciplines"), "Disciplines", array('class' => 'control-label')) ?>
-                                    <div class="controls">
-                                        <?php echo CHtml::DropDownList("Disciplines", '', ClassroomController::classroomDisciplineLabelArray(),array('multiple'=>'multiple')); ?>
-                                            
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <?php echo CHtml::label(Yii::t("default","Role"), "Role", array('class' => 'control-label')) ?>
-                                    <div class="controls">
-                                        <?php echo CHtml::DropDownList("Role", '', array(
-                                            null=>'Selecione um Cargo',
-                                            1=>'Docente',
-                                            2=>'Auxiliar',
-                                            3=>'Monitor',
-                                            4=>'Intérprete',
-                                            ),array('class' => 'select-search-off')); ?>
-                                            
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <?php echo CHtml::label(Yii::t("default","Contract Type"), "ContractType", array('class' => 'control-label')) ?>
-                                    <div class="controls">
-                                        <?php echo CHtml::DropDownList("ContractType", '', array(
-                                            null=>'Selecione tipo de Contrato',
-                                            1=>'Concursado/Efetivo',
-                                            2=>'Temporário',
-                                            3=>'Terceirizado',
-                                            4=>'CLT',
-                                            ),array('class' => 'select-search-off')); ?> 
-                                        
-                                        <div class="separator"></div>
-                                        <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="addInstructor"><i></i><?php echo Yii::t('default', 'Add') ?></a>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <div id='loading' style='display:none'>loading...</div>
+                            <div id='calendar'></div>
                         </div>
 
-                        <div class=" span6">
+                        <div class=" span4">
                             <div class="separator"></div>
-                                
-                            <?php
+                                <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="newDiscipline"><i></i><?php echo Yii::t('default', 'New Discipline') ?></a>
+                            
+                            <div class="separator"></div>
+                                    <?php
                             
                                 $teachingDataList = "<ul>"
                                                     ."<li><span><b>Disciplinas com Instrutores</b></span>"
                                                     ."<ul id='DisciplinesWithInstructors'>";
                                 $teachingDataArray = array();
                                 $teachingDataDisciplines = array();
+                                $disciplinesLabels = array();
                                 $i = 0;
                                 foreach ($modelTeachingData as $key => $model) {
                                     $disciplines = ClassroomController::teachingDataDiscipline2array($model);
@@ -387,10 +347,13 @@ $form=$this->beginWidget('CActiveForm', array(
                                     $teachingDataArray[$i]['ContractType'] = $model->contract_type;
                                     $teachingDataArray[$i]['Disciplines'] = array();
                                     
+                                    //@done s2 - corrigir problema com nomes grandes de disciplina
+                                    //@done s2 - colocar o botão de excluir na parte superior
                                     foreach ($disciplines as $discipline) {
-                                        $teachingDataList .= "<li discipline='".$discipline->id."'>".$discipline->name
-                                            .'<a href="#" class="deleteTeachingData delete" title="Excluir">
-                                              </a>'
+                                        $teachingDataList .= "<li discipline='".$discipline->id."'>"
+                                                .'<a href="#" class="deleteTeachingData delete" title="Excluir"></a>'
+                                                ."<span class='disciplines-list'>".$discipline->name
+                                            .'</span>'
                                             ."</li>";
                                         array_push($teachingDataDisciplines, $discipline->id);
                                         array_push( $teachingDataArray[$i]['Disciplines'], $discipline->id);
@@ -411,24 +374,16 @@ $form=$this->beginWidget('CActiveForm', array(
                                 //monta a lista com as disciplinas que não possuem instrutor                                
                                 $teachingDataList .= "<li><span><b>Disciplinas sem Instrutores</b></span>"
                                         ."<ul id='DisciplinesWithoutInstructors'>";
+                                $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
                                 foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
                                     if($value == 2){
-                                        $labels = ClassroomController::classroomDisciplineLabelArray();
-                                        $teachingDataList .= "<li discipline='".$disciplineId."'><span>" . $labels[$disciplineId] ."</span>"
+                                        $teachingDataList .= "<li discipline='".$disciplineId."'><span>" . $disciplinesLabels[$disciplineId] ."</span>"
                                                 .'<a href="#" class="deleteTeachingData delete" title="Excluir"></a>';
                                     }
                                 }
                                 $teachingDataList .= "</ul></ul>";
                                 
-                            ?>
-                                            
-                                            
-                                            
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $teachingDataList; ?>
-                                </div>
-                            </div>
+                                echo $teachingDataList; ?>     
                         </div>
                     </div>
                         
@@ -437,15 +392,137 @@ $form=$this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- Modal -->
+    <div id="create-dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('discipline', '', array(),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="update-dialog-form" title="<?php echo Yii::t('default', 'Update class'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Discipline'), 'update-discipline', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('update-discipline', '', array() ,array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="teachingdata-dialog-form" title="<?php echo Yii::t('default', 'New Discipline'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label(Yii::t("default", "Instructor"), "Instructors", array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'), array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on')); ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?php echo CHtml::label(Yii::t("default", "Disciplines"), "Disciplines", array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php echo CHtml::DropDownList("Disciplines", '', ClassroomController::classroomDisciplineLabelArray(), array('multiple' => 'multiple')); ?>
+
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?php echo CHtml::label(Yii::t("default", "Role"), "Role", array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php
+                        echo CHtml::DropDownList("Role", '', array(
+                            null => 'Selecione um Cargo',
+                            1 => 'Docente',
+                            2 => 'Auxiliar',
+                            3 => 'Monitor',
+                            4 => 'Intérprete',
+                                ), array('class' => 'select-search-off'));
+                        ?>
+
+                    </div>
+                </div>
+                <div class="control-group">
+                        <?php echo CHtml::label(Yii::t("default", "Contract Type"), "ContractType", array('class' => 'control-label')) ?>
+                    <div class="controls">
+                        <?php
+                        echo CHtml::DropDownList("ContractType", '', array(
+                            null => 'Selecione tipo de Contrato',
+                            1 => 'Concursado/Efetivo',
+                            2 => 'Temporário',
+                            3 => 'Terceirizado',
+                            4 => 'CLT',
+                                ), array('class' => 'select-search-off'));
+                        ?> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+
+
+
 <script type="text/javascript">
+    
+    ////////////////////////////////////////////////
+    // Variables and Initialization               //
+    ////////////////////////////////////////////////
     <?php //@done s1 - defini como ficaram os arrays de Disciplinas e TeachingData para salvar no banco ?>
     var teachingData = <?php echo json_encode($teachingDataArray); ?>;
     var disciplines =  <?php echo json_encode($disciplinesArray); ?>; 
+    var disciplinesLabels = <?php echo json_encode($disciplinesLabels); ?>; 
                                     
     var form = '#Classroom_';
-    jQuery(function($) {
+    var formClassBoard = "#ClassBoard_";
+    var form_teaching = '#InstructorTeachingData_';
+    <?php //@done s2 - Criar modal ao clicar na tabela ?>
+    <?php //@done s2 - Corrigir problemas do submit automático ?>
+    <?php //@done s2 - Corrigir problemas do Layout ?>
+    var lesson = {};
+    var lessons = {};
+    var lesson_id = 1;
+    var lesson_start = 1;
+    var lesson_end = 2;
+    
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    
+    var calendar;
+    
+    var myTeachingDataDialog;
+    var myCreateDialog;
+    var myUpdateDialog;
+    
+    var discipline = $("#discipline");
+    var uDiscipline = $("#update-discipline");
+    
+    var classroomId = '<?php echo $modelClassroom->id; ?>';
+    
+    
+    ////////////////////////////////////////////////
+    // Document Ready                             //
+    ////////////////////////////////////////////////
+    $(document).ready(function() {
+        ////////////////////////////////////////////////
+        // Ajax Initialization                        //
+        ////////////////////////////////////////////////
         jQuery.ajax({
             'type':'POST',
             'url':'/tag/index.php?r=classroom/getassistancetype',
@@ -456,17 +533,271 @@ $form=$this->beginWidget('CActiveForm', array(
                 jQuery("#Classroom_assistance_type").trigger('change');
             }});
         $(form+"complementary_activity_type_1").val(jQuery.parseJSON('<?php echo json_encode($complementaryActivities); ?>'));
-    }); 
-    
-    $(form+"complementary_activity_type_1").change(function(){
-        while($(this).val().length > 6){
-            $(form+"complementary_activity_type_1").val($(form+"complementary_activity_type_1").val().slice(0,-1));
-        }
+   
+   
+        ////////////////////////////////////////////////
+        // Calendar                                   //
+        ////////////////////////////////////////////////
+        //Cria o calendário semanal de aulas
+        calendar = $('#calendar').fullCalendar({
+            <?php //@done s2 - Colocar data padrão        ?>
+            year: 1996, //Porque eu nasci em 1993.
+            month: 0,
+            date: 1,
+            theme: true,
+            firstDay:1,
+            defaultView: 'agendaWeek',
+            allDaySlot: false,
+            allDayDefault: false,
+            slotEventOverlap: true,
+            disableResizing: true,
+            editable: true,
+
+            <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário        ?>
+            firstHour: 1,
+            minTime: 1,
+            maxTime: 11,
+            slotMinutes: 60,
+            defaultEventMinutes: 60,
+            axisFormat: "H'º' 'Horário'",
+            timeFormat: { agenda: "" },
+            columnFormat: { week: 'dddd', },
+
+            <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro)         ?>
+            header: { left: '', center: '', right: '', },
+            titleFormat: { week: "MMMM", },
+
+            <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
+            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+            selectable: true,
+            selectHelper: true,
+
+            <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
+            <?php //@done s2 - Atualizar para a nova estrutura do bando o evento que importa os dados do banco        ?>
+            events: '<?php echo CController::createUrl('classroom/getClassBoard&classroom_fk='.$modelClassroom->id); ?>',
+
+            //Evento ao selecionar nos blocos de horários
+            //Criar uma nova aula
+            <?php //@done s2 - Criar tela de dialogo para CRIAR da aula        ?>
+            select: function(start, end, allDay) {
+                var id = formClassBoard+'classroom_fk';
+                //if($(id).val().length != 0){
+                lesson_start = start;
+                lesson_end = end;
+                
+                //atualizar lista de disciplinas
+                var listOfdisciplines = '<option value="">Selecione a disciplina</option>';
+                $.each(disciplines,function(i,d){
+                    if (d != 0)
+                    listOfdisciplines += '<option value="'+i+'">'+disciplinesLabels[i]+'</option>';
+                });
+                discipline.html(listOfdisciplines);
+                $("#create-dialog-form").dialog("open");
+
+                <?php //@done s2 - Não permitir que crie eventos no mesmo horário
+                      //@todo s2 - Verificar choque de horários  
+                      //@todo s2 - Verificar se o professor já esta dando aula neste horário?>
+                $(lessons).each(function(i, val){ 
+                    v1 = val.start.getTime();
+                    v2 = val.end == null ? v1 : val.end.getTime();
+                    l1 = lesson_start.getTime();
+                    l2 = lesson_end == null ? l1 : lesson_end.getTime();
+
+                    if ((l1 < v1 && l2 <= v1)
+                       || (l1 > v2 && l2 > v2)){
+                    }else{
+                        myCreateDialog.dialog('close');
+                        //Pode-se criar um dialog para avisar o que ocorreu, mas acho que ficaria muito spam.
+                    }
+                });
+                $('body').css('overflow','hidden');
+                //}else{
+                //    addError(id, "Selecione a Turma");
+                //} 
+                calendar.fullCalendar('unselect');
+            },
+            
+            
+            //Evento ao clicar nos blocos de horários existentes
+            //Atualizar e Remover bloco
+            eventClick: function(event){
+                lesson = updateLesson(event);
+                <?php //@done s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
+                <?php //@done s2 - Criar função de REMOVER aula        ?>
+                <?php //@done s2 - Criar função de ATUALIZAR aula        ?>
+//                var id = formClassBoard+'classroom_fk';
+//                if($(id).val().length != 0){
+
+                    var listOfdisciplines = '<option value="">Selecione a disciplina</option>';
+                    $.each(disciplines,function(i,d){
+                        if (d != 0)
+                        listOfdisciplines += '<option value="'+i+'">'+disciplinesLabels[i]+'</option>';
+                    });
+                    uDiscipline.html(listOfdisciplines);
+                    uDiscipline.val(event.discipline).trigger('change');
+                    $("#update-dialog-form").dialog("open");
+                    calendar.fullCalendar('unselect');
+                    $('body').css('overflow','hidden');
+//                }else{
+//                    addError(id, "Selecione a Turma");
+//                } 
+            },
+                    
+                    
+            //Evento ao mover um bloco de horário
+            //Atualizar o bloco
+            <?php //@done s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
+                  //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona?>
+            eventDrop: function(event, dayDelta, minuteDelta) {
+                lesson = updateLesson(event);
+                lesson.discipline = event.discipline;
+                var l = lesson;  
+                $.ajax({
+                    type:'POST',
+                    url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
+                    success:function(e){
+                        var event = jQuery.parseJSON(e);
+                        calendar.fullCalendar('removeEvents',event.id);
+                        calendar.fullCalendar('renderEvent',event,true);
+                        myUpdateDialog.dialog("close");
+                    },
+                    data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta,classroom_fk:classroomId}
+                });
+                
+            },
+                    
+                    
+            //Evento de carregamento do calendário
+            loading: function(bool) {
+                if (bool) $('#loading').show();
+                else $('#loading').hide();
+            }
+
+        });
+        
+        
+        ////////////////////////////////////////////////
+        // Modals                                     //
+        ////////////////////////////////////////////////
+        //Cria o Dialogo de TeachingData
+        myTeachingDataDialog = $("#teachingdata-dialog-form").dialog({
+            autoOpen: false,
+            height: 430,
+            width: 250,
+            modal: true,
+            draggable: false,
+            resizable: false,
+            buttons: {
+                "<?php echo Yii::t('default','Create'); ?>": function(){   
+                    addTeachingData();
+                    $(this).dialog("close");
+                },
+                <?php echo Yii::t('default','Cancel'); ?>: function() {
+                    $(this).dialog("close");
+                    $('body').css('overflow','scroll');
+                }
+            },
+        });
+
+        //Cria o Dialogo de CRIAÇÃO
+        myCreateDialog = $("#create-dialog-form").dialog({
+            autoOpen: false,
+            height: 215,
+            width: 230,
+            modal: true,
+            draggable: false,
+            resizable: false,
+            buttons: {
+                "<?php echo Yii::t('default','Create'); ?>": function(){                    
+                    if(discipline.val().length != 0){
+                        var l = createNewLesson();                    
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classroom/addLesson'); ?>',
+                            success:function(e){
+                                var event = jQuery.parseJSON(e);
+                                calendar.fullCalendar('renderEvent',event,true);
+                                myCreateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
+                            },
+                            data:{'lesson': l }
+                        });
+                    }else{
+                        var id = '#discipline';
+                        addError(id, "Selecione a Disciplina");              
+                    }
+                },
+                <?php echo Yii::t('default','Cancel'); ?>: function() {
+                    $(this).dialog("close");
+                    $('body').css('overflow','scroll');
+                }
+            },
+        });
+
+        //Cria o Dialogo de ALTERAÇÃO e REMOÇÃO
+        myUpdateDialog = $("#update-dialog-form").dialog({
+            autoOpen: false,
+            height: 215,
+            width: 250,
+            modal: true,
+            draggable: false,
+            resizable: false,
+            create: function( event, ui ) {
+                uDiscipline.val(lesson.discipline).trigger('change');
+            },
+            buttons: {
+                "<?php echo Yii::t('default','Update'); ?>": function(){
+                    if(uDiscipline.val().length != 0){
+                        lesson.discipline = uDiscipline.val();
+                        var l = lesson;  
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
+                            success:function(e){
+                                var event = jQuery.parseJSON(e);
+                                calendar.fullCalendar('removeEvents',event.id);
+                                calendar.fullCalendar('renderEvent',event,true);
+                                myUpdateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
+                            },
+                            data:{'lesson': l }
+                        });
+                    }else{
+                        var id = '#update-discipline';
+                        addError(id, "Selecione a Disciplina");              
+                    }
+                },
+                <?php echo Yii::t('default','Delete'); ?>: function() {
+                        lesson.discipline = uDiscipline.val();
+                        var l = lesson;  
+                        <?php //@done s2 - Ajax da criação de lessons ?>
+                        $.ajax({
+                            type:'POST',
+                            url:'<?php echo CController::createUrl('classroom/deleteLesson'); ?>',
+                            success:function(){
+                                calendar.fullCalendar('removeEvents',l.id);
+                                myUpdateDialog.dialog("close");
+                                $('body').css('overflow','scroll');
+                            },
+                            data:{'lesson': l }
+                        });
+                },
+                <?php echo Yii::t('default','Cancel'); ?>: function() {
+                    myUpdateDialog.dialog("close");
+                    $('body').css('overflow','scroll');
+                }
+            },
+        });
+
     });
+
     
-    
-    
-    
+    ////////////////////////////////////////////////
+    // Functions                                  //
+    ////////////////////////////////////////////////
     <?php //@done s1 - Criar exclusão do teachingData e verificar a não exclusão de novos dados (vem undefined) ?>
     var removeTeachingData = function(){
         var instructor = $(this).parent().parent().parent().attr("instructor");
@@ -499,12 +830,8 @@ $form=$this->beginWidget('CActiveForm', array(
         $("li[instructor = "+instructor+"]").remove();
         
     }
-    
-    
-    
-    //@todo remover Disciplinas das arrays ao clicar em excluir
-    var removeDiscipline = function(instructor, discipline){
         
+    var removeDiscipline = function(instructor, discipline){
         var count = 0;
         for(var i = 0; i < teachingData.length; i++){
             for(var j = 0; j < teachingData[i].Disciplines.length;j++){
@@ -530,15 +857,9 @@ $form=$this->beginWidget('CActiveForm', array(
             }
         }
         $("li[instructor = "+instructor+"] li[discipline = "+discipline+"]").remove();
-        
-        
     }
-        
-    $(document).on('click','.deleteTeachingData',removeTeachingData);
-    
-    
-    <?php //@done s1 - Criar função addInstructor que adiciona o instrutor e suas disciplinas na array ?>
-    $("#addInstructor").on('click', function(){
+
+    var addTeachingData = function(){
         var instructorName = $('#s2id_Instructors span').text();
         var instructorId = $('#Instructors').val();
 
@@ -612,31 +933,54 @@ $form=$this->beginWidget('CActiveForm', array(
             }
             $(tag).append(html);
         }
-    });
-
+    }
     
-    //multiselect
-    var compAct = [];
-    $(form+"complementary_activity_type_1").mousedown(function(){
-        compAct = $(this).val();
-    });
+    //@done S2 - Reduzir caracteres do evento
+    //@done S2 - Comportar o horário na tabela de classboard
+    //Cria estrutura de uma aula
+    //Retorna um array
+    //O Ajax da problema de recursividade se colocado aqui
+    var createNewLesson = function() {
+        lesson = {
+            id: lesson_id++,
+            id_db: 0,
+            title: (discipline.find('option:selected').text().length > 40) ? discipline.find('option:selected').text().substring(0,37) + "..." : discipline.find('option:selected').text(),
+            discipline: discipline.val(),
+            start: lesson_start,
+            end: lesson_end,
+            classroom: classroomId,
+            description: 'This is a cool event'
+        };
+        return lesson;
+    }
     
-    $(form+"complementary_activity_type_1").mouseup(function(e){
-        if (!e.shiftKey){
-            value = $(this).val()[0];
-            
-            remove = 0;
-            compAct = jQuery.grep(compAct, function( a ) {
-                if(a === value) remove++;
-                return a !== value;
-            });
-            
-            if(remove == 0) compAct.push(value);
-            $(this).val(compAct);
-        }
-    });
-    //multiselect
+    //Atualiza estrutura de uma aula
+    //Retorna um array
+    //O Ajax da problema de recursividade se colocado aqui
+    var updateLesson = function(l) {
+        lesson = {
+            id: l.id,
+            db: l.db,
+            title: l.title,
+            discipline: uDiscipline.val(),
+            start: l.start,
+            end: l.end,
+            classroom: l.classroom,
+            description: 'This is a cool event'
+        };
+        return lesson;
+    }
+    
+    
+    
+    $(document).on('click','.deleteTeachingData',removeTeachingData);
+    <?php //@done s1 - Criar função addInstructor que adiciona o instrutor e suas disciplinas na array ?>
+    $("#addTeachingData").on('click', addTeachingData);
+    
   
+    ////////////////////////////////////////////////
+    // Validations                                //
+    ////////////////////////////////////////////////
     $(form+'name').focusout(function() {
         var id = '#'+$(this).attr("id");
         
@@ -683,7 +1027,6 @@ $form=$this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-    
     $(form+'final_time').mask("99:99");
     $(form+'final_time').focusout(function() { 
         var id = '#'+$(this).attr("id");
@@ -705,8 +1048,6 @@ $form=$this->beginWidget('CActiveForm', array(
             removeError(id);
         }
     });
-    
-    
     $(form+'week_days input[type=checkbox]').change(function(){
         var id = '#'+$(form+'week_days').attr("id");
         if($('#Classroom_week_days input[type=checkbox]:checked').length == 0){
@@ -722,15 +1063,38 @@ $form=$this->beginWidget('CActiveForm', array(
         }else{
             removeError(id);
         }
+    });   
+   <?php //@done s2 - Validação da disciplina?>
+    //Validação da disciplina
+    $("#discipline").change(function(){
+        var id = '#discipline';
+        if($(id).val().length == 0){
+            addError(id, "Selecione a Disciplina."); 
+        }else{
+            removeError(id);
+        }
     });
-    
-    var form_teaching = '#InstructorTeachingData_';
+   <?php //@done s2 - Validação da classroom?>
+    //Validação da Classroom
+    $(formClassBoard+'classroom_fk').change(function(){
+        var id = formClassBoard+'classroom_fk';
+        calendar.fullCalendar('removeEvents');
+        if($(id).val().length == 0){
+            addError(id, "Selecione a Turma."); 
+        }else{
+            removeError(id);
+        }
+    });
 
+
+    ////////////////////////////////////////////////
+    // Tabs and Pagination                        //
+    ////////////////////////////////////////////////
     $('.tab-classroom li a').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
         var li1 = 'tab-classroom';
-        var li2 = 'tab-instructor-teaching';
+        var li2 = 'tab-classboard';
         var tab = '';
         switch($(this).parent().attr('id')) {
             case li1 : tab = li1; 
@@ -751,12 +1115,11 @@ $form=$this->beginWidget('CActiveForm', array(
         $('#'+next_content).addClass("active");
         $('html, body').animate({ scrollTop: 85 }, 'fast');
     });
-     
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
         var li1 = 'tab-classroom';
-        var li2 = 'tab-instructor-teaching';
+        var li2 = 'tab-classboard';
         var next = '';
         switch(classActive.attr('id')) {
             case li1 : next = li2; 
@@ -774,12 +1137,11 @@ $form=$this->beginWidget('CActiveForm', array(
         $('#'+next_content).addClass("active");
         $('html, body').animate({ scrollTop: 85 }, 'fast');
     });
-    
     $('.prev').click(function(){
         var classActive = $('li[class="active"]');
         var divActive = $('div .active');
         var li1 = 'tab-classroom';
-        var li2 = 'tab-instructor-teaching';
+        var li2 = 'tab-classboard';
         var previous = '';
         switch(classActive.attr('id')) {
             case li1 : previous = li1;  break;
@@ -797,14 +1159,32 @@ $form=$this->beginWidget('CActiveForm', array(
         $('#'+previous_content).addClass("active");
         $('html, body').animate({ scrollTop: 85 }, 'fast');
     });
-    
     $('.heading-buttons').css('width', $('#content').width());
     
     
-    
+    ////////////////////////////////////////////////
+    // Submit Form                                //
+    ////////////////////////////////////////////////
     $('#enviar_essa_bagaca').click(function() { 
         $('#teachingData').val(JSON.stringify(teachingData)); 
         $('#disciplines').val(JSON.stringify(disciplines));
         $('form').submit();
     });
+
+    
+    ////////////////////////////////////////////////
+    // Dialog Controls                            //
+    ////////////////////////////////////////////////
+    $("#newDiscipline").click(function(){
+        $("#teachingdata-dialog-form").dialog('open');
+    });    
+    
+    //Ao clicar ENTER no formulário adicionar aula
+    $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+            e.preventDefault();
+        }
+    });
+
+    $('.heading-buttons').css('width', $('#content').width());
 </script>

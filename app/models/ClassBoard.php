@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $discipline_fk
  * @property integer $classroom_fk
+ * @property integer $instructor_fk
  * @property string $week_day_monday
  * @property string $week_day_tuesday
  * @property string $week_day_wednesday
@@ -19,6 +20,7 @@
  * @property integer $replaced_classes
  *
  * The followings are the available model relations:
+ * @property InstructorIdentification $instructorFk
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
  */
@@ -41,11 +43,11 @@ class ClassBoard extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('discipline_fk, classroom_fk', 'required'),
-			array('discipline_fk, classroom_fk, estimated_classes, given_classes, replaced_classes', 'numerical', 'integerOnly'=>true),
+			array('discipline_fk, classroom_fk, instructor_fk, estimated_classes, given_classes, replaced_classes', 'numerical', 'integerOnly'=>true),
 			array('week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, discipline_fk, classroom_fk, week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday, estimated_classes, given_classes, replaced_classes', 'safe', 'on'=>'search'),
+			array('id, discipline_fk, classroom_fk, instructor_fk, week_day_monday, week_day_tuesday, week_day_wednesday, week_day_thursday, week_day_friday, week_day_saturday, week_day_sunday, estimated_classes, given_classes, replaced_classes', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,6 +59,7 @@ class ClassBoard extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 		);
@@ -71,6 +74,7 @@ class ClassBoard extends CActiveRecord
 			'id' => 'ID',
 			'discipline_fk' => 'Discipline Fk',
 			'classroom_fk' => 'Classroom Fk',
+			'instructor_fk' => 'Instructor Fk',
 			'week_day_monday' => 'Week Day Monday',
 			'week_day_tuesday' => 'Week Day Tuesday',
 			'week_day_wednesday' => 'Week Day Wednesday',
@@ -105,6 +109,7 @@ class ClassBoard extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
 		$criteria->compare('classroom_fk',$this->classroom_fk);
+		$criteria->compare('instructor_fk',$this->instructor_fk);
 		$criteria->compare('week_day_monday',$this->week_day_monday,true);
 		$criteria->compare('week_day_tuesday',$this->week_day_tuesday,true);
 		$criteria->compare('week_day_wednesday',$this->week_day_wednesday,true);

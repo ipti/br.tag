@@ -286,7 +286,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons check" href="#menu_frequencia"><i></i><span>Frequência</span></a>
                                     <ul class="collapse" id="menu_frequencia">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classBoard"><span>Quadro de aulas</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classes"><span>Frequência de Alunos</span></a></li>
                                     </ul>
                                     <?php //<span class="count">2</span> ?>
