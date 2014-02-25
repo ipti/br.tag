@@ -122,9 +122,12 @@ class ClassesController extends Controller
 	 */
 	public function actionIndex()
 	{
+            $dataProvider = new CActiveDataProvider('Classes');
+            $model = new Classes;
 		$dataProvider=new CActiveDataProvider('Classes');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
+                        'model' => $model,
 		));
 	}
 

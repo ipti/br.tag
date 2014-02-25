@@ -532,7 +532,7 @@ $form=$this->beginWidget('CActiveForm', array(
     
     var classroomId = '<?php echo $modelClassroom->id; ?>';
     
-    
+    $()
     ////////////////////////////////////////////////
     // Document Ready                             //
     ////////////////////////////////////////////////
