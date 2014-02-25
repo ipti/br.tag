@@ -449,7 +449,7 @@ return array(
     'Insert class' => 'Inserir aula',
     'Update class' => 'Atualizar aula',
     'Create New Lesson' => 'Criar novo evento',
-    'Class Boards' => 'Quadro de Aulas',
+    'Class Board' => 'Quadro de Aulas',
     'Turn' => 'Turno',
     'Estimated Classes' =>'Aulas Previstas',
     'Given Classes' =>'Aulas Dadas',
