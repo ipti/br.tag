@@ -124,7 +124,7 @@ class SiteController extends Controller {
         else if (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id']))
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
 
-        $this->redirect(Yii::app()->request->urlReferrer);
+        $this->redirect(Yii::app()->homeUrl);
     }
 
 }

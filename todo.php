@@ -126,7 +126,7 @@
  * @todo s2 - Justificar Faltas
  * @todo s2 - Cadastrar que dia não houve aula
  * @todo s2 - Cadastrar reposição
- * 
+ * @done s2 - redirecionar a mudança de escola pra pagina inicial
  * 
  * 
  * 

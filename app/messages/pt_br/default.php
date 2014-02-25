@@ -257,6 +257,7 @@ return array(
     'Discipline Others' => 'Outras disciplinas',
     'Instructor Situation' => 'Turma Sem Docente',
     'Turn' => 'Turno',
+    'New Discipline' => 'Nova Disciplina',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
