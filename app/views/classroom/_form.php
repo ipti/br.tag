@@ -56,6 +56,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     echo $form->hiddenField($modelClassroom,'school_inep_fk',array('value'=>Yii::app()->user->school));
                                     echo CHtml::hiddenField("teachingData",'',array('id'=>'teachingData'));
                                     echo CHtml::hiddenField("disciplines",'',array('id'=>'disciplines'));
+                                    echo CHtml::hiddenField("events",'',array('id'=>'events'));
                                     ?>  
                                 </div>
                             </div>
@@ -331,10 +332,11 @@ $form=$this->beginWidget('CActiveForm', array(
                                 $teachingDataArray = array();
                                 $teachingDataDisciplines = array();
                                 $disciplinesLabels = array();
+                                $teachingDataNames = array();
                                 $i = 0;
                                 foreach ($modelTeachingData as $key => $model) {
                                     $disciplines = ClassroomController::teachingDataDiscipline2array($model);
-
+                                    $teachingDataNames[$model->instructor_fk] = $model->instructorFk->name;
                                     $teachingDataList .= "<li instructor='".$model->instructor_fk."'><span>" . $model->instructorFk->name ."</span>"
                                             .'<a  href="#" class="deleteTeachingData delete" title="Excluir">
                                               </a>';
@@ -401,6 +403,12 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Instructor'), 'insertclass-instructor', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('insertclass-instructor', '', array(),array('prompt'=> 'Selecione o instrutor','class' => 'select-search-on')); ?>
+                    </div>
+                </div>
+                <div class="control-group">
                     <?php echo CHtml::label( Yii::t('default','Discipline'), 'discipline', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo CHtml::dropDownList('discipline', '', array(),array('prompt'=> 'Selecione a disciplina','class' => 'select-search-on')); ?>
@@ -413,6 +421,12 @@ $form=$this->beginWidget('CActiveForm', array(
     <div id="update-dialog-form" title="<?php echo Yii::t('default', 'Update class'); ?>">
         <div class="row-fluid">
             <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label( Yii::t('default','Instructor'), 'insertclass-update-instructor', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::dropDownList('insertclass-update-instructor', '', array(),array('prompt'=> 'Selecione o instrutor','class' => 'select-search-on')); ?>
+                    </div>
+                </div>
                 <div class="control-group">
                     <?php echo CHtml::label( Yii::t('default','Discipline'), 'update-discipline', array('class' => 'control-label')); ?>
                     <div class="controls">
@@ -486,6 +500,7 @@ $form=$this->beginWidget('CActiveForm', array(
     var teachingData = <?php echo json_encode($teachingDataArray); ?>;
     var disciplines =  <?php echo json_encode($disciplinesArray); ?>; 
     var disciplinesLabels = <?php echo json_encode($disciplinesLabels); ?>; 
+    var teachingDataNames = <?php echo json_encode($teachingDataNames); ?>;
                                     
     var form = '#Classroom_';
     var formClassBoard = "#ClassBoard_";
@@ -510,6 +525,8 @@ $form=$this->beginWidget('CActiveForm', array(
     var myCreateDialog;
     var myUpdateDialog;
     
+    var instructor = $("#insertclass-instructor");
+    var uInstructor = $("#insertclass-update-instructor");
     var discipline = $("#discipline");
     var uDiscipline = $("#update-discipline");
     
@@ -586,13 +603,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 lesson_start = start;
                 lesson_end = end;
                 
-                //atualizar lista de disciplinas
-                var listOfdisciplines = '<option value="">Selecione a disciplina</option>';
-                $.each(disciplines,function(i,d){
-                    if (d != 0)
-                    listOfdisciplines += '<option value="'+i+'">'+disciplinesLabels[i]+'</option>';
-                });
-                discipline.html(listOfdisciplines);
+                atualizaListadeInstrutores();
                 $("#create-dialog-form").dialog("open");
 
                 <?php //@done s2 - Não permitir que crie eventos no mesmo horário
@@ -627,15 +638,9 @@ $form=$this->beginWidget('CActiveForm', array(
                 <?php //@done s2 - Criar função de REMOVER aula        ?>
                 <?php //@done s2 - Criar função de ATUALIZAR aula        ?>
 //                var id = formClassBoard+'classroom_fk';
-//                if($(id).val().length != 0){
-
-                    var listOfdisciplines = '<option value="">Selecione a disciplina</option>';
-                    $.each(disciplines,function(i,d){
-                        if (d != 0)
-                        listOfdisciplines += '<option value="'+i+'">'+disciplinesLabels[i]+'</option>';
-                    });
-                    uDiscipline.html(listOfdisciplines);
-                    uDiscipline.val(event.discipline).trigger('change');
+//                if($(id).val().length != 0){            
+                
+                    atualizaListadeInstrutores();
                     $("#update-dialog-form").dialog("open");
                     calendar.fullCalendar('unselect');
                     //$('body').css('overflow','hidden');
@@ -653,17 +658,23 @@ $form=$this->beginWidget('CActiveForm', array(
                 lesson = updateLesson(event);
                 lesson.discipline = event.discipline;
                 var l = lesson;  
-                $.ajax({
-                    type:'POST',
-                    url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
-                    success:function(e){
-                        var event = jQuery.parseJSON(e);
-                        calendar.fullCalendar('removeEvents',event.id);
-                        calendar.fullCalendar('renderEvent',event,true);
-                        myUpdateDialog.dialog("close");
-                    },
-                    data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta,classroom_fk:classroomId}
-                });
+                if(l.classroom == ''){
+                    calendar.fullCalendar('removeEvents',l.id);
+                    calendar.fullCalendar('renderEvent',l,true);
+                    myUpdateDialog.dialog("close");
+                }else{
+                    $.ajax({
+                        type:'POST',
+                        url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
+                        success:function(e){
+                            var event = jQuery.parseJSON(e);
+                            calendar.fullCalendar('removeEvents',event.id);
+                            calendar.fullCalendar('renderEvent',event,true);
+                            myUpdateDialog.dialog("close");
+                        },
+                        data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta,classroom_fk:classroomId}
+                    });
+                }
                 
             },
                     
@@ -703,7 +714,7 @@ $form=$this->beginWidget('CActiveForm', array(
         //Cria o Dialogo de CRIAÇÃO
         myCreateDialog = $("#create-dialog-form").dialog({
             autoOpen: false,
-            height: 215,
+            height: 300,
             width: 230,
             modal: true,
             draggable: false,
@@ -713,17 +724,22 @@ $form=$this->beginWidget('CActiveForm', array(
                     if(discipline.val().length != 0){
                         var l = createNewLesson();                    
                         <?php //@done s2 - Ajax da criação de lessons ?>
-                        $.ajax({
-                            type:'POST',
-                            url:'<?php echo CController::createUrl('classroom/addLesson'); ?>',
-                            success:function(e){
-                                var event = jQuery.parseJSON(e);
-                                calendar.fullCalendar('renderEvent',event,true);
-                                myCreateDialog.dialog("close");
-                                //$('body').css('overflow','scroll');
-                            },
-                            data:{'lesson': l }
-                        });
+                        if(l.classroom == ''){
+                            calendar.fullCalendar('renderEvent',l,true);
+                            myCreateDialog.dialog("close");
+                        }else{
+                            $.ajax({
+                                type:'POST',
+                                url:'<?php echo CController::createUrl('classroom/addLesson'); ?>',
+                                success:function(e){
+                                    var event = jQuery.parseJSON(e);
+                                    calendar.fullCalendar('renderEvent',event,true);
+                                    myCreateDialog.dialog("close");
+                                    //$('body').css('overflow','scroll');
+                                },
+                                data:{'lesson': l }
+                            });
+                        }
                     }else{
                         var id = '#discipline';
                         addError(id, "Selecione a Disciplina");              
@@ -739,7 +755,7 @@ $form=$this->beginWidget('CActiveForm', array(
         //Cria o Dialogo de ALTERAÇÃO e REMOÇÃO
         myUpdateDialog = $("#update-dialog-form").dialog({
             autoOpen: false,
-            height: 215,
+            height: 300,
             width: 250,
             modal: true,
             draggable: false,
@@ -752,19 +768,26 @@ $form=$this->beginWidget('CActiveForm', array(
                     if(uDiscipline.val().length != 0){
                         lesson.discipline = uDiscipline.val();
                         var l = lesson;  
-                        <?php //@done s2 - Ajax da criação de lessons ?>
-                        $.ajax({
-                            type:'POST',
-                            url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
-                            success:function(e){
-                                var event = jQuery.parseJSON(e);
-                                calendar.fullCalendar('removeEvents',event.id);
-                                calendar.fullCalendar('renderEvent',event,true);
-                                myUpdateDialog.dialog("close");
-                                //$('body').css('overflow','scroll');
-                            },
-                            data:{'lesson': l }
-                        });
+                        if(l.classroom == ''){
+                            l.title = disciplinesLabels[l.discipline];
+                            calendar.fullCalendar('removeEvents',l.id);
+                            calendar.fullCalendar('renderEvent',l,true);
+                            myUpdateDialog.dialog("close");
+                        }else{
+                            <?php //@done s2 - Ajax da criação de lessons ?>
+                            $.ajax({
+                                type:'POST',
+                                url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
+                                success:function(e){
+                                    var event = jQuery.parseJSON(e);
+                                    calendar.fullCalendar('removeEvents',event.id);
+                                    calendar.fullCalendar('renderEvent',event,true);
+                                    myUpdateDialog.dialog("close");
+                                    //$('body').css('overflow','scroll');
+                                },
+                                data:{'lesson': l }
+                            });
+                        }
                     }else{
                         var id = '#update-discipline';
                         addError(id, "Selecione a Disciplina");              
@@ -772,18 +795,23 @@ $form=$this->beginWidget('CActiveForm', array(
                 },
                 <?php echo Yii::t('default','Delete'); ?>: function() {
                         lesson.discipline = uDiscipline.val();
-                        var l = lesson;  
-                        <?php //@done s2 - Ajax da criação de lessons ?>
-                        $.ajax({
-                            type:'POST',
-                            url:'<?php echo CController::createUrl('classroom/deleteLesson'); ?>',
-                            success:function(){
-                                calendar.fullCalendar('removeEvents',l.id);
-                                myUpdateDialog.dialog("close");
-                                //$('body').css('overflow','scroll');
-                            },
-                            data:{'lesson': l }
-                        });
+                        var l = lesson; 
+                        if(l.classroom == ''){
+                            calendar.fullCalendar('removeEvents',l.id);
+                            myUpdateDialog.dialog("close");
+                        }else{
+                            <?php //@done s2 - Ajax da criação de lessons ?>
+                            $.ajax({
+                                type:'POST',
+                                url:'<?php echo CController::createUrl('classroom/deleteLesson'); ?>',
+                                success:function(){
+                                    calendar.fullCalendar('removeEvents',l.id);
+                                    myUpdateDialog.dialog("close");
+                                    //$('body').css('overflow','scroll');
+                                },
+                                data:{'lesson': l }
+                            });
+                        }
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     myUpdateDialog.dialog("close");
@@ -944,12 +972,12 @@ $form=$this->beginWidget('CActiveForm', array(
         lesson = {
             id: lesson_id++,
             id_db: 0,
-            title: (discipline.find('option:selected').text().length > 40) ? discipline.find('option:selected').text().substring(0,37) + "..." : discipline.find('option:selected').text(),
+            title: (discipline.find('option:selected').text().length > 30) ? discipline.find('option:selected').text().substring(0,27) + "..." : discipline.find('option:selected').text() + ' - ' + teachingDataNames[instructor.val()],
             discipline: discipline.val(),
             start: lesson_start,
             end: lesson_end,
             classroom: classroomId,
-            description: 'This is a cool event'
+            instructor: instructor.val(),
         };
         return lesson;
     }
@@ -961,16 +989,53 @@ $form=$this->beginWidget('CActiveForm', array(
         lesson = {
             id: l.id,
             db: l.db,
-            title: l.title,
+            title: l.title + ' - ' + teachingDataNames[l.instructor],
             discipline: uDiscipline.val(),
             start: l.start,
             end: l.end,
+            instructor: uInstructor.val(),
             classroom: l.classroom,
-            description: 'This is a cool event'
         };
         return lesson;
     }
     
+    //var instructor = $("#insertclass-instructor");
+    //var uInstructor = $("#insertclass-update-instructor");
+    //
+    //atualizar lista de instrutores
+    function atualizaListadeInstrutores(){
+        var listOfinstructors = '<option value="">Selecione o instrutor</option>';
+        $.each(teachingData,function(i,td){
+            listOfinstructors += '<option value="'+td.Instructor+'">'+teachingDataNames[td.Instructor]+'</option>';
+        });
+        instructor.html(listOfinstructors).trigger('change');
+        uInstructor.html(listOfinstructors).trigger('change');
+    };
+    
+    var atualizarListadeDisciplinas = function(){
+        //atualizar lista de disciplinas
+        var self = this;
+        var listOfdisciplines = '<option value="">Selecione a disciplina</option>';
+        if($(self).val() == ''){
+            $.each(disciplines,function(i,d){
+                if (d == 2)
+                listOfdisciplines += '<option value="'+i+'">'+disciplinesLabels[i]+'</option>';
+            });
+        }else{
+            $.each(teachingData,function(i,td){
+                if (td.Instructor == $(self).val()){
+                    $.each(td.Disciplines, function(j,d){
+                        listOfdisciplines += '<option value="'+d+'">'+disciplinesLabels[d]+'</option>';
+                    });
+                }
+            });
+        }
+        discipline.html(listOfdisciplines).trigger('change');
+        uDiscipline.html(listOfdisciplines).trigger('change');
+    };
+    
+    instructor.on('change', atualizarListadeDisciplinas);
+    uInstructor.on('change', atualizarListadeDisciplinas);
     
     
     $(document).on('click','.deleteTeachingData',removeTeachingData);
@@ -1168,6 +1233,20 @@ $form=$this->beginWidget('CActiveForm', array(
     $('#enviar_essa_bagaca').click(function() { 
         $('#teachingData').val(JSON.stringify(teachingData)); 
         $('#disciplines').val(JSON.stringify(disciplines));
+        var myEvents = [];
+        $.each(calendar.fullCalendar('clientEvents'), function(i,e){
+            var event = {};
+            event.classroom = e.classroom;
+            event.discipline =  e.discipline;
+            event.end =  e.end;
+            event.id =  e.id;
+            event.id_db =  e.id_db;
+            event.instructor =  e.instructor;
+            event.start =  e.start;
+            event.title =  e.title;
+            myEvents.push(event);
+        });
+        $('#events').val(JSON.stringify(myEvents));
         $('form').submit();
     });
 

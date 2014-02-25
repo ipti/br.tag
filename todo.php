@@ -112,10 +112,16 @@
  * @done s2 - Colocar Tela de Classboard no ClassRoom
  * @done s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
  * @done s2 - Transformar TeachingData em um Modal
- * @todo s2 - Só mostrar aba do horário quando salvar a turma OU modificar o código para salvar eventos em lote
+ * @done s2 - Salvar eventos em lote ao cadastrar
+ * @done s2 - Modificar Save do classroom
+ * @done s2 - Modificar Save do classboard para salvar o professor
+ * @done s2 - Modificar Modais para selecionar o professor
+ * @done s2 - Modificar Modais para salvar apenas em lote ou salvar em live(lote para create, live para update)
+ * 
+ * 
  * @done s2 - Remover Classboard do menu.
  * 
- * @todo s2 - Mostrar o professor da aula no ClassBoard
+ * @done s2 - Mostrar o professor da aula no ClassBoard
  * @done s2 - Modificar lista de disciplinas do EDCenso para as do Classroom
  * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 

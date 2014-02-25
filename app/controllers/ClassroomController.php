@@ -206,9 +206,9 @@ class ClassroomController extends Controller
             $labels[20] = Classroom::model()->attributeLabels()['discipline_special_education_and_inclusive_practices'];
             $labels[21] = Classroom::model()->attributeLabels()['discipline_sociocultural_diversity'];
             $labels[23] = Classroom::model()->attributeLabels()['discipline_libras'];
-            $labels[25] = Classroom::model()->attributeLabels()['discipline_religious'];
-            $labels[26] = Classroom::model()->attributeLabels()['discipline_native_language'];
-            $labels[27] = Classroom::model()->attributeLabels()['discipline_pedagogical'];
+            $labels[25] = Classroom::model()->attributeLabels()['discipline_pedagogical'];
+            $labels[26] = Classroom::model()->attributeLabels()['discipline_religious'];
+            $labels[27] = Classroom::model()->attributeLabels()['discipline_native_language'];
             $labels[28] = Classroom::model()->attributeLabels()['discipline_social_study'];
             $labels[29] = Classroom::model()->attributeLabels()['discipline_sociology'];
             $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
@@ -302,9 +302,10 @@ class ClassroomController extends Controller
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
 
-            if(isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
+            if(isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
                 $teachingData = json_decode($_POST['teachingData']);
                 $disciplines = json_decode($_POST['disciplines'],true);
+                $events = json_decode($_POST['events'],true);
                 
                 
                 foreach ($teachingData as $key => $td){
@@ -370,6 +371,10 @@ class ClassroomController extends Controller
                                 $save = $save && $modelTeachingData[$key]->save();
                             }
                             if ($save){
+                                foreach($events as $e){
+                                    $e['classroom'] = $modelClassroom->id;
+                                    $this->actionAddLesson($e); 
+                                }
                                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                                 $this->redirect(array('index'));
                             }
@@ -685,6 +690,7 @@ class ClassroomController extends Controller
         $lesson = ($lesson == null) ? $_POST['lesson'] : $lesson;
         $classroom = $lesson['classroom'];
         $discipline = $lesson['discipline'];
+        $instructor = $lesson['instructor'];
         $classboard = ClassBoard::model()->find("classroom_fk = $classroom and discipline_fk =$discipline");
 
         $initial_timestamp = strtotime($lesson['start']);
@@ -699,6 +705,7 @@ class ClassroomController extends Controller
             $classboard = new ClassBoard;
             $classboard->classroom_fk = $classroom;
             $classboard->discipline_fk = $discipline;
+            $classboard->instructor_fk = $instructor;
 
             $schedule = array();
         } else {
@@ -746,12 +753,15 @@ class ClassroomController extends Controller
 
         if ($classboard->validate() && $classboard->save()) {
             $lesson['title'] = $classboard->disciplineFk->name;
+            $instructorName = $classboard->instructor_fk == null ? 'Sem Instrutor' : $classboard->instructorFk->name;
             $event = array(
+                
                 'id' => $lesson['id'],
                 'db' => $classboard->id,
-                'title' => strlen($lesson['title']) > 40 ? substr($lesson['title'], 0, 37) . "..." : $lesson['title'],
+                'title' => (strlen($lesson['title']) > 30 ? substr($lesson['title'], 0, 27) . "..." : $lesson['title']) . " - " . $instructorName,
                 'discipline' => $lesson['discipline'],
                 'classroom' => $lesson['classroom'],
+                'instructor' => $lesson['instructor'],
                 'start' => $lesson['start'],
                 'end' => $lesson['end'],
             );
@@ -792,15 +802,17 @@ class ClassroomController extends Controller
             $discipline = $cb->disciplineFk;
             $week = $this->getSchedule($cb);
             $title = $discipline->name;
+            $instructorName = $cb->instructor_fk == null ? 'Sem Instrutor' : $cb->instructorFk->name;
             foreach ($week as $day => $d) {
                 foreach ($d as $schedule) {
                     if ($schedule != 0) {
                         $event = array(
                             'id' => ++$lessons,
                             'db' => $cb->id,
-                            'title' => strlen($title) > 40 ? substr($title, 0, 37) . "..." : $title,
+                            'title' => (strlen($title) > 30 ? substr($title, 0, 37) . "..." : $title) . ' - ' . $instructorName,
                             'discipline' => $discipline->id,
                             'classroom' => $classroom,
+                            'instructor' => $cb->instructor_fk,
                             'start' => date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day, $year))
                         );
                         array_push($events, $event);
