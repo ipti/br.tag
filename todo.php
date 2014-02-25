@@ -110,7 +110,7 @@
  * @done s2 - Gerar novo modelo de ClassBoard.
  * 
  * @done s2 - Colocar Tela de Classboard no ClassRoom
- * @todo s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
+ * @done s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
  * @done s2 - Transformar TeachingData em um Modal
  * @todo s2 - Só mostrar aba do horário quando salvar a turma OU modificar o código para salvar eventos em lote
  * @done s2 - Remover Classboard do menu.
