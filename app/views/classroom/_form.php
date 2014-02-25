@@ -310,7 +310,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 //@done s1 - criar estutura da tela de TeachingData no Classroom 
                 
                 ?>
-                <div class="tab-pane" id="classboard">
+                <div class="tab-pane active" id="classboard">
                     <div class="row-fluid">
                         <div class=" span8">
                             <div class="separator"></div>
@@ -611,7 +611,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         //Pode-se criar um dialog para avisar o que ocorreu, mas acho que ficaria muito spam.
                     }
                 });
-                $('body').css('overflow','hidden');
+                //$('body').css('overflow','hidden');
                 //}else{
                 //    addError(id, "Selecione a Turma");
                 //} 
@@ -638,7 +638,7 @@ $form=$this->beginWidget('CActiveForm', array(
                     uDiscipline.val(event.discipline).trigger('change');
                     $("#update-dialog-form").dialog("open");
                     calendar.fullCalendar('unselect');
-                    $('body').css('overflow','hidden');
+                    //$('body').css('overflow','hidden');
 //                }else{
 //                    addError(id, "Selecione a Turma");
 //                } 
@@ -695,7 +695,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     $(this).dialog("close");
-                    $('body').css('overflow','scroll');
+                    //$('body').css('overflow','scroll');
                 }
             },
         });
@@ -720,7 +720,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 var event = jQuery.parseJSON(e);
                                 calendar.fullCalendar('renderEvent',event,true);
                                 myCreateDialog.dialog("close");
-                                $('body').css('overflow','scroll');
+                                //$('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
@@ -731,7 +731,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     $(this).dialog("close");
-                    $('body').css('overflow','scroll');
+                    //$('body').css('overflow','scroll');
                 }
             },
         });
@@ -761,7 +761,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 calendar.fullCalendar('removeEvents',event.id);
                                 calendar.fullCalendar('renderEvent',event,true);
                                 myUpdateDialog.dialog("close");
-                                $('body').css('overflow','scroll');
+                                //$('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
@@ -780,14 +780,14 @@ $form=$this->beginWidget('CActiveForm', array(
                             success:function(){
                                 calendar.fullCalendar('removeEvents',l.id);
                                 myUpdateDialog.dialog("close");
-                                $('body').css('overflow','scroll');
+                                //$('body').css('overflow','scroll');
                             },
                             data:{'lesson': l }
                         });
                 },
                 <?php echo Yii::t('default','Cancel'); ?>: function() {
                     myUpdateDialog.dialog("close");
-                    $('body').css('overflow','scroll');
+                    //$('body').css('overflow','scroll');
                 }
             },
         });
