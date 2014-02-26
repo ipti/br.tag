@@ -48,11 +48,7 @@
  * @done S2 - Colocar helpers.
  * @done S2 - Fazer associação de escolas com usuários.
  * @done S2 - Criar action de criar usuários.
- * 
- * 
- * 
  * @done S2 - As vezes o botão de remover professor da turma não aparece.
- * 
  * @done S2 - Gerar crud das tabelas do banco
  * @done S2 - Gerar modelos das tabelas do banco
  * @done S2 - Traduzir tela de criar usuário
@@ -62,41 +58,46 @@
  * @done S2 - Criar tela de criar quadro de aulas
  * @done S2 - Gerar calendário a partir do quadro de aulas
  * @done S2 - Criar tela de exibir quadro de aulas
- * 
  * @done S2 - Problemas do login - Limpagem do banco
  * @done S2 - Problemas do Login - Cadastro do admin
- * 
  * @done S2 - Adiconar links de Frequência no menu
  * @done S2 - Alterar links do menu de Frequência (ClassBoard e Classes)
- * 
  * @done S2 - Criar estrutura da tela de Frequência - ClassBoard.
  * @done S2 - Traduzir a tela de ClassBoard.
- * 
  * @done S2 - Iniciar a tabela pela segunda
  * @done S2 - Aumentar tamanho das linhas do calendário
  * @done S2 - inserir linhas entre a tabela
  * @done S2 - Adicionar Campo de Filtro de Turma à Tela de Frequência - ClassBoard.
- * 
  * @done S2 - Adicionar Função do Filtro de Turma à Tela de Frequência - ClassBoard.
- * 
  * @done S2 - Adicionar Turno como atributo de Classroom
- * 
- * @todo S2 - Ajeitar o design dos eventos
  * @done S2 - Deixar o modal de update correto
  * @done S2 - Deixar o modal correto
  * @done S2 - Alterar a tela de classboard para trazer os atributos necessários
- * 
  * @done S2 - Deixar a tabela editável
  * @done S2 - Remover cursor pointer dos labels
  * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
  * @done S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
- * 
  * @done s2 - Título da página de Admin não está no arquivo de tradução
  * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
- * 
  * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
  * @done s2 - BUG - Quadro de aulas fica por cima do título ao rolar para baixo
  * @done s2 - Botão de New Class deve ficar fixo ao rolar página para baixo
+ * @done s2 - Adicionar professor na tabela de ClassBoard.
+ * @done s2 - Gerar novo modelo de ClassBoard.
+ * @done s2 - Colocar Tela de Classboard no ClassRoom
+ * @done s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
+ * @done s2 - Transformar TeachingData em um Modal
+ * @done s2 - Salvar eventos em lote ao cadastrar
+ * @done s2 - Modificar Save do classroom
+ * @done s2 - Modificar Save do classboard para salvar o professor
+ * @done s2 - Modificar Modais para selecionar o professor
+ * @done s2 - Modificar Modais para salvar apenas em lote ou salvar em live(lote para create, live para update)
+ * @done s2 - Remover Classboard do menu.
+ * @done s2 - Mostrar o professor da aula no ClassBoard
+ * @done s2 - Modificar lista de disciplinas do EDCenso para as do Classroom 
+ * @done s2 - redirecionar a mudança de escola pra pagina inicial
+ * @done S2 - Evitar scroll no modal da class board
+ * 
  * 
  * 
  * @todo S2 - Alterar permissões no ACL.
@@ -106,34 +107,22 @@
  * 
  * @todo S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
  * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
- * @done s2 - Adicionar professor na tabela de ClassBoard.
- * @done s2 - Gerar novo modelo de ClassBoard.
  * 
- * @done s2 - Colocar Tela de Classboard no ClassRoom
- * @done s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
- * @done s2 - Transformar TeachingData em um Modal
- * @done s2 - Salvar eventos em lote ao cadastrar
- * @done s2 - Modificar Save do classroom
- * @done s2 - Modificar Save do classboard para salvar o professor
- * @done s2 - Modificar Modais para selecionar o professor
- * @done s2 - Modificar Modais para salvar apenas em lote ou salvar em live(lote para create, live para update)
- * 
- * 
- * @done s2 - Remover Classboard do menu.
- * 
- * @done s2 - Mostrar o professor da aula no ClassBoard
- * @done s2 - Modificar lista de disciplinas do EDCenso para as do Classroom
  * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * @todo s2 - Criar tela de Frenquência
- * @todo s2 - Criar filtros para selecionar Classroom e Discipline - Frequência
+ * @done s2 - Criar filtro para selecionar Classroom 
+ * @done s2 - Criar filtro de Discipline
+ * @done s2 - Criar filtro de month
  * @todo s2 - Criar gerador de aulas que faltam.
+ * 
  * @todo s2 - Cadastrar Faltas
  * @todo s2 - Justificar Faltas
  * @todo s2 - Cadastrar que dia não houve aula
  * @todo s2 - Cadastrar reposição
- * @done s2 - redirecionar a mudança de escola pra pagina inicial
  * 
+ * 
+ * @todo S2 - Ajeitar o design dos eventos
  * 
  * 
  * * * RESPONSIVE DESIGN * * *
@@ -161,7 +150,6 @@
  * @later S3 - Criar action de listagem de usuários.
  * @later S3 - Criar action de remoção de usuários.
  * 
- * @done S2 - Evitar scroll no modal da class board
  * 
  * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 

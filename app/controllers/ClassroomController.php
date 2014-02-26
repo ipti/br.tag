@@ -219,9 +219,9 @@ class ClassroomController extends Controller
         
         //@done s1 - criar função para transformar as disciplinas do Classroom em Array
         
-        static function classroomDiscipline2array($classroom){
+        public static function classroomDiscipline2array($classroom){
             $disciplines = array();
-                        
+            
             $disciplines[1] = $classroom->discipline_chemistry;
             $disciplines[2] = $classroom->discipline_physics;
             $disciplines[3] = $classroom->discipline_mathematics;

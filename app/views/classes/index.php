@@ -2,13 +2,13 @@
 /* @var $this ClassesController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs=array(
-	'Classes',
+$this->breadcrumbs = array(
+    'Classes',
 );
 
-$this->menu=array(
-	array('label'=>'Create Classes', 'url'=>array('create')),
-	array('label'=>'Manage Classes', 'url'=>array('admin')),
+$this->menu = array(
+    array('label' => 'Create Classes', 'url' => array('create')),
+    array('label' => 'Manage Classes', 'url' => array('admin')),
 );
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -48,30 +48,69 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school, array('order' => 'name')), 'id', 'name'), array(
+                                    echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school, array('order' => 'name')), 'id', 'name'), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on',
-                                        'prompt' => 'Selecione a Turma',
+                                        'prompt' => 'Selecione a turma',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('classBoard/getClassBoard'),
-                                            'success' => "function(events){
-                                                var events = jQuery.parseJSON(events);
-                                                lessons = events;
-                                                if(events != null){
-                                                    $.each(events, function(i, event){
-                                                        calendar.fullCalendar('renderEvent',event);
-                                                    });     
-                                                }
-                                                }",
+                                            'url' => CController::createUrl('classes/getDisciplines'),
+                                            'update' => '#disciplines',
                                     )));
                                     ?>
-                                    <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
+
+                            <div class="control-group">
+                                <?php echo CHtml::label(yii::t('default', 'Month'), 'month', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo CHtml::dropDownList('month', '', array(1 => 'Janeiro',
+                                        2 => 'Fevereiro',
+                                        3 => 'Março',
+                                        4 => 'Abril',
+                                        5 => 'Maio',
+                                        6 => 'Junho',
+                                        7 => 'Julho',
+                                        8 => 'Agosto',
+                                        9 => 'Setembro',
+                                        10 => 'Outubro',
+                                        11 => 'Novembro',
+                                        12 => 'Dezembro'), array(
+                                        'key' => 'id',
+                                        'class' => 'select-search-on',
+                                        'prompt' => 'Selecione o mês',
+                                    ));
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <a id="classesSearch" class='btn btn-icon btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span6">
+                            <div class="control-group">
+                                <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo CHtml::dropDownList('disciplines', '', array(), array(
+                                        'key' => 'id',
+                                        'class' => 'select-search-on',
+                                        'prompt' => 'Selecione a disciplina',
+                                    ));
+                                    ?>
+                                </div>
+                            </div> 
+                        </div>
+                    </div> <hr>
+                    <div class="row-fluid">
+                        <div class="span12">
+
                         </div>
                     </div>
                     <?php $this->endWidget(); ?>
@@ -83,3 +122,20 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 
+<script>
+    $('#classroom').on('change', function(){
+        $('#disciplines').val('').trigger('change');
+    });
+    $('#classesSearch').on('click', function(){
+        jQuery.ajax({
+            'type':'POST',
+            'url':'/tag/index.php?r=classes/getClasses',
+            'cache':false,
+            'data':jQuery('#classroom').parents("form").serialize(),
+            'success':function(html){
+                //Mostrar tabela de frequencia
+                //jQuery("#Classroom_assistance_type").html(html); 
+                //jQuery("#Classroom_assistance_type").trigger('change');
+            }});
+    });
+</script>

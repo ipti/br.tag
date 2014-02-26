@@ -32,7 +32,7 @@ class ClassesController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','getdisciplines','getclasses'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -132,8 +132,87 @@ class ClassesController extends Controller
 	}
 
 	/**
-	 * Manages all models.
+	 * Lists all models.
 	 */
+	public function actionGetDisciplines() {
+            $classroom = Classroom::model()->findByPk($_POST['classroom']);
+            $disciplines = array();
+            $disciplinesLabels = array();
+            $disciplines = ClassroomController::classroomDiscipline2array($classroom);
+            $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+            echo CHtml::tag('option', array('value' => null), CHtml::encode('Selecione a disciplina'), true);
+
+            foreach ($disciplines as $i => $discipline) {
+                if ($discipline != 0) {
+                    echo CHtml::tag('option', array('value' => $i), CHtml::encode($disciplinesLabels[$i]), true);
+                }
+            }
+        }
+        
+        public function actionGetClasses(){
+            $classroom = $_POST['classroom'];
+            $discipline = $_POST['disciplines'];
+            $month = $_POST['month'];
+            
+            $classes = null;
+            $classes = Classes::model()->findAllByAttributes(array(
+                'classroom_fk'=>$classroom,
+                'discipline_fk'=>$discipline,
+                'month'=>$month));
+            
+            $classboards = ClassBoard::model()->findAllByAttributes(array(
+                'classroom_fk'=>$classroom,
+                'discipline_fk'=>$discipline,));
+            
+            var_dump($classboards);
+            if($classes == null){
+                $classDays = array();
+                for($i=0; $i<=6;$i++){
+                    $classDays[$i] = array();
+                }
+                foreach($classboards as $cb){
+                    //$cb = new ClassBoard;
+                    
+                    $str = array();
+                    
+                    $str[0] = $cb->week_day_sunday;
+                    $str[1] = $cb->week_day_monday;
+                    $str[2] = $cb->week_day_tuesday;
+                    $str[3] = $cb->week_day_wednesday;
+                    $str[4] = $cb->week_day_thursday;
+                    $str[5] = $cb->week_day_friday;
+                    $str[6] = $cb->week_day_saturday;
+                    
+                    for($i=0; $i<=6;$i++){
+                        $temp = explode(';', $str[$i]);
+                        $classDays[$i] = array_merge($classDays[$i], $temp);
+                        $classDays[$i] = array_unique($classDays[$i]);
+                    }
+                    var_dump($classDays);exit;
+                }
+                $year = date('Y');
+                $time = mktime(0,0,0,$month,1,$year);
+                
+                $monthDays = date('t', $time);
+                echo $monthDays;
+                for($day=1; $day<= $monthDays; $day++){
+                    $time = mktime(0,0,0,$month,$day,$year);
+                    $weekDay = date('w', $time);
+                    if($weekDay == 1)
+                        echo 'blah';
+                    
+                }
+                
+                //gerar
+            }
+            
+            //mostrar
+            
+        }
+
+    /**
+     * Manages all models.
+     */
 	public function actionAdmin()
 	{
 		$model=new Classes('search');

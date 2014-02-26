@@ -136,4 +136,5 @@ class ClassBoard extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
 }
