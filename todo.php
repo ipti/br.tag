@@ -110,7 +110,7 @@
  * 
  * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
- * @todo s2 - Criar tela de Frenquência
+ * @done s2 - Criar tela de Frenquência
  * @done s2 - Criar filtro para selecionar Classroom 
  * @done s2 - Criar filtro de Discipline
  * @done s2 - Criar filtro de month

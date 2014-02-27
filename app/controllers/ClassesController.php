@@ -164,49 +164,99 @@ class ClassesController extends Controller
                 'classroom_fk'=>$classroom,
                 'discipline_fk'=>$discipline,));
             
-            var_dump($classboards);
-            if($classes == null){
-                $classDays = array();
+            
+            
+            $return = array('days'=> array(), 'faults'=> array(), 'students'=>array());
+            
+            $classDays = array();
+            for($i=0; $i<=6;$i++){
+                $classDays[$i] = array();
+            }
+            
+            foreach($classboards as $cb){
+
+                $schedulesStringArray = array();
+
+                $schedulesStringArray[0] = $cb->week_day_sunday;
+                $schedulesStringArray[1] = $cb->week_day_monday;
+                $schedulesStringArray[2] = $cb->week_day_tuesday;
+                $schedulesStringArray[3] = $cb->week_day_wednesday;
+                $schedulesStringArray[4] = $cb->week_day_thursday;
+                $schedulesStringArray[5] = $cb->week_day_friday;
+                $schedulesStringArray[6] = $cb->week_day_saturday;
+
                 for($i=0; $i<=6;$i++){
-                    $classDays[$i] = array();
+                    $temp = explode(';', $schedulesStringArray[$i]);
+                    $classDays[$i] = array_merge($classDays[$i], $temp);
+                    $classDays[$i] = array_unique($classDays[$i]);
                 }
-                foreach($classboards as $cb){
-                    //$cb = new ClassBoard;
-                    
-                    $str = array();
-                    
-                    $str[0] = $cb->week_day_sunday;
-                    $str[1] = $cb->week_day_monday;
-                    $str[2] = $cb->week_day_tuesday;
-                    $str[3] = $cb->week_day_wednesday;
-                    $str[4] = $cb->week_day_thursday;
-                    $str[5] = $cb->week_day_friday;
-                    $str[6] = $cb->week_day_saturday;
-                    
-                    for($i=0; $i<=6;$i++){
-                        $temp = explode(';', $str[$i]);
-                        $classDays[$i] = array_merge($classDays[$i], $temp);
-                        $classDays[$i] = array_unique($classDays[$i]);
-                    }
-                    var_dump($classDays);exit;
-                }
+            }
+            
+            $return['days'] = $classDays;
+            
+            if($classes == null){
+                
                 $year = date('Y');
                 $time = mktime(0,0,0,$month,1,$year);
                 
                 $monthDays = date('t', $time);
-                echo $monthDays;
                 for($day=1; $day<= $monthDays; $day++){
                     $time = mktime(0,0,0,$month,$day,$year);
                     $weekDay = date('w', $time);
-                    if($weekDay == 1)
-                        echo 'blah';
-                    
+                    $days = $classDays[$weekDay];
+                    sort($days);
+                    $classDays[$weekDay] = $days;
+//                    foreach($days as $i => $schedule){
+//                        if ($schedule != 0){
+//                            $classes = new Classes();
+//                            $classes->classroom_fk = $classroom;
+//                            $classes->discipline_fk = $discipline;
+//                            $classes->day = $day;
+//                            $classes->month = $month;
+//                            $classes->classtype = 'N';
+//                            $classes->given_class = 0;
+//                            $classes->schedule = $schedule;
+//                            
+//                            if($classes->validate() && $classes->save()){
+//                                
+//                            }
+//                        }
+//                    }
                 }
-                
-                //gerar
+            }
+            else{
+                foreach($classes as $c){
+                    if($c->given_class == 1){
+                        $return['faults'][$c->day][$c->schedule] = isset($return['faults'][$c->day][$c->schedule])
+                                                                 ? $return['faults'][$c->day][$c->schedule]
+                                                                 : array();
+                        
+                        $faults = ClassFaults::model()->findAllByAttributes(array('class_fk' => $c->id));
+                        
+                        foreach($faults as $f){
+                            $return['faults'][$c->day][$c->schedule] = isset($return['faults'][$c->day][$c->schedule])
+                                                                     ? $return['faults'][$c->day][$c->schedule] 
+                                                                     : array();
+                            $return['faults'][$c->day][$c->schedule] = array_merge($return['faults'][$c->day][$c->schedule], array($f->student_fk));
+                        }
+                    }
+                }
             }
             
-            //mostrar
+                        
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom));
+            $return['students'] = array();
+            foreach($enrollments as $e){
+                $return['students']['name'] = isset($return['students']['name'])
+                                    ? $return['students']['name']
+                                    : array();
+                $return['students']['id'] = isset($return['students']['id'])
+                                    ? $return['students']['id']
+                                    : array();
+                $return['students']['name'] = array_merge($return['students']['name'], array($e->studentFk->name));
+                $return['students']['id'] = array_merge($return['students']['id'], array($e->student_fk));
+            }
+            echo json_encode($return);
             
         }
 
