@@ -42,7 +42,8 @@ class UserIdentity extends CUserIdentity
         else {
             if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)){
                 $userSchools = [];
-                $userSchools = SchoolIdentification::model()->findAll(array('order'=>'name'));
+                //@done s2 - mostrar apenas escolas ativas
+                $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation'=>'1'),array('order'=>'name'));
                 $school =  isset($userSchools[0])? $userSchools[0]->inep_id : '';
             }else{
                 $userSchools = $record->usersSchools;

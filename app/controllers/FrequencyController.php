@@ -1,6 +1,6 @@
 <?php
 
-class ClassesController extends Controller
+class FrequencyController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,12 +27,8 @@ class ClassesController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','getdisciplines','getclasses'),
+				'actions'=>array('index','view','save','getdisciplines','getclasses'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,51 +52,117 @@ class ClassesController extends Controller
 		));
 	}
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
-	public function actionCreate()
-	{
-		$model=new Classes;
+        
+	public function actionSave()
+	{        
+            //@done s2 - modificar banco para adicionar schedule às faltas
+            //@done s2 - regerar os modelos
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+            set_time_limit(0);
+            ignore_user_abort();
+        
+            $classroomID = $_POST['classroom'];
+            $disciplineID = $_POST['disciplines'];
+            $month = $_POST['month'];
+            $instructorFaults = $_POST['day'];
 
-		if(isset($_POST['Classes']))
-		{
-			$model->attributes=$_POST['Classes'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+            $infos = $this->actionGetClasses($classroomID, $disciplineID, $month);
+            $classDays = $infos['days'];
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+            
+            $classes = null;
+            $classes = Frequency::model()->findAllByAttributes(array(
+                'classroom_fk'=>$classroomID,
+                'discipline_fk'=>$disciplineID,
+                'month'=>$month));
+            
+            //cadastra novas aulas
+            if($classes == null){
+                $year = date('Y');
+                $time = mktime(0, 0, 0, $month, 1, $year);
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-	public function actionUpdate($id)
-	{
-		$model=$this->loadModel($id);
+                $monthDays = date('t', $time);
+                for ($day = 1; $day <= $monthDays; $day++) {
+                    $time = mktime(0, 0, 0, $month, $day, $year);
+                    $weekDay = date('w', $time);
+                    $days = $classDays[$weekDay];
+                    sort($days);
+                    $classDays[$weekDay] = $days;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+                    $classes = array();
+                    foreach ($days as $schedule) {
+                        if ($schedule != 0) {
+                            $class = new Frequency();
+                            $class->classroom_fk = $classroomID;
+                            $class->discipline_fk = $disciplineID;
+                            $class->day = $day;
+                            $class->month = $month;
+                            $class->classtype = 'N';
+                            $class->given_class = isset($instructorFaults[$day][$schedule])? 0 : 1;
+                            $class->schedule = $schedule;
 
-		if(isset($_POST['Classes']))
-		{
-			$model->attributes=$_POST['Classes'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+                            if ($class->validate() && $class->save()) {
+                                array_push($classes, $class);
+                            }
+                        }
+                    }
+                }
+            //atualiza aulas
+            }else{
+                foreach ($classes as $class) {
+                    $day = $class->day;
+                    $schedule = $class->schedule;
+                    $class->given_class = isset($instructorFaults[$day][$schedule])? 0 : 1;
+                    $class->save();
+                }
+            }
+          
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
+        $faults = array();
+            //cadastrar faltas
+            if(isset($_POST['student'])){
+                echo "<br><br><br>";
+                $studentsFaults = $_POST['student'];
+                foreach ($studentsFaults as $studentID => $fault) {
+                    foreach($fault as $d => $day){
+                        foreach($day as $schedule => $s){
+                            $classID = null;
+                            foreach($classes as $class){
+                                if($class->day == $d && $class->schedule == $schedule){
+                                    $classID = $class->id;
+                                    break;
+                                }
+                            }
+                            $fault = new ClassFaults;
+                            $fault->class_fk = $classID;
+                            $fault->student_fk = $studentID;
+                            $fault->schedule = $schedule;
+                            if ($fault->validate() && $fault->save()) {
+                                array_push($faults, $fault);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            set_time_limit(30);
+            $this->redirect(array('index'));
+            
+//		$model=new Classes;
+//
+//		// Uncomment the following line if AJAX validation is needed
+//		// $this->performAjaxValidation($model);
+//
+//		if(isset($_POST['Classes']))
+//		{
+//			$model->attributes=$_POST['Classes'];
+//			if($model->save())
+//				$this->redirect(array('view','id'=>$model->id));
+//		}
+//
+//		$this->render('create',array(
+//			'model'=>$model,
+//		));
 	}
 
 	/**
@@ -122,9 +184,9 @@ class ClassesController extends Controller
 	 */
 	public function actionIndex()
 	{
-            $dataProvider = new CActiveDataProvider('Classes');
-            $model = new Classes;
-		$dataProvider=new CActiveDataProvider('Classes');
+            $dataProvider = new CActiveDataProvider('Frequency');
+            $model = new Frequency;
+		$dataProvider=new CActiveDataProvider('Frequency');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
                         'model' => $model,
@@ -135,12 +197,16 @@ class ClassesController extends Controller
 	 * Lists all models.
 	 */
 	public function actionGetDisciplines() {
+            
+            echo CHtml::tag('option', array('value' => null), CHtml::encode('Selecione a disciplina'), true);
+            
+            if(!isset($_POST['classroom']) || empty($_POST['classroom'])) {return true;}
             $classroom = Classroom::model()->findByPk($_POST['classroom']);
+            
             $disciplines = array();
             $disciplinesLabels = array();
             $disciplines = ClassroomController::classroomDiscipline2array($classroom);
             $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-            echo CHtml::tag('option', array('value' => null), CHtml::encode('Selecione a disciplina'), true);
 
             foreach ($disciplines as $i => $discipline) {
                 if ($discipline != 0) {
@@ -149,13 +215,13 @@ class ClassesController extends Controller
             }
         }
         
-        public function actionGetClasses(){
-            $classroom = $_POST['classroom'];
-            $discipline = $_POST['disciplines'];
-            $month = $_POST['month'];
+        public function actionGetClasses($classroom = null, $discipline = null, $month = null){
+            $classroom = $classroom==null? $_POST['classroom'] : $classroom;
+            $discipline = $discipline==null? $_POST['disciplines'] : $discipline;
+            $month = $month == null? $_POST['month'] : $month;
             
             $classes = null;
-            $classes = Classes::model()->findAllByAttributes(array(
+            $classes = Frequency::model()->findAllByAttributes(array(
                 'classroom_fk'=>$classroom,
                 'discipline_fk'=>$discipline,
                 'month'=>$month));
@@ -167,6 +233,7 @@ class ClassesController extends Controller
             
             
             $return = array('days'=> array(), 'faults'=> array(), 'students'=>array());
+            if($discipline == "Selecione a disciplina") { echo json_encode(array()); return true;}
             
             $classDays = array();
             for($i=0; $i<=6;$i++){
@@ -196,7 +263,10 @@ class ClassesController extends Controller
             
             if($classes == null){
                 
-                $year = date('Y');
+                $cr = Classroom::model()->findByPk($classroom);
+                
+                //@done s2 - Trocar o ano atual pelo da turma
+                $year = $cr->school_year; //$year = date('Y');
                 $time = mktime(0,0,0,$month,1,$year);
                 
                 $monthDays = date('t', $time);
@@ -206,22 +276,6 @@ class ClassesController extends Controller
                     $days = $classDays[$weekDay];
                     sort($days);
                     $classDays[$weekDay] = $days;
-//                    foreach($days as $i => $schedule){
-//                        if ($schedule != 0){
-//                            $classes = new Classes();
-//                            $classes->classroom_fk = $classroom;
-//                            $classes->discipline_fk = $discipline;
-//                            $classes->day = $day;
-//                            $classes->month = $month;
-//                            $classes->classtype = 'N';
-//                            $classes->given_class = 0;
-//                            $classes->schedule = $schedule;
-//                            
-//                            if($classes->validate() && $classes->save()){
-//                                
-//                            }
-//                        }
-//                    }
                 }
             }
             else{
@@ -231,7 +285,7 @@ class ClassesController extends Controller
                                                                  ? $return['faults'][$c->day][$c->schedule]
                                                                  : array();
                         
-                        $faults = ClassFaults::model()->findAllByAttributes(array('class_fk' => $c->id));
+                        $faults = ClassFaults::model()->findAllByAttributes(array('class_fk' => $c->id, 'schedule' => $c->schedule));
                         
                         foreach($faults as $f){
                             $return['faults'][$c->day][$c->schedule] = isset($return['faults'][$c->day][$c->schedule])
@@ -239,6 +293,11 @@ class ClassesController extends Controller
                                                                      : array();
                             $return['faults'][$c->day][$c->schedule] = array_merge($return['faults'][$c->day][$c->schedule], array($f->student_fk));
                         }
+                    }else{
+                        $return['instructorFaults'][$c->day] = isset($return['instructorFaults'][$c->day])
+                                                    ? $return['instructorFaults'][$c->day]
+                                                    : array();
+                        $return['instructorFaults'][$c->day] = array_merge($return['instructorFaults'][$c->day], array($c->schedule));
                     }
                 }
             }
@@ -257,7 +316,7 @@ class ClassesController extends Controller
                 $return['students']['id'] = array_merge($return['students']['id'], array($e->student_fk));
             }
             echo json_encode($return);
-            
+            return $return;
         }
 
     /**
@@ -265,7 +324,7 @@ class ClassesController extends Controller
      */
 	public function actionAdmin()
 	{
-		$model=new Classes('search');
+		$model=new Frequency('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Classes']))
 			$model->attributes=$_GET['Classes'];
@@ -284,7 +343,7 @@ class ClassesController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Classes::model()->findByPk($id);
+		$model=Frequency::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

@@ -100,25 +100,25 @@
  * 
  * 
  * 
- * @todo S2 - Alterar permissões no ACL.
- * @todo S2 - Alterar permissões de uso de ClassBoard.
- * @todo S2 - Alterar permissões de uso de Classes.
- * @todo S2 - Alterar permissões de uso de ClassesFaults.
+ * @done S2 - Alterar permissões no ACL.
+ * @done S2 - Alterar permissões de uso de Frequency.
+ * @done s2 - renomear Classes para Frequency
  * 
- * @todo S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
- * @todo S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
+ * @done S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
+ * @done S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
  * 
- * @todo s2 - Enviar alerta ao chocar horários informando qual horário esta chocando.
+ * @todo sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * @done s2 - Criar tela de Frenquência
  * @done s2 - Criar filtro para selecionar Classroom 
  * @done s2 - Criar filtro de Discipline
  * @done s2 - Criar filtro de month
- * @todo s2 - Criar gerador de aulas que faltam.
+ * @done s2 - Criar gerador de aulas que faltam.
  * 
- * @todo s2 - Cadastrar Faltas
+ * @done s2 - Cadastrar Faltas
+ * @done s2 - Mostrar Faltas cadastradas
  * @todo s2 - Justificar Faltas
- * @todo s2 - Cadastrar que dia não houve aula
+ * @done s2 - Cadastrar que dia não houve aula
  * @todo s2 - Cadastrar reposição
  * 
  * 

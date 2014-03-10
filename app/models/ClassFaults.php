@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $class_fk
  * @property integer $student_fk
+ * @property integer $schedule
  *
  * The followings are the available model relations:
  * @property Class $classFk
@@ -14,6 +15,16 @@
  */
 class ClassFaults extends CActiveRecord
 {
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return ClassFaults the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -30,11 +41,11 @@ class ClassFaults extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('class_fk, student_fk', 'required'),
-			array('class_fk, student_fk', 'numerical', 'integerOnly'=>true),
+			array('class_fk, student_fk, schedule', 'required'),
+			array('class_fk, student_fk, schedule', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, class_fk, student_fk', 'safe', 'on'=>'search'),
+			// Please remove those attributes that should not be searched.
+			array('id, class_fk, student_fk, schedule', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,47 +68,31 @@ class ClassFaults extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'class_fk' => 'Class Fk',
-			'student_fk' => 'Student Fk',
+			'id' => Yii::t('default', 'ID'),
+			'class_fk' => Yii::t('default', 'Class Fk'),
+			'student_fk' => Yii::t('default', 'Student Fk'),
+			'schedule' => Yii::t('default', 'Schedule'),
 		);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('class_fk',$this->class_fk);
 		$criteria->compare('student_fk',$this->student_fk);
+		$criteria->compare('schedule',$this->schedule);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return ClassFaults the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
 	}
 }

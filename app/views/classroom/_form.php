@@ -311,16 +311,14 @@ $form=$this->beginWidget('CActiveForm', array(
                 //@done s1 - criar estutura da tela de TeachingData no Classroom 
                 
                 ?>
-                <div class="tab-pane active" id="classboard">
+                <div class="tab-pane" id="classboard">
                     <div class="row-fluid">
                         <div class=" span8">
-                            <div class="separator"></div>
-                            <div id='loading' style='display:none'>loading...</div>
-                            <div id='calendar'></div>
+                            <div id="loading" style="display:none">loading...</div>
+                            <div id="calendar"></div>
                         </div>
 
                         <div class=" span4">
-                            <div class="separator"></div>
                                 <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="newDiscipline"><i></i><?php echo Yii::t('default', 'New Discipline') ?></a>
                             
                             <div class="separator"></div>
@@ -556,6 +554,7 @@ $form=$this->beginWidget('CActiveForm', array(
         // Calendar                                   //
         ////////////////////////////////////////////////
         //Cria o calendário semanal de aulas
+        $('#tab-classboard').click(function(){
         calendar = $('#calendar').fullCalendar({
             <?php //@done s2 - Colocar data padrão        ?>
             year: 1996, //Porque eu nasci em 1993.
@@ -607,8 +606,8 @@ $form=$this->beginWidget('CActiveForm', array(
                 $("#create-dialog-form").dialog("open");
 
                 <?php //@done s2 - Não permitir que crie eventos no mesmo horário
-                      //@todo s2 - Verificar choque de horários  
-                      //@todo s2 - Verificar se o professor já esta dando aula neste horário?>
+                      //@todo sx - Verificar choque de horários  
+                      //@todo sx - Verificar se o professor já esta dando aula neste horário?>
                 $(lessons).each(function(i, val){ 
                     v1 = val.start.getTime();
                     v2 = val.end == null ? v1 : val.end.getTime();
@@ -686,6 +685,10 @@ $form=$this->beginWidget('CActiveForm', array(
             }
 
         });
+        
+        });
+        
+        //====================END CALENDAR ==========
         
         
         ////////////////////////////////////////////////

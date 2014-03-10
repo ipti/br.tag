@@ -18,7 +18,7 @@
  * @property EdcensoDiscipline $disciplineFk
  * @property ClassFaults[] $classFaults
  */
-class Classes extends CActiveRecord
+class Frequency extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name

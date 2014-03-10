@@ -3,7 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = array(
-    'Classes',
+    'Frequency',
 );
 
 $this->menu = array(
@@ -14,6 +14,7 @@ $this->menu = array(
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
+    'action' => CHtml::normalizeUrl(array('frequency/save')),
         ));
 ?>
 
@@ -23,7 +24,13 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
             <div class="row-fluid">
                 <div class="span8">
-                    <h3><?php echo Yii::t('default', 'Classes'); ?><span> | <?php echo Yii::t('help', 'Classes subtitle') ?></span></h3>        
+                    <h3><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</span></h3>        
+                </div>
+                <div class="span4">
+                    <div class="buttons">
+                        <a id="print" class='btn btn-icon btn-primary glyphicons print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
+                        <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok'><?php echo Yii::t('default', 'Save') ?><i></i></a>
+                    </div>
                 </div>
             </div>
         </div>        
@@ -57,7 +64,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'prompt' => 'Selecione a turma',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('classes/getDisciplines'),
+                                            'url' => CController::createUrl('frequency/getDisciplines'),
                                             'update' => '#disciplines',
                                     )));
                                     ?>
@@ -112,7 +119,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span12">
                             <div class="widget">
                                 <div class="widget-head">
-                                    <h4 class="heading">Frequência: <span id="month_text">X</span> - <span id="discipline_text">Y</span></h4>
+                                    <h4 class="heading">Frequência: <span id="month_text"></span> - <span id="discipline_text"></span></h4>
                                 </div>
                                 <div class="widget-body">
                                     <table id="frequency" class="table table-bordered table-striped">
@@ -151,13 +158,13 @@ $form = $this->beginWidget('CActiveForm', array(
     $('#classesSearch').on('click', function(){
         jQuery.ajax({
             'type':'POST',
-            'url':'/tag/index.php?r=classes/getClasses',
+            'url':'/tag/index.php?r=frequency/getClasses',
             'cache':false,
             'data':jQuery('#classroom').parents("form").serialize(),
             'success':function(data){
-                //$('#frequency > thead > tr').append('<th>1</th><th>3</th><th>5</th><th>8</th><th>10</th><th>12</th><th>15</th>')
                 var data = jQuery.parseJSON(data);
-                
+                <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina?>
+                if(data['days'] == undefined) return true;
                 $('#frequency > thead').html('<tr><th class="center">Alunos</th></tr>');
                 $('#frequency > tbody').html('');
                 
@@ -173,10 +180,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     if(data['days'][weekDay][0] != "0" ){
                         var thead = '<th class="center">'+day+'<br>';
                         $(data['days'][weekDay]).each(function(i, e){
+                             var given = data['instructorFaults'][day] == undefined || data['instructorFaults'][day][e-1] == undefined;
+
                              if(data['days'][weekDay][i] != "" ){
                                 thead += '<span>';
                                 thead += '<div id="uniform-undefined" class="checker">';
-                                thead += '<input id="day['+day+']['+e+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;">';
+                                thead += '<input id="day['+day+']['+e+']" name="day['+day+']['+e+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+(given ? ' ' : ' checked ')+'>';
                                 thead += '</div>';
                                 thead += '</span>';
                             }
@@ -198,10 +207,19 @@ $form = $this->beginWidget('CActiveForm', array(
                         if(data['days'][weekDay][0] != "0" ){
                             tbody += '<td class="center">';
                             $(data['days'][weekDay]).each(function(i, e){
+                                var fault = data['faults'][day] != undefined && data['faults'][day][e] != undefined;
+                                if (fault){
+                                    fault = false;
+                                    $(data['faults'][day][e]).each(function(shc, stId){
+                                        fault = fault || (data['students']['id'][j] == stId);
+                                    });
+                                }
+                                <?php //@done s2 - inabilitar checkbox quando vier checado 
+                                      //@duvida s2 - É possível abonar??>
                                 if(data['days'][weekDay][i] != "" ){
                                    tbody += '<span>';
                                    tbody += '<div id="uniform-undefined" class="checker">';
-                                   tbody += '<input id="day['+day+']['+e+']" class="student-fault checkbox" type="checkbox" value="1" style="opacity: 100;">';
+                                   tbody += '<input id="day['+day+']['+e+']" name="student['+data['students']['id'][j]+']['+day+']['+e+']" class="student-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+(fault ? ' checked disabled' : ' ')+'>';
                                    tbody += '</div>';
                                    tbody += '</span>';
                                }
@@ -213,21 +231,46 @@ $form = $this->beginWidget('CActiveForm', array(
                     $('#frequency > tbody').append(tbody);
                 });
                 
+                $('input.instructor-fault:checked').each(function(i, e){
+                    var id = $(this).attr('id');
+                    var students = $("input.student-fault[id='"+id+"']");
+                    students.attr('disabled','disabled');
                 
-                
-                
-                
-                
-                
+                })
+
                 $('#frequency').show();
                 $('#month_text').html($('#month').find('option:selected').text());
                 $('#discipline_text').html($('#disciplines').find('option:selected').text());
             }});
     });
     
+    <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor?>
+    $(document).on('click','.instructor-fault', function(){
+        var id = $(this).attr('id');
+        var students = $("input.student-fault[id='"+id+"']");
+        <?php //@done s2 - reabilitar apenas os que não estão checados ?>
+        $(students).each(function(i, e){
+            var student = $(e);
+            if(student.attr('disabled') == 'disabled' && !student.attr('checked')){
+                student.removeAttr('disabled');
+            }else{
+                student.attr('disabled','disabled');
+            }
+        });
+    });
+    
+    
     $(document).ready(function(){
         $('#frequency').hide();
-    })
+    });
     
+    $("#print").on('click', function(){
+        window.print();
+    });
     
+    $("#save").on('click', function(){
+        
+        $("#classes-form").submit(); 
+    });
+    $('.heading-buttons').css('width', $('#content').width());
 </script>

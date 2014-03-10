@@ -221,6 +221,9 @@ class AdminController extends Controller {
         $auth->createOperation('createEnrollment', 'create a Enrollment');
         $auth->createOperation('updateEnrollment', 'update a Enrollment');
         $auth->createOperation('deleteEnrollment', 'delete a Enrollment');
+        
+        $auth->createOperation('updateFrequency', 'update a Frequency');
+        
 
 
         $role = $auth->createRole('manager');
@@ -239,6 +242,8 @@ class AdminController extends Controller {
         $role->addChild('createEnrollment');
         $role->addChild('updateEnrollment');
         $role->addChild('deleteEnrollment');
+        
+        $role->addChild('updateFrequency');
 
 
         $role = $auth->createRole('admin');
