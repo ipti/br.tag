@@ -135,6 +135,7 @@ h2 {
     right: 0;
     top: 76px;
     z-index: 3;
+    width: 246px; /* Sem esse valor os botões não ficam lado a lado quando está na posição fixed */
 }
 .buttons .btn {
   margin-right: 10px;
@@ -1219,7 +1220,6 @@ width: 100%;
 }
 .filter-bar div {
   padding: 5px 0;
-  display: block;
   line-height: 30px;
 }
 .filter-bar div div {
@@ -1227,7 +1227,7 @@ width: 100%;
   margin: 0;
 }
 .filter-bar div div:not(.helper) {
-  margin: 0 15px 0 0;
+  margin: 1px 15px 0 0;
 }
 .filter-bar div div input {
   margin: 3px 0 0;
@@ -1296,7 +1296,7 @@ width: 100%;
   padding: 1px;
   height: 23px;
 }
-.filter-bar form label {
+.filter-bar label {
   float: left;
   margin: 0 5px;
   display: block;
@@ -1324,6 +1324,9 @@ width: 100%;
 .filter-bar.dark form input,
 .filter-bar.dark form select {
   border-color: #cccccc;
+}
+.filter-bar .select2-container a {
+    height: 24px;
 }
 .menubar {
   height: 30px;
@@ -2600,6 +2603,7 @@ width: 100%;
 }
 .glyphicons.btn-small {
   padding: 2px 10px 2px 35px;
+  margin: -5px 0 0 0;
 }
 .glyphicons.btn-small i:before {
   padding: 5px 0 0;
@@ -6640,4 +6644,17 @@ li[discipline]:hover {
 li[instructor],
 li[discipline] {
   list-style-type: none;
+}
+
+.frequency-list {
+    font-size: 12px;
+    padding: 7px 8px 5px 8px!important;
+}
+
+#frequency input[type=checkbox] {
+    margin: 4px 1px 0 0;
+}
+
+.table th, .table td {
+    padding: 4px 0 0 0;
 }

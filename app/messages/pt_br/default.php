@@ -11,6 +11,8 @@ return array(
     'Enroll'=> 'Matricular',
     'Add'=> 'Adicionar',
     'Cancel' => 'Cancelar',
+    'Search' => 'Pesquisar',
+    'Print' => 'Imprimir',
     
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
@@ -456,12 +458,14 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
+    'Frequency' => 'Frequência',
     
     //Labels
     'User' => 'Usuário',
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
+    'Month' => 'Mês',
     
     //Abas
     'Identification' => 'Identificação',

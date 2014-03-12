@@ -157,7 +157,10 @@
  * @todo s2 - Retirar botões de excluir nas listagens de Aluno
  * @todo s2 - Retirar botões de excluir nas listagens de Escola
  * @todo s2 - Retirar botões de excluir nas listagens de Professor
- * @todo s2 - Adiconar botão de excluir dentro do 
+ * @todo s2 - Não mostrar escolas desativadas no select de cadastro de usuários
+ * @todo s2 - Após salvar matrícula não retornando pra lista de matrículas
+ * @todo s2 - Criar lista de alunos na turma
+ * @todo s2 - 
  * 
  * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 

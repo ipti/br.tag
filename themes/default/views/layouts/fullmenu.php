@@ -35,7 +35,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
         
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/uniform.css" rel="stylesheet" type="text/css" />
+<!--    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/uniform.css" rel="stylesheet" type="text/css" />-->
 
         <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
@@ -341,7 +341,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                             'separator' => '',
                             'activeLinkTemplate' => '<li><a href="{url}">{label}</a> <li class="divider"></li></li>',
                             'inactiveLinkTemplate' => '<li><span>{label}</span></li>',
-                            'htmlOptions' => array('class' => 'breadcrumb')
+                            'htmlOptions' => array('class' => 'breadcrumb hidden-print')
                         ));
                         endif; 
                         ?>

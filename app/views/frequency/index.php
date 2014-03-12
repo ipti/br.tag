@@ -19,129 +19,98 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 
 <?php echo $form->errorSummary($model); ?>
-<div class="row-fluid hidden-print">
+
+<div class="row-fluid">
     <div class="span12">
-        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h3><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</span></h3>        
-                </div>
-                <div class="span4">
-                    <div class="buttons">
-                        <a id="print" class='btn btn-icon btn-primary glyphicons print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-                        <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok'><?php echo Yii::t('default', 'Save') ?><i></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>        
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</h3>  
+        <div class="buttons">
+           <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
+           <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
+        </div>
     </div>
 </div>
+
 
 <div class="innerLR">
-
-
-    <div class="widget widget-tabs border-bottom-none">
-
-        <div class="widget-head hidden-print">
-            <ul class="tab-classboard">
-                <li id="tab-classboard" class="active" ><a class="glyphicons user" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Boards') ?></a></li>
-            </ul>
+    
+<div class="filter-bar margin-bottom-none">
+		
+			
+			<div>
+                            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                            <?php
+                                echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school, array('order' => 'name')), 'id', 'name'), array(
+                                    'key' => 'id',
+                                    'class' => 'select-search-on',
+                                    'prompt' => 'Selecione a turma',
+                                    'ajax' => array(
+                                        'type' => 'POST',
+                                        'url' => CController::createUrl('frequency/getDisciplines'),
+                                        'update' => '#disciplines',
+                                )));
+                                ?>
+			</div>
+    
+                        <div>    
+                            <?php echo CHtml::label(yii::t('default', 'Month'), 'month', array('class' => 'control-label')); ?>
+                            <?php
+                            echo CHtml::dropDownList('month', '', array(1 => 'Janeiro',
+                                2 => 'Fevereiro',
+                                3 => 'Março',
+                                4 => 'Abril',
+                                5 => 'Maio',
+                                6 => 'Junho',
+                                7 => 'Julho',
+                                8 => 'Agosto',
+                                9 => 'Setembro',
+                                10 => 'Outubro',
+                                11 => 'Novembro',
+                                12 => 'Dezembro'), array(
+                                'key' => 'id',
+                                'class' => 'select-search-on',
+                                'prompt' => 'Selecione o mês',
+                            ));
+                            ?>
+                        </div>
+                        <div>
+                            <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
+                            <?php
+                            echo CHtml::dropDownList('disciplines', '', array(), array(
+                                'key' => 'id',
+                                'class' => 'select-search-on',
+                                'prompt' => 'Todas as disciplinas',
+                            ));
+                            ?>
+                        </div>
+                        <div>
+                            <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
+                        </div>
+                        
+                        
+			
+</div>
+    <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
+        <div class="widget-head">
+            <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
         </div>
+        <div class="widget-body">
+            <table id="frequency" class="table table-bordered table-striped">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="center">1</td>
 
-        <div class="widget-body form-horizontal">
-            <div class="tab-content">
-                <!-- Tab content -->
-                <div class="tab-pane active" id="classboard">
-                    <div class="row-fluid hidden-print ">
-                        <div class="span6">
-                            <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school, array('order' => 'name')), 'id', 'name'), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on',
-                                        'prompt' => 'Selecione a turma',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('frequency/getDisciplines'),
-                                            'update' => '#disciplines',
-                                    )));
-                                    ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Month'), 'month', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo CHtml::dropDownList('month', '', array(1 => 'Janeiro',
-                                        2 => 'Fevereiro',
-                                        3 => 'Março',
-                                        4 => 'Abril',
-                                        5 => 'Maio',
-                                        6 => 'Junho',
-                                        7 => 'Julho',
-                                        8 => 'Agosto',
-                                        9 => 'Setembro',
-                                        10 => 'Outubro',
-                                        11 => 'Novembro',
-                                        12 => 'Dezembro'), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on',
-                                        'prompt' => 'Selecione o mês',
-                                    ));
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <a id="classesSearch" class='btn btn-icon btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="span6">
-                            <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo CHtml::dropDownList('disciplines', '', array(), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on',
-                                        'prompt' => 'Todas as disciplinas',
-                                    ));
-                                    ?>
-                                </div>
-                            </div> 
-                        </div>
-                    </div> <hr>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="widget">
-                                <div class="widget-head">
-                                    <h4 class="heading">Frequência: <span id="month_text"></span> - <span id="discipline_text"></span></h4>
-                                </div>
-                                <div class="widget-body">
-                                    <table id="frequency" class="table table-bordered table-striped">
-                                        <thead>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="center">1</td>
-                                                
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php $this->endWidget(); ?>
-                </div>
-            </div>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
+			
+    
+
+                    <?php $this->endWidget(); ?>
+                </div>
 
 
 
@@ -188,9 +157,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                              if(data['days'][weekDay][i] != "" ){
                                 thead += '<span>';
-                                thead += '<div id="uniform-undefined" class="checker">';
                                 thead += '<input id="day['+day+']['+e+']" name="day['+day+']['+e+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+(given ? ' ' : ' checked ')+'>';
-                                thead += '</div>';
                                 thead += '</span>';
                             }
                         });
@@ -202,7 +169,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 
                 $(data['students']['name']).each(function(j, name){
                     var tbody = "<tr>";
-                    tbody += '<td class="center">'+name+'</td>';
+                    tbody += '<td class="frequency-list">'+name+'</td>';
                     for(var day=1; day <= maxDays; day++){
                         
                         var date = new Date(month+" "+day+" "+year);
@@ -221,9 +188,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php //@done s2 - inabilitar checkbox quando vier checado ?>
                                 if(data['days'][weekDay][i] != "" ){
                                    tbody += '<span>';
-                                   tbody += '<div id="uniform-undefined" class="checker">';
                                    tbody += '<input id="day['+day+']['+e+']" name="student['+data['students']['id'][j]+']['+day+']['+e+']" class="student-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+(fault ? ' checked disabled' : ' ')+'>';
-                                   tbody += '</div>';
                                    tbody += '</span>';
                                }
                             });
@@ -240,7 +205,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     students.attr('disabled','disabled');
                 
                 })
-
+                
+                $('#widget-frequency').show();
                 $('#frequency').show();
                 $('#month_text').html($('#month').find('option:selected').text());
                 $('#discipline_text').html($('#disciplines').find('option:selected').text());
