@@ -1171,7 +1171,7 @@ $form=$this->beginWidget('CActiveForm', array(
         next_content = next_content.toString();
         $('#'+tab).addClass("active");
         $('#'+next_content).addClass("active");
-        $('html, body').animate({ scrollTop: 85 }, 'fast');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
     });
     $('.next').click(function(){
         var classActive = $('li[class="active"]');
@@ -1193,7 +1193,7 @@ $form=$this->beginWidget('CActiveForm', array(
         next_content = next_content.toString();
         $('#'+next).addClass("active");
         $('#'+next_content).addClass("active");
-        $('html, body').animate({ scrollTop: 85 }, 'fast');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
     });
     $('.prev').click(function(){
         var classActive = $('li[class="active"]');
@@ -1215,7 +1215,7 @@ $form=$this->beginWidget('CActiveForm', array(
         previous = previous.toString();
         $('#'+previous).addClass("active");
         $('#'+previous_content).addClass("active");
-        $('html, body').animate({ scrollTop: 85 }, 'fast');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
     });
     $('.heading-buttons').css('width', $('#content').width());
     
