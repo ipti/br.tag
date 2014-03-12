@@ -153,6 +153,11 @@
  * @later S3 - Criar action de listagem de usuários.
  * @later S3 - Criar action de remoção de usuários.
  * 
+ * @todo s2 - Formulários não podem dar submit caso aperte Enter
+ * @todo s2 - Retirar botões de excluir nas listagens de Aluno
+ * @todo s2 - Retirar botões de excluir nas listagens de Escola
+ * @todo s2 - Retirar botões de excluir nas listagens de Professor
+ * @todo s2 - Adiconar botão de excluir dentro do 
  * 
  * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 
