@@ -38,15 +38,6 @@
   letter-spacing: -999em;
   overflow: hidden;
 }
-#menu,
-#menu > div > div:not(#notif) > ul a,
-#menu > div > ul a,
-#menu .profile,
-#menu li.heading {
-  box-shadow: 1px 0 0 0 #ffffff inset, -8px 0 8px -5px rgba(0, 0, 0, 0.1) inset, 8px 0 8px -5px rgba(0, 0, 0, 0.1) inset;
-  -moz-box-shadow: 1px 0 0 0 #ffffff inset, -8px 0 8px -5px rgba(0, 0, 0, 0.1) inset, 8px 0 8px -5px rgba(0, 0, 0, 0.1) inset;
-  -webkit-box-shadow: 1px 0 0 0 #ffffff inset, -8px 0 8px -5px rgba(0, 0, 0, 0.1) inset, 8px 0 8px -5px rgba(0, 0, 0, 0.1) inset;
-}
 #menu #notif ul li > a,
 #menu .count {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
@@ -137,11 +128,15 @@ h2 {
 .heading-buttons h6.glyphicons {
   display: inline-block;
 }
-.heading-buttons .buttons {
-  margin-top: 6px;
-  text-align: right;
+.buttons {
+    margin-top: 6px;
+    text-align: right;
+    position: fixed;
+    right: 0;
+    top: 76px;
+    z-index: 3;
 }
-.heading-buttons .btn {
+.buttons .btn {
   margin-right: 10px;
 }
 p {
@@ -298,6 +293,8 @@ hr.separator.bottom {
   padding: 0 10px;
   position: relative;
   margin-bottom: 30px;
+  z-index: 1;
+  top: 55px;
 }
 .innerAll {
   padding: 10px;
@@ -360,6 +357,7 @@ hr.separator.bottom {
   overflow: hidden;
   float: left;
   width: 100%;
+  top: 41px;
 }
 body > .container-fluid {
   padding: 0;
@@ -408,13 +406,17 @@ body > .container-fluid.documentation {
   border-left: 0;
 }
 #content .heading-mosaic {
-  height: 39px;
-  line-height: 39px;
-  padding: 0 10px;
-  background: #ffffff url(../img/mosaic-pattern.png) repeat;
-  border-bottom: 1px solid #e5e5e5;
-  margin: 0 0 10px;
-  font-weight: 400;
+    height: 39px;
+    line-height: 39px;
+    padding: 0 10px;
+    background: #ffffff url(../img/mosaic-pattern.png) repeat;
+    border-bottom: 1px solid #e5e5e5;
+    margin: 0 0 10px;
+    font-weight: 400;
+    position: fixed;
+    top: 79px;
+    z-index: 2;
+    width: 100%;
 }
 #content h3.heading-mosaic {
   font-size: 16pt;
@@ -515,16 +517,17 @@ body > .container-fluid.documentation {
   border-color: rgba(0, 0, 0, 0.1);
 }
 #menu {
-  width: 204px;
+  width: 203px;
   float: left;
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: 41px;
   overflow: hidden;
   margin-bottom: -99999px;
   padding-bottom: 99999px;
   background: #f2f2f2 url(../img/pattern1.png) repeat;
   color: #7c7c7c;
+  border-right: 1px solid #e1e1e1;
 }
 #menu .profile {
   display: block;
@@ -916,10 +919,12 @@ body > .container-fluid.documentation {
   border: 0;
 }
 .navbar.main {
-  height: 46px;
-  background: #e04545 url(../img/mosaic-pattern.png) repeat;
-  margin: 0;
-  position: relative;
+  height: 40px;
+background: #e04545 url(../img/mosaic-pattern.png) repeat;
+margin: 0;
+position: fixed;
+z-index: 2;
+width: 100%;
 }
 .navbar.main .appbrand {
   color: #fff;
@@ -2334,6 +2339,10 @@ body > .container-fluid.documentation {
   background: #ffffff url(../img/pattern1.png) repeat;
   color: #64625f;
   font-size: 9pt;
+  position: fixed;
+  top: 41px;
+  width: 100%;
+  z-index: 2;
 }
 .breadcrumb a {
   color: #64625f;
@@ -4157,7 +4166,7 @@ textarea {
 }
 .tooltip-inner {
   background: #272a2c;
-  color: #bab9b9;
+  color: #fff;
 }
 .tooltip.bottom .tooltip-arrow {
   border-bottom-color: #272a2c;
@@ -6509,10 +6518,10 @@ div.glyphicons.glyphicon-primary i:before {
 .copy {
   float: right;
   padding: 5px 10px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
-  right: 0;
   font-size: 11px;
+  line-height: 16px;
 }
 .menu-search {
   float: left;

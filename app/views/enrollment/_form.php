@@ -9,21 +9,15 @@ $form=$this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12">
-        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
-                </div>
-                <div class="span4">
-                    <div class="buttons">
-                        <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
-                        <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save')),
-                                    array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit'));?>
-                        <?php //echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
-                    </div>
-                </div>
+        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+        <div class="buttons">
+            <div class="buttons">
+                    <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
+                    <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save')),
+                                array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit'));?>
+                    <?php //echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 

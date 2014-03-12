@@ -9,21 +9,13 @@ $form=$this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12">
-        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
-                </div>
-                <div class="span4">
-                    <div class="buttons">
-                         <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
-                         <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
-                         <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')),
-                                    array('id'=>'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'button'));?>
-                    </div>
-                </div>
+        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+        <div class="buttons">
+                <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
+                <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+                <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')),
+                           array('id'=>'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'button'));?>
             </div>
-        </div>        
     </div>
 </div>
 
@@ -47,8 +39,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="classroom">
                     <div class="row-fluid">
                         <div class=" span5">
-                            
-                            <div class="separator"></div>
+
                             <div class="control-group">
                                 <?php //@done S1 - 08 - 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?>
                                 <div class="controls">
@@ -207,7 +198,6 @@ $form=$this->beginWidget('CActiveForm', array(
                             
                         </div>
                         <div class="span5">
-                            <div class="separator"></div>
                             <div class="separator"></div>
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>

@@ -121,6 +121,9 @@
  * @done s2 - Cadastrar que dia não houve aula
  * @todo s2 - Cadastrar reposição
  * 
+ * @done s2 - Frequencia do encino fundamental menor
+ * @done s2 - Corrigir o bug nas novas frequencias.
+ * @done s2 - Modificar CSS de impressão.
  * 
  * @todo S2 - Ajeitar o design dos eventos
  * 

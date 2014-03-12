@@ -128,7 +128,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Brand -->
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 7px 5px 0 44px;height: 34px;" /><span><span>v3.0</span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 4px 0px 0 44px;height: 32px;" /><span><span>v3.0</span></span></a>
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
@@ -159,6 +159,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 </ul>
                 <!-- // Top Menu Right END -->
+                
 
 
             </div>
@@ -168,8 +169,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
             <div id="wrapper">
 
                 <!-- Sidebar Menu -->
-
-                <div class=""data-spy="affix" data-offset-top="45" data-offset-bottom="0">
 
                     <div id="menu" class="hidden-print">
 
@@ -286,7 +285,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons check" href="#menu_frequencia"><i></i><span>Frequência</span></a>
                                     <ul class="collapse" id="menu_frequencia">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classes"><span>Frequência de Alunos</span></a></li>
+                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=frequency/index"><span>Frequência de Alunos</span></a></li>
                                     </ul>
                                     <?php //<span class="count">2</span> ?>
                                 </li>
@@ -316,10 +315,10 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                         </div>
                         <!-- // Scrollable Menu wrapper with Maximum Height END -->
+                        
+                        <div class="copy">TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
 
                     </div>
-
-                </div>
 
                 <!-- // Sidebar Menu END -->
 
@@ -348,13 +347,9 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                         ?>
 <!--                     Breadcrumb END -->
                     
-                    <div class="separator bottom"></div>
 
                     <?php echo $content; ?>
 
-                    <!--  Copyright Line -->
-                    <div class="copy">TAG v3.0 - GPL - Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
-                    <!--  End Copyright Line -->
 
                 </div>
 

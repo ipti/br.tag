@@ -16,25 +16,22 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 ?>
 <?php echo $form->errorSummary($model); ?>
+
 <div class="row-fluid">
     <div class="span12">
-        <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h3><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span></h3>        
-                </div>
-                <div class="span4">
-                    <div class="buttons">
+        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+        <div class="buttons">
+            <div class="buttons">
+                 <div class="buttons">
                         <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord 
                                 ? Yii::t('default', 'Create') 
                                 : Yii::t('default', 'Save')), 
                               array( 'type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok'));
                         ?>
-                    </div>
-                </div>
             </div>
-        </div>        
+        </div>
     </div>
+</div>
 </div>
 
 <div class="innerLR">

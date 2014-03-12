@@ -7,8 +7,10 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<div class="heading-buttons">
-    <h3><?php echo Yii::t('default','Administration'); ?></h3>
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default','Administration'); ?></h3>  
+    </div>
 </div>
 
 <div class="innerLR home">

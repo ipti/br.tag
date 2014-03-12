@@ -198,7 +198,7 @@ class FrequencyController extends Controller
 	 */
 	public function actionGetDisciplines() {
             
-            echo CHtml::tag('option', array('value' => null), CHtml::encode('Selecione a disciplina'), true);
+            echo CHtml::tag('option', array('value' => null), CHtml::encode('Todas as disciplinas'), true);
             
             if(!isset($_POST['classroom']) || empty($_POST['classroom'])) {return true;}
             $classroom = Classroom::model()->findByPk($_POST['classroom']);
@@ -220,20 +220,30 @@ class FrequencyController extends Controller
             $discipline = $discipline==null? $_POST['disciplines'] : $discipline;
             $month = $month == null? $_POST['month'] : $month;
             
-            $classes = null;
-            $classes = Frequency::model()->findAllByAttributes(array(
-                'classroom_fk'=>$classroom,
-                'discipline_fk'=>$discipline,
-                'month'=>$month));
+            $allDisciplines = $discipline == "Todas as disciplinas";
             
-            $classboards = ClassBoard::model()->findAllByAttributes(array(
-                'classroom_fk'=>$classroom,
-                'discipline_fk'=>$discipline,));
+            $classes = null;
+            if($allDisciplines){
+                $classes = Frequency::model()->findAllByAttributes(array(
+                    'classroom_fk'=>$classroom,
+                    'month'=>$month));
+                $classboards = ClassBoard::model()->findAllByAttributes(array(
+                    'classroom_fk'=>$classroom,));
+            }else{
+                $classes = Frequency::model()->findAllByAttributes(array(
+                    'classroom_fk'=>$classroom,
+                    'discipline_fk'=>$discipline,
+                    'month'=>$month));
+                $classboards = ClassBoard::model()->findAllByAttributes(array(
+                    'classroom_fk'=>$classroom,
+                    'discipline_fk'=>$discipline,));
+            }
+            
             
             
             
             $return = array('days'=> array(), 'faults'=> array(), 'students'=>array());
-            if($discipline == "Selecione a disciplina") { echo json_encode(array()); return true;}
+            //if($discipline == "Todas as disciplinas") { echo json_encode(array()); return true;}
             
             $classDays = array();
             for($i=0; $i<=6;$i++){
@@ -254,12 +264,25 @@ class FrequencyController extends Controller
 
                 for($i=0; $i<=6;$i++){
                     $temp = explode(';', $schedulesStringArray[$i]);
-                    $classDays[$i] = array_merge($classDays[$i], $temp);
-                    $classDays[$i] = array_unique($classDays[$i]);
+                    
+                    if(count($temp) > 1){
+                        if($allDisciplines){
+                            $classDays[$i] = array(1);
+                        }else{
+                            $classDays[$i] = array_merge($classDays[$i], $temp);
+                            $classDays[$i] = array_unique($classDays[$i]);
+                        }
+                    }else{
+                        $classDays[$i] = ($classDays[$i] == array() || $classDays[$i] == array(0)) 
+                                ? array(0) 
+                                : $classDays[$i];
+                    }
+                    
                 }
             }
             
-            $return['days'] = $classDays;
+            
+            $return['days'] = $classboards == null ? null : $classDays;
             
             if($classes == null){
                 
@@ -280,24 +303,26 @@ class FrequencyController extends Controller
             }
             else{
                 foreach($classes as $c){
+                    $schedule = $allDisciplines ? 1 : $c->schedule;
+                    
                     if($c->given_class == 1){
-                        $return['faults'][$c->day][$c->schedule] = isset($return['faults'][$c->day][$c->schedule])
-                                                                 ? $return['faults'][$c->day][$c->schedule]
+                        $return['faults'][$c->day][$schedule] = isset($return['faults'][$c->day][$schedule])
+                                                                 ? $return['faults'][$c->day][$schedule]
                                                                  : array();
                         
-                        $faults = ClassFaults::model()->findAllByAttributes(array('class_fk' => $c->id, 'schedule' => $c->schedule));
+                        $faults = ClassFaults::model()->findAllByAttributes(array('class_fk' => $c->id, 'schedule' => $schedule));
                         
                         foreach($faults as $f){
-                            $return['faults'][$c->day][$c->schedule] = isset($return['faults'][$c->day][$c->schedule])
-                                                                     ? $return['faults'][$c->day][$c->schedule] 
+                            $return['faults'][$c->day][$schedule] = isset($return['faults'][$c->day][$schedule])
+                                                                     ? $return['faults'][$c->day][$schedule] 
                                                                      : array();
-                            $return['faults'][$c->day][$c->schedule] = array_merge($return['faults'][$c->day][$c->schedule], array($f->student_fk));
+                            $return['faults'][$c->day][$schedule] = array_merge($return['faults'][$c->day][$schedule], array($f->student_fk));
                         }
                     }else{
                         $return['instructorFaults'][$c->day] = isset($return['instructorFaults'][$c->day])
                                                     ? $return['instructorFaults'][$c->day]
                                                     : array();
-                        $return['instructorFaults'][$c->day] = array_merge($return['instructorFaults'][$c->day], array($c->schedule));
+                        $return['instructorFaults'][$c->day] = array_merge($return['instructorFaults'][$c->day], array($schedule));
                     }
                 }
             }

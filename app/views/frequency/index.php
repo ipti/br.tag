@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 
 <?php echo $form->errorSummary($model); ?>
-<div class="row-fluid">
+<div class="row-fluid hidden-print">
     <div class="span12">
         <div class="heading-buttons" data-spy="affix" data-offset-top="95" data-offset-bottom="0" class="affix">
             <div class="row-fluid">
@@ -42,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
     <div class="widget widget-tabs border-bottom-none">
 
-        <div class="widget-head">
+        <div class="widget-head hidden-print">
             <ul class="tab-classboard">
                 <li id="tab-classboard" class="active" ><a class="glyphicons user" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Boards') ?></a></li>
             </ul>
@@ -52,7 +52,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="tab-content">
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classboard">
-                    <div class="row-fluid">
+                    <div class="row-fluid hidden-print ">
                         <div class="span6">
                             <div class="control-group">
                                 <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
@@ -108,7 +108,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     echo CHtml::dropDownList('disciplines', '', array(), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on',
-                                        'prompt' => 'Selecione a disciplina',
+                                        'prompt' => 'Todas as disciplinas',
                                     ));
                                     ?>
                                 </div>
@@ -124,9 +124,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="widget-body">
                                     <table id="frequency" class="table table-bordered table-striped">
                                         <thead>
-                                            <tr>
-                                                <th class="center">Alunos</th>
-                                            </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -163,8 +160,15 @@ $form = $this->beginWidget('CActiveForm', array(
             'data':jQuery('#classroom').parents("form").serialize(),
             'success':function(data){
                 var data = jQuery.parseJSON(data);
-                <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina?>
-                if(data['days'] == undefined) return true;
+                <?php //@done s2 - não mostrar "Todas as disciplinas" como disciplina?>
+                console.log(data['days'] == undefined);
+                if(data['days'] == undefined) {
+                    $('#frequency > thead').html('<tr><th class="center">Não há aulas desta matéria.</th></tr>');
+                    $('#frequency > tbody').html('');
+                    $('#frequency').show();
+                    return true;
+                }
+                console.log(data['days']);
                 $('#frequency > thead').html('<tr><th class="center">Alunos</th></tr>');
                 $('#frequency > tbody').html('');
                 
@@ -180,7 +184,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     if(data['days'][weekDay][0] != "0" ){
                         var thead = '<th class="center">'+day+'<br>';
                         $(data['days'][weekDay]).each(function(i, e){
-                             var given = data['instructorFaults'][day] == undefined || data['instructorFaults'][day][e-1] == undefined;
+                             var given = data['instructorFaults'] == undefined || data['instructorFaults'][day] == undefined || data['instructorFaults'][day][e-1] == undefined;
 
                              if(data['days'][weekDay][i] != "" ){
                                 thead += '<span>';
@@ -207,15 +211,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         if(data['days'][weekDay][0] != "0" ){
                             tbody += '<td class="center">';
                             $(data['days'][weekDay]).each(function(i, e){
-                                var fault = data['faults'][day] != undefined && data['faults'][day][e] != undefined;
+                                var fault = data['faults'] && data['faults'][day] != undefined && data['faults'][day][e] != undefined;
                                 if (fault){
                                     fault = false;
                                     $(data['faults'][day][e]).each(function(shc, stId){
                                         fault = fault || (data['students']['id'][j] == stId);
                                     });
                                 }
-                                <?php //@done s2 - inabilitar checkbox quando vier checado 
-                                      //@duvida s2 - É possível abonar??>
+                                <?php //@done s2 - inabilitar checkbox quando vier checado ?>
                                 if(data['days'][weekDay][i] != "" ){
                                    tbody += '<span>';
                                    tbody += '<div id="uniform-undefined" class="checker">';
