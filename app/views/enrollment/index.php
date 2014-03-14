@@ -10,14 +10,15 @@
         array('label' => Yii::t('default', 'Create a new StudentEnrollment'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new StudentEnrollment')),
     );
     ?>
-
-    <div class="heading-buttons">
-        <h3><?php echo Yii::t('default', 'Student Enrollments') ?></h3>
-        <div class="buttons pull-right">
-            <a href="?r=enrollment/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
+    
+    <div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Enrollments') ?></h3>  
+        <div class="buttons">
+                <a href="?r=enrollment/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Nova matrícula</a>
         </div>
-        <div class="clearfix"></div>
     </div>
+</div>
 
     <div class="innerLR">
         <?php if (Yii::app()->user->hasFlash('success')): ?>

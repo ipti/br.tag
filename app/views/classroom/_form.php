@@ -28,6 +28,9 @@ $form=$this->beginWidget('CActiveForm', array(
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
+                <?php if (!$modelClassroom->isNewRecord) {?>
+                <li id="tab-classboard"><a class="glyphicons parents" href="#students" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Students') ?></a></li>
+                <?php } ?>
             </ul>
         </div>
             
@@ -378,6 +381,38 @@ $form=$this->beginWidget('CActiveForm', array(
                     </div>
                         
                 </div>
+
+                <div class="tab-pane active" id="students">
+                    <div class="row-fluid">
+                        <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
+                            <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
+                                <tbody>
+                                <?php
+                                    if (!$modelClassroom->isNewRecord){
+                                        $classroom = $modelClassroom->id;
+                                        $criteria=new CDbCriteria();
+                                        $criteria->alias = 'e';
+                                        $criteria->select = '*';
+                                        $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
+                                        $criteria->condition = "classroom_fk = $classroom";
+                                        $criteria->order = 's.name';
+                                        
+                                        $enrollments = StudentEnrollment::model()->findAll($criteria);
+                                        echo "<tr><th>Matrícula</th><th>Nome</th></tr>";
+                                        foreach($enrollments as $enr){
+                                            echo "<tr><td>".$enr->id."</td><td>".$enr->studentFk->name."</td></tr>";
+
+                                        }
+                                    }else{
+                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
+                                    }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>                        
+                
                 <?php $this->endWidget(); ?>
             </div>
         </div>

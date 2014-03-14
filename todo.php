@@ -98,16 +98,12 @@
  * @done s2 - redirecionar a mudança de escola pra pagina inicial
  * @done S2 - Evitar scroll no modal da class board
  * 
- * 
- * 
  * @done S2 - Alterar permissões no ACL.
  * @done S2 - Alterar permissões de uso de Frequency.
  * @done s2 - renomear Classes para Frequency
  * 
  * @done S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
  * @done S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
- * 
- * @todo sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * @done s2 - Criar tela de Frenquência
  * @done s2 - Criar filtro para selecionar Classroom 
@@ -117,8 +113,9 @@
  * 
  * @done s2 - Cadastrar Faltas
  * @done s2 - Mostrar Faltas cadastradas
- * @todo s2 - Justificar Faltas
  * @done s2 - Cadastrar que dia não houve aula
+ * 
+ * @todo s2 - Justificar Faltas
  * @todo s2 - Cadastrar reposição
  * 
  * @done s2 - Frequencia do encino fundamental menor
@@ -153,14 +150,20 @@
  * @later S3 - Criar action de listagem de usuários.
  * @later S3 - Criar action de remoção de usuários.
  * 
- * @todo s2 - Formulários não podem dar submit caso aperte Enter
- * @todo s2 - Retirar botões de excluir nas listagens de Aluno
- * @todo s2 - Retirar botões de excluir nas listagens de Escola
- * @todo s2 - Retirar botões de excluir nas listagens de Professor
- * @todo s2 - Não mostrar escolas desativadas no select de cadastro de usuários
- * @todo s2 - Após salvar matrícula não retornando pra lista de matrículas
- * @todo s2 - Criar lista de alunos na turma
- * @todo s2 - 
+ * @done s2 - Formulários não podem dar submit caso aperte Enter
+ * @done s2 - Retirar botões de excluir nas listagens de Aluno
+ * @done s2 - Retirar botões de excluir nas listagens de Escola
+ * @done s2 - Retirar botões de excluir nas listagens de Professor
+ * 
+ * @done s2 - Corrigir tamanho do imput nas listagens de Aluno, Escola, Professor
+ * 
+ * @done s2 - Não mostrar escolas desativadas no select de cadastro de usuários
+ * @done s2 - Após salvar matrícula não retornando pra lista de matrículas
+ * @done s2 - Criar lista de alunos na turma
+ * 
+ * @todo s2 - Modificar diagramação da listagem de alunos
+ * 
+ * @todo sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 

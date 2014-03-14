@@ -10,13 +10,14 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
 ); 
 
 ?>
-    
-<div class="heading-buttons">
-	<h3><?php echo Yii::t('default', 'Instructor Identifications')?></h3>
-	<div class="buttons pull-right">
-		<a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
-	</div>
-	<div class="clearfix"></div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications')?></h3>  
+        <div class="buttons">
+                <a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
+        </div>
+    </div>
 </div>
     
 <div class="innerLR">
@@ -38,8 +39,7 @@ array('label'=> Yii::t('default', 'Create a new InstructorIdentification'), 'url
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)'
-                            ),
-                     array('class' => 'CButtonColumn','template'=>' {delete}',),),
+                            ),),
                     )); ?>
                 </div>   
             </div>

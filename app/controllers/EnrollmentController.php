@@ -104,7 +104,7 @@ class EnrollmentController extends Controller {
                 try {
                     if ($model->save()) {
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno matriculado com sucesso!'));
-                        //$this->redirect(array('index'));
+                        $this->redirect(array('index'));
                     }
                 } catch (Exception $exc) {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));

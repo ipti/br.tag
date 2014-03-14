@@ -10,12 +10,14 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
 ); 
 
 ?>
-<div class="heading-buttons">
-	<h3><?php echo Yii::t('default', 'Student Identifications')?></h3>
-	<div class="buttons pull-right">
-		<a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
-	</div>
-	<div class="clearfix"></div>
+    
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications')?></h3>  
+        <div class="buttons">
+                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
+        </div>
+    </div>
 </div>
     
 <div class="innerLR">
@@ -41,8 +43,7 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=student/update&id=".$data->id)'
-                            ),
-                     array('class' => 'CButtonColumn','template'=>'{delete}',),),
+                            ),),
                     )); ?>
                 </div>   
             </div>

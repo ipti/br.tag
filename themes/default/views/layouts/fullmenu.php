@@ -108,10 +108,17 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 if(bagaca){
                     $('#content').css('margin','0');
                 }else{
-                    $('#content').css('margin','0 0 0 204px');
+                    $('#content').css('margin','0 0 0 191px');
                 }
                 bagaca = !bagaca;
                     
+            });
+            
+            //Ao clicar ENTER não fará nada.
+            $('*').keypress(function(e) {
+                if (e.keyCode == $.ui.keyCode.ENTER) {
+                    e.preventDefault();
+                }
             });
         </script>
     
@@ -128,19 +135,41 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Brand -->
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 4px 0px 0 44px;height: 32px;" /><span><span>v3.0</span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>v3.0</span></span></a>
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
                         <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
                 <!-- // Menu Toggle Button END -->
-                <div class="menu-search">
+<!--                <div class="menu-search">
                     <div class="input-append">
-                        <?php /** <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
+                        <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
                         <button class="btn btn-default" type="button"><i class="icon-search"></i></button> **/ ?>
                     </div>
+                </div>-->
+                
+                <div id="change-school">
+                    <form class="school" action="?r=site/changeschool" method="Post">
+
+                    <?php
+                     if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){
+                        echo CHtml::activeDropDownList(
+                                SchoolIdentification::model(), 'inep_id',  
+                                Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+                                array('empty'=>'Selecione a escola','class'=>'span5 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                     }else{
+                          echo CHtml::activeDropDownList(
+                                UsersSchool::model(), 'school_fk',  
+                                Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
+                                array('empty'=>'Selecione a escola','class'=>'span5 select-search-on', 'options' => array(Yii::app()->user->school=>array('selected'=>true))));
+
+                     }
+                    ?>
+                    </form>
                 </div>
+                
+                
 
 
                 <!-- Top Menu Right -->
@@ -190,29 +219,10 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                              ?></p>
                                 </div>
 
-                                <form class="school" action="?r=site/changeschool" method="Post">
-                                    
-                                    <div class="row-fluid">
-                                    
-                                    <?php
-                                     if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){
-                                        echo CHtml::activeDropDownList(
-                                                SchoolIdentification::model(), 'inep_id',  
-                                                Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
-                                                array('empty'=>'Selecione a escola','class'=>'span12 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
-                                     }else{
-                                          echo CHtml::activeDropDownList(
-                                                UsersSchool::model(), 'school_fk',  
-                                                Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-                                                array('empty'=>'Selecione a escola','class'=>'span12 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
-                                     
-                                     }
-                                    ?>
 <?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
                                     <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
 **/ ?>                          <div class="separator"></div>
-                                    </div>
-                                </form>
+
 
                             </div>
                             <!-- // Sidebar Mini Stats END --> 
@@ -283,10 +293,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 
                                 <!-- Menu Item Frequência -->
                                 <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons check" href="#menu_frequencia"><i></i><span>Frequência</span></a>
-                                    <ul class="collapse" id="menu_frequencia">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=frequency/index"><span>Frequência de Alunos</span></a></li>
-                                    </ul>
+                                    <a class="glyphicons check" href="<?php echo Yii::app()->homeUrl; ?>?r=frequency/index"><i></i><span>Frequência</span></a>
                                     <?php //<span class="count">2</span> ?>
                                 </li>
                                 

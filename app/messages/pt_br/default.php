@@ -479,6 +479,7 @@ return array(
     'Documents and Address' => 'Documentos e Endereço',
     'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
+    'Students' => 'Alunos',
     
     //
     'Area' => 'Área de Atuação',

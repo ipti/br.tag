@@ -10,13 +10,14 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
 ); 
 
 ?>
-    
-<div class="heading-buttons">
-	<h3><?php echo Yii::t('default', 'Classrooms')?></h3>
-	<div class="buttons pull-right">
-		<a href="?r=classroom/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
-	</div>
-	<div class="clearfix"></div>
+
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms')?></h3>  
+        <div class="buttons">
+                <a href="?r=classroom/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
+        </div>
+    </div>
 </div>
     
 <div class="innerLR">

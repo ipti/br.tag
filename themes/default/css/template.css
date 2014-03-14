@@ -377,8 +377,8 @@ body > .container-fluid.documentation {
 }
 #content {
   position: relative;
-  overflow: hidden;
-  margin: 0 0 0 204px;
+  overflow: visible;
+  margin: 0 0 20px 191px;
   background: #fff;
   min-width: 320px;
   min-height: 700px;
@@ -518,7 +518,7 @@ body > .container-fluid.documentation {
   border-color: rgba(0, 0, 0, 0.1);
 }
 #menu {
-  width: 203px;
+  width: 190px;
   float: left;
   position: fixed;
   left: 0;
@@ -6529,8 +6529,12 @@ div.glyphicons.glyphicon-primary i:before {
 }
 .menu-search {
   float: left;
-  padding-top: 8px;
+  padding-top: 6px;
   margin-bottom: -10px;
+}
+#change-school {
+    float: left;
+    padding: 6px 0 0 0;
 }
 .affix {
   width: inherit;
@@ -6656,5 +6660,32 @@ li[discipline] {
 }
 
 .table th, .table td {
-    padding: 4px 0 0 0;
+    padding: 4px 20px 4px 4px;
+}
+
+#frequency td.frequency-list {
+    border-left: 0;
+}
+
+#frequency {
+    border: 0;
+}
+
+input[type=checkbox] {
+    background: white !important;
+}
+
+textarea, input[type=text] {
+-webkit-box-shadow: none;
+-moz-box-shadow: none;
+box-shadow: none;
+}
+
+.equipments_input {
+    width: 30px;
+}
+
+.disciplines-list{
+    padding-right: 16px;
+    word-wrap: break-word;
 }
