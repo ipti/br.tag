@@ -631,8 +631,9 @@ $form=$this->beginWidget('CActiveForm', array(
                 $("#create-dialog-form").dialog("open");
 
                 <?php //@done s2 - Não permitir que crie eventos no mesmo horário
-                      //@todo sx - Verificar choque de horários  
-                      //@todo sx - Verificar se o professor já esta dando aula neste horário?>
+                      //@later sx - Verificar choque de horários  
+                      //@later sx - Verificar se o professor já esta dando aula neste horário?>
+                    //console.log(lessons);
                 $(lessons).each(function(i, val){ 
                     v1 = val.start.getTime();
                     v2 = val.end == null ? v1 : val.end.getTime();

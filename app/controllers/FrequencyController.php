@@ -263,9 +263,17 @@ class FrequencyController extends Controller
                 $schedulesStringArray[6] = $cb->week_day_saturday;
 
                 for($i=0; $i<=6;$i++){
-                    $temp = explode(';', $schedulesStringArray[$i]);
-                    
-                    if(count($temp) > 1){
+                    $temp = $schedulesStringArray[$i];
+                    if ($temp == "") {
+                        $temp = array();
+                    }else{
+                        $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
+                        $temp = $temp[0] == '0' ? substr($temp, 1) : $temp;
+                        $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
+
+                        $temp = $temp == "" ? array() : explode(';', $temp);
+                    }              
+                    if(count($temp) >= 1){
                         if($allDisciplines){
                             $classDays[$i] = array(1);
                         }else{
@@ -276,11 +284,9 @@ class FrequencyController extends Controller
                         $classDays[$i] = ($classDays[$i] == array() || $classDays[$i] == array(0)) 
                                 ? array(0) 
                                 : $classDays[$i];
-                    }
-                    
+                    };
                 }
             }
-            
             
             $return['days'] = $classboards == null ? null : $classDays;
             

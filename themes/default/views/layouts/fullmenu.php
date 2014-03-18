@@ -149,7 +149,15 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                     </div>
                 </div>-->
                 
-                <div id="change-school">
+                
+
+
+                <!-- Top Menu Right -->
+                <ul class="topnav pull-right">
+                    
+                    <li>
+
+                    <div id="change-school" >
                     <form class="school" action="?r=site/changeschool" method="Post">
 
                     <?php
@@ -168,14 +176,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                     ?>
                     </form>
                 </div>
-                
-                
-
-
-                <!-- Top Menu Right -->
-                <ul class="topnav pull-right">
-
-
+                    </li>
 
                     <!-- Profile / Logout menu -->
                     <li class="account">
@@ -185,9 +186,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 </ul>
 
                 <!-- // Profile / Logout menu END -->
-
-                </ul>
-                <!-- // Top Menu Right END -->
                 
 
 

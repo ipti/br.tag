@@ -39,7 +39,7 @@
  * 
  * @done S2 - Add validação para os campos que esão faltando
  * @done S2 - Popar a interrogação durante um intervalo de tempo ao falhar na regra do javascript
- * @done S2 Traduzir breadcrumbs (migalhas de pão)
+ * @done S2 - Traduzir breadcrumbs (migalhas de pão)
  * @done S2 - Criar nova branch
  * @done S2 - 32 - O Cadastro deve ser feito de forma básica, só contendo o nome e dados de acesso.
  * @done S2 - Atualizar Model do Usuário
@@ -77,58 +77,59 @@
  * @done S2 - Remover cursor pointer dos labels
  * @done S2 - filtrar a lista de classes ao selecionar a escola (bug, unico que nao filtra) 
  * @done S2 - Modificar o CSS do tema para melhor visualizar o quadro de horário
- * @done s2 - Título da página de Admin não está no arquivo de tradução
- * @done s2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
- * @done s2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
- * @done s2 - BUG - Quadro de aulas fica por cima do título ao rolar para baixo
- * @done s2 - Botão de New Class deve ficar fixo ao rolar página para baixo
- * @done s2 - Adicionar professor na tabela de ClassBoard.
- * @done s2 - Gerar novo modelo de ClassBoard.
- * @done s2 - Colocar Tela de Classboard no ClassRoom
- * @done s2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
- * @done s2 - Transformar TeachingData em um Modal
- * @done s2 - Salvar eventos em lote ao cadastrar
- * @done s2 - Modificar Save do classroom
- * @done s2 - Modificar Save do classboard para salvar o professor
- * @done s2 - Modificar Modais para selecionar o professor
- * @done s2 - Modificar Modais para salvar apenas em lote ou salvar em live(lote para create, live para update)
- * @done s2 - Remover Classboard do menu.
- * @done s2 - Mostrar o professor da aula no ClassBoard
- * @done s2 - Modificar lista de disciplinas do EDCenso para as do Classroom 
- * @done s2 - redirecionar a mudança de escola pra pagina inicial
+ * @done S2 - Título da página de Admin não está no arquivo de tradução
+ * @done S2 - Estrutura de breadcrumb da tela de usuário assim: Home -> Administração -> Usuários -> Criar 
+ * @done S2 - Desminificar template.min.css e mudar a chamada de arquivo no fullmenu
+ * @done S2 - BUG - Quadro de aulas fica por cima do título ao rolar para baixo
+ * @done S2 - Botão de New Class deve ficar fixo ao rolar página para baixo
+ * @done S2 - Adicionar professor na tabela de ClassBoard.
+ * @done S2 - Gerar novo modelo de ClassBoard.
+ * @done S2 - Colocar Tela de Classboard no ClassRoom
+ * @done S2 - Problema na hora de renderizar o calendário, pro algum motivo não esta exibindo(tem que "mexer" a tela para exibir)
+ * @done S2 - Transformar TeachingData em um Modal
+ * @done S2 - Salvar eventos em lote ao cadastrar
+ * @done S2 - Modificar Save do classroom
+ * @done S2 - Modificar Save do classboard para salvar o professor
+ * @done S2 - Modificar Modais para selecionar o professor
+ * @done S2 - Modificar Modais para salvar apenas em lote ou salvar em live(lote para create, live para update)
+ * @done S2 - Remover Classboard do menu.
+ * @done S2 - Mostrar o professor da aula no ClassBoard
+ * @done S2 - Modificar lista de disciplinas do EDCenso para as do Classroom 
+ * @done S2 - redirecionar a mudança de escola pra pagina inicial
  * @done S2 - Evitar scroll no modal da class board
  * 
  * @done S2 - Alterar permissões no ACL.
  * @done S2 - Alterar permissões de uso de Frequency.
- * @done s2 - renomear Classes para Frequency
- * 
+ * @done S2 - renomear Classes para Frequency
  * @done S2 - Cadastrar aulas previstas por disciplina - ClassBoard.
  * @done S2 - Colocar lista de aulas previstas por disciplina - ClassBoard.
+ * @done S2 - Criar tela de Frenquência
+ * @done S2 - Criar filtro para selecionar Classroom 
+ * @done S2 - Criar filtro de Discipline
+ * @done S2 - Criar filtro de month
+ * @done S2 - Criar gerador de aulas que faltam.
+ * @done S2 - Cadastrar Faltas
+ * @done S2 - Mostrar Faltas cadastradas
+ * @done S2 - Cadastrar que dia não houve aula
+ * @done S2 - Frequencia do encino fundamental menor
+ * @done S2 - Corrigir o bug nas novas frequencias.
+ * @done S2 - Modificar CSS de impressão.
+ * @done S2 - Formulários não podem dar submit caso aperte Enter
+ * @done S2 - Retirar botões de excluir nas listagens de Aluno
+ * @done S2 - Retirar botões de excluir nas listagens de Escola
+ * @done S2 - Retirar botões de excluir nas listagens de Professor
+ * @done S2 - Menu lateral sem ocultar
+ * @done S2 - Traduzir frases em inglês do Select2
+ * @done S2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
  * 
- * @done s2 - Criar tela de Frenquência
- * @done s2 - Criar filtro para selecionar Classroom 
- * @done s2 - Criar filtro de Discipline
- * @done s2 - Criar filtro de month
- * @done s2 - Criar gerador de aulas que faltam.
- * 
- * @done s2 - Cadastrar Faltas
- * @done s2 - Mostrar Faltas cadastradas
- * @done s2 - Cadastrar que dia não houve aula
- * 
- * @todo s2 - Justificar Faltas
- * @todo s2 - Cadastrar reposição
- * 
- * @done s2 - Frequencia do encino fundamental menor
- * @done s2 - Corrigir o bug nas novas frequencias.
- * @done s2 - Modificar CSS de impressão.
- * 
+ * @todo S2 - Justificar Faltas
+ * @todo S2 - Cadastrar reposição
  * @todo S2 - Ajeitar o design dos eventos
  * 
  * 
  * * * RESPONSIVE DESIGN * * *
  * 
  * @todo S2 JOSÉ AGNALDO - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @done S2 - Menu lateral sem ocultar
  * @todo S2 JOSÉ AGNALDO - Posição do logotipo
  * @todo S2 JOSÉ AGNALDO - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
  * @todo S2 JOSÉ AGNALDO - Retirar CSS desnecessaŕio
@@ -139,31 +140,31 @@
  * @todo S2 JOSÉ AGNALDO - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
  * @todo S2 JOSÉ AGNALDO - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * @todo S2 JOSÉ AGNALDO - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @done S2 - Traduzir frases em inglês do Select2
- * @todo s2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
- * @todo s2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
- * @done s2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
+ * @todo S2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
+ * @todo S2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
  *
+ * 
+ * @done S2 - Corrigir tamanho do imput nas listagens de Aluno, Escola, Professor
+ * 
+ * @done S2 - Não mostrar escolas desativadas no select de cadastro de usuários
+ * @done S2 - Após salvar matrícula não retornando pra lista de matrículas
+ * @done S2 - Criar lista de alunos na turma
+ * 
+ * @todo S2 - Modificar diagramação da listagem de alunos
+ * 
+ * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
+ * @done S2 - Frequencia não está mostrando as segundas-feiras
+ * @done S2 - Classboard não cadastra domingo.
+ * 
+ * 
+ * 
  * 
  * @later S3 - Criar action de update de usuários.
  * @later S3 - Criar tela de listagem de usuários.
  * @later S3 - Criar action de listagem de usuários.
  * @later S3 - Criar action de remoção de usuários.
  * 
- * @done s2 - Formulários não podem dar submit caso aperte Enter
- * @done s2 - Retirar botões de excluir nas listagens de Aluno
- * @done s2 - Retirar botões de excluir nas listagens de Escola
- * @done s2 - Retirar botões de excluir nas listagens de Professor
- * 
- * @done s2 - Corrigir tamanho do imput nas listagens de Aluno, Escola, Professor
- * 
- * @done s2 - Não mostrar escolas desativadas no select de cadastro de usuários
- * @done s2 - Após salvar matrícula não retornando pra lista de matrículas
- * @done s2 - Criar lista de alunos na turma
- * 
- * @todo s2 - Modificar diagramação da listagem de alunos
- * 
- * @todo sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
+ * @later Sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 

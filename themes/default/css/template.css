@@ -986,7 +986,7 @@ width: 100%;
   list-style: none;
 }
 .navbar.main .topnav {
-  padding: 6px 5px 0 0;
+  padding: 4px 5px 0 0;
 }
 .navbar.main .topnav > li {
   position: relative;
@@ -6533,8 +6533,7 @@ div.glyphicons.glyphicon-primary i:before {
   margin-bottom: -10px;
 }
 #change-school {
-    float: left;
-    padding: 6px 0 0 0;
+    padding: 3px 0 0 0;
 }
 .affix {
   width: inherit;

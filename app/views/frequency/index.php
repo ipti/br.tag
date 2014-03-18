@@ -130,6 +130,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 if(data['days'] == undefined) {
                     $('#frequency > thead').html('<tr><th class="center">Não há aulas desta matéria.</th></tr>');
                     $('#frequency > tbody').html('');
+                    $('#widget-frequency').show();
                     $('#frequency').show();
                     return true;
                 }

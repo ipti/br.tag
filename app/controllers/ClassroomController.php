@@ -813,7 +813,7 @@ class ClassroomController extends Controller
                             'discipline' => $discipline->id,
                             'classroom' => $classroom,
                             'instructor' => $cb->instructor_fk,
-                            'start' => date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day, $year))
+                            'start' => date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day == 0? 7 : $day, $year))
                         );
                         array_push($events, $event);
                     }
