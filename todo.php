@@ -157,8 +157,20 @@
  * @done S2 - Classboard não cadastra domingo.
  * 
  * 
- * 
- * 
+ * @todo s2 - Retirar os dois pontos dos campos de datas
+ * @todo s2 - Cartório não está aparecendo na tela de update
+ * @todo s2 - Ao adicionar disciplina professor aparece como "undefined"
+ * @todo s2 - A segunda ainda não estava aparecendo na frequência (verificar)
+ * @todo s2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
+ * @todo s2 - Agrupar documentos por tipo
+ * @todo s2 - Distinguir campos obrigatorios com negrito
+ * @todo s2 - Substituir textos com "docente" para "professor"
+ * @todo s2 - Adicionar botão voltar
+ * @todo s2 - Filtrar matriculas por ano
+ * @todo s2 - Alterar os perfis de usuários
+ * @todo s2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
+ * @todo s2 - Campos desabilitados sem a seta lateral
+ *  
  * @later S3 - Criar action de update de usuários.
  * @later S3 - Criar tela de listagem de usuários.
  * @later S3 - Criar action de listagem de usuários.
