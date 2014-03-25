@@ -166,7 +166,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 SchoolIdentification::model(), 'inep_id',  
                                 Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
                                 array('empty'=>'Selecione a escola','class'=>'span5 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
-                     }else{
+                       }else{
                           echo CHtml::activeDropDownList(
                                 UsersSchool::model(), 'school_fk',  
                                 Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
