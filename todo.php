@@ -97,7 +97,6 @@
  * @done S2 - Modificar lista de disciplinas do EDCenso para as do Classroom 
  * @done S2 - redirecionar a mudança de escola pra pagina inicial
  * @done S2 - Evitar scroll no modal da class board
- * 
  * @done S2 - Alterar permissões no ACL.
  * @done S2 - Alterar permissões de uso de Frequency.
  * @done S2 - renomear Classes para Frequency
@@ -121,63 +120,85 @@
  * @done S2 - Menu lateral sem ocultar
  * @done S2 - Traduzir frases em inglês do Select2
  * @done S2 - botões de Próximo e Anterior não ficam lado a lado da tela de adicionar escola
+ * @done S2 - Corrigir tamanho do imput nas listagens de Aluno, Escola, Professor
+ * @done S2 - Não mostrar escolas desativadas no select de cadastro de usuários
+ * @done S2 - Após salvar matrícula não retornando pra lista de matrículas
+ * @done S2 - Criar lista de alunos na turma
+ * @done S2 - Frequencia não está mostrando as segundas-feiras
+ * @done S2 - Classboard não cadastra domingo.
+ * 
+ * 
+ * ******************************************************
+ * * DESIGN                                             *
+ * ******************************************************
+ * 
+ * * * * RESPONSIVE DESIGN * * *
+ * 
+ * @todo S2 - Bugs no alinhamento dos campos no modo responsive (todas as telas)
+ * @todo S2 - Posição do logotipo
+ * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
+ * @todo S2 - Retirar CSS desnecessaŕio
+ * @todo S2 - Retirar JS desnecessário
+ * 
+ * 
+ * * * * USER EXPERIENCE * * *
+ * 
+ * @todo S2 - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
+ * @todo S2 - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
+ * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
+ * @todo S2 - Subtítulos com descrição da tela atual
+ * @todo S2 - Mover aviso de campos obrigatórios
+ *
+ * 
+ * * * * OTHERS * * *
+ * 
+ * @todo S2 - Modificar diagramação da listagem de alunos
+ * @todo S2 - Agrupar documentos por tipo
+ * @todo S2 - Distinguir campos obrigatorios com negrito
+ * @todo S2 - Campos desabilitados sem a seta lateral
+ * 
+ * ******************************************************
+ * 
+ * 
+ * ******************************************************
+ * * DEVELOPMENT                                        *
+ * ******************************************************
+ * 
+ * * * * BUGS * * *
+ * 
+ * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
+ * 
+ * @todo S2 - Retirar os dois pontos dos campos de datas
+ * @todo S2 - Cartório não está aparecendo na tela de update
+ * @todo S2 - Ao adicionar disciplina professor aparece como "undefined"
+ * @todo S2 - A segunda ainda não estava aparecendo na frequência (verificar)
+ * @todo S2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
+ * 
+ * 
+ * * * * CHANGES * * *
+ * 
+ * @todo S2 - Substituir textos com "docente" para "professor"
+ * @todo S2 - Adicionar botão voltar
+ * @todo S2 - Filtrar matriculas por ano
+ * @todo S2 - Alterar os perfis de usuários
+ * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
+ *  
+ * 
+ * * * * OTHERS * * *
  * 
  * @todo S2 - Justificar Faltas
  * @todo S2 - Cadastrar reposição
  * @todo S2 - Ajeitar o design dos eventos
  * 
+ * @todo S3 - Criar action de update de usuários.
+ * @todo S3 - Criar tela de listagem de usuários.
+ * @todo S3 - Criar action de listagem de usuários.
+ * @todo S3 - Criar action de remoção de usuários.
  * 
- * * * RESPONSIVE DESIGN * * *
+ * @todo SX - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
- * @todo S2 JOSÉ AGNALDO - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @todo S2 JOSÉ AGNALDO - Posição do logotipo
- * @todo S2 JOSÉ AGNALDO - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
- * @todo S2 JOSÉ AGNALDO - Retirar CSS desnecessaŕio
- * @todo S2 JOSÉ AGNALDO - Retirar JS desnecessário
- * 
- * * * USER EXPERIENCE * * *
- * 
- * @todo S2 JOSÉ AGNALDO - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
- * @todo S2 JOSÉ AGNALDO - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
- * @todo S2 JOSÉ AGNALDO - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @todo S2 JOSÉ AGNALDO - Subtítulos com descrição da tela atual
- * @todo S2 JOSÉ AGNALDO - Mover aviso de campos obrigatórios
- *
- * 
- * @done S2 - Corrigir tamanho do imput nas listagens de Aluno, Escola, Professor
- * 
- * @done S2 - Não mostrar escolas desativadas no select de cadastro de usuários
- * @done S2 - Após salvar matrícula não retornando pra lista de matrículas
- * @done S2 - Criar lista de alunos na turma
- * 
- * @todo S2 - Modificar diagramação da listagem de alunos
- * 
- * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
- * @done S2 - Frequencia não está mostrando as segundas-feiras
- * @done S2 - Classboard não cadastra domingo.
+ * ******************************************************
  * 
  * 
- * @todo s2 - Retirar os dois pontos dos campos de datas
- * @todo s2 - Cartório não está aparecendo na tela de update
- * @todo s2 - Ao adicionar disciplina professor aparece como "undefined"
- * @todo s2 - A segunda ainda não estava aparecendo na frequência (verificar)
- * @todo s2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
- * @todo s2 - Agrupar documentos por tipo
- * @todo s2 - Distinguir campos obrigatorios com negrito
- * @todo s2 - Substituir textos com "docente" para "professor"
- * @todo s2 - Adicionar botão voltar
- * @todo s2 - Filtrar matriculas por ano
- * @todo s2 - Alterar os perfis de usuários
- * @todo s2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
- * @todo s2 - Campos desabilitados sem a seta lateral
- *  
- * @later S3 - Criar action de update de usuários.
- * @later S3 - Criar tela de listagem de usuários.
- * @later S3 - Criar action de listagem de usuários.
- * @later S3 - Criar action de remoção de usuários.
- * 
- * @later Sx - Enviar alerta ao chocar horários informando qual horário esta chocando.
- * 
- * OBS - Quando a sessão de usuário acaba algumas páginas ou tarefas (como escolher uma outra escola) exibe erros de PHP em vez de redirecionar pra tela de login
  * 
 */?>

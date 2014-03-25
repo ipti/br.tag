@@ -56,7 +56,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <?php 
-                                //@later Sx - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
+                                //@todo SX - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido.
                                 echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80)); ?>
@@ -631,8 +631,8 @@ $form=$this->beginWidget('CActiveForm', array(
                 $("#create-dialog-form").dialog("open");
 
                 <?php //@done s2 - Não permitir que crie eventos no mesmo horário
-                      //@later sx - Verificar choque de horários  
-                      //@later sx - Verificar se o professor já esta dando aula neste horário?>
+                      //@todo SX - Verificar choque de horários  
+                      //@todo SX - Verificar se o professor já esta dando aula neste horário?>
                     //console.log(lessons);
                 $(lessons).each(function(i, val){ 
                     v1 = val.start.getTime();

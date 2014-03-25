@@ -3,7 +3,8 @@
     $this->setPageTitle('TAG - ' . Yii::t('default','Create a new User'));
     $this->breadcrumbs=array(
             Yii::t('default', 'Administration')=>array('index'),
-            Yii::t('default', 'Users')=>array('index'), //@later s3 - Trocar index pela página de lista de usuários quando ela tiver feita
+            Yii::t('default', 'Users')=>array('index'), 
+            //@todo S3 - Trocar index pela página de lista de usuários quando ela tiver feita
             Yii::t('default', 'Create'),
     );
     $title=Yii::t('default', 'Create a new User');
