@@ -1458,7 +1458,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 $('.prev').show();
                 $('.next').hide();
                 $('.last').show();  
-                $('#instructorVariableData').hide();break;
+                $(formInstructorvariableData+'scholarity').trigger('change'); break;
         }
         classActive.removeClass("active");
         divActive.removeClass("active");
@@ -1557,7 +1557,6 @@ $form = $this->beginWidget('CActiveForm', array(
     
     $(document).ready(function(){
         $(formInstructorvariableData+'scholarity').trigger('change');
-        
         $(formInstructorIdentification+'birthday_date').mask("99/99/9999");
         
         <?php //@done s1 - Deixar a seleção de instituições mais rápida ?>

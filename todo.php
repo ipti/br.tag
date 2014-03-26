@@ -172,7 +172,7 @@
  * @todo S2 - Ao adicionar disciplina professor aparece como "undefined"
  * @todo S2 - A segunda ainda não estava aparecendo na frequência (verificar)
  * @done S2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
- * @todo S2 - Dados Educacionais "Superior" Não mostra a coluna no update
+ * @done S2 - Dados Educacionais "Superior" Não mostra a coluna no update
  * 
  * 
  * * * * CHANGES * * *
