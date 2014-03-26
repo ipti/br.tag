@@ -97,6 +97,10 @@ class AdminController extends Controller {
             delete from users_school;
             delete from users;
 
+            delete from class;
+            delete from class_board;
+            delete from class_faults;
+
             delete from student_enrollment;
             delete from student_identification;
             delete from student_documents_and_address;
@@ -225,7 +229,7 @@ class AdminController extends Controller {
         $auth->createOperation('updateFrequency', 'update a Frequency');
         
 
-
+     
         $role = $auth->createRole('manager');
         $role->addChild('createClassroom');
         $role->addChild('updateClassroom');

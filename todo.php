@@ -143,6 +143,8 @@
  * @done S2 - Campo Certidão Antiga/Nova - Triggar função no Update
  * @done S2 - Campo Certidão Antiga/Nova - Resolver conflitos com a seleção de Nacionalidade(estrangeira)
  * @done S2 - Posição do logotipo
+ * @done S2 - Adicionar novas tabelas ao "LimparBanco"
+ * @done S2 - Traduzir roles no criar usuário
  * 
  * ********* Os erros não apareceram nos Testes
  * @done S2 - Cartório não está aparecendo na tela de update

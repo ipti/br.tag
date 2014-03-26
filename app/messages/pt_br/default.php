@@ -537,5 +537,8 @@ return array(
     'admin' => 'Administrador',
     
     'Administration' => 'Administração',
+    
+    'Confirm' => "Confirme a Senha",
+    
         )
 ?>
