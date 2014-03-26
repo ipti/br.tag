@@ -126,6 +126,28 @@
  * @done S2 - Criar lista de alunos na turma
  * @done S2 - Frequencia não está mostrando as segundas-feiras
  * @done S2 - Classboard não cadastra domingo.
+ * @done S2 - Retirar os dois pontos dos campos de datas - Remover os dois pontos(a mascara se encarrega de coloca-los)
+ * @done S2 - Permitir adicionar o máximo que o Educacenso permite de materias - Modificar classes dos MultiSelects
+ * @done S2 - Permitir adicionar o máximo que o Educacenso permite de materias - Modificar chamada do Select2 para os MultiSelects
+ * @done S2 - Dados Educacionais "Superior" Não mostra a coluna no update - Triggar a função no momento que troca de aba
+ * @done S2 - Substituir textos com "docente" para "professor" - Modificar Arquivo de Tradução
+ * @done S2 - Adicionar botão voltar - Colocar Botão no Theme
+ * @done S2 - Filtrar matriculas por ano - Colocar coluna
+ * @done S2 - Filtrar matriculas por ano - Adicionar variável no Model
+ * @done S2 - Filtrar matriculas por ano - Modificar rules do Model
+ * @done S2 - Filtrar matriculas por ano - Modificar search do Model
+ * @done S2 - Agrupar documentos por tipo Aluno - Reorganizar os campos
+ * @done S2 - Agrupar documentos por tipo Aluno - Colocar os campos em widgets
+ * @done S2 - Campo Certidão Antiga/Nova - Ao selecionar desabilitar os campos desnecessários
+ * @done S2 - Campo Certidão Antiga/Nova - Triggar função no Update
+ * @done S2 - Campo Certidão Antiga/Nova - Resolver conflitos com a seleção de Nacionalidade(estrangeira)
+ * @done S2 - Posição do logotipo
+ * 
+ * 
+ * ********* Os erros não apareceram nos Testes
+ * @done S2 - Cartório não está aparecendo na tela de update
+ * @done S2 - Ao adicionar disciplina professor aparece como "undefined"
+ * @done S2 - A segunda ainda não estava aparecendo na frequência (verificar)
  * 
  * 
  * ******************************************************
@@ -135,7 +157,7 @@
  * * * * RESPONSIVE DESIGN * * *
  * 
  * @todo SX - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @done S2 - Posição do logotipo
+ * 
  * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
  * @todo S2 - Retirar CSS desnecessaŕio
  * @todo S2 - Retirar JS desnecessário
@@ -144,6 +166,7 @@
  * * * * USER EXPERIENCE * * *
  * 
  * @todo SX - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
+ * 
  * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
  * @todo S2 - Mover aviso de campos obrigatórios
  *
@@ -151,8 +174,7 @@
  * * * * OTHERS * * *
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
- * @done S2 - Agrupar documentos por tipo Aluno
- * @todo S2 - Mudar ícones dos agrupamentos de documentos
+ * @todo S2 - Agrupar documentos por tipo Aluno - Mudar ícones dos Widgets
  * @todo S2 - Distinguir campos obrigatorios com negrito
  * @todo S2 - Campos desabilitados sem a seta lateral
  * 
@@ -167,24 +189,17 @@
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
  * 
- * @done S2 - Retirar os dois pontos dos campos de datas
- * @done S2 - Cartório não está aparecendo na tela de update
- * @todo S2 - Ao adicionar disciplina professor aparece como "undefined"
- * @todo S2 - A segunda ainda não estava aparecendo na frequência (verificar)
- * @done S2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
- * @done S2 - Dados Educacionais "Superior" Não mostra a coluna no update
  * 
  * 
  * * * * CHANGES * * *
  * 
- * @done S2 - Substituir textos com "docente" para "professor"
- * @done S2 - Adicionar botão voltar
- * @done S2 - Filtrar matriculas por ano
  * @todo S2 - Alterar os perfis de usuários
  * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  
  * 
  * * * * OTHERS * * *
+ * 
+ * @todo SX - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * @todo S2 - Justificar Faltas
  * @todo S2 - Cadastrar reposição
@@ -194,8 +209,6 @@
  * @todo S3 - Criar tela de listagem de usuários.
  * @todo S3 - Criar action de listagem de usuários.
  * @todo S3 - Criar action de remoção de usuários.
- * 
- * @todo SX - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * 
  * ******************************************************
  * 
