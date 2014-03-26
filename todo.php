@@ -138,11 +138,11 @@
  * @done S2 - Filtrar matriculas por ano - Modificar search do Model
  * @done S2 - Agrupar documentos por tipo Aluno - Reorganizar os campos
  * @done S2 - Agrupar documentos por tipo Aluno - Colocar os campos em widgets
+ * @done S2 - Agrupar documentos por tipo Aluno - Mudar ícones dos Widgets 
  * @done S2 - Campo Certidão Antiga/Nova - Ao selecionar desabilitar os campos desnecessários
  * @done S2 - Campo Certidão Antiga/Nova - Triggar função no Update
  * @done S2 - Campo Certidão Antiga/Nova - Resolver conflitos com a seleção de Nacionalidade(estrangeira)
  * @done S2 - Posição do logotipo
- * 
  * 
  * ********* Os erros não apareceram nos Testes
  * @done S2 - Cartório não está aparecendo na tela de update
@@ -174,7 +174,6 @@
  * * * * OTHERS * * *
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
- * @todo S2 - Agrupar documentos por tipo Aluno - Mudar ícones dos Widgets
  * @todo S2 - Distinguir campos obrigatorios com negrito
  * @todo S2 - Campos desabilitados sem a seta lateral
  * 

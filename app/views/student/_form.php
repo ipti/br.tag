@@ -301,7 +301,7 @@
                         
                         <div class=" span5">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons conversation"><i></i>Justificativa</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons circle_question_mark"><i></i>Justificativa</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
@@ -316,7 +316,7 @@
                             <div class="separator"></div>
                             
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons conversation"><i></i>Certidão Civil</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons book_open"><i></i>Certidão Civil</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
@@ -429,7 +429,7 @@
                         
                         <div class=" span5">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons conversation"><i></i>Cadastro de Pessoa Física</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Cadastro de Pessoa Física</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                 <div class="control-group">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
@@ -445,7 +445,7 @@
                             <div class="separator"></div>
                             
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons conversation"><i></i>Passaporte</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons airplane"><i></i>Passaporte</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                 <div class="control-group">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
@@ -460,7 +460,7 @@
                             <div class="separator"></div>
                             
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons conversation"><i></i>Registro Geral</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Registro Geral</h4></div>
                                 <div class="widget-body in" style="height: auto;">
 
                                     <div class="control-group">
