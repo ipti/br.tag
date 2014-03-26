@@ -193,7 +193,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'key' => 'id')); ?>
+                                    <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class'=>'select-ComplementaryAT', 'key' => 'id')); ?>
                                     <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
                                 </div>
                             </div>
@@ -472,7 +472,7 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="control-group">
                     <?php echo CHtml::label(Yii::t("default", "Disciplines"), "Disciplines", array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo CHtml::DropDownList("Disciplines", '', ClassroomController::classroomDisciplineLabelArray(), array('multiple' => 'multiple')); ?>
+                        <?php echo CHtml::DropDownList("Disciplines", '', ClassroomController::classroomDisciplineLabelArray(), array('multiple' => 'multiple', 'class'=>'select-disciplines')); ?>
 
                     </div>
                 </div>

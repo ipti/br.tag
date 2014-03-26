@@ -69,7 +69,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
             $(document).ready(function(){
                 $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
                 $(".select-search-on").select2({width: 'resolve'}); 
-                $("select[multiple]").select2({width: 'resolve', maximumSelectionSize: 6}); 
+                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
+                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13}); 
             });
 
             /**
