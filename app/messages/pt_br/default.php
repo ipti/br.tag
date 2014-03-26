@@ -257,7 +257,7 @@ return array(
     'Discipline Religious' => 'Ensino religioso',
     'Discipline Native Language' => 'Língua Indígena',
     'Discipline Others' => 'Outras disciplinas',
-    'Instructor Situation' => 'Turma Sem Docente',
+    'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
     'New Discipline' => 'Nova Disciplina',
     

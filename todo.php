@@ -134,8 +134,8 @@
  * 
  * * * * RESPONSIVE DESIGN * * *
  * 
- * @todo S2 - Bugs no alinhamento dos campos no modo responsive (todas as telas)
- * @todo S2 - Posição do logotipo
+ * @todo SX - Bugs no alinhamento dos campos no modo responsive (todas as telas)
+ * @done S2 - Posição do logotipo
  * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
  * @todo S2 - Retirar CSS desnecessaŕio
  * @todo S2 - Retirar JS desnecessário
@@ -143,17 +143,16 @@
  * 
  * * * * USER EXPERIENCE * * *
  * 
- * @todo S2 - Frases de ajuda baseada nas ações do campo e não no tipo de dado a ser preenchido.
- * @todo S2 - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
+ * @todo SX - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @todo S2 - Subtítulos com descrição da tela atual
  * @todo S2 - Mover aviso de campos obrigatórios
  *
  * 
  * * * * OTHERS * * *
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
- * @todo S2 - Agrupar documentos por tipo
+ * @done S2 - Agrupar documentos por tipo Aluno
+ * @todo S2 - Mudar ícones dos agrupamentos de documentos
  * @todo S2 - Distinguir campos obrigatorios com negrito
  * @todo S2 - Campos desabilitados sem a seta lateral
  * 
@@ -168,8 +167,8 @@
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
  * 
- * @todo S2 - Retirar os dois pontos dos campos de datas
- * @todo S2 - Cartório não está aparecendo na tela de update
+ * @done S2 - Retirar os dois pontos dos campos de datas
+ * @done S2 - Cartório não está aparecendo na tela de update
  * @todo S2 - Ao adicionar disciplina professor aparece como "undefined"
  * @todo S2 - A segunda ainda não estava aparecendo na frequência (verificar)
  * @todo S2 - Permitir adicionar o máximo que o Educacenso permite de materias (atualmente só permite 6)
@@ -177,9 +176,9 @@
  * 
  * * * * CHANGES * * *
  * 
- * @todo S2 - Substituir textos com "docente" para "professor"
- * @todo S2 - Adicionar botão voltar
- * @todo S2 - Filtrar matriculas por ano
+ * @done S2 - Substituir textos com "docente" para "professor"
+ * @done S2 - Adicionar botão voltar
+ * @done S2 - Filtrar matriculas por ano
  * @todo S2 - Alterar os perfis de usuários
  * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  

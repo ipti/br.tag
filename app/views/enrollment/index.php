@@ -59,26 +59,13 @@
                                 'value' => 'CHtml::link($data->classroomFk->name,"?r=enrollment/update&id=".$data->id)',
                                 'htmlOptions' => array('width'=>'35%')
                         ),
-//                            array(
-//                                'class' => 'CLinkColumn',
-//                                'header'=>'Aluno',
-//                                'labelExpression'=>'
-//                                ($data->student_inep_id === null) 
-//                                    ? StudentIdentification::model()->findByAttributes(array("id" => $data->student_fk))["name"] 
-//                                    : StudentIdentification::model()->findByAttributes(array("inep_id" => $data->student_inep_id))["name"]',
-//                                'urlExpression'=>'"?r=student/update&id=".(($data->student_fk === null) 
-//                                    ? StudentIdentification::model()->findByAttributes(array("inep_id" => $data->student_inep_id))["id"]: $data->student_fk)',
-//                                ),
-//                            array(
-//                                'class' => 'CLinkColumn',
-//                                'header'=>'Turma',
-//                                'labelExpression'=>'
-//                                ($data->classroom_inep_id === null) 
-//                                    ? Classroom::model()->findByAttributes(array("id" => $data->classroom_fk))["name"] 
-//                                    : Classroom::model()->findByAttributes(array("inep_id" => $data->classroom_inep_id))["name"]',
-//                                'urlExpression'=>'"?r=classroom/update&id=".(($data->classroom_fk === null) 
-//                                    ? Classroom::model()->findByAttributes(array("inep_id" => $data->classroom_inep_id))["id"]: $data->classroom_fk)',
-//                                ),
+                        array( 'name'=>'year', 'value'=>'$data->classroomFk->school_year' ),
+//                        array(
+//                                'name' => 'classroom_fk.school_year',
+//                                'type' => 'raw',
+//                                'value' => '$data->classroomFk->school_year',
+//                                'htmlOptions' => array('width'=>'30px')
+//                        ),
                         array('class' => 'CButtonColumn','template'=>' {delete}'),),
                     ));
                 ?>

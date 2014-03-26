@@ -95,7 +95,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . ':' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
                                     <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
@@ -106,7 +106,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . ':' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5)); ?>
+                                    <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'final_hour'); ?>
                                     <?php echo $form->error($modelClassroom, 'final_minute'); ?>
@@ -280,7 +280,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                                 
-                            <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com docente", "1" => "Turma sem docente"); ?>
+                            <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com Professor", "1" => "Turma sem Professor"); ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'instructor_situation', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -482,7 +482,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <?php
                         echo CHtml::DropDownList("Role", '', array(
                             null => 'Selecione um Cargo',
-                            1 => 'Docente',
+                            1 => 'Professor',
                             2 => 'Auxiliar',
                             3 => 'Monitor',
                             4 => 'Intérprete',
