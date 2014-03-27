@@ -147,6 +147,12 @@
  * @done S2 - Traduzir roles no criar usuário
  * @done S2 - Ao adicionar disciplina professor aparece como "undefined"
  * @done S2 - Remover "Tag" da URL
+ * @done S2 - Seleção de estado dando erro - Escola - Remover Organs das dependencias de UF
+ * @done S2 - Seleção de estado dando erro - Escola - Criar Dependencias de City
+ * @done S2 - Seleção de estado dando erro - Escola - Colocar Dependencias de City no Rules
+ * @done S2 - Seleção de estado dando erro - Escola - Modificar Ajax de UF
+ * @done S2 - Seleção de estado dando erro - Escola - Modificar Ajax de City
+ * @done S2 - Seleção de estado dando erro - Escola - Corrigir Conflitos
  * 
  * 
  * ********* Os erros não apareceram nos Testes
@@ -192,7 +198,6 @@
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
  *  
- * 
  * 
  * * * * CHANGES * * *
  * 

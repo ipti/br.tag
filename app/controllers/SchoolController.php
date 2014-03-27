@@ -32,7 +32,7 @@ class SchoolController extends Controller {
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin', 'delete','index', 'view', 'create', 'update', 
-                    'getcities','getdistricts', 'getorgans', 'updateufdependencies'),
+                    'getcities','getdistricts', 'getorgans', 'updateufdependencies','updatecitydependencies'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users
@@ -40,7 +40,20 @@ class SchoolController extends Controller {
             ),
         );
     }
-   
+    
+    public function actionUpdateCityDependencies(){
+        $school = new SchoolIdentification();
+        $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+        
+        $city = $school->edcenso_city_fk;
+        
+        $result = array('Organ'=>'', 'District'=>'');
+        $result['District'] = $this->actionGetDistricts($city);
+        $result['Organ'] = $this->actionGetOrgans($city);
+
+        echo json_encode($result);
+    }
+    
     //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
     public function actionUpdateUfDependencies(){
         $school = new SchoolIdentification();
@@ -48,9 +61,8 @@ class SchoolController extends Controller {
         
         $uf = $school->edcenso_uf_fk;
         
-        $result = array('Organ'=>'', 'City'=>'');
+        $result = array('City'=>'');
         $result['City'] = $this->actionGetCities($uf);
-        $result['Organ'] = $this->actionGetOrgans($uf);
 
         echo json_encode($result);
     }
@@ -74,14 +86,14 @@ class SchoolController extends Controller {
     }
 
     //@done s1 - Modificar a tabela EdcensoRegionalEducationOrgan para acidionar o campo de estado
-    public function actionGetOrgans($Uf = null) {
+    public function actionGetOrgans($CITY = null) {
         if(isset($_POST[$this->SCHOOL_IDENTIFICATION])){
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
-        $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
+        $city = $CITY == null ? $school->edcenso_city_fk : $CITY;
         
-        $data = EdcensoRegionalEducationOrgan::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = EdcensoRegionalEducationOrgan::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $city));
         $data = CHtml::listData($data, 'code', 'name');
 
         $result = CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o órgão'), true);
@@ -92,11 +104,14 @@ class SchoolController extends Controller {
         return $result;
     }
     
-    public function actionGetDistricts() {
-        $school = new SchoolIdentification();
-        $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+    public function actionGetDistricts($CITY = null) {
+        if(isset($_POST[$this->SCHOOL_IDENTIFICATION])){
+            $school = new SchoolIdentification();
+            $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
+        }
+        $city = $CITY == null ? $school->edcenso_city_fk : $CITY;
 
-        $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $school->edcenso_city_fk ));
+        $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', array(':city_id' => $city ));
         $data = CHtml::listData($data, 'code', 'name');
 
         $result = CHtml::tag('option', array('value' => null), 'Selecione o distrito', true);
@@ -105,7 +120,7 @@ class SchoolController extends Controller {
             $result .= CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
         
-        echo $result;
+        return $result;
     }
 
     /**

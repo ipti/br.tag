@@ -295,7 +295,6 @@
                                             'url' => CController::createUrl('school/updateUfDependencies'),
                                             'success' => "function(data){
                                             data = jQuery.parseJSON(data);
-                                            $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Organ);
                                             $('#SchoolIdentification_edcenso_city_fk').html(data.City);
                                         }",
                                     )));
@@ -313,8 +312,13 @@
                                         'class' => 'select-search-on',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/getdistricts'),
-                                            'update' => '#SchoolIdentification_edcenso_district_fk',
+                                            'url' => CController::createUrl('school/updateCityDependencies'),
+                                            //'update' => '#SchoolIdentification_edcenso_district_fk',
+                                            'success' => "function(data){
+                                            data = jQuery.parseJSON(data);
+                                            $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Organ);
+                                            $('#SchoolIdentification_edcenso_district_fk').html(data.District);
+                                        }",
                                     )));
                                     ?>  
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
