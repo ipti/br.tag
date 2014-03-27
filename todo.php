@@ -189,7 +189,7 @@
  * * * * BUGS * * *
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
- * 
+ *  
  * 
  * 
  * * * * CHANGES * * *

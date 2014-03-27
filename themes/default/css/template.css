@@ -6628,7 +6628,7 @@ div.glyphicons.glyphicon-primary i:before {
   text-align: right;
 }
 .deleteTeachingData {
-  background: url('/tag/themes/default/img/delete.png');
+  background: url('../img/delete.png');
   display: block;
   height: 16px;
   width: 16px;

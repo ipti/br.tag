@@ -120,7 +120,7 @@ $form = $this->beginWidget('CActiveForm', array(
     $('#classesSearch').on('click', function(){
         jQuery.ajax({
             'type':'POST',
-            'url':'/tag/index.php?r=frequency/getClasses',
+            'url':'<?php echo Yii::app()->baseUrl; ?>/index.php?r=frequency/getClasses',
             'cache':false,
             'data':jQuery('#classroom').parents("form").serialize(),
             'success':function(data){

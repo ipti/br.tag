@@ -1,5 +1,10 @@
 <?php 
 
+//  $baseUrl = Yii::app()->baseUrl; 
+//  $cs = Yii::app()->getClientScript();
+//  $cs->registerScriptFile($baseUrl.'/index.php?r=classroom/load&script=js', CClientScript::POS_END );
+//
+
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'classroom-form',
 	'enableAjaxValidation'=>false,
@@ -565,7 +570,7 @@ $form=$this->beginWidget('CActiveForm', array(
         ////////////////////////////////////////////////
         jQuery.ajax({
             'type':'POST',
-            'url':'/tag/index.php?r=classroom/getassistancetype',
+            'url':'<?php echo Yii::app()->baseUrl; ?>/index.php?r=classroom/getassistancetype',
             'cache':false,
             'data':jQuery('#Classroom_school_inep_fk').parents("form").serialize(),
             'success':function(html){
