@@ -1011,7 +1011,7 @@ $form=$this->beginWidget('CActiveForm', array(
         lesson = {
             id: lesson_id++,
             id_db: 0,
-            title: (discipline.find('option:selected').text().length > 30) ? discipline.find('option:selected').text().substring(0,27) + "..." : discipline.find('option:selected').text() + ' - ' + teachingDataNames[instructor.val()],
+            title: (discipline.find('option:selected').text().length > 30) ? discipline.find('option:selected').text().substring(0,27) + "..." : discipline.find('option:selected').text() + ' - ' + (instructor.val() == "" ? "Sem Professor" : teachingDataNames[instructor.val()]),
             discipline: discipline.val(),
             start: lesson_start,
             end: lesson_end,

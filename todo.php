@@ -153,6 +153,7 @@
  * @done S2 - Seleção de estado dando erro - Escola - Modificar Ajax de UF
  * @done S2 - Seleção de estado dando erro - Escola - Modificar Ajax de City
  * @done S2 - Seleção de estado dando erro - Escola - Corrigir Conflitos
+ * @done S2 - Ao adicionar disciplina SEM professor aparece como "undefined"
  * 
  * 
  * ********* Os erros não apareceram nos Testes
