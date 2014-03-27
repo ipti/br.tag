@@ -2,7 +2,7 @@
 
 //  $baseUrl = Yii::app()->baseUrl; 
 //  $cs = Yii::app()->getClientScript();
-//  $cs->registerScriptFile($baseUrl.'/index.php?r=classroom/load&script=js', CClientScript::POS_END );
+//  $cs->registerScriptFile($baseUrl.'js/classroom.js', CClientScript::POS_END );
 //
 
 $form=$this->beginWidget('CActiveForm', array(
@@ -329,10 +329,15 @@ $form=$this->beginWidget('CActiveForm', array(
                                 $teachingDataDisciplines = array();
                                 $disciplinesLabels = array();
                                 $teachingDataNames = array();
+                                
+                                $instructors = InstructorIdentification::model()->findAllByAttributes(array('school_inep_id_fk'=>Yii::app()->user->school));
+                                foreach ($instructors as $instructor) {
+                                    $teachingDataNames[$instructor->id] = $instructor->name;
+                                }
                                 $i = 0;
                                 foreach ($modelTeachingData as $key => $model) {
                                     $disciplines = ClassroomController::teachingDataDiscipline2array($model);
-                                    $teachingDataNames[$model->instructor_fk] = $model->instructorFk->name;
+//                                    $teachingDataNames[$model->instructor_fk] = $model->instructorFk->name;
                                     $teachingDataList .= "<li instructor='".$model->instructor_fk."'><span>" . $model->instructorFk->name ."</span>"
                                             .'<a  href="#" class="deleteTeachingData delete" title="Excluir">
                                               </a>';
@@ -1039,6 +1044,7 @@ $form=$this->beginWidget('CActiveForm', array(
     //atualizar lista de instrutores
     function atualizaListadeInstrutores(){
         var listOfinstructors = '<option value="">Selecione o instrutor</option>';
+        
         $.each(teachingData,function(i,td){
             listOfinstructors += '<option value="'+td.Instructor+'">'+teachingDataNames[td.Instructor]+'</option>';
         });

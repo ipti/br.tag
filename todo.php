@@ -145,10 +145,12 @@
  * @done S2 - Posição do logotipo
  * @done S2 - Adicionar novas tabelas ao "LimparBanco"
  * @done S2 - Traduzir roles no criar usuário
+ * @done S2 - Ao adicionar disciplina professor aparece como "undefined"
+ * @done S2 - Remover "Tag" da URL
+ * 
  * 
  * ********* Os erros não apareceram nos Testes
  * @done S2 - Cartório não está aparecendo na tela de update
- * @done S2 - Ao adicionar disciplina professor aparece como "undefined"
  * @done S2 - A segunda ainda não estava aparecendo na frequência (verificar)
  * 
  * 

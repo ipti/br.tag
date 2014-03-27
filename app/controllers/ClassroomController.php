@@ -34,8 +34,7 @@ class ClassroomController extends Controller
 				'actions'=>array('index','view','create','update','getassistancetype',
                                         'updateassistancetypedependencies','updatecomplementaryactivity',
                                         'getcomplementaryactivitytype','delete', 
-                                        'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard',
-                                        'load'),
+                                        'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -47,11 +46,7 @@ class ClassroomController extends Controller
 			),
 		);
 	}
-        
-        public function actionLoad($script){
-            $this->renderText('js/'.$script);
-        }
-        
+
          
         public function actionGetAssistanceType(){
             $classroom = new Classroom();
