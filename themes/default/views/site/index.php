@@ -7,8 +7,11 @@ $this->breadcrumbs = array(
 );
 ?>
 
-<div class="heading-buttons">
-    <h3>Bem-vindo ao TAG</h3>
+
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic">Bem-vindo ao TAG</h3>  
+    </div>
 </div>
 
 <div class="innerLR home">
