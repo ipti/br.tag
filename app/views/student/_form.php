@@ -639,13 +639,21 @@
         $(formIdentification+'deficiency').trigger('change');
     }); 
     
+//     $(formIdentification+'name').keyup(function() {
+//        var id = '#'+$(this).attr("id");
+//        $(id).val($(id).val().toUpperCase());
+//        
+//        $(id).val( $(id).val().replace(/[^A-Z ]/g, function(str) { 
+//            addError(id, "Campo não está dentro das regras.");
+//            return ''; } ) );
+//        $(id).trigger('focusout');
+//    });
     
     $(formIdentification+'name').focusout(function() { 
         var id = '#'+$(this).attr("id");
         $(id).val($(id).val().toUpperCase());
         var ret = validateNamePerson(($(id).val()));
         if(!ret[0]) {
-            $(id).attr('value','');
             addError(id, "Campo não está dentro das regras.");
         }else{
             removeError(id);
