@@ -3683,7 +3683,7 @@ textarea {
 }
 .form-horizontal .control-label {
   width: 130px;
-  font-weight: bold;
+  font-weight: normal;
 }
 .form-horizontal .control-group:last-child {
   margin: 0;
@@ -6687,4 +6687,12 @@ box-shadow: none;
 .disciplines-list{
     padding-right: 16px;
     word-wrap: break-word;
+}
+.breadcrumb-prev {
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+.control-label.required {
+    font-weight: bold;
 }

@@ -17,7 +17,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
         <div class="buttons">
                 <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default','Previous') ?><i></i></a>
-                <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
+                <a  data-toggle="tab" id="button-next" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default','Next') ?><i></i></a>
                 <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')),
                            array('id'=>'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'button'));?>
             </div>
@@ -589,7 +589,8 @@ $form=$this->beginWidget('CActiveForm', array(
         // Calendar                                   //
         ////////////////////////////////////////////////
         //Cria o calendário semanal de aulas
-        $('#tab-classboard').click(function(){
+        
+        $('#tab-classboard, #button-next').click(function(){
         calendar = $('#calendar').fullCalendar({
             <?php //@done s2 - Colocar data padrão        ?>
             year: 1996, //Porque eu nasci em 1993.

@@ -181,13 +181,12 @@
  * @todo SX - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * 
  * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
- * @todo S2 - Mover aviso de campos obrigatórios
  *
  * 
  * * * * OTHERS * * *
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
- * @todo S2 - Distinguir campos obrigatorios com negrito
+ * @done S2 - Distinguir campos obrigatorios com negrito
  * 
  * ******************************************************
  * 
@@ -199,6 +198,7 @@
  * * * * BUGS * * *
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
+ * @todo s2 - Full calendar renderizando a cada clique, fazer um callback pra verificar se o calendário ja está renderizado
  *  
  * 
  * * * * CHANGES * * *

@@ -142,9 +142,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
                         <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
-                <a id="button-back" onclick="history.go(-1);" class="btn btn-icon btn-default prev glyphicons circle_arrow_left">
-                    <i></i>Voltar
-                </a>
+                
                 <!-- // Menu Toggle Button END -->
 <!--                <div class="menu-search">
                     <div class="input-append">
@@ -345,7 +343,14 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                         
                         $this->widget('zii.widgets.CBreadcrumbs', array(
                             'links' => $this->breadcrumbs,
-                            'homeLink' => '<li><a href="index.php" class="glyphicons home"><i></i> Página Inicial</a></li>',
+                            'homeLink' => '</a>
+                                <li class="breadcrumb-prev">
+                                    <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
+                                </li>
+                                <li>Você está aqui:</li>
+                                <li>
+                                    <a href="index.php"> &nbsp;Página Inicial</a>
+                                </li>',
                             'tagName' => 'ul',
                             'separator' => '',
                             'activeLinkTemplate' => '<li><a href="{url}">{label}</a> <li class="divider"></li></li>',
