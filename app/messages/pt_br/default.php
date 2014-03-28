@@ -17,7 +17,7 @@ return array(
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
-    'cannot be blank' => 'não pode ser vazio.',
+    'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
     
     
@@ -533,7 +533,7 @@ return array(
     
     //Autenticação
     'Users' => 'Usuários',
-    'manager' => 'Diretor',
+    'manager' => 'Gestor Escolar',
     'admin' => 'Administrador',
     
     'Administration' => 'Administração',
