@@ -154,6 +154,8 @@
  * @done S2 - Seleção de estado dando erro - Escola - Modificar Ajax de City
  * @done S2 - Seleção de estado dando erro - Escola - Corrigir Conflitos
  * @done S2 - Ao adicionar disciplina SEM professor aparece como "undefined"
+ * @done S2 - Campos desabilitados sem a seta lateral
+ * @done S2 - Alterar os perfis de usuários
  * 
  * 
  * ********* Os erros não apareceram nos Testes
@@ -186,7 +188,6 @@
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
  * @todo S2 - Distinguir campos obrigatorios com negrito
- * @todo S2 - Campos desabilitados sem a seta lateral
  * 
  * ******************************************************
  * 
@@ -202,7 +203,6 @@
  * 
  * * * * CHANGES * * *
  * 
- * @todo S2 - Alterar os perfis de usuários
  * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  
  * 
