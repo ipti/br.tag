@@ -156,6 +156,8 @@
  * @done S2 - Ao adicionar disciplina SEM professor aparece como "undefined"
  * @done S2 - Campos desabilitados sem a seta lateral
  * @done S2 - Alterar os perfis de usuários
+ * @done S2 - Alterar CSS do dropdown de escolas
+ * @done S2 - Traduzir título e breadcrumb da página de frequência
  * 
  * 
  * ********* Os erros não apareceram nos Testes
@@ -171,16 +173,16 @@
  * 
  * @todo SX - Bugs no alinhamento dos campos no modo responsive (todas as telas)
  * 
- * @todo S2 - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
- * @todo S2 - Retirar CSS desnecessaŕio
- * @todo S2 - Retirar JS desnecessário
+ * @todo SX - Botões de Next e Preview ficam desalinhados ao diminuir e aumentar tela
+ * @todo SX - Retirar CSS desnecessaŕio
+ * @todo SX - Retirar JS desnecessário
  * 
  * 
  * * * * USER EXPERIENCE * * *
  * 
  * @todo SX - Validação dos campos com explicação do tipo de erro e a forma correta de preenchimento.
  * 
- * @todo S2 - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
+ * @todo SX - Erros de preenchimento podem ser validados antes de enviar o form via javascript (o tema possui ferramenta pronta)
  *
  * 
  * * * * OTHERS * * *

@@ -2,8 +2,9 @@
 /* @var $this ClassesController */
 /* @var $dataProvider CActiveDataProvider */
 
-$this->breadcrumbs = array(
-    'Frequency',
+$this->setPageTitle('TAG - ' . Yii::t('default','Frequency'));
+$this->breadcrumbs=array(
+	Yii::t('default', 'Frequency'),
 );
 
 $this->menu = array(

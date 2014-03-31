@@ -70,7 +70,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
                 $(".select-search-on").select2({width: 'resolve'}); 
                 $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
-                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13}); 
+                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
+                $(".select-shool").select2({dropdownCssClass: 'school-dropdown'});
             });
 
             /**
@@ -167,12 +168,12 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                         echo CHtml::activeDropDownList(
                                 SchoolIdentification::model(), 'inep_id',  
                                 Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
-                                array('empty'=>'Selecione a escola','class'=>'span5 select-search-on','options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                array('empty'=>'Selecione a escola','class'=>'span5 select-shool','options' => array(Yii::app()->user->school=>array('selected'=>true))));
                        }else{
                           echo CHtml::activeDropDownList(
                                 UsersSchool::model(), 'school_fk',  
                                 Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-                                array('empty'=>'Selecione a escola','class'=>'span5 select-search-on', 'options' => array(Yii::app()->user->school=>array('selected'=>true))));
+                                array('empty'=>'Selecione a escola','class'=>'span5 select-school', 'options' => array(Yii::app()->user->school=>array('selected'=>true))));
 
                      }
                     ?>

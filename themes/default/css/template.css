@@ -1191,6 +1191,38 @@ width: 100%;
   -moz-border-radius: 0;
   border-radius: 0;
 }
+
+/** Select de seleção de escolas **/
+#s2id_SchoolIdentification_inep_id a {
+    background-color: #6988c0;
+    box-shadow: 0 1px 0 #3a5689;
+    -webkit-box-shadow: 0 1px 0 #3a5689;
+    -moz-box-shadow: 0 1px 0 #3a5689;
+    border: 0;
+    color: #fff;
+    padding: 3px 10px;
+}
+#s2id_SchoolIdentification_inep_id .select2-arrow {
+    background: inherit;
+}
+#select2-drop.school-dropdown {
+    border: none;
+    background: #363432;
+    color: #c8c8c8;
+}
+#s2id_SchoolIdentification_inep_id.select2-dropdown-open a {
+    background-color: #363432;
+}
+.school-dropdown .select2-results {
+    padding: 0;
+}
+.school-dropdown .select2-result-label {
+    border-bottom: 1px solid #4a4947;
+}
+.school-dropdown .select2-highlighted {
+    background: #1c1a19 !important;
+}
+
 .submenu-show {
   display: block;
   margin-top: -29px !important;
@@ -6532,8 +6564,8 @@ div.glyphicons.glyphicon-primary i:before {
   padding-top: 6px;
   margin-bottom: -10px;
 }
-#change-school {
-    padding: 3px 0 0 0;
+#change-school form{
+    margin: 0;
 }
 .affix {
   width: inherit;
