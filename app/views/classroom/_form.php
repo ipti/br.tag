@@ -392,7 +392,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         
                 </div>
 
-                <div class="tab-pane active" id="students">
+                <div class="tab-pane" id="students">
                     <div class="row-fluid">
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
@@ -565,7 +565,8 @@ $form=$this->beginWidget('CActiveForm', array(
     
     var classroomId = '<?php echo $modelClassroom->id; ?>';
     
-    $()
+    var firstTime = true;
+
     ////////////////////////////////////////////////
     // Document Ready                             //
     ////////////////////////////////////////////////
@@ -591,137 +592,140 @@ $form=$this->beginWidget('CActiveForm', array(
         //Cria o calendário semanal de aulas
         
         $('#tab-classboard, #button-next').click(function(){
-        calendar = $('#calendar').fullCalendar({
-            <?php //@done s2 - Colocar data padrão        ?>
-            year: 1996, //Porque eu nasci em 1993.
-            month: 0,
-            date: 1,
-            theme: true,
-            firstDay:1,
-            defaultView: 'agendaWeek',
-            allDaySlot: false,
-            allDayDefault: false,
-            slotEventOverlap: true,
-            disableResizing: true,
-            editable: true,
+            if(firstTime){
+                firstTime = false;
+                calendar = $('#calendar').fullCalendar({
+                    <?php //@done s2 - Colocar data padrão        ?>
+                    year: 1996, //Porque eu nasci em 1993.
+                    month: 0,
+                    date: 1,
+                    theme: true,
+                    firstDay:1,
+                    defaultView: 'agendaWeek',
+                    allDaySlot: false,
+                    allDayDefault: false,
+                    slotEventOverlap: true,
+                    disableResizing: true,
+                    editable: true,
 
-            <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário        ?>
-            firstHour: 1,
-            minTime: 1,
-            maxTime: 11,
-            slotMinutes: 60,
-            defaultEventMinutes: 60,
-            axisFormat: "H'º' 'Horário'",
-            timeFormat: { agenda: "" },
-            columnFormat: { week: 'dddd', },
+                    <?php //@done s2 - Limitar quantidade de slots que aparecem no Quadro de Horário        ?>
+                    firstHour: 1,
+                    minTime: 1,
+                    maxTime: 11,
+                    slotMinutes: 60,
+                    defaultEventMinutes: 60,
+                    axisFormat: "H'º' 'Horário'",
+                    timeFormat: { agenda: "" },
+                    columnFormat: { week: 'dddd', },
 
-            <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro)         ?>
-            header: { left: '', center: '', right: '', },
-            titleFormat: { week: "MMMM", },
+                    <?php //@done s2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro)         ?>
+                    header: { left: '', center: '', right: '', },
+                    titleFormat: { week: "MMMM", },
 
-            <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
-            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-            selectable: true,
-            selectHelper: true,
+                    <?php //@done s2 - Traduzir dias da semana e meses do fullCalendar        ?>
+                    monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                    selectable: true,
+                    selectHelper: true,
 
-            <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
-            <?php //@done s2 - Atualizar para a nova estrutura do bando o evento que importa os dados do banco        ?>
-            events: '<?php echo CController::createUrl('classroom/getClassBoard&classroom_fk='.$modelClassroom->id); ?>',
+                    <?php //@done s2 - Criar o evento que importa os dados do banco        ?>
+                    <?php //@done s2 - Atualizar para a nova estrutura do bando o evento que importa os dados do banco        ?>
+                    events: '<?php echo CController::createUrl('classroom/getClassBoard&classroom_fk='.$modelClassroom->id); ?>',
 
-            //Evento ao selecionar nos blocos de horários
-            //Criar uma nova aula
-            <?php //@done s2 - Criar tela de dialogo para CRIAR da aula        ?>
-            select: function(start, end, allDay) {
-                var id = formClassBoard+'classroom_fk';
-                //if($(id).val().length != 0){
-                lesson_start = start;
-                lesson_end = end;
-                
-                atualizaListadeInstrutores();
-                $("#create-dialog-form").dialog("open");
+                    //Evento ao selecionar nos blocos de horários
+                    //Criar uma nova aula
+                    <?php //@done s2 - Criar tela de dialogo para CRIAR da aula        ?>
+                    select: function(start, end, allDay) {
+                        var id = formClassBoard+'classroom_fk';
+                        //if($(id).val().length != 0){
+                        lesson_start = start;
+                        lesson_end = end;
 
-                <?php //@done s2 - Não permitir que crie eventos no mesmo horário
-                      //@todo SX - Verificar choque de horários  
-                      //@todo SX - Verificar se o professor já esta dando aula neste horário?>
-                    //console.log(lessons);
-                $(lessons).each(function(i, val){ 
-                    v1 = val.start.getTime();
-                    v2 = val.end == null ? v1 : val.end.getTime();
-                    l1 = lesson_start.getTime();
-                    l2 = lesson_end == null ? l1 : lesson_end.getTime();
+                        atualizaListadeInstrutores();
+                        $("#create-dialog-form").dialog("open");
 
-                    if ((l1 < v1 && l2 <= v1)
-                       || (l1 > v2 && l2 > v2)){
-                    }else{
-                        myCreateDialog.dialog('close');
-                        //Pode-se criar um dialog para avisar o que ocorreu, mas acho que ficaria muito spam.
-                    }
-                });
-                //$('body').css('overflow','hidden');
-                //}else{
-                //    addError(id, "Selecione a Turma");
-                //} 
-                calendar.fullCalendar('unselect');
-            },
-            
-            
-            //Evento ao clicar nos blocos de horários existentes
-            //Atualizar e Remover bloco
-            eventClick: function(event){
-                lesson = updateLesson(event);
-                <?php //@done s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
-                <?php //@done s2 - Criar função de REMOVER aula        ?>
-                <?php //@done s2 - Criar função de ATUALIZAR aula        ?>
-//                var id = formClassBoard+'classroom_fk';
-//                if($(id).val().length != 0){            
-                
-                    atualizaListadeInstrutores();
-                    $("#update-dialog-form").dialog("open");
-                    calendar.fullCalendar('unselect');
-                    //$('body').css('overflow','hidden');
-//                }else{
-//                    addError(id, "Selecione a Turma");
-//                } 
-            },
-                    
-                    
-            //Evento ao mover um bloco de horário
-            //Atualizar o bloco
-            <?php //@done s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
-                  //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona?>
-            eventDrop: function(event, dayDelta, minuteDelta) {
-                lesson = updateLesson(event);
-                lesson.discipline = event.discipline;
-                var l = lesson;  
-                if(l.classroom == ''){
-                    calendar.fullCalendar('removeEvents',l.id);
-                    calendar.fullCalendar('renderEvent',l,true);
-                    myUpdateDialog.dialog("close");
-                }else{
-                    $.ajax({
-                        type:'POST',
-                        url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
-                        success:function(e){
-                            var event = jQuery.parseJSON(e);
-                            calendar.fullCalendar('removeEvents',event.id);
-                            calendar.fullCalendar('renderEvent',event,true);
+                        <?php //@done s2 - Não permitir que crie eventos no mesmo horário
+                              //@todo SX - Verificar choque de horários  
+                              //@todo SX - Verificar se o professor já esta dando aula neste horário?>
+                            //console.log(lessons);
+                        $(lessons).each(function(i, val){ 
+                            v1 = val.start.getTime();
+                            v2 = val.end == null ? v1 : val.end.getTime();
+                            l1 = lesson_start.getTime();
+                            l2 = lesson_end == null ? l1 : lesson_end.getTime();
+
+                            if ((l1 < v1 && l2 <= v1)
+                               || (l1 > v2 && l2 > v2)){
+                            }else{
+                                myCreateDialog.dialog('close');
+                                //Pode-se criar um dialog para avisar o que ocorreu, mas acho que ficaria muito spam.
+                            }
+                        });
+                        //$('body').css('overflow','hidden');
+                        //}else{
+                        //    addError(id, "Selecione a Turma");
+                        //} 
+                        calendar.fullCalendar('unselect');
+                    },
+
+
+                    //Evento ao clicar nos blocos de horários existentes
+                    //Atualizar e Remover bloco
+                    eventClick: function(event){
+                        lesson = updateLesson(event);
+                        <?php //@done s2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        ?>
+                        <?php //@done s2 - Criar função de REMOVER aula        ?>
+                        <?php //@done s2 - Criar função de ATUALIZAR aula        ?>
+        //                var id = formClassBoard+'classroom_fk';
+        //                if($(id).val().length != 0){            
+
+                            atualizaListadeInstrutores();
+                            $("#update-dialog-form").dialog("open");
+                            calendar.fullCalendar('unselect');
+                            //$('body').css('overflow','hidden');
+        //                }else{
+        //                    addError(id, "Selecione a Turma");
+        //                } 
+                    },
+
+
+                    //Evento ao mover um bloco de horário
+                    //Atualizar o bloco
+                    <?php //@done s2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
+                          //@done s2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona?>
+                    eventDrop: function(event, dayDelta, minuteDelta) {
+                        lesson = updateLesson(event);
+                        lesson.discipline = event.discipline;
+                        var l = lesson;  
+                        if(l.classroom == ''){
+                            calendar.fullCalendar('removeEvents',l.id);
+                            calendar.fullCalendar('renderEvent',l,true);
                             myUpdateDialog.dialog("close");
-                        },
-                        data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta,classroom_fk:classroomId}
-                    });
-                }
-                
-            },
-                    
-                    
-            //Evento de carregamento do calendário
-            loading: function(bool) {
-                if (bool) $('#loading').show();
-                else $('#loading').hide();
-            }
+                        }else{
+                            $.ajax({
+                                type:'POST',
+                                url:'<?php echo CController::createUrl('classroom/updateLesson'); ?>',
+                                success:function(e){
+                                    var event = jQuery.parseJSON(e);
+                                    calendar.fullCalendar('removeEvents',event.id);
+                                    calendar.fullCalendar('renderEvent',event,true);
+                                    myUpdateDialog.dialog("close");
+                                },
+                                data:{'lesson': l , 'days': dayDelta, 'minutes': minuteDelta,classroom_fk:classroomId}
+                            });
+                        }
 
-        });
+                    },
+
+
+                    //Evento de carregamento do calendário
+                    loading: function(bool) {
+                        if (bool) $('#loading').show();
+                        else $('#loading').hide();
+                    }
+
+                });
+            }
         
         });
         

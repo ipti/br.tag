@@ -64,7 +64,7 @@ class FrequencyController extends Controller
             $classroomID = $_POST['classroom'];
             $disciplineID = $_POST['disciplines'];
             $month = $_POST['month'];
-            $instructorFaults = $_POST['day'];
+            $instructorFaults = isset($_POST['day'])?$_POST['day']:array();
 
             $infos = $this->actionGetClasses($classroomID, $disciplineID, $month);
             $classDays = $infos['days'];
@@ -118,10 +118,9 @@ class FrequencyController extends Controller
             }
           
 
-        $faults = array();
+            $faults = array();
             //cadastrar faltas
             if(isset($_POST['student'])){
-                echo "<br><br><br>";
                 $studentsFaults = $_POST['student'];
                 foreach ($studentsFaults as $studentID => $fault) {
                     foreach($fault as $d => $day){
@@ -144,7 +143,7 @@ class FrequencyController extends Controller
                     }
                 }
             }
-            
+
             set_time_limit(30);
             $this->redirect(array('index'));
             
