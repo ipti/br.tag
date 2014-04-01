@@ -205,6 +205,8 @@
  * 
  * * * * CHANGES * * *
  * 
+ * @todo SX - Trocar os campos de pesquisa da listagem por listas.
+ *  
  * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  
  * 

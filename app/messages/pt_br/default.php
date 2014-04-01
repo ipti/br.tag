@@ -540,5 +540,10 @@ return array(
     
     'Confirm' => "Confirme a Senha",
     
+    //Import
+    'Import File' => "Arquivo de Importação",
+    'Import File Dialog' => 'Importar Informações do EducaCenso',
+    'Import' => 'Importar',
+    
         )
 ?>

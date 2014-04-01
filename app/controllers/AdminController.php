@@ -125,12 +125,20 @@ class AdminController extends Controller {
         $this->redirect(array('index'));
     }
 
-    public function actionImport($fileDir = null) {
+    public function actionImport() {
+        
+        $path = Yii::app()->basePath;
+            
         //Se não passar parametro, o valor será predefinido
-        if (!isset($fileDir)) {
-            $path = Yii::app()->basePath;
+        if (!isset($_FILES['file'])) {
             $fileDir = $path . '/import/2013_98018493.TXT';
+        }else{
+            $uploadfile = $path .'/import/'. basename($_FILES['file']['name']);
+            move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+            $fileDir = $uploadfile;
         }
+        
+        
         $mode = 'r';
 
         //Abre o arquivo
@@ -308,7 +316,7 @@ class AdminController extends Controller {
 
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = date("Y");
+                            $year = '2013';//date("Y");
                             $value.= ',' . $year;
                         }
                         if ($line == ($totalLines)) {

@@ -38,7 +38,7 @@
  */
 class StudentEnrollment extends CActiveRecord {
 
-    public $year;
+    public $school_year;
     
     /**
      * Returns the static model of the specified AR class.
@@ -70,7 +70,7 @@ class StudentEnrollment extends CActiveRecord {
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('year,studentFk.name,classroomFk.name,register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id', 'safe', 'on' => 'search'),
+            array('school_year,studentFk.name,classroomFk.name,register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -117,6 +117,7 @@ class StudentEnrollment extends CActiveRecord {
             'vehicle_type_waterway_boat_35' => Yii::t('default', 'Vehicle Type Waterway Boat 35'),
             'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'),
             'student_entry_form' => Yii::t('default', 'Student Entry Form'),
+            'school_year' => Yii::t('default', 'School Year'),
             'id' => Yii::t('default', 'ID'),
         );
     }
@@ -158,7 +159,7 @@ class StudentEnrollment extends CActiveRecord {
 //                $criteria->compare('vehicle_type_metro_or_train',$this->vehicle_type_metro_or_train);
 //                $criteria->compare('student_entry_form',$this->student_entry_form);
         $criteria->compare('id', $this->id);
-        $criteria->compare( 'classroomFk.school_year', $this->year );
+        $criteria->compare( 'classroomFk.school_year', $this->school_year );
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');

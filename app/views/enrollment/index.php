@@ -59,7 +59,7 @@
                                 'value' => 'CHtml::link($data->classroomFk->name,"?r=enrollment/update&id=".$data->id)',
                                 'htmlOptions' => array('width'=>'35%')
                         ),
-                        array( 'name'=>'year', 'value'=>'$data->classroomFk->school_year' ),
+                        array( 'name'=>'school_year', 'value'=>'$data->classroomFk->school_year' ),
 //                        array(
 //                                'name' => 'classroom_fk.school_year',
 //                                'type' => 'raw',
