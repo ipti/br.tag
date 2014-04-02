@@ -36,7 +36,43 @@
  * @done S1 - Organizar os campos do form_classroom
  * @done S1 - Modificar aba disciplinas para Teaching Data.
  * @done S1 - Vincular disciplinas do classroom com as do teachingdata
+ * @done S1 - Criar exclusão do teachingData e verificar a não exclusão de novos dados (vem undefined) 
+ * @done S1 - Criar função addInstructor que adiciona o instrutor e suas disciplinas na array 
+ * @done S1 - Validar se o ano é apenas número e mandar erro
+ * @done S1 - defini como ficaram os arrays de Disciplinas e TeachingData para salvar no banco
+ * @done S1 - Retirar campos de Escola e Turma TD
+ * @done S1 - Adicionar campo para selecionar o instrutor TD
+ * @done S1 - Mudar o TeachingData para a view do ClassRoom e o seu controler tbm.
+ * @done S1 - Edição de teaching data - excluir o professor TD
+ * @done S1 - criar estutura da tela de TeachingData no Classroom 
+ * @done S1 - colocar o ano atual como valor padrão
+ * @done S1 - 08 - 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
+ * @done S1 - 08 - 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?                             
  * 
+ * 
+ * @done S2 - Colocar data padrão        
+ * @done S2 - Limitar quantidade de slots que aparecem no Quadro de Horário        
+ * @done S2 - Não é necessário colocar o mês (o quadro de aulas serve pro ano inteiro)         
+ * @done S2 - Traduzir dias da semana e meses do fullCalendar        
+ * @done S2 - Criar o evento que importa os dados do banco        
+ * @done S2 - Atualizar para a nova estrutura do bando o evento que importa os dados do banco       
+ * @done S2 - Criar tela de dialogo para CRIAR da aula        
+ * @done S2 - Não permitir que crie eventos no mesmo horário
+ * @done S2 - Reduzir caracteres do evento
+ * @done S2 - Comportar o horário na tabela de classboard
+ * @done S2 - Criar tela de dialogo com opções de ALTERAR e REMOVER aula        
+ * @done S2 - Criar função de REMOVER aula        
+ * @done S2 - Criar função de ATUALIZAR aula        
+ * @done S2 - criar o evento que ATUALIZAR os dados do banco ao mover a aula        
+ * @done S2 - Draggear evento grande apos renderizar e voltar pequeno nao funciona
+ * @done S2 - Ajax da criação de lessons 
+ * @done S2 - Ajax da criação de lessons 
+ * @done S2 - Ajax da criação de lessons 
+ * @done S2 - Validação da disciplina 
+ * @done S2 - Validação da classroom 
+ * @done S2 - Criar modal ao clicar na tabela
+ * @done S2 - Corrigir problemas do submit automático
+ * @done S2 - Corrigir problemas do Layout
  * @done S2 - Add validação para os campos que esão faltando
  * @done S2 - Popar a interrogação durante um intervalo de tempo ao falhar na regra do javascript
  * @done S2 - Traduzir breadcrumbs (migalhas de pão)
@@ -158,6 +194,11 @@
  * @done S2 - Alterar os perfis de usuários
  * @done S2 - Alterar CSS do dropdown de escolas
  * @done S2 - Traduzir título e breadcrumb da página de frequência
+ * @done S2 - Full calendar renderizando a cada clique, fazer um callback pra verificar se o calendário ja está renderizado
+ * @done S2 - Distinguir campos obrigatorios com negrito
+ * @done s2 - corrigir problema com nomes grandes de disciplina
+ * @done s2 - colocar o botão de excluir na parte superior
+ * 
  * 
  * 
  * ********* Os erros não apareceram nos Testes
@@ -188,7 +229,7 @@
  * * * * OTHERS * * *
  * 
  * @todo S2 - Modificar diagramação da listagem de alunos
- * @done S2 - Distinguir campos obrigatorios com negrito
+ * @todo S2 - Ajeitar o design dos eventos
  * 
  * ******************************************************
  * 
@@ -200,28 +241,29 @@
  * * * * BUGS * * *
  * 
  * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
- * @todo s2 - Full calendar renderizando a cada clique, fazer um callback pra verificar se o calendário ja está renderizado
  *  
  * 
  * * * * CHANGES * * *
  * 
  * @todo SX - Trocar os campos de pesquisa da listagem por listas.
- *  
+ * @todo SX - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido. - Turma
+ * 
  * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  
  * 
  * * * * OTHERS * * *
  * 
  * @todo SX - Enviar alerta ao chocar horários informando qual horário esta chocando.
+ * @todo SX - Verificar choque de horários  
+ * @todo SX - Verificar se o professor já esta dando aula neste horário
  * 
- * @todo S2 - Justificar Faltas
- * @todo S2 - Cadastrar reposição
- * @todo S2 - Ajeitar o design dos eventos
+ * @todo SX - Justificar Faltas
+ * @todo SX - Cadastrar reposição
  * 
- * @todo S3 - Criar action de update de usuários.
- * @todo S3 - Criar tela de listagem de usuários.
- * @todo S3 - Criar action de listagem de usuários.
- * @todo S3 - Criar action de remoção de usuários.
+ * @todo SX - Criar action de update de usuários.
+ * @todo SX - Criar tela de listagem de usuários.
+ * @todo SX - Criar action de listagem de usuários.
+ * @todo SX - Criar action de remoção de usuários.
  * 
  * ******************************************************
  * 
