@@ -6,12 +6,13 @@
 
 
 <?php
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
+
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'users-createUser-form',
-    // Please note: When you enable ajax validation, make sure the corresponding
-    // controller action is handling ajax validation correctly.
-    // See class documentation of CActiveForm for details on this,
-    // you need to use the performAjaxValidation()-method described there.
     'enableAjaxValidation' => false,
         ));
 ?>
@@ -23,21 +24,20 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="buttons">
             <div class="buttons">
                  <div class="buttons">
-                        <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord 
-                                ? Yii::t('default', 'Create') 
-                                : Yii::t('default', 'Save')), 
-                              array( 'type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok'));
-                        ?>
+                    <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord 
+                            ? Yii::t('default', 'Create') 
+                            : Yii::t('default', 'Save')), 
+                          array( 'type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok'));
+                    ?>
+                </div>
             </div>
         </div>
     </div>
 </div>
-</div>
 
 <div class="innerLR">
-
     <div class="widget widget-tabs border-bottom-none">
-
+        
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons user" href="#User" data-toggle="tab"><i></i><?php echo Yii::t('default', 'User') ?></a></li>
@@ -45,8 +45,8 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-
             <div class="tab-content">
+                
                 <!-- Tab content -->
                 <div class="tab-pane active" id="User">
                     <div class="row-fluid">
@@ -61,9 +61,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row-fluid">
                         <div class=" span5">
-
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'username', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -72,6 +72,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'username'); ?>
                                 </div>
                             </div>
+                            
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -80,6 +81,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
                             </div>
+                            
                             <div class="control-group">
                                 <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -88,6 +90,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
+                        
                         <div class=" span5">
                             <div class="control-group">
                                 <?php echo CHtml::label( Yii::t('default','Role'), 'Role', array('class' => 'control-label')); ?>
@@ -109,54 +112,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
+                
                 <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     var form = '#Users_';
-    
-    $(form+'name').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        $(id).val($(id).val().toUpperCase());
-        if(!validateSchoolName($(id).val())) {
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
-    
-    $(form+'username').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        if(!validateLogin($(id).val())) {
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
-
-    $(form+'password').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        if(!validatePassword($(id).val())) {
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
-
-    $('#Confirm').focusout(function() { 
-        var id = '#'+$(this).attr("id");
-        var passId = form+'password';
-        
-        if($(id).val() != $(passId).val()) {
-            $(id).attr('value','');
-            addError(id, "Campo não está dentro das regras.");
-        }else{
-            removeError(id);
-        }
-    });
 </script>

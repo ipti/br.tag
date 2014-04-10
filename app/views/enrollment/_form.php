@@ -1,4 +1,9 @@
 <?php 
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
+
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'student-enrollment-form',
@@ -221,20 +226,6 @@ $form=$this->beginWidget('CActiveForm', array(
 <script type="text/javascript">
     
     var form = '#StudentEnrollment_';
-    jQuery(function($) {
-        jQuery.ajax({
-            'type':'POST',
-            'url':'/tag/index.php?r=enrollment/updatedependencies',
-            'cache':false,
-            'data':jQuery("#StudentEnrollment_school_inep_id_fk").parents("form").serialize(),
-            'success':function(data){
-                data = jQuery.parseJSON(data);
-                $('#StudentEnrollment_student_fk').html(data.Students);
-                $('#StudentEnrollment_classroom_fk').html(data.Classrooms);
-            }
-        });    
+    var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
     
-    }); 
-    
-    $('.heading-buttons').css('width', $('#content').width());
 </script>

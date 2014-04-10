@@ -60,12 +60,6 @@
                                 'htmlOptions' => array('width'=>'35%')
                         ),
                         array( 'name'=>'school_year', 'value'=>'$data->classroomFk->school_year' ),
-//                        array(
-//                                'name' => 'classroom_fk.school_year',
-//                                'type' => 'raw',
-//                                'value' => '$data->classroomFk->school_year',
-//                                'htmlOptions' => array('width'=>'30px')
-//                        ),
                         array('class' => 'CButtonColumn','template'=>' {delete}'),),
                     ));
                 ?>

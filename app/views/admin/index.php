@@ -1,6 +1,10 @@
 <?php
 /* @var $this AdminController */
 
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
+
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
 $this->breadcrumbs = array(
     Yii::t('default', 'Administration'),
@@ -52,11 +56,6 @@ $this->breadcrumbs = array(
                     </a>
                 </div>
             </div>
-            <!--            <div class="row-fluid">
-                            <div class="span10 offset2">
-                                <img class="logo-img" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" alt="Logo TAG" />
-                            </div>
-                        </div> -->
         </div>
     </div>
 
@@ -75,31 +74,10 @@ $this->breadcrumbs = array(
             </div>
         </div>
     </div>
-
 </div>
 
 
 <script>
-
-
-    //Cria o Dialogo de IMPORTAÇÃO
-    var myImportFileDialog = $("#import-file-dialog").dialog({
-        autoOpen: false,
-        height: 190,
-        width: 380,
-        modal: true,
-        draggable: false,
-        resizable: false,
-        buttons: {
-            "<?php echo Yii::t('default', 'Import'); ?>": function() {
-                var file = $("#file").val();
-                console.log(file);
-                $("#import-file-form").submit();
-                $(this).dialog("close");
-            },
-            <?php echo Yii::t('default', 'Cancel'); ?>: function() {
-                $(this).dialog("close");
-            }
-        },
-    });
+    var btnImport = "<?php echo Yii::t('default', 'Import'); ?>";
+    var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
 </script>
