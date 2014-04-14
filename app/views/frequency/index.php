@@ -4,7 +4,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/frequency/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/frequency/index/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default','Frequency'));
 $this->breadcrumbs=array(

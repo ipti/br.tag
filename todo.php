@@ -48,6 +48,25 @@
  * @done S1 - colocar o ano atual como valor padrão
  * @done S1 - 08 - 08 - Os Valores deste campo são definidos de forma global e pode vim preenchidos default
  * @done S1 - 08 - 07 - A Criação da turma é feita dentro de uma escola, não precisa ser necessário selecionar uma?                             
+ * @done s1 - Melhorar a diagramação desta tela e textos.
+ * @done s1 30 - Vem predefinido a universidade federal de mato grosso, precisa alterar isso para um valor default.
+ * @done s1 - Vem predefinido a escola, precisa alterar isso para um valor default.
+ * @done s1 - Usar um único método para solicitação ajax dos 2 campos de Estados
+ * @done s1 - corrigir trigger da aba de dados variáveis.
+ * @done S1 - alterar redirecionamento do instructor pra index
+ * @done S1 - Remover aba de teaching data no update
+ * @done s1 22 - Este filtro da cidade não está funcionando.                    
+ * @done s1 - Modificar o icone das abas
+ * @done S1 25 - Talvez um pre-filtro com a area de autação e 
+ * @done s1 - depois os cursos ORDENADOS por nome
+ * @done s1 - filtrar for high_education_institution_type.
+ * @done s1 - ordenar alfabeticamente.
+ * @done s1 - correção na filtragem por tipo de instituição
+ * @done s1 - corrigir a validação da nacionalidade 
+ * @done s1 - atualizar o select2 para versão 2.3.4
+ * @done s1 - ajeitar mudança de sub-abas
+ * @done s1 - Deixar a seleção de instituições mais rápida 
+ * @done s1 24 - Dado Variavel é melhor dados educacionais???
  * 
  * 
  * @done S2 - Colocar data padrão        
