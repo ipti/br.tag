@@ -36,7 +36,7 @@ return array(
     'Address' => 'Endereço',
     'Address Number' => 'Nº',
     'Address Complement' => 'Complemento',
-    'Address Neighborhood' => 'Bairro',
+    'Address Neighborhood' => 'Bairro / Povoado',
     'Edcenso Uf Fk' => 'Estado',
     'Edcenso City Fk' => 'Cidade',
     'Edcenso District Fk' => 'Distrito',
@@ -107,7 +107,7 @@ return array(
     'Dependencies Secretary Room' => 'Sala de Secretaria',
     'Dependencies Info Lab' => 'Laboratório de Informática',
     'Dependencies Science Lab' => 'Laboratório de Ciências',
-    'Dependencies Aee Room' => 'Sala de Recursos para AEE',
+    'Dependencies Aee Room' => 'Sala de Recursos para Atendimento Educacional Especializado',
     'Dependencies Indoor Sports Court' => 'Quadra de esportes coberta',
     'Dependencies Outdoor Sports Court' => 'Quadra de esportes descoberta',
     'Dependencies Kitchen' => 'Cozinha',
@@ -214,7 +214,7 @@ return array(
     'Complementary Activity Type 4' => '',
     'Complementary Activity Type 5' => '',
     'Complementary Activity Type 6' => '',
-    'Aee' => 'Atividades do AEE',
+    'Aee' => 'Atividades do Atendimento Educacional Especializado',
     'Aee Braille System Education' => 'Ensino do Sistema Braille',
     'Aee Optical And Non Optical Resources' => 'Ensino do uso de recursos ópticos e não ópticos',
     'Aee Mental Processes Development Strategies' => 'Estratégias para o desenvolvimento de processos mentais',
@@ -326,7 +326,7 @@ return array(
     'Address' => 'Endereço',
     'Number' => 'Nº',
     'Complement' => 'Complemento',
-    'Neighborhood' => 'Bairro',
+    'Neighborhood' => 'Bairro / Povoado',
     'State' => 'Estado',
     'City' => 'Município',
     
@@ -379,7 +379,7 @@ return array(
     //Instructor-DocumentsAndAddress
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
-    'Neighborhood' => 'Bairro',
+    'Neighborhood' => 'Bairro / Povoado',
     
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',

@@ -134,7 +134,7 @@ class StudentController extends Controller {
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             $modelStudentDocumentsAndAddress->nis = $modelStudentIdentification->nis;
             
-            if ($modelStudentIdentification->validate()) {
+            if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     
