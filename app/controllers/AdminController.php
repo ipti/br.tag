@@ -16,20 +16,126 @@ class AdminController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index'),
+                'actions' => array( 'CreateUser','index'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('import', 'clearDB', 'acl', 'CreateUser'),
+                'actions' => array('import', 'clearDB', 'acl', 'export'),
                 'users' => array('@'),
             ),
         );
     }
 
     public function actionIndex() {
-
         $this->render('index');
     }
+    
+    public function actionExport(){
+        $export = "";
+        
+        //Escolas
+        $schools = SchoolIdentification::model()->findAll();
+        foreach ($schools as $key => $school) {
+            $export .= implode('|', $school->attributes);
+            $export .= "|\n";
+        }
+        
+        //Estrutura Escolar
+        $schoolsStructure = SchoolStructure::model()->findAll();
+        foreach ($schoolsStructure as $key => $schoolStructure) {
+            $export .= implode('|', $schoolStructure->attributes);
+            $export .= "|\n";
+        }
+        
+        //Turma
+        $classrooms = Classroom::model()->findAll();
+        foreach ($classrooms as $key => $classroom) {
+            $attributes = $classroom->attributes;
+            //Remove Turno
+            array_pop($attributes);
+            //Remove Ano
+            array_pop($attributes);
+            $export .= implode('|', $attributes);
+            $export .= "|\n";
+        }
+        
+        //Identificação do Professor
+        $instructors = InstructorIdentification::model()->findAll();
+        foreach ($instructors as $key => $instructor) {
+            $export .= implode('|', $instructor->attributes);
+            $export .= "|\n";
+        }
+        
+        //Documentos do Professor
+        $instructorsDocs = InstructorDocumentsAndAddress::model()->findAll();
+        foreach ($instructorsDocs as $key => $instructorDocs) {
+            $export .= implode('|', $instructorDocs->attributes);
+            $export .= "|\n";
+        }
+            
+        //Variáveis de Encino do Professor
+        $instructorsVariables = InstructorVariableData::model()->findAll();
+        foreach ($instructorsVariables as $key => $instructorVariables) {
+            $export .= implode('|', $instructorVariables->attributes);
+            $export .= "|\n";
+        }    
+        
+        //Dados de Docência do Professor
+        $instructorsTeachingData = InstructorTeachingData::model()->findAll();
+        foreach ($instructorsTeachingData as $key => $instructorTeachingData) {
+            $attributes = $instructorTeachingData->attributes;
+            //Remove Id
+            array_pop($attributes);
+            $export .= implode('|', $attributes);
+            $export .= "|\n";
+        }    
+                
+        //Identificação do Aluno
+        $students = StudentIdentification::model()->findAll();
+        foreach ($students as $key => $student) {
+            $export .= implode('|', $student->attributes);
+            $export .= "|\n";
+        }
+        
+        //Documentos do Aluno
+        $studentsDocs = StudentDocumentsAndAddress::model()->findAll();
+        foreach ($studentsDocs as $key => $studentDocs) {
+            $export .= implode('|', $studentDocs->attributes);
+            $export .= "|\n";
+        }
+            
+        //Matricula do Aluno
+        $enrollments = StudentEnrollment::model()->findAll();
+        foreach ($enrollments as $key => $enrollment) {
+            $attributes = $enrollment->attributes;
+            //Remove Id
+            array_pop($attributes);
+            $export .= implode('|', $attributes);
+            $export .= "|\n";
+        }  
+        
+        
+        $mode = "w+";
+        
+        $path = Yii::app()->basePath;
+        $fileDir = $path . '/export/'.date('Y-m-d-H:i:s').'.TXT';
+
+        //Abre o arquivo
+        $file = fopen($fileDir, $mode);
+        if ($file == false) {
+            die('O arquivo não existe.');
+        }
+        //Escreve
+        $write = fwrite($file, $export);
+        //Fecha
+        fclose($file);
+        
+        //echo "<textarea>".$export."</textarea>";
+        
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
+        $this->render('index');
+    }
+    
 
     public function actionCreateUser() {
         $model = new Users;
@@ -97,9 +203,9 @@ class AdminController extends Controller {
             delete from users_school;
             delete from users;
 
-            delete from class;
             delete from class_board;
             delete from class_faults;
+            delete from class;
 
             delete from student_enrollment;
             delete from student_identification;

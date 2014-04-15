@@ -57,6 +57,15 @@ $this->breadcrumbs = array(
                 </div>
             </div>
         </div>
+        <div class="span6">
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/export" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Exportar</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Modal -->

@@ -258,19 +258,51 @@
  * ******************************************************
  * 
  * * * * BUGS * * *
- * 
- * @todo S2 - A tabela de alunos não atualiza o título quando seleciona escolas infnantis (cheches)
  *  
+ * @done S3 - Correção no Limpar Banco
  * 
  * * * * CHANGES * * *
  * 
  * @todo SX - Trocar os campos de pesquisa da listagem por listas.
  * @todo SX - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido. - Turma
  * 
- * @todo S2 - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
+ * @todo SX - Preenchimento errado deve só apagar os caracteres errados e não o nome todo
  *  
  * 
  * * * * OTHERS * * *
+ * 
+ * @todo S3 - Exportação.
+ * @done S3 - Exportação - Adicionar Coluna para agregar Botão.
+ * @done S3 - Exportação - Adicionar Botão na tela de Admin.
+ * @done S3 - Exportação - Criar ActionExport do admin.
+ * @done S3 - Exportação - Adicionar ActionExport das rules.
+ * 
+ * @done S3 - Exportação - Selecionar Todas as Escolas.
+ * @done S3 - Exportação - Estruturar campos das Escolas no modelo EdCenso.
+ * @done S3 - Exportação - Selecionar Todas as Estruturas Escolares.
+ * @done S3 - Exportação - Estruturar campos das Estruturas Escolares no modelo EdCenso.
+ * 
+ * @done S3 - Exportação - Selecionar Todas as Turmas.
+ * @done S3 - Exportação - Estruturar campos das Turmas no modelo EdCenso.
+ * 
+ * @done S3 - Exportação - Selecionar Todas as Identificações dos Instrutores.
+ * @done S3 - Exportação - Estruturar campos das Identificações dos Instrutores no modelo EdCenso.
+ * @done S3 - Exportação - Selecionar Todas as Documentos dos Instrutores.
+ * @done S3 - Exportação - Estruturar campos das Documentos dos Instrutores no modelo EdCenso.
+ * @done S3 - Exportação - Selecionar Todas as Variáveis de Encino dos Instrutores.
+ * @done S3 - Exportação - Estruturar campos das Variáveis de Encino dos Instrutores no modelo EdCenso.
+ * @done S3 - Exportação - Selecionar Todas as Dados de Docência dos Instrutores.
+ * @done S3 - Exportação - Estruturar campos das Dados de Docência dos Instrutores no modelo EdCenso.
+ * 
+ * @done S3 - Exportação - Selecionar Todas as Identificações dos Alunos.
+ * @done S3 - Exportação - Estruturar campos das Identificações dos Alunos no modelo EdCenso.
+ * @done S3 - Exportação - Selecionar Todas as Documentos dos Alunos.
+ * @done S3 - Exportação - Estruturar campos das Documentos dos Alunos no modelo EdCenso.
+ * 
+ * @done S3 - Exportação - Selecionar Todas as Matrículas.
+ * @done S3 - Exportação - Estruturar campos das Matrículas no modelo EdCenso.
+ * 
+ * @done S3 - Exportação - Gerar Arquivo Final
  * 
  * @todo SX - Enviar alerta ao chocar horários informando qual horário esta chocando.
  * @todo SX - Verificar choque de horários  
