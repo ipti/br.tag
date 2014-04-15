@@ -693,10 +693,15 @@ class ClassroomController extends Controller
         $discipline = $lesson['discipline'];
         $instructor = $lesson['instructor'];
         $classboard = ClassBoard::model()->find("classroom_fk = $classroom and discipline_fk =$discipline");
-
+        
+        $pinitial = explode('GMT', $lesson['start']);
+        $lesson['start'] = $pinitial[0];
         $initial_timestamp = strtotime($lesson['start']);
+        
+        $pfinal = explode('GMT', $lesson['end']);
+        $lesson['end'] = $pfinal[0];
         $final_timestamp = empty($lesson['end']) ? -1 : strtotime($lesson['end']);
-
+        
         $schedule_initial = date('G', $initial_timestamp);
         $schedule_final = ($final_timestamp == -1) ? ($schedule_initial + 1) : date('G', $final_timestamp);
 

@@ -260,6 +260,7 @@
  * * * * BUGS * * *
  *  
  * @done S3 - Correção no Limpar Banco
+ * @done S3 - Conflito de Fuso Horário em diferentes SO
  * 
  * * * * CHANGES * * *
  * 
