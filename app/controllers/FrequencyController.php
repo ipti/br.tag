@@ -332,8 +332,11 @@ class FrequencyController extends Controller
                 }
             }
             
-                        
-            $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom));
+            $criteria = new CDbCriteria();   
+            $criteria->with = array('studentFk');
+            $criteria->together = true;
+            $criteria->order = 'name';
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom),$criteria);
             $return['students'] = array();
             foreach($enrollments as $e){
                 $return['students']['name'] = isset($return['students']['name'])
