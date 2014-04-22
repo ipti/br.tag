@@ -298,28 +298,20 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                     <?php //<span class="count">2</span> ?>
                                 </li>
                                 
+                                <!-- Menu Item Relatórios -->
+                                <li class="hasSubmenu">
+                                    <a class="glyphicons charts" href="<?php echo Yii::app()->homeUrl; ?>?r=reports/index"><i></i><span>Relatórios</span></a>
+                                    <span class="count">3</span>
+                                </li>
+                                <!-- // Menu Item Relatórios -->
+                                
                                 <!-- Menu Item Admin -->
                                 <?php if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){?>
                                 <li class="glyphicons lock"><a href="<?php echo Yii::app()->homeUrl; ?>?r=admin"><i></i><span>Administração</span></a></li>
                                 <?php } ?>
                                 
-                                
-
-                  <?php /**             <!-- Menu Item Relatórios -->
-                                <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons charts" href="#menu_relatorios"><i></i><span>Relatórios</span></a>
-                                    <ul class="collapse" id="menu_relatorios">
-                                        <li class=""><a href="#"><span>Notas e frequência</span></a></li>
-                                        <li class=""><a href="#"><span>Quantidade de alunos</span></a></li>
-                                        <li class=""><a href="#"><span>Alunos com anemia</span></a></li>
-                                    </ul>
-                                    <span class="count">3</span>
-                                </li>
-                                <!-- // Menu Item Relatórios -->
 
                             </ul>
-
-                  **/ ?>
 
                         </div>
                         <!-- // Scrollable Menu wrapper with Maximum Height END -->

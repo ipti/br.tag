@@ -48,7 +48,8 @@ class AdminController extends Controller {
         }
         
         //Turma
-        $classrooms = Classroom::model()->findAll();
+        $where = "school_year = ".date('Y'); 
+        $classrooms = Classroom::model()->findAll($where);
         foreach ($classrooms as $key => $classroom) {
             $attributes = $classroom->attributes;
             //Remove Turno
@@ -60,28 +61,40 @@ class AdminController extends Controller {
         }
         
         //Identificação do Professor
-        $instructors = InstructorIdentification::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join ='LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $instructors = InstructorIdentification::model()->findAll($criteria);
         foreach ($instructors as $key => $instructor) {
             $export .= implode('|', $instructor->attributes);
             $export .= "|\n";
         }
         
         //Documentos do Professor
-        $instructorsDocs = InstructorDocumentsAndAddress::model()->findAll();
+        $instructorsDocs = InstructorDocumentsAndAddress::model()->findAll($criteria);
         foreach ($instructorsDocs as $key => $instructorDocs) {
             $export .= implode('|', $instructorDocs->attributes);
             $export .= "|\n";
         }
             
         //Variáveis de Encino do Professor
-        $instructorsVariables = InstructorVariableData::model()->findAll();
+        $instructorsVariables = InstructorVariableData::model()->findAll($criteria);
         foreach ($instructorsVariables as $key => $instructorVariables) {
             $export .= implode('|', $instructorVariables->attributes);
             $export .= "|\n";
         }    
         
         //Dados de Docência do Professor
-        $instructorsTeachingData = InstructorTeachingData::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_id_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $instructorsTeachingData = InstructorTeachingData::model()->findAll($criteria);
         foreach ($instructorsTeachingData as $key => $instructorTeachingData) {
             $attributes = $instructorTeachingData->attributes;
             //Remove Id
@@ -91,21 +104,33 @@ class AdminController extends Controller {
         }    
                 
         //Identificação do Aluno
-        $students = StudentIdentification::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join ='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->findAll($criteria);
         foreach ($students as $key => $student) {
             $export .= implode('|', $student->attributes);
             $export .= "|\n";
         }
         
         //Documentos do Aluno
-        $studentsDocs = StudentDocumentsAndAddress::model()->findAll();
+        $studentsDocs = StudentDocumentsAndAddress::model()->findAll($criteria);
         foreach ($studentsDocs as $key => $studentDocs) {
             $export .= implode('|', $studentDocs->attributes);
             $export .= "|\n";
         }
             
         //Matricula do Aluno
-        $enrollments = StudentEnrollment::model()->findAll();
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $enrollments = StudentEnrollment::model()->findAll($criteria);
         foreach ($enrollments as $key => $enrollment) {
             $attributes = $enrollment->attributes;
             //Remove Id
@@ -342,6 +367,8 @@ class AdminController extends Controller {
         
         $auth->createOperation('updateFrequency', 'update a Frequency');
         
+        $auth->createOperation('generateBFReport', 'generate BFReport');
+        
 
      
         $role = $auth->createRole('manager');
@@ -362,6 +389,8 @@ class AdminController extends Controller {
         $role->addChild('deleteEnrollment');
         
         $role->addChild('updateFrequency');
+        
+        $role->addChild('generateBFReport');
 
 
         $role = $auth->createRole('admin');

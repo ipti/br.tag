@@ -6,3 +6,5 @@
 /assets/
 /nbproject/private/
 !/app/config/main.php
+/app/import/
+/app/export/

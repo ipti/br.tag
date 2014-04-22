@@ -14,12 +14,22 @@
  * @property string $schedule
  *
  * The followings are the available model relations:
- * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
+ * @property Classroom $classroomFk
  * @property ClassFaults[] $classFaults
  */
 class Frequency extends CActiveRecord
 {
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return Frequency the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -36,12 +46,12 @@ class Frequency extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('discipline_fk, classroom_fk, day, month', 'required'),
+			array('classroom_fk, day, month', 'required'),
 			array('discipline_fk, classroom_fk, day, month, given_class', 'numerical', 'integerOnly'=>true),
 			array('classtype', 'length', 'max'=>1),
 			array('schedule', 'length', 'max'=>3),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
+			// Please remove those attributes that should not be searched.
 			array('id, discipline_fk, classroom_fk, day, month, classtype, given_class, schedule', 'safe', 'on'=>'search'),
 		);
 	}
@@ -54,8 +64,8 @@ class Frequency extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'class_fk'),
 		);
 	}
@@ -66,32 +76,25 @@ class Frequency extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'discipline_fk' => 'Discipline Fk',
-			'classroom_fk' => 'Classroom Fk',
-			'day' => 'Day',
-			'month' => 'Month',
-			'classtype' => 'Classtype',
-			'given_class' => 'Given Class',
-			'schedule' => 'Schedule',
+			'id' => Yii::t('default', 'ID'),
+			'discipline_fk' => Yii::t('default', 'Discipline Fk'),
+			'classroom_fk' => Yii::t('default', 'Classroom Fk'),
+			'day' => Yii::t('default', 'Day'),
+			'month' => Yii::t('default', 'Month'),
+			'classtype' => Yii::t('default', 'Classtype'),
+			'given_class' => Yii::t('default', 'Given Class'),
+			'schedule' => Yii::t('default', 'Schedule'),
 		);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
 
 		$criteria=new CDbCriteria;
 
@@ -107,16 +110,5 @@ class Frequency extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Classes the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
 	}
 }

@@ -247,8 +247,10 @@
  * 
  * * * * OTHERS * * *
  * 
- * @todo S2 - Modificar diagramação da listagem de alunos
- * @todo S2 - Ajeitar o design dos eventos
+ * @done S3 - Ajustar tabela de frequência.
+ * 
+ * @todo SX - Modificar diagramação da listagem de alunos
+ * @todo SX - Ajeitar o design dos eventos
  * 
  * ******************************************************
  * 
@@ -259,10 +261,30 @@
  * 
  * * * * BUGS * * *
  *  
+ * @done S3 - Frequencia não marca faltas no 1º save.
+ * @done S3 - Frequencia de Todas as disciplinas não ta salvando - Alterar banco para aceitar null.
+ * @done S3 - Frequencia de Todas as disciplinas não ta salvando - Alterar model.
+ * @done S3 - Frequencia de Todas as disciplinas não ta salvando - Alterar o GetClasses, identificando com null "todas as disciplinas"
+ * @done S3 - Frequencia de Todas as disciplinas não ta salvando - Alterar o Save, diferenciar Todas as Disciplinas e apenas uma.
+ * 
+ * @done S3 - Ordenar lista de alunos na turma.
+ * 
  * @done S3 - Correção no Limpar Banco
  * @done S3 - Conflito de Fuso Horário em diferentes SO
  * 
  * * * * CHANGES * * *
+ * 
+ * @done S3 - Enviar apenas Turmas atuais
+ * 
+ * @done S3 - Enviar apenas Matriculas atuais
+ * 
+ * @done S3 - Enviar apenas Alunos ativos - Identificação
+ * @done S3 - Enviar apenas Alunos ativos - Documentos
+ * 
+ * @done S3 - Enviar apenas Professores ativos - Identificação
+ * @done S3 - Enviar apenas Professores ativos - Documentos
+ * @done S3 - Enviar apenas Professores ativos - Dados Variáveis
+ * @done S3 - Enviar apenas Professores ativos - Dados de Docência
  * 
  * @todo SX - Trocar os campos de pesquisa da listagem por listas.
  * @todo SX - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido. - Turma
@@ -272,7 +294,13 @@
  * 
  * * * * OTHERS * * *
  * 
- * @todo S3 - Exportação.
+ * @done S3 - Relatórios - Criar Menu
+ * @done S3 - Relatórios - Criar Tela Inicial
+ * @done S3 - Relatório bolsa Família - Criar Tela
+ * @done S3 - Relatório bolsa Família - Criar Regras de Acesso
+ * @done S3 - Relatório bolsa Família - Alterar perfis de ACL
+ * @todo S3 - Relatório bolsa Família - Criar Estrutura do Relatório
+ * 
  * @done S3 - Exportação - Adicionar Coluna para agregar Botão.
  * @done S3 - Exportação - Adicionar Botão na tela de Admin.
  * @done S3 - Exportação - Criar ActionExport do admin.

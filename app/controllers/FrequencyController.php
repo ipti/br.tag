@@ -69,6 +69,8 @@ class FrequencyController extends Controller
             $infos = $this->actionGetClasses($classroomID, $disciplineID, $month);
             $classDays = $infos['days'];
 
+            $disciplineID = ($disciplineID == "Todas as disciplinas")? null : $disciplineID;
+            $allDisciolines = ($disciplineID == null);
             
             $classes = null;
             $classes = Frequency::model()->findAllByAttributes(array(
@@ -89,7 +91,6 @@ class FrequencyController extends Controller
                     sort($days);
                     $classDays[$weekDay] = $days;
 
-                    $classes = array();
                     foreach ($days as $schedule) {
                         if ($schedule != 0) {
                             $class = new Frequency();
@@ -117,7 +118,6 @@ class FrequencyController extends Controller
                 }
             }
           
-
             $faults = array();
             //cadastrar faltas
             if(isset($_POST['student'])){
@@ -147,21 +147,6 @@ class FrequencyController extends Controller
             set_time_limit(30);
             $this->redirect(array('index'));
             
-//		$model=new Classes;
-//
-//		// Uncomment the following line if AJAX validation is needed
-//		// $this->performAjaxValidation($model);
-//
-//		if(isset($_POST['Classes']))
-//		{
-//			$model->attributes=$_POST['Classes'];
-//			if($model->save())
-//				$this->redirect(array('view','id'=>$model->id));
-//		}
-//
-//		$this->render('create',array(
-//			'model'=>$model,
-//		));
 	}
 
 	/**
@@ -219,30 +204,26 @@ class FrequencyController extends Controller
             $discipline = $discipline==null? $_POST['disciplines'] : $discipline;
             $month = $month == null? $_POST['month'] : $month;
             
-            $allDisciplines = $discipline == "Todas as disciplinas";
+            $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
+            $allDisciplines = ($discipline == null);
             
             $classes = null;
+
+            $classes = Frequency::model()->findAllByAttributes(array(
+                'classroom_fk'=>$classroom,
+                'discipline_fk'=>$discipline,
+                'month'=>$month));
             if($allDisciplines){
-                $classes = Frequency::model()->findAllByAttributes(array(
-                    'classroom_fk'=>$classroom,
-                    'month'=>$month));
                 $classboards = ClassBoard::model()->findAllByAttributes(array(
-                    'classroom_fk'=>$classroom,));
+                    'classroom_fk'=>$classroom));
             }else{
-                $classes = Frequency::model()->findAllByAttributes(array(
-                    'classroom_fk'=>$classroom,
-                    'discipline_fk'=>$discipline,
-                    'month'=>$month));
                 $classboards = ClassBoard::model()->findAllByAttributes(array(
                     'classroom_fk'=>$classroom,
-                    'discipline_fk'=>$discipline,));
+                    'discipline_fk'=>$discipline));
             }
             
             
-            
-            
             $return = array('days'=> array(), 'faults'=> array(), 'students'=>array());
-            //if($discipline == "Todas as disciplinas") { echo json_encode(array()); return true;}
             
             $classDays = array();
             for($i=0; $i<=6;$i++){
