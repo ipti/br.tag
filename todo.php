@@ -299,7 +299,7 @@
  * @done S3 - Relatório bolsa Família - Criar Tela
  * @done S3 - Relatório bolsa Família - Criar Regras de Acesso
  * @done S3 - Relatório bolsa Família - Alterar perfis de ACL
- * @todo S3 - Relatório bolsa Família - Criar Estrutura do Relatório
+ * @done S3 - Relatório bolsa Família - Criar Estrutura do Relatório
  * 
  * @done S3 - Exportação - Adicionar Coluna para agregar Botão.
  * @done S3 - Exportação - Adicionar Botão na tela de Admin.
