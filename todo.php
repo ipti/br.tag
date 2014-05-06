@@ -286,6 +286,13 @@
  * @done S3 - Enviar apenas Professores ativos - Dados Variáveis
  * @done S3 - Enviar apenas Professores ativos - Dados de Docência
  * 
+ * @done P2 - Criar rotina de Backup.
+ * @done P2 - Colocar botão de Backup no Admin.
+ * @done P2 - Fazer Backup no Login.
+ * @done P2 - Criar extensão de Gerenciamento de Arquivo.
+ * @done P2 - Criar rotina de Estatisticas.
+ * @done P2 - Colocar botão de Estatisticas no Admin.
+ * 
  * @todo SX - Trocar os campos de pesquisa da listagem por listas.
  * @todo SX - 09 - O Campo nome deve possuir uma mascara e seguir um padrão a ser definido. - Turma
  * 

@@ -65,6 +65,20 @@ $this->breadcrumbs = array(
                     <div class="clearfix"></div>
                 </a>
             </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/backup" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Gerar Backup</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/data" class="widget-stats">
+                    <span class="glyphicons charts"><i></i></span>
+                    <span class="txt">Estatísticas</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
         </div>
     </div>
 

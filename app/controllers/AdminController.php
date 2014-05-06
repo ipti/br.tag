@@ -20,16 +20,113 @@ class AdminController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('import', 'clearDB', 'acl', 'export'),
+                'actions' => array('import', 'export',
+                                    'clearDB', 'acl',
+                                    'backup','data',),
                 'users' => array('@'),
             ),
         );
     }
-
+    /**
+     * Show the Index Page.
+     */
     public function actionIndex() {
         $this->render('index');
     }
     
+    /**
+     * Generate the BackupFile.
+     * @param boolean $return - Defaults True
+     * @return redirecrToIndex|boolean - Return to the index page with a FlashMenssage or return $boolean
+     */
+    public static function actionBackup($return = TRUE) {
+        Yii::import('ext.dumpDB.dumpDB');
+        $dumper = new dumpDB();
+        $dump = $dumper->getDump(false);
+        
+        $fileDir = Yii::app()->basePath . '/backup/'.date('Y-m-d').'.sql';
+        
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $dump);
+        
+        if ($return){        
+            if($result){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Backup efetuado com Sucesso!'));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Backup falhou!'));
+            }
+            Yii::app()->controller->redirect('?r=admin/index');
+        }
+        return $result;
+        
+    }
+    
+    /**
+     * Generate some Data and a DataFile.
+     * @param boolean $file - Defaults True
+     * @return redirecrToData - Return to the Data page.
+     */
+    public function actionData($file = TRUE){
+        $data = [];
+        //Turma
+        $where = "school_year = ".date('Y'); 
+        $classrooms = Classroom::model()->count($where);
+        $data['classroom'] = $classrooms;
+        
+        //Identificação do Professor
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join ='LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $instructors = InstructorIdentification::model()->count($criteria);
+        $data['instructors'] = $instructors;
+        
+        //Identificação do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join ='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->count($criteria);
+        $data['students'] = $students;
+        
+        //Matricula do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $enrollments = StudentEnrollment::model()->count($criteria);
+        $data['enrollments'] = $enrollments;
+        
+        if($file){
+            $fileDir = Yii::app()->basePath . '/backup/Data/'.date('Y-m-d').'.dat';
+            $dataText = json_encode($data);
+
+            Yii::import('ext.FileManager.fileManager');
+            $fm = new fileManager();
+            $result = $fm->write($fileDir, $dataText);  
+            if($result){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Dados salvos com Sucesso!'));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar os dados!'));
+            }
+        }
+        
+        $this->render('data', array('data' => $data));
+    }
+    
+    
+    /**
+     * Generate the ExportFile.
+     * @return redirecrToIndex - Return to the index page with a FlashMenssage
+     */
     public function actionExport(){
         $export = "";
         
@@ -139,25 +236,18 @@ class AdminController extends Controller {
             $export .= "|\n";
         }  
         
+        $fileDir = Yii::app()->basePath . '/export/'.date('Y-m-d-H:i:s').'.TXT';
         
-        $mode = "w+";
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $export);
         
-        $path = Yii::app()->basePath;
-        $fileDir = $path . '/export/'.date('Y-m-d-H:i:s').'.TXT';
-
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == false) {
-            die('O arquivo não existe.');
+        if ($result) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação..'));
         }
-        //Escreve
-        $write = fwrite($file, $export);
-        //Fecha
-        fclose($file);
-        
-        //echo "<textarea>".$export."</textarea>";
-        
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
+
         $this->render('index');
     }
     

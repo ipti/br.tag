@@ -54,6 +54,8 @@ class UserIdentity extends CUserIdentity
             $this->setState('usersSchools',$userSchools);
             $this->setState('school',$school);
             $this->errorCode = self::ERROR_NONE;
+            AdminController::actionBackup(false);
+            
         }
         return !$this->errorCode;
     }

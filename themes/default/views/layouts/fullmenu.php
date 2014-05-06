@@ -301,7 +301,7 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                 <!-- Menu Item Relatórios -->
                                 <li class="hasSubmenu">
                                     <a class="glyphicons charts" href="<?php echo Yii::app()->homeUrl; ?>?r=reports/index"><i></i><span>Relatórios</span></a>
-                                    <span class="count">3</span>
+                                    <?php //<span class="count">3</span> ?>
                                 </li>
                                 <!-- // Menu Item Relatórios -->
                                 
