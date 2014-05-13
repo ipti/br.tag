@@ -14,7 +14,7 @@ Programas
 -
 Ubuntu              13.04
 
-NetBeans            7.4
+NetBeans            8.0
 
 MySql Workbench     5.2.40
 
