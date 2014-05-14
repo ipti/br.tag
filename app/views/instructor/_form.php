@@ -900,14 +900,14 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
     });
     
     $(formInstructorIdentification+'birthday_date').on('focusout', function(){
-        var id = '#'+$(this).attr("id");
-        
-        $(id).val($(id).val().toUpperCase());
-        
-        if(!validateBirthdayPerson($(id).val())){ 
-            $(id).attr('value','');
-            addError(id, "Campo Data não está dentro das regras.");
-        }else{
+        var id = '#' + $(this).attr("id");
+        var birthday = stringToDate($(id).val());
+
+
+        if (!validateDate($(id).val()) || !validateYear(birthday.year)) {
+            $(id).attr('value', '');
+            addError(id, "Campo não está dentro das regras.");
+        } else {
             removeError(id);
         }
     });
