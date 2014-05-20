@@ -38,11 +38,16 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="innerLR">
 
+           <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
     <div class="filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
             <?php
-            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school, array('order' => 'name')), 'id', 'name'), array(
+            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = '. Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
                 'key' => 'id',
                 'class' => 'select-search-on',
                 'prompt' => 'Selecione a turma',

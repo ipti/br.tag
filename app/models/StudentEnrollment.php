@@ -159,7 +159,7 @@ class StudentEnrollment extends CActiveRecord {
 //                $criteria->compare('vehicle_type_metro_or_train',$this->vehicle_type_metro_or_train);
 //                $criteria->compare('student_entry_form',$this->student_entry_form);
         $criteria->compare('id', $this->id);
-        $criteria->compare( 'classroomFk.school_year', $this->school_year );
+        $criteria->compare( 'classroomFk.school_year', Yii::app()->user->year );
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');

@@ -208,16 +208,22 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                         <!-- Sidebar Mini Stats -->
                             <div id="notif">
                                 <div class="user">
-                                    <strong><?php if(isset(Yii::app()->user->loginInfos->name))
-                                                        echo Yii::app()->user->loginInfos->name;
-                                                  else
-                                                        $this->redirect(Yii::app()->homeUrl . '?r=site/login');
-                                             ?></strong>
-                                    <p><?php 
+                                    <strong>
+                                        <?php
+                                        if (isset(Yii::app()->user->loginInfos->name))
+                                            echo Yii::app()->user->loginInfos->name;
+                                        else
+                                            $this->redirect(Yii::app()->homeUrl . '?r=site/login');
+                                        ?>
+                                    </strong>
+                                    <p>
+                                        <?php
                                         $userId = Yii::app()->user->loginInfos->id;
-                                        foreach (Yii::app()->getAuthManager()->getAuthItems(2,$userId) as $role => $roleOb)
-                                                echo Yii::t('default',$role)." ";
-                                             ?></p>
+                                        foreach (Yii::app()->getAuthManager()->getAuthItems(2, $userId) as $role => $roleOb)
+                                            echo Yii::t('default', $role) . " ";
+                                        ?>
+                                    </p>
+                                    <strong>Ano letivo:</strong> <?php echo Yii::app()->user->year;?>
                                 </div>
 
 <?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        

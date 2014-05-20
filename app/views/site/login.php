@@ -46,7 +46,16 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                     <?php echo $form->error($model,'username'); ?>
                                     <label class="strong">Senha</label>
                                     <?php echo $form->passwordField($model,'password', array('class' => 'input-block-level')); ?>
-                                    <?php echo $form->error($model,'password'); 
+                                    <?php echo $form->error($model,'password'); ?>
+                                    
+                                    <label class="strong">Ano Letivo</label>
+                                        <?php
+                                    $year = date('Y');
+                                    $years = array();
+                                    for ($i = $year; $i >= 2013; $i--) {
+                                        $years[$i] = $i;
+                                    }
+                                        echo $form->dropDownList($model, 'year', $years, array('class'=>'input-block-level select-search-off'));
                                     // @done S1 - Alinhar o checkbox com os inputs
                                     ?>
                                     <div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 4px 0 0"value="remember-me">Lembrar-me</label></div>

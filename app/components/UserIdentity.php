@@ -50,7 +50,7 @@ class UserIdentity extends CUserIdentity
                 $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : null;
             }   
             $this->setState('loginInfos', $record);
-
+            
             $this->setState('usersSchools',$userSchools);
             $this->setState('school',$school);
             $this->errorCode = self::ERROR_NONE;

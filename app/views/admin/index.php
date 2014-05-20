@@ -24,6 +24,16 @@ $this->breadcrumbs = array(
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
             <br/>
+        <?php elseif (Yii::app()->user->hasFlash('notice')): ?>
+            <div class="alert alert-info">
+                <?php echo Yii::app()->user->getFlash('notice') ?>
+            </div>
+            <br/>
+        <?php elseif (Yii::app()->user->hasFlash('error')): ?>
+            <div class="alert alert-info">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <br/>
         <?php endif ?>
         <div class="span6">
             <div class="row-fluid">
@@ -76,6 +86,13 @@ $this->breadcrumbs = array(
                 <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/data" class="widget-stats">
                     <span class="glyphicons charts"><i></i></span>
                     <span class="txt">Estatísticas</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/updateDB" class="widget-stats">
+                    <span class="glyphicons roundabout"><i></i></span>
+                    <span class="txt">Atualizar Banco</span>
                     <div class="clearfix"></div>
                 </a>
             </div>

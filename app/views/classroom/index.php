@@ -36,14 +36,15 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
                         'filter'=>$filter,
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
-                            'inep_id',
+                            array(
+                                'name' => 'inep_id',
+                                'htmlOptions' => array('width'=> '150px')
+                            ),
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=classroom/update&id=".$data->id)',
-                                'htmlOptions' => array('width'=> '65%')
                             ),
-                            'school_year',
                             array('class' => 'CButtonColumn','template'=>'{delete}'),),
                     ));
                     ?>

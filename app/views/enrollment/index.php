@@ -37,7 +37,10 @@
                     'filter'=>$model,
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
-                            'enrollment_id', 
+                            array(
+                                'name' => 'enrollment_id',
+                                'htmlOptions' => array('width'=> '150px')
+                            ),
                         //@done S1 - 05 - Modificar o banco para ter a relação estrangeira dos alunos e turmas
                         //@done S1 - 05 - Criar Trigger ou solução similar para colocar o auto increment do aluno no student_fk da turma
                         //@done S1 - Modificar as colunas para a estutura abaixo:
@@ -51,15 +54,14 @@
                                 'name' => 'student_fk',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->studentFk->name,"?r=enrollment/update&id=".$data->id)',
-                                'htmlOptions' => array('width'=>'35%')
+                                
                             ),
                         array(
                                 'name' => 'classroom_fk',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->classroomFk->name,"?r=enrollment/update&id=".$data->id)',
-                                'htmlOptions' => array('width'=>'35%')
+                                'htmlOptions' => array('width'=>'150px')
                         ),
-                        array( 'name'=>'school_year', 'value'=>'$data->classroomFk->school_year' ),
                         array('class' => 'CButtonColumn','template'=>' {delete}'),),
                     ));
                 ?>

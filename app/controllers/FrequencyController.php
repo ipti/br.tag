@@ -60,7 +60,7 @@ class FrequencyController extends Controller
 
             set_time_limit(0);
             ignore_user_abort();
-        
+            $everyThingIsOkay = true; //tudo sempre começa bem...
             $classroomID = $_POST['classroom'];
             $disciplineID = $_POST['disciplines'];
             $month = $_POST['month'];
@@ -104,20 +104,51 @@ class FrequencyController extends Controller
 
                             if ($class->validate() && $class->save()) {
                                 array_push($classes, $class);
+                                $everyThingIsOkay &= true;
+                            }else{
+                                $everyThingIsOkay &= false;
                             }
                         }
+                        if(!$everyThingIsOkay) break;
                     }
                 }
             //atualiza aulas
             }else{
-                foreach ($classes as $class) {
-                    $day = $class->day;
-                    $schedule = $class->schedule;
-                    $class->given_class = isset($instructorFaults[$day][$schedule])? 0 : 1;
-                    $class->save();
+                foreach($instructorFaults as $day => $schedules){
+                    foreach($schedules as $schedule){
+                        $class = Frequency::model()->findByAttributes(array(
+                            'classroom_fk'=>$classroomID,
+                            'discipline_fk'=>$disciplineID,
+                            'month'=>$month,
+                            'day'=>$day,
+                            'schedule'=>$schedule));
+                        
+                        //Adicionar novas se não existir
+                        if($class == null){
+                            $class = new Frequency();
+                            $class->classroom_fk = $classroomID;
+                            $class->discipline_fk = $disciplineID;
+                            $class->day = $day;
+                            $class->month = $month;
+                            $class->classtype = 'N';
+                            $class->given_class = isset($instructorFaults[$day][$schedule])? 0 : 1;
+                            $class->schedule = $schedule;
+                            if ($class->validate() && $class->save()) {
+                                array_push($classes, $class);
+                                $everyThingIsOkay &= true;
+                            }else{
+                                $everyThingIsOkay &= false;
+                            }
+                        //Atualizar existentes
+                        }else{
+                            $class->given_class = isset($instructorFaults[$day][$schedule])? 0 : 1;
+                            $everyThingIsOkay &= $class->save();
+                        }
+                        if(!$everyThingIsOkay) break;
+                    }
                 }
             }
-          
+            
             $faults = array();
             //cadastrar faltas
             if(isset($_POST['student'])){
@@ -126,24 +157,60 @@ class FrequencyController extends Controller
                     foreach($fault as $d => $day){
                         foreach($day as $schedule => $s){
                             $classID = null;
+                            //Procure a Aula
                             foreach($classes as $class){
                                 if($class->day == $d && $class->schedule == $schedule){
                                     $classID = $class->id;
+                                    //Para quando achar
                                     break;
                                 }
                             }
+                            //Caso a aula não exista, adicione-a
+                            if($classID == null){
+                                $newClass = new Frequency();
+                                $newClass->classroom_fk = $classroomID;
+                                $newClass->discipline_fk = $disciplineID;
+                                $newClass->day = $d;
+                                $newClass->month = $month;
+                                $newClass->classtype = 'N';
+                                $newClass->given_class = 1;
+                                $newClass->schedule = $schedule;
+                                if ($newClass->validate() && $newClass->save()) {
+                                    array_push($classes, $newClass);
+                                    $classID = $newClass->id;
+                                    $everyThingIsOkay &= true;
+                                }else{
+                                    $everyThingIsOkay &= false;
+                                }
+                            }
+                            
+                            //Cadastre a falta na aula correta
                             $fault = new ClassFaults;
                             $fault->class_fk = $classID;
                             $fault->student_fk = $studentID;
                             $fault->schedule = $schedule;
                             if ($fault->validate() && $fault->save()) {
                                 array_push($faults, $fault);
+                                $everyThingIsOkay &= true;
+                            }else{
+                                $everyThingIsOkay &= false;
                             }
+                            
+                            if(!$everyThingIsOkay) break;
                         }
+                        if(!$everyThingIsOkay) break;
                     }
+                    if(!$everyThingIsOkay) break;
                 }
             }
-
+            
+            if($everyThingIsOkay){
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Frequência Atualizada com Sucesso!'));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));
+            }
+            
+            
             set_time_limit(30);
             $this->redirect(array('index'));
             

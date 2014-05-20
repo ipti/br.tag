@@ -223,6 +223,7 @@ class Classroom extends CActiveRecord {
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
+        $criteria->compare('school_year', Yii::app()->user->year);
 //        $criteria->compare('initial_hour', $this->initial_hour, true);
 //        $criteria->compare('initial_minute', $this->initial_minute, true);
 //        $criteria->compare('final_hour', $this->final_hour, true);

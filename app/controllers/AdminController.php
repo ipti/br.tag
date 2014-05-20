@@ -35,9 +35,64 @@ class AdminController extends Controller {
     }
     
     /**
+     * Update de database.
+     * 
+     * @return {Redirect} Return the index page with a FlashMessage
+     * 
+     */
+    public function actionUpdateDB(){
+        $updateDir = Yii::app()->basePath . '/../updates/';
+        
+        $dirFiles = scandir($updateDir);
+        
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        
+        $file = $fm->open($updateDir . '_version');
+        $version = fgets($file);
+        $fm->closeAll();
+        
+        $count = 0;
+        
+        foreach ($dirFiles as $fileName){
+            
+            if($fileName != '.' 
+                && $fileName != '..' 
+                && $fileName != 'readme' 
+                && $fileName != '_version'){
+                
+                if($version != "" &&  $version < $fileName){
+                    $file = $fm->open($updateDir . $fileName);
+                    $sql = "";
+                    while (true) {
+                        $fileLine = fgets($file);
+                        $sql .= $fileLine;
+                        if ($fileLine == null) break;
+                    }
+
+                    $result = Yii::app()->db->createCommand($sql)->query();
+
+                    if ($result) {
+                        $file = $fm->write($updateDir . '_version', $fileName);
+                        Yii::app()->user->setFlash('success', Yii::t('default', 'Atualização Concluída!'));
+                        $count++;
+                    } else {
+                        Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao atualizar!'));
+                    }
+                }
+            }
+        }
+        if($count == 0){
+            Yii::app()->user->setFlash('notice', Yii::t('default', 'Não há atualizações!'));
+        }
+        $fm->closeAll();
+        $this->render('index');
+    }
+    
+    /**
      * Generate the BackupFile.
      * @param boolean $return - Defaults True
-     * @return redirecrToIndex|boolean - Return to the index page with a FlashMenssage or return $boolean
+     * @return redirecrToIndex|boolean Return to the index page with a FlashMenssage or return $boolean
      */
     public static function actionBackup($return = TRUE) {
         Yii::import('ext.dumpDB.dumpDB');

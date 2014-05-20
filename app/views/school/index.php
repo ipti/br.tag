@@ -36,12 +36,14 @@
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
                         'columns' => array(
-                            'inep_id',
+                            array(
+                                'name' => 'inep_id',
+                                'htmlOptions' => array('width'=> '150px')
+                            ),
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=school/update&id=".$data->inep_id)',
-                                'htmlOptions' => array('width'=> '70%')
                             ),),
                     ));
                     ?>
