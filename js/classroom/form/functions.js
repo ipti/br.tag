@@ -202,6 +202,31 @@ var atualizarListadeDisciplinas = function(){
     uDiscipline.html(listOfdisciplines).trigger('change');
 };
 
+
+/**
+ * Atualiza as dependencias do tipo de atendimento.
+ * 
+ * @param {JSON} data
+ * @returns {void}
+ */
+function updateAssistanceTypeDependencies(data){     
+    
+    data = jQuery.parseJSON(data);
+    
+    //+edu
+    $('#Classroom_mais_educacao_participator').prop('disabled', data.MaisEdu);
+    
+    //aee
+    $('#aee input').prop('disabled', data.AeeActivity);
+    
+    //SvsM
+    $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage).prop('disabled', data.StageEmpty);
+    
+    //M
+    $('#Classroom_modality').html(data.Modality);
+}
+
+
 instructor.on('change', atualizarListadeDisciplinas);
 uInstructor.on('change', atualizarListadeDisciplinas);
 

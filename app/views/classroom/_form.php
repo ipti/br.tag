@@ -157,26 +157,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de assistencia'), array('class' => 'select-search-off'), array('ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento'), array('class' => 'select-search-off','ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
-                                                    data = jQuery.parseJSON(data);
-                                                    $('#Classroom_mais_educacao_participator').prop('disabled', data.MaisEdu);
-                                                    $('#Classroom_aee_braille_system_education').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_optical_and_non_optical_resources').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_mental_processes_development_strategies').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_mobility_and_orientation_techniques').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_libras').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_caa_use_education').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_curriculum_enrichment_strategy').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_soroban_use_education').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_usability_and_functionality_of_computer_accessible_education').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_teaching_of_Portuguese_language_written_modality').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_aee_strategy_for_school_environment_autonomy').prop('disabled', data.AeeActivity);
-                                                    $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage);
-                                                    $('#Classroom_edcenso_stage_vs_modality_fk').prop('disabled', data.StageEmpty);
-                                                    $('#Classroom_modality').html(data.Modality);
+                                                updateAssistanceTypeDependencies(data);
                                                 }",
                                     )));
                                     ?> 
@@ -204,7 +189,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="separator"></div>
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
-                                <div class="uniformjs margin-left">
+                                <div id="aee" class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['aee_braille_system_education']; ?>
                                         <?php echo $form->checkBox($modelClassroom, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0));?>

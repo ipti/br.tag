@@ -54,18 +54,34 @@ class ClassroomController extends Controller
 
             $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
             
-            echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de assistencia'), true);
+            echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de atendimento'), true);
             if($schoolStructure != null){
-
+                
+                $encode = array(
+                    0=>CHtml::encode('Não se Aplica'),
+                    1=>CHtml::encode('Classe Hospitalar'),
+                    2=>CHtml::encode('Unidade de Internação Socioeducativa'),
+                    3=>CHtml::encode('Unidade Prisional'),
+                    4=>CHtml::encode('Atividade Complementar'),
+                    5=>CHtml::encode('Atendimento Educacional Especializado (AEE)'));
+                
+                $selected = array(
+                    0=> $classroom->assistance_type == 0 ? "selected" : "deselected",
+                    1=> $classroom->assistance_type == 1 ? "selected" : "deselected",
+                    2=> $classroom->assistance_type == 2 ? "selected" : "deselected",
+                    3=> $classroom->assistance_type == 3 ? "selected" : "deselected",
+                    4=> $classroom->assistance_type == 4 ? "selected" : "deselected",
+                    5=> $classroom->assistance_type == 5 ? "selected" : "deselected"
+                );
+                
+                for($i = 0; $i <= 3; $i++){
+                    echo CHtml::tag('option', array('value' => "$i", $selected[$i] => $selected[$i]),$encode[$i], true);
+                }
                 if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
-                     echo CHtml::tag('option', array('value' => '4', "selected" =>"selected"),CHtml::encode('Atividade Complementar'), true);
-                }else if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
-                    echo CHtml::tag('option', array('value' => '5', "selected" =>"selected"),CHtml::encode('Atendimento Educacional Especializado (AEE)'), true);
-                }else {
-                    echo CHtml::tag('option', array('value' => '0', $classroom->assistance_type == 0 ? "selected" : "deselected" => $classroom->assistance_type == 0 ? "selected" : "deselected" ),CHtml::encode('Não se Aplica'), true);
-                    echo CHtml::tag('option', array('value' => '1', $classroom->assistance_type == 1 ? "selected" : "deselected" => $classroom->assistance_type == 1 ? "selected" : "deselected" ),CHtml::encode('Classe Hospitalar'), true);
-                    echo CHtml::tag('option', array('value' => '2', $classroom->assistance_type == 2 ? "selected" : "deselected" => $classroom->assistance_type == 2 ? "selected" : "deselected" ),CHtml::encode('Unidade de Internação Socioeducativa'), true);
-                    echo CHtml::tag('option', array('value' => '3', $classroom->assistance_type == 3 ? "selected" : "deselected" => $classroom->assistance_type == 3 ? "selected" : "deselected" ),CHtml::encode('Unidade Prisional'), true);
+                    echo CHtml::tag('option', array('value' => "4", $selected[4] => $selected[4]),$encode[4], true);
+                }
+                if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
+                    echo CHtml::tag('option', array('value' => "5", $selected[5] => $selected[5]),$encode[5], true);
                 }  
                 
             }
@@ -102,6 +118,14 @@ class ClassroomController extends Controller
         
         
         public function actionUpdateAssistanceTypeDependencies(){
+            /*	Campo	18	Se Campo 17 = 1|5, desabilita; 
+                        	Se Campo 17 = 0|2|3, campo 36 hanilita 1 e 2 e campo 37 habilita [4..38]|41|56;
+                                Se Campo 17 = 4, campo 36&37 = null
+                Campo	19~24	Se Campo 17 = 4; Pelo menos um, Não repetidos.
+                Campo 	25~35	Se Campo 17 = 5; Pelo menos um diferente de 0.
+             * 
+             */
+            
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
             

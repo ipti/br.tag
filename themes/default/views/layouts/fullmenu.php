@@ -1,12 +1,12 @@
 <?php
-$cs=Yii::app()->clientScript;
-$cs->scriptMap=array(
-    'jquery.js'=>false,
-    'jquery.ba-bbq.js'=>false
+$cs = Yii::app()->clientScript;
+$cs->scriptMap = array(
+    'jquery.js' => false,
+    'jquery.ba-bbq.js' => false
 );
-$baseUrl = Yii::app()->theme->baseUrl; 
-$cs->registerScriptFile($baseUrl.'/js/jquery.min.js',CClientScript::POS_HEAD);
-$cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD);
+$baseUrl = Yii::app()->theme->baseUrl;
+$cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
+$cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -23,7 +23,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
-        
         <!-- JQueryUI -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
 
@@ -34,8 +33,6 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
-        
-<!--    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/uniform.css" rel="stylesheet" type="text/css" />-->
 
         <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
@@ -43,28 +40,27 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
         <!-- Select2 Plugin -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
 
-     
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
-        
+
         <!-- Bootstrap -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
 
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
-        
+
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
-        
+
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-        
+
         <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
         <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
-        
+
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
-        
+
         <script>
             $(document).ready(function(){
                 $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
@@ -90,21 +86,13 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                     formatSearching: function () { return "Buscando…"; }
                 });
             })(jQuery);
-        </script>
-        
-        <!-- Auto Submit Dropdown School -->
-        <script>               
+            
             $(function() {
                 $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function() {
                     $(".school").submit();
                 });
-              });            
-        </script>
-
-<!--  <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/modernizr.js"></script>
-      <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/resizable.js"></script>  -->
-        
-        <script>
+              });     
+              
             var bagaca = true;
             $(document).on('click','#button-menu', function(){
                 if(bagaca){
@@ -123,10 +111,8 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                 }
             });
         </script>
-    
-        
-    </head>
 
+    </head>
     <body>
 
         <!-- Main Container Fluid -->
@@ -141,57 +127,31 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
-                        <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
-                
-                <!-- // Menu Toggle Button END -->
-<!--                <div class="menu-search">
-                    <div class="input-append">
-                        <input class="span4" id="appendedInputButtons" type="text" placeholder="O que você está procurando?">
-                        <button class="btn btn-default" type="button"><i class="icon-search"></i></button> **/ ?>
-                    </div>
-                </div>-->
-                
-                
-
 
                 <!-- Top Menu Right -->
                 <ul class="topnav pull-right">
-                    
                     <li>
-
-                    <div id="change-school" >
-                    <form class="school" action="?r=site/changeschool" method="Post">
-
-                    <?php
-                     if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){
-                        echo CHtml::activeDropDownList(
-                                SchoolIdentification::model(), 'inep_id',  
-                                Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
-                                array('empty'=>'Selecione a escola','class'=>'span5 select-shool','options' => array(Yii::app()->user->school=>array('selected'=>true))));
-                       }else{
-                          echo CHtml::activeDropDownList(
-                                UsersSchool::model(), 'school_fk',  
-                                Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-                                array('empty'=>'Selecione a escola','class'=>'span5 select-school', 'options' => array(Yii::app()->user->school=>array('selected'=>true))));
-
-                     }
-                    ?>
-                    </form>
-                </div>
+                        <div id="change-school" >
+                            <form class="school" action="?r=site/changeschool" method="Post">
+                                <?php
+                                if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                                    echo CHtml::activeDropDownList(
+                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-shool', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                } else {
+                                    echo CHtml::activeDropDownList(
+                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                }
+                                ?>
+                            </form>
+                        </div>
                     </li>
-
                     <!-- Profile / Logout menu -->
                     <li class="account">
                         <a href="<?php echo Yii::app()->homeUrl; ?>?r=site/logout" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
-
                     </li>
                 </ul>
-
-                <!-- // Profile / Logout menu END -->
-                
-
-
             </div>
             <!-- Top navbar END -->
 
@@ -200,48 +160,44 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
 
                 <!-- Sidebar Menu -->
 
-                    <div id="menu" class="hidden-print">
+                <div id="menu" class="hidden-print">
 
-                        <!-- Scrollable menu wrapper with Maximum height -->
-                        <div class="slim-scroll" data-scroll-height="800px">
+                    <!-- Scrollable menu wrapper with Maximum height -->
+                    <div class="slim-scroll" data-scroll-height="800px">
 
                         <!-- Sidebar Mini Stats -->
-                            <div id="notif">
-                                <div class="user">
-                                    <strong>
-                                        <?php
-                                        if (isset(Yii::app()->user->loginInfos->name))
-                                            echo Yii::app()->user->loginInfos->name;
-                                        else
-                                            $this->redirect(Yii::app()->homeUrl . '?r=site/login');
-                                        ?>
-                                    </strong>
-                                    <p>
-                                        <?php
-                                        $userId = Yii::app()->user->loginInfos->id;
-                                        foreach (Yii::app()->getAuthManager()->getAuthItems(2, $userId) as $role => $roleOb)
-                                            echo Yii::t('default', $role) . " ";
-                                        ?>
-                                    </p>
-                                    <strong>Ano letivo:</strong> <?php echo Yii::app()->user->year;?>
-                                </div>
-
-<?php /**                           Botão de Submit Oculto no Dropdown de Seleção de Escolas                                                        
-                                    <button type="hidden" class="btn btn-icon btn-primary glyphicons circle_ok"><i>Ok</i></button>
-**/ ?>                          <div class="separator"></div>
-
-
+                        <div id="notif">
+                            <div class="user">
+                                <strong>
+                                    <?php
+                                    if (isset(Yii::app()->user->loginInfos->name))
+                                        echo Yii::app()->user->loginInfos->name;
+                                    else
+                                        $this->redirect(Yii::app()->homeUrl . '?r=site/login');
+                                    ?>
+                                </strong>
+                                <p>
+                                    <?php
+                                    $userId = Yii::app()->user->loginInfos->id;
+                                    foreach (Yii::app()->getAuthManager()->getAuthItems(2, $userId) as $role => $roleOb)
+                                        echo Yii::t('default', $role) . " ";
+                                    ?>
+                                </p>
+                                <strong>Ano letivo:</strong> <?php echo Yii::app()->user->year; ?>
                             </div>
-                            <!-- // Sidebar Mini Stats END --> 
 
-                            <!-- Regular Size Menu -->
-                            <ul>
+                            <div class="separator"></div>
 
 
-                                <!-- Menu Regular Item -->
-                                <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
-                                <?php if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){?>
-                                
+                        </div>
+                        <!-- // Sidebar Mini Stats END --> 
+
+                        <!-- Regular Size Menu -->
+                        <ul>
+                            <!-- Menu Regular Item -->
+                            <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+
                                 <!-- Menu Item Escolas -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
@@ -249,97 +205,83 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school/create"><span>Adicionar escola</span></a></li>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school"><span>Listar escolas</span></a></li>
                                     </ul>
-                                    <?php //<span class="count">2</span> ?>
                                 </li>
                                 <!-- // Menu Item Escolas -->
-                                <?php } ?>
-                                <!-- Menu Item Turmas -->
-                                <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons adress_book" href="#menu_turmas"><i></i><span>Turmas</span></a>
-                                    <ul class="collapse" id="menu_turmas">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
-                                        <?php //<li class=""><a href="#"><span>Frequencia de alunos</span></a></li> ?>
-                                        <?php //<li class=""><a href="#"><span>Notas de alunos</span></a></li> ?>
-                                    </ul>
-                                    <?php //<span class="count">5</span> ?>
-                                </li>
-                                <!-- // Menu Item Turmas -->
-                                
-                                <!-- Menu Item Turmas -->
-                                <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons notes_2" href="#menu_matricula"><i></i><span>Matricula</span></a>
-                                    <ul class="collapse" id="menu_matricula">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment/create"><span>Matricular aluno</span></a></li>
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Listar matrículas</span></a></li>
-                                    </ul>
-                                </li>
-                                <!-- // Menu Item Turmas -->
+                            <?php } ?>
+                            <!-- Menu Item Turmas -->
+                            <li class="hasSubmenu">
+                                <a data-toggle="collapse" class="glyphicons adress_book" href="#menu_turmas"><i></i><span>Turmas</span></a>
+                                <ul class="collapse" id="menu_turmas">
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom/create"><span>Adicionar turma</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=classroom"><span>Listar turmas</span></a></li>
+                                </ul>
+                            </li>
+                            <!-- // Menu Item Turmas -->
 
-                                <!-- Menu Item Alunos -->
-                                <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
-                                    <ul class="collapse" id="menu_alunos">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Adicionar aluno</span></a></li>
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Listar alunos</span></a></li>
-                                    </ul>
-                                    <?php //<span class="count">2</span> ?>
-                                </li>
-                                <!-- // Menu Item Alunos -->
+                            <!-- Menu Item Turmas -->
+                            <li class="hasSubmenu">
+                                <a data-toggle="collapse" class="glyphicons notes_2" href="#menu_matricula"><i></i><span>Matricula</span></a>
+                                <ul class="collapse" id="menu_matricula">
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment/create"><span>Matricular aluno</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=enrollment"><span>Listar matrículas</span></a></li>
+                                </ul>
+                            </li>
+                            <!-- // Menu Item Turmas -->
 
-                                <!-- Menu Item Equipe Escolar -->
-                                <li class="hasSubmenu">
-                                    <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Professores</span></a>
-                                    <ul class="collapse" id="menu_equipe">
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
-                                        <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
-                                    </ul>
-                                    <?php //<span class="count">2</span> ?>
-                                </li>
-                                <!-- // Menu Item Equipe Escolar -->
-                                
-                                <!-- Menu Item Frequência -->
-                                <li class="hasSubmenu">
-                                    <a class="glyphicons check" href="<?php echo Yii::app()->homeUrl; ?>?r=frequency/index"><i></i><span>Frequência</span></a>
-                                    <?php //<span class="count">2</span> ?>
-                                </li>
-                                
-                                <!-- Menu Item Relatórios -->
-                                <li class="hasSubmenu">
-                                    <a class="glyphicons charts" href="<?php echo Yii::app()->homeUrl; ?>?r=reports/index"><i></i><span>Relatórios</span></a>
-                                    <?php //<span class="count">3</span> ?>
-                                </li>
-                                <!-- // Menu Item Relatórios -->
-                                
-                                <!-- Menu Item Admin -->
-                                <?php if(Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)){?>
+                            <!-- Menu Item Alunos -->
+                            <li class="hasSubmenu">
+                                <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
+                                <ul class="collapse" id="menu_alunos">
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Adicionar aluno</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Listar alunos</span></a></li>
+                                </ul>
+                            </li>
+                            <!-- // Menu Item Alunos -->
+
+                            <!-- Menu Item Equipe Escolar -->
+                            <li class="hasSubmenu">
+                                <a data-toggle="collapse" class="glyphicons nameplate" href="#menu_equipe"><i></i><span>Professores</span></a>
+                                <ul class="collapse" id="menu_equipe">
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor/create"><span>Adicionar professor</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=instructor#"><span>Listar professores</span></a></li>
+                                </ul>
+                            </li>
+                            <!-- // Menu Item Equipe Escolar -->
+
+                            <!-- Menu Item Frequência -->
+                            <li class="hasSubmenu">
+                                <a class="glyphicons check" href="<?php echo Yii::app()->homeUrl; ?>?r=frequency/index"><i></i><span>Frequência</span></a>
+                            </li>
+                            
+                            <!-- Menu Item Relatórios -->
+                            <li class="hasSubmenu">
+                                <a class="glyphicons charts" href="<?php echo Yii::app()->homeUrl; ?>?r=reports/index"><i></i><span>Relatórios</span></a>
+                            </li>
+                            <!-- // Menu Item Relatórios -->
+                            
+                            <!-- Menu Item Admin -->
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li class="glyphicons lock"><a href="<?php echo Yii::app()->homeUrl; ?>?r=admin"><i></i><span>Administração</span></a></li>
-                                <?php } ?>
-                                
-
-                            </ul>
-
-                        </div>
-                        <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                        
-                        <div class="copy">TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
-
+                            <?php } ?>
+                        </ul>
                     </div>
+                    <!-- // Scrollable Menu wrapper with Maximum Height END -->
+
+                    <div class="copy">TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
+                </div>
 
                 <!-- // Sidebar Menu END -->
 
                 <!-- Content -->
                 <div id="content">
-
-<!--                     Breadcrumb -->
+                    <!-- Breadcrumb -->
                     <?php
                     if (isset($this->breadcrumbs)):
-
                         $newBread = array();
                     
                         if (Yii::app()->controller->route !== 'site/index')
-                            $this->breadcrumbs = array_merge(array(Yii::t('default', '') => Yii::app()->homeUrl),$this->breadcrumbs);
-                        
+                            $this->breadcrumbs = array_merge(array(Yii::t('default', '') => Yii::app()->homeUrl), $this->breadcrumbs);
+
                         $this->widget('zii.widgets.CBreadcrumbs', array(
                             'links' => $this->breadcrumbs,
                             'homeLink' => '</a>
@@ -356,24 +298,16 @@ $cs->registerScriptFile($baseUrl.'/js/jquery-ba-bbq.js',CClientScript::POS_HEAD)
                             'inactiveLinkTemplate' => '<li><span>{label}</span></li>',
                             'htmlOptions' => array('class' => 'breadcrumb hidden-print')
                         ));
-                        endif; 
-                        ?>
-<!--                     Breadcrumb END -->
-                    
-
+                    endif;
+                    ?>
+                    <!-- Breadcrumb END -->
                     <?php echo $content; ?>
-
-
                 </div>
-
                 <!-- // Content END -->
-
             </div>
             <div class="clearfix"></div>
             <!-- // Sidebar menu & content wrapper END -->
-
         </div>
         <!-- // Main Container Fluid END -->
-
     </body>
 </html>

@@ -206,7 +206,7 @@ return array(
     'Week Days Thursday' => 'Quinta',
     'Week Days Friday' => 'Sexta',
     'Week Days Saturday' => 'Sábado',
-    'Assistance Type' => 'Tipo de Assistência',
+    'Assistance Type' => 'Tipo de Atendimento',
     'Mais Educacao Participator' => 'Participante do programa Mais Educação',
     'Complementary Activity Type 1' => 'Atividades Complementares',
     'Complementary Activity Type 2' => '',
