@@ -67,7 +67,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                 $(".select-search-on").select2({width: 'resolve'}); 
                 $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
-                $(".select-shool").select2({dropdownCssClass: 'school-dropdown'});
+                $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
             });
 
             /**
@@ -138,7 +138,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                                     echo CHtml::activeDropDownList(
-                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-shool', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                                 } else {
                                     echo CHtml::activeDropDownList(
                                             UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
@@ -196,18 +196,18 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                         <ul>
                             <!-- Menu Regular Item -->
                             <li class="glyphicons display"><a href="<?php echo Yii::app()->homeUrl; ?>"><i></i><span>Página inicial</span></a></li>
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-
+                            
                                 <!-- Menu Item Escolas -->
                                 <li class="hasSubmenu">
                                     <a data-toggle="collapse" class="glyphicons building" href="#menu_escolas"><i></i><span>Escolas</span></a>
                                     <ul class="collapse" id="menu_escolas">
+                                        <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school/create"><span>Adicionar escola</span></a></li>
+                                        <?php } ?>
                                         <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=school"><span>Listar escolas</span></a></li>
                                     </ul>
                                 </li>
                                 <!-- // Menu Item Escolas -->
-                            <?php } ?>
                             <!-- Menu Item Turmas -->
                             <li class="hasSubmenu">
                                 <a data-toggle="collapse" class="glyphicons adress_book" href="#menu_turmas"><i></i><span>Turmas</span></a>

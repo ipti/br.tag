@@ -536,12 +536,13 @@ class AdminController extends Controller {
         $role->addChild('updateFrequency');
         
         $role->addChild('generateBFReport');
+        
+        $role->addChild('updateSchool');
 
 
         $role = $auth->createRole('admin');
         $role->addChild('manager');
         $role->addChild('createSchool');
-        $role->addChild('updateSchool');
         $role->addChild('deleteSchool');
 
 

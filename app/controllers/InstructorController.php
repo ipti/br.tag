@@ -63,13 +63,50 @@ class InstructorController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
+//        $mII = new InstructorIdentification();
+//        $mDA = new InstructorDocumentsAndAddress();
+//        $mVD = new InstructorVariableData();
+//
+//        if(isset($_POST['InstructorIdentification'],$_POST['InstructorDocumentsAndAddress'],$_POST['InstructorVariableData'])){
+//            $mII->attributes = $_POST['InstructorIdentification'];
+//            $mDA->attributes = $_POST['InstructorDocumentsAndAddress'];
+//            $mVD->attributes = $_POST['InstructorVariableData'];
+//            
+//            $mII->school_inep_id_fk = Yii::app()->user->school;
+//            $mDA->school_inep_id_fk = Yii::app()->user->school;
+//            $mVD->school_inep_id_fk = Yii::app()->user->school;
+//            
+//            if($mII->validate() && $mDA->validate() && $mVD->validate()){
+//                if($mII->save()){
+//                    $mDA->id = $mII->id;
+//                    $mVD->id = $mII->id;
+//                    var_dump($mDA->validate() && $mVD->validate());
+//                    if($mDA->validate() && $mVD->validate()){
+//                        exit;
+//                        if($mDA->save() && $mVD->save()){
+//                            Yii::app()->user->setFlash('success', Yii::t('default', 'Professor adicionado com sucesso!'));
+//                            $this->redirect(array('index'));
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        $error[] = '';
+//        
+//        $this->render('create', array(
+//            'modelInstructorIdentification' => $mII,
+//            'modelInstructorDocumentsAndAddress' => $mDA,
+//            'modelInstructorVariableData' => $mVD,
+//            'error' => $error,
+//        ));
+        
         $modelInstructorIdentification = new InstructorIdentification();
         $modelInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
         $modelInstructorVariableData = new InstructorVariableData();
         $saveInstructor = false;
         $saveDocumentsAndAddress = false;
         $saveVariableData = false;
-
+        
         $error[] = '';
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress']
                         , $_POST['InstructorVariableData'])) {

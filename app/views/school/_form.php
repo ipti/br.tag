@@ -12,11 +12,9 @@
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
         <div class="buttons">
-                    <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-                        <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
-                        <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit'));
-                        ?>
-                        <?php //echo CHtml::submitButton($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary last', 'style' => 'display:none')); ?>
+            <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+            <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+            <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
         </div>
     </div>
 </div>
@@ -43,7 +41,6 @@
                     <div class="row-fluid">
                         <?php // @done S1 - Alinhar o campo nome, o span12 não esta funcionando devidamente(remover o style e corrigir no css) ?>
                         <div class="span12">
-
                             <!--//@done S1 - 09 - O Campo de nome está muito pequeno, aumentar -->   
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
@@ -73,8 +70,7 @@
                                 <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on'));
-                                    ?>
+                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                                 </div>
                             </div>
@@ -95,7 +91,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                            <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta'), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta'), array('class' => 'select-search-off')); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Current situation school run'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                                 </div>
@@ -112,7 +108,7 @@
                             </div>
 
                             <div class="control-group">
-                        <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Final Date Help'); ?>"><i></i></span>
@@ -255,8 +251,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'cep', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php
-                                    echo $form->textField($modelSchoolIdentification, 'cep', array('size' => 8, 'maxlength' => 8,
+                                    <?php echo $form->textField($modelSchoolIdentification, 'cep', array('size' => 8, 'maxlength' => 8,
                                         'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('Instructor/getcitybycep'),
@@ -269,8 +264,7 @@
                                         $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
                                         }, 500);
                                     }"
-                                    )));
-                                    ?>
+                                    )));?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
 
                                     <?php echo $form->error($modelSchoolIdentification, 'cep'); ?>
@@ -283,22 +277,18 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php
-                                    //@done s1 - Atualizar a lista de Orgão Regional de Educação também.
+                                    <?php //@done s1 - Atualizar a lista de Orgão Regional de Educação também.
                                     echo $form->dropDownList($modelSchoolIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'prompt' => 'Selecione um estado',
                                         'class' => 'select-search-on',
                                         'ajax' => array(
                                             'type' => 'POST',
-//                                    'url' => CController::createUrl('school/getcities'),
-//                                    'update' => '#SchoolIdentification_edcenso_city_fk',
                                             'url' => CController::createUrl('school/updateUfDependencies'),
                                             'success' => "function(data){
                                             data = jQuery.parseJSON(data);
                                             $('#SchoolIdentification_edcenso_city_fk').html(data.City);
                                         }",
-                                    )));
-                                    ?>      
+                                    ))); ?>      
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
@@ -307,20 +297,17 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php
-                                    echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione uma cidade',
+                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione uma cidade',
                                         'class' => 'select-search-on',
                                         'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('school/updateCityDependencies'),
-                                            //'update' => '#SchoolIdentification_edcenso_district_fk',
                                             'success' => "function(data){
                                             data = jQuery.parseJSON(data);
                                             $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Organ);
                                             $('#SchoolIdentification_edcenso_district_fk').html(data.District);
                                         }",
-                                    )));
-                                    ?>  
+                                    ))); ?>  
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
@@ -328,9 +315,7 @@
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_district_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php
-                                    echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on'));
-                                    ?>  
+                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on')); ?>  
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
                                 </div>
                             </div>
@@ -404,10 +389,8 @@
                                 <label class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
                                 <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
-                                        <?php
-                                        echo SchoolStructure::model()->attributeLabels()['operation_location_building'];
-                                        echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0));
-                                        ?>
+                                        <?php echo SchoolStructure::model()->attributeLabels()['operation_location_building'];
+                                        echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['operation_location_temple']; ?>
