@@ -235,14 +235,15 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array(
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('Instructor/getcitybycep'),
-                                            'data' => array('cep' => 'js:this.value'),
-                                            'success' => "function(data){
-                                                updateCep(data);
-                                                }"
-                                    )));?>
+                                        //'ajax' => array(
+                                        //    'type' => 'POST',
+                                        //    'url' => CController::createUrl('Instructor/getcitybycep'),
+                                        //    'data' => array('cep' => 'js:this.value'),
+                                        //    'success' => "function(data){
+                                        //        updateCep(data);
+                                        //        }"
+                                        //)
+                                            ));?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                                 </div>
