@@ -305,8 +305,6 @@ $(formDocumentsAndAddress + 'cep').focusout(function() {
     var form = formDocumentsAndAddress.replace('#','');
     
     var address = $("label[for="+form+"address]");
-    var address_number = $("label[for="+form+"address_number]");
-    //var complement = $("label[for="+form+"complement]");
     var neighborhood = $("label[for="+form+"neighborhood]");
     var edcenso_uf_fk = $("#"+form+"edcenso_uf_fk");
     var edcenso_city_fk = $("#"+form+"edcenso_city_fk");
@@ -329,13 +327,11 @@ $(formDocumentsAndAddress + 'cep').focusout(function() {
     
     if(required){
         addRequired(address);
-        addRequired(address_number);
         addRequired(neighborhood);
         addRequiredSelect2(edcenso_uf_fk);
         addRequiredSelect2(edcenso_city_fk);
     }else{  
         removeRequired(address);
-        removeRequired(address_number);
         removeRequired(neighborhood);
         removeRequiredSelect2(edcenso_uf_fk);
         removeRequiredSelect2(edcenso_city_fk);
