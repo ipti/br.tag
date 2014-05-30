@@ -251,15 +251,7 @@ function validateCpf(cpf){
 
         return ((cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]))
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     if(cpf == "00000000000" || cpf == "00000000191")
         return false;
     else
@@ -301,4 +293,49 @@ function addError(id, message){
 function removeError(id){
     removeErrorMessage(id);
     removeErrorNotification(id);
+}
+
+/**
+ * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function addRequired(id){
+    removeRequired(id);
+    $(id).addClass('required');
+    $(id).text($(id).text()+"*");
+}
+/**
+ * Remove a classe "required" ao campo, e remove o "*" do seu texto;
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function removeRequired(id){
+    var text = $(id).text();
+    $(id).removeClass('required');
+    $(id).text(text.replace('*',''));
+}
+
+/**
+ * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function addRequiredSelect2(id){
+    var newId = $(id).parent().parent().children("label");
+    addRequired(newId);
+}
+
+/**
+ * Remove a classe "required" ao campo, e remove o "*" do seu texto;
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function removeRequiredSelect2(id){
+    var newId = $(id).parent().parent().children("label");
+    removeRequired(newId);
 }

@@ -298,21 +298,53 @@ $(formDocumentsAndAddress + 'cpf').on('change', function() {
 });
 
 $(formDocumentsAndAddress + 'cep').focusout(function() {
-    var id = '#' + $(this).attr("id");
-    $(id).val($(id).val().toUpperCase());
-
-    if (!validateCEP($(id).val())) {
-        $(this).attr('value', '');
-        addError(id, "Campo CEP não está dentro das regras.");
-    } else {
+    var name = $(this).attr("id");
+    var id = '#' + name;
+    var element = $(id);
+    
+    var form = formDocumentsAndAddress.replace('#','');
+    
+    var address = $("label[for="+form+"address]");
+    var address_number = $("label[for="+form+"address_number]");
+    //var complement = $("label[for="+form+"complement]");
+    var neighborhood = $("label[for="+form+"neighborhood]");
+    var edcenso_uf_fk = $("#"+form+"edcenso_uf_fk");
+    var edcenso_city_fk = $("#"+form+"edcenso_city_fk");
+    
+    var noError = false;
+    var required = false;
+    
+    element.val(element.val().toUpperCase());
+    
+    noError = validateCEP(element.val()) || !(element.val().length > 0);
+    required = validateCEP(element.val()) && noError;
+    
+    
+    if(noError){
         removeError(id);
-
+    }else{
+        element.attr('value', '');
+        addError(id, "Campo CEP não está dentro das regras.");
     }
-    if ($(id).val().length == 0) {
-        $(formDocumentsAndAddress + 'edcenso_uf_fk').val("").trigger('change').select2("readonly", false);
-        $(formDocumentsAndAddress + 'edcenso_city_fk').val("").trigger('change').select2("readonly", false);
+    
+    if(required){
+        addRequired(address);
+        addRequired(address_number);
+        addRequired(neighborhood);
+        addRequiredSelect2(edcenso_uf_fk);
+        addRequiredSelect2(edcenso_city_fk);
+    }else{  
+        removeRequired(address);
+        removeRequired(address_number);
+        removeRequired(neighborhood);
+        removeRequiredSelect2(edcenso_uf_fk);
+        removeRequiredSelect2(edcenso_city_fk);
     }
-
+    
+    //if ($(id).val().length == 0) {
+    //    $(formDocumentsAndAddress + 'edcenso_uf_fk').val("").trigger('change').select2("readonly", false);
+    //    $(formDocumentsAndAddress + 'edcenso_city_fk').val("").trigger('change').select2("readonly", false);
+    //}
 });
 
 $(formDocumentsAndAddress + 'address').focusout(function() {
