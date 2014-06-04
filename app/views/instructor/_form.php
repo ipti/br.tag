@@ -66,7 +66,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF Numbers'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                                 </div>
                             </div>

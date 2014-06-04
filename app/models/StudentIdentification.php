@@ -44,6 +44,7 @@
  * @property integer $resource_zoomed_test_24
  * @property integer $resource_braille_test
  * @property integer $resource_none
+ * @property integer $send_year
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -76,8 +77,8 @@ class StudentIdentification extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency', 'required'),
-            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none', 'numerical', 'integerOnly' => true),
+            array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year', 'numerical', 'integerOnly' => true),
             array('register_type', 'length', 'max' => 2),
             array('school_inep_id_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 12),
@@ -86,7 +87,7 @@ class StudentIdentification extends CActiveRecord {
             array('birthday', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, nis, birthday, sex, color_race, filiation, mother_name, father_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none', 'safe', 'on' => 'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, nis, birthday, sex, color_race, filiation, mother_name, father_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year', 'safe', 'on' => 'search'),
         );
     }
 
@@ -149,6 +150,7 @@ class StudentIdentification extends CActiveRecord {
             'resource_zoomed_test_24' => Yii::t('default', 'Resource Zoomed Test 24'),
             'resource_braille_test' => Yii::t('default', 'Resource Braille Test'),
             'resource_none' => Yii::t('default', 'Resource None'),
+            'send_year' => Yii::t('default', 'Send'),
         );
     }
 
@@ -203,6 +205,7 @@ class StudentIdentification extends CActiveRecord {
 //        $criteria->compare('resource_zoomed_test_24', $this->resource_zoomed_test_24);
         $criteria->compare('resource_braille_test', $this->resource_braille_test);
         $criteria->compare('resource_none', $this->resource_none);
+//        $criteria->compare('send_year', $this->send_year);
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,

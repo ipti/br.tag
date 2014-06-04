@@ -57,6 +57,7 @@ return array(
     'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
     'Estimated classes' => 'Quantidade de aulas previstas',
        
+    'CPF Numbers' => "Apenas números são aceitos e o CPF deve ser válido.",
 );
 
 ?>

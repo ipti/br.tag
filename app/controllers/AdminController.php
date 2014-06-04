@@ -41,6 +41,9 @@ class AdminController extends Controller {
      * 
      */
     public function actionUpdateDB(){
+        set_time_limit(0);
+        ignore_user_abort();
+        
         $updateDir = Yii::app()->basePath . '/../updates/';
         
         $dirFiles = scandir($updateDir);
@@ -69,7 +72,7 @@ class AdminController extends Controller {
                         $sql .= $fileLine;
                         if ($fileLine == null) break;
                     }
-
+                    
                     $result = Yii::app()->db->createCommand($sql)->query();
 
                     if ($result) {
@@ -258,18 +261,31 @@ class AdminController extends Controller {
         //Identificação do Aluno
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
-        $criteria->join ='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
-        $criteria->condition = 'c.school_year = :value';
-        $criteria->params = array(":value" => date('Y'));
+        $criteria->condition = 'c.school_year = :value '
+                            . 'AND t.send_year <= :year';
+        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
         $criteria->group = 't.id';
         $students = StudentIdentification::model()->findAll($criteria);
         foreach ($students as $key => $student) {
-            $export .= implode('|', $student->attributes);
+            $attributes = $student->attributes;
+            //Remove send_year
+            array_pop($attributes);
+            $export .= implode('|',$attributes);
             $export .= "|\n";
         }
         
         //Documentos do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join = 'LEFT JOIN student_identification si ON t.student_fk = si.id ';
+        $criteria->join .='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.school_year = :value '
+                            . 'AND si.send_year <= :year';
+        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
+        $criteria->group = 't.id';
         $studentsDocs = StudentDocumentsAndAddress::model()->findAll($criteria);
         foreach ($studentsDocs as $key => $studentDocs) {
             $export .= implode('|', $studentDocs->attributes);
@@ -279,9 +295,11 @@ class AdminController extends Controller {
         //Matricula do Aluno
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
+        $criteria->join ='LEFT JOIN student_identification si ON t.student_fk = si.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_fk';
-        $criteria->condition = 'c.school_year = :value';
-        $criteria->params = array(":value" => date('Y'));
+        $criteria->condition = 'c.school_year = :value '
+                            . 'AND di.send_year <= :year';
+        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
         $enrollments = StudentEnrollment::model()->findAll($criteria);
         foreach ($enrollments as $key => $enrollment) {
             $attributes = $enrollment->attributes;

@@ -177,6 +177,15 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
+                            
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y'), 'uncheckValue' => (date('Y')+1))); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
+                                </div>
+                            </div>
                         </div>
                         <div class=" span5">
                             <div class="separator"></div>
