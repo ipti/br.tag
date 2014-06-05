@@ -251,36 +251,7 @@ class AdminController extends Controller {
                 $export .= "|\n";
             }
             
-        }
-        
-//        //Documentos do Professor
-//        $instructorsDocs = InstructorDocumentsAndAddress::model()->findAll($criteria);
-//        foreach ($instructorsDocs as $key => $instructorDocs) {
-//            $export .= implode('|', $instructorDocs->attributes);
-//            $export .= "|\n";
-//        }
-//            
-//        //Variáveis de Encino do Professor
-//        $instructorsVariables = InstructorVariableData::model()->findAll($criteria);
-//        foreach ($instructorsVariables as $key => $instructorVariables) {
-//            $export .= implode('|', $instructorVariables->attributes);
-//            $export .= "|\n";
-//        }    
-//        
-//        //Dados de Docência do Professor
-//        $criteria = new CDbCriteria();
-//        $criteria->select = 't.*';
-//        $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_id_fk';
-//        $criteria->condition = 'c.school_year = :value';
-//        $criteria->params = array(":value" => date('Y'));
-//        $instructorsTeachingData = InstructorTeachingData::model()->findAll($criteria);
-//        foreach ($instructorsTeachingData as $key => $instructorTeachingData) {
-//            $attributes = $instructorTeachingData->attributes;
-//            //Remove Id
-//            array_pop($attributes);
-//            $export .= implode('|', $attributes);
-//            $export .= "|\n";
-//        }    
+        } 
                 
         //Identificação do Aluno
         $criteria = new CDbCriteria();
@@ -317,39 +288,6 @@ class AdminController extends Controller {
                 $export .= "|\n";
             }
         }
-        
-//        //Documentos do Aluno
-//        $criteria = new CDbCriteria();
-//        $criteria->select = 't.*';
-//        $criteria->join = 'LEFT JOIN student_identification si ON t.student_fk = si.id ';
-//        $criteria->join .='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
-//        $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
-//        $criteria->condition = 'c.school_year = :value '
-//                            . 'AND si.send_year <= :year';
-//        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
-//        $criteria->group = 't.id';
-//        $studentsDocs = StudentDocumentsAndAddress::model()->findAll($criteria);
-//        foreach ($studentsDocs as $key => $studentDocs) {
-//            $export .= implode('|', $studentDocs->attributes);
-//            $export .= "|\n";
-//        }
-//            
-//        //Matricula do Aluno
-//        $criteria = new CDbCriteria();
-//        $criteria->select = 't.*';
-//        $criteria->join ='LEFT JOIN student_identification si ON t.student_fk = si.id ';
-//        $criteria->join .='LEFT JOIN classroom c ON c.id = t.classroom_fk';
-//        $criteria->condition = 'c.school_year = :value '
-//                            . 'AND si.send_year <= :year';
-//        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
-//        $enrollments = StudentEnrollment::model()->findAll($criteria);
-//        foreach ($enrollments as $key => $enrollment) {
-//            $attributes = $enrollment->attributes;
-//            //Remove Id
-//            array_pop($attributes);
-//            $export .= implode('|', $attributes);
-//            $export .= "|\n";
-//        }  
         
         $fileDir = Yii::app()->basePath . '/export/'.date('Y_').Yii::app()->user->school.'.TXT';
         
@@ -405,7 +343,7 @@ class AdminController extends Controller {
         set_time_limit(0);
         ignore_user_abort();
         $admin_login = 'admin';
-        $admin_password = md5('admin');
+        $admin_password = md5('p@s4ipti');
 
         $command = "INSERT INTO `users`VALUES
                         (1, 'Administrador', '$admin_login', '$admin_password', 1);";
