@@ -10,10 +10,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
         ));
-
-echo $form->errorSummary($modelStudentIdentification);
-echo $form->errorSummary($modelStudentDocumentsAndAddress);
-
 //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
 ?>
 
@@ -30,6 +26,10 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
 
 <div class="innerLR">
     <div class="widget widget-tabs border-bottom-none">
+        <?php
+        echo $form->errorSummary($modelStudentIdentification);
+        echo $form->errorSummary($modelStudentDocumentsAndAddress);
+        ?>
         <div class="widget-head">
             <ul class="tab-student">
                 <li id="tab-student-identify" class="active"><a class="glyphicons vcard" href="#student-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>

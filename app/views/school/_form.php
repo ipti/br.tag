@@ -16,9 +16,6 @@ $form=$this->beginWidget('CActiveForm', array(
 
 
 
-<?php echo $form->errorSummary($modelSchoolIdentification); ?>
-<?php echo $form->errorSummary($modelSchoolStructure); ?>
-
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
@@ -31,9 +28,10 @@ $form=$this->beginWidget('CActiveForm', array(
 </div>
             
 <div class="innerLR">
-    
+
     <div class="widget widget-tabs border-bottom-none">
-    
+        <?php echo $form->errorSummary($modelSchoolIdentification); ?>
+        <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="widget-head">
             <ul class="tab-school">
                 <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>

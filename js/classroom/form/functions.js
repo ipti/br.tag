@@ -210,20 +210,50 @@ var atualizarListadeDisciplinas = function(){
  * @returns {void}
  */
 function updateAssistanceTypeDependencies(data){     
-    
     data = jQuery.parseJSON(data);
     
+    var type = $('#Classroom_assistance_type').val();
+    
     //+edu
-    $('#Classroom_mais_educacao_participator').prop('disabled', data.MaisEdu);
+    if(type == 1 || type == 5){
+        $('#mais_educacao #none input').val(null).removeAttr('disabled');
+        $('#mais_educacao #some input').attr('disabled', 'disabled');
+        $('#mais_educacao').hide();
+    }else{
+        $('#mais_educacao #none input').val(null).attr('disabled', 'disabled');
+        $('#mais_educacao #some input').removeAttr('disabled', 'disabled');
+        $('#mais_educacao').show();
+    }
+    
+    if(type == 4){
+        $("#complementary_activity input").val(null).removeAttr('disabled');
+        $("#complementary_activity").show();
+    }else{
+        $("#complementary_activity input").val(null).attr('disabled', 'disabled');
+        $("#complementary_activity").hide();
+    }
     
     //aee
-    $('#aee input').prop('disabled', data.AeeActivity);
+    if(type == 5){
+        $('#aee input').removeAttr('disabled');
+        $("#aee").show();
+    }else{
+        $('#aee input').attr('disabled', 'disabled');
+        $("#aee").hide();
+    }
     
-    //SvsM
-    $('#Classroom_edcenso_stage_vs_modality_fk').html(data.Stage).prop('disabled', data.StageEmpty);
-    
-    //M
-    $('#Classroom_modality').html(data.Modality);
+    //M & SvsM
+    if(type == 4 || type == 5){
+        $("#modality input").val(null).attr('disabled', 'disabled').trigger('change');
+        $("#stage_vs_modality input").val(null).attr('disabled','disabled').trigger('change');
+        $("#modality").hide();
+        $("#stage_vs_modality").hide();
+    }else{
+        $('#Classroom_modality').html(data.Modality).removeAttr('disabled').trigger('change');  
+        $("#stage_vs_modality input").html(data.Stage).removeAttr('disabled').trigger('change');
+        $("#modality").show();
+        $("#stage_vs_modality").show();
+    }
 }
 
 
