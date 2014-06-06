@@ -213,7 +213,7 @@ $(formStructure + 'operation_location input[type=checkbox]').change(function() {
     } else {
         removeError(id);
     }
-})
+});
 
 $(formStructure + 'operation_location').focusout(function() {
     var id = '#' + $(this).attr("id");
@@ -222,4 +222,18 @@ $(formStructure + 'operation_location').focusout(function() {
     } else {
         removeError(id);
     }
-})
+});
+
+$(formStructure+'native_education').change(function(){
+    if($(formStructure+'native_education:checked').length == 1){
+        $("#native_education_language").show();
+        $("#native_education_lenguage_none input").attr('disabled', 'disabled');
+        $("#native_education_lenguage_some input").removeAttr('disabled');
+    }else{
+        $("#native_education_language").hide();
+        $("#native_education_lenguage_none input").val(null).removeAttr('disabled');
+        $("#native_education_lenguage_some input").attr('disabled', 'disabled');
+    }
+});
+
+$(formStructure+'native_education').trigger('change');

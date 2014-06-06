@@ -4,6 +4,4 @@
  * and open the template in the editor.
  */
 
-
-
 $('.heading-buttons').css('width', $('#content').width());

@@ -878,9 +878,13 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="native_education_language">
                                 <label class="control-label"><?php echo Yii::t('default', 'Native Education Language'); ?></label>
-                                <div class="uniformjs margin-left">
+                                <div id="native_education_lenguage_none">
+                                <?php echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_native', array('value'=>null, 'disabled'=>'disabled'));
+                                        echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_portuguese', array('value'=>null, 'disabled'=>'disabled'));?>
+                                </div>
+                                <div class="uniformjs margin-left" id="native_education_lenguage_some">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'native_education_language_native', array('value' => 1, 'uncheckValue' => 0)); ?>
