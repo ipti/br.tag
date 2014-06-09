@@ -14,7 +14,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
         ));
 ?>
-<?php echo $form->errorSummary($modelClassroom); ?>
 
 <div class="row-fluid">
     <div class="span12">
@@ -33,6 +32,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
     <div class="widget widget-tabs border-bottom-none">
 
+        <?php echo $form->errorSummary($modelClassroom); ?>
         <div class="widget-head">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
@@ -121,35 +121,28 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Week Days'); ?></label>
                                 <div class="uniformjs margin-left" id="Classroom_week_days">
-                                    <label class="checkbox">       
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_sunday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Week days'); ?>"><i></i></span>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_monday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_monday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_tuesday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_wednesday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_thursday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_friday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_friday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['week_days_saturday']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
+                                    <table>
+                                        <tr>
+                                            <td>S</td>
+                                            <td>T</td>
+                                            <td>Q</td>
+                                            <td>Q</td>
+                                            <td>S</td>
+                                            <td>S</td>
+                                            <td>D</td>
+                                            <td><span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Week days'); ?>"><i></i></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array("checked" => "checked",'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
 
@@ -157,7 +150,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento'), array('class' => 'select-search-off','ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento'), array('class' => 'select-search-off', 'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -169,15 +162,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="mais_educacao">
+                                <div id="none">
+                                    <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
+                                </div>
                                 <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 'control-label')); ?>
-                                <div class="controls">
+                                <div class="controls" id="some">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="complementary_activity">
                                 <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?>
@@ -187,12 +183,12 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="span5">
                             <div class="separator"></div>
-                            <div class="control-group">
+                            <div class="control-group" id="aee">
                                 <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
-                                <div id="aee" class="uniformjs margin-left">
+                                <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['aee_braille_system_education']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0));?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['aee_optical_and_non_optical_resources']; ?>
@@ -237,20 +233,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="modality">
                                 <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                        echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
-                                            '1' => 'Ensino Regular',
-                                            '2' => 'Educação Especial - Modalidade Substitutiva',
-                                            '3' => 'Educação de Jovens e Adultos (EJA)'), array('class' => 'select-search-off'));
+                                    echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
+                                        '1' => 'Ensino Regular',
+                                        '2' => 'Educação Especial - Modalidade Substitutiva',
+                                        '3' => 'Educação de Jovens e Adultos (EJA)'), array('class' => 'select-search-off'));
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="stage_vs_modality">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on')); ?>
