@@ -375,6 +375,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         foreach ($enrollments as $enr) {
                                             echo "<tr><td>" . $enr->id . "</td><td>" . $enr->studentFk->name . "</td></tr>";
                                         }
+                                        echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
                                     } else {
                                         echo "<tr><th>Não há alunos matriculados.</th></tr>";
                                     }

@@ -179,33 +179,35 @@ class ClassroomController extends Controller
 	}
         
         public function setDisciplines($modelClassroom,$discipline){
-            $modelClassroom->discipline_chemistry                               = isset($discipline[1])  ? $discipline[1]  : 0;
-            $modelClassroom->discipline_physics                                 = isset($discipline[2])  ? $discipline[2]  : 0;
-            $modelClassroom->discipline_mathematics                             = isset($discipline[3])  ? $discipline[3]  : 0;
-            $modelClassroom->discipline_biology                                 = isset($discipline[4])  ? $discipline[4]  : 0;
-            $modelClassroom->discipline_science                                 = isset($discipline[5])  ? $discipline[5]  : 0;
-            $modelClassroom->discipline_language_portuguese_literature          = isset($discipline[6])  ? $discipline[6]  : 0;
-            $modelClassroom->discipline_foreign_language_english                = isset($discipline[7])  ? $discipline[7]  : 0;
-            $modelClassroom->discipline_foreign_language_spanish                = isset($discipline[8])  ? $discipline[8]  : 0;
-            $modelClassroom->discipline_foreign_language_other                  = isset($discipline[9])  ? $discipline[9]  : 0;
-            $modelClassroom->discipline_arts                                    = isset($discipline[10]) ? $discipline[10] : 0;
-            $modelClassroom->discipline_physical_education                      = isset($discipline[11]) ? $discipline[11] : 0;
-            $modelClassroom->discipline_history                                 = isset($discipline[12]) ? $discipline[12] : 0;
-            $modelClassroom->discipline_geography                               = isset($discipline[13]) ? $discipline[13] : 0;
-            $modelClassroom->discipline_philosophy                              = isset($discipline[14]) ? $discipline[14] : 0;
-            $modelClassroom->discipline_informatics                             = isset($discipline[16]) ? $discipline[16] : 0;
-            $modelClassroom->discipline_professional_disciplines                = isset($discipline[17]) ? $discipline[17] : 0;
-            $modelClassroom->discipline_special_education_and_inclusive_practices=isset($discipline[20]) ? $discipline[20] : 0;
-            $modelClassroom->discipline_sociocultural_diversity                 = isset($discipline[21]) ? $discipline[21] : 0;
-            $modelClassroom->discipline_libras                                  = isset($discipline[23]) ? $discipline[23] : 0;
-            $modelClassroom->discipline_religious                               = isset($discipline[25]) ? $discipline[25] : 0;
-            $modelClassroom->discipline_native_language                         = isset($discipline[26]) ? $discipline[26] : 0;
-            $modelClassroom->discipline_pedagogical                             = isset($discipline[27]) ? $discipline[27] : 0;
-            $modelClassroom->discipline_social_study                            = isset($discipline[28]) ? $discipline[28] : 0;
-            $modelClassroom->discipline_sociology                               = isset($discipline[29]) ? $discipline[29] : 0;
-            $modelClassroom->discipline_foreign_language_franch                 = isset($discipline[30]) ? $discipline[30] : 0;
-            $modelClassroom->discipline_others                                  = isset($discipline[99]) ? $discipline[99] : 0;
-                    
+            $type = $modelClassroom->assistance_type;
+            $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
+            $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
+            $modelClassroom->discipline_chemistry                               = $putNull ? null : (isset($discipline[1])  ? $discipline[1]  : 0);
+            $modelClassroom->discipline_physics                                 = $putNull ? null : (isset($discipline[2])  ? $discipline[2]  : 0);
+            $modelClassroom->discipline_mathematics                             = $putNull ? null : (isset($discipline[3])  ? $discipline[3]  : 0);
+            $modelClassroom->discipline_biology                                 = $putNull ? null : (isset($discipline[4])  ? $discipline[4]  : 0);
+            $modelClassroom->discipline_science                                 = $putNull ? null : (isset($discipline[5])  ? $discipline[5]  : 0);
+            $modelClassroom->discipline_language_portuguese_literature          = $putNull ? null : (isset($discipline[6])  ? $discipline[6]  : 0);
+            $modelClassroom->discipline_foreign_language_english                = $putNull ? null : (isset($discipline[7])  ? $discipline[7]  : 0);
+            $modelClassroom->discipline_foreign_language_spanish                = $putNull ? null : (isset($discipline[8])  ? $discipline[8]  : 0);
+            $modelClassroom->discipline_foreign_language_other                  = $putNull ? null : (isset($discipline[9])  ? $discipline[9]  : 0);
+            $modelClassroom->discipline_arts                                    = $putNull ? null : (isset($discipline[10]) ? $discipline[10] : 0);
+            $modelClassroom->discipline_physical_education                      = $putNull ? null : (isset($discipline[11]) ? $discipline[11] : 0);
+            $modelClassroom->discipline_history                                 = $putNull ? null : (isset($discipline[12]) ? $discipline[12] : 0);
+            $modelClassroom->discipline_geography                               = $putNull ? null : (isset($discipline[13]) ? $discipline[13] : 0);
+            $modelClassroom->discipline_philosophy                              = $putNull ? null : (isset($discipline[14]) ? $discipline[14] : 0);
+            $modelClassroom->discipline_informatics                             = $putNull ? null : (isset($discipline[16]) ? $discipline[16] : 0);
+            $modelClassroom->discipline_professional_disciplines                = $putNull ? null : (isset($discipline[17]) ? $discipline[17] : 0);
+            $modelClassroom->discipline_special_education_and_inclusive_practices=$putNull ? null : (isset($discipline[20]) ? $discipline[20] : 0);
+            $modelClassroom->discipline_sociocultural_diversity                 = $putNull ? null : (isset($discipline[21]) ? $discipline[21] : 0);
+            $modelClassroom->discipline_libras                                  = $putNull ? null : (isset($discipline[23]) ? $discipline[23] : 0);
+            $modelClassroom->discipline_religious                               = $putNull ? null : (isset($discipline[25]) ? $discipline[25] : 0);
+            $modelClassroom->discipline_native_language                         = $putNull ? null : (isset($discipline[26]) ? $discipline[26] : 0);
+            $modelClassroom->discipline_pedagogical                             = $putNull ? null : (isset($discipline[27]) ? $discipline[27] : 0);
+            $modelClassroom->discipline_social_study                            = $putNull ? null : (isset($discipline[28]) ? $discipline[28] : 0);
+            $modelClassroom->discipline_sociology                               = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
+            $modelClassroom->discipline_foreign_language_franch                 = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
+            $modelClassroom->discipline_others                                  = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
         }
         
         //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
