@@ -110,6 +110,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                     e.preventDefault();
                 }
             });
+            
+            
+            
         </script>
 
     </head>

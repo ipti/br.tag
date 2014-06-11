@@ -134,5 +134,6 @@ $(document).ready(function() {
 // Dialog Controls                            //
 ////////////////////////////////////////////////
 $("#newDiscipline").click(function(){
+    $("#teachingdata-dialog-form select").val('').trigger('change');
     $("#teachingdata-dialog-form").dialog('open');
 });    
