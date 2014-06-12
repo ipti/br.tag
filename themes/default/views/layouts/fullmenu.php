@@ -29,7 +29,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />
+        <!--<link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />-->
 
         <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
@@ -62,12 +62,25 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
 
         <script>
+//            var dirty = false;  
             $(document).ready(function(){
                 $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
                 $(".select-search-on").select2({width: 'resolve'}); 
                 $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
                 $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
+//     
+//                $('a').click(function(event){
+//                    if(dirty){
+//                        var con = confirm('Existem alterações para serem salvas... \nDeseja sair assim mesmo?');
+//                        if(!con){
+//                            event.preventDefault();
+//                        }
+//                    }
+//                });
+//                $('input, select').change(function(e){
+//                    dirty = true; 
+//                });
             });
 
             /**
@@ -111,8 +124,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                 }
             });
             
-            
-            
+               
         </script>
 
     </head>

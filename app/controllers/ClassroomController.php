@@ -51,10 +51,10 @@ class ClassroomController extends Controller
         public function actionGetAssistanceType(){
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
-
             $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
+            $result = array('html'=>'', 'val'=>'');
             
-            echo CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de atendimento'), true);
+            $result['html'] = CHtml::tag('option', array('value' => null),CHtml::encode('Selecione o tipo de atendimento'), true);
             if($schoolStructure != null){
                 
                 $encode = array(
@@ -75,16 +75,18 @@ class ClassroomController extends Controller
                 );
                 
                 for($i = 0; $i <= 3; $i++){
-                    echo CHtml::tag('option', array('value' => "$i", $selected[$i] => $selected[$i]),$encode[$i], true);
+                    $result['html'] .= CHtml::tag('option', array('value' => "$i", $selected[$i] => $selected[$i]),$encode[$i], true);
                 }
                 if($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2 ){
-                    echo CHtml::tag('option', array('value' => "4", $selected[4] => $selected[4]),$encode[4], true);
+                    $result['html'] .= CHtml::tag('option', array('value' => "4", $selected[4] => $selected[4]),$encode[4], true);
                 }
                 if($schoolStructure->aee == 1 || $schoolStructure->aee == 2 ){
-                    echo CHtml::tag('option', array('value' => "5", $selected[5] => $selected[5]),$encode[5], true);
+                    $result['html'] .= CHtml::tag('option', array('value' => "5", $selected[5] => $selected[5]),$encode[5], true);
                 }  
                 
             }
+            $result['val'] = $classroom->assistance_type;
+            echo json_encode($result);
         }
         
         public function actionUpdateComplementaryActivity(){
@@ -435,7 +437,6 @@ class ClassroomController extends Controller
             
 		$modelClassroom = $this->loadModel($id,$this->MODEL_CLASSROOM);
                 $modelTeachingData = $this->loadModel($id,$this->MODEL_TEACHING_DATA);
-                
             if(isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
                 $teachingData = json_decode($_POST['teachingData']);
                 $disciplines = json_decode($_POST['disciplines'],true);

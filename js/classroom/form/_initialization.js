@@ -7,9 +7,12 @@ $(document).ready(function() {
         'url':baseUrl+'/index.php?r=classroom/getassistancetype',
         'cache':false,
         'data':$(form+'school_inep_fk').parents("form").serialize(),
-        'success':function(html){
+        'success':function(result){
+            result   = jQuery.parseJSON(result);
+            var html = result.html;
+            var val  = result.val;
             $(form+"assistance_type").html(html); 
-            $(form+"assistance_type").trigger('change');
+            $(form+"assistance_type").val(val).trigger('change');
         }});
     $(form+"complementary_activity_type_1").val($.parseJSON(jsonCompActv));
 });   
