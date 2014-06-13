@@ -586,54 +586,33 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
             $(formInstructorvariableData + 'high_education_formation_3').removeAttr('disabled');
         }
     });
+    
+    var pgs = formInstructorvariableData + 'post_graduation_specialization';
+    var pgm = formInstructorvariableData + 'post_graduation_master';
+    var pgd = formInstructorvariableData + 'post_graduation_doctorate';
+    var pgn = formInstructorvariableData + 'post_graduation_none';
 
-
-
-    $(formInstructorvariableData + 'post_graduation_specialization').on('change', function() {
-        if ($(this).is(':checked')) {
-            $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled', 'disabled');
-        } else {
-            $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
+    $(pgs+','+pgm+','+pgd).on('change', function() {
+        var checked = !($(pgs).is(':checked') || $(pgm).is(':checked') || $(pgd).is(':checked'));
+        $(pgn).attr('checked',checked);
+    });
+    $(pgn).on('change', function() {
+        if($(pgn).is(':checked')){
+            $(pgs+','+pgm+','+pgd).attr('checked',false);
         }
     });
-    $(formInstructorvariableData + 'post_graduation_master').on('change', function() {
-        if ($(this).is(':checked')) {
-            $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled', 'disabled');
-        } else {
-            $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
+    
+    var ocn = formInstructorvariableData + 'other_courses_none';
+    
+    $('.other_courses').on('change', function() {
+        var checked = $('.other_courses').is(':checked');
+        $(ocn).attr('checked',checked);
+    });
+    $(ocn).on('change', function() {
+        if($(ocn).is(':checked')){
+            $('.other_courses').attr('checked',false);
         }
     });
-    $(formInstructorvariableData + 'post_graduation_doctorate').on('change', function() {
-        if ($(this).is(':checked')) {
-            $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_none').add().attr('disabled', 'disabled');
-        } else {
-            $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_none').removeAttr('disabled');
-        }
-    });
-    $(formInstructorvariableData + 'post_graduation_none').on('change', function() {
-        if ($(this).is(':checked')) {
-            $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_master').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').add().attr('disabled', 'disabled');
-        } else {
-            $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_master').removeAttr('disabled');
-            $(formInstructorvariableData + 'post_graduation_doctorate').removeAttr('disabled');
-        }
-    });
-
 
 
 

@@ -346,9 +346,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         <?php echo InstructorVariableData::model()->attributeLabels()['post_graduation_doctorate'];
                                         echo $form->checkBox($modelInstructorVariableData, 'post_graduation_doctorate', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                    <label class="checkbox" style="display:none;">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['post_graduation_none'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'post_graduation_none', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'post_graduation_none', array('checked'=>true, 'value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
                             </div>
@@ -358,65 +358,65 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_nursery'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_nursery', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_nursery', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_pre_school'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_pre_school', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_pre_school', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_basic_education_initial_years'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_initial_years', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_basic_education_final_years'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_basic_education_final_years', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_high_school'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_high_school', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_high_school', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_education_of_youth_and_adults'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_education_of_youth_and_adults', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_special_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_special_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_special_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_native_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_native_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_field_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_field_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_field_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_environment_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_environment_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_environment_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_human_rights_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_human_rights_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_sexual_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_sexual_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_sexual_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_child_and_teenage_rights'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_child_and_teenage_rights', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_ethnic_education'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_ethnic_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_ethnic_education', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_other'];
-                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_other', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        echo $form->checkBox($modelInstructorVariableData, 'other_courses_other', array('class'=>'other_courses','value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                    <label class="checkbox" style="display:none;">
                                         <?php echo InstructorVariableData::model()->attributeLabels()['other_courses_none'];
                                         echo $form->checkBox($modelInstructorVariableData, 'other_courses_none', array('value' => 1, 'uncheckValue' => 0));?>
                                     </label>
