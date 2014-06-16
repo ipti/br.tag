@@ -88,81 +88,187 @@ $(formIdentification + 'nationality').change(function() {
     }
 });
 
-$(formIdentification + "deficiency").change(function() {
+var deficiency = formIdentification + "deficiency";                             //17
 
-    $(formIdentification + 'deficiency_type_blindness').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_low_vision').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_deafness').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_disability_hearing').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_deafblindness').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_phisical_disability').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_intelectual_disability').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_multiple_disabilities').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_autism').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_aspenger_syndrome').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_rett_syndrome').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').attr("disabled", "disabled");
-    $(formIdentification + 'deficiency_type_gifted').attr("disabled", "disabled");
-    $(formIdentification + 'resource_aid_lector').attr("disabled", "disabled");
-    $(formIdentification + 'resource_aid_transcription').attr("disabled", "disabled");
-    $(formIdentification + 'resource_interpreter_guide').attr("disabled", "disabled");
-    $(formIdentification + 'resource_interpreter_libras').attr("disabled", "disabled");
-    $(formIdentification + 'resource_lip_reading').attr("disabled", "disabled");
-    $(formIdentification + 'resource_zoomed_test_16').attr("disabled", "disabled");
-    $(formIdentification + 'resource_zoomed_test_20').attr("disabled", "disabled");
-    $(formIdentification + 'resource_zoomed_test_24').attr("disabled", "disabled");
-    $(formIdentification + 'resource_braille_test').attr("disabled", "disabled");
-    $(formIdentification + 'resource_none').attr("disabled", "disabled");
+var dtBlind = formIdentification + 'deficiency_type_blindness';                 //18 
+var dtLowVi = formIdentification + 'deficiency_type_low_vision';                //19
+var dtDeafn = formIdentification + 'deficiency_type_deafness';                  //20
+var dtDisab = formIdentification + 'deficiency_type_disability_hearing';        //21
+var dtDeafB = formIdentification + 'deficiency_type_deafblindness';             //22
+var dtPhisi = formIdentification + 'deficiency_type_phisical_disability';       //23
+var dtIntel = formIdentification + 'deficiency_type_intelectual_disability';    //24
+var dtMulti = formIdentification + 'deficiency_type_multiple_disabilities';     //25
+var dtAutis = formIdentification + 'deficiency_type_autism';                    //26
+var dtAspen = formIdentification + 'deficiency_type_aspenger_syndrome';         //27 
+var dtRettS = formIdentification + 'deficiency_type_rett_syndrome';             //28
+var dtChild = formIdentification + 'deficiency_type_childhood_disintegrative_disorder'; //29
+var dtGifte = formIdentification + 'deficiency_type_gifted';                    //30
+var allDeficiency = dtBlind+','+dtLowVi+','+dtDeafn+','+dtDisab+','+dtDeafB+','+dtGifte+','+dtPhisi+','+
+                    dtIntel+','+dtMulti+','+dtAutis+','+dtAspen+','+dtRettS+','+dtChild;
+var defLessGifited = dtBlind+','+dtLowVi+','+dtDeafn+','+dtDisab+','+dtDeafB+','+dtPhisi+','+
+                    dtIntel+','+dtMulti+','+dtAutis+','+dtAspen+','+dtRettS+','+dtChild;
 
-    if ($(this).is(':checked')) {
-        $(formIdentification + 'deficiency_type_blindness').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_low_vision').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_deafness').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_disability_hearing').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_phisical_disability').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_intelectual_disability').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_autism').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_aspenger_syndrome').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_rett_syndrome').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').removeAttr("disabled");
-        $(formIdentification + 'deficiency_type_gifted').removeAttr("disabled");
-        $(formIdentification + 'resource_aid_lector').removeAttr("disabled");
-        $(formIdentification + 'resource_aid_transcription').removeAttr("disabled");
-        $(formIdentification + 'resource_interpreter_guide').removeAttr("disabled");
-        $(formIdentification + 'resource_interpreter_libras').removeAttr("disabled");
-        $(formIdentification + 'resource_lip_reading').removeAttr("disabled");
-        $(formIdentification + 'resource_zoomed_test_16').removeAttr("disabled");
-        $(formIdentification + 'resource_zoomed_test_20').removeAttr("disabled");
-        $(formIdentification + 'resource_zoomed_test_24').removeAttr("disabled");
-        $(formIdentification + 'resource_braille_test').removeAttr("disabled");
-        $(formIdentification + 'resource_none').removeAttr("disabled");
+var rAidLec = formIdentification + 'resource_aid_lector';                       //31
+var rAidTra = formIdentification + 'resource_aid_transcription';                //32
+var rIntGui = formIdentification + 'resource_interpreter_guide';                //33
+var rIntLib = formIdentification + 'resource_interpreter_libras';               //34
+var rLipRea = formIdentification + 'resource_lip_reading';                      //35
+var rZoom16 = formIdentification + 'resource_zoomed_test_16';                   //36
+var rZoom20 = formIdentification + 'resource_zoomed_test_20';                   //37
+var rZoom24 = formIdentification + 'resource_zoomed_test_24';                   //38
+var rBraile = formIdentification + 'resource_braille_test';                     //39
+var allResource = rAidLec+','+rAidTra+','+rIntGui+','+rIntLib+','+rLipRea+','+rZoom16+','+rZoom20+','+rZoom24+','+rBraile;
+        
+var rNone = formIdentification + 'resource_none';                               //40
 
-        $(formIdentification + 'deficiency_type_blindness').val("");
-        $(formIdentification + 'deficiency_type_low_vision').val("");
-        $(formIdentification + 'deficiency_type_deafness').val("");
-        $(formIdentification + 'deficiency_type_disability_hearing').val("");
-        $(formIdentification + 'deficiency_type_deafblindness').val("");
-        $(formIdentification + 'deficiency_type_phisical_disability').val("");
-        $(formIdentification + 'deficiency_type_intelectual_disability').val("");
-        $(formIdentification + 'deficiency_type_multiple_disabilities').val("");
-        $(formIdentification + 'deficiency_type_autism').val("");
-        $(formIdentification + 'deficiency_type_aspenger_syndrome').val("");
-        $(formIdentification + 'deficiency_type_rett_syndrome').val("");
-        $(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').val("");
-        $(formIdentification + 'deficiency_type_gifted').val("");
-        $(formIdentification + 'resource_aid_lector').val("");
-        $(formIdentification + 'resource_aid_transcription').val("");
-        $(formIdentification + 'resource_interpreter_guide').val("");
-        $(formIdentification + 'resource_interpreter_libras').val("");
-        $(formIdentification + 'resource_lip_reading').val("");
-        $(formIdentification + 'resource_zoomed_test_16').val("");
-        $(formIdentification + 'resource_zoomed_test_20').val("");
-        $(formIdentification + 'resource_zoomed_test_24').val("");
-        $(formIdentification + 'resource_braille_test').val("");
-        $(formIdentification + 'resource_none').val("");
+$(allDeficiency).change(function(){
+    $(allDeficiency).attr('readonly', false);
+        
+    var unCheck = '';
+    unCheck = dtLowVi+','+dtDeafn+','+dtDeafB;
+    if($(dtBlind).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtBlind+','+dtDeafB;
+    if($(dtLowVi).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtBlind+','+dtDisab+','+dtDeafB;
+    if($(dtDeafn).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtDeafn+","+dtDeafB;
+    if($(dtDisab).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtBlind+","+dtLowVi+","+dtDeafn+","+dtDisab;
+    if($(dtDeafB).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtGifte;
+    if($(dtIntel).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtAspen+","+dtRettS+","+dtChild;
+    if($(dtAutis).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtAutis+","+dtRettS+","+dtChild;
+    if($(dtAspen).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
 
+    unCheck = dtAspen+","+dtAutis+","+dtChild;
+    if($(dtRettS).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtAspen+","+dtRettS+","+dtAutis;
+    if($(dtChild).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    unCheck = dtIntel;
+    if($(dtGifte).is(":checked")){
+        $(unCheck).attr('checked',false).attr('readonly', true);
+    }
+    
+    var multi = $(dtBlind).is(':checked') && $(dtPhisi).is(':checked') 
+              ||$(dtBlind).is(':checked') && $(dtIntel).is(':checked') 
+              ||$(dtLowVi).is(':checked') && $(dtPhisi).is(':checked') 
+              ||$(dtLowVi).is(':checked') && $(dtIntel).is(':checked')
+              ||$(dtDeafn).is(':checked') && $(dtPhisi).is(':checked') 
+              ||$(dtDeafn).is(':checked') && $(dtIntel).is(':checked')
+              ||$(dtDisab).is(':checked') && $(dtPhisi).is(':checked') 
+              ||$(dtDisab).is(':checked') && $(dtIntel).is(':checked')
+              ||$(dtDeafB).is(':checked') && $(dtPhisi).is(':checked') 
+              ||$(dtDeafB).is(':checked') && $(dtIntel).is(':checked')
+              ||$(dtBlind).is(':checked') && $(dtDisab).is(':checked') 
+              ||$(dtLowVi).is(':checked') && $(dtDeafn).is(':checked')
+              ||$(dtLowVi).is(':checked') && $(dtDisab).is(':checked') 
+              ||$(dtPhisi).is(':checked') && $(dtIntel).is(':checked');
+    $(dtMulti).attr('checked',multi);
+    
+    $(allResource).attr('readonly',true);
+        
+    if(!($(dtLowVi+','+dtBlind).is(':checked')) && $(dtGifte).is(':checked')){
+        $('#resource_null input').removeAttr('disabled');
+        $('#resource_type input').attr('disabled',"disabled");
+        $("#resource_type").hide();
+    }else if(!($(allDeficiency).is(":checked"))){
+        $('#resource_null input').attr('disabled',"disabled");
+        $('#resource_type input').removeAttr('disabled',"disabled");
+        $("#resource_type").hide();
+    }else{
+        $('#resource_null input').attr('disabled',"disabled");
+        $('#resource_type input').attr('checked',false).removeAttr('disabled');
+        $('#resource_type '+rNone).removeAttr('disabled');
+        $("#resource_type").show();
+    }
+    
+    var defType = dtBlind+','+dtLowVi+','+dtDeafB+','+dtPhisi+','+dtIntel+','+dtAutis+','+dtAspen+','+dtRettS+','+dtChild;
+    $(rAidLec+','+rAidTra).attr('readonly',$(defType).is(':checked'));
+    
+    $(rIntGui).attr('readonly', $(dtDeafB).is(':checked'));
+    
+    defType = dtDeafn+','+dtDeafB+','+dtDisab;
+    $(rIntLib+','+rLipRea).attr('readonly',$(defType).is(':checked'));
+    
+    defType = dtLowVi+','+dtDeafB;
+    $(rZoom16+','+rZoom20+','+rZoom24).attr('readonly',$(defType).is(':checked'));
+    
+    defType = dtBlind+','+dtDeafB;
+    $(rBraile).attr('readonly',$(defType).is(':checked'));
+});
+
+$(allResource).change(function (){
+    var checked = !($(this).is(":checked"));
+    $(rNone).attr('checked',checked);
+    
+    
+    var rz16 = $(rZoom16);
+    var rz20 = $(rZoom20);
+    var rz24 = $(rZoom24);
+    rz16.attr('readonly', false);
+    rz20.attr('readonly', false);
+    rz24.attr('readonly', false);
+    
+    if(rz16.is(':checked')){
+        $(rz20).attr('checked', false).attr('readonly', true);
+        $(rz24).attr('checked', false).attr('readonly', true);
+    }
+    if(rz20.is(':checked')){
+        $(rz16).attr('checked', false).attr('readonly', true);
+        $(rz24).attr('checked', false).attr('readonly', true);
+    }
+    if(rz24.is(':checked')){
+        $(rz16).attr('checked', false).attr('readonly', true);
+        $(rz20).attr('checked', false).attr('readonly', true);
+    }
+});
+
+$(rNone).change(function(){
+    if($(this).is(':checked')){
+        $(allResource).attr('checked',false);
+    }
+});
+
+$(deficiency).change(function() {
+    if($(this).is(":checked")){
+        $(allDeficiency).attr('checked',false).removeAttr('disabled');
+        $("#deficiency_type").show();      
+    } else {
+        $(allDeficiency).attr('disabled',"disabled");
+        $(allResource).attr('disabled',"disabled");
+        $("#deficiency_type").hide();
+        $("#resource_type").hide();
     }
 });
 

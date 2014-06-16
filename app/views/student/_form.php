@@ -198,7 +198,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group" id="deficiency_type">
                                 <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -229,7 +229,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                    <label class="checkbox" style="display:none">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
@@ -255,8 +255,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-
-                            <div class="control-group">
+                            <div id="resource_null">
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_aid_lector', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_aid_transcription', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_interpreter_guide', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_interpreter_libras', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_lip_reading', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_16', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_20', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_24', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_braille_test', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_none', array('value'=>null, 'disabled'=>'disabled')); ?>
+                            </div>
+                            
+                            <div class="control-group" id="resource_type">
                                 <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -295,7 +307,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
+                                    <label class="checkbox" style="display:none">
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
