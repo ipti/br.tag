@@ -36,6 +36,10 @@
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
+                            'name' => 'inep_id',
+                                'htmlOptions' => array('width'=> '150px')
+                        ),
+                        array(
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)'
