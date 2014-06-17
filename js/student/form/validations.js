@@ -228,14 +228,13 @@ $(allDeficiency).change(function(){
     $(rBraile).attr('readonly',$(defType).is(':checked'));
 });
 
-$(allResource).change(function (){
+$('#resource_type input').change(function (){
     var checked = !($(this).is(":checked"));
-    $(rNone).attr('checked',checked);
+    $('#resource_type '+rNone).attr('checked',checked);
     
-    
-    var rz16 = $(rZoom16);
-    var rz20 = $(rZoom20);
-    var rz24 = $(rZoom24);
+    var rz16 = $('#resource_type '+rZoom16);
+    var rz20 = $('#resource_type '+rZoom20);
+    var rz24 = $('#resource_type '+rZoom24);
     rz16.attr('readonly', false);
     rz20.attr('readonly', false);
     rz24.attr('readonly', false);
@@ -254,7 +253,7 @@ $(allResource).change(function (){
     }
 });
 
-$(rNone).change(function(){
+$('#resource_type '+rNone).change(function(){
     if($(this).is(':checked')){
         $(allResource).attr('checked',false);
     }
