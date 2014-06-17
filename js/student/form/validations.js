@@ -121,7 +121,22 @@ var allResource = rAidLec+','+rAidTra+','+rIntGui+','+rIntLib+','+rLipRea+','+rZ
         
 var rNone = formIdentification + 'resource_none';                               //40
 
+var defReadOnly;
+var recReadOnly;
+
+$(allDeficiency).click(function(){
+    defReadOnly = $(this).attr('readonly') == 'readonly';
+});
+$(allResource).click(function(){
+    recReadOnly = $(this).attr('readonly') == 'readonly';
+});
+
+
 $(allDeficiency).change(function(){
+    if(defReadOnly){
+        $(this).attr('checked', false);
+    }
+    
     $(allDeficiency).attr('readonly', false);
         
     var unCheck = '';
@@ -229,6 +244,10 @@ $(allDeficiency).change(function(){
 });
 
 $('#resource_type input').change(function (){
+    if(recReadOnly){
+        $(this).attr('checked', false);
+    }
+    
     var checked = !($(this).is(":checked"));
     $('#resource_type '+rNone).attr('checked',checked);
     
@@ -254,6 +273,10 @@ $('#resource_type input').change(function (){
 });
 
 $('#resource_type '+rNone).change(function(){
+    if(recReadOnly){
+        $(this).attr('checked', false);
+    }
+    
     if($(this).is(':checked')){
         $(allResource).attr('checked',false);
     }

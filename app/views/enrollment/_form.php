@@ -3,6 +3,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form=$this->beginWidget('CActiveForm', array(
@@ -153,19 +154,31 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php 
                                 echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'public_transport', array(null => "Selecione se utiliza transporte", "0" => "Não utiliza", "1" => "Utiliza"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->checkBox($model, 'public_transport',array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <?php echo $form->error($model, 'public_transport'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id="transport_responsable">
                                 <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($model, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"),array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($model, 'transport_responsable_government'); ?>
                                 </div>
                             </div>
-                            
-                            <div class="control-group">
+                            <div class="control-group" id="transport_null">
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_van', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_microbus', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_bus', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_bike', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_animal_vehicle', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_other_vehicle', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_waterway_boat_5', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_waterway_boat_5_15', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_waterway_boat_15_35', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_waterway_boat_35', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($model, 'vehicle_type_metro_or_train', array('value'=>null, 'disabled'=>'disabled')); ?>
+                            </div>
+                            <div class="control-group" id="transport_type">
                                 <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
