@@ -1285,3 +1285,111 @@ Stack trace:
 REQUEST_URI=/tag/index.php?r=instructor/create
 HTTP_REFERER=http://localhost/tag/index.php?r=instructor/create
 ---
+2014/06/17 14:22:28 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)' in D:\TAG\WWW\tag\framework\db\CDbConnection.php:382
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbConnection.php(330): CDbConnection->open()
+#1 D:\TAG\WWW\tag\framework\db\CDbConnection.php(308): CDbConnection->setActive(true)
+#2 D:\TAG\WWW\tag\framework\base\CModule.php(387): CDbConnection->init()
+#3 D:\TAG\WWW\tag\framework\base\CApplication.php(450): CModule->getComponent('db')
+#4 D:\TAG\WWW\tag\framework\db\ar\CActiveRecord.php(634): CApplication->getDb()
+#5 D:\TAG\WWW\tag\framework\db\ar\CActiveRecord.php(1428): CActiveRecord->getDbConnection()
+#6 D:\TAG\WWW\tag\framework\db\ar\CActiveRecord.php(1517): CActiveRecord->getTableAlias(true)
+#7 D:\TAG\WWW\tag\app\components\UserIdentity.php(37): CActiveRecord->findByAttributes(Array)
+#8 D:\TAG\WWW\tag\app\models\LoginForm.php(53): UserIdentity->authenticate()
+#9 D:\TAG\WWW\tag\framework\validators\CInlineValidator.php(42): LoginForm->authenticate('password', Array)
+#10 D:\TAG\WWW\tag\framework\validators\CValidator.php(213): CInlineValidator->validateAttribute(Object(LoginForm), 'password')
+#11 D:\TAG\WWW\tag\framework\base\CModel.php(159): CValidator->validate(Object(LoginForm), NULL)
+#12 D:\TAG\WWW\tag\app\controllers\SiteController.php(104): CModel->validate()
+#13 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): SiteController->actionLogin()
+#14 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#15 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#16 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('login')
+#18 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('site/login')
+#19 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#21 {main}
+REQUEST_URI=/tag/index.php?r=site/login
+HTTP_REFERER=http://localhost/tag/index.php?r=site/login
+---
+2014/06/20 12:40:10 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it.
+' in D:\TAG\WWW\tag\framework\db\CDbConnection.php:382
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbConnection.php(330): CDbConnection->open()
+#1 D:\TAG\WWW\tag\framework\db\CDbConnection.php(308): CDbConnection->setActive(true)
+#2 D:\TAG\WWW\tag\framework\base\CModule.php(387): CDbConnection->init()
+#3 D:\TAG\WWW\tag\framework\web\auth\CDbAuthManager.php(589): CModule->getComponent('db')
+#4 D:\TAG\WWW\tag\framework\web\auth\CDbAuthManager.php(59): CDbAuthManager->getDbConnection()
+#5 D:\TAG\WWW\tag\framework\base\CModule.php(387): CDbAuthManager->init()
+#6 D:\TAG\WWW\tag\framework\web\CWebApplication.php(185): CModule->getComponent('authManager')
+#7 D:\TAG\WWW\tag\themes\default\views\layouts\fullmenu.php(154): CWebApplication->getAuthManager()
+#8 D:\TAG\WWW\tag\framework\web\CBaseController.php(126): require('D:\TAG\WWW\tag\...')
+#9 D:\TAG\WWW\tag\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\TAG\WWW\tag\...', Array, true)
+#10 D:\TAG\WWW\tag\framework\web\CController.php(784): CBaseController->renderFile('D:\TAG\WWW\tag\...', Array, true)
+#11 D:\TAG\WWW\tag\app\controllers\SiteController.php(48): CController->render('index')
+#12 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): SiteController->actionIndex()
+#13 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#14 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#15 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#16 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('')
+#17 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('')
+#18 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#19 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#20 {main}
+REQUEST_URI=/tag/
+---
+2014/06/20 12:58:11 [error] [php] fopen(D:\TAG\WWW\tag\app/import/): failed to open stream: No such file or directory (D:\TAG\WWW\tag\app\controllers\AdminController.php:419)
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams()
+#1 D:\TAG\WWW\tag\framework\web\CController.php(286): AdminController->runAction()
+#2 D:\TAG\WWW\tag\framework\web\CController.php(265): AdminController->runActionWithFilters()
+#3 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): AdminController->run()
+#4 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#5 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#6 D:\TAG\WWW\tag\index.php(12): CWebApplication->run()
+REQUEST_URI=/tag/index.php?r=admin/import
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (419)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/20 12:58:46 [error] [php] fopen(D:\TAG\WWW\tag\app/import/): failed to open stream: No such file or directory (D:\TAG\WWW\tag\app\controllers\AdminController.php:419)
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams()
+#1 D:\TAG\WWW\tag\framework\web\CController.php(286): AdminController->runAction()
+#2 D:\TAG\WWW\tag\framework\web\CController.php(265): AdminController->runActionWithFilters()
+#3 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): AdminController->run()
+#4 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#5 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#6 D:\TAG\WWW\tag\index.php(12): CWebApplication->run()
+REQUEST_URI=/tag/index.php?r=admin/import
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (419)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/20 13:00:35 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '28026080' for key 'PRIMARY'. A declaração SQL executada foi: INSERT INTO `school_identification`(`register_type`,`inep_id`,`situation`,`initial_date`,`final_date`,`name`,`latitude`,`longitude`,`cep`,`address`,`address_number`,`address_complement`,`address_neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`,`edcenso_district_fk`,`ddd`,`phone_number`,`public_phone_number`,`other_phone_number`,`fax_number`,`email`,`edcenso_regional_education_organ_fk`,`administrative_dependence`,`location`,`private_school_category`,`public_contract`,`private_school_business_or_individual`,`private_school_syndicate_or_association`,`private_school_ong_or_oscip`,`private_school_non_profit_institutions`,`private_school_s_system`,`private_school_maintainer_cnpj`,`private_school_cnpj`,`regulation`) VALUES ("00", "28026080", "1", "25/02/2013", "12/12/2013", "ESCOLA MUL DE ENSINO FUND ADELSON SILVEIRA LIMA", "-11.5911111", "-37.1047222", "49230000", "POVOADO PICARREIRA", null, null, null, "28", "2806305", "05", null, null, null, null, null, "ESCOLAASL@HOTMAIL.COM", "00001", "3", "2", null, null, null, null, null, null, null, null, null, "1");.
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (471)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/20 13:00:35 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand falhou ao executar o comando SQL: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '28026080' for key 'PRIMARY'. The SQL statement executed was: INSERT INTO `school_identification`(`register_type`,`inep_id`,`situation`,`initial_date`,`final_date`,`name`,`latitude`,`longitude`,`cep`,`address`,`address_number`,`address_complement`,`address_neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`,`edcenso_district_fk`,`ddd`,`phone_number`,`public_phone_number`,`other_phone_number`,`fax_number`,`email`,`edcenso_regional_education_organ_fk`,`administrative_dependence`,`location`,`private_school_category`,`public_contract`,`private_school_business_or_individual`,`private_school_syndicate_or_association`,`private_school_ong_or_oscip`,`private_school_non_profit_institutions`,`private_school_s_system`,`private_school_maintainer_cnpj`,`private_school_cnpj`,`regulation`) VALUES ("00", "28026080", "1", "25/02/2013", "12/12/2013", "ESCOLA MUL DE ENSINO FUND ADELSON SILVEIRA LIMA", "-11.5911111", "-37.1047222", "49230000", "POVOADO PICARREIRA", null, null, null, "28", "2806305", "05", null, null, null, null, null, "ESCOLAASL@HOTMAIL.COM", "00001", "3", "2", null, null, null, null, null, null, null, null, null, "1");' in D:\TAG\WWW\tag\framework\db\CDbCommand.php:543
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbCommand.php(377): CDbCommand->queryInternal('', 0, Array)
+#1 D:\TAG\WWW\tag\app\controllers\AdminController.php(471): CDbCommand->query()
+#2 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): AdminController->actionImport()
+#3 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('import')
+#7 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('admin/import')
+#8 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/tag/index.php?r=admin/import
+HTTP_REFERER=http://localhost/tag/index.php?r=admin
+---
+2014/06/20 13:16:42 [error] [php] fopen(D:\TAG\WWW\tag\app/import/2013_98018493.TXT): failed to open stream: No such file or directory (D:\TAG\WWW\tag\app\controllers\AdminController.php:419)
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams()
+#1 D:\TAG\WWW\tag\framework\web\CController.php(286): AdminController->runAction()
+#2 D:\TAG\WWW\tag\framework\web\CController.php(265): AdminController->runActionWithFilters()
+#3 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): AdminController->run()
+#4 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#5 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#6 D:\TAG\WWW\tag\index.php(12): CWebApplication->run()
+REQUEST_URI=/tag/index.php?r=admin/import
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (419)
+in D:\TAG\WWW\tag\index.php (12)

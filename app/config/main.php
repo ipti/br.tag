@@ -54,10 +54,10 @@ return array(
                  */
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=TAG_SGE_PICARREIRA',//TAG_SGE',
+			'connectionString' => 'mysql:host=localhost;dbname=TAG_SGE',//TAG_SGE',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => 'p@s4ipti',
+			'password' => '',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(
