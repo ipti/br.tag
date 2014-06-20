@@ -150,7 +150,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0=>'',1=>'', 2=>'', 3=>'', 4=>'', 5=>''), array('class' => 'select-search-off', 'ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0=>'',  1=>'', 2=>'', 3=>'', 4=>'', 5=>''), array('class' => 'select-search-off', 'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
