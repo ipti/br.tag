@@ -125,39 +125,47 @@ class ClassroomController extends Controller
                                 Se Campo 17 = 4, campo 36&37 = null
                 Campo	19~24	Se Campo 17 = 4; Pelo menos um, Não repetidos.
                 Campo 	25~35	Se Campo 17 = 5; Pelo menos um diferente de 0.
-             * 
-             */
+            * 
+             * 17 tipo de atendimento
+             * 18 mais edu
+             * 19~24 tipo de atividade
+             * 25~35 atividades
+            */
             
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
             
             $result = array('Stage'=>'', 'MaisEdu'=>'', 'Modality'=>'', 'AeeActivity'=>'');
-               
-            $result['MaisEdu'] = $classroom->assistance_type == 1 || $classroom->assistance_type == 5;
             
-            $result['AeeActivity'] = $classroom->assistance_type != 5;
+            $at = $classroom->assistance_type;
+            
+            $result['MaisEdu'] = $at == 1 || $at == 5;
+            $result['AeeActivity'] = $at != 5;
+            $modality = $at != 4 || $at != 5;
             
             $where = '';
             $result['Modality'] = CHtml::tag('option', array('value' => null),CHtml::encode('Selecione a modalidade'), true);
             
             if($result['MaisEdu']){
-                $result['Modality'] .= CHtml::tag('option', array('value' => '3', "selected" => "selected"),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
                 $where = '(id<4 || id>38) && id!=38 && id!=41 && id!=56';
-            }else{
+            }
+            
+            if($modality){
                 $result['Modality'] .= CHtml::tag('option', array('value' => '1', $classroom->modality == 1? "selected" : "deselected" => $classroom->modality == 1? "selected" : "deselected" ),CHtml::encode('Ensino Regular'), true);
                 $result['Modality'] .= CHtml::tag('option', array('value' => '2', $classroom->modality == 2? "selected" : "deselected" => $classroom->modality == 2? "selected" : "deselected" ),CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
+                $result['Modality'] .= CHtml::tag('option', array('value' => '3', $classroom->modality == 3? "selected" : "deselected" => $classroom->modality == 3? "selected" : "deselected" ),CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
             }
                    
             $result['StageEmpty'] = false;
-            
-            if($classroom->assistance_type == 2 || $classroom->assistance_type == 3){
+            if ($at == 0 || $at == 1){
+                $data = EdcensoStageVsModality::model()->findAll($where);
+            }else if($at == 2 || $at == 3){
                 $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 '.$where);
-            }else if($classroom->assistance_type == 4 || $classroom->assistance_type == 5 || $classroom->assistance_type == "null"){
+            }else{
                 $data = array();
                 $result['StageEmpty'] = true;
-            }else{
-                $data = EdcensoStageVsModality::model()->findAll($where);
             }
+            
             $data = CHtml::listData($data, 'id', 'name');
 
             $result['Stage'] = CHtml::tag('option', array('value' => null), 'Selecione o estágio vs modalidade', true);
