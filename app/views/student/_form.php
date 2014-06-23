@@ -182,7 +182,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y'), 'uncheckValue' => (date('Y')+1))); ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y')+1, 'uncheckValue' => (date('Y')))); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 </div>
                             </div>

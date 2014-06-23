@@ -545,6 +545,6 @@ return array(
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
     
-    'Send' => 'Enviar em '.date('Y'),
+    'Send' => 'Enviar em '.(date('Y')+1),
         )
 ?>
