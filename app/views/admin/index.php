@@ -97,6 +97,15 @@ $this->breadcrumbs = array(
                 </a>
             </div>
         </div>
+        <div class="span6">
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/exportStudentIdentify" class="widget-stats">
+                    <span class="glyphicons user"><i></i></span>
+                    <span class="txt">Identificação do Aluno</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Modal -->

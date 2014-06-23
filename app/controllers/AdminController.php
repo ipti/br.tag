@@ -22,7 +22,8 @@ class AdminController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('import', 'export',
                                     'clearDB', 'acl',
-                                    'backup','data',),
+                                    'backup','data',
+                                    'exportStudentIdentify'),
                 'users' => array('@'),
             ),
         );
@@ -180,6 +181,46 @@ class AdminController extends Controller {
         $this->render('data', array('data' => $data));
     }
     
+    public function actionExportStudentIdentify(){
+        
+        $fileDir = Yii::app()->basePath . '/export/alunos-'.date('Y_').Yii::app()->user->school.'.TXT';
+        
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        
+        $export = "";
+        /* |id|nome|nascimento|mae|pai|UF|municipio| */
+        
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->condition = 't.inep_id is null '
+                            . 'AND t.send_year <= :year';
+        $criteria->params = array(":year" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->findAll($criteria);
+        foreach ($students as $key => $student) {
+            $a = $student;
+            $export .= "|".$a->id
+                    ."|".$a->name
+                    ."|".$a->birthday
+                    ."|".$a->mother_name
+                    ."|".$a->father_name
+                    ."|".$a->edcenso_uf_fk
+                    ."|".$a->edcenso_city_fk
+                    ."|\n";
+        }
+        
+        $result = $fm->write($fileDir, $export);
+        if ($result) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação dos Alunos Concluida com Sucesso.'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação dos Alunos.'));
+        }
+        
+        $this->render('index');
+        
+    }
+    
     
     /**
      * Generate the ExportFile.
@@ -298,7 +339,7 @@ class AdminController extends Controller {
         if ($result) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação..'));
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
 
         $this->render('index');
