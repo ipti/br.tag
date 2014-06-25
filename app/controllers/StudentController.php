@@ -90,7 +90,7 @@ class StudentController extends Controller {
         $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
 
         $data = EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => (int) $student->notary_office_city_fk), array('order' => 'name'));
-        $data = CHtml::listData($data, 'id', 'name');
+        $data = CHtml::listData($data, 'cod', 'name');
 
         echo CHtml::tag('option', array('value' => null), 'Selecione um cartório', true);
         foreach ($data as $value => $name) {
