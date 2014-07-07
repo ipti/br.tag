@@ -76,7 +76,7 @@ class SchoolIdentification extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location', 'required'),
+            array('name, inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location,edcenso_regional_education_organ_fk', 'required'),
             array('situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, regulation', 'numerical', 'integerOnly' => true),
             array('register_type, ddd', 'length', 'max' => 2),
             array('inep_id, cep, public_phone_number, fax_number', 'length', 'max' => 8),

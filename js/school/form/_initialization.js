@@ -5,3 +5,8 @@
  */
 
 $('.heading-buttons').css('width', $('#content').width());
+$(document).ready(function() {
+    $(window).load(function() {
+        $('#SchoolIdentification_edcenso_uf_fk').val($('#SchoolIdentification_edcenso_uf_fk').val()).trigger('change');
+    });
+});

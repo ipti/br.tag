@@ -73,7 +73,13 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
+                                    <?php
+                                        $criteria = new CDbCriteria();
+                                        $criteria->select = 't.*';
+                                        //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                        //$criteria->condition = 'city.edcenso_uf_fk = ';
+                                        $criteria->order = 'name';
+                                        echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                                 </div>
                             </div>
@@ -260,7 +266,11 @@ $form=$this->beginWidget('CActiveForm', array(
                                             'url' => CController::createUrl('school/updateUfDependencies'),
                                             'success' => "function(data){
                                             data = jQuery.parseJSON(data);
-                                            $('#SchoolIdentification_edcenso_city_fk').html(data.City);
+                                            valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
+                                            valC = $('#SchoolIdentification_edcenso_city_fk').val();
+                                            
+                                            $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Regional).val(valR).trigger('change');
+                                            $('#SchoolIdentification_edcenso_city_fk').html(data.City).val(valC).trigger('change');
                                         }",
                                     ))); ?>      
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_uf_fk'); ?>
@@ -276,8 +286,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                             'url' => CController::createUrl('school/updateCityDependencies'),
                                             'success' => "function(data){
                                             data = jQuery.parseJSON(data);
-                                            $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Organ);
-                                            $('#SchoolIdentification_edcenso_district_fk').html(data.District);
+                                            valD = $('#SchoolIdentification_edcenso_district_fk').val();
+                                            $('#SchoolIdentification_edcenso_district_fk').html(data.District).val(valD).trigger('change');
                                         }",
                                     ))); ?>  
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
