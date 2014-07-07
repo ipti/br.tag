@@ -1393,3 +1393,97 @@ Stack trace:
 REQUEST_URI=/tag/index.php?r=admin/import
 in D:\TAG\WWW\tag\app\controllers\AdminController.php (419)
 in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 13:04:51 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::(): SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.. A declaração SQL executada foi: ALTER TABLE `TAG_SGE`.`instructor_identification` CHANGE COLUMN `nis` `nis` VARCHAR(11) NULL  ;
+.
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (76)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 13:04:52 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand falhou ao executar o comando SQL: SQLSTATE[HY000]: General error: 2014 Cannot execute queries while other unbuffered queries are active.  Consider using PDOStatement::fetchAll().  Alternatively, if your code is only ever going to run against mysql, you may enable query buffering by setting the PDO::MYSQL_ATTR_USE_BUFFERED_QUERY attribute.. The SQL statement executed was: ALTER TABLE `TAG_SGE`.`instructor_identification` CHANGE COLUMN `nis` `nis` VARCHAR(11) NULL  ;
+' in D:\TAG\WWW\tag\framework\db\CDbCommand.php:543
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbCommand.php(377): CDbCommand->queryInternal('', 0, Array)
+#1 D:\TAG\WWW\tag\app\controllers\AdminController.php(76): CDbCommand->query()
+#2 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): AdminController->actionUpdateDB()
+#3 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('updateDB')
+#7 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('admin/updateDB')
+#8 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/tag/index.php?r=admin/updateDB
+HTTP_REFERER=http://localhost/tag/index.php?r=admin/updateDB
+---
+2014/06/23 13:05:12 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::(): SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'send_year'. A declaração SQL executada foi: ALTER TABLE `student_identification` 
+    ADD COLUMN `send_year` INT NULL  AFTER `resource_none` ;
+.
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (76)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 13:05:12 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand falhou ao executar o comando SQL: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'send_year'. The SQL statement executed was: ALTER TABLE `student_identification` 
+    ADD COLUMN `send_year` INT NULL  AFTER `resource_none` ;
+' in D:\TAG\WWW\tag\framework\db\CDbCommand.php:543
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbCommand.php(377): CDbCommand->queryInternal('', 0, Array)
+#1 D:\TAG\WWW\tag\app\controllers\AdminController.php(76): CDbCommand->query()
+#2 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): AdminController->actionUpdateDB()
+#3 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('updateDB')
+#7 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('admin/updateDB')
+#8 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/tag/index.php?r=admin/updateDB
+HTTP_REFERER=http://localhost/tag/index.php?r=admin
+---
+2014/06/23 13:05:26 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::(): SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'send_year'. A declaração SQL executada foi: ALTER TABLE `student_identification` 
+    ADD COLUMN `send_year` INT NULL  AFTER `resource_none` ;
+.
+in D:\TAG\WWW\tag\app\controllers\AdminController.php (76)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 13:05:26 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand falhou ao executar o comando SQL: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'send_year'. The SQL statement executed was: ALTER TABLE `student_identification` 
+    ADD COLUMN `send_year` INT NULL  AFTER `resource_none` ;
+' in D:\TAG\WWW\tag\framework\db\CDbCommand.php:543
+Stack trace:
+#0 D:\TAG\WWW\tag\framework\db\CDbCommand.php(377): CDbCommand->queryInternal('', 0, Array)
+#1 D:\TAG\WWW\tag\app\controllers\AdminController.php(76): CDbCommand->query()
+#2 D:\TAG\WWW\tag\framework\web\actions\CInlineAction.php(49): AdminController->actionUpdateDB()
+#3 D:\TAG\WWW\tag\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#4 D:\TAG\WWW\tag\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#5 D:\TAG\WWW\tag\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 D:\TAG\WWW\tag\framework\web\CWebApplication.php(282): CController->run('updateDB')
+#7 D:\TAG\WWW\tag\framework\web\CWebApplication.php(141): CWebApplication->runController('admin/updateDB')
+#8 D:\TAG\WWW\tag\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 D:\TAG\WWW\tag\index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/tag/index.php?r=admin/updateDB
+HTTP_REFERER=http://localhost/tag/index.php?r=admin
+---
+2014/06/23 16:24:05 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1816-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:24:23 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1816-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:24:28 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1816-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:24:48 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1914-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:24:57 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1914-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:25:13 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1900-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/23 16:25:30 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1900-158' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/25 13:48:08 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1934-159' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
+2014/06/25 13:54:07 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1877-160' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
+in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
+in D:\TAG\WWW\tag\index.php (12)
