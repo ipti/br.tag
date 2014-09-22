@@ -34,14 +34,21 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
-<!--                <div class="span3">
-                    <a href="#" class="widget-stats" onclick='$("#import-file-dialog").dialog("open");'>
-                        <span class="glyphicons database_plus"><i></i></span>
-                        <span class="txt">Importar dados</span>
+                <div class="span3">
+                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/NumberStudentsPerClassroomReport" class="widget-stats">
+                        <span class="glyphicons group"><i></i></span>
+                        <span class="txt">Número de Alunos por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span3">
+                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/InstructorsPerClassroomReport" class="widget-stats">
+                        <span class="glyphicons group"><i></i></span>
+                        <span class="txt">Professores por Turma</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+<!--                 <div class="span3">
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/clearDB" class="widget-stats">
                         <span class="glyphicons database_minus"><i></i></span>
                         <span class="txt">Limpar Banco</span>

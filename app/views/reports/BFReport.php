@@ -12,9 +12,15 @@ $this->breadcrumbs=array(
 	Yii::t('default', 'Bolsa Família'),
 );
 
+$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
-
+<style>
+    #report-logo{
+        margin: auto auto 10px;
+        width: 200px;
+    }
+</style>
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Relatório do Bolsa Família'); ?></h3>  
@@ -28,10 +34,30 @@ $this->breadcrumbs=array(
 <div class="innerLR">
 
     <div class="widget" id="widget-frequency" style="margin-top: 8px;">
+        <div id="report-logo" class="visible-print">
+            <img src="../../../images/sntaluzia.png">
+        </div>
             <table id="frequency" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th colspan="3"><?php echo SchoolIdentification::model()->findByPk(Yii::app()->user->school)->name?></th>
+                        <th>Escola:</th><td colspan="3"><?php echo $school->inep_id . " - " . $school->name ?></td>
+                    <tr>
+                    <tr>
+                        <th>Estado:</th><td ><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+                        <th>Municipio:</th><td colspan='2'><?php echo $school->edcensoCityFk->name ?></td>
+                    <tr>
+                    <tr>
+                        <th>Localização:</th><td><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+                        <th>Dependência Administrativa:</th><td colspan='2'><?php
+                        $ad = $school->administrative_dependence;
+                        echo ($ad == 1 ? "FEDERAL" :
+                                ($ad == 2 ? "ESTADUAL" :
+                                        ($ad == 3 ? "MUNICIPAL" :
+                                                "PRIVADA" )));
+                        ?></td>
+                    <tr>
+                    <tr>
+                        <td colspan="8"></td>
                     <tr>
                 </thead>
                 <tbody>
@@ -39,7 +65,7 @@ $this->breadcrumbs=array(
                         $html = "";
                         foreach($report as $name => $r){
                             $html .= "<tr>"
-                                        . "<td rowspan='4'>"
+                                        . "<td rowspan='4' colspan='3'>"
                                             . $name
                                             . "<br> Nascimento: ".$r['Info']['birthday']
                                             . "<br> NIS: ".$r['Info']['NIS']
@@ -58,7 +84,7 @@ $this->breadcrumbs=array(
                                         . "<td class='center'>"
                                             . $monthName
                                         . "</td>"
-                                        . "<td class='center'>"
+                                        . "<td class='center' >"
                                             . $frequency
                                         . "</td>"
                                         . "</tr>";
