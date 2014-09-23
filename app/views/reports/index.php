@@ -48,6 +48,13 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <div class="span3">
+                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/StudentsFileReport" class="widget-stats">
+                        <span class="glyphicons user"><i></i></span>
+                        <span class="txt">Professores por Turma</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
 <!--                 <div class="span3">
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/clearDB" class="widget-stats">
                         <span class="glyphicons database_minus"><i></i></span>

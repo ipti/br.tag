@@ -3,12 +3,14 @@
 class ReportsController extends Controller {
 
     public $layout = 'fullmenu';
+    public $year = 0;
 
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                                    'InstructorsPerClassroomReport'),
+                                    'InstructorsPerClassroomReport','StudentsFileReport',
+                                    'getStudentsFileInformation'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -16,66 +18,47 @@ class ReportsController extends Controller {
             ),
         );
     }
+    
+    public function beforeAction($action){
+        $this->year = Yii::app()->user->year;
+        return true;
+        
+    }
 
     public function actionNumberStudentsPerClassroomReport() {
-        $sql = "Select c.id, c.`name`,
-                    CONCAT_WS(' - ',CONCAT_WS(':',initial_hour,initial_minute), CONCAT_WS(':',final_hour, final_minute)) as `time`, 
-                    IF(c.assistance_type = 0, 'NÃO SE APLICA', IF(c.assistance_type = 1, 'CLASSE HOSPITALAR', IF(c.assistance_type = 2, 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO', IF(c.assistance_type = 3, 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR', 'ATENDIMENTO EDUCACIONALESPECIALIZADO (AEE)')))) as assistance_type,
-                    IF(c.modality = 1, 'REGULAR', IF(c.modality = 2, 'ESPECIAL', 'EJA')) as modality, 
-                    esm.`name` as stage, count(c.id) as students from classroom as c
-                join student_enrollment as se on (c.id = se.classroom_fk)
-                join edcenso_stage_vs_modality as esm on (c.edcenso_stage_vs_modality_fk = esm.id)
-                where c.school_year = year(now())
-                group by c.id;";
+        $sql = "SELECT * FROM NumberOfStudentsPerClassroom
+                    where school_year  = ".$this->year.";";
        
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 
         $this->render('NumberStudentsPerClassroomReport', array(
             'report' => $result,
-        ));
-                
+        ));          
     }
     
     public function actionInstructorsPerClassroomReport() {
-        $sql = "Select c.id, c.`name`,
-	CONCAT_WS(' - ',CONCAT_WS(':',initial_hour,initial_minute), CONCAT_WS(':',final_hour, final_minute)) as `time`, 
-	IF(c.assistance_type = 0, 'NÃO SE APLICA', IF(c.assistance_type = 1, 'CLASSE HOSPITALAR', IF(c.assistance_type = 2, 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO', IF(c.assistance_type = 3, 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR', 'ATENDIMENTO EDUCACIONALESPECIALIZADO (AEE)')))) as assistance_type,
-	IF(c.modality = 1, 'REGULAR', IF(c.modality = 2, 'ESPECIAL', 'EJA')) as modality, 
-	esm.`name` as stage,
-	CONCAT_WS(' - ',if(c.week_days_sunday = 1,'DOMINGO', null),	if(c.week_days_monday = 1,'SEGUNDA', null),	if(c.week_days_tuesday = 1,'TERÇA', null),	if(c.week_days_wednesday = 1,'QUARTA', null),	if(c.week_days_thursday = 1,'QUINTA', null),	if(c.week_days_friday = 1,'SEXTA', null),	if(c.week_days_saturday = 1,'SÁBADO', null)) as week_days,
-	inf.id as instructor_id, inf.birthday_date, inf.`name` as instructor_name, 
-	IF(ivd.scholarity=1,'Fundamental Incompleto',IF(ivd.scholarity=2,'Fundamental Completo',IF(ivd.scholarity=3,'Ensino Médio Normal/Magistério',IF(ivd.scholarity=4,'Ensino Médio Normal/Magistério Indígena',IF(ivd.scholarity=6,'Ensino Médio','Superior'))))) as scholarity,
-	CONCAT_WS('<br>',d1.`name`, d2.`name`, d3.`name`, d4.`name`, d5.`name`, d6.`name`, d7.`name`, d8.`name`, d9.`name`, d10.`name`, d11.`name`, d12.`name`, d13.`name`) as disciplines
-from classroom as c
-join instructor_teaching_data as itd on (itd.classroom_id_fk = c.id)
-join instructor_identification as inf on (inf.id = itd.instructor_fk)
-join instructor_variable_data as ivd on (inf.id = ivd.id)
-join edcenso_stage_vs_modality as esm on (c.edcenso_stage_vs_modality_fk = esm.id)
-left join edcenso_discipline as d1 on (d1.id = itd.discipline_1_fk)
-left join edcenso_discipline as d2 on (d2.id = itd.discipline_2_fk)
-left join edcenso_discipline as d3 on (d3.id = itd.discipline_3_fk)
-left join edcenso_discipline as d4 on (d4.id = itd.discipline_4_fk)
-left join edcenso_discipline as d5 on (d5.id = itd.discipline_5_fk)
-left join edcenso_discipline as d6 on (d6.id = itd.discipline_6_fk)
-left join edcenso_discipline as d7 on (d7.id = itd.discipline_7_fk)
-left join edcenso_discipline as d8 on (d8.id = itd.discipline_8_fk)
-left join edcenso_discipline as d9 on (d9.id = itd.discipline_9_fk)
-left join edcenso_discipline as d10 on (d10.id = itd.discipline_10_fk)
-left join edcenso_discipline as d11 on (d11.id = itd.discipline_11_fk)
-left join edcenso_discipline as d12 on (d12.id = itd.discipline_12_fk)
-left join edcenso_discipline as d13 on (d13.id = itd.discipline_13_fk)
-where c.school_year = year(now())-1
-order by c.id;";
+        $sql = "SELECT * FROM InstructorsPerClassroom "
+                . "where school_year = ".$this->year.";";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 
         $this->render('InstructorsPerClassroomReport', array(
             'report' => $result,
-        ));
-                
+        ));         
     }
-    public function actionBFReport() {
+    
+    public function actionStudentsFileReport() {
+        $this->render('StudentsFileReport', array());         
+    }
+    
+    public function actionGetStudentsFileInformation($student_id){
+        $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
         
+        echo json_encode($result);
+    }
+    
+    public function actionBFReport() {
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
         //@done s3 - Pegar todos os alunos matriculados nas turmas atuais.

@@ -37,48 +37,45 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <h3 class="heading visible-print"><?php echo Yii::t('default', 'Students per Classroom'); ?></h3> 
         <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Escola:</th><td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
-                <tr>
-                <tr>
-                    <th>Estado:</th><td colspan="3"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-                    <th>Municipio:</th><td colspan="3"><?php echo $school->edcensoCityFk->name ?></td>
-                <tr>
-                <tr>
-                    <th>Localização:</th><td colspan="3"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-                    <th>Dependência Administrativa:</th><td colspan="3"><?php
+            <tr>
+                <th>Escola:</th><td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
+            <tr>
+            <tr>
+                <th>Estado:</th><td colspan="3"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+                <th>Municipio:</th><td colspan="3"><?php echo $school->edcensoCityFk->name ?></td>
+            <tr>
+            <tr>
+                <th>Localização:</th><td colspan="3"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+                <th>Dependência Administrativa:</th><td colspan="3"><?php
                     $ad = $school->administrative_dependence;
                     echo ($ad == 1 ? "FEDERAL" :
                             ($ad == 2 ? "ESTADUAL" :
                                     ($ad == 3 ? "MUNICIPAL" :
                                             "PRIVADA" )));
                     ?></td>
-                <tr>
-                <tr>
-                    <td colspan="8"></td>
-                <tr>
-            </thead>
-            <tbody>
-                <tr><th>Ordem</th><th>Código da Turma</th><th>Nome da Turma</th><th>Horário de Funcionamento</th><th>Tipo de Atendimento</th><th>Modalidade</th><th>Etapa</th><th>Número de Alunos</th></tr>
-                <?php
-                $html = "";
-                $i = 0;
-                foreach ($report as $r) {
-                    $i++;
-                    $html .= "<tr>"
-                            . "<td>" . $i . "</td>"
-                            . "<td>" . $r["inep_id"] . "</td>"
-                            . "<td>" . $r["name"] . "</td>"
-                            . "<td>" . $r["time"] . "</td>"
-                            . "<td>" . $r["assistance_type"] . "</td>"
-                            . "<td>" . $r["modality"] . "</td>"
-                            . "<td>" . $r["stage"] . "</td>"
-                            . "<td>" . $r["students"] . "</td>"
-                            . "</tr>";
-                }
-                echo $html;
-                ?>
+            <tr>
+        </table>
+        <br>
+        <table class="table table-bordered table-striped">
+            <tr><th>Ordem</th><th>Código da Turma</th><th>Nome da Turma</th><th>Horário de Funcionamento</th><th>Tipo de Atendimento</th><th>Modalidade</th><th>Etapa</th><th>Número de Alunos</th></tr>
+            <?php
+            $html = "";
+            $i = 0;
+            foreach ($report as $r) {
+                $i++;
+                $html .= "<tr>"
+                        . "<td>" . $i . "</td>"
+                        . "<td>" . $r["id"] . "</td>"
+                        . "<td>" . $r["name"] . "</td>"
+                        . "<td>" . $r["time"] . "</td>"
+                        . "<td>" . $r["assistance_type"] . "</td>"
+                        . "<td>" . $r["modality"] . "</td>"
+                        . "<td>" . $r["stage"] . "</td>"
+                        . "<td>" . $r["students"] . "</td>"
+                        . "</tr>";
+            }
+            echo $html;
+            ?>
             </tbody>
         </table>
         <p>Emitido em <?php echo date('d/m/Y à\s h:i'); ?></p>

@@ -138,9 +138,23 @@ class dumpDB
 
 		echo PHP_EOL."--\n-- Structure for table `$tableName`\n--".PHP_EOL;
 		echo PHP_EOL.'DROP TABLE IF EXISTS '.$db->quoteTableName($tableName).';'.PHP_EOL.PHP_EOL;
-
+                
 		$q = $db->createCommand('SHOW CREATE TABLE '.$db->quoteTableName($tableName).';')->queryRow();
                 
+                /***/
+                /***/$curdb = explode('=', $db->connectionString);
+                /***/$dbname = $curdb[2];
+                /***/$result = $db->createCommand("SHOW FULL TABLES IN ".$dbname." WHERE TABLE_TYPE LIKE 'VIEW';")->queryAll();
+                /***/$isView = false;
+                /***/foreach($result as $res){
+                /***/   if($res["Tables_in_".$dbname] == $tableName){
+                /***/       $create_query = $q['Create View'];
+                /***/       $isView = true;
+                /***/   }
+                /***/}
+                /***/
+                /***/if($isView == false)
+                /***/       
                 $create_query = $q['Create Table'];
 
                 $pattern = '/CONSTRAINT.*|FOREIGN[\s]+KEY/';
@@ -155,7 +169,9 @@ class dumpDB
                 }
                     echo "\n".trim($create_query[$i]).PHP_EOL;
                 
-
+                /***/       
+                /***/if($isView == false){
+                /***/       
 		$rows = $db->createCommand('SELECT * FROM '.$db->quoteTableName($tableName).';')->queryAll();
 
                     
@@ -187,6 +203,9 @@ class dumpDB
 			echo PHP_EOL;
 			$i++;
 		}
+                /***/       
+                /***/}
+                /***/       
 		echo PHP_EOL;
 		echo PHP_EOL;
 	}
