@@ -1,0 +1,59 @@
+body {
+    font-size: 10px;
+}
+.innerLR {
+    top:0;
+    padding: 0;
+}
+#wrapper {
+    top: 10px;;
+}
+.heading {
+    text-align: center;
+    margin-bottom: 10px;
+}
+/*table, tr, th, td {
+    border: 0 !important;
+}*/
+table {
+    page-break-inside:avoid;
+}
+.table th, .table td {
+    padding: 2px 3px 2px 4px;
+}
+.table th {
+    line-height: 15px;
+    background: #ddd !important;
+}
+.table td {
+    line-height: 15px;
+}
+.table-bordered, .table-bordered th, .table-bordered td {
+    border-color: #BEBEBE;
+}
+.widget {
+    border: 0;
+    margin: 0;
+}
+p {
+    margin: 0;
+}
+.info-issued {
+    font-size: 8px;
+    margin-top: 10px;
+}
+#report-logo{
+    margin: auto;
+    width: 180px;
+}
+
+/* Relatorios específicos */
+/* Students File Report */
+
+.td-status {
+    width: 100%;
+}
+.td-status-filereport {
+    right: 5px;
+    position: absolute;
+}

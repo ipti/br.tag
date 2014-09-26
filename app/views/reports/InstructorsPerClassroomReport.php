@@ -14,15 +14,10 @@ $this->breadcrumbs = array(
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
-<style>
-    #report-logo{
-        margin: auto auto 10px;
-        width: 200px;
-    }
-</style>
-<div class="row-fluid">
+
+<div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Instructors per Classroom'); ?></h3>  
+        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Professores por Turma'); ?></h3>  
         <div class="buttons">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
         </div>
@@ -31,28 +26,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 
 <div class="innerLR">
-    <div style="margin-top: 8px;">
-        <div id="report-logo" class="visible-print">
-            <img src="../../../images/sntaluzia.png">
-        </div>
-        <h3 class="heading visible-print"><?php echo Yii::t('default', 'Instructors per Classroom'); ?></h3> 
-        <table class="table table-bordered table-striped">
-            <tr>
-                <th>Escola:</th><td colspan="5"><?php echo $school->inep_id . " - " . $school->name ?></td>
-            <tr>
-            <tr>
-                <th>Estado:</th><td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-                <th>Municipio:</th><td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-            <tr>
-            <tr>
-                <th>Localização:</th><td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-                <th>Dependência Administrativa:</th><td colspan="2"><?php
-                    $ad = $school->administrative_dependence;
-                    echo ($ad == 1 ? "FEDERAL" :
-                            ($ad == 2 ? "ESTADUAL" :
-                                    ($ad == 3 ? "MUNICIPAL" :
-                                            "PRIVADA" )));
-                    ?></td>
+    <div>
+        <?php $this->renderPartial('head'); ?>
+        <table >
             <tr>
                 <?php
                 $html = "";
@@ -62,7 +38,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     if ($id != $r['id']) {
                         $i = 0;
                         $id = $r['id'];
-                        $html .= "</table><br><table class='table table-bordered table-striped'><tr>"
+                        $html .= "</table><table class='table table-bordered table-striped'><tr>"
                                 . "<th>Código da Turma:</th>"
                                 . "<td>" . $r["id"] . "</td>"
                                 . "<th>Nome da Turma:</th>"
@@ -99,7 +75,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 echo $html;
                 ?>
         </table><br>
-        <p>Emitido em <?php echo date('d/m/Y à\s h:i'); ?></p>
-        <p class="visible-print">URL: <?php echo Yii::app()->getBaseUrl(true) . Yii::app()->request->requestUri ?></p>
+        <p>Emitido em <?php echo date('d/m/Y à\s H:i'); ?></p>
     </div>
 </div>

@@ -51,34 +51,20 @@ $this->breadcrumbs = array(
                 <div class="span3">
                     <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/StudentsFileReport" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
-                        <span class="txt">Professores por Turma</span>
+                        <span class="txt">Ficha Individual do Aluno</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-<!--                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/clearDB" class="widget-stats">
-                        <span class="glyphicons database_minus"><i></i></span>
-                        <span class="txt">Limpar Banco</span>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-                <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/createUser" class="widget-stats">
-                        <span class="glyphicons user"><i></i></span>
-                        <span class="txt">Cadastrar usuário</span>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>-->
             </div>
         </div>
         <div class="span6">
-<!--            <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/export" class="widget-stats">
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/ResultBoardReport" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
-                    <span class="txt">Exportar</span>
+                    <span class="txt">Result Board</span>
                     <div class="clearfix"></div>
                 </a>
-            </div>-->
+            </div>
         </div>
     </div>
 </div>

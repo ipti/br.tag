@@ -97,6 +97,8 @@ $this->breadcrumbs = array(
                 </a>
             </div>
         </div>
+    </div>
+    <div class="row-fluid">
         <div class="span6">
             <div class="span3">
                 <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/exportStudentIdentify" class="widget-stats">

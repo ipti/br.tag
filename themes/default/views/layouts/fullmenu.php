@@ -53,6 +53,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
+        
+        <!-- Print -->
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
 
         <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />

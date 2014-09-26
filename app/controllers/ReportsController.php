@@ -10,7 +10,7 @@ class ReportsController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
                                     'InstructorsPerClassroomReport','StudentsFileReport',
-                                    'getStudentsFileInformation'),
+                                    'getStudentsFileInformation', 'ResultBoardReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -23,6 +23,13 @@ class ReportsController extends Controller {
         $this->year = Yii::app()->user->year;
         return true;
         
+    }
+
+    public function actionResultBoardReport(){
+        $result = null;
+        $this->render('ResultBoardReport', array(
+            'report' => $result,
+        ));  
     }
 
     public function actionNumberStudentsPerClassroomReport() {

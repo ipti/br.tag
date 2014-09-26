@@ -269,10 +269,6 @@ hr.separator.bottom {
   .table th {
     vertical-align: middle;
   }
-  .table th {
-    padding: 3px;
-    text-align: center;
-  }
   .table img {
     float: left;
   }
@@ -291,11 +287,9 @@ hr.separator.bottom {
   margin: 0 0 1em;
 }
 .innerLR {
-  padding: 0 10px;
+  padding: 55px 10px 0;
   position: relative;
   margin-bottom: 30px;
-  z-index: 1;
-  top: 55px;
 }
 .innerAll {
   padding: 10px;
