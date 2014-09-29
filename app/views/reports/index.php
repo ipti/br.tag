@@ -61,7 +61,14 @@ $this->breadcrumbs = array(
             <div class="span3">
                 <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/ResultBoardReport" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
-                    <span class="txt">Result Board</span>
+                    <span class="txt">Quadro de Rendimento</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/StatisticalDataReport" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Dados Estatísticos</span>
                     <div class="clearfix"></div>
                 </a>
             </div>

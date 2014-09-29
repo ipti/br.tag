@@ -2,7 +2,8 @@ CREATE OR REPLACE
 	VIEW StudentsFile   
 	AS SELECT s.id, s.`name`, ec.`name` as birth_city, s.birthday, eu.acronym as birth_uf,
 		en.`name` as nation, sd.address, eca.`name` as adddress_city, eua.acronym as address_uf, sd.cep,
-		sd.rg_number as rg, sd.civil_certification_term_number as cc_number, sd.civil_certification_book as cc_book,
+		sd.rg_number as rg, sd.civil_certification as cc, sd.civil_register_enrollment_number cc_new,
+		sd.civil_certification_term_number as cc_number, sd.civil_certification_book as cc_book,
 		sd.civil_certification_sheet as cc_sheet, ecn.`name` as cc_city, eun.acronym as cc_uf,
 		s.mother_name as mother, s.father_name as father
 	FROM student_identification as s

@@ -26,17 +26,17 @@ $this->breadcrumbs = array(
 <div class="innerLR">
     <div>
         <?php $this->renderPartial('head'); ?>
-        <br>
         <table class="table table-bordered table-striped">
-            <tr><th> </th><th>Pré-Escolar</th></tr>
-            <tr><th>Matrícula Inicial</th><td></td></tr>
-            <tr><th>Promovidos por Idade</th><td></td></tr>
-            <tr><th>Permantentes por Idade</th><td></td></tr>
-            <tr><th>Desistentes</th><td></td></tr>
-            <tr><th>Transferidos</th><td></td></tr>
-            <tr><th>Matrícula após Estatística</th><td></td></tr>
-            <tr><th>Matrícula Final</th><td></td></tr>
-        </tbody>
+            <tr><th>Ano Letivo:</th><td></td></tr>
+            <tr><th>Responsável:</th><td></td></tr>
+        </table>
+        <br>
+        <table class="table table-bordered table-striped" >
+            <tr><th>Idade</th><th>Matriculado</th><th>%</th><th>Idade</th><th>Desistente/Evadido</th><th>%</th><th>Transferido</th><th>%</th></tr>
+            <tr><th>4 Anos</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>5 Anos</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><th>5 Anos e Meio</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            
         </table>
         <?php $this->renderPartial('footer'); ?>
     </div>

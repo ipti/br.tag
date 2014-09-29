@@ -12,7 +12,6 @@ $this->breadcrumbs = array(
     Yii::t('default', 'Bolsa Família'),
 );
 
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 
@@ -63,6 +62,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             echo $html;
             ?>
         </table>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
 <script>

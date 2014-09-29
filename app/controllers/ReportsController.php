@@ -10,7 +10,8 @@ class ReportsController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
                                     'InstructorsPerClassroomReport','StudentsFileReport',
-                                    'getStudentsFileInformation', 'ResultBoardReport'),
+                                    'getStudentsFileInformation', 'ResultBoardReport',
+                                    'StatisticalDataReport', 'StudentsDeclarationReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -25,6 +26,13 @@ class ReportsController extends Controller {
         
     }
 
+    public function actionStatisticalDataReport(){
+        $result = null;
+        $this->render('StatisticalDataReport', array(
+            'report' => $result,
+        ));  
+    }
+    
     public function actionResultBoardReport(){
         $result = null;
         $this->render('ResultBoardReport', array(
@@ -54,9 +62,18 @@ class ReportsController extends Controller {
         ));         
     }
     
+    public function actionStudentsDeclarationReport($id) {
+        $sql = "SELECT * FROM StudentsDeclaration WHERE student_id = ".$id." AND `year`  = ".$this->year.";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        $this->render('StudentsDeclarationReport', array(
+            'report' => $result
+        ));         
+    }
+ 
     public function actionStudentsFileReport() {
         $this->render('StudentsFileReport', array());         
     }
+    
     
     public function actionGetStudentsFileInformation($student_id){
         $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";

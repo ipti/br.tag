@@ -63,7 +63,8 @@ class AdminController extends Controller {
             if($fileName != '.' 
                 && $fileName != '..' 
                 && $fileName != 'readme' 
-                && $fileName != '_version'){
+                && $fileName != '_version'
+                && substr("abcdef", -1) != '~' ){
                 
                 if($version != "" &&  $version < $fileName){
                     $file = $fm->open($updateDir . $fileName);

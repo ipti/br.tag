@@ -1,6 +1,6 @@
-delete from `TAG_SGE`.`edcenso_notary_office` where id > 0;
-alter table `TAG_SGE`.`edcenso_notary_office` AUTO_INCREMENT = 1;
-ALTER TABLE `TAG_SGE`.`edcenso_notary_office` 
+delete from `edcenso_notary_office` where id > 0;
+alter table `edcenso_notary_office` AUTO_INCREMENT = 1;
+ALTER TABLE `edcenso_notary_office` 
     ADD COLUMN `serventia` 
         VARCHAR(10) NOT NULL  AFTER `uf` , 
     CHANGE COLUMN `cod` `cod` 
@@ -12,9 +12,10 @@ ALTER TABLE `TAG_SGE`.`edcenso_notary_office`
     CHANGE COLUMN `uf` `uf` 
         VARCHAR(2) NOT NULL  ;
 
-INSERT INTO `TAG_SGE`.`edcenso_notary_office`
+INSERT INTO `edcenso_notary_office`
 (`id`, `cod`, `name`, `city`, `uf`, `serventia`) 
 VALUES 
+(null, '7177', 'OUTROS', '', '', '999999')
 (null, '1', 'CARTORIO DO REGSITRO CIVIL DAS PESSOAS NATURAIS', '2916302', '29', '010454'),
 (null, '2', 'CARTORIO DO REGISTRO CIVIL DAS PESSOAS NATURAIS', '2916302', '29', '009522'),
 (null, '3', 'CARTORIO DO REGISTRO CIVIL COM FUNCOES NOTARIAIS DE BANDEIRA DO COLONIA', '2916401', '29', '008938'),

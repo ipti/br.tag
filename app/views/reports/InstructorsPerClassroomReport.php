@@ -12,7 +12,6 @@ $this->breadcrumbs = array(
     Yii::t('default', 'Instructors per Classroom'),
 );
 
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <div class="row-fluid hidden-print">
@@ -75,6 +74,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 echo $html;
                 ?>
         </table><br>
-        <p>Emitido em <?php echo date('d/m/Y à\s H:i'); ?></p>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
