@@ -27,8 +27,8 @@ $this->breadcrumbs = array(
     <div>
         <?php $this->renderPartial('head'); ?>
         <table class="table table-bordered table-striped">
-            <tr><th>Ano Letivo:</th><td></td></tr>
-            <tr><th>Responsável:</th><td></td></tr>
+            <tr><th width="100">Ano Letivo:</th><td></td></tr>
+            <tr><th width="100">Responsável:</th><td></td></tr>
         </table>
         <br>
         <table class="table table-bordered table-striped" >

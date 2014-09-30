@@ -38,7 +38,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
                 <?php if (!$modelClassroom->isNewRecord) { ?>
-                    <li id="tab-students"><a class="glyphicons parents" href="#students" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Students') ?></a></li>
+                <li id="tab-students"><a class="glyphicons parents" href="?r=reports/EnrollmentPerClassroomReport&id=<?php echo $modelClassroom->id?>" ><i></i><?php echo Yii::t('default', 'Enrollments') ?></a></li>
                 <?php } ?>
             </ul>
         </div>

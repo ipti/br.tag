@@ -355,6 +355,9 @@ return array(
     'Vehicle Type Metro Or Train' => 'Trem / Metrô',
     'Student Entry Form' => 'Forma de ingresso (apenas para escolas federais)',
     
+    //Student Declaration
+    'Student Declaration' => 'Declaração do Aluno',
+    
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -480,6 +483,7 @@ return array(
     'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
     'Students' => 'Alunos',
+    'Declaration' => 'Declaração',
     
     //
     'Area' => 'Área de Atuação',
@@ -508,6 +512,10 @@ return array(
     'Student Enrollments' => 'Matrículas dos Alunos',
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
+    'Reports' => 'Relatórios',
+    
+    //Relatórios
+    'Result Board' => 'Quadro de Rendimento',
     
     //Novo
     'Add New Teacher' => 'Adicionar Professor',

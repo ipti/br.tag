@@ -8,3 +8,20 @@
 $("#print").on('click', function() {
     window.print();
 });
+
+$(document).ready(function() {
+    limpar();
+});
+function gerarRelatorio(data) {
+    $("#report, #print").show();
+    var infos = $.parseJSON(data);
+    for (var i in infos) {
+        if (i != 'id')
+            $("#" + i).html(infos[i]);
+    }
+
+}
+
+function limpar() {
+    $("#report, #print").hide();
+}

@@ -17,8 +17,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <th>Endereço:</th><td colspan="2"><?php echo $school->address ?></td>
     <tr>
     <tr>
-        <th>Localização:</th><td colspan="3"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-        <th>Dependência Administrativa:</th><td colspan="3"><?php
+        <th>Localização:</th><td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+        <th>Dependência Administrativa:</th><td colspan="4"><?php
             $ad = $school->administrative_dependence;
             echo ($ad == 1 ? "FEDERAL" :
                     ($ad == 2 ? "ESTADUAL" :

@@ -32,7 +32,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <p style="margin: 0 auto; text-align: justify; width:600px; font-size: 14px">Declaro para os devidos fins de direito, que o(a) aluno(a): <b><?php echo $report['name'] ?></b>,
             nascido(a) em:  <b><?php echo $report['birthday'] ?></b>, na cidade de: <b><?php echo $report['birth_city'] ?></b>, UF: <b><?php echo $report['birth_uf'] ?></b>,
             Registro Civil nº: 
-            <?php if ($report['cc'] == 1): ?><b><?php echo $report['cc_number'] ?></b>, Livro:<b><?php echo $report['cc_book'] ?></b>, Folhas:<b><?php echo $report['cc_sheet'] ?></b>
+            <?php if ($report['cc'] == 1): ?><b><?php echo $report['cc_number'] ?></b>, Livro: <b><?php echo $report['cc_book'] ?></b>, Folhas: <b><?php echo $report['cc_sheet'] ?></b>
             <?php else: ?><b><?php echo $report['cc_new'] ?></b><?php endif; ?>
             filho(a) do Sr. <b><?php echo $report['father'] ?></b> e da Srª. <b><?php echo $report['mother'] ?></b>, 
             matriculado(a) no <b><?php echo $report['stage'] ?></b>, turma "<b><?php echo $report['classroom'] ?></b>" turno 
@@ -55,7 +55,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br>
             (_) Esta cursando regularmente a Pré-Escola.
             <br>
-            (_) Solicitou transferência em ___/___/_____ para 
+            (_) Solicitou transferência em ___/___/_____ para <br>
             __________________________________________________________________________________________________.
             <br>
             <br>

@@ -11,7 +11,8 @@ class ReportsController extends Controller {
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
                                     'InstructorsPerClassroomReport','StudentsFileReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
-                                    'StatisticalDataReport', 'StudentsDeclarationReport'),
+                                    'StatisticalDataReport', 'StudentsDeclarationReport',
+                                    'EnrollmentPerClassroomReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -24,6 +25,21 @@ class ReportsController extends Controller {
         $this->year = Yii::app()->user->year;
         return true;
         
+    }
+    
+    public function actionEnrollmentPerClassroomReport($id){
+        $sql = "SELECT * FROM EnrollmentPerClassroom
+                    where `year`  = ".$this->year.""
+                . " AND classroom_id = $id;";
+       
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+               
+        $classroom = Classroom::model()->findByPk($id);
+        
+        $this->render('EnrollmentPerClassroomReport', array(
+            'report' => $result,
+            'classroom' => $classroom
+        ));          
     }
 
     public function actionStatisticalDataReport(){
