@@ -39,6 +39,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
                 <?php if (!$modelClassroom->isNewRecord) { ?>
                 <li id="tab-students"><a class="glyphicons parents" href="?r=reports/EnrollmentPerClassroomReport&id=<?php echo $modelClassroom->id?>" ><i></i><?php echo Yii::t('default', 'Enrollments') ?></a></li>
+                <li id="tab-performance"><a class="glyphicons stats" href="?r=reports/AtaSchoolPerformance&id=<?php echo $modelClassroom->id?>" ><i></i><?php echo Yii::t('default', 'Performance') ?></a></li>
                 <?php } ?>
             </ul>
         </div>

@@ -35,7 +35,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
         </table>
         <br>
         <table class="table table-bordered table-striped">
-            <tr><th>Matricula</th><th>Nome</th><th>Sexo</th><th>Data Nascimento</th><th>Nac</th><th>Naturalidade</th><th>Residencia</th><th>Certidao Civil</th><th>Tipo</th><th>Pais</th><th>Def.</th></tr>
+            <tr><th>Matricula</th><th>Nome</th><th>Sexo</th><th>Data Nascimento</th><th>Nac</th><th>Naturalidade</th><th>Residencia</th><th>Certidao Civil</th><th>Pais</th></tr>
             <?php
             $html = "";
             foreach ($report as $r) {
@@ -48,9 +48,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
                         . "<td>" . $r["city"] . "</td>"
                         . "<td>" . $r["address"] . "</td>"
                         . "<td>" . ($r["cc"] == 1 ? ('Nº'.$r["cc_number"].'<br>L.'.$r["cc_book"].'<br>F.'.$r["cc_sheet"]):($r["cc_new"])) . "</td>"
-                        . "<td> 0 </td>"
                         . "<td>" . $r["parents"] . "</td>"
-                        . "<td>" . $r["deficiency"] . "</td>"
                         . "</tr>";
             }
             echo $html;

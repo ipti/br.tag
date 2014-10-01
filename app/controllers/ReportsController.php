@@ -12,7 +12,7 @@ class ReportsController extends Controller {
                                     'InstructorsPerClassroomReport','StudentsFileReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
-                                    'EnrollmentPerClassroomReport'),
+                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -24,9 +24,25 @@ class ReportsController extends Controller {
     public function beforeAction($action){
         $this->year = Yii::app()->user->year;
         return true;
-        
     }
-    
+
+    public function actionAtaSchoolPerformance($id){
+        $sql = "SELECT * FROM ataPerformance
+                    where `year`  = ".$this->year.""
+                . " AND classroom_id = $id;";
+       
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+               
+        $classroom = Classroom::model()->findByPk($id);
+        $students = StudentEnrollment::model()->findAll('classroom_fk = '.$classroom->id);
+        
+        $this->render('AtaSchoolPerformance', array(
+            'report' => $result,
+            'classroom' => $classroom,
+            'students' => $students
+        ));          
+    }
+
     public function actionEnrollmentPerClassroomReport($id){
         $sql = "SELECT * FROM EnrollmentPerClassroom
                     where `year`  = ".$this->year.""
