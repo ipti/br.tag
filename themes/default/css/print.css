@@ -17,6 +17,7 @@ body {
 }*/
 table {
     page-break-inside:avoid;
+    position: relative;
 }
 .table th, .table td {
     padding: 2px 3px 2px 4px;
@@ -56,4 +57,10 @@ p {
 .td-status-filereport {
     right: 5px;
     position: absolute;
+}
+
+/*
+*/
+.fc-view.fc-view-agendaWeek.fc-agenda .fc-event-vert {
+    border: none !important;
 }

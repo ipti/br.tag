@@ -23,12 +23,12 @@ function valorPorExtenso( $valor = 0)
         $old = $valor;
         $valor = intval($valor);
         $pre = "Ao";
-        $texto = array("NaN", "Primeiro", "Segundo", "Terceiro", "Quarto", "Quinto", "Sexto","sétimo", "Oitavo", "Nono",
-            "Décimo", "Décimo primeiro", "Décimo segundo", "Décimo terceiro", "Décimo quarto", "Décimo quinto", "Décimo sexto", "Décimo sétimo", "Décimo oitavo", "Décimo nono",
-            "Vigésimo", "Vigésimo primeiro", "Vigésimo segundo", "Vigésimo terceiro", "Vigésimo quarto", "Vigésimo quinto", "Vigésimo sexto", "Vigésimo sétimo", "Vigésimo oitavo", "Vigésimo nono",
-            "Trigésimo", "Trigésimo primeiro");
+        $texto = array("NaN", "primeiro", "segundo", "terceiro", "quarto", "quinto", "sexto","sétimo", "oitavo", "nono",
+            "décimo", "décimo primeiro", "décimo segundo", "décimo terceiro", "décimo quarto", "décimo quinto", "décimo sexto", "décimo sétimo", "décimo oitavo", "décimo nono",
+            "vigésimo", "vigésimo primeiro", "vigésimo segundo", "vigésimo terceiro", "vigésimo quarto", "vigésimo quinto", "vigésimo sexto", "vigésimo sétimo", "vigésimo oitavo", "vigésimo nono",
+            "trigésimo", "trigésimo primeiro");
         $pos = "dia ($old)";
-        return($pre." ".$texto[$valor]." ".$pos);
+        return($pre." <b>".$texto[$valor]." ".$pos."</b>");
  
     }
 
@@ -56,11 +56,20 @@ function valorPorExtenso( $valor = 0)
     }
     div.hrline span{
         font-size: 10px;
+    }    
+    th{
+        vertical-align: middle !IMPORTANT;
+        text-align: center !IMPORTANT;
     }
-    
-    .vertical-text {
-	//transform: rotate(270deg);
-	//transform-origin: left top 0;
+    th.vertical-text {
+        height: 100px;
+        vertical-align: bottom !IMPORTANT;
+      }
+
+    th.vertical-text > div {
+        transform: translate(5px, 0px) rotate(270deg);
+        width: 10px;
+        line-height: 10px;
     }
 </style>
 
@@ -109,30 +118,32 @@ function valorPorExtenso( $valor = 0)
             </div>
         </div>
         <br>
-        <p><?php echo valorPorExtenso($report["day"])?> do mês de <?php echo $report["month"]?> do ano de <?php echo $report["year"]?>. 
-        Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <?php echo $report["serie"]?>, turma <?php echo $report["name"]?>,
-        turno <?php echo $report["turn"]?> do <?php echo $report["ensino"]?> deste estabelecimento, com a Carga Horária anual de _________ horas 
+        <br>
+        <p style="text-align: justify;"><?php echo valorPorExtenso($report["day"])?> do mês de <b><?php echo $report["month"]?></b> do ano de <b><?php echo $report["year"]?></b>. 
+            Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <b><?php echo $report["serie"]?></b>, turma <b><?php echo $report["name"]?></b>,
+            turno <b><?php echo $report["turn"]?></b> do <b><?php echo $report["ensino"]?></b> deste estabelecimento, com a Carga Horária anual de _________ horas 
         e um total de _________ dias letivos, conforme os resultados abaixo.</p>
         
         <?php 
             $disciplines = explode('|',$report['disciplines']); 
             $qtde = count($disciplines);
         ?>
+        <br>
         <table class="table table-bordered table-striped">
-            <tr><th rowspan="4" class='vertical-text'>Ordem</th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
+            <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
             <tr><th colspan="25">Rendimento Escolar</th></tr>
             <tr><th colspan="15">Disciplinas</th><th colspan="5">Resultado Final</th><th colspan="5">Dependência</th></tr>
             <tr><?php 
                 foreach ($disciplines as $name) {
-                    echo "<th class='vertical-text'>$name</th>";
+                    echo "<th class='vertical-text'><div>$name</div></th>";
                 }
                 for($i=$qtde; $i<=14; $i++){
-                    echo("<th></th>");
+                    echo("<th class='vertical-text'><div></div></th>");
                 }
                     
             ?>
-                <th></th><th class='vertical-text'>Frequência %</th><th class='vertical-text'>Aprovado</th><th class='vertical-text'>Prom. com Dependência</th><th class='vertical-text'>Reprovado</th>
-                <th></th><th class='vertical-text'>Disciplina</th><th class='vertical-text'>Nota</th><th class='vertical-text'>Disciplina</th><th class='vertical-text'>Nota</th>
+                <th class='vertical-text'><div></div></th><th class='vertical-text'><div>Frequência&nbsp;</div></th><th class='vertical-text'><div>Aprovado</div></th><th class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th><th class='vertical-text'><div>Reprovado</div></th>
+                <th class='vertical-text'><div></div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th><th class='vertical-text'><div>Disciplina</div></th><th class='vertical-text'><div>Nota</div></th>
             </tr>
             <?php
             $html = "";
@@ -149,7 +160,34 @@ function valorPorExtenso( $valor = 0)
             }
             echo $html;
             ?>
-        </table>
-        <?php $this->renderPartial('footer'); ?>
+        </table>        
+        <br>
+        <div class="divlines">
+            <div class="hrline" style="width:100%; text-align: left;">
+                Obs.:
+                <hr class="hrline">
+                <br>
+                <hr class="hrline">
+                <br>
+            </div>
+        </div>
+        <p style="text-align: justify;">
+            E, para contar, eu ___________________________________________________________________ lavrei a presente ata que vai por mim 
+            assinada e pelo(a) do estabelecimento.
+        </p>
+        <p style="text-align: right;">
+            __________________,____ de ______________________ de ________
+        </p>
+        <br>
+        <div class="divlines">
+            <div class="hrline" style="width:45%;">
+                <hr class="hrline">
+                <span>SECRETÁRIO(A) Nº ATO AUTORIZAÇÃO</span>
+            </div>
+            <div class="hrlastline">
+                <hr class="hrline">
+                <span>DIRETOR(A) Nº ATO AUTORIZAÇÃO</span>
+            </div>
+        </div>
     </div>
 </div>

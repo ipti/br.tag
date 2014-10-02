@@ -15,7 +15,7 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 ?>
 
-<div class="row-fluid">
+<div class="row-fluid  hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
         <div class="buttons">
@@ -33,7 +33,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <div class="widget-head">
+        <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
@@ -281,9 +281,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div id="loading" style="display:none">loading...</div>
                             <div id="calendar"></div>
                         </div>
-
                         <div class=" span4">
-                            <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus" id="newDiscipline"><i></i><?php echo Yii::t('default', 'New Discipline') ?></a>
+                            <a href="#" class="btn btn-icon btn-primary glyphicons print hidden-print" id="print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
+                            <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'New Discipline') ?></a>
                             <div class="separator"></div>
                             <?php
                             $teachingDataList = "<ul>"
@@ -353,7 +353,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
 
-                <div class="tab-pane" id="students">
+<!--                <div class="tab-pane" id="students">
                     <div class="row-fluid">
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
@@ -382,7 +382,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </table>
                         </div>
                     </div>
-                </div>    
+                </div>    -->
                 <?php $this->endWidget(); ?>
             </div>
         </div>
@@ -528,4 +528,10 @@ $form = $this->beginWidget('CActiveForm', array(
     var btnCancel       = "<?php echo Yii::t('default', 'Cancel'); ?>";
     var btnDelete       = "<?php echo Yii::t('default', 'Delete'); ?>";
     var btnUpdate       = "<?php echo Yii::t('default', 'Update'); ?>";
+    
+
+    $("#print").on('click', function() {
+        window.print();
+    });
+    
 </script>
