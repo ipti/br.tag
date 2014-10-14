@@ -20,6 +20,7 @@ return array(
 		'application.models.*',
 		'application.controllers.*',
 		'application.components.*',
+		'ext.giix-components.*'
 	),
 
 	'modules'=>array(
@@ -29,7 +30,11 @@ return array(
 			'password'=>'p@s4ipti',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
+			'generatorPaths'=>array(
+				'ext.giix-core',
+        	),
 		),
+        'sorcerer',
 	),
 
 	// application components
@@ -54,10 +59,10 @@ return array(
                  */
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=TAG_SGE',//TAG_SGE',
+			'connectionString' => 'mysql:host=192.168.25.20;dbname=TAG_SGE_PICARREIRA',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
+			'username' => 'admin',
+			'password' => 'p@s4ipti',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(
