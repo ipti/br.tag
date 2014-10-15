@@ -20,7 +20,8 @@ return array(
 		'application.models.*',
 		'application.controllers.*',
 		'application.components.*',
-		'ext.giix-components.*'
+		'ext.giix-components.*',
+        'application.modules.sorcerer.models.*',
 	),
 
 	'modules'=>array(

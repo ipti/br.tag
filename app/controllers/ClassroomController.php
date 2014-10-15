@@ -34,7 +34,9 @@ class ClassroomController extends Controller
 				'actions'=>array('index','view','create','update','getassistancetype',
                                         'updateassistancetypedependencies','updatecomplementaryactivity',
                                         'getcomplementaryactivitytype','delete', 
-                                        'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard'),
+                                        'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard',
+										'updateTime'
+				),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -824,6 +826,31 @@ class ClassroomController extends Controller
             explode(';', $classboard->week_day_saturday),
         );
         return $schedule;
+    }
+    
+    public function actionUpdateTime(){
+    	$return = array('first'=>":",'last'=>":");
+    	if(isset($_POST['Classroom']['turn'])){
+    		$turn = $_POST['Classroom']['turn'];
+    		$config = SchoolConfiguration::model()->findByAttributes(array('school_inep_id_fk'=>Yii::app()->user->school));
+			if($turn == "M"){
+				$return['first'] = $config->morning_initial;
+				$return['last'] = $config->morning_final;
+			}
+			else if($turn = "T"){
+				$return['first'] = $config->afternoom_initial;
+				$return['last'] = $config->afternoom_final;
+			}
+			else if($turn = "N"){
+				$return['first'] = $config->night_initial;
+				$return['last'] = $config->night_final;
+			}
+			else if($turn = "I"){
+				$return['first'] = $config->allday_initial;
+				$return['last'] = $config->allday_final;
+			}
+    	}
+    	echo json_encode($return);
     }
 
     public function actionGetClassBoard($classroom_fk = null) {

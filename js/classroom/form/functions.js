@@ -256,6 +256,18 @@ function updateAssistanceTypeDependencies(data){
     }
 }
 
+/**
+ * Modifica o Horário de entrada e de saída a partir dos dados recebidos pelo JSON
+ * 
+ * @param {JSON} data
+ * @returns {void}
+ */
+function updateTime(data){
+    data = jQuery.parseJSON(data);
+	$("#Classroom_initial_time").val( data.first.substring(0, 5));
+	$("#Classroom_final_time").val(data.last.substring(0, 5));
+}
+
 
 instructor.on('change', atualizarListadeDisciplinas);
 uInstructor.on('change', atualizarListadeDisciplinas);

@@ -59,6 +59,13 @@ class GiixCrudCode extends CrudCode {
 			'enable_ajax_validation' => 'Enable ajax validation',
 		));
 	}
+	
+	
+	public function generateActiveLabel($modelClass,$column, $htmlOptions = "")
+	{
+		return "\$form->labelEx(\$model,'{$column->name}',$htmlOptions)";
+	}
+	
 
 	/**
 	 * Generates and returns the view source code line

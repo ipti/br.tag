@@ -80,7 +80,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'M' => 'Manhã',
                                         'T' => 'Tarde',
                                         'N' => 'Noite',
-                                        'I' => 'Integral'), array('class' => 'select-search-off'));
+                                        'I' => 'Integral'), array(
+                                        		'class' => 'select-search-off',
+                                        		'ajax' => array(
+                                        				'type' => 'POST',
+                                        				'url' => CController::createUrl('classroom/updateTime'),
+                                        				'success' => "function(data){
+                                                				updateTime(data);
+                                                		}",
+                                        		),
+                                    ));
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'turn'); ?>
                                 </div>
