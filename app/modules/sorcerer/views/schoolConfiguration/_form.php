@@ -1,8 +1,8 @@
 <?php
 /* @var $model SchoolConfiguration*/
 /* @var $this SchoolConfigurationControler */
-/* @var $form GxActiveForm */
-$form = $this->beginWidget ( 'GxActiveForm', array (
+/* @var $form CActiveForm */
+$form = $this->beginWidget ( 'CActiveForm', array (
 		'id' => 'school-configuration-form',
 		'enableAjaxValidation' => false 
 ) );

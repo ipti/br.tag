@@ -1487,3 +1487,1383 @@ in D:\TAG\WWW\tag\index.php (12)
 2014/06/25 13:54:07 [error] [system.db.CDbCommand] Falha ao executar CDbCommand::execute(): SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '1877-160' for key 'id'. A declaração SQL executada foi: INSERT INTO `student_enrollment` (`register_type`, `another_scholarization_place`, `public_transport`, `school_inep_id_fk`, `student_fk`, `classroom_fk`, `unified_class`, `edcenso_stage_vs_modality_fk`, `student_entry_form`, `transport_responsable_government`, `vehicle_type_van`, `vehicle_type_microbus`, `vehicle_type_bus`, `vehicle_type_bike`, `vehicle_type_animal_vehicle`, `vehicle_type_other_vehicle`, `vehicle_type_waterway_boat_5`, `vehicle_type_waterway_boat_5_15`, `vehicle_type_waterway_boat_15_35`, `vehicle_type_waterway_boat_35`, `vehicle_type_metro_or_train`, `classroom_inep_id`, `student_inep_id`) VALUES (:yp0, :yp1, :yp2, :yp3, :yp4, :yp5, :yp6, :yp7, :yp8, :yp9, :yp10, :yp11, :yp12, :yp13, :yp14, :yp15, :yp16, :yp17, :yp18, :yp19, :yp20, :yp21, :yp22).
 in D:\TAG\WWW\tag\app\controllers\EnrollmentController.php (105)
 in D:\TAG\WWW\tag\index.php (12)
+2014/10/14 09:42:30 [error] [exception.CException] exception 'CException' with message 'O endereço "//layouts/fullmenu" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('//layouts/fullm...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '//layouts/fullm...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:43:06 [error] [exception.CException] exception 'CException' with message 'O endereço "//layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('//layouts')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '//layouts')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:43:45 [error] [php] realpath() expects parameter 1 to be a valid path, object given (/usr/share/nginx/tag/framework/web/CWebModule.php:160)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): SorcererModule->__set()
+#1 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#2 /usr/share/nginx/tag/framework/YiiBase.php(206): SorcererModule->__construct()
+#3 /usr/share/nginx/tag/framework/base/CModule.php(282): createComponent()
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CWebApplication->getModule()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php (13)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 09:44:13 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:44:47 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:23 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:24 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:24 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:24 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:25 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:36 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts/fullmenu" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:37 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts/fullmenu" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:37 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts/fullmenu" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:45:40 [error] [exception.CException] exception 'CException' with message 'O endereço "/usr/share/nginx/tag/app/themes/default/views/layouts" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('/usr/share/ngin...')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', '/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:47:20 [error] [exception.CException] exception 'CException' with message 'O endereço "webroot.themes.default.views.layouts.fullmenu" do layout não é um diretório válido.' in /usr/share/nginx/tag/framework/web/CWebModule.php:161
+Stack trace:
+#0 /usr/share/nginx/tag/framework/base/CComponent.php(152): CWebModule->setLayoutPath('webroot.themes....')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/SorcererModule.php(13): CComponent->__set('layoutPath', 'webroot.themes....')
+#2 /usr/share/nginx/tag/framework/base/CModule.php(90): SorcererModule->init()
+#3 /usr/share/nginx/tag/framework/YiiBase.php(206): CModule->__construct('sorcerer', NULL, Array)
+#4 /usr/share/nginx/tag/framework/base/CModule.php(282): YiiBase::createComponent('sorcerer.Sorcer...', 'sorcerer', NULL, Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(337): CModule->getModule('sorcerer')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(276): CWebApplication->createController('sorcerer')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:50:53 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.loginInfos" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('loginInfos')
+#1 /usr/share/nginx/tag/themes/default/views/layouts/fullmenu.php(157): CWebUser->__get('loginInfos')
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#4 /usr/share/nginx/tag/framework/web/CController.php(784): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#5 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): CController->render('index')
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 09:50:57 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.loginInfos" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('loginInfos')
+#1 /usr/share/nginx/tag/themes/default/views/layouts/fullmenu.php(157): CWebUser->__get('loginInfos')
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#4 /usr/share/nginx/tag/framework/web/CController.php(784): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#5 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): CController->render('index')
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=sorcerer
+---
+2014/10/14 10:19:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "sorcerer/schoolconfiguration".' in /usr/share/nginx/tag/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#1 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolconfiguration
+---
+2014/10/14 10:26:45 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "sorcerer/schoolconfiguration".' in /usr/share/nginx/tag/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#1 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolconfiguration
+---
+2014/10/14 10:27:01 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "sorcerer/schoolconfiguration/index".' in /usr/share/nginx/tag/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#1 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolconfiguration/index
+---
+2014/10/14 10:28:39 [error] [exception.CException] exception 'CException' with message 'SchoolIdentification and its behaviors do not have a method or closure named "label".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('label', Array)
+#1 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(119): CActiveRecord->__call('label', Array)
+#2 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(119): SchoolIdentification->label(1)
+#3 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(165): GxActiveRecord->getRelationLabel('school_inep_id_...')
+#4 /usr/share/nginx/tag/framework/web/helpers/CHtml.php(1390): GxActiveRecord->getAttributeLabel('school_inep_id_...')
+#5 /usr/share/nginx/tag/framework/web/helpers/CHtml.php(1415): CHtml::activeLabel(Object(SchoolConfiguration), 'school_inep_id_...', Array)
+#6 /usr/share/nginx/tag/framework/web/widgets/CActiveForm.php(597): CHtml::activeLabelEx(Object(SchoolConfiguration), 'school_inep_id_...', Array)
+#7 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php(17): CActiveForm->labelEx(Object(SchoolConfiguration), 'school_inep_id_...')
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#9 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#10 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#11 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/create.php(19): CController->renderPartial('_form', Array)
+#12 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#13 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#14 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#15 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#16 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(27): CController->render('create', Array)
+#17 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionCreate()
+#18 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#19 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#20 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('create')
+#22 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#23 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#24 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#25 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/create
+---
+2014/10/14 10:35:32 [error] [exception.CException] exception 'CException' with message 'SchoolIdentification and its behaviors do not have a method or closure named "findAllAttributes".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('findAllAttribut...', Array)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php(21): CActiveRecord->__call('findAllAttribut...', Array)
+#2 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php(21): SchoolIdentification->findAllAttributes(NULL, true)
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#4 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#5 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/create.php(19): CController->renderPartial('_form', Array)
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(27): CController->render('create', Array)
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionCreate()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('create')
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#20 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/create
+---
+2014/10/14 10:37:18 [error] [php] Illegal string offset 'name' (/usr/share/nginx/tag/framework/web/helpers/CHtml.php:2458)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php(21): GxActiveForm->dropDownList()
+#1 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#3 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#4 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/create.php(19): SchoolConfigurationController->renderPartial()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#6 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#7 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#8 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#9 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(27): SchoolConfigurationController->render()
+#10 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionCreate()
+#11 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#12 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#13 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#14 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#15 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#16 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#17 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/create
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php (21)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/create.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (27)
+2014/10/14 10:46:06 [error] [exception.CException] exception 'CException' with message 'SchoolIdentification and its behaviors do not have a method or closure named "label".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('label', Array)
+#1 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(152): CActiveRecord->__call('label', Array)
+#2 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(152): SchoolIdentification->label(1)
+#3 /usr/share/nginx/tag/app/extensions/giix-components/GxActiveRecord.php(165): GxActiveRecord->getRelationLabel('schoolInepIdFk')
+#4 /usr/share/nginx/tag/framework/zii/widgets/CDetailView.php(204): GxActiveRecord->getAttributeLabel('schoolInepIdFk')
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CDetailView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/view.php(37): CBaseController->widget('zii.widgets.CDe...', Array)
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('view', Array, true)
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(9): CController->render('view', Array)
+#12 [internal function]: SchoolConfigurationController->actionView('1')
+#13 /usr/share/nginx/tag/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(SchoolConfigurationController), Array)
+#14 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(SchoolConfigurationController), Object(ReflectionMethod), Array)
+#15 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#16 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#17 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#18 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('view')
+#19 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#20 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#21 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#22 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/view&id=1
+HTTP_REFERER=http://tag/index.php?r=sorcerer/schoolConfiguration/create
+---
+2014/10/14 10:49:13 [error] [php] require(): Filename cannot be empty (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/zii/widgets/CListView.php(291): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CListView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(19): SchoolConfigurationController->widget()
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(55): SchoolConfigurationController->render()
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (55)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 10:49:22 [error] [php] require(): Filename cannot be empty (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/zii/widgets/CListView.php(291): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CListView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(19): SchoolConfigurationController->widget()
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(55): SchoolConfigurationController->render()
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (55)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 10:49:49 [error] [php] require(): Filename cannot be empty (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/zii/widgets/CListView.php(291): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CListView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(19): SchoolConfigurationController->widget()
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(55): SchoolConfigurationController->render()
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (55)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 10:49:51 [error] [php] require(): Filename cannot be empty (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/zii/widgets/CListView.php(291): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CListView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(19): SchoolConfigurationController->widget()
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(55): SchoolConfigurationController->render()
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (55)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 10:50:38 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_search.php:9)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/zii/widgets/CListView.php(291): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(167): CListView->renderItems()
+#2 unknown(0): CListView->renderSection()
+#3 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(150): preg_replace_callback()
+#4 /usr/share/nginx/tag/framework/zii/widgets/CBaseListView.php(135): CListView->renderContent()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(173): CListView->run()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(19): SchoolConfigurationController->widget()
+#7 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#9 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#10 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#11 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(55): SchoolConfigurationController->render()
+#12 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#13 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#14 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#15 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#16 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#18 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#19 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_search.php (9)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (19)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (55)
+2014/10/14 11:02:30 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Sua requisição é inválida.' in /usr/share/nginx/tag/framework/web/CController.php:336
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#2 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#5 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#6 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#7 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+HTTP_REFERER=http://tag/index.php?r=sorcerer/schoolConfiguration/create
+---
+2014/10/14 11:02:35 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Sua requisição é inválida.' in /usr/share/nginx/tag/framework/web/CController.php:336
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#2 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#5 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#6 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#7 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+---
+2014/10/14 11:03:21 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Sua requisição é inválida.' in /usr/share/nginx/tag/framework/web/CController.php:336
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#2 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#5 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#6 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#7 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+---
+2014/10/14 11:04:10 [error] [exception.CException] exception 'CException' with message 'SchoolConfigurationController não pôde encontrar a visualização "create" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:878
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('create', Array, true)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(21): CController->render('create', Array)
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionCreate()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('create')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/create
+---
+2014/10/14 11:04:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "update" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:483
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(270): CController->missingAction('update')
+#1 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('update')
+#2 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#3 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/update
+---
+2014/10/14 11:04:35 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Sua requisição é inválida.' in /usr/share/nginx/tag/framework/web/CController.php:336
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#2 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('update')
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#5 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#6 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#7 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/update
+---
+2014/10/14 11:04:53 [error] [exception.CHttpException.400] exception 'CHttpException' with message 'Sua requisição é inválida.' in /usr/share/nginx/tag/framework/web/CController.php:336
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(309): CController->invalidActionParams(Object(CInlineAction))
+#1 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#2 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#3 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('update')
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#5 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#6 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#7 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/update
+---
+2014/10/14 11:06:14 [error] [php] Invalid argument supplied for foreach() (/usr/share/nginx/tag/framework/db/schema/CDbCommandBuilder.php:670)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#1 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#3 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (8)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 11:08:04 [error] [php] Invalid argument supplied for foreach() (/usr/share/nginx/tag/framework/db/schema/CDbCommandBuilder.php:670)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#1 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#3 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#4 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (8)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/14 11:19:43 [error] [php] Undefined variable: title (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php:14)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(18): SchoolConfigurationController->renderPartial()
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(95): SchoolConfigurationController->renderInternal()
+#4 /usr/share/nginx/tag/framework/web/CController.php(869): SchoolConfigurationController->renderFile()
+#5 /usr/share/nginx/tag/framework/web/CController.php(782): SchoolConfigurationController->renderPartial()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(24): SchoolConfigurationController->render()
+#7 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#8 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /usr/share/nginx/tag/framework/web/CController.php(286): SchoolConfigurationController->runAction()
+#10 /usr/share/nginx/tag/framework/web/CController.php(265): SchoolConfigurationController->runActionWithFilters()
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): SchoolConfigurationController->run()
+#12 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#13 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/_form.php (14)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (18)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php (24)
+2014/10/14 11:42:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "studant".' in /usr/share/nginx/tag/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('studant')
+#1 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/index.php?r=studant
+---
+2014/10/14 13:46:29 [error] [exception.CException] exception 'CException' with message 'O alias "application.modules.model.SchoolConfiguration" é inválido. Assegure-se de que ele aponta para um arquivo PHP existente.' in /usr/share/nginx/tag/framework/YiiBase.php:322
+Stack trace:
+#0 /usr/share/nginx/tag/framework/gii/generators/crud/CrudCode.php(59): YiiBase::import('application.mod...', true)
+#1 /usr/share/nginx/tag/framework/validators/CInlineValidator.php(42): CrudCode->validateModel('model', Array)
+#2 /usr/share/nginx/tag/framework/validators/CValidator.php(213): CInlineValidator->validateAttribute(Object(GiixCrudCode), 'model')
+#3 /usr/share/nginx/tag/framework/base/CModel.php(159): CValidator->validate(Object(GiixCrudCode), NULL)
+#4 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(159): CModel->validate()
+#5 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(63): CCodeGenerator->prepare()
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): CCodeGenerator->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('gii/giixCrud/in...')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=gii/giixCrud/index
+HTTP_REFERER=http://tag/index.php?r=gii/giixCrud/index
+---
+2014/10/14 13:47:07 [error] [exception.CException] exception 'CException' with message 'O alias "application.modules.sorcerer.model.SchoolConfiguration" é inválido. Assegure-se de que ele aponta para um arquivo PHP existente.' in /usr/share/nginx/tag/framework/YiiBase.php:322
+Stack trace:
+#0 /usr/share/nginx/tag/framework/gii/generators/crud/CrudCode.php(59): YiiBase::import('application.mod...', true)
+#1 /usr/share/nginx/tag/framework/validators/CInlineValidator.php(42): CrudCode->validateModel('model', Array)
+#2 /usr/share/nginx/tag/framework/validators/CValidator.php(213): CInlineValidator->validateAttribute(Object(GiixCrudCode), 'model')
+#3 /usr/share/nginx/tag/framework/base/CModel.php(159): CValidator->validate(Object(GiixCrudCode), NULL)
+#4 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(159): CModel->validate()
+#5 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(63): CCodeGenerator->prepare()
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): CCodeGenerator->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('gii/giixCrud/in...')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=gii/giixCrud/index
+HTTP_REFERER=http://tag/index.php?r=gii/giixCrud/index
+---
+2014/10/14 14:07:03 [error] [exception.CException] exception 'CException' with message 'O alias "application.modules.sorcerer.models.schoolConfiguration" é inválido. Assegure-se de que ele aponta para um arquivo PHP existente.' in /usr/share/nginx/tag/framework/YiiBase.php:322
+Stack trace:
+#0 /usr/share/nginx/tag/framework/gii/generators/crud/CrudCode.php(59): YiiBase::import('application.mod...', true)
+#1 /usr/share/nginx/tag/framework/validators/CInlineValidator.php(42): CrudCode->validateModel('model', Array)
+#2 /usr/share/nginx/tag/framework/validators/CValidator.php(213): CInlineValidator->validateAttribute(Object(GiixCrudCode), 'model')
+#3 /usr/share/nginx/tag/framework/base/CModel.php(159): CValidator->validate(Object(GiixCrudCode), NULL)
+#4 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(159): CModel->validate()
+#5 /usr/share/nginx/tag/framework/gii/CCodeGenerator.php(63): CCodeGenerator->prepare()
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): CCodeGenerator->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('gii/giixCrud/in...')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=gii/giixCrud/index
+HTTP_REFERER=http://tag/index.php?r=gii/giixCrud/index
+---
+2014/10/14 14:30:12 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.school" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('school')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(7): CWebUser->__get('school')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+HTTP_REFERER=http://tag/index.php?r=sorcerer/schoolConfiguration
+---
+2014/10/14 14:30:14 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.school" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('school')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(7): CWebUser->__get('school')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+---
+2014/10/14 14:30:15 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.school" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('school')
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(7): CWebUser->__get('school')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('index')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/index
+HTTP_REFERER=http://tag/index.php?r=sorcerer/schoolConfiguration
+---
+2014/10/15 11:32:21 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Você não está autorizado a realizar essa operação.' in /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'Voc?? n??o est?...')
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('updateTime')
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('classroom/updat...')
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php?r=classroom/updateTime
+HTTP_REFERER=http://tag/index.php?r=classroom/create
+---
+2014/10/15 11:32:24 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Você não está autorizado a realizar essa operação.' in /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'Voc?? n??o est?...')
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('updateTime')
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('classroom/updat...')
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php?r=classroom/updateTime
+HTTP_REFERER=http://tag/index.php?r=classroom/create
+---
+2014/10/15 11:32:30 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'Você não está autorizado a realizar essa operação.' in /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php:182
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/auth/CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(CWebUser), 'Voc?? n??o est?...')
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('updateTime')
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('classroom/updat...')
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/index.php?r=classroom/updateTime
+HTTP_REFERER=http://tag/index.php?r=classroom/create
+---
+2014/10/15 11:32:59 [error] [php] include(SchoolConfiguration.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/app/controllers/ClassroomController.php(835): spl_autoload_call()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomController->actionUpdateTime()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(133): ClassroomController->runAction()
+#4 /usr/share/nginx/tag/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /usr/share/nginx/tag/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): ClassroomController->filterAccessControl()
+#7 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomController->runActionWithFilters()
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomController->run()
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=classroom/updateTime
+in /usr/share/nginx/tag/app/controllers/ClassroomController.php (835)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/15 11:33:13 [error] [php] include(SchoolConfiguration.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/app/controllers/ClassroomController.php(835): spl_autoload_call()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomController->actionUpdateTime()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(133): ClassroomController->runAction()
+#4 /usr/share/nginx/tag/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /usr/share/nginx/tag/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): ClassroomController->filterAccessControl()
+#7 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomController->runActionWithFilters()
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomController->run()
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=classroom/updateTime
+in /usr/share/nginx/tag/app/controllers/ClassroomController.php (835)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/15 11:35:15 [error] [php] Use of undefined constant Sorcerer - assumed 'Sorcerer' (/usr/share/nginx/tag/app/controllers/ClassroomController.php:835)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(133): ClassroomController->runAction()
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): ClassroomController->filterAccessControl()
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=classroom/updateTime
+in /usr/share/nginx/tag/app/controllers/ClassroomController.php (835)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/15 11:37:09 [error] [php] Use of undefined constant Sorcerer - assumed 'Sorcerer' (/usr/share/nginx/tag/app/controllers/ClassroomController.php:835)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(133): ClassroomController->runAction()
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): ClassroomController->filterAccessControl()
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=classroom/updateTime
+in /usr/share/nginx/tag/app/controllers/ClassroomController.php (835)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/15 11:37:16 [error] [php] Use of undefined constant Sorcerer - assumed 'Sorcerer' (/usr/share/nginx/tag/app/controllers/ClassroomController.php:835)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(133): ClassroomController->runAction()
+#1 /usr/share/nginx/tag/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /usr/share/nginx/tag/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /usr/share/nginx/tag/framework/web/filters/CInlineFilter.php(58): ClassroomController->filterAccessControl()
+#4 /usr/share/nginx/tag/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /usr/share/nginx/tag/framework/web/CController.php(291): CFilterChain->run()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/index.php?r=classroom/updateTime
+in /usr/share/nginx/tag/app/controllers/ClassroomController.php (835)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 09:45:21 [error] [exception.CException] exception 'CException' with message 'DefaultController não pôde encontrar a visualização "schoolConfiguration/index" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:878
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('schoolConfigura...', NULL, true)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(6): CController->render('schoolConfigura...')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 09:45:35 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php:4)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/CController.php(782): DefaultController->renderPartial()
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(6): DefaultController->render()
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (4)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (6)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 09:45:52 [error] [exception.CException] exception 'CException' with message 'DefaultController não pôde encontrar a visualização "schoolConfiguration.index" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:878
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('schoolConfigura...', NULL, true)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(6): CController->render('schoolConfigura...')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 09:50:18 [error] [exception.CException] exception 'CException' with message 'DefaultController não pôde encontrar a visualização "//schoolConfiguration/index" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:878
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('//schoolConfigu...', NULL, true)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(6): CController->render('//schoolConfigu...')
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#10 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 09:52:06 [error] [exception.CException] exception 'CException' with message 'SchoolConfiguration and its behaviors do not have a method or closure named "render".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('render', Array)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): CActiveRecord->__call('render', Array)
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): SchoolConfiguration->render('index')
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 09:52:07 [error] [exception.CException] exception 'CException' with message 'SchoolConfiguration and its behaviors do not have a method or closure named "render".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('render', Array)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): CActiveRecord->__call('render', Array)
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): SchoolConfiguration->render('index')
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#11 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 09:54:31 [error] [php] include(SchoolConfigurationController.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(9): spl_autoload_call()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (9)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 09:54:32 [error] [php] include(SchoolConfigurationController.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(9): spl_autoload_call()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (9)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 09:56:00 [error] [php] include(SchoolConfigurationController.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(9): spl_autoload_call()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (9)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:00:38 [error] [exception.CException] exception 'CException' with message 'DefaultController não pôde encontrar a visualização "//schoolConfiguration/index" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:878
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): CController->renderPartial('//schoolConfigu...')
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer')
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#9 {main}
+REQUEST_URI=/?r=sorcerer
+---
+2014/10/16 10:00:45 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php:4)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderPartial()
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (4)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:02:05 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php:4)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderPartial()
+#2 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#3 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#5 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (4)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:02:42 [error] [php] require(/schoolConfiguration/index): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:02:47 [error] [php] require(//schoolConfiguration/index): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:04:36 [error] [php] require(/usr/share/nginx/tag/app/modules/sorcerer/views/default../schoolConfiguration/index): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:04:45 [error] [php] require(/usr/share/nginx/tag/app/modules/sorcerer/views/default/../schoolConfiguration/index): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:05:12 [error] [php] require(/usr/share/nginx/tag/app/modules/sorcerer/views/default/index): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/web/CBaseController.php:130)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:05:20 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php:4)
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php(7): DefaultController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#2 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /usr/share/nginx/tag/framework/web/CController.php(286): DefaultController->runAction()
+#4 /usr/share/nginx/tag/framework/web/CController.php(265): DefaultController->runActionWithFilters()
+#5 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): DefaultController->run()
+#6 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#8 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/default
+in /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php (4)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/DefaultController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:45:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "sorcerer/classroomConfiguration".' in /usr/share/nginx/tag/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/classr...')
+#1 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+---
+2014/10/16 10:45:47 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php:4)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (4)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:47:19 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php:12)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (12)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:47:32 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php:12)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#2 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#3 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#4 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#5 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#6 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#7 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#8 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (12)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+in /usr/share/nginx/tag/index.php (12)
+2014/10/16 10:49:31 [error] [php] Undefined variable: model (/usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php:21)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#1 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php(14): ClassroomConfigurationController->renderPartial()
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(95): ClassroomConfigurationController->renderInternal()
+#4 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#5 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#6 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#7 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#8 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#9 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#10 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#12 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#13 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php (21)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (14)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+2014/10/16 10:52:15 [error] [php] include(ActiveForm.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWidgetFactory.php(146): import()
+#1 /usr/share/nginx/tag/framework/web/CBaseController.php(146): CWidgetFactory->createWidget()
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(189): ClassroomConfigurationController->createWidget()
+#3 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php(7): ClassroomConfigurationController->beginWidget()
+#4 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(95): ClassroomConfigurationController->renderInternal()
+#6 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#7 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php(14): ClassroomConfigurationController->renderPartial()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#9 /usr/share/nginx/tag/framework/web/CBaseController.php(95): ClassroomConfigurationController->renderInternal()
+#10 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#11 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#12 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#13 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#14 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#15 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#16 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#18 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#19 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php (7)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (14)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+2014/10/16 10:52:44 [error] [php] include(ActiveForm.php): failed to open stream: No such file or directory (/usr/share/nginx/tag/framework/YiiBase.php:427)
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CWidgetFactory.php(146): import()
+#1 /usr/share/nginx/tag/framework/web/CBaseController.php(146): CWidgetFactory->createWidget()
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(189): ClassroomConfigurationController->createWidget()
+#3 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php(7): ClassroomConfigurationController->beginWidget()
+#4 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#5 /usr/share/nginx/tag/framework/web/CBaseController.php(95): ClassroomConfigurationController->renderInternal()
+#6 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#7 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php(14): ClassroomConfigurationController->renderPartial()
+#8 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require()
+#9 /usr/share/nginx/tag/framework/web/CBaseController.php(95): ClassroomConfigurationController->renderInternal()
+#10 /usr/share/nginx/tag/framework/web/CController.php(869): ClassroomConfigurationController->renderFile()
+#11 /usr/share/nginx/tag/framework/web/CController.php(782): ClassroomConfigurationController->renderPartial()
+#12 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): ClassroomConfigurationController->render()
+#13 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#14 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams()
+#15 /usr/share/nginx/tag/framework/web/CController.php(286): ClassroomConfigurationController->runAction()
+#16 /usr/share/nginx/tag/framework/web/CController.php(265): ClassroomConfigurationController->runActionWithFilters()
+#17 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): ClassroomConfigurationController->run()
+#18 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#19 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#20 /usr/share/nginx/tag/index.php(12): CWebApplication->run()
+REQUEST_URI=/?r=sorcerer/classroomConfiguration
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/_form.php (7)
+in /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php (14)
+in /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php (7)
+2014/10/16 10:58:47 [error] [exception.CException] exception 'CException' with message 'A propriedade "ClassroomConfigurationController.breadcrumbs" não está definida.' in /usr/share/nginx/tag/framework/base/CComponent.php:173
+Stack trace:
+#0 /usr/share/nginx/tag/app/modules/sorcerer/views/classroomConfiguration/index.php(3): CComponent->__set('breadcrumbs', Array)
+#1 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#2 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', NULL, true)
+#3 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', NULL, true)
+#4 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('index', NULL, true)
+#5 /usr/share/nginx/tag/app/modules/sorcerer/controllers/ClassroomConfigurationController.php(7): CController->render('index')
+#6 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): ClassroomConfigurationController->actionIndex()
+#7 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/classr...')
+#12 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#14 {main}
+REQUEST_URI=/index.php?r=sorcerer/classroomConfiguration
+---
+2014/10/16 11:01:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "_form" solicitada.' in /usr/share/nginx/tag/framework/web/CController.php:483
+Stack trace:
+#0 /usr/share/nginx/tag/framework/web/CController.php(270): CController->missingAction('_form')
+#1 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('_form')
+#2 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#3 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration/_form
+---
+2014/10/16 11:09:48 [error] [exception.CException] exception 'CException' with message 'SchoolConfiguration and its behaviors do not have a method or closure named "label".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('label', Array)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(4): CActiveRecord->__call('label', Array)
+#2 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(4): SchoolConfiguration->label(2)
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#4 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#5 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#6 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#7 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(22): CController->render('index', Array)
+#8 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#9 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#11 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#13 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#14 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#16 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+---
+2014/10/16 11:10:25 [error] [exception.CException] exception 'CException' with message 'SchoolConfiguration and its behaviors do not have a method or closure named "label".' in /usr/share/nginx/tag/framework/base/CComponent.php:266
+Stack trace:
+#0 /usr/share/nginx/tag/framework/db/ar/CActiveRecord.php(227): CComponent->__call('label', Array)
+#1 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(4): CActiveRecord->__call('label', Array)
+#2 /usr/share/nginx/tag/app/modules/sorcerer/views/schoolConfiguration/index.php(4): SchoolConfiguration->label(2)
+#3 /usr/share/nginx/tag/framework/web/CBaseController.php(126): require('/usr/share/ngin...')
+#4 /usr/share/nginx/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/usr/share/ngin...', Array, true)
+#5 /usr/share/nginx/tag/framework/web/CController.php(869): CBaseController->renderFile('/usr/share/ngin...', Array, true)
+#6 /usr/share/nginx/tag/framework/web/CController.php(782): CController->renderPartial('index', Array, true)
+#7 /usr/share/nginx/tag/app/modules/sorcerer/controllers/SchoolConfigurationController.php(22): CController->render('index', Array)
+#8 /usr/share/nginx/tag/framework/web/actions/CInlineAction.php(49): SchoolConfigurationController->actionIndex()
+#9 /usr/share/nginx/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#10 /usr/share/nginx/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#11 /usr/share/nginx/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /usr/share/nginx/tag/framework/web/CWebApplication.php(282): CController->run('')
+#13 /usr/share/nginx/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('sorcerer/school...')
+#14 /usr/share/nginx/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /usr/share/nginx/tag/index.php(12): CApplication->run()
+#16 {main}
+REQUEST_URI=/index.php?r=sorcerer/schoolConfiguration
+---

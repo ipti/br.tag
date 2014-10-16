@@ -177,15 +177,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities&rt=0'),
-                                            'update' => '#StudentIdentification_edcenso_city_fk'
-                                        ),
-                                        "prompt" => "Selecione um estado",
-                                        "class" => "select-search-on nationality-sensitive br",
-                                        "disabled" => "disabled"));
+                                    echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', 
+                                    		CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), 
+                                    		array(
+		                                        'ajax' => array(
+		                                            'type' => 'POST',
+		                                            'url' => CController::createUrl('student/getcities&rt=0'),
+		                                            'update' => '#StudentIdentification_edcenso_city_fk'
+		                                        ),
+		                                        "prompt" => "Selecione um estado",
+		                                        "class" => "select-search-on nationality-sensitive br",
+		                                        "disabled" => "disabled",
+                                    ));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
@@ -601,20 +604,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8, 'maxlength' => 8,
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('Instructor/getcitybycep'),
-                                            'data' => array('cep' => 'js:this.value'),
-                                            'success' => "function(data){
-                                     data = jQuery.parseJSON(data);
-                                     if(data.UF == null) $(formDocumentsAndAddress+'cep').val('').trigger('focusout');
-                                     $(formDocumentsAndAddress+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
-                                     setTimeout(function(){
-                                        $(formDocumentsAndAddress+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
-                                        }, 500);
-                                    }"
-                                    )));
+                                    echo $form->textField($modelStudentDocumentsAndAddress, 'cep', 
+                                    	array('size' => 8, 
+                                    		'maxlength' => 8,
+	                                        'ajax' => array(
+	                                            'type' => 'POST',
+	                                            'url' => CController::createUrl('Instructor/getcitybycep'),
+	                                            'data' => array('cep' => 'js:this.value'),
+	                                            'success' => "function(data){
+	                                     				data = jQuery.parseJSON(data);
+	                                     					if(data.UF == null) 	
+	                                        					$(formDocumentsAndAddress+'cep').val('').trigger('focusout');
+	                                     					$(formDocumentsAndAddress+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
+	                                     					setTimeout(function(){
+	                                        					$(formDocumentsAndAddress+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
+	                                        				}, 500);
+	                                    			}"
+                                   	)));
                                     ?>
                                     <span
 										class="btn-action single glyphicons circle_question_mark"
