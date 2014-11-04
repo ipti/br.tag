@@ -1,16 +1,23 @@
 <?php
-/* @var $this ClassroomConfigurationControler */
-/* @var $form ActiveForm */
+/** @var $this ClassroomConfigurationControler */
+/** @var $title String */
+/** @var $form CActiveForm */
 $form = $this->beginWidget ( 'CActiveForm', array (
 		'id' => 'school-configuration-form',
 		'enableAjaxValidation' => false 
-) );
+));
+
+$this->breadcrumbs = array(
+		Yii::t('app', 'Classroom Configurarion'),
+);
+
+$lastYear = (Yii::app()->user->year -1);
 ?>
 
 <div class="row-fluid">
 	<div class="span12">
 		<h3 class="heading-mosaic">
-			<?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
+			<?php echo $title; ?>
 		</h3>
 		<div class="buttons">
 			<?php echo CHtml::htmlButton('<i></i>' .Yii::t('default', 'Copy'), array('class' => 'btn btn-icon btn-primary last glyphicons roundabout', 'type' => 'submit')); ?>
@@ -28,7 +35,7 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 			<ul class="tab-sorcerer">
 				<li id="tab-classroom" class="active">
 					<a class="glyphicons vcard" href="#classroom" data-toggle="tab"> 
-						<i></i> <?php echo Yii::t('default', 'Classroom') .' '. (Yii::app()->user->year -1)?>
+						<i></i> <?php echo Yii::t('default', 'Classroom') .' '. $lastYear?>
 					</a>
 				</li>
 			</ul>
@@ -41,7 +48,7 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 						<div class=" span12">
 							<div class="control-group">
 								<?php echo chtml::dropDownList('Classrooms', "", 
-									CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year'=>Yii::app()->user->year -1)), 'id', 'name'),
+									CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year'=>$lastYear)), 'id', 'name'),
 									array(
 										'class'=>'select-search-on span12',
 										'multiple'=>'multiple',
@@ -56,4 +63,3 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 		</div>
 	</div>
 </div>
-<!-- form -->

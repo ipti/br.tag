@@ -2,10 +2,19 @@
 /* @var $model SchoolConfiguration*/
 /* @var $this SchoolConfigurationControler */
 /* @var $form CActiveForm */
+
+$this->breadcrumbs = array(
+	Yii::t('app', 'School Configurarion') => array('index'),
+	Yii::t('app', 'Create'),
+);
+
+$title = Yii::t('app', 'School Configurarion');
+
 $form = $this->beginWidget ( 'CActiveForm', array (
 		'id' => 'school-configuration-form',
 		'enableAjaxValidation' => false 
-) );
+));
+
 ?>
 
 <div class="row-fluid">
@@ -27,7 +36,6 @@ $form = $this->beginWidget ( 'CActiveForm', array (
 					</a></li>
 				</ul>
 		</div>
-	
 
 		<div class="widget-body form-horizontal">
 			<div class="tab-content">

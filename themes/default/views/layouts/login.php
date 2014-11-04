@@ -13,6 +13,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
         
+    </head>
     <body>
         <?php echo $content; ?>
     </body>
