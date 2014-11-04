@@ -54,6 +54,8 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         
+        <!-- QRCode Plugin -->
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
         <!-- Print -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
 
@@ -84,7 +86,6 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
 //                $('input, select').change(function(e){
 //                    dirty = true; 
 //                });
-            });
 
             /**
              * Select2 Brazilian Portuguese translation
@@ -285,7 +286,6 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
-
                     <div class="copy">TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>.</div>
                 </div>
 

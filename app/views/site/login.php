@@ -23,15 +23,11 @@ $form = $this->beginWidget('CActiveForm', array(
 ?>
 
 <body class="login">
-
-
     <!-- Wrapper -->
     <div id="login">
-
         <div class="taglogo">
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_login.png" style="padding: 125px 50px;height: 100px;position: absolute;top: 0;" />
         </div>
-                            
         <div class="form-signin">
             <div class="row-fluid row-merge">
                 <div class="offset5 span6 login-input">
@@ -68,9 +64,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
         <span class="iptilogo">Uma tecnologia desenvolvida pelo</span>
         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" />
-
     </div>    
-
 </body>
 </body>
 <?php $this->endWidget(); ?>

@@ -249,6 +249,8 @@ class AdminController extends Controller {
         $classrooms = Classroom::model()->findAll($where);
         foreach ($classrooms as $key => $classroom) {
             $attributes = $classroom->attributes;
+            //Remove create_time
+            array_pop($attributes);
             //Remove Turno
             array_pop($attributes);
             //Remove Ano
@@ -324,6 +326,8 @@ class AdminController extends Controller {
             $enrollments = StudentEnrollment::model()->findAll($criteria);
             foreach($enrollments as $enrollment){
                 $attributes = $enrollment->attributes;
+                //Remove create_time
+                array_pop($attributes);
                 //Remove Id
                 array_pop($attributes);
                 $export .= implode('|', $attributes);

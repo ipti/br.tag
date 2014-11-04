@@ -70,7 +70,7 @@ class StudentEnrollment extends CActiveRecord {
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('school_year,studentFk.name,classroomFk.name,register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id', 'safe', 'on' => 'search'),
+            array('school_year,studentFk.name,classroomFk.name,register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -119,6 +119,7 @@ class StudentEnrollment extends CActiveRecord {
             'student_entry_form' => Yii::t('default', 'Student Entry Form'),
             'school_year' => Yii::t('default', 'School Year'),
             'id' => Yii::t('default', 'ID'),
+        	'create_date' => Yii::t('default', 'Create Time')
         );
     }
 
