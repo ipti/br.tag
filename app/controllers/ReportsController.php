@@ -9,7 +9,7 @@ class ReportsController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                                    'InstructorsPerClassroomReport','StudentsFileReport',
+                                    'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance'),
