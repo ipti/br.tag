@@ -106,6 +106,17 @@ class ReportsController extends Controller {
         $this->render('StudentsFileReport', array());         
     }
     
+    public function actionGetStudentsFileBoquimInformation($student_id){
+        $sql = "SELECT * FROM StudentsFileBoquim WHERE id = ".$student_id.";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);
+    }
+    
+    public function actionStudentsFileBoquimReport() {
+        $this->render('StudentsFileBoquimReport', array());         
+    }
+    
     
     public function actionGetStudentsFileInformation($student_id){
         $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";
