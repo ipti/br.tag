@@ -123,11 +123,13 @@ class StudentController extends Controller {
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
+        $modelEnrollment = new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
             
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
@@ -137,11 +139,16 @@ class StudentController extends Controller {
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                    $modelEnrollment->student_fk = $modelStudentIdentification->id;
                     
-                    if($modelStudentDocumentsAndAddress->validate()){
+                    if($modelStudentDocumentsAndAddress->validate()) {
                         if ($modelStudentDocumentsAndAddress->save()) {
-                            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno adicionado com sucesso!'));
-                            $this->redirect(array('index'));
+                        	if($modelEnrollment->validate()) {
+                            	if($modelEnrollment->save()) {
+                        			Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno adicionado com sucesso!'));
+                            		$this->redirect(array('index'));
+                            	}
+                        	}
                         }
                     }
                 }
@@ -150,7 +157,8 @@ class StudentController extends Controller {
 
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
-            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress
+            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+        	'modelEnrollment' => $modelEnrollment
         ));
     }
 
@@ -162,6 +170,7 @@ class StudentController extends Controller {
     public function actionUpdate($id) {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+        $modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelStudentIdentification);
@@ -184,10 +193,10 @@ class StudentController extends Controller {
                 }
             }
         }
-
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
-            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress
+            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+        	'modelEnrollment' => $modelEnrollment
         ));
     }
 
@@ -240,13 +249,10 @@ class StudentController extends Controller {
                         array(
                             'criteria'=>array(
                                 'condition'=>'school_inep_id_fk='.$school,
-                                //'order'=>'name ASC',
                             ),
-                            
                             'pagination' => array(
                                 'pageSize' => 12,
                         )));
-        
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter

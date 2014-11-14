@@ -5,12 +5,19 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js', CClien
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js', CClientScript::POS_END);
 
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
         ));
 //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
+
+$MEs = array();
+foreach ($modelEnrollment as $i=>$me){
+	array_push($MEs, $me->attributes);
+}
 ?>
 
 <div class="row-fluid">
@@ -40,10 +47,12 @@ $form = $this->beginWidget('CActiveForm', array(
 					class="glyphicons vcard" href="#student-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
 				<li id="tab-student-documents"><a class="glyphicons credit_card"
 					href="#student-documents" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Documents') ?></a></li>
-				<li id="tab-student-address"><a class="glyphicons home"
-					href="#student-address" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a></li>
-				<li id="tab-student-declaration"><a class="glyphicons home"
-					href="?r=reports/StudentsDeclarationReport&id=<?php echo $modelStudentIdentification->id ?>"><i></i><?php echo Yii::t('default', 'Declaration') ?></a></li>
+				<li id="tab-student-address">
+					<a class="glyphicons home" href="#student-address"    data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a>
+				</li>
+				<li id="tab-student-enrollment">
+					<a class="glyphicons home" href="#student-enrollment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Enrollment') ?></a>
+				</li>
 			</ul>
 		</div>
 
@@ -707,6 +716,150 @@ $form = $this->beginWidget('CActiveForm', array(
 						</div>
 					</div>
 				</div>
+				<!-- Tab Student Enrollment -->
+				<div class="tab-pane" id="student-enrollment">
+                    <div class="row-fluid">
+                        <div class=" span5">
+                            <div class="control-group">
+                                <div class="controls">
+                                <?php $modelEnrollment = $modelEnrollment[0]; ?>
+                                    <?php echo $form->hiddenField($modelEnrollment,'school_inep_id_fk',array('value'=>Yii::app()->user->school)); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php  echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = ".Yii::app()->user->year."", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class'=>'select-search-on'));?>
+                                    <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::dropDownList("Stage", null, array(
+                                            "0" => "Selecione a Modalidade", 
+                                            "1" => "Infantil",    
+                                            "2" => "Fundamental Menor",
+                                            "3" => "Fundamental Maior",
+                                            "4" => "Médio",
+                                            "5" => "Profissional",
+                                            "6" => "EJA",
+                                            "7" => "Outros",
+                                        ),array(
+                                            'class' => 'select-search-off',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('enrollment/getmodalities'),
+                                                'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
+                                            ),
+                                            )); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa",'class'=>'select-search-on'));?>
+                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array(null => "Selecione o espaço", "1" => "Em hospital", "2" => "Em domicílio", "3" => "Não recebe"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" span6">
+                        <div class="separator"></div>                        
+                            <div class="control-group">
+                                <?php 
+                                echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelEnrollment, 'public_transport',array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelEnrollment, 'public_transport'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group" id="transport_responsable">
+                                <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"),array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group" id="transport_null">
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_van', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_microbus', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_bus', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_bike', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_animal_vehicle', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_other_vehicle', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_5', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_5_15', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_15_35', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_35', array('value'=>null, 'disabled'=>'disabled')); ?>
+                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_metro_or_train', array('value'=>null, 'disabled'=>'disabled')); ?>
+                            </div>
+                            <div class="control-group" id="transport_type">
+                                <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_microbus']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bus']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_bus', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_animal_vehicle']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_other_vehicle']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_other_vehicle', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_5', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_5_15']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_5_15', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_15_35']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_15_35', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
 			</div>
             <?php $this->endWidget(); ?>
         </div>
@@ -716,4 +869,8 @@ $form = $this->beginWidget('CActiveForm', array(
 <script type="text/javascript">
     var formIdentification = '#StudentIdentification_';
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
+    var form = '#StudentEnrollment_';
+    var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
+    var enrollment = '<?php echo json_encode($MEs) ?>';
+    
 </script>

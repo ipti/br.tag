@@ -127,7 +127,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" style="visibility: hidden;">
                                 <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
@@ -144,7 +144,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     ?>
                                     <?php echo $form->error($model, 'student_entry_form'); ?>
                                 </div>
-                            </div>
+                            </div> 
 
                         </div>
                         <div class=" span6">

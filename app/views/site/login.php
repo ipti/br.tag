@@ -43,8 +43,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <label class="strong">Ano Letivo</label>
                             <?php
                             $year = date('Y');
+                            //botar condição do mês, a partir de novembro, mostrar o próximo ano.
                             $years = array();
-                            for ($i = $year; $i >= 2013; $i--) {
+                            for ($i = $year+1; $i >= 2013; $i--) {
                                 $years[$i] = $i;
                             }
                             echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));

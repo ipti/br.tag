@@ -214,7 +214,240 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 					<div class="span10"><b>21 - Restrição alimentar ou alergia a: </b><hr style="border-top: 1px solid black;"></div>
 	            </td></tr>
       		</table>
+      		
+      		<div style="page-break-before: always;"></div>
+      		
+      		<div style="margin: 50px 0 15px 0;text-align: center;line-height: 15px;";>_______________________<br>Ano Letivo</div>
+      		
+      		<table style="margin: 0px 0 0 50px; font-size: 8px; width: calc(100% - 51px);" class="table table-bordered report-table-empty">
+			  <tr>
+			    <th colspan="18" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
+			  </tr>
+			  <tr>
+			    <td></td>
+			    <td style="text-align: center;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
+			    <td colspan="9" style="text-align: center; font-weight: bold">BASE NACIONAL COMUM</td>
+			    <td colspan="4" style="text-align: center; font-weight: bold">PARTE DIVERSIFICADA</td>
+			    <td rowspan="2" class="vertical-text"><div>DIAS&nbsp;LETIVOS</div></td>
+			    <td rowspan="2" class="vertical-text"><div>CARGA&nbsp;HORÁRIA</div></td>
+			    <td rowspan="2" class="vertical-text"><div>Nº&nbsp;DE&nbsp;FALTAS</div></td>
+			  </tr>
+			  <tr>
+			    <td style="vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 0;line-height: 53px;margin: 0px 10px 0px 0px;">BIMESTRES</div></td>
+			    <td class="vertical-text"><canvas width="100%" height="100%"></canvas></td>
+			    <td class="vertical-text"><div>LÍNGUA&nbsp;PORTUGUESA</div></td>
+			    <td class="vertical-text"><div>MATEMÁTICA</div></td>
+			    <td class="vertical-text"><div>HISTÓRIA</div></td>
+			    <td class="vertical-text"><div>GEOGRAFIA</div></td>
+			    <td class="vertical-text"><div>ARTES</div></td>
+			    <td class="vertical-text"><div>EDUCAÇÃO&nbsp;FÍSICA</div></td>
+			    <td class="vertical-text"><div>ENSINO&nbsp;RELIGIOSO</div></td>
+			    <td class="vertical-text"><div>CIÊNCIAS&nbsp;NATURAIS</div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div>REDAÇÃO</div></td>
+			    <td class="vertical-text"><div>SOCIEDADE&nbsp;BRASILEIRA</div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			  </tr>
+			  <tr>
+			    <td>1º</td>
+			    <td style="text-align: center;">AVALIAÇÃO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td>2º</td>
+			    <td style="text-align: center;">AVALIAÇÃO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td>3º</td>
+			    <td style="text-align: center;">AVALIAÇÃO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td>4º</td>
+			    <td style="text-align: center;">AVALIAÇÃO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">MÉDIA ANUAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">NOTA DA PROVA FINAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">MÉDIA FINAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">TOTAL DE AULAS DADAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">TOTAL DE FALTAS</td>
+			   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">FREQUÊNCIAS %</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			</table>
+			
+			<div style="transform: rotate(-90deg);transform-origin: left top 0;text-align: center;width: 300px;font-size: 16px;line-height: 20px;">QUADRO APLICÁVEL AO ENSINO<br> FUNDAMENTAL (1º ao 5º ANO)</div>
+			
+			<table style="margin: -20px 0 0 50px; font-size: 8px; width: calc(100% - 53px);" class="table table-bordered report-table-empty">
+			  <tr>
+			    <th colspan="22" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
+			  </tr>
+			  <tr>
+			    <td></td>
+			    <td style="text-align: center;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
+			    <td colspan="11" style="text-align: center; font-weight: bold">BASE NACIONAL COMUM</td>
+			    <td colspan="9" style="text-align: center; font-weight: bold">PARTE DIVERSIFICADA</td>
+			  </tr>
+			  <tr>
+			    <td style="vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 0;line-height: 53px;margin: 0px 10px 0px 0px;">BIMESTRES</div></td>
+			    <td id="canvas-td" class="vertical-text"><canvas id="canvas-line" width="100%"></canvas></td>
+			    <td class="vertical-text"><div>LÍNGUA&nbsp;PORTUGUESA</div></td>
+			    <td class="vertical-text"><div>MATEMÁTICA</div></td>
+			    <td class="vertical-text"><div>CIÊNCIAS&nbsp;NATURAIS</div></td>
+			    <td class="vertical-text"><div>GEOGRAFIA</div></td>
+			    <td class="vertical-text"><div>HISTÓRIA</div></td>
+			    <td class="vertical-text"><div>ARTES</div></td>
+			    <td class="vertical-text"><div>EDUCAÇÃO&nbsp;FÍSICA</div></td>
+			    <td class="vertical-text"><div>ENSINO&nbsp;RELIGIOSO</div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div style="margin-bottom: -7px; line-height: 9px;">LÍNGUA&nbsp;ESTRANGEIRA INGLÊS</div></td>
+			    <td class="vertical-text"><div>REDAÇÃO</div></td>
+			    <td class="vertical-text"><div>SOCIEDADE&nbsp;BRASILEIRA</div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			    <td class="vertical-text"><div></div></td>
+			  </tr>
+			  <tr>
+			    <td rowspan="3">1º</td>
+			    <td style="text-align: center;">APROVEITAMENTO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">FALTAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td rowspan="3">2º</td>
+			    <td style="text-align: center;">APROVEITAMENTO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">FALTAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td rowspan="3">3º</td>
+			    <td style="text-align: center;">APROVEITAMENTO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">FALTAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td rowspan="3">4º</td>
+			    <td style="text-align: center;">APROVEITAMENTO</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td style="text-align: center;">FALTAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  
+			  <tr>
+			    <td colspan="2">MÉDIA ANUAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">NOTA DA PROVA FINAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">MÉDIA FINAL</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">TOTAL DE AULAS DADAS</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">TOTAL DE FALTAS</td>
+			   <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">FREQUÊNCIAS %</td>
+			    <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+			  </tr>
+			</table>
+			
+			<div style="transform: rotate(-90deg);transform-origin: left top 0;text-align: center;width: 430px;font-size: 16px;line-height: 20px;">QUADRO APLICÁVEL AO ENSINO<br> FUNDAMENTAL (6º ao 9º ANO)</div>
+			
+			<div style="text-align:right; margin-top: -25px;">Resultado Final _____________________________</div>
+			<div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL<div>
+			<div style="text-align: center;line-height: 15px;">_________________________________________________________<br>Local e data<div>
+			<div style="float: left;line-height: 15px; width:50%">_________________________________________________________<br>Assinatura do(a) Secretário (a)</div>
+			<div style="float: right;line-height: 15px;width:50%">_________________________________________________________<br>Assinatura do(a) Diretor(a)</div>
         </div>
     </div>
 </div>
 </div>
+
+<style>
+     .report-table-empty td {
+       	padding-top: 0 !important;
+        padding-bottom: 0 !important;
+     }
+    .vertical-text {
+    	height: 110px;
+		vertical-align: bottom !IMPORTANT;
+    }
+	.vertical-text div {
+		transform: translate(5px, 0px) rotate(270deg);
+		width: 5px;
+		line-height: 13px;
+		margin: 0px 10px 0px 0px;
+	}
+</style>
+
+<script> 
+    console.log($('#canvas-td').width());
+	$('#canvas-line').width();
+	$('#canvas-line').height('110px');
+	var canvas = document.getElementById('canvas-line');
+	var context = canvas.getContext('2d');
+	
+	context.beginPath();
+	context.moveTo(0, 0);
+	context.lineTo(10, 110);
+	context.stroke();
+</script>

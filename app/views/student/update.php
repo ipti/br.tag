@@ -16,7 +16,13 @@
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array('modelStudentIdentification' => $modelStudentIdentification, 'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress, 'title' => $title)); ?>        </div>
+            <?php echo $this->renderPartial('_form', array(
+            		'modelStudentIdentification' => $modelStudentIdentification, 
+            		'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress, 
+    		'modelEnrollment'=>$modelEnrollment,
+            		'title' => $title)); 
+            ?>        
+        </div>
         <div class="columntwo">
         </div>
     </div>

@@ -12,9 +12,9 @@ body {
     text-align: center;
     margin-bottom: 10px;
 }
-/*table, tr, th, td {
-    border: 0 !important;
-}*/
+table, tr, th, td {
+    
+}
 table {
     page-break-inside:avoid;
     position: relative;
