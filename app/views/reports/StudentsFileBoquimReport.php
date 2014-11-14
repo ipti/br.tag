@@ -68,10 +68,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 					</tr>
 					<tr>
 						<td>
-						________________________________
+						________________________________________________
 						<br>Pai, Mãe ou Responsável</td>
 						<td colspan="2" style="border-left: 1px solid black;">
-						<br>Data ___/___/_____&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;________________________________
+						<br>Data _____/_____/_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________
 						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor
 						</td>
 					</tr>
@@ -94,8 +94,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <table id="report-table" class="table table-bordered">
             	<tr><th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th></tr>
                 <tr><td>
-                	<div class="span9"><b>01 - Nome do(a) Aluno(a):</b>&nbsp;
-                	<span id="name"></span></div>
+                	<div class="span8"><b>01 - Nome do(a) Aluno(a):</b>&nbsp;<span id="name"></span></div>
+                	<div class="span2"><b>ID:</b>&nbsp;</div>
+                	<div class="span2"><b>NIS:</b>&nbsp;</div>
+                	
                 </td></tr>
                 <tr><td>
                 	<div class="span2"><b>03 - Naturalidade:</b></div>
@@ -309,7 +311,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 			  </tr>
 			  <tr>
 			    <td style="vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 0;line-height: 53px;margin: 0px 10px 0px 0px;">BIMESTRES</div></td>
-			    <td id="canvas-td" class="vertical-text"><canvas id="canvas-line" width="100%"></canvas></td>
+			    <td id="canvas-td" class="vertical-text"></td>
 			    <td class="vertical-text"><div>LÍNGUA&nbsp;PORTUGUESA</div></td>
 			    <td class="vertical-text"><div>MATEMÁTICA</div></td>
 			    <td class="vertical-text"><div>CIÊNCIAS&nbsp;NATURAIS</div></td>
@@ -440,14 +442,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </style>
 
 <script> 
-    console.log($('#canvas-td').width());
-	$('#canvas-line').width();
-	$('#canvas-line').height('110px');
-	var canvas = document.getElementById('canvas-line');
-	var context = canvas.getContext('2d');
-	
-	context.beginPath();
-	context.moveTo(0, 0);
-	context.lineTo(10, 110);
-	context.stroke();
+$(function(){
+
+    var arrJCrossOut = $('.crossOut');
+    
+    arrJCrossOut.each(function(i){
+    
+        var jTemp = $(this),
+            nWidth = jTemp.innerWidth(),
+            nHeight = jTemp.innerHeight(),
+            sDomTemp = '<div style="position:absolute; border-color: transparent black white white; border-style:solid; border-width:'+nHeight +'px '+nWidth +'px 0px 0px; width:0; height:0; margin-top:-'+nHeight+'px; z-index:-2"></div>';
+        
+        sDomTemp += '<div style="position:absolute; border-color: transparent white white white; border-style:solid; border-width:'+nHeight +'px '+nWidth +'px 0px 0px; width:0; height:0; margin-top:-'+(nHeight-1)+'px; z-index:-1"></div>';
+        
+        jTemp.append(sDomTemp);
+    });
+});
 </script>
