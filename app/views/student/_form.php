@@ -7,6 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js', CClientScri
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
@@ -15,8 +16,10 @@ $form = $this->beginWidget('CActiveForm', array(
 //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
 
 $MEs = array();
-foreach ($modelEnrollment as $i=>$me){
-	array_push($MEs, $me->attributes);
+if(isset($modelEnrollment)){
+	foreach ($modelEnrollment as $i=>$me){
+		array_push($MEs, $me->attributes);
+	}
 }
 ?>
 
@@ -40,6 +43,9 @@ foreach ($modelEnrollment as $i=>$me){
         <?php
         echo $form->errorSummary($modelStudentIdentification);
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
+        foreach ($modelEnrollment as $i=>$me){
+        	echo $form->errorSummary($me);
+        }
         ?>
         <div class="widget-head">
 			<ul class="tab-student">
@@ -716,10 +722,37 @@ foreach ($modelEnrollment as $i=>$me){
 						</div>
 					</div>
 				</div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				<!-- Tab Student Enrollment -->
 				<div class="tab-pane" id="student-enrollment">
                     <div class="row-fluid">
-                        <div class=" span5">
+                        <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
                                 <?php $modelEnrollment = $modelEnrollment[0]; ?>
@@ -759,7 +792,7 @@ foreach ($modelEnrollment as $i=>$me){
                                                 'url' => CController::createUrl('enrollment/getmodalities'),
                                                 'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
                                             ),
-                                            )); ?>
+                                        )); ?>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -859,6 +892,31 @@ foreach ($modelEnrollment as $i=>$me){
                             </div>
                         </div>
                     </div>
+                    <div class="row-fluid">
+                        <div class="span11">
+							<div class="widget widget-scroll margin-bottom-none">
+								<div class="widget-head">
+									<h4 class="heading glyphicons book_open">
+										<i></i><?php echo yii::t("default","Enrollments");  ?>
+									</h4>
+								</div>
+								<div class="widget-body in" style="height: auto;">
+	                        	<?php 
+	                        	foreach($MEs as $key => $val){
+		                       		if(isset($val['classroom_fk'])){
+		                       			$classroom = Classroom::model()->findbyPK($val['classroom_fk']);
+		                       			$name = strlen($classroom->name) < 12 ? substr($classroom->name, 0, 12) : substr($classroom->name, 0, 9)."...";
+		                       			$text = $classroom->school_year . " - " . $name;
+		                        		echo CHtml::htmlButton($text, array('class' => "btn btn-icon btn-default enrollmentButton", "cod" => "$key"));
+		                        		echo " ";
+		                       		}
+	                        	} 
+                        		echo CHtml::htmlButton(Yii::t('default', 'New Enrollment'), array('class' => "btn btn-icon btn-default enrollmentButton", "cod" => "-1"));
+                        		?>
+                        		</div>
+                        	</div>
+                        </div>
+                    </div>
 				</div>
 			</div>
             <?php $this->endWidget(); ?>
@@ -869,8 +927,9 @@ foreach ($modelEnrollment as $i=>$me){
 <script type="text/javascript">
     var formIdentification = '#StudentIdentification_';
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
-    var form = '#StudentEnrollment_';
+    var formEnrollment = '#StudentEnrollment_';
     var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
-    var enrollment = '<?php echo json_encode($MEs) ?>';
-    
+    var enr = '<?php echo json_encode($MEs) ?>';
+    var enrollments = JSON.parse(enr);
+    var filled = -1;
 </script>

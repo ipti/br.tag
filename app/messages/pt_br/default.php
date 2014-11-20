@@ -336,6 +336,8 @@ return array(
     'Classroom Inep' => 'Inep da turma',
     'Classroom Fk' => 'Turma',
     'Enrollment' => 'Matrícula',
+    'New Enrollment' => 'Nova Matrícula',
+    'Enrollments' => 'Matrículas',
     'Unified Class' => 'Turma unificada',
     'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno',
     'Another Scholarization Place' => 'Escolarização em outro espaço',

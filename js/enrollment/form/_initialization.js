@@ -15,11 +15,12 @@ jQuery(function($) {
 
 $('.heading-buttons').css('width', $('#content').width());
 
-$(document).ready(function(){
-	var enrollments = JSON.parse(enrollment);
-	for(i in enrollments[0]){
-		val = enrollments[0][i];
-		$("#StudentEnrollment_"+i).val(val);
-		$("#StudentEnrollment_"+i).trigger("change");
-	};
+$(".enrollmentButton").on("click", function(){
+	filled = $(this).attr("cod");
+	fill(filled);
+})
+
+$("#tab-student-enrollment").on("click",function(){
+	$('[cod = -1]').trigger('click');
+	//fill(-1);
 });

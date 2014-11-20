@@ -38,10 +38,6 @@ class StudentController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
@@ -116,6 +112,8 @@ class StudentController extends Controller {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+    
+    
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -123,13 +121,11 @@ class StudentController extends Controller {
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
-        $modelEnrollment = new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-            $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
             
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
@@ -139,22 +135,34 @@ class StudentController extends Controller {
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-                    $modelEnrollment->student_fk = $modelStudentIdentification->id;
                     
                     if($modelStudentDocumentsAndAddress->validate()) {
                         if ($modelStudentDocumentsAndAddress->save()) {
-                        	if($modelEnrollment->validate()) {
-                            	if($modelEnrollment->save()) {
-                        			Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno adicionado com sucesso!'));
-                            		$this->redirect(array('index'));
-                            	}
-                        	}
-                        }
+                        	$saved = true;
+                        	if( isset($_POST[$this->STUDENT_ENROLLMENT],$_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
+                                    && empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])){
+	                    		$modelEnrollment =  new StudentEnrollment;
+	                    		$modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
+	                   		$modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+	                   		$modelEnrollment->student_fk = $modelStudentIdentification->id;
+	            			$saved = false;
+	                        	if($modelEnrollment->validate()) {
+                                            $saved = $modelEnrollment->save();
+	                        	}
+	                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+	                    	}
+	                    	if($saved){
+		                    Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno cadastrado com sucesso!'));
+		                    $this->redirect(array('index'));
+	                    	}
+	                    }
                     }
                 }
             }
         }
-
+        $modelEnrollment = array();
+        array_push($modelEnrollment,  new StudentEnrollment);
+        
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
@@ -162,6 +170,7 @@ class StudentController extends Controller {
         ));
     }
 
+    
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -187,8 +196,25 @@ class StudentController extends Controller {
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     if ($modelStudentDocumentsAndAddress->save()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno alterado com sucesso!'));
-                        $this->redirect(array('index'));
+                    	$saved = true;
+                    	if( isset($_POST[$this->STUDENT_ENROLLMENT],$_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
+                    		&& empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
+                    		){
+                    		$modelEnrollment =  new StudentEnrollment;
+                    		$modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
+                   			$modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+                   			$modelEnrollment->student_fk = $modelStudentIdentification->id;
+            				$modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
+            				$saved = false;
+                        	if($modelEnrollment->validate()) {
+                            	$saved = $modelEnrollment->save();
+                        	}
+                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+                    	}
+                    	if($saved){
+	                        Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno alterado com sucesso!'));
+	                        $this->redirect(array('index'));
+                    	}
                     }
                 }
             }
@@ -199,6 +225,7 @@ class StudentController extends Controller {
         	'modelEnrollment' => $modelEnrollment
         ));
     }
+    
 
     /**
      * Deletes a particular model.
@@ -218,23 +245,9 @@ class StudentController extends Controller {
         }else{
             throw new CHttpException(404,'The requested page does not exist.');
         }
-        
-        
-        
-        
-//        if (Yii::app()->request->isPostRequest) {
-//            // we only allow deletion via POST request
-//            $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS)->delete();
-//            $this->loadModel($id, $this->STUDENT_IDENTIFICATION)->delete();
-//
-//            // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//            if (!isset($_GET['ajax']))
-//                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//        }
-//        else
-//            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
+    
     /**
      * Lists all models.
      */
@@ -260,28 +273,10 @@ class StudentController extends Controller {
     }
 
     /**
-     * Manages all models.
-     */
-    public function actionAdmin() {
-        $modelStudentIdentification = new StudentIdentification('search');
-        $modelStudentIdentification->unsetAttributes();  // clear any default values
-        $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress('search');
-        $modelStudentDocumentsAndAddress->unsetAttributes();  // clear any default values
-
-        if (isset($_GET[$this->STUDENT_IDENTIFICATION]) && isset($_GET[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
-            $modelStudentIdentification->attributes = $_GET[$this->STUDENT_IDENTIFICATION];
-            $modelStudentDocumentsAndAddress->attributes = $_GET[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-        }
-        $this->render('admin', array(
-            'modelStudentIdentification' => $modelStudentIdentification,
-            'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
-        ));
-    }
-
-    /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer the ID of the model to be loaded
+     * @param string the MODEL wich will be loaded
      */
     public function loadModel($id, $model) {
         

@@ -642,7 +642,7 @@ class AdminController extends Controller {
 
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = '2013';//date("Y");
+                            $year = date("Y");
                             $value.= ',' . $year;
                         }
                         if ($line == ($totalLines)) {

@@ -41,7 +41,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <div id="report">
 			
-			<div style="width: 600px; margin: 0 auto;margin-top: -20px;">
+			<div id="container-header" style="width: 600px; margin: 0 auto;margin-top: -20px;">
 			    <img src="../../../images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
 			    <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
 			    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -49,36 +49,38 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 			</div>
 			<br>
 			<div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
-				<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">FICHA INDIVIDUAL DO ALUNO - ENSINO FUNDAMENTAL</div>
+				<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO INFANTIL</div>
                 <span style="clear:both;display:block"></span>
 				<div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
 				<table style="border: 1px solid black;">
 					<tr>
 						<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>
-						<td colspan="3" style="border-bottom: 1px solid black;">SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT ☐ MPP ☐ MPC ☐ MPR</td>
+						<td colspan="3" style="border-bottom: 1px solid black;">SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR</td>
 					</tr>
 					<tr>
-						<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA NO __________ ANO DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>
+						<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA NO(A) __________ ANO DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>
 					</tr>
 					<tr>	
-						<td style="border-right: 1px solid black;">DATA: <?php echo date("d/m/Y")?></td>
-						<td colspan="2"  style="border-top: 1px solid black;">USO EXCLUSIVO DA U.E.
-						<br>☐ DEFERIDO ☐ INDEFERIDO
+						<td style="">DATA: <?php echo date("d/m/Y")?></td>
+						<td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
+						<br>Pai, Mãe ou Responsável
 						</td>
 					</tr>
-					<tr>
+					<tr style="border-top: 1px solid black;">
 						<td>
-						________________________________________________
-						<br>Pai, Mãe ou Responsável</td>
-						<td colspan="2" style="border-left: 1px solid black;">
-						<br>Data _____/_____/_______&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________________________________
-						<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor
+						USO EXCLUSIVO DA U.E.
+						<br>☐ DEFERIDO ☐ INDEFERIDO</td>
+						<td colspan="2" style="font-size: 10px;line-height: 11px;padding-top: 12px;">
+						_______/_______/_________&nbsp;&nbsp;&nbsp;&nbsp;________________________________________________
+						<br><span style="display: table;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor</span>
 						</td>
 					</tr>
 				</table>
 				<div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
-					<div class="span10"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->inep_id . " - " . $school->name ?></div>
-					<br><div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
+					<div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
+					<div class="span2"><b>INEP: </b><?php echo $school->inep_id ?></div>
+					<br>
+					<div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
 					<br>
 						<div class="span4"><b>CIDADE: </b><?php echo $school->edcensoCityFk->name ?></div>
 						<div class="span3"><b>ESTADO: </b><?php echo $school->edcensoUfFk->name?></div>
@@ -94,7 +96,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <table id="report-table" class="table table-bordered">
             	<tr><th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th></tr>
                 <tr><td>
-                	<div class="span8"><b>01 - Nome do(a) Aluno(a):</b>&nbsp;<span id="name"></span></div>
+                	<div class="span7"><b>01 - Nome do(a) Aluno(a):</b>&nbsp;<span id="name"></span></div>
                 	<div class="span2"><b>ID:</b>&nbsp;</div>
                 	<div class="span2"><b>NIS:</b>&nbsp;</div>
                 	
@@ -106,7 +108,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 	<div class="span3"><b>Data&nbsp;de&nbsp;Nascimento:</b>&nbsp;<span id="birthday"></span></div>
                 </td></tr>
 				<tr><td>
-					<div class="span4"><b>04 - Gẽnero:</b>&nbsp;<span id="gender"></span></div>
+					<div class="span4"><b>04 - Gênero:</b>&nbsp;<span id="gender"></span></div>
 					<div class="span4"><b>05 - Etnia:</b>&nbsp;<span id="color"></span></div>
 				</td></tr>
 				<tr><td>
@@ -136,7 +138,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 					
 	            </td></tr>
 				<tr><td>
-					<div class="span6"><b>11 - Nome do Responsável e Parentesco: </b><hr style="border-top: 1px solid black;"></div>
+					<div class="span7" ><b>11 - Nome do Responsável e Parentesco: </b><hr style="margin-top: 15px; border-top: 1px solid black;"></div>
 					<div class="span3"><b>RG: </b>__________________________
 						<br><b>CPF: </b>_____.______.______-____</div>
 	            </td></tr>
@@ -160,14 +162,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 	            </td></tr>
 				<tr><td>
 					<div class="span10"><b>13 - Profissão do Responsável: </b>
-					<hr style="border-top: 1px solid black;"></div>
+					<hr style="margin-top: 15px;  border-top: 1px solid black;"></div>
 	            </td></tr>
       		</table>
       		
       		
       		
       		
-            <table id="report-table" class="table table-bordered">
+            <table style ="margin-top: 5px;" id="report-table" class="table table-bordered">
             	<tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
 				<tr><td>
 					<div class="span10"><b>14 - Documentos(s) que habilita(m) matrpicula no segmento: </b></div>
@@ -213,7 +215,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 					<div class="span2"><b>☐</b> Não</div>
 	            </td></tr>
 				<tr><td>
-					<div class="span10"><b>21 - Restrição alimentar ou alergia a: </b><hr style="border-top: 1px solid black;"></div>
+					<div class="span10"><b>21 - Restrição alimentar ou alergia a: </b><hr style="margin-top: 15px; border-top: 1px solid black;"></div>
 	            </td></tr>
       		</table>
       		
@@ -425,6 +427,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <style>
+        @media print {
+         #container-header {
+         	width: 425px !important;
+		}
+      table, td, tr, th {
+      	border-color: black !important;
+      }
      .report-table-empty td {
        	padding-top: 0 !important;
         padding-bottom: 0 !important;
@@ -439,23 +448,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 		line-height: 13px;
 		margin: 0px 10px 0px 0px;
 	}
+	#canvas-td {
+		background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
+		background-repeat:no-repeat;
+		background-position:center center;
+		background-size: 100% 100%, auto;
+	}
 </style>
-
-<script> 
-$(function(){
-
-    var arrJCrossOut = $('.crossOut');
-    
-    arrJCrossOut.each(function(i){
-    
-        var jTemp = $(this),
-            nWidth = jTemp.innerWidth(),
-            nHeight = jTemp.innerHeight(),
-            sDomTemp = '<div style="position:absolute; border-color: transparent black white white; border-style:solid; border-width:'+nHeight +'px '+nWidth +'px 0px 0px; width:0; height:0; margin-top:-'+nHeight+'px; z-index:-2"></div>';
-        
-        sDomTemp += '<div style="position:absolute; border-color: transparent white white white; border-style:solid; border-width:'+nHeight +'px '+nWidth +'px 0px 0px; width:0; height:0; margin-top:-'+(nHeight-1)+'px; z-index:-1"></div>';
-        
-        jTemp.append(sDomTemp);
-    });
-});
-</script>

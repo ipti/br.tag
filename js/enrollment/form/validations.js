@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-var pt = form + 'public_transport';
-var trg = form + 'transport_responsable_government';
+var pt = formEnrollment + 'public_transport';
+var trg = formEnrollment + 'transport_responsable_government';
 
 var tr = '#transport_responsable';
 var tt = '#transport_type';
