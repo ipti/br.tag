@@ -49,13 +49,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 			</div>
 			<br>
 			<div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
-				<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO INFANTIL</div>
+				<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">FICHA INDIVIDUAL DO ALUNO - ENSINO FUNDAMENTAL</div>
                 <span style="clear:both;display:block"></span>
 				<div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
 				<table style="border: 1px solid black;">
 					<tr>
 						<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>
-						<td colspan="3" style="border-bottom: 1px solid black;">SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR</td>
+						<td colspan="3" style="border-bottom: 1px solid black;">SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT</td>
 					</tr>
 					<tr>
 						<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA NO(A) __________ ANO DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>

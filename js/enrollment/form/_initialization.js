@@ -22,5 +22,6 @@ $(".enrollmentButton").on("click", function(){
 
 $("#tab-student-enrollment").on("click",function(){
 	$('[cod = -1]').trigger('click');
-	//fill(-1);
+	//
+	fill(-1);
 });
