@@ -57,7 +57,7 @@ if(isset($modelEnrollment)){
 					<a class="glyphicons home" href="#student-address"    data-toggle="tab"><i></i><?php echo Yii::t('default', 'Address') ?></a>
 				</li>
 				<li id="tab-student-enrollment">
-					<a class="glyphicons home" href="#student-enrollment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Enrollment') ?></a>
+					<a class="glyphicons book_open" href="#student-enrollment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Enrollment') ?></a>
 				</li>
 			</ul>
 		</div>

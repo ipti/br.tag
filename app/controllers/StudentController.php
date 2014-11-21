@@ -292,6 +292,7 @@ class StudentController extends Controller {
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
         } else if ($model == $this->STUDENT_ENROLLMENT){            
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
+            array_push($return, new StudentEnrollment);            
         }
         if ($return === null){
             throw new CHttpException(404, 'The requested page does not exist.');

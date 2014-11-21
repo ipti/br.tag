@@ -6688,6 +6688,10 @@ li[discipline] {
     padding: 4px 4px 4px 4px;
 }
 
+tr.filters td{
+    padding: 4px 25px 4px 1px;
+}
+
 #frequency td.frequency-list {
     border-left: 0;
 }

@@ -36,14 +36,22 @@
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
-                            'name' => 'inep_id',
-                                'htmlOptions' => array('width'=> '150px')
-                        ),
-                        array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)'
-                        ),),
+                            'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)',
+                            'htmlOptions' => array('width'=> '400px')
+                        ),
+                        array(
+                            'name' => 'documents',
+                            'header' => 'CPF',
+                            'value' => '$data->documents->cpf',
+                            'htmlOptions' => array('width'=> '400px')
+                        ),
+                        array(
+                            'name' => 'birthday_date',
+                            'filter' => false
+                        ),
+                        ),
                 ));
                 ?>
             </div>   

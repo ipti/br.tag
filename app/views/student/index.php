@@ -42,15 +42,16 @@ array('label'=> Yii::t('default', 'Create a new StudentIdentification'), 'url'=>
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,"?r=student/update&id=".$data->id)'
+                                'value' => 'CHtml::link($data->name,"?r=student/update&id=".$data->id)',
+                                'htmlOptions' => array('width'=> '400px'),
                             ),
                             array(
                                 'name' => 'mother_name',
-                                    'htmlOptions' => array('width'=> '300px')
+                                'htmlOptions' => array('width'=> '400px')
                             ),
                             array(
                                 'name' => 'birthday',
-                                    'htmlOptions' => array('width'=> '300px')
+                                'filter' => false
                             ),),
                     )); ?>
                 </div>   

@@ -35,7 +35,7 @@
  * @property EdcensoCity $edcensoCityFk
  */
 class InstructorIdentification extends CActiveRecord {
-
+    
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -69,7 +69,7 @@ class InstructorIdentification extends CActiveRecord {
             array('birthday_date', 'length', 'max' => 10),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, mother_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'safe', 'on' => 'search'),
+            array('documents, register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, mother_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'safe', 'on' => 'search'),
         );
     }
 
@@ -83,6 +83,7 @@ class InstructorIdentification extends CActiveRecord {
             'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
+            'documents' => array(self::HAS_ONE, 'InstructorDocumentsAndAddress', 'id')
         );
     }
 
@@ -127,10 +128,11 @@ class InstructorIdentification extends CActiveRecord {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        $criteria->with = array('documents');
+                
         $criteria->compare('register_type', $this->register_type, true);        
-        $school = Yii::app()->user->school;
-        $criteria->compare('school_inep_id_fk', $school);
+//        $school = Yii::app()->user->school;
+//        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -153,6 +155,7 @@ class InstructorIdentification extends CActiveRecord {
 //        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
 //        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
 //        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
+        $criteria->addCondition('documents.cpf like "' . $this->documents . '%"');
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -162,7 +165,7 @@ class InstructorIdentification extends CActiveRecord {
                         ),
                     ),
                     'pagination' => array(
-                        'pageSize' => 12,
+                        'pageSize' => 15,
                     ),
                 ));
     }

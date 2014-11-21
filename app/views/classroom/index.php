@@ -37,15 +37,25 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
-                                'name' => 'inep_id',
-                                'htmlOptions' => array('width'=> '150px')
-                            ),
-                            array(
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,"?r=classroom/update&id=".$data->id)',
+                                'htmlOptions' => array('width'=> '400px')
                             ),
-                            array('class' => 'CButtonColumn','template'=>'{delete}'),),
+                            array(
+                                'name' => 'edcensoStageVsModalityFk',
+                                'header' => 'Etapa',
+                                'value' => '$data->edcensoStageVsModalityFk->name',
+                                'htmlOptions' => array('width'=> '400px'),
+                            ),
+                            array(
+                                'header' => 'Horário',
+                                'value' => '$data->initial_hour.":".$data->initial_minute." - ".$data->final_hour.":".$data->final_minute',
+                                'htmlOptions' => array('width'=> '200px'),
+                                'filter' => false
+                            ),
+                            array('class' => 'CButtonColumn','template'=>'{delete}'),
+                        ),
                     ));
                     ?>
                 </div>   

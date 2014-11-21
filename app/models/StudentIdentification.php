@@ -165,8 +165,8 @@ class StudentIdentification extends CActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);        
-        $school = Yii::app()->user->school;
-        $criteria->compare('school_inep_id_fk', $school);
+//        $school = Yii::app()->user->school;
+//        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -175,7 +175,7 @@ class StudentIdentification extends CActiveRecord {
 //        $criteria->compare('sex', $this->sex);
 //        $criteria->compare('color_race', $this->color_race);
 //        $criteria->compare('filiation', $this->filiation);
-//        $criteria->compare('mother_name', $this->mother_name, true);
+        $criteria->compare('mother_name', $this->mother_name, true);
 //        $criteria->compare('father_name', $this->father_name, true);
 //        $criteria->compare('nationality', $this->nationality);
 //        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
@@ -215,7 +215,7 @@ class StudentIdentification extends CActiveRecord {
                         ),
                     ),
                     'pagination' => array(
-                        'pageSize' => 12,
+                        'pageSize' => 15,
                     ),
                 ));
     }

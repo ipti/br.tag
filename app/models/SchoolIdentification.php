@@ -208,6 +208,9 @@ class SchoolIdentification extends CActiveRecord {
                             'name' => CSort::SORT_ASC
                         ),
                     ),
+                    'pagination' => array(
+                        'pageSize' => 15,
+                    ),
                 ));
     }
 

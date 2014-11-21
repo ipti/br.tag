@@ -427,31 +427,32 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <style>
-        @media print {
-         #container-header {
-         	width: 425px !important;
-		}
-      table, td, tr, th {
-      	border-color: black !important;
-      }
-     .report-table-empty td {
-       	padding-top: 0 !important;
-        padding-bottom: 0 !important;
-     }
-    .vertical-text {
-    	height: 110px;
-		vertical-align: bottom !IMPORTANT;
+@media print {
+    #container-header {
+        width: 425px !important;
     }
-	.vertical-text div {
-		transform: translate(5px, 0px) rotate(270deg);
-		width: 5px;
-		line-height: 13px;
-		margin: 0px 10px 0px 0px;
-	}
-	#canvas-td {
-		background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-		background-repeat:no-repeat;
-		background-position:center center;
-		background-size: 100% 100%, auto;
-	}
+    table, td, tr, th {
+        border-color: black !important;
+    }
+    .report-table-empty td {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    .vertical-text {
+        height: 110px;
+        vertical-align: bottom !IMPORTANT;
+    }
+    .vertical-text div {
+        transform: translate(5px, 0px) rotate(270deg);
+        width: 5px;
+        line-height: 13px;
+        margin: 0px 10px 0px 0px;
+    }
+    #canvas-td {
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
+        background-repeat:no-repeat;
+        background-position:center center;
+        background-size: 100% 100%, auto;
+    }
+}
 </style>

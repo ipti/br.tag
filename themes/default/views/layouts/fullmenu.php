@@ -10,10 +10,10 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
 
 
 $result = Yii::app()->db->createCommand("SELECT `year`,
-	se_total/@x * 100 as se_percent,
-	c_total/@y * 100 as c_percent,
-	@x := se_total as se_total,
-	@y := c_total as c_total
+    se_total/@x * 100 as se_percent,
+    c_total/@y * 100 as c_percent,
+    @x := se_total as se_total,
+    @y := c_total as c_total
 FROM iMob
 JOIN (select @x := 1) AS i
 JOIN (select @y := 1) AS j;
@@ -292,7 +292,13 @@ $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pa
                             
                           	<!-- Menu Item Escolas -->
                             <li>
-                            	<a class="glyphicons building" href="<?php echo Yii::app()->homeUrl; ?>?r=school"><i></i><span>Escola</span></a>
+                                <?php 
+                                    $url = Yii::app()->homeUrl.'?r=school';
+                                    if(count(Yii::app()->user->usersSchools) == 1){
+                                        $url .= '/update&id='.Yii::app()->user->school;
+                                    }
+                                ?>
+                            	<a class="glyphicons building" href="<?php echo $url ?>"><i></i><span>Escola</span></a>
                             </li>
                             <!-- // Menu Item Escolas -->
                             <!-- Menu Item Turmas -->
@@ -344,7 +350,7 @@ $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pa
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <div class="copy" style="width: 170px; !IMPORTANT;"><!-- TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>. -->
+                    <div class="copy" style="width: 170px !IMPORTANT;"><!-- TAG v3.0<br>Desenvolvido pelo <a href="http://ipti.org.br" target="_blank">IPTI<a/>. -->
                     	<div style="float: left" id="apoio">Apoio:</div>
 						<div style="float: right" id="imob"></div>
 					</div>
