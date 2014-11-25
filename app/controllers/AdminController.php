@@ -451,7 +451,7 @@ class AdminController extends Controller {
         $path = Yii::app()->basePath;
             
         //Se não passar parametro, o valor será predefinido
-        if (!empty($_FILES['file'])) {
+        if (empty($_FILES['file'])) {
             $fileDir = $path . '/import/2013_98018493.TXT';
         }else{
             $uploadfile = $path .'/import/'. basename($_FILES['file']['name']);

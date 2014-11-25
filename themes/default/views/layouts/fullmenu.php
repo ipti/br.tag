@@ -19,14 +19,17 @@ JOIN (select @x := 1) AS i
 JOIN (select @y := 1) AS j;
 ")->queryAll();
 
-$result  = $result[count($result)-1];
+$count = count($result) > 0;
 
-$r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
-		'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
+if($count){
+    $result = $result[count($result)-1];
 
-//inverteString("% de matrículas").inverteString("% de turmas")
-$imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));
+    $r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
+                    'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
 
+    //inverteString("% de matrículas").inverteString("% de turmas")
+    $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));
+}
 
 ?>
 <!DOCTYPE html>
@@ -151,7 +154,7 @@ $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pa
             
         	$(document).ready(function(){
 
-        		var valor = '<?php echo json_encode($r) ?>';
+        		var valor = '<?php if($count) echo json_encode($r) ?>';
         		
                 $("#imob").qrcode({
                 	// render method: 'canvas', 'image' or 'div'
@@ -198,7 +201,7 @@ $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pa
                     mPosX: 0.5,
                     mPosY: 0.5,
 
-                    label: '<?php echo $imob ?>',
+                    label: '<?php if($count) echo $imob ?>',
                     fontname: 'sans',
                     fontcolor: '#496CAD',
 
