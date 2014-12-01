@@ -1,11 +1,6 @@
 <div id="mainPage" class="main">
     <?php
-    $this->setPageTitle('TAG - ' . Yii::t('default','Update StudentIdentification'));
-    $this->breadcrumbs = array(
-        Yii::t('default', 'Student Identifications') => array('index'),
-        $modelStudentIdentification->name,
-    );
-
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Update StudentIdentification'));
     $title = Yii::t('default', 'Update StudentIdentification');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
     $this->menu = array(
@@ -16,11 +11,12 @@
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', array(
-            		'modelStudentIdentification' => $modelStudentIdentification, 
-            		'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress, 
-    		'modelEnrollment'=>$modelEnrollment,
-            		'title' => $title)); 
+            <?php
+            echo $this->renderPartial('_form', array(
+                'modelStudentIdentification' => $modelStudentIdentification,
+                'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
+                'modelEnrollment' => $modelEnrollment,
+                'title' => $title));
             ?>        
         </div>
         <div class="columntwo">

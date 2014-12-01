@@ -238,7 +238,7 @@ $form=$this->beginWidget('CActiveForm', array(
 </div>
 <script type="text/javascript">
     
-    var form = '#StudentEnrollment_';
-    var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
+    var formEnrollment = '#StudentEnrollment_';
+    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
     
 </script>

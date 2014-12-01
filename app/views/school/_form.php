@@ -7,14 +7,10 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
 
-
-
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'school',
 	'enableAjaxValidation'=>false,
 )); ?>
-
-
 
 <div class="row-fluid">
     <div class="span12">

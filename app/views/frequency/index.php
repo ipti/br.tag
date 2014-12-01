@@ -6,10 +6,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/frequency/index/_initialization.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default','Frequency'));
-$this->breadcrumbs=array(
-	Yii::t('default', 'Frequency'),
-);
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Frequency'));
 
 $this->menu = array(
     array('label' => 'Create Classes', 'url' => array('create')),
@@ -38,7 +35,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="innerLR">
 
-           <?php if (Yii::app()->user->hasFlash('success')): ?>
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
@@ -47,7 +44,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
             <?php
-            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = '. Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
+            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
                 'key' => 'id',
                 'class' => 'select-search-on',
                 'prompt' => 'Selecione a turma',
@@ -101,16 +98,16 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head">
             <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
         </div>
-            <table id="frequency" class="table table-bordered table-striped">
-                <thead>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="center">1</td>
+        <table id="frequency" class="table table-bordered table-striped">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="center">1</td>
 
-                    </tr>
-                </tbody>
-            </table>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 
@@ -121,11 +118,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 <script>
-    
-<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina ?>
-<?php //@done s2 - inabilitar checkbox quando vier checado  ?>
-<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor ?>
-<?php //@done s2 - reabilitar apenas os que não estão checados  ?>
-    var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
-    
+
+<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina  ?>
+<?php //@done s2 - inabilitar checkbox quando vier checado   ?>
+<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor  ?>
+<?php //@done s2 - reabilitar apenas os que não estão checados   ?>
+    var getClassesURL = "<?php echo Yii::app()->createUrl('frequency/getClasses')?>";
+
 </script>

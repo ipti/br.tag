@@ -8,28 +8,26 @@ $baseUrl = Yii::app()->theme->baseUrl;
 $cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
 
-
+/*
 $result = Yii::app()->db->createCommand("SELECT `year`,
-    se_total/@x * 100 as se_percent,
-    c_total/@y * 100 as c_percent,
-    @x := se_total as se_total,
-    @y := c_total as c_total
+	se_total/@x * 100 as se_percent,
+	c_total/@y * 100 as c_percent,
+	@x := se_total as se_total,
+	@y := c_total as c_total
 FROM iMob
 JOIN (select @x := 1) AS i
 JOIN (select @y := 1) AS j;
 ")->queryAll();
 
-$count = count($result) > 0;
+$result  = $result[count($result)-1];
 
-if($count){
-    $result = $result[count($result)-1];
+$r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
+		'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
 
-    $r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
-                    'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
-
-    //inverteString("% de matrículas").inverteString("% de turmas")
-    $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));
-}
+//inverteString("% de matrículas").inverteString("% de turmas")
+$imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));
+*/
+$r = $imob = 0;
 
 ?>
 <!DOCTYPE html>
@@ -154,7 +152,7 @@ if($count){
             
         	$(document).ready(function(){
 
-        		var valor = '<?php if($count) echo json_encode($r) ?>';
+        		var valor = '<?php echo json_encode($r) ?>';
         		
                 $("#imob").qrcode({
                 	// render method: 'canvas', 'image' or 'div'
@@ -201,7 +199,7 @@ if($count){
                     mPosX: 0.5,
                     mPosY: 0.5,
 
-                    label: '<?php if($count) echo $imob ?>',
+                    label: '<?php echo $imob ?>',
                     fontname: 'sans',
                     fontcolor: '#496CAD',
 
@@ -212,113 +210,14 @@ if($count){
 
     </head>
     <body>
-
         <!-- Main Container Fluid -->
-        <div class="container-fluid fluid menu-left">
-
-            <!-- Top navbar -->
-            <div class="navbar main hidden-print">
-
-                <!-- Brand -->
-                <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>v3.1</span></span></a>
-
-                <!-- Menu Toggle Button -->
-                <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
-                    <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-                </button>
-
-                <!-- Top Menu Right -->
-                <ul class="topnav pull-right">
-                    <li>
-                        <div id="change-school" >
-                            <form class="school" action="<?php echo yii::app()->createUrl('site/changeschool')?>" method="Post">
-                                <?php
-                                if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-                                    echo CHtml::activeDropDownList(
-                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
-                                } else {
-                                    echo CHtml::activeDropDownList(
-                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
-                                }
-                                ?>
-                            </form>
-                        </div>
-                    </li>
-                    <!-- Profile / Logout menu -->
-                    <li class="account">
-                        <a href="<?php echo yii::app()->createUrl('site/logout')?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Top navbar END -->
-
+        <div>
             <!-- Sidebar menu & content wrapper -->
-            <div id="wrapper">
-                <!-- Sidebar menu -->
-                <div id="menu" class="hidden-print">
-                    <div class="slim-scroll" data-scroll-height="800px">
-                        <ul>
-                            <li id="menu-school">
-                                <?php 
-                                    $schoolurl = yii::app()->createUrl('school');
-                                    if(count(Yii::app()->user->usersSchools) == 1){
-                                        $schoolurl = yii::app()->createUrl('school/update',array('id' => yii::app()->user->school));
-                                    }
-                                ?>
-                            	<a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
-                            </li>
-                            <li id="menu-classroom">
-                                <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom')?>"><i></i><span>Turma</span></a>
-                            </li>
-                            <li id="menu-student">
-                                <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student')?>"><i></i><span>Aluno</span></a>
-                            </li>
-                            <li id="menu-instructor">
-                                <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor')?>"><i></i><span>Professor</span></a>
-                            </li>
-                            <li id="menu-frequency">
-                                <a class="glyphicons check" style="opacity:0.5"  href="#"><i></i><span>Frequência</span></a>
-                                <!-- <?php echo yii::app()->createUrl('frequency')?>-->
-                            </li>
-                            <li id="menu-grade">
-                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Avaliação</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade')?> -->
-                            </li>
-                            <li id="menu-reports">
-                                <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports')?>"><i></i><span>Relatório</span></a>
-                            </li>
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-                                <li id="menu-admin">
-                                    <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin')?>"><i></i><span>Administração</span></a>
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                    <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Apoio:</div>
-                        <div style="float: right" id="imob"></div>
-                    </div>
-                </div>
-
-                <!-- // Sidebar Menu END -->
-
-                <!-- Content -->
-                <div id="content">
-                    <ul class="breadcrumb hidden-print">
-                        <li class="breadcrumb-prev">
-                            <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
-                        </li>
-                    </ul>
+            <div>
+                <div>
                     <?php echo $content; ?>
                 </div>
-                <!-- // Content END -->
-                
             </div>
-            <div class="clearfix"></div>
-            <!-- // Sidebar menu & content wrapper END -->
         </div>
-        <!-- // Main Container Fluid END -->
     </body>
 </html>

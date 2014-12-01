@@ -1,9 +1,7 @@
 <div id="mainPage" class="main">
 <?php
 $this->setPageTitle('TAG - ' . Yii::t('default','Classrooms'));
-$this->breadcrumbs=array(
-	Yii::t('default', 'Classrooms'),
-);
+
 $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');
 $this->menu=array(
 array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('create'),'description' => Yii::t('default', 'This action create a new Classroom')),
@@ -15,7 +13,7 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms')?></h3>  
         <div class="buttons">
-                <a href="?r=classroom/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
+                <a href="<?php echo Yii::app()->createUrl('classroom/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
         </div>
     </div>
 </div>
@@ -39,7 +37,7 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,"?r=classroom/update&id=".$data->id)',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width'=> '400px')
                             ),
                             array(

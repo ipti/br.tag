@@ -113,8 +113,9 @@ class ReportsController extends Controller {
         echo json_encode($result);
     }
     
-    public function actionStudentsFileBoquimReport() {
-        $this->render('StudentsFileBoquimReport', array());         
+    public function actionStudentsFileBoquimReport($student_id) {
+        $this->layout = "reports";
+        $this->render('StudentsFileBoquimReport', array('student_id'=>$student_id));         
     }
     
     

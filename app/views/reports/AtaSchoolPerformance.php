@@ -8,33 +8,20 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/AtaSchoolPerformance/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$this->breadcrumbs = array(
-    Yii::t('default', 'Classrooms') => array('/classroom/index'),
-    $classroom->name => array('/classroom/update&id=' . $classroom->id),
-    Yii::t('default', 'Ata School Performance'),
-);
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
 
+function valorPorExtenso( $valor = 0){
+    $old = $valor;
+    $valor = intval($valor);
+    $pre = "Ao";
+    $texto = array("NaN", "primeiro", "segundo", "terceiro", "quarto", "quinto", "sexto","sétimo", "oitavo", "nono",
+        "décimo", "décimo primeiro", "décimo segundo", "décimo terceiro", "décimo quarto", "décimo quinto", "décimo sexto", "décimo sétimo", "décimo oitavo", "décimo nono",
+        "vigésimo", "vigésimo primeiro", "vigésimo segundo", "vigésimo terceiro", "vigésimo quarto", "vigésimo quinto", "vigésimo sexto", "vigésimo sétimo", "vigésimo oitavo", "vigésimo nono",
+        "trigésimo", "trigésimo primeiro");
+    $pos = "dia ($old)";
+    return($pre." <b>".$texto[$valor]." ".$pos."</b>");
 
-
-function valorPorExtenso( $valor = 0)
-    {
-        $old = $valor;
-        $valor = intval($valor);
-        $pre = "Ao";
-        $texto = array("NaN", "primeiro", "segundo", "terceiro", "quarto", "quinto", "sexto","sétimo", "oitavo", "nono",
-            "décimo", "décimo primeiro", "décimo segundo", "décimo terceiro", "décimo quarto", "décimo quinto", "décimo sexto", "décimo sétimo", "décimo oitavo", "décimo nono",
-            "vigésimo", "vigésimo primeiro", "vigésimo segundo", "vigésimo terceiro", "vigésimo quarto", "vigésimo quinto", "vigésimo sexto", "vigésimo sétimo", "vigésimo oitavo", "vigésimo nono",
-            "trigésimo", "trigésimo primeiro");
-        $pos = "dia ($old)";
-        return($pre." <b>".$texto[$valor]." ".$pos."</b>");
- 
-    }
-
-
-
-
+}
 ?>
 
 <style>

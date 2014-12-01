@@ -1,10 +1,6 @@
 <div id="mainPage" class="main">
     <?php
-    $this->setPageTitle('TAG - ' . Yii::t('default','Update Classroom'));
-    $this->breadcrumbs = array(
-        Yii::t('default', 'Classrooms') => array('index'),
-        $modelClassroom->name,
-    );
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Update Classroom'));
 
     $title = Yii::t('default', 'Update Classroom');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');
@@ -16,11 +12,12 @@
 
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo $this->renderPartial('_form', 
-                    array('modelClassroom' => $modelClassroom, 
-                        'modelTeachingData'=> $modelTeachingData, 
-                        'title' => $title, 
-                        'complementaryActivities' => $complementaryActivities)); ?>        </div>
+            <?php
+            echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
+                'modelTeachingData' => $modelTeachingData,
+                'title' => $title,
+                'complementaryActivities' => $complementaryActivities));
+            ?>        </div>
         <div class="columntwo">
         </div>
     </div>

@@ -8,11 +8,6 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_in
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-$this->breadcrumbs = array(
-    Yii::t('default', 'Classrooms') => array('/classroom/index'),
-    $classroom->name => array('/classroom/update&id=' . $classroom->id),
-    Yii::t('default', 'Enrollment per Classroom'),
-);
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
 
 ?>

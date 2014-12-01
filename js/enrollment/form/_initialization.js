@@ -1,7 +1,7 @@
 jQuery(function($) {
     jQuery.ajax({
         'type': 'POST',
-        'url': baseUrl + '/index.php?r=enrollment/updatedependencies',
+        'url': updateDependenciesURL,
         'cache': false,
         'data': jQuery("#StudentEnrollment_school_inep_id_fk").parents("form").serialize(),
         'success': function(data) {

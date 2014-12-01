@@ -38,9 +38,17 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
                 <?php if (!$modelClassroom->isNewRecord) { ?>
-                <li id="tab-students"><a class="glyphicons parents" href="?r=reports/EnrollmentPerClassroomReport&id=<?php echo $modelClassroom->id?>" ><i></i><?php echo Yii::t('default', 'Enrollments') ?></a></li>
-                <li id="tab-performance"><a class="glyphicons stats" href="?r=reports/AtaSchoolPerformance&id=<?php echo $modelClassroom->id?>" ><i></i><?php echo Yii::t('default', 'Performance') ?></a></li>
-                <?php } ?>
+                <li id="tab-students">
+                    <a class="glyphicons parents" href="<?php echo Yii::app()->createUrl('reports/EnrollmentPerClassroomReport',array('id'=>$modelClassroom->id))?>">
+                        <i></i><?php echo Yii::t('default', 'Enrollments') ?>
+                    </a>
+                </li>
+                <li id="tab-performance">
+                    <a class="glyphicons stats" href="<?php echo Yii::app()->createUrl('eports/AtaSchoolPerformance',array("id"=>$modelClassroom->id))?>" >
+                        <i></i><?php echo Yii::t('default', 'Performance') ?>
+                    </a>
+                </li>
+                <?php } ?>r
             </ul>
         </div>
 
@@ -526,9 +534,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
     var firstTime       = true;
 
-    var baseUrl         = '<?php echo Yii::app()->baseUrl; ?>';
+    var getAssistanceURL= '<?php echo Yii::app()->createUrl('classroom/getassistancetype')?>';
     var jsonCompActv    = '<?php echo json_encode($complementaryActivities); ?>';
-    var eventsUrl       = '<?php echo CController::createUrl('classroom/getClassBoard&classroom_fk=' . $modelClassroom->id); ?>';
+    var eventsUrl       = '<?php echo CController::createUrl('classroom/getClassBoard',array('classroom_fk'=>$modelClassroom->id)); ?>';
     var updateLessonUrl = '<?php echo CController::createUrl('classroom/updateLesson'); ?>';
     var addLessonUrl    = '<?php echo CController::createUrl('classroom/addLesson'); ?>';
     var deleteLessonUrl = '<?php echo CController::createUrl('classroom/deleteLesson'); ?>';

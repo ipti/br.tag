@@ -7,7 +7,7 @@
     $('#classesSearch').on('click', function(){
         jQuery.ajax({
             'type':'POST',
-            'url':baseUrl+'/index.php?r=frequency/getClasses',
+            'url':getClassesURL,
             'cache':false,
             'data':jQuery('#classroom').parents("form").serialize(),
             'success':function(data){

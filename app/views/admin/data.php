@@ -1,10 +1,6 @@
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Data Statistics'));
-    $this->breadcrumbs = array(
-        Yii::t('default', 'Administration') => array('index'),
-        Yii::t('default', 'Data'),
-    );
     $title = Yii::t('default', 'Data Statistics');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
     $this->menu = array(
@@ -26,7 +22,7 @@
             <div class="span12">
                 <div class="widget" id="widget-frequency" style="margin-top: 8px;">
                     <div class="widget-head">
-                        <h4 class="heading"><span><?php echo $title?></span></h4>
+                        <h4 class="heading"><span><?php echo $title ?></span></h4>
                     </div>
                     <table id="frequency" class="table table-bordered table-striped">
                         <thead>

@@ -6,9 +6,6 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
-$this->breadcrumbs = array(
-    Yii::t('default', 'Administration'),
-);
 ?>
 
 <div class="row-fluid">
@@ -38,7 +35,7 @@ $this->breadcrumbs = array(
         <div class="span6">
             <div class="row-fluid">
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/ACL" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('admin/ACL')?>" class="widget-stats">
                         <span class="glyphicons flag"><i></i></span>
                         <span class="txt">Config. Permissões</span>
                         <div class="clearfix"></div>
@@ -52,14 +49,14 @@ $this->breadcrumbs = array(
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/clearDB" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('admin/clearDB')?>" class="widget-stats">
                         <span class="glyphicons database_minus"><i></i></span>
                         <span class="txt">Limpar Banco</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/createUser" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('admin/createUser')?>" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
                         <span class="txt">Cadastrar usuário</span>
                         <div class="clearfix"></div>
@@ -69,28 +66,28 @@ $this->breadcrumbs = array(
         </div>
         <div class="span6">
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/export" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('admin/export')?>" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Exportar</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/backup" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('admin/backup')?>" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Gerar Backup</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/data" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('admin/data')?>" class="widget-stats">
                     <span class="glyphicons charts"><i></i></span>
                     <span class="txt">Estatísticas</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/updateDB" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('admin/updateDB')?>" class="widget-stats">
                     <span class="glyphicons roundabout"><i></i></span>
                     <span class="txt">Atualizar Banco</span>
                     <div class="clearfix"></div>
@@ -101,7 +98,7 @@ $this->breadcrumbs = array(
     <div class="row-fluid">
         <div class="span6">
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=admin/exportStudentIdentify" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('admin/exportStudentIdentify')?>" class="widget-stats">
                     <span class="glyphicons user"><i></i></span>
                     <span class="txt">Identificação do Aluno</span>
                     <div class="clearfix"></div>

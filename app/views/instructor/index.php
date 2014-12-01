@@ -1,9 +1,6 @@
 <div id="mainPage" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor Identifications'));
-    $this->breadcrumbs = array(
-        Yii::t('default', 'Instructor Identifications'),
-    );
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification.');
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new InstructorIdentification')),
@@ -14,7 +11,7 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>  
             <div class="buttons">
-                <a href="?r=instructor/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
             </div>
         </div>
     </div>
@@ -38,7 +35,7 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,"?r=instructor/update&id=".$data->id)',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width'=> '400px')
                         ),
                         array(

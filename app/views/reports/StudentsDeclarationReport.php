@@ -7,12 +7,6 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$this->breadcrumbs = array(
-    Yii::t('default', 'Student Identifications') => array('/student/index'),
-    $report['name'] => array('/student/update&id=' . $report['student_id']),
-    Yii::t('default', 'Student Declaration'),
-);
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 

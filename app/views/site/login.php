@@ -4,9 +4,6 @@
 /* @var $form CActiveForm  */
 
 $this->pageTitle = Yii::app()->name . ' - Login';
-$this->breadcrumbs = array(
-    'Login',
-);
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
@@ -45,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $year = date('Y');
                             //botar condição do mês, a partir de novembro, mostrar o próximo ano.
                             $years = array();
-                            for ($i = $year+1; $i >= 2013; $i--) {
+                            for ($i = $year + 1; $i >= 2013; $i--) {
                                 $years[$i] = $i;
                             }
                             echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));

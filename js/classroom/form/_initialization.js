@@ -4,7 +4,7 @@ $(document).ready(function() {
     ////////////////////////////////////////////////
     $.ajax({
         'type':'POST',
-        'url':baseUrl+'/index.php?r=classroom/getassistancetype',
+        'url':getAssistanceURL,
         'cache':false,
         'data':$(form+'school_inep_fk').parents("form").serialize(),
         'success':function(result){

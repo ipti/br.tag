@@ -6,12 +6,6 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/InstructorsPerClassroomReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$this->breadcrumbs = array(
-    Yii::t('default', 'Reports') => array('/reports'),
-    Yii::t('default', 'Instructors per Classroom'),
-);
-
 ?>
 
 <div class="row-fluid hidden-print">

@@ -130,9 +130,9 @@ function validateStudentAddress(str){
 function validateStudentAddressNumber(str){
     return rule(str,stringRules.studentAddressNumber);
 }
-//function validateStudentAddressComplement(str){
-//    return rule(str,stringRules.studentAddressComplement);
-//}
+function validateStudentAddressComplement(str){
+    return rule(str,stringRules.studentAddressComplement);
+}
 function validateStudentAddressNeighborhood(str){
     return rule(str,stringRules.studentAddressNeighborhood);
 }

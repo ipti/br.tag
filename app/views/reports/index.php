@@ -28,28 +28,28 @@ $this->breadcrumbs = array(
         <div class="span6">
             <div class="row-fluid">
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/BFReport" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/BFReport')?>" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
                         <span class="txt">Bolsa Família</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/NumberStudentsPerClassroomReport" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport')?>" class="widget-stats">
                         <span class="glyphicons group"><i></i></span>
                         <span class="txt">Número de Alunos por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/InstructorsPerClassroomReport" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport')?>" class="widget-stats">
                         <span class="glyphicons group"><i></i></span>
                         <span class="txt">Professores por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/StudentsFileReport" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/StudentsFileReport')?>" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
                         <span class="txt">Ficha Individual do Aluno</span>
                         <div class="clearfix"></div>
@@ -59,14 +59,14 @@ $this->breadcrumbs = array(
         </div>
         <div class="span6">
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/ResultBoardReport" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('reports/ResultBoardReport')?>" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Quadro de Rendimento</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->homeUrl; ?>?r=reports/StatisticalDataReport" class="widget-stats">
+                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalDataReport')?>" class="widget-stats">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Dados Estatísticos</span>
                     <div class="clearfix"></div>

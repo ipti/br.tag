@@ -6,12 +6,6 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$this->breadcrumbs = array(
-    Yii::t('default', 'Reports') => array('/reports'),
-    Yii::t('default', 'Bolsa Família'),
-);
-
 ?>
 
 
@@ -65,6 +59,3 @@ $this->breadcrumbs = array(
         <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
-<script>
-    var baseUrl = "<?php echo Yii::app()->baseUrl; ?>";
-</script>

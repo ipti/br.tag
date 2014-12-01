@@ -92,6 +92,7 @@ class StudentController extends Controller {
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+        echo CHtml::tag('option', array('value' => '7177'), CHtml::encode('Outros'), true);
     }
 
     public function actionGetNations() {
@@ -152,8 +153,11 @@ class StudentController extends Controller {
 	                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 	                    	}
 	                    	if($saved){
-		                    Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno cadastrado com sucesso!'));
-		                    $this->redirect(array('index'));
+                                    $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';
+                                        
+		                    Yii::app()->user->setFlash('success', Yii::t('default',$msg));
+                                    
+                                    $this->redirect(array('index', 'sid'=>$modelStudentIdentification->id));
 	                    	}
 	                    }
                     }
@@ -212,8 +216,9 @@ class StudentController extends Controller {
                         	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                     	}
                     	if($saved){
-	                        Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno alterado com sucesso!'));
-	                        $this->redirect(array('index'));
+                            $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi alterado com sucesso!';
+                            Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                            $this->redirect(array('index', 'sid'=>$modelStudentIdentification->id));
                     	}
                     }
                 }
@@ -251,7 +256,7 @@ class StudentController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex($sid = null) {
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentIdentification'])) {
@@ -266,9 +271,33 @@ class StudentController extends Controller {
                             'pagination' => array(
                                 'pageSize' => 12,
                         )));
+        $buttons ="";
+        if($sid != null){
+            $buttons = CHtml::tag('a',
+                    array('href'=>yii::app()->createUrl('student/update',array('id'=>$sid)),
+                        'class'=>"btn btn-primary btn-icon glyphicons eye_open"),'<i></i>Visualizar Aluno');
+            $buttons .= "<br>";
+            $buttons .= 
+                    CHtml::tag('a',
+                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>0, 'student_id'=>$sid)),
+                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
+                        'style'=>'margin-top: 5px; width: 250px',
+                        'target'=>"_blank"),'<i></i>Ficha Individual Educação Infantil');
+            $buttons .= "<br>";
+            $buttons .= CHtml::tag('a',
+                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>1, 'student_id'=>$sid)),
+                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
+                        'style'=>'margin-top: 5px; width: 250px',
+                        'target'=>"_blank"),'<i></i>Ficha Individual Ensino Fundamental');
+        }
+        
+
+        
+        
         $this->render('index', array(
             'dataProvider' => $dataProvider,
-            'filter' => $filter
+            'filter' => $filter,
+            'buttons' => $buttons,
         ));
     }
 
