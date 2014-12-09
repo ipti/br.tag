@@ -205,7 +205,7 @@ if (isset($modelEnrollment)) {
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities&rt=0'),
+                                            'url' => CController::createUrl('student/getcities',array('rt'=>0)),
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
@@ -228,7 +228,74 @@ if (isset($modelEnrollment)) {
                                 </div>
                             </div>
 
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelStudentIdentification, 'responsable', 
+                                            array(0=>'Pai',1=>'Mãe',2=>'Outro',), 
+                                            array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group" style="display:none;" id="responsable_name">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_name',array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_rg', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_rg',array('size' => 60, 'maxlength' => 45)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf',array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity',      
+                                            array(0=>'Não Sabe Ler e Escrever ',1=>'Sabe Ler e Escrever',2=>'Ens. Fund. Incompleto',
+                                                3=>'Ens. Fund. Completo',4=>'Ens. Médio Incompleto',5=>'Ens. Médio Completo',
+                                                6=>'Ens. Sup. Incompleto',7=>'Ens. Sup. Completo'), 
+                                            array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
+                                </div>
+                            </div>
 
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_job',array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'bf_participator'); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
+                                </div>
+                            </div>
+                            
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textArea($modelStudentIdentification, 'food_restrictions'); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'food_restrictions'); ?>
+                                </div>
+                            </div>
+                            
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -236,6 +303,7 @@ if (isset($modelEnrollment)) {
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class=" span5">
                             <div class="separator"></div>
@@ -440,7 +508,7 @@ if (isset($modelEnrollment)) {
                                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                                 'ajax' => array(
                                                     'type' => 'POST',
-                                                    'url' => CController::createUrl('student/getcities&rt=1'),
+                                                    'url' => CController::createUrl('student/getcities',array('rt'=>1)),
                                                     'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                                 ),
                                                 "prompt" => "Selecione um estado",
@@ -455,7 +523,7 @@ if (isset($modelEnrollment)) {
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 'control-label')); ?>
                                         <div class="controls">
                                             <?php
-                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), array(
+                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'cod', 'name'), array(
                                                 'ajax' => array(
                                                     'type' => 'POST',
                                                     'url' => CController::createUrl('student/getnotaryoffice'),
@@ -705,7 +773,7 @@ if (isset($modelEnrollment)) {
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities&rt=2'),
+                                            'url' => CController::createUrl('student/getcities',array('rt'=>2)),
                                             'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",

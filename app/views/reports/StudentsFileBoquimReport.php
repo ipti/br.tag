@@ -174,39 +174,26 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span7" ><b>11 - Nome do Responsável e Parentesco: </b>
-                            <br><b>☐</b>&nbsp;<span class="father"></span>&nbsp;(Pai)
-                            <br><b>☐</b>&nbsp;<span class="mother"></span>&nbsp;(Mãe)
-                            <br><hr style="margin-top: 10px; border-top: 1px solid black;"></div>
-                        <div class="span3"><b>RG: </b>__________________________
-                            <br><b>CPF: </b>_____.______.______-____
+                        <div class="span7" >
+                            <b>11 - Nome do Responsável e Parentesco: </b>
+                            <br><span class="responsable_name"></span>
+                        </div>
+                        <div class="span3"><b>RG: </b><span class="responsable_rg"></span>
+                            <br><b>CPF: </b><span class="responsable_cpf"></span>
+                            <br><b>Telefone: </b><span class="responsable_telephone"></span>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="span10"><b>12 - Grau de Escolaridade do Responsável:</b></div>
-                        <br><div class="span3" style="margin-right: -20px;">
-                            <b>☐</b> Não Sabe Ler e Escrever
-                            <br><b>☐</b> Sabe Ler e Escrever
-                        </div>
-                        <div class="span3" style="margin-right: -20px;">
-                            <b>☐</b> Ens. Fund. Completo
-                            <br><b>☐</b> Ens. Fund. Incompleto
-                        </div>
-                        <div class="span3" style="margin-right: -20px;">
-                            <b>☐</b> Ens. Médio Completo
-                            <br><b>☐</b> Ens. Médio Incompleto
-                        </div>
-                        <div class="span3" style="margin-right: -20px;">
-                            <b>☐</b> Ens. Sup. Completo
-                            <br><b>☐</b> Ens. Sup. Incompleto</div>
+                        <br><span class="responsable_scholarity"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="span10"><b>13 - Profissão do Responsável: </b>
-                            <hr style="margin-top: 15px;  border-top: 1px solid black;"></div>
+                        <br><span class="responsable_job"></span>
                     </td>
                 </tr>
             </table>
@@ -254,16 +241,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr>
                     <td>
                         <div class="span10"><b>18 - Portador de Necessidades Especiais? </b></div>
-                        <br><div class="span2"><b>☐</b> Sim</div>
-                        <div class="span2"><b>☐</b> Não</div>
-                        <div class="span6"><b>Tipo: </b>__________________________________________________________________________</div>
+                        <br><span class="deficiency"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="span10"><b>19 - Participa do Programa Bolsa Família? </b></div>
-                        <br><div class="span2"><b>☐</b> Sim</div>
-                        <div class="span2"><b>☐</b> Não</div>
+                        <br><span class="bf_participator"></span>
                     </td>
                 </tr>
                 <tr>
@@ -275,7 +259,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b>21 - Restrição alimentar ou alergia a: </b><hr style="margin-top: 15px; border-top: 1px solid black;"></div>
+                        <div class="span10"><b>21 - Restrição alimentar ou alergia a: </b>
+                        <br><span class="food_restrictions"></span>
                     </td>
                 </tr>
             </table>

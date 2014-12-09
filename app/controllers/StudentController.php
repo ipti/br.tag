@@ -132,6 +132,8 @@ class StudentController extends Controller {
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             $modelStudentDocumentsAndAddress->nis = $modelStudentIdentification->nis;
+            date_default_timezone_set("America/Recife");
+            $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
             
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
@@ -191,11 +193,12 @@ class StudentController extends Controller {
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-            
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             $modelStudentDocumentsAndAddress->nis = $modelStudentIdentification->nis;
+            date_default_timezone_set("America/Recife");
+            $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
             
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {

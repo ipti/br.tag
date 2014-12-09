@@ -45,6 +45,15 @@
  * @property integer $resource_braille_test
  * @property integer $resource_none
  * @property integer $send_year
+ * @property timestamp $last_change
+ * @property integer responsable
+ * @property string responsable_name
+ * @property string responsable_rg
+ * @property string responsable_cpf
+ * @property integer responsable_scholarity
+ * @property string responsable_job
+ * @property integer bf_participator
+ * @property string food_restrictions
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -78,16 +87,19 @@ class StudentIdentification extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
-            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year', 'numerical', 'integerOnly' => true),
-            array('register_type', 'length', 'max' => 2),
-            array('school_inep_id_fk', 'length', 'max' => 8),
-            array('inep_id', 'length', 'max' => 12),
-            array('name, mother_name, father_name', 'length', 'max' => 100),
-            array('nis', 'length', 'max' => 11),
-            array('birthday', 'length', 'max' => 10),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('inep_id', 'length', 'max'=>12),
+            array('name, mother_name, father_name', 'length', 'max'=>100),
+            array('nis, responsable_cpf', 'length', 'max'=>11),
+            array('birthday', 'length', 'max'=>10),
+            array('responsable_name', 'length', 'max'=>90),
+            array('responsable_rg, responsable_job', 'length', 'max'=>45),
+            array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, nis, birthday, sex, color_race, filiation, mother_name, father_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('register_type, school_inep_id_fk, inep_id, id, name, nis, birthday, sex, color_race, filiation, mother_name, father_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions', 'safe', 'on'=>'search'),
         );
     }
 
@@ -151,6 +163,15 @@ class StudentIdentification extends CActiveRecord {
             'resource_braille_test' => Yii::t('default', 'Resource Braille Test'),
             'resource_none' => Yii::t('default', 'Resource None'),
             'send_year' => Yii::t('default', 'Send'),
+            'last_change' => Yii::t('default', 'Last Change'),
+            'responsable`=' => Yii::t('default', 'Responsable'),
+            'responsable_name'  => Yii::t('default', 'Responsable`s Name'),
+            'responsable_rg' => Yii::t('default', 'Responsable`s RG'),
+            'responsable_cpf' => Yii::t('default', 'Responsable`s CPF'),
+            'responsable_scholarity' => Yii::t('default', 'Responsable`s Scholarity'),
+            'responsable_job' => Yii::t('default', 'Responsable`s Job'),
+            'bf_participator' => Yii::t('default', 'BF Participator'),
+            'food_restrictions' => Yii::t('default', 'Food Restrictions'),
         );
     }
 

@@ -111,7 +111,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
     <div id="import-file-dialog" title="<?php echo Yii::t('default', 'Import File Dialog'); ?>">
         <div class="row-fluid">
             <div class="span12">
-                <form id="import-file-form" method="post" action="<?php echo CController::createUrl('admin/import'); ?>" enctype="multipart/form-data">
+                <form id="import-file-form" method="post" action="<?php echo CController::createUrl('admin/import'); ?>" enctype="multipart/form-data" >
                     <div class="control-group">
                         <?php echo CHtml::label(Yii::t('default', 'Import File'), 'file', array('class' => 'control-label')); ?>
                         <div class="controls">

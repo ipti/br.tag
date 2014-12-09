@@ -410,3 +410,13 @@ $(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAdd
         removeError(id);
     }
 });
+
+
+
+$(formIdentification+'responsable').on('change', function(){
+   if($(this).val()==2){
+       $('#responsable_name').show();
+   } else{
+       $('#responsable_name').hide();
+   }
+});

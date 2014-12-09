@@ -28,9 +28,9 @@ $year = Yii::app()->user->year;
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->createUrl('enrollment/create')?>"
-                       class="widget-stats"> <span class="glyphicons notes_2"><i></i></span>
-                        <span class="txt">Matricular aluno</span>
+                    <a href="<?php echo Yii::app()->createUrl('sorcerer/configuration/student')?>"
+                       class="widget-stats"> <span class="glyphicons sort"><i></i></span>
+                        <span class="txt">Matricular em lote</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>

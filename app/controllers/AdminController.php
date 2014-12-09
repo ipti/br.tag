@@ -312,6 +312,15 @@ class AdminController extends Controller {
             $attributes = $student->attributes;
             //Remove send_year
             array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
             $export .= implode('|',$attributes);
             $export .= "|\n";
             
@@ -449,13 +458,13 @@ class AdminController extends Controller {
     public function actionImport() {
         
         $path = Yii::app()->basePath;
-            
         //Se não passar parametro, o valor será predefinido
         if (empty($_FILES['file'])) {
             $fileDir = $path . '/import/2013_98018493.TXT';
         }else{
-            $uploadfile = $path .'/import/'. basename($_FILES['file']['name']);
-            move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+            $myfile = $_FILES['file'];
+            $uploadfile = $path .'/import/'. basename($myfile['name']);
+            move_uploaded_file($myfile['tmp_name'], $uploadfile);
             $fileDir = $uploadfile;
         }
         
@@ -596,12 +605,21 @@ class AdminController extends Controller {
     }
 
     //Retorna uma Array com 2 arrays. InsertValue e InstructorInepID
+    /**
+     * Transforma as linhas em valores a serem inseridos no SQL
+     * 
+     * @param type $registerLines
+     * @return array ['insert'] = values do SQL; ['instructor'] = INEPID dos instrutores
+     */
     private function getInsertValues($registerLines) {
         foreach ($registerLines as $regType => $lines):
             $insertValue[$regType] = "";
-
+        
             $totalLines = count($lines) - 1;
-
+            
+            $isSchoolIdentification = ($regType == "00");
+            $isSchoolStructure = ($regType == "10");
+            
             $isRegInstructorIdentification = ($regType == "30");
             if ($isRegInstructorIdentification) {
                 $instructorInepIds[] = '';
@@ -614,25 +632,33 @@ class AdminController extends Controller {
 
                     if ($column == 0) {
                         $insertValue[$regType].= "(";
-                    } else if ($regType == '51' && $column == 3) {
-                        $withoutcomma = true;
-                        $value = "(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
-                    } else if ($regType == '51' && $column == 5) {
-                        $withoutcomma = true;
-                        $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
-                    } else if ($regType == '80' && $column == 3) {
-                        $withoutcomma = true;
-                        $value = "(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
-                    } else if ($regType == '80' && $column == 5) {
-                        $withoutcomma = true;
-                        $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
+                    } else if($regType != 00
+                        && $regType != 10
+                        && $regType != 51
+                        && $regType != 80
+                        && $column == 3){
+                        $value = "null";
+                    } else { 
+                        if ($regType == '51' && $column == 3) {
+                            $withoutcomma = true;
+                            $value = "(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
+                        } else if ($regType == '51' && $column == 5) {
+                            $withoutcomma = true;
+                            $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
+                        } else if ($regType == '80' && $column == 3) {
+                            $withoutcomma = true;
+                            $value = "(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
+                        } else if ($regType == '80' && $column == 5) {
+                            $withoutcomma = true;
+                            $value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
+                        }
                     }
 
                     if ($isRegInstructorIdentification && $column == 2) {
                         $instructorInepIds[$line] = $value;
                     }
-
-                    if ($value == "GILLIANY DA SILVA LEITE") {
+                    
+                    if($isSchoolStructure && $totalColumns == 128){
                         $lines[$line][sizeof($lines[$line])] = 'null';
                         $totalColumns++;
                     }
@@ -640,7 +666,7 @@ class AdminController extends Controller {
 
                     $value = ($value == 'null' || $withoutcomma) ? $value : "\"" . $value . "\"";
 
-                    if ($column + 1 > $totalColumns) {
+                    if ($column + 1 > $totalColumns) {                      
                         if ($regType == 20) {
                             $year = date("Y");
                             $value.= ',' . $year;

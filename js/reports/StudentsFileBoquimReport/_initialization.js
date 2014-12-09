@@ -26,7 +26,7 @@ function gerarRelatorio(data) {
 	    	}
     	}
         if (i != 'id')
-            $("#" + i).html(infos[i]);
+            $("." + i).html(infos[i]);
     }
 
 }
