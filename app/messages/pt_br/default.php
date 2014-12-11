@@ -299,6 +299,13 @@ return array(
     'Resource Zoomed Test 24' => 'Prova Ampliada (Fonte tamanho 24)',
     'Resource Braille Test' => 'Prova em Braille',
     'Resource None' => 'Nenhum',
+	'Responsable' => 'Responsável',
+	'Responsable`s RG' => 'RG do Responsável',
+	'Responsable`s CPF' => 'CPF do Responsável',
+	'Responsable`s Scholarity' => 'Escolaridade do Responsável',
+	'Responsable`s Job' => 'Profissão do Responsável',
+	'BF Participator' => 'Participante do Bolsa Família',
+	'Food Restrictions' => 'Restrição Alimentar / Alergia',
     
     //Student Documents And Address
     'Student Fk' => 'Aluno',
@@ -329,6 +336,9 @@ return array(
     'Neighborhood' => 'Bairro / Povoado',
     'State' => 'Estado',
     'City' => 'Município',
+    'Civil Certificate' => 'Certidão Civil',
+    'Photo' => 'Foto 3x4',
+    'History' => 'Histórico',
     
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',

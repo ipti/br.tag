@@ -85,9 +85,14 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			array('cpf, nis', 'length', 'max'=>11),
 			array('address', 'length', 'max'=>100),
 			array('neighborhood', 'length', 'max'=>50),
+                        array('received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_complement, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, document_failure_lack, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_complement, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, document_failure_lack, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, '
+                            . 'received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf', 'safe', 'on'=>'search'),
+                    
+
+
 		);
 	}
 
@@ -146,6 +151,13 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'neighborhood' => Yii::t('default', 'Neighborhood'),
 			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
+                        'received_cc' => Yii::t('default', 'Civil Certificate'), 
+                        'received_address' => Yii::t('default', 'Address'),     
+                        'received_photo' => Yii::t('default', 'Photo'), 
+                        'received_nis' => Yii::t('default', 'NIS'), 
+                        'received_history' => Yii::t('default', 'History'),
+                        'received_responsable_rg' => Yii::t('default', 'Responsable`s RG'), 
+                        'received_responsable_cpf' => Yii::t('default', 'Responsable`s CPF')
 		);
 	}
 

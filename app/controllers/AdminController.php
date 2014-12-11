@@ -321,12 +321,21 @@ class AdminController extends Controller {
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
+            array_pop($attributes);
             $export .= implode('|',$attributes);
             $export .= "|\n";
             
             //Documentos do Aluno
             $studentDocs = StudentDocumentsAndAddress::model()->findByPk($student->id);
-            $export .= implode('|', $studentDocs->attributes);
+            $attributes = $studentDocs->attributes;
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);;
+            $export .= implode('|', $attributes);
             $export .= "|\n";
             
             //Matricula do Aluno

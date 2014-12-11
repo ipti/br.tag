@@ -245,10 +245,10 @@ if($count){
                             </form>
                         </div>
                     </li>
-                    <!-- Profile / Logout menu -->
+                    <!-- Profile / Logout menu --
                     <li class="account">
                         <a href="<?php echo yii::app()->createUrl('site/logout')?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- Top navbar END -->
@@ -293,6 +293,9 @@ if($count){
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin')?>"><i></i><span>Administração</span></a>
                                 </li>
                             <?php } ?>
+                            <li id="menu-logout">
+                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/reports')?>"><i></i><span>Sair</span></a>
+                            </li>
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->

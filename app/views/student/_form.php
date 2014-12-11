@@ -672,6 +672,49 @@ if (isset($modelEnrollment)) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="separator"></div>
+                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons nameplate">
+                                        <i></i>Documentos Entregues
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    
+                                    <div class="control-group" id="received">
+                                        <div class="uniformjs margin-left">
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_history']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_history', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
