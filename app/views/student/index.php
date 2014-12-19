@@ -44,6 +44,13 @@
                             'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
                         ),
                         array(
+                            'header'=>'',
+                            'value' => '0+$data->documentsFk->received_cc+$data->documentsFk->received_address+$data->documentsFk->received_photo'
+                            . '+$data->documentsFk->received_nis+$data->documentsFk->received_history'
+                            . '+$data->documentsFk->received_responsable_rg+$data->documentsFk->received_responsable_cpf."/7"',
+                            'htmlOptions' => array('width' => '5px')
+                        ),
+                        array(
                             'name' => 'mother_name',
                             'htmlOptions' => array('width' => '400px')
                         ),

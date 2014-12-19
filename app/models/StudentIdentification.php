@@ -114,6 +114,7 @@ class StudentIdentification extends CActiveRecord {
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
+            'documentsFk' => array(self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'),
         );
     }
 
@@ -164,7 +165,7 @@ class StudentIdentification extends CActiveRecord {
             'resource_none' => Yii::t('default', 'Resource None'),
             'send_year' => Yii::t('default', 'Send'),
             'last_change' => Yii::t('default', 'Last Change'),
-            'responsable`=' => Yii::t('default', 'Responsable'),
+            'responsable' => Yii::t('default', 'Responsable'),
             'responsable_name'  => Yii::t('default', 'Responsable`s Name'),
             'responsable_rg' => Yii::t('default', 'Responsable`s RG'),
             'responsable_cpf' => Yii::t('default', 'Responsable`s CPF'),

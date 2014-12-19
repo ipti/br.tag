@@ -30,7 +30,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
         </table>
         <br>
         <table class="table table-bordered table-striped">
-            <tr><th>Matricula</th><th>Nome</th><th>Sexo</th><th>Data Nascimento</th><th>Nac</th><th>Naturalidade</th><th>Residencia</th><th>Certidao Civil</th><th>Pais</th></tr>
+            <tr><th>Matrícula</th><th>Nome</th><th>Sexo</th><th>Data Nascimento</th><th>Nac.</th><th>Naturalidade</th><th>Residência</th><th>Certidão Civil</th><th>Pais</th></tr>
             <?php
             $html = "";
             foreach ($report as $r) {

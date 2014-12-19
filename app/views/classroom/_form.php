@@ -44,7 +44,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </a>
                 </li>
                 <li id="tab-performance">
-                    <a class="glyphicons stats" href="<?php echo Yii::app()->createUrl('eports/AtaSchoolPerformance',array("id"=>$modelClassroom->id))?>" >
+                    <a class="glyphicons stats" href="<?php echo Yii::app()->createUrl('reports/AtaSchoolPerformance',array("id"=>$modelClassroom->id))?>" >
                         <i></i><?php echo Yii::t('default', 'Performance') ?>
                     </a>
                 </li>

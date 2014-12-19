@@ -32,6 +32,10 @@ class ReportsController extends Controller {
                 . " AND classroom_id = $id;";
        
         $result = Yii::app()->db->createCommand($sql)->queryRow();
+        setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
+        $time = mktime(0, 0, 0, $result['month']);
+        $result['month'] = strftime("%B", $time);
                
         $classroom = Classroom::model()->findByPk($id);
         $students = StudentEnrollment::model()->findAll('classroom_fk = '.$classroom->id);

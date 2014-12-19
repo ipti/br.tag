@@ -12,6 +12,7 @@ $this->breadcrumbs = array(
 );
 
 $lastYear = (Yii::app()->user->year - 1);
+$school = Yii::app()->user->school;
 ?>
 
 <div class="row-fluid">
@@ -48,7 +49,7 @@ $lastYear = (Yii::app()->user->year - 1);
                         <div class=" span12">
                             <div class="control-group">
                                 <?php
-                                echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear)), 'id', 'name'), array(
+                                echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'school_inep_fk'=>$school)), 'id', 'name'), array(
                                     'class' => 'select-search-on span12',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Classrom'),

@@ -209,7 +209,6 @@ if($count){
                     });
             });
         </script>
-
     </head>
     <body>
 
@@ -294,7 +293,7 @@ if($count){
                                 </li>
                             <?php } ?>
                             <li id="menu-logout">
-                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/reports')?>"><i></i><span>Sair</span></a>
+                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout')?>"><i></i><span>Sair</span></a>
                             </li>
                         </ul>
                     </div>

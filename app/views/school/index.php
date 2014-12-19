@@ -40,7 +40,7 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/create", array("id"=>$data->inep_id)))',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update", array("id"=>$data->inep_id)))',
                             ),),
                     ));
                     ?>

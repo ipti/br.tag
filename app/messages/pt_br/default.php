@@ -299,13 +299,14 @@ return array(
     'Resource Zoomed Test 24' => 'Prova Ampliada (Fonte tamanho 24)',
     'Resource Braille Test' => 'Prova em Braille',
     'Resource None' => 'Nenhum',
-	'Responsable' => 'Responsável',
-	'Responsable`s RG' => 'RG do Responsável',
-	'Responsable`s CPF' => 'CPF do Responsável',
-	'Responsable`s Scholarity' => 'Escolaridade do Responsável',
-	'Responsable`s Job' => 'Profissão do Responsável',
-	'BF Participator' => 'Participante do Bolsa Família',
-	'Food Restrictions' => 'Restrição Alimentar / Alergia',
+    'Responsable' => 'Responsável',
+    'Responsable`s Name' => 'Nome do Responsável',
+    'Responsable`s RG' => 'RG do Responsável',
+    'Responsable`s CPF' => 'CPF do Responsável',
+    'Responsable`s Scholarity' => 'Escolaridade do Responsável',
+    'Responsable`s Job' => 'Profissão do Responsável',
+    'BF Participator' => 'Participante do Bolsa Família',
+    'Food Restrictions' => 'Restrição Alimentar / Alergia',
     
     //Student Documents And Address
     'Student Fk' => 'Aluno',
@@ -566,5 +567,8 @@ return array(
     'Import' => 'Importar',
     
     'Send' => 'Enviar em '.(date('Y')+1),
+    
+    'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
+    'Enrollment per Classroom' => 'Matrículas por Turma',
         )
 ?>
