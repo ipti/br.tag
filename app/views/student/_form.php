@@ -417,19 +417,14 @@ if (isset($modelEnrollment)) {
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
                     <div class="row-fluid">
-                    
-                    	<div class="row-fluid">
-                    		<div class="span12">
-                    			<div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Documentos Entregues
-                                    </h4>
-                                </div>
+                        <div class="span10">
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Entregues</h4></div>
                                 <div class="widget-body in" style="height: auto;">
-                                    
                                     <div class="control-group" id="received">
-                                        <div class="uniformjs margin-left">
+                                        <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -439,6 +434,12 @@ if (isset($modelEnrollment)) {
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
                                             <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label> 
+                                        </div>
+                                        <div class="span3"> 
+                                            <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
@@ -446,6 +447,8 @@ if (isset($modelEnrollment)) {
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
+                                        </div>
+                                        <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_history']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_history', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -454,26 +457,19 @@ if (isset($modelEnrollment)) {
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                    		</div>
-                    	</div>
+                        </div>
+                    </div>
 
+                    <div class="row-fluid">
                         <div class=" span5">
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons circle_question_mark">
-                                        <i></i>Justificativa
-                                    </h4>
-                                </div>
+                                <div class="widget-head"><h4 class="heading glyphicons circle_question_mark"><i></i>Justificativa</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
@@ -858,7 +854,7 @@ if (isset($modelEnrollment)) {
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = " . Yii::app()->user->year . "", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData(Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year, "school_inep_fk" => Yii::app()->user->school), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                                 </div>
                             </div>

@@ -143,7 +143,7 @@ class StudentController extends Controller {
                         if ($modelStudentDocumentsAndAddress->save()) {
                         	$saved = true;
                         	if( isset($_POST[$this->STUDENT_ENROLLMENT],$_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
-                                    && empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])){
+                                    && !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])){
 	                    		$modelEnrollment =  new StudentEnrollment;
 	                    		$modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
 	                   		$modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
@@ -205,7 +205,7 @@ class StudentController extends Controller {
                     if ($modelStudentDocumentsAndAddress->save()) {
                     	$saved = true;
                     	if( isset($_POST[$this->STUDENT_ENROLLMENT],$_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
-                    		&& empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
+                    		&& !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
                     		){
                     		$modelEnrollment =  new StudentEnrollment;
                     		$modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];

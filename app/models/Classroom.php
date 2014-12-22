@@ -220,11 +220,9 @@ class Classroom extends CActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
-        $school = Yii::app()->user->school;
-        
         $criteria->with = array('edcensoStageVsModalityFk');
         
-        $criteria->compare('school_inep_fk', $school);
+        $criteria->compare('school_inep_fk', Yii::app()->user->school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
