@@ -17,65 +17,147 @@ class AdminController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array( 'CreateUser','index'),
+                'actions' => array('CreateUser', 'index'),
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('import', 'export',
-                                    'clearDB', 'acl',
-                                    'backup','data',
-                                    'exportStudentIdentify'),
+                    'clearDB', 'acl',
+                    'backup', 'data',
+                    'exportStudentIdentify'),
                 'users' => array('@'),
             ),
         );
     }
+
     /**
      * Show the Index Page.
      */
     public function actionIndex() {
         $this->render('index');
     }
-    
+
+    public function actionSynchronizationExport() {
+        // Fazer Download no Final
+        //Arquivo Json para adcionar no ZIP
+        $json = array();
+
+        $allStudentIdentification = StudentIdentification::model()->findAll();
+        $json['studentIdentification'] = array();
+        foreach ($allStudentIdentification AS $studentIdentification) :
+            array_push($json['studentIdentification'], $studentIdentification['attributes']);
+        endforeach;
+
+//        $allStudentEnrollment = StudentEnrollment::model()->findAll();
+//        $json['studentEnrollment'] = array();
+//        foreach ($allStudentEnrollment AS $studentEnrollment) :
+//            array_push($json['studentEnrollment'], $studentEnrollment['attributes']);
+//        endforeach;
+        
+//        $allStudentDocumentAddress = StudentDocumentsAndAddress::model()->findAll();
+//        $json['studentDocumentAddress'] = array();
+//        foreach ($allStudentDocumentAddress AS $studentDocumentAddress) :
+//            array_push($json['studentDocumentAddress'], $studentDocumentAddress['attributes']);
+//        endforeach;
+
+        $allusers = Users::model()->findAll();
+        $json['users'] = array();
+        foreach ($allusers AS $users) :
+            array_push($json['users'], $users['attributes']);
+        endforeach;
+
+        $allUsersSchool = UsersSchool::model()->findAll();
+        $json['usersSchool'] = array();
+        foreach ($allUsersSchool AS $usersSchool) :
+            array_push($json['usersSchool'], $usersSchool['attributes']);
+        endforeach;
+
+        $allClassRoom = Classroom::model()->findAll();
+        $json['classRoom'] = array();
+        foreach ($allClassRoom AS $classRoom) :
+            array_push($json['classRoom'], $classRoom['attributes']);
+        endforeach;
+
+        $allClassBoard = ClassBoard::model()->findAll();
+        $json['classBoard'] = array();
+        foreach ($allClassBoard AS $classBoard) :
+            array_push($json['classBoard'], $classBoard['attributes']);
+        endforeach;
+
+        //Frequency is the model for table 'class'
+        $allClass = Frequency::model()->findAll();
+        $json['class'] = array();
+        foreach ($allClass AS $class) :
+            array_push($json['class'], $class['attributes']);
+        endforeach;
+
+        $allClassFaults = ClassFaults::model()->findAll();
+        $json['classFaults'] = array();
+        foreach ($allClassFaults AS $classFaults) :
+            array_push($json['classFaults'], $classFaults['attributes']);
+        endforeach;
+
+        $json_encode = json_encode($json);
+        //Arquivo ZIP
+        $date = date('d_m_Y H_i_s');
+        $zipname = 'ArquivoSincronizacaoTAG_' . $date . '.zip';
+        $tempArchiveZip = new ZipArchive;
+        $tempArchiveZip->open($zipname, ZipArchive::CREATE);
+        $tempArchiveZip->addFromString("syncTAG_$date.js", $json_encode);
+        //Salva as alterações no zip
+        $tempArchiveZip->close();
+
+
+        if (file_exists($zipname)) {
+            header('Content-type: application/zip');
+            header('Content-Disposition: attachment; filename="' . $zipname . '"');
+            readfile($zipname);
+            //Remover o arquivo zip do temp do servidor
+            unlink($zipname);
+        }
+    }
+
+    public function actionSynchronizationImport() {
+        
+    }
+
     /**
      * Update de database.
      * 
      * @return {Redirect} Return the index page with a FlashMessage
      * 
      */
-    public function actionUpdateDB(){
+    public function actionUpdateDB() {
         set_time_limit(0);
         ignore_user_abort();
-        
+
         $updateDir = Yii::app()->basePath . '/../updates/';
-        
+
         $dirFiles = scandir($updateDir);
-        
+
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
-        
+
         $file = $fm->open($updateDir . '_version');
         $version = fgets($file);
         $fm->closeAll();
-        
+
         $count = 0;
-        
-        foreach ($dirFiles as $fileName){
-            
-            if($fileName != '.' 
-                && $fileName != '..' 
-                && $fileName != 'readme' 
-                && $fileName != '_version'
-                && substr("abcdef", -1) != '~' ){
-                
-                if($version != "" &&  $version < $fileName){
+
+        foreach ($dirFiles as $fileName) {
+
+            if ($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr("abcdef", -1) != '~') {
+
+                if ($version != "" && $version < $fileName) {
                     $file = $fm->open($updateDir . $fileName);
                     $sql = "";
                     while (true) {
                         $fileLine = fgets($file);
                         $sql .= $fileLine;
-                        if ($fileLine == null) break;
+                        if ($fileLine == null)
+                            break;
                     }
-                    
+
                     $result = Yii::app()->db->createCommand($sql)->query();
 
                     if ($result) {
@@ -88,13 +170,13 @@ class AdminController extends Controller {
                 }
             }
         }
-        if($count == 0){
+        if ($count == 0) {
             Yii::app()->user->setFlash('notice', Yii::t('default', 'Não há atualizações!'));
         }
         $fm->closeAll();
         $this->render('index');
     }
-    
+
     /**
      * Generate the BackupFile.
      * @param boolean $return - Defaults True
@@ -104,59 +186,58 @@ class AdminController extends Controller {
         Yii::import('ext.dumpDB.dumpDB');
         $dumper = new dumpDB();
         $dump = $dumper->getDump(false);
-        
-        $fileDir = Yii::app()->basePath . '/backup/'.date('Y-m-d').'.sql';
-        
+
+        $fileDir = Yii::app()->basePath . '/backup/' . date('Y-m-d') . '.sql';
+
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
         $result = $fm->write($fileDir, $dump);
-        
-        if ($return){        
-            if($result){
+
+        if ($return) {
+            if ($result) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Backup efetuado com Sucesso!'));
-            }else{
+            } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Backup falhou!'));
             }
             Yii::app()->controller->redirect('?r=admin/index');
         }
         return $result;
-        
     }
-    
+
     /**
      * Generate some Data and a DataFile.
      * @param boolean $file - Defaults True
      * @return redirecrToData - Return to the Data page.
      */
-    public function actionData($file = TRUE){
+    public function actionData($file = TRUE) {
         $data = [];
         //Turma
-        $where = "school_year = ".date('Y'); 
+        $where = "school_year = " . date('Y');
         $classrooms = Classroom::model()->count($where);
         $data['classroom'] = $classrooms;
-        
+
         //Identificação do Professor
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
-        $criteria->join ='LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
         $criteria->condition = 'c.school_year = :value';
         $criteria->params = array(":value" => date('Y'));
         $criteria->group = 't.id';
         $instructors = InstructorIdentification::model()->count($criteria);
         $data['instructors'] = $instructors;
-        
+
         //Identificação do Aluno
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
-        $criteria->join ='LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
         $criteria->condition = 'c.school_year = :value';
         $criteria->params = array(":value" => date('Y'));
         $criteria->group = 't.id';
         $students = StudentIdentification::model()->count($criteria);
         $data['students'] = $students;
-        
+
         //Matricula do Aluno
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
@@ -165,88 +246,86 @@ class AdminController extends Controller {
         $criteria->params = array(":value" => date('Y'));
         $enrollments = StudentEnrollment::model()->count($criteria);
         $data['enrollments'] = $enrollments;
-        
-        if($file){
-            $fileDir = Yii::app()->basePath . '/backup/Data/'.date('Y-m-d').'.dat';
+
+        if ($file) {
+            $fileDir = Yii::app()->basePath . '/backup/Data/' . date('Y-m-d') . '.dat';
             $dataText = json_encode($data);
 
             Yii::import('ext.FileManager.fileManager');
             $fm = new fileManager();
-            $result = $fm->write($fileDir, $dataText);  
-            if($result){
+            $result = $fm->write($fileDir, $dataText);
+            if ($result) {
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Dados salvos com Sucesso!'));
-            }else{
+            } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar os dados!'));
             }
         }
-        
+
         $this->render('data', array('data' => $data));
     }
-    
-    public function actionExportStudentIdentify(){
-        
-        $fileDir = Yii::app()->basePath . '/export/alunos-'.date('Y_').Yii::app()->user->school.'.TXT';
-        
+
+    public function actionExportStudentIdentify() {
+
+        $fileDir = Yii::app()->basePath . '/export/alunos-' . date('Y_') . Yii::app()->user->school . '.TXT';
+
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
-        
+
         $export = "";
         /* |id|nome|nascimento|mae|pai|UF|municipio| */
-        
+
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
         $criteria->condition = 't.inep_id is null '
-                            . 'AND t.send_year <= :year';
+                . 'AND t.send_year <= :year';
         $criteria->params = array(":year" => date('Y'));
         $criteria->group = 't.id';
         $students = StudentIdentification::model()->findAll($criteria);
         foreach ($students as $key => $student) {
             $a = $student;
-            $export .= "|".$a->id
-                    ."|".$a->name
-                    ."|".$a->birthday
-                    ."|".$a->mother_name
-                    ."|".$a->father_name
-                    ."|".$a->edcenso_uf_fk
-                    ."|".$a->edcenso_city_fk
-                    ."|\n";
+            $export .= "|" . $a->id
+                    . "|" . $a->name
+                    . "|" . $a->birthday
+                    . "|" . $a->mother_name
+                    . "|" . $a->father_name
+                    . "|" . $a->edcenso_uf_fk
+                    . "|" . $a->edcenso_city_fk
+                    . "|\n";
         }
-        
+
         $result = $fm->write($fileDir, $export);
         if ($result) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação dos Alunos Concluida com Sucesso.'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação dos Alunos.'));
         }
-        
+
         $this->render('index');
-        
     }
-    
-    
+
     /**
      * Generate the ExportFile.
      * @return redirecrToIndex - Return to the index page with a FlashMenssage
      */
-    public function actionExport(){
+    public function actionExport() {
         $export = "";
-        
+
         //Escolas
         $schools = SchoolIdentification::model()->findAll();
         foreach ($schools as $key => $school) {
             $export .= implode('|', $school->attributes);
             $export .= "|\n";
         }
-        
+
         //Estrutura Escolar
         $schoolsStructure = SchoolStructure::model()->findAll();
         foreach ($schoolsStructure as $key => $schoolStructure) {
             $export .= implode('|', $schoolStructure->attributes);
             $export .= "|\n";
         }
-        
+
         //Turma
-        $where = "school_year = ".date('Y'); 
+        $where = "school_year = " . date('Y');
         $classrooms = Classroom::model()->findAll($where);
         foreach ($classrooms as $key => $classroom) {
             $attributes = $classroom->attributes;
@@ -259,11 +338,11 @@ class AdminController extends Controller {
             $export .= implode('|', $attributes);
             $export .= "|\n";
         }
-        
+
         //Identificação do Professor
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
-        $criteria->join ='LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
         $criteria->condition = 'c.school_year = :value';
         $criteria->params = array(":value" => date('Y'));
@@ -272,39 +351,38 @@ class AdminController extends Controller {
         foreach ($instructors as $key => $instructor) {
             $export .= implode('|', $instructor->attributes);
             $export .= "|\n";
-            
+
             //Documentos do Professor
             $instructorDocs = InstructorDocumentsAndAddress::model()->findByPk($instructor->id);
             $export .= implode('|', $instructorDocs->attributes);
             $export .= "|\n";
-            
+
             //Variáveis de Encino do Professor
             $instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
             $export .= implode('|', $instructorVariables->attributes);
             $export .= "|\n";
-            
+
             //Dados de Docência do Professor
             $criteria->select = 't.*';
             $criteria->condition = 't.instructor_fk = :value';
             $criteria->params = array(":value" => $instructor->id);
             $instructorTeachingDatas = InstructorTeachingData::model()->findAll($criteria);
-            foreach($instructorTeachingDatas as $itd){
+            foreach ($instructorTeachingDatas as $itd) {
                 $attributes = $itd->attributes;
                 //Remove Id
                 array_pop($attributes);
                 $export .= implode('|', $attributes);
                 $export .= "|\n";
             }
-            
-        } 
-                
+        }
+
         //Identificação do Aluno
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
         $criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
         $criteria->join .='LEFT JOIN classroom c ON c.id = se.classroom_fk';
         $criteria->condition = 'c.school_year = :value '
-                            . 'AND t.send_year <= :year';
+                . 'AND t.send_year <= :year';
         $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
         $criteria->group = 't.id';
         $students = StudentIdentification::model()->findAll($criteria);
@@ -322,9 +400,9 @@ class AdminController extends Controller {
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
-            $export .= implode('|',$attributes);
+            $export .= implode('|', $attributes);
             $export .= "|\n";
-            
+
             //Documentos do Aluno
             $studentDocs = StudentDocumentsAndAddress::model()->findByPk($student->id);
             $attributes = $studentDocs->attributes;
@@ -334,16 +412,17 @@ class AdminController extends Controller {
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
-            array_pop($attributes);;
+            array_pop($attributes);
+            ;
             $export .= implode('|', $attributes);
             $export .= "|\n";
-            
+
             //Matricula do Aluno
             $criteria->select = 't.*';
             $criteria->condition = 't.student_fk = :value';
             $criteria->params = array(":value" => $student->id);
             $enrollments = StudentEnrollment::model()->findAll($criteria);
-            foreach($enrollments as $enrollment){
+            foreach ($enrollments as $enrollment) {
                 $attributes = $enrollment->attributes;
                 //Remove create_time
                 array_pop($attributes);
@@ -353,13 +432,13 @@ class AdminController extends Controller {
                 $export .= "|\n";
             }
         }
-        
-        $fileDir = Yii::app()->basePath . '/export/'.date('Y_').Yii::app()->user->school.'.TXT';
-        
+
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
         $result = $fm->write($fileDir, $export);
-        
+
         if ($result) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
         } else {
@@ -368,7 +447,6 @@ class AdminController extends Controller {
 
         $this->render('index');
     }
-    
 
     public function actionCreateUser() {
         $model = new Users;
@@ -383,13 +461,13 @@ class AdminController extends Controller {
                     // form inputs are valid, do something here
                     if ($model->save()) {
                         $save = true;
-                        foreach ($_POST['schools'] as $school){
+                        foreach ($_POST['schools'] as $school) {
                             $userSchool = new UsersSchool;
                             $userSchool->user_fk = $model->id;
                             $userSchool->school_fk = $school;
                             $save = $save && $userSchool->validate() && $userSchool->save();
                         }
-                        if($save){
+                        if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
@@ -416,7 +494,7 @@ class AdminController extends Controller {
 
         $auth = Yii::app()->authManager;
         $auth->assign('admin', 1);
-        
+
 //        //Criar usuário de teste, remover depois.
 //        /*         * ************************************************************************************************ */
 //        /**/$command = "INSERT INTO `users`VALUES"
@@ -459,25 +537,25 @@ class AdminController extends Controller {
         Yii::app()->db->createCommand($command)->query();
 
         $this->addTestUsers();
-        
+
         Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
 
     public function actionImport() {
-        
+
         $path = Yii::app()->basePath;
         //Se não passar parametro, o valor será predefinido
         if (empty($_FILES['file'])) {
             $fileDir = $path . '/import/2013_98018493.TXT';
-        }else{
+        } else {
             $myfile = $_FILES['file'];
-            $uploadfile = $path .'/import/'. basename($myfile['name']);
+            $uploadfile = $path . '/import/' . basename($myfile['name']);
             move_uploaded_file($myfile['tmp_name'], $uploadfile);
             $fileDir = $uploadfile;
         }
-        
-        
+
+
         $mode = 'r';
 
         //Abre o arquivo
@@ -572,13 +650,13 @@ class AdminController extends Controller {
         $auth->createOperation('createEnrollment', 'create a Enrollment');
         $auth->createOperation('updateEnrollment', 'update a Enrollment');
         $auth->createOperation('deleteEnrollment', 'delete a Enrollment');
-        
-        $auth->createOperation('updateFrequency', 'update a Frequency');
-        
-        $auth->createOperation('generateBFReport', 'generate BFReport');
-        
 
-     
+        $auth->createOperation('updateFrequency', 'update a Frequency');
+
+        $auth->createOperation('generateBFReport', 'generate BFReport');
+
+
+
         $role = $auth->createRole('manager');
         $role->addChild('createClassroom');
         $role->addChild('updateClassroom');
@@ -595,11 +673,11 @@ class AdminController extends Controller {
         $role->addChild('createEnrollment');
         $role->addChild('updateEnrollment');
         $role->addChild('deleteEnrollment');
-        
+
         $role->addChild('updateFrequency');
-        
+
         $role->addChild('generateBFReport');
-        
+
         $role->addChild('updateSchool');
 
 
@@ -623,12 +701,12 @@ class AdminController extends Controller {
     private function getInsertValues($registerLines) {
         foreach ($registerLines as $regType => $lines):
             $insertValue[$regType] = "";
-        
+
             $totalLines = count($lines) - 1;
-            
+
             $isSchoolIdentification = ($regType == "00");
             $isSchoolStructure = ($regType == "10");
-            
+
             $isRegInstructorIdentification = ($regType == "30");
             if ($isRegInstructorIdentification) {
                 $instructorInepIds[] = '';
@@ -641,13 +719,9 @@ class AdminController extends Controller {
 
                     if ($column == 0) {
                         $insertValue[$regType].= "(";
-                    } else if($regType != 00
-                        && $regType != 10
-                        && $regType != 51
-                        && $regType != 80
-                        && $column == 3){
+                    } else if ($regType != 00 && $regType != 10 && $regType != 51 && $regType != 80 && $column == 3) {
                         $value = "null";
-                    } else { 
+                    } else {
                         if ($regType == '51' && $column == 3) {
                             $withoutcomma = true;
                             $value = "(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
@@ -666,8 +740,8 @@ class AdminController extends Controller {
                     if ($isRegInstructorIdentification && $column == 2) {
                         $instructorInepIds[$line] = $value;
                     }
-                    
-                    if($isSchoolStructure && $totalColumns == 128){
+
+                    if ($isSchoolStructure && $totalColumns == 128) {
                         $lines[$line][sizeof($lines[$line])] = 'null';
                         $totalColumns++;
                     }
@@ -675,7 +749,7 @@ class AdminController extends Controller {
 
                     $value = ($value == 'null' || $withoutcomma) ? $value : "\"" . $value . "\"";
 
-                    if ($column + 1 > $totalColumns) {                      
+                    if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
                             $year = date("Y");
                             $value.= ',' . $year;
