@@ -24,7 +24,7 @@ class AdminController extends Controller {
                 'actions' => array('import', 'export',
                     'clearDB', 'acl',
                     'backup', 'data',
-                    'exportStudentIdentify'),
+                    'exportStudentIdentify', 'synchronizationExport'),
                 'users' => array('@'),
             ),
         );
@@ -38,63 +38,58 @@ class AdminController extends Controller {
     }
 
     public function actionSynchronizationExport() {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
+
         // Fazer Download no Final
         //Arquivo Json para adcionar no ZIP
         $json = array();
 
-        $allStudentIdentification = StudentIdentification::model()->findAll();
+        //Pesquisar todos as novas matrículas
+        $allStudentEnrollment = Yii::app()->db->createCommand('SELECT * FROM student_enrollment 
+        WHERE student_inep_id IS NULL OR classroom_inep_id IS NULL;')->queryAll();
+        $json['studentEnrollment'] = array();
         $json['studentIdentification'] = array();
-        foreach ($allStudentIdentification AS $studentIdentification) :
-            array_push($json['studentIdentification'], $studentIdentification['attributes']);
-        endforeach;
-
-//        $allStudentEnrollment = StudentEnrollment::model()->findAll();
-//        $json['studentEnrollment'] = array();
-//        foreach ($allStudentEnrollment AS $studentEnrollment) :
-//            array_push($json['studentEnrollment'], $studentEnrollment['attributes']);
-//        endforeach;
-        
-//        $allStudentDocumentAddress = StudentDocumentsAndAddress::model()->findAll();
-//        $json['studentDocumentAddress'] = array();
-//        foreach ($allStudentDocumentAddress AS $studentDocumentAddress) :
-//            array_push($json['studentDocumentAddress'], $studentDocumentAddress['attributes']);
-//        endforeach;
-
-        $allusers = Users::model()->findAll();
-        $json['users'] = array();
-        foreach ($allusers AS $users) :
-            array_push($json['users'], $users['attributes']);
-        endforeach;
-
-        $allUsersSchool = UsersSchool::model()->findAll();
-        $json['usersSchool'] = array();
-        foreach ($allUsersSchool AS $usersSchool) :
-            array_push($json['usersSchool'], $usersSchool['attributes']);
-        endforeach;
-
-        $allClassRoom = Classroom::model()->findAll();
+        $json['studentDocumentAddress'] = array();
         $json['classRoom'] = array();
-        foreach ($allClassRoom AS $classRoom) :
-            array_push($json['classRoom'], $classRoom['attributes']);
-        endforeach;
-
-        $allClassBoard = ClassBoard::model()->findAll();
         $json['classBoard'] = array();
-        foreach ($allClassBoard AS $classBoard) :
-            array_push($json['classBoard'], $classBoard['attributes']);
-        endforeach;
-
-        //Frequency is the model for table 'class'
-        $allClass = Frequency::model()->findAll();
         $json['class'] = array();
-        foreach ($allClass AS $class) :
-            array_push($json['class'], $class['attributes']);
-        endforeach;
-
-        $allClassFaults = ClassFaults::model()->findAll();
         $json['classFaults'] = array();
-        foreach ($allClassFaults AS $classFaults) :
-            array_push($json['classFaults'], $classFaults['attributes']);
+
+        foreach ($allStudentEnrollment AS $studentEnrollment) :
+
+            array_push($json['studentEnrollment'], $studentEnrollment);
+            //Pesquisa o estudante de cada matrícula e a turma
+            $studentIdentification = StudentIdentification::model()->findByPk($studentEnrollment['student_fk']);
+            array_push($json['studentIdentification'], $studentIdentification['attributes']);
+
+            $studentDocumentAddress = StudentDocumentsAndAddress::model()->findByAttributes(
+                    array('student_fk' => $studentEnrollment['student_fk']));
+            array_push($json['studentDocumentAddress'], $studentDocumentAddress['attributes']);
+
+            // Pequisa por fim a turma e aulas Novas
+            $classRoom = Classroom::model()->findByPk($studentEnrollment['classroom_fk']);
+            array_push($json['classRoom'], $classRoom['attributes']);
+
+            $classBoard = ClassBoard::model()->findByAttributes(
+                    array('classroom_fk' => $studentEnrollment['classroom_fk']));
+            array_push($json['classBoard'], $classBoard['attributes']);
+
+            //Frequency is the model for table 'class'
+            $allClass = Frequency::model()->findAllByAttributes(
+                    array('classroom_fk' => $studentEnrollment['classroom_fk']));
+            //Neste caso são muitas Aulas para um turma
+            foreach ($allClass AS $class) :
+                array_push($json['class'], $class['attributes']);
+                $allClassFaults = ClassFaults::model()->findAllByAttributes(
+                        array('class_fk' => $class['attributes']['id']));
+                //São muitas faltas registradas(de diferentes estudantes) numa mesma aula
+                foreach ($allClassFaults AS $classFaults) :
+                    array_push($json['classFaults'], $classFaults['attributes']);
+                endforeach;
+
+            endforeach;
+
         endforeach;
 
         $json_encode = json_encode($json);
@@ -103,7 +98,7 @@ class AdminController extends Controller {
         $zipname = 'ArquivoSincronizacaoTAG_' . $date . '.zip';
         $tempArchiveZip = new ZipArchive;
         $tempArchiveZip->open($zipname, ZipArchive::CREATE);
-        $tempArchiveZip->addFromString("syncTAG_$date.js", $json_encode);
+        $tempArchiveZip->addFromString("syncTAG_$date.json", $json_encode);
         //Salva as alterações no zip
         $tempArchiveZip->close();
 
