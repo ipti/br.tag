@@ -57,10 +57,13 @@ class AdminController extends Controller {
         $json['classFaults'] = array();
 
         foreach ($allStudentEnrollment AS $studentEnrollment) :
-
+            // RETIRAR O ID DE TODOS ANTES DE ADD
             array_push($json['studentEnrollment'], $studentEnrollment);
             //Pesquisa o estudante de cada matrícula e a turma
             $studentIdentification = StudentIdentification::model()->findByPk($studentEnrollment['student_fk']);
+
+            //var_dump($studentIdentification); exit();
+
             array_push($json['studentIdentification'], $studentIdentification['attributes']);
 
             $studentDocumentAddress = StudentDocumentsAndAddress::model()->findByAttributes(
@@ -113,6 +116,99 @@ class AdminController extends Controller {
     }
 
     public function actionSynchronizationImport() {
+        $name_tmp = $_FILES['file']['tmp_name'];
+        $name = $_FILES['file']['name'];
+        $fileImport = fopen($name_tmp, 'r');
+
+        //Ler o arquivo, enquanto não chegar no final
+        $jsonSyncTag = "";
+        while (!feof($fileImport)) {
+            //Ler linha do arquivo
+            $linha = fgets($fileImport, filesize($name_tmp));
+            $jsonSyncTag .= $linha;
+        }
+        //Fecha o ponteiro do arquivo
+        fclose($fileImport);
+
+        $syncTag = json_decode($jsonSyncTag, true);
+
+        //Array da relação dos ids de studentIdentification Antigos(OffLine) e os Novos(OnLine).
+        $idsStudentIdentification = array();
+        foreach ($syncTag['studentIdentification'] AS $studentIdentification):
+            $modelStudentIdentification = new StudentIdentification();
+            $modelStudentIdentification->attributes = $studentIdentification;
+            $oldId = $modelStudentIdentification->id;
+            $newId = null;
+            $modelStudentIdentification->id = null;
+            if ($modelStudentIdentification->save()) {
+                $newId = $modelStudentIdentification->id;
+            }
+            $idsStudentIdentification[$oldId] = $newId;
+        endforeach;
+
+        foreach ($syncTag['studentDocumentAddress'] AS $studentDocumentAddress):
+            $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
+            $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
+            //Possui o mesmo oldID = ao studentIdentification
+            $modelStudentDocumentAddress->id = $idsStudentIdentification[$modelStudentDocumentAddress->id];
+            $modelStudentDocumentAddress->save();
+        endforeach;
+
+        //Array da relação dos ids de classRoom Antigos(OffLine) e os Novos(OnLine).
+        $idsClassRoom = array();
+        foreach ($syncTag['classRoom'] AS $classRoom):
+            $modelClassRoom = new Classroom();
+            $modelClassRoom->attributes = $classRoom;
+            $oldId = $modelClassRoom->id;
+            $newId = null;
+            $modelClassRoom->id = null;
+            if ($modelClassRoom->save()) {
+                $newId = $modelClassRoom->id;
+            }
+            $idsClassRoom[$oldId] = $newId;
+        endforeach;
+
+        foreach ($syncTag['studentEnrollment'] AS $studentEnrollment):
+            $modelStudentEnrollment = new StudentEnrollment();
+            $modelStudentEnrollment->attributes = $studentEnrollment;
+            $modelStudentEnrollment->id = null;
+            $modelStudentEnrollment->student_fk = $idsStudentIdentification[$modelStudentEnrollment->student_fk];
+            $modelStudentEnrollment->classroom_fk = $idsClassRoom[$modelStudentEnrollment->classroom_fk];
+            $modelStudentEnrollment->save();
+        endforeach;
+
+        foreach ($syncTag['classBoard'] AS $classBoard):
+            $modelClassBoard = new ClassBoard();
+            $modelClassBoard->attributes = $classBoard;
+            $modelClassBoard->id = null;
+            $modelClassBoard->classroom_fk = $idsClassRoom[$modelClassBoard->classroom_fk];
+            $modelClassBoard->save();
+        endforeach;
+
+        //Array da relação dos ids de Class Antigos(OffLine) e os Novos(OnLine).
+        $idsClass = array();
+        foreach ($syncTag['class'] AS $class):
+            $modelClass = new Frequency();
+            $modelClass->attributes = $class;
+            $oldId = $modelClass->id;
+            $newId = null;
+            $modelClass->id = null;
+            $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
+            if ($modelClass->save()) {
+                $newId = $modelClass->id;
+            }
+            $idsClass[$oldId] = $newId;
+        endforeach;
+
+        foreach ($syncTag['classFaults'] AS $classFaults):
+            $modelClassFaults = new ClassFaults();
+            $modelClassFaults->attributes = $classFaults;
+            $modelClassFaults->id = null;
+            $modelClassFaults->class_fk = $idsClass[$modelClassFaults->class_fk];
+            $modelClassFaults->student_fk = $idsStudentIdentification[$modelClassFaults->student_fk];        
+            $modelClassFaults->save();
+        endforeach;
+        
         
     }
 
