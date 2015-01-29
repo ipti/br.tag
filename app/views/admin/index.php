@@ -105,24 +105,21 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     <div class="clearfix"></div>
                 </a>
             </div>
-            <fieldset class="sinc">
-                <legend> Sincronização </legend>
-                <div class="syncExp">
+                <div class="span3">
                     <a href="#" id="callSyncExport" class="widget-stats">
-                        <span class="glyphicons glyphicon-export"><i></i></span>
+                        <span class="glyphicons down_arrow"><i></i></span>
                         <span class="txt">Sincronização(Exportar)</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
 
-                <div class="syncImp">
+                <div class="span3">
                     <a href="#" class="widget-stats" onclick='$("#syncImport-file-dialog").dialog("open");'>
-                        <span class="glyphicons import"><i></i></span>
+                        <span class="glyphicons up_arrow"><i></i></span>
                         <span class="txt">Sincronização(Importar)</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-            </fieldset>
 
         </div>
     </div>
@@ -142,7 +139,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
             </div>
         </div>
     </div>
-
     <!-- Modal Importar Arquivo de sincronização -->
     <div id="syncImport-file-dialog" title="<?php echo Yii::t('default', 'Import File Dialog'); ?>">
         <div class="row-fluid">
@@ -153,6 +149,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <div class="controls">
                             <input type="file" name="file" id="syncFile" accept=".json" />
                         </div>
+<!--                         <img src="/themes/default/img/loading.gif" id="progressoSyncImport"/>-->
                     </div>
                 </form>
             </div>
