@@ -140,7 +140,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
         </div>
     </div>
     <!-- Modal Importar Arquivo de sincronização -->
-    <div id="syncImport-file-dialog" title="<?php echo Yii::t('default', 'Import File Dialog'); ?>">
+    <div id="syncImport-file-dialog" title="<?php echo Yii::t('default', 'Import Sync File Dialog'); ?>">
         <div class="row-fluid">
             <div class="span12">
                 <form id="syncImport-file-form" method="post" action="<?php //echo CController::createUrl('admin/synchronizationImport'); ?>" enctype="multipart/form-data" >
@@ -149,7 +149,8 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <div class="controls">
                             <input type="file" name="file" id="syncFile" accept=".json" />
                         </div>
-<!--                         <img src="/themes/default/img/loading.gif" id="progressoSyncImport"/>-->
+                        <img src="/themes/default/img/loading.gif" id="progressoSyncImport"
+                             style="z-index: 1010;  position: fixed; margin-top: -15%; margin-left:10%; display: none;" />
                     </div>
                 </form>
             </div>

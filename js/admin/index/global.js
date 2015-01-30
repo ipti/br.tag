@@ -39,7 +39,8 @@ $(function ()
                     type: "POST",
                     success: function (result)
                     {
-                        console.log(result);
+                        $('#progressoSyncImport').hide();
+                        $("#syncImport-file-dialog").dialog("close");
                     }
                 });
 

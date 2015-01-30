@@ -34,8 +34,8 @@
         buttons: [
             {text: btnImport,
                 click: function() {
+                    $('#progressoSyncImport').show();
                     $("#syncImport-file-form").submit();
-                    $(this).dialog("close");
                 }
             },
             {text: btnCancel,

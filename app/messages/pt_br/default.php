@@ -566,6 +566,9 @@ return array(
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
     
+    //Sync
+    'Import Sync File Dialog' => 'Importar Informações do TAG-Offline',
+    
     'Send' => 'Enviar em '.(date('Y')+1),
     
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
