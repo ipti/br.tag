@@ -132,43 +132,69 @@ class AdminController extends Controller {
 
         //Array da relação dos ids de studentIdentification Antigos(OffLine) e os Novos(OnLine).
         $idsStudentIdentification = array();
+        $offIdsStudentIdentificationUpdated = array();
         foreach ($syncTag['studentIdentification'] AS $studentIdentification):
             if (isset($studentIdentification)) {
-                $modelStudentIdentification = new StudentIdentification();
-                $modelStudentIdentification->attributes = $studentIdentification;
-                $oldId = $studentIdentification['id'];
-                $newId = null;
-                $modelStudentIdentification->id = null;
-                if ($modelStudentIdentification->save()) {
-                    $newId = $modelStudentIdentification->id;
+
+                $offlineId = $studentIdentification['id'];
+                $onlineId = null;
+                //Verificar se o aluno matriculado já existe no DB online
+                if (isset($studentIdentification['inep_id'])) {
+                    //Atualizar o Estudante já Existente
+                    $studentDocumentsAndAddressOnline = StudentIdentification::model()->findByAttributes(array('inep_id' => $studentIdentification['inep_id']));
+                    $studentDocumentsAndAddressOnline->attributes = $studentIdentification;
+                    $studentDocumentsAndAddressOnline->save();
+                    $onlineId = $studentDocumentsAndAddressOnline->id;
+                    array_push($offIdsStudentIdentificationUpdated, $offlineId);
+                } else {
+                    //Cria um novo Aluno
+                    $modelStudentIdentification = new StudentIdentification();
+                    $modelStudentIdentification->attributes = $studentIdentification;
+                    $modelStudentIdentification->id = null;
+                    if ($modelStudentIdentification->save()) {
+                        $onlineId = $modelStudentIdentification->id;
+                    }
                 }
-                $idsStudentIdentification[$oldId] = $newId;
+                $idsStudentIdentification[$offlineId] = $onlineId;
             }
         endforeach;
 
         foreach ($syncTag['studentDocumentAddress'] AS $studentDocumentAddress):
-            if (isset($studentDocumentAddress)) {
-                $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
-                $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
-                //Possui o mesmo oldID = ao studentIdentification
-                $modelStudentDocumentAddress->id = $idsStudentIdentification[$studentDocumentAddress['id']];
-                $modelStudentDocumentAddress->save();
+            //id do documents Address = id student identification
+
+            if (in_array($studentDocumentAddress['id'], $offIdsStudentIdentificationUpdated)) {
+                //Atualiza o Online
+                $studentDocumentsAndAddressOnline = StudentDocumentsAndAddress::model()->findByPk($idsStudentIdentification[$studentDocumentAddress['id']]);
+                $studentDocumentsAndAddressOnline->attributes = $studentDocumentAddress;
+                $studentDocumentsAndAddressOnline->save();
+            } else {
+                //Cria um Novo
+                if (isset($studentDocumentAddress)) {
+                    $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
+                    $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
+                    //Possui o mesmo oldID = ao studentIdentification
+                    $modelStudentDocumentAddress->id = $idsStudentIdentification[$studentDocumentAddress['id']];
+                    $modelStudentDocumentAddress->save();
+                }
             }
+
         endforeach;
 
         //Array da relação dos ids de classRoom Antigos(OffLine) e os Novos(OnLine).
+        //STOP HERE !!!! verificar quando o classRoom inepId is null ou não
+        
         $idsClassRoom = array();
         foreach ($syncTag['classRoom'] AS $classRoom):
             if (isset($classRoom)) {
                 $modelClassRoom = new Classroom();
                 $modelClassRoom->attributes = $classRoom;
-                $oldId = $classRoom['id'];
-                $newId = null;
+                $offlineId = $classRoom['id'];
+                $onlineId = null;
                 $modelClassRoom->id = null;
                 if ($modelClassRoom->save()) {
-                    $newId = $modelClassRoom->id;
+                    $onlineId = $modelClassRoom->id;
                 }
-                $idsClassRoom[$oldId] = $newId;
+                $idsClassRoom[$offlineId] = $onlineId;
             }
         endforeach;
 
@@ -199,14 +225,14 @@ class AdminController extends Controller {
             if (isset($class)) {
                 $modelClass = new Frequency();
                 $modelClass->attributes = $class;
-                $oldId = $class['id'];
-                $newId = null;
+                $offlineId = $class['id'];
+                $onlineId = null;
                 $modelClass->id = null;
                 $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
                 if ($modelClass->save()) {
-                    $newId = $modelClass->id;
+                    $onlineId = $modelClass->id;
                 }
-                $idsClass[$oldId] = $newId;
+                $idsClass[$offlineId] = $onlineId;
             }
         endforeach;
 
