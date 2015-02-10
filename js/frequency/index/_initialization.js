@@ -20,7 +20,6 @@
                     $('#frequency').show();
                     return true;
                 }
-                console.log(data['days']);
                 $('#frequency > thead').html('<tr><th class="center">Alunos</th></tr>');
                 $('#frequency > tbody').html('');
                 
@@ -70,7 +69,7 @@
                                 }
                                 if(data['days'][weekDay][i] != "" ){
                                    tbody += '<span>';
-                                    tbody += '<input id="day[' + day + '][' + e + ']" name="student[' + data['students']['id'][j] + '][' + day + '][' + e + ']" class="student-fault checkbox" type="checkbox" value="1" style="opacity: 100;"' + (fault ? ' checked disabled' : ' ') + '>';
+                                    tbody += '<input id="day[' + day + '][' + e + ']" name="student[' + data['students']['id'][j] + '][' + day + '][' + e + ']" class="student-fault checkbox" type="checkbox" value="1"  last='+(fault ? '"false"' : '"true"')+'  style="opacity: 100;"' + (fault ? ' checked disabled' : ' ') + '>';
                                     tbody += '</span>';
                                 }
                             });
@@ -100,7 +99,7 @@
         var students = $("input.student-fault[id='" + id + "']");
         $(students).each(function(i, e) {
             var student = $(e);
-            if (student.attr('disabled') == 'disabled' && !student.attr('checked')) {
+            if ((student.attr('last') == 'true') && (student.attr('disabled') == 'disabled')) {
                 student.removeAttr('disabled');
             } else {
                 student.attr('disabled', 'disabled');
