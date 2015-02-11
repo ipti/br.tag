@@ -310,7 +310,7 @@ class AdminController extends Controller {
      * @return redirecrToIndex|boolean Return to the index page with a FlashMenssage or return $boolean
      */
     public static function actionBackup($return = TRUE) {
-        Yii::import('ext.dumpDB.dumpDB');
+        /*Yii::import('ext.dumpDB.dumpDB');
         $dumper = new dumpDB();
         $dump = $dumper->getDump(false);
 
@@ -328,7 +328,8 @@ class AdminController extends Controller {
             }
             Yii::app()->controller->redirect('?r=admin/index');
         }
-        return $result;
+        return $result;*/
+	return 0;
     }
 
     /**

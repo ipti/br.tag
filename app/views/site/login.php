@@ -42,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $year = date('Y');
                             //botar condição do mês, a partir de novembro, mostrar o próximo ano.
                             $years = array();
-                            for ($i = $year + 1; $i >= 2013; $i--) {
+                            for ($i = $year; $i >= 2014; $i--) {
                                 $years[$i] = $i;
                             }
                             echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));
