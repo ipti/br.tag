@@ -29,7 +29,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
 <div class="innerLR">
-
+     <?php if (Yii::app()->user->hasFlash('success')&&(!$modelClassroom->isNewRecord)): ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
@@ -38,16 +42,16 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
                 <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
                 <?php if (!$modelClassroom->isNewRecord) { ?>
-                <li id="tab-students">
-                    <a class="glyphicons parents" href="<?php echo Yii::app()->createUrl('reports/EnrollmentPerClassroomReport',array('id'=>$modelClassroom->id))?>">
-                        <i></i><?php echo Yii::t('default', 'Enrollments') ?>
-                    </a>
-                </li>
-                <li id="tab-performance">
-                    <a class="glyphicons stats" href="<?php echo Yii::app()->createUrl('reports/AtaSchoolPerformance',array("id"=>$modelClassroom->id))?>" >
-                        <i></i><?php echo Yii::t('default', 'Performance') ?>
-                    </a>
-                </li>
+                    <li id="tab-students">
+                        <a class="glyphicons parents" href="#students" data-toggle="tab">
+                            <i></i><?php echo Yii::t('default', 'Enrollments') ?>
+                        </a>
+                    </li>
+                    <li id="tab-performance">
+                        <a target="_blank" class="glyphicons stats" href="<?php echo Yii::app()->createUrl('reports/AtaSchoolPerformance', array("id" => $modelClassroom->id)) ?>" >
+                            <i></i><?php echo Yii::t('default', 'Performance') ?>
+                        </a>
+                    </li>
                 <?php } ?>r
             </ul>
         </div>
@@ -89,14 +93,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'T' => 'Tarde',
                                         'N' => 'Noite',
                                         'I' => 'Integral'), array(
-                                        		'class' => 'select-search-off',
-                                        		'ajax' => array(
-                                        				'type' => 'POST',
-                                        				'url' => CController::createUrl('classroom/updateTime'),
-                                        				'success' => "function(data){
+                                        'class' => 'select-search-off',
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('classroom/updateTime'),
+                                            'success' => "function(data){
                                                 				updateTime(data);
                                                 		}",
-                                        		),
+                                        ),
                                     ));
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'turn'); ?>
@@ -156,7 +160,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array("checked" => "checked",'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td></td>
                                         </tr>
@@ -168,7 +172,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0=>'',  1=>'', 2=>'', 3=>'', 4=>'', 5=>''), array('class' => 'select-search-off', 'ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('class' => 'select-search-off', 'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -370,9 +374,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
 
-<!--                <div class="tab-pane" id="students">
+                <div class="tab-pane" id="students">
                     <div class="row-fluid">
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
+                            
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <tbody>
                                     <?php
@@ -386,9 +391,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $criteria->order = 's.name';
 
                                         $enrollments = StudentEnrollment::model()->findAll($criteria);
-                                        echo "<tr><th>Matrícula</th><th>Nome</th></tr>";
+                                        echo "<tr><th>Matrícula</th><th>Nome</th><th>Cancelar</th></tr>";
                                         foreach ($enrollments as $enr) {
-                                            echo "<tr><td>" . $enr->id . "</td><td>" . $enr->studentFk->name . "</td></tr>";
+                                            echo "<tr><td>" . $enr->id . "</td><td><a href='".Yii::app()->createUrl('student/update',array('id'=>$enr->studentFk->id))."'>" . $enr->studentFk->name . "</a></td>".
+                                                "<td><a href='".Yii::app()->createUrl('enrollment/delete',array('id'=>$enr->id))."'>Cancelar Matrícula</a></td></tr>";
                                         }
                                         echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
                                     } else {
@@ -399,7 +405,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </table>
                         </div>
                     </div>
-                </div>    -->
+                </div>   
                 <?php $this->endWidget(); ?>
             </div>
         </div>
@@ -500,24 +506,24 @@ $form = $this->beginWidget('CActiveForm', array(
     ////////////////////////////////////////////////
     // Variables and Initialization               //
     ////////////////////////////////////////////////
-    var teachingData        = <?php echo json_encode($teachingDataArray); ?>;
-    var disciplines         = <?php echo json_encode($disciplinesArray); ?>;
-    var disciplinesLabels   = <?php echo json_encode($disciplinesLabels); ?>;
-    var teachingDataNames   = <?php echo json_encode($teachingDataNames); ?>;
+    var teachingData = <?php echo json_encode($teachingDataArray); ?>;
+    var disciplines = <?php echo json_encode($disciplinesArray); ?>;
+    var disciplinesLabels = <?php echo json_encode($disciplinesLabels); ?>;
+    var teachingDataNames = <?php echo json_encode($teachingDataNames); ?>;
 
-    var form            = '#Classroom_';
-    var formClassBoard  = "#ClassBoard_";
-    var formTeaching    = '#InstructorTeachingData_';
-    var lesson          = {};
-    var lessons         = {};
-    var lesson_id       = 1;
-    var lesson_start    = 1;
-    var lesson_end      = 2;
+    var form = '#Classroom_';
+    var formClassBoard = "#ClassBoard_";
+    var formTeaching = '#InstructorTeachingData_';
+    var lesson = {};
+    var lessons = {};
+    var lesson_id = 1;
+    var lesson_start = 1;
+    var lesson_end = 2;
 
-    var date            = new Date();
-    var d               = date.getDate();
-    var m               = date.getMonth();
-    var y               = date.getFullYear();
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
 
     var calendar;
 
@@ -525,30 +531,30 @@ $form = $this->beginWidget('CActiveForm', array(
     var myCreateDialog;
     var myUpdateDialog;
 
-    var instructor      = $("#insertclass-instructor");
-    var uInstructor     = $("#insertclass-update-instructor");
-    var discipline      = $("#discipline");
-    var uDiscipline     = $("#update-discipline");
+    var instructor = $("#insertclass-instructor");
+    var uInstructor = $("#insertclass-update-instructor");
+    var discipline = $("#discipline");
+    var uDiscipline = $("#update-discipline");
 
-    var classroomId     = '<?php echo $modelClassroom->id; ?>';
+    var classroomId = '<?php echo $modelClassroom->id; ?>';
 
-    var firstTime       = true;
+    var firstTime = true;
 
-    var getAssistanceURL= '<?php echo Yii::app()->createUrl('classroom/getassistancetype')?>';
-    var jsonCompActv    = '<?php echo json_encode($complementaryActivities); ?>';
-    var eventsUrl       = '<?php echo CController::createUrl('classroom/getClassBoard',array('classroom_fk'=>$modelClassroom->id)); ?>';
+    var getAssistanceURL = '<?php echo Yii::app()->createUrl('classroom/getassistancetype') ?>';
+    var jsonCompActv = '<?php echo json_encode($complementaryActivities); ?>';
+    var eventsUrl = '<?php echo CController::createUrl('classroom/getClassBoard', array('classroom_fk' => $modelClassroom->id)); ?>';
     var updateLessonUrl = '<?php echo CController::createUrl('classroom/updateLesson'); ?>';
-    var addLessonUrl    = '<?php echo CController::createUrl('classroom/addLesson'); ?>';
+    var addLessonUrl = '<?php echo CController::createUrl('classroom/addLesson'); ?>';
     var deleteLessonUrl = '<?php echo CController::createUrl('classroom/deleteLesson'); ?>';
 
-    var btnCreate       = "<?php echo Yii::t('default', 'Create'); ?>";
-    var btnCancel       = "<?php echo Yii::t('default', 'Cancel'); ?>";
-    var btnDelete       = "<?php echo Yii::t('default', 'Delete'); ?>";
-    var btnUpdate       = "<?php echo Yii::t('default', 'Update'); ?>";
-    
+    var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
+    var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
+    var btnDelete = "<?php echo Yii::t('default', 'Delete'); ?>";
+    var btnUpdate = "<?php echo Yii::t('default', 'Update'); ?>";
 
-    $("#print").on('click', function() {
+
+    $("#print").on('click', function () {
         window.print();
     });
-    
+
 </script>

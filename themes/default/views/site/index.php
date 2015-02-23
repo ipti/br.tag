@@ -27,13 +27,13 @@ $year = Yii::app()->user->year;
                         <div class="clearfix"></div>
                     </a>
                 </div>
-                <div class="span3">
+                <!--<div class="span3">
                     <a href="<?php echo Yii::app()->createUrl('sorcerer/configuration/student')?>"
                        class="widget-stats"> <span class="glyphicons sort"><i></i></span>
                         <span class="txt">Matricular em lote</span>
                         <div class="clearfix"></div>
                     </a>
-                </div>
+                </div>-->
                 <div class="span3">
                     <a href="<?php echo Yii::app()->createUrl('instructor/create')?>"
                        class="widget-stats"> <span class="glyphicons nameplate"><i></i></span>

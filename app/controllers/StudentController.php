@@ -185,10 +185,12 @@ class StudentController extends Controller {
     public function actionUpdate($id) {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
-        $modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
-
+        
+        //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+        $modelEnrollment = new StudentEnrollment(); 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelStudentIdentification);
+        //$modelEnrollment = NULL;
 
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];

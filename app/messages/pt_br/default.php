@@ -573,5 +573,9 @@ return array(
     
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
+    //Wizard
+    'Classroom Configurarion' => 'Reaproveitamento das Turmas',
+    'Copy'=>'Copiar',
+    'Select Classrom'=>'Selecione uma Turma'
         )
 ?>

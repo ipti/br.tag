@@ -60,6 +60,7 @@ array('label'=> Yii::t('default', 'Create a new Classroom'), 'url'=>array('creat
             </div>
         </div>
         <div class="columntwo">
+            <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom");?>"><?php echo Yii::t('default','Classroom Configurarion').' '.(Yii::app()->user->year - 1) ?></a>
         </div>
     </div>
 

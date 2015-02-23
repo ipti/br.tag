@@ -280,8 +280,7 @@ if($count){
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor')?>"><i></i><span>Professor</span></a>
                             </li>
                             <li id="menu-frequency">
-                                <a class="glyphicons check" style="opacity:0.5"  href="#"><i></i><span>Frequência</span></a>
-                                <!-- <?php echo yii::app()->createUrl('frequency')?>-->
+                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency')?>"><i></i><span>Frequência</span></a>
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Avaliação</span></a>

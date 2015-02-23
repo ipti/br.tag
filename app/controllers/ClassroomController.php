@@ -94,7 +94,6 @@ class ClassroomController extends Controller
         public function actionUpdateComplementaryActivity(){
             $classroom = new Classroom();
             $classroom->attributes = $_POST['Classroom'];
-            
             $id1 = $classroom->complementary_activity_type_1;
             $id2 = $classroom->complementary_activity_type_2;
             $id3 = $classroom->complementary_activity_type_3;
