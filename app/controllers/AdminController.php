@@ -118,6 +118,7 @@ class AdminController extends Controller {
         $name = $_FILES['file']['name'];
         $fileImport = fopen($name_tmp, 'r');
 
+        $msgException = "";
         //Ler o arquivo, enquanto não chegar no final
         $jsonSyncTag = "";
         while (!feof($fileImport)) {
@@ -139,21 +140,25 @@ class AdminController extends Controller {
                 $offlineId = $studentIdentification['id'];
                 $onlineId = null;
                 //Verificar se o aluno matriculado já existe no DB online
-                if (isset($studentIdentification['inep_id'])) {
-                    //Atualizar o Estudante já Existente
-                    $studentDocumentsAndAddressOnline = StudentIdentification::model()->findByAttributes(array('inep_id' => $studentIdentification['inep_id']));
-                    $studentDocumentsAndAddressOnline->attributes = $studentIdentification;
-                    $studentDocumentsAndAddressOnline->save();
-                    $onlineId = $studentDocumentsAndAddressOnline->id;
-                    array_push($offIdsStudentIdentificationUpdated, $offlineId);
-                } else {
-                    //Cria um novo Aluno
-                    $modelStudentIdentification = new StudentIdentification();
-                    $modelStudentIdentification->attributes = $studentIdentification;
-                    $modelStudentIdentification->id = null;
-                    if ($modelStudentIdentification->save()) {
-                        $onlineId = $modelStudentIdentification->id;
+                try {
+                    if (isset($studentIdentification['inep_id'])) {
+                        //Atualizar o Estudante já Existente
+                        $studentDocumentsAndAddressOnline = StudentIdentification::model()->findByAttributes(array('inep_id' => $studentIdentification['inep_id']));
+                        $studentDocumentsAndAddressOnline->attributes = $studentIdentification;
+                        $studentDocumentsAndAddressOnline->save();
+                        $onlineId = $studentDocumentsAndAddressOnline->id;
+                        array_push($offIdsStudentIdentificationUpdated, $offlineId);
+                    } else {
+                        //Cria um novo Aluno
+                        $modelStudentIdentification = new StudentIdentification();
+                        $modelStudentIdentification->attributes = $studentIdentification;
+                        $modelStudentIdentification->id = null;
+                        if ($modelStudentIdentification->save()) {
+                            $onlineId = $modelStudentIdentification->id;
+                        }
                     }
+                } catch (Exception $e) {
+                    $msgException.= "Exception STUDENT IDENTIFICATION: " . $e->getMessage() . "\n";
                 }
                 $idsStudentIdentification[$offlineId] = $onlineId;
             }
@@ -161,38 +166,57 @@ class AdminController extends Controller {
 
         foreach ($syncTag['studentDocumentAddress'] AS $studentDocumentAddress):
             //id do documents Address = id student identification
-
-            if (in_array($studentDocumentAddress['id'], $offIdsStudentIdentificationUpdated)) {
-                //Atualiza o Online
-                $studentDocumentsAndAddressOnline = StudentDocumentsAndAddress::model()->findByPk($idsStudentIdentification[$studentDocumentAddress['id']]);
-                $studentDocumentsAndAddressOnline->attributes = $studentDocumentAddress;
-                $studentDocumentsAndAddressOnline->save();
-            } else {
-                //Cria um Novo
-                if (isset($studentDocumentAddress)) {
-                    $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
-                    $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
-                    //Possui o mesmo oldID = ao studentIdentification
-                    $modelStudentDocumentAddress->id = $idsStudentIdentification[$studentDocumentAddress['id']];
-                    $modelStudentDocumentAddress->save();
+            try {
+                if (in_array($studentDocumentAddress['id'], $offIdsStudentIdentificationUpdated)) {
+                    //Atualiza o Online
+                    $studentDocumentsAndAddressOnline = StudentDocumentsAndAddress::model()->findByPk($idsStudentIdentification[$studentDocumentAddress['id']]);
+                    $studentDocumentsAndAddressOnline->attributes = $studentDocumentAddress;
+                    $studentDocumentsAndAddressOnline->save();
+                } else {
+                    //Cria um Novo
+                    if (isset($studentDocumentAddress)) {
+                        $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
+                        $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
+                        //Possui o mesmo oldID = ao studentIdentification
+                        $modelStudentDocumentAddress->id = $idsStudentIdentification[$studentDocumentAddress['id']];
+                        $modelStudentDocumentAddress->save();
+                    }
                 }
+            } catch (Exception $e) {
+                $msgException.= "Exception STUDENT DOCUMENTADDRESS: " . $e->getMessage() . "\n";
             }
 
         endforeach;
 
-        //Array da relação dos ids de classRoom Antigos(OffLine) e os Novos(OnLine).
-        //STOP HERE !!!! verificar quando o classRoom inepId is null ou não
-        
+        //Array da relação dos ids de classRoomc Antigos(OffLine) e os Novos(OnLine).
+        $offIdsClassroomUpdated = array();
         $idsClassRoom = array();
         foreach ($syncTag['classRoom'] AS $classRoom):
             if (isset($classRoom)) {
-                $modelClassRoom = new Classroom();
-                $modelClassRoom->attributes = $classRoom;
+
                 $offlineId = $classRoom['id'];
                 $onlineId = null;
-                $modelClassRoom->id = null;
-                if ($modelClassRoom->save()) {
-                    $onlineId = $modelClassRoom->id;
+                //Verificar se o classRoom á existe no DB online
+                try {
+                    if (isset($classRoom['inep_id'])) {
+                        //Atualiza no BD online
+                        $classRoomOnline = Classroom::model()->findByAttributes(array('inep_id' => $classRoom['inep_id']));
+                        $classRoomOnline->attributes = $classRoom;
+                        $classRoomOnline->save();
+                        $onlineId = $classRoomOnline->id;
+                        array_push($offIdsClassroomUpdated, $offlineId);
+                    } else {
+                        //Cria uma nova
+                        $modelClassRoom = new Classroom();
+                        $modelClassRoom->attributes = $classRoom;
+                        $onlineId = null;
+                        $modelClassRoom->id = null;
+                        if ($modelClassRoom->save()) {
+                            $onlineId = $modelClassRoom->id;
+                        }
+                    }
+                } catch (Exception $e) {
+                    $msgException.= "Exception CLASSROOM: " . $e->getMessage() . "\n";
                 }
                 $idsClassRoom[$offlineId] = $onlineId;
             }
@@ -205,47 +229,104 @@ class AdminController extends Controller {
                 $modelStudentEnrollment->id = null;
                 $modelStudentEnrollment->student_fk = $idsStudentIdentification[$modelStudentEnrollment->student_fk];
                 $modelStudentEnrollment->classroom_fk = $idsClassRoom[$modelStudentEnrollment->classroom_fk];
-                $modelStudentEnrollment->save();
+                try {
+                    $modelStudentEnrollment->save();
+                } catch (Exception $e) {
+                    $msgException.= "Exception STUDENT ENROLLMENT: " . $e->getMessage() . "\n";
+                }
             }
         endforeach;
 
         foreach ($syncTag['classBoard'] AS $classBoard):
             if (isset($classBoard)) {
-                $modelClassBoard = new ClassBoard();
-                $modelClassBoard->attributes = $classBoard;
-                $modelClassBoard->id = null;
-                $modelClassBoard->classroom_fk = $idsClassRoom[$modelClassBoard->classroom_fk];
-                $modelClassBoard->save();
+                $classBoard['id'] = null;
+                $classBoardOnline = ClassBoard::model()->findByAttributes(array('discipline_fk' => $classBoard['discipline_fk'],
+                    'classroom_fk' => $idsClassRoom[$classBoard['classroom_fk']], 'instructor_fk' => $classBoard['instructor_fk']));
+                try {
+                    if (isset($classBoardOnline)) {
+                        //Existindo, então fara o update
+                        $classBoardOnline->attributes = $classBoard;
+                        $classBoardOnline->classroom_fk = $idsClassRoom[$classBoard['classroom_fk']];
+                        $classBoardOnline->save();
+                    } else {
+                        //Cria um novo
+                        $modelClassBoard = new ClassBoard();
+                        $modelClassBoard->attributes = $classBoard;
+                        $modelClassBoard->id = null;
+                        $modelClassBoard->classroom_fk = $idsClassRoom[$modelClassBoard->classroom_fk];
+                        $modelClassBoard->save();
+                    }
+                } catch (Exception $e) {
+                    $msgException.= "Exception CLASSBOARD: " . $e->getMessage() . "\n";
+                }
             }
         endforeach;
 
         //Array da relação dos ids de Class Antigos(OffLine) e os Novos(OnLine).
         $idsClass = array();
         foreach ($syncTag['class'] AS $class):
+
             if (isset($class)) {
-                $modelClass = new Frequency();
-                $modelClass->attributes = $class;
                 $offlineId = $class['id'];
+                $class['id'] = null;
                 $onlineId = null;
-                $modelClass->id = null;
-                $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
-                if ($modelClass->save()) {
-                    $onlineId = $modelClass->id;
+
+                $classOnline = Frequency::model()->findByAttributes(array('discipline_fk' => $class['discipline_fk'],
+                    'classroom_fk' => $idsClassRoom[$class['classroom_fk']], 'month' => $class['month'], 'day' => $class['day']));
+                try {
+                    if (isset($classOnline)) {
+                        //Atualiza
+                        $classOnline->attributes = $class;
+                        $classOnline->classroom_fk = $idsClassRoom[$class['classroom_fk']];
+                        if ($classOnline->save()) {
+                            $onlineId = $classOnline->id;
+                        }
+                    } else {
+                        //Cria um Novo
+                        $modelClass = new Frequency();
+                        $modelClass->attributes = $class;
+                        $modelClass->id = null;
+                        $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
+                        if ($modelClass->save()) {
+                            $onlineId = $modelClass->id;
+                        }
+                    }
+                } catch (Exception $e) {
+                    $msgException.= "Exception CLASS: " . $e->getMessage() . "\n";
                 }
+
                 $idsClass[$offlineId] = $onlineId;
             }
         endforeach;
 
         foreach ($syncTag['classFaults'] AS $classFaults):
             if (isset($classFaults)) {
-                $modelClassFaults = new ClassFaults();
-                $modelClassFaults->attributes = $classFaults;
-                $modelClassFaults->id = null;
-                $modelClassFaults->class_fk = $idsClass[$modelClassFaults->class_fk];
-                $modelClassFaults->student_fk = $idsStudentIdentification[$modelClassFaults->student_fk];
-                $modelClassFaults->save();
+                $classFaults['id'] = null;
+                $classFaultsOnline = ClassFaults::model()->findByAttributes(array('class_fk' => $classFaults['class_fk'],
+                    'student_fk' => $classFaults['student_fk']));
+                try {
+                    if (isset($classFaultsOnline)) {
+                        //Atualiza
+                        $classFaultsOnline->attributes = $classFaults;
+                        $classFaultsOnline->class_fk = $idsClass[$classFaults['class_fk']];
+                        $classFaultsOnline->student_fk = $idsStudentIdentification[$classFaults['student_fk']];
+                        $classFaultsOnline->save();
+                    } else {
+                        //Cria um Novo
+                        $modelClassFaults = new ClassFaults();
+                        $modelClassFaults->attributes = $classFaults;
+                        $modelClassFaults->id = null;
+                        $modelClassFaults->class_fk = $idsClass[$modelClassFaults->class_fk];
+                        $modelClassFaults->student_fk = $idsStudentIdentification[$modelClassFaults->student_fk];
+                        $modelClassFaults->save();
+                    }
+                } catch (Exception $e) {
+                    $msgException.= "Exception CLASSFAULT: " . $e->getMessage() . "\n";
+                }
             }
         endforeach;
+
+        echo $msgException;
     }
 
     /**
