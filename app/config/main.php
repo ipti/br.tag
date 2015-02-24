@@ -20,7 +20,7 @@ return array(
 		'application.models.*',
 		'application.controllers.*',
 		'application.components.*',
-        'application.modules.sorcerer.models.*',
+        'application.modules.wizard.models.*',
 	),
 
 	'modules'=>array(
@@ -33,7 +33,7 @@ return array(
 			'generatorPaths'=>array(
         	),
 		),
-        'sorcerer',
+        'wizard',
 	),
 
 	// application components
@@ -58,10 +58,10 @@ return array(
                  */
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=192.168.25.209;dbname=TAG_SGE_PICARREIRA',
+			'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.boquim',
 			'emulatePrepare' => true,
-			'username' => 'admin',
-			'password' => 'p@s4ipti',
+			'username' => 'root',
+			'password' => 'p@s4root',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(
