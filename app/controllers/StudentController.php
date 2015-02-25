@@ -122,6 +122,7 @@ class StudentController extends Controller {
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
+        $modelEnrollment =  new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
@@ -152,7 +153,7 @@ class StudentController extends Controller {
 	                        	if($modelEnrollment->validate()) {
                                             $saved = $modelEnrollment->save();
 	                        	}
-	                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+	                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 	                    	}
 	                    	if($saved){
                                     $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';
