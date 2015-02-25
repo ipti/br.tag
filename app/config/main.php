@@ -1,6 +1,6 @@
 <?php
 
-// uncomment the following to define a path alias
+// unomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
 // This is the main Web application configuration. Any writable
@@ -27,7 +27,7 @@ return array(
 		// uncomment the following to enable the Gii tool
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'123456',
+			'password'=>'p@s4ipti',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 			'generatorPaths'=>array(
@@ -58,10 +58,10 @@ return array(
                  */
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=tag',
+			'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.boquim',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => 'p@s4root',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(

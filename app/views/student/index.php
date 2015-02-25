@@ -13,6 +13,7 @@
             <div class="buttons">
                 <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
             </div>
+
         </div>
     </div>
 
@@ -44,7 +45,7 @@
                             'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
                         ),
                         array(
-                            'header'=>'',
+                            'header' => '',
                             'value' => '0+$data->documentsFk->received_cc+$data->documentsFk->received_address+$data->documentsFk->received_photo'
                             . '+$data->documentsFk->received_nis+$data->documentsFk->received_history'
                             . '+$data->documentsFk->received_responsable_rg+$data->documentsFk->received_responsable_cpf."/7"',
@@ -60,8 +61,9 @@
                         ),),
                 ));
                 ?>
-            </div>   
+            </div>
         </div>
+            <a style="float:right;" href="?r=wizard/configuration/student" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Matrícula em Grupo</a>
     </div>
     <div class="columntwo">
     </div>
