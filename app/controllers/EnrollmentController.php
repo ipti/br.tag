@@ -66,7 +66,7 @@ class EnrollmentController extends Controller {
           $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
           } */
         $class = new Classroom();
-        $result['Classrooms'] = CHtml::tag('option', array('value' => null), 'Selecione uma Turma', true);
+        $result['Classrooms'] = CHtml::tag('option', array('value' => 0), 'Selecione uma Turma', true);
         foreach ($classrooms as $class) {
             if (strpos($class->edcensoStageVsModalityFk->name, 'Multi') !== false) {
                 $multi = 1;

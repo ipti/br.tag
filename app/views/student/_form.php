@@ -835,6 +835,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+                                
                                 </div>
                             </div>
                             <div class="control-group">

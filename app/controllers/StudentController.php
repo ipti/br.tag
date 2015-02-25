@@ -166,8 +166,8 @@ class StudentController extends Controller {
                 }
             }
         }
-        $modelEnrollment = array();
-        array_push($modelEnrollment,  new StudentEnrollment);
+        //$modelEnrollment = array();
+        //array_push($modelEnrollment,  new StudentEnrollment);
         
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
@@ -218,7 +218,7 @@ class StudentController extends Controller {
                         	if($modelEnrollment->validate()) {
                             	$saved = $modelEnrollment->save();
                         	}
-                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                     	}
                     	if($saved){
                             $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi alterado com sucesso!';
@@ -229,6 +229,7 @@ class StudentController extends Controller {
                 }
             }
         }
+        //$modelEnrollment = $modelEnrollment[0];
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
