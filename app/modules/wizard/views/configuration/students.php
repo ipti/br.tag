@@ -58,7 +58,7 @@ $model = new StudentEnrollment();
                             <div class="control-group">
                                 <?php
                                 echo Yii::t('default', 'Students');
-                                echo chtml::dropDownList('Students', "", CHtml::listData(StudentIdentification::model()->findAll(), 'id', 'name'), array(
+                                echo chtml::dropDownList('Students', "", CHtml::listData(StudentIdentification::model()->findAll(), 'id', 'concatened'), array(
                                     'class' => 'select-search-on span12',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Student'),
