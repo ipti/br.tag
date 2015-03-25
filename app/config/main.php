@@ -58,10 +58,10 @@ return array(
                  */
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.boquim',
+			'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.tag',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'p@s4root',
+			'username' => 'user.tag',
+			'password' => '123456',
 			'charset' => 'utf8',
 		),
                 'authManager'=>array(

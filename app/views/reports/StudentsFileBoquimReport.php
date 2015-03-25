@@ -501,4 +501,5 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             background-position:center center;
             background-size: 100% 100%, auto;
         }
+    }
     </style>

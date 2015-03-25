@@ -396,6 +396,12 @@ return array(
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
     'Neighborhood' => 'Bairro / Povoado',
+    'Received Civil Certificate'=>'Certidão de Nascimento',
+    'Received Receipt Address'=>'Comprovante Endereço',
+    'Received Photo'=>'Foto 3x4',
+    'Received NIS'=>'Comprovante NIS',
+    'Received Responsable`s RG'=>'Cópia RG(Responsável)',
+    'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
     
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',
@@ -577,5 +583,6 @@ return array(
     'Classroom Configurarion' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma'
+    
         )
 ?>

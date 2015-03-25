@@ -432,10 +432,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
                                         </div>
                                         <div class="span3"> 
                                             <label class="checkbox">
@@ -449,12 +445,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_history']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_history', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
-                                            <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
                                         </div>
                                     </div>
