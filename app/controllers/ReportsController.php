@@ -78,7 +78,7 @@ class ReportsController extends Controller {
 
     public function actionNumberStudentsPerClassroomReport() {
         $sql = "SELECT * FROM NumberOfStudentsPerClassroom
-                    where school_year  = ".$this->year.";";
+                    where school_year  = ".$this->year." and school_inep_fk=".Yii::app()->user->school;
        
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 
@@ -88,8 +88,8 @@ class ReportsController extends Controller {
     }
     
     public function actionInstructorsPerClassroomReport() {
-        $sql = "SELECT * FROM InstructorsPerClassroom "
-                . "where school_year = ".$this->year.";";
+        $sql = "SELECT * FROM instructorsperclassroom "
+                . "where school_year = ".$this->year." and school_inep_fk= ".Yii::app()->user->school.";";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 

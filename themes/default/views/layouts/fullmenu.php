@@ -7,30 +7,6 @@ $cs->scriptMap = array(
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
-
-
-$result = Yii::app()->db->createCommand("SELECT `year`,
-    se_total/@x * 100 as se_percent,
-    c_total/@y * 100 as c_percent,
-    @x := se_total as se_total,
-    @y := c_total as c_total
-FROM iMob
-JOIN (select @x := 1) AS i
-JOIN (select @y := 1) AS j;
-")->queryAll();
-
-$count = count($result) > 0;
-
-if($count){
-    $result = $result[count($result)-1];
-
-    $r = array('s1'=>$result['se_percent'],'s2'=>$result['se_total'],
-                    'c1'=>$result['c_percent'],'c2'=>$result['c_total']);
-
-    //inverteString("% de matrículas").inverteString("% de turmas")
-    $imob =  strrev(str_pad(ceil($r['s1']), 4, "0", STR_PAD_LEFT)).".".strrev(str_pad(ceil($r['c1']), 4, "0", STR_PAD_LEFT));
-}
-
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -77,15 +53,15 @@ if($count){
 
         <!-- Select2 Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-        
+
         <!-- QRCode Plugin -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
         <!-- Print -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
 
         <!-- Admin -->
-       <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/admin.css" rel="stylesheet" type="text/css" />
-        
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/admin.css" rel="stylesheet" type="text/css" />
+
         <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
@@ -95,10 +71,10 @@ if($count){
 
         <script>
 //            var dirty = false;  
-            $(document).ready(function(){
-                $(".select-search-off").select2({width: 'resolve',minimumResultsForSearch: -1}); 
-                $(".select-search-on").select2({width: 'resolve'}); 
-                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6}); 
+            $(document).ready(function () {
+                $(".select-search-off").select2({width: 'resolve', minimumResultsForSearch: -1});
+                $(".select-search-on").select2({width: 'resolve'});
+                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
                 $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
             });
@@ -117,100 +93,58 @@ if($count){
             /**
              * Select2 Brazilian Portuguese translation
              */
-            
+
             (function ($) {
                 "use strict";
 
                 $.extend($.fn.select2.defaults, {
-                    formatNoMatches: function () { return "Nenhum resultado encontrado"; },
-                    formatInputTooShort: function (input, min) { var n = min - input.length; return "Informe " + n + " caractere" + (n == 1? "" : "s"); },
-                    formatInputTooLong: function (input, max) { var n = input.length - max; return "Apague " + n + " caractere" + (n == 1? "" : "s"); },
-                    formatSelectionTooBig: function (limit) { return "Só é possível selecionar " + limit + " elemento" + (limit == 1 ? "" : "s"); },
-                    formatLoadMore: function (pageNumber) { return "Carregando mais resultados…"; },
-                    formatSearching: function () { return "Buscando…"; }
+                    formatNoMatches: function () {
+                        return "Nenhum resultado encontrado";
+                    },
+                    formatInputTooShort: function (input, min) {
+                        var n = min - input.length;
+                        return "Informe " + n + " caractere" + (n == 1 ? "" : "s");
+                    },
+                    formatInputTooLong: function (input, max) {
+                        var n = input.length - max;
+                        return "Apague " + n + " caractere" + (n == 1 ? "" : "s");
+                    },
+                    formatSelectionTooBig: function (limit) {
+                        return "Só é possível selecionar " + limit + " elemento" + (limit == 1 ? "" : "s");
+                    },
+                    formatLoadMore: function (pageNumber) {
+                        return "Carregando mais resultados…";
+                    },
+                    formatSearching: function () {
+                        return "Buscando…";
+                    }
                 });
             })(jQuery);
-            
-            $(function() {
-                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function() {
+
+            $(function () {
+                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function () {
                     $(".school").submit();
                 });
-              });     
-              
+            });
+
             var bagaca = true;
-            $(document).on('click','#button-menu', function(){
-                if(bagaca){
-                    $('#content').css('margin','0');
-                }else{
-                    $('#content').css('margin','0 0 0 191px');
+            $(document).on('click', '#button-menu', function () {
+                if (bagaca) {
+                    $('#content').css('margin', '0');
+                } else {
+                    $('#content').css('margin', '0 0 0 191px');
                 }
                 bagaca = !bagaca;
-                    
+
             });
-            
+
             //Ao clicar ENTER não fará nada.
-            $('*').keypress(function(e) {
+            $('*').keypress(function (e) {
                 if (e.keyCode == $.ui.keyCode.ENTER) {
                     e.preventDefault();
                 }
             });
-            
-        	$(document).ready(function(){
 
-        		var valor = '<?php if($count) echo json_encode($r) ?>';
-        		
-                $("#imob").qrcode({
-                	// render method: 'canvas', 'image' or 'div'
-                    render: 'canvas',
-
-                    // version range somewhere in 1 .. 40
-                    minVersion: 1,
-                    maxVersion: 40,
-
-                    // error correction level: 'L', 'M', 'Q' or 'H'
-                    ecLevel: 'H',
-
-                    // offset in pixel if drawn onto existing canvas
-                    left: 0,
-                    top: 0,
-
-                    // size in pixel
-                    size: 75,
-
-                    // code color or image element
-                    fill: '#000',
-
-                    // background color or image element, null for transparent background
-                    background: null,
-
-                    // content
-                    text: valor,
-
-                    // corner radius relative to module width: 0.0 .. 0.5
-                    radius: 0,
-
-                    // quiet zone in modules
-                    quiet: 1,
-
-                    // modes
-                    // 0: normal
-                    // 1: label strip
-                    // 2: label box
-                    // 3: image strip
-                    // 4: image box
-                    mode: 2,
-
-                    mSize: 0.10,
-                    mPosX: 0.5,
-                    mPosY: 0.5,
-
-                    label: '<?php if($count) echo $imob ?>',
-                    fontname: 'sans',
-                    fontcolor: '#496CAD',
-
-                    image: null
-                    });
-            });
         </script>
     </head>
     <body>
@@ -222,7 +156,7 @@ if($count){
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <?php //@done s1 - Url do logotipo redirecionar para página inicial ?>
+                <?php //@done s1 - Url do logotipo redirecionar para página inicial  ?>
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>v3.1</span></span></a>
 
                 <!-- Menu Toggle Button -->
@@ -234,7 +168,7 @@ if($count){
                 <ul class="topnav pull-right">
                     <li>
                         <div id="change-school" >
-                            <form class="school" action="<?php echo yii::app()->createUrl('site/changeschool')?>" method="Post">
+                            <form class="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                                     echo CHtml::activeDropDownList(
@@ -249,7 +183,7 @@ if($count){
                     </li>
                     <!-- Profile / Logout menu --
                     <li class="account">
-                        <a href="<?php echo yii::app()->createUrl('site/logout')?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
+                        <a href="<?php echo yii::app()->createUrl('site/logout') ?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
                     </li> -->
                 </ul>
             </div>
@@ -262,47 +196,59 @@ if($count){
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
                             <li id="menu-school">
-                                <?php 
-                                    $schoolurl = yii::app()->createUrl('school');
-                                    if(count(Yii::app()->user->usersSchools) == 1){
-                                        $schoolurl = yii::app()->createUrl('school/update',array('id' => yii::app()->user->school));
-                                    }
+                                <?php
+                                $schoolurl = yii::app()->createUrl('school');
+                                if (count(Yii::app()->user->usersSchools) == 1) {
+                                    $schoolurl = yii::app()->createUrl('school/update', array('id' => yii::app()->user->school));
+                                }
                                 ?>
-                            	<a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
+                                <a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
                             </li>
                             <li id="menu-classroom">
-                                <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom')?>"><i></i><span>Turma</span></a>
+                                <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Turmas</span></a>
                             </li>
+                            <!--<li id="menu-student" class="hasSubmenu">
+                                <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
+                                <ul class="collapse" id="menu_alunos">
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Aluno Novo</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Lista de Alunos</span></a></li>
+                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Alunos PNE</span></a></li>
+                                </ul>
+                                <?php //<span class="count">2</span>  ?>
+                            </li>-->
                             <li id="menu-student">
-                                <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student')?>"><i></i><span>Aluno</span></a>
+                                <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
                             <li id="menu-instructor">
-                                <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor')?>"><i></i><span>Professor</span></a>
+                                <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
                             <li id="menu-frequency">
-                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency')?>"><i></i><span>Frequência</span></a>
+                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency') ?>"><i></i><span>Frequência</span></a>
                             </li>
                             <li id="menu-grade">
-                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Avaliação</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade')?> -->
+                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
+                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
                             </li>
-                            <li id="menu-reports">
-                                <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports')?>"><i></i><span>Relatório</span></a>
+                             <li id="menu-grade">
+                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Notas</span></a>
+                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
                             </li>
+                            <!--<li id="menu-reports">
+                                <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatório</span></a>
+                            </li>-->
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin">
-                                    <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin')?>"><i></i><span>Administração</span></a>
+                                    <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
                             <?php } ?>
                             <li id="menu-logout">
-                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout')?>"><i></i><span>Sair</span></a>
+                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
                             </li>
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
                     <div class="copy" style="width: 170px !IMPORTANT;">
                         <div style="float: left" id="apoio">Apoio:</div>
-                        <div style="float: right" id="imob"></div>
                     </div>
                 </div>
 
@@ -318,7 +264,7 @@ if($count){
                     <?php echo $content; ?>
                 </div>
                 <!-- // Content END -->
-                
+
             </div>
             <div class="clearfix"></div>
             <!-- // Sidebar menu & content wrapper END -->

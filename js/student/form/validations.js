@@ -2,7 +2,7 @@ $(formIdentification + 'name').focusout(function() {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
+    if (!ret[0]&&($(id).val()!='')) {
         addError(id, "Campo não está dentro das regras.");
     } else {
         removeError(id);
@@ -11,7 +11,7 @@ $(formIdentification + 'name').focusout(function() {
 
 $(formIdentification + 'nis').focusout(function() {
     var id = '#' + $(this).attr("id");
-    if (!validateNis($(id).val())) {
+    if (!validateNis($(id).val())&&($(id).val()!='')) {
         $(id).attr('value', '');
         addError(id, "Campo não está dentro das regras.");
     } else {
@@ -26,7 +26,7 @@ $(formIdentification + 'birthday').focusout(function() {
     var birthday = stringToDate($(formIdentification + 'birthday').val());
     
     
-    if (!validateDate($(formIdentification + 'birthday').val()) || !validateYear(birthday.year)) {
+    if ((!validateDate($(formIdentification + 'birthday').val()) || !validateYear(birthday.year))&&($(id).val()!='')) {
         $(formIdentification + 'birthday').attr('value', '');
         addError(id, "Campo não está dentro das regras.");
     } else {

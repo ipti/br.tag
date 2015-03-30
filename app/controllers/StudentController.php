@@ -92,7 +92,7 @@ class StudentController extends Controller {
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
-        echo CHtml::tag('option', array('value' => '7177'), CHtml::encode('Outros'), true);
+        echo CHtml::tag('option', array('value' => '7177'), CHtml::encode('OUTROS'), true);
     }
 
     public function actionGetNations() {

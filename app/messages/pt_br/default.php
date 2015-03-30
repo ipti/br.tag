@@ -259,7 +259,7 @@ return array(
     'Discipline Others' => 'Outras disciplinas',
     'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
-    'New Discipline' => 'Nova Disciplina',
+    'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -349,6 +349,7 @@ return array(
     'Enrollment' => 'Matrícula',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
+    'Students Enrollments'=>'Alunos Matriculados',
     'Unified Class' => 'Turma unificada',
     'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno',
     'Another Scholarization Place' => 'Escolarização em outro espaço',
@@ -579,6 +580,7 @@ return array(
     
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
+    'Enrollment Resume'=>'Resumo de Matrícula',
     //Wizard
     'Classroom Configurarion' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
