@@ -312,7 +312,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $disciplinesLabels = array();
                             $teachingDataNames = array();
 
-                            $instructors = InstructorIdentification::model()->findAllByAttributes(array('school_inep_id_fk' => Yii::app()->user->school));
+                            $instructors = InstructorIdentification::model()->findAll();
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
@@ -453,7 +453,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="control-group">
                     <?php echo CHtml::label(Yii::t("default", "Instructor"), "Instructors", array('class' => 'control-label')) ?>
                     <div class="controls">
-                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll('school_inep_id_fk=:school order by name', array(':school' => Yii::app()->user->school)), 'id', 'name'), array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on')); ?>
+                        <?php echo CHtml::DropDownList("Instructors", '', CHtml::listData(InstructorIdentification::model()->findAll(), 'id', 'name'), array('prompt' => 'Sem Instrutor', 'class' => 'select-search-on')); ?>
                     </div>
                 </div>
                 <div class="control-group">

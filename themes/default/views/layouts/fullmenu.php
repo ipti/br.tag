@@ -77,6 +77,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                 $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
                 $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
+                $('button[type=submit]').on('click',function(){
+                   // $(this).remove();
+                 })
             });
 //     
 //                $('a').click(function(event){
@@ -180,6 +183,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 ?>
                             </form>
                         </div>
+                    </li>
+                    <li>
+                        <span style="color:white;opacity:1;font-size:14px;"> <?php echo Yii::app()->user->year; ?></span>
                     </li>
                     <!-- Profile / Logout menu --
                     <li class="account">

@@ -48,7 +48,7 @@ class ReportsController extends Controller {
     }
 
     public function actionEnrollmentPerClassroomReport($id){
-        $sql = "SELECT * FROM EnrollmentPerClassroom
+        $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
                 . " AND classroom_id = $id;";
        
@@ -77,8 +77,8 @@ class ReportsController extends Controller {
     }
 
     public function actionNumberStudentsPerClassroomReport() {
-        $sql = "SELECT * FROM NumberOfStudentsPerClassroom
-                    where school_year  = ".$this->year." and school_inep_fk=".Yii::app()->user->school;
+        $sql = "SELECT * FROM classroom_qtd_students
+                    where school_year  = ".$this->year." and school_inep_fk=".Yii::app()->user->school." order by name;";
        
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 
@@ -88,8 +88,8 @@ class ReportsController extends Controller {
     }
     
     public function actionInstructorsPerClassroomReport() {
-        $sql = "SELECT * FROM instructorsperclassroom "
-                . "where school_year = ".$this->year." and school_inep_fk= ".Yii::app()->user->school.";";
+        $sql = "SELECT * FROM classroom_instructors "
+                . "where school_year = ".$this->year." and school_inep_fk= ".Yii::app()->user->school." order by name;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                 
@@ -111,7 +111,7 @@ class ReportsController extends Controller {
     }
     
     public function actionGetStudentsFileBoquimInformation($student_id){
-        $sql = "SELECT * FROM StudentsFileBoquim WHERE id = ".$student_id.";";
+        $sql = "SELECT * FROM studentsfile_boquim WHERE id = ".$student_id.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
         echo json_encode($result);
