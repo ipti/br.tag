@@ -166,7 +166,7 @@ class StudentController extends Controller {
                 }
             }
         }
-        //$modelEnrollment = array();
+        $modelEnrollment = new StudentEnrollment;
         //array_push($modelEnrollment,  new StudentEnrollment);
         
         $this->render('create', array(
