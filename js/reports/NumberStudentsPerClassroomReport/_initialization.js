@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-    $("#print").on('click', function() {
-        window.print();
-    });
+$(document).ready(function() {
+    window.print();
+});

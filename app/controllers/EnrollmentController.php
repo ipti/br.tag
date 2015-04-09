@@ -1,12 +1,10 @@
 <?php
 
 class EnrollmentController extends Controller {
-
     //@done s1 - Validar Ano Letivo
     //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
     //@done s1 - Filtrar aluno e turma por escola
-    
-    
+
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -30,7 +28,7 @@ class EnrollmentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies",'delete','getmodalities'),
+                'actions' => array('index', 'view', 'create', 'update', "updatedependencies", 'delete', 'getmodalities'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -54,23 +52,28 @@ class EnrollmentController extends Controller {
     }
 
     public function actionUpdateDependencies() {
-        $enrollment = new StudentEnrollment;
-        $enrollment->attributes = $_POST["StudentEnrollment"];
+        //$enrollment = new StudentEnrollment;
+        //$enrollment->attributes = $_POST["StudentEnrollment"];
 
-        $students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
-        $students = CHtml::listData($students, 'id', 'name');
+        //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
+        //$students = CHtml::listData($students, 'id', 'name');
 
-        $classrooms = Classroom::model()->findAll('school_inep_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
-        $classrooms = CHtml::listData($classrooms, 'id', 'name');
+        $classrooms = Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year, "school_inep_fk" => Yii::app()->user->school));
+        //$classrooms = CHtml::listData($classrooms, 'id', 'name');
 
-        $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
-        foreach ($students as $value => $name) {
-            $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
-        }
-
-        $result['Classrooms'] = CHtml::tag('option', array('value' => null), 'Selecione uma Turma', true);
-        foreach ($classrooms as $value => $name) {
-            $result['Classrooms'] .= CHtml::tag('option', array('value' => $value, ($enrollment->classroom_fk == $value ? "selected" : "deselected") => ($enrollment->classroom_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
+        /* $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
+          foreach ($students as $value => $name) {
+          $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
+          } */
+        $class = new Classroom();
+        $result['Classrooms'] = CHtml::tag('option', array('value' => 0), 'Selecione uma Turma', true);
+        foreach ($classrooms as $class) {
+            if (strpos($class->edcensoStageVsModalityFk->name, 'Multi') !== false) {
+                $multi = 1;
+            } else {
+                $multi = 0;
+            }
+            $result['Classrooms'] .= CHtml::tag('option', array('value' => $class->id, 'id' => $multi), CHtml::encode($class->name), true);
         }
 
         echo json_encode($result);
@@ -86,13 +89,13 @@ class EnrollmentController extends Controller {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
     public function actionCreate() {
         $model = new StudentEnrollment;
-
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -110,8 +113,7 @@ class EnrollmentController extends Controller {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
                     //echo $exc->getTraceAsString();
-                }  
-                
+                }
             } else {
                 unset($model->s);
             }
@@ -159,10 +161,10 @@ class EnrollmentController extends Controller {
      */
     public function actionDelete($id) {
 
-
+        $name = $this->loadModel($id)->studentFk->name;
         if ($this->loadModel($id)->delete()) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula excluída com sucesso!'));
-            $this->redirect(array('index'));
+            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de $name foi excluída com sucesso!"));
+            $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -190,18 +192,17 @@ class EnrollmentController extends Controller {
         if (isset($_GET['StudentEnrollment'])) {
             $model->attributes = $_GET['StudentEnrollment'];
         }
-        
+
         $school = Yii::app()->user->school;
-        
+
         $criteria = new CDbCriteria;
         $criteria->compare('school_inep_id_fk', "'$school'");
-        $dataProvider = new CActiveDataProvider('StudentEnrollment',
-                        array(
-                            'criteria' => $criteria,
-                            'pagination' => array(
-                                'pageSize' => 12,
-                            ),
-                ));
+        $dataProvider = new CActiveDataProvider('StudentEnrollment', array(
+            'criteria' => $criteria,
+            'pagination' => array(
+                'pageSize' => 12,
+            ),
+        ));
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -245,7 +246,5 @@ class EnrollmentController extends Controller {
             Yii::app()->end();
         }
     }
-
-    
 
 }

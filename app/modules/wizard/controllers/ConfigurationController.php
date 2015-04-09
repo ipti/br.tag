@@ -41,24 +41,24 @@ class ConfigurationController extends Controller {
 				$newClassroom->id = null;
 				$newClassroom->inep_id = null;
  				$save = $newClassroom->save();		
-// 				if($save){
-// 					$save = true;
-// 					foreach ($class_board as $cb){
-// 						$newClassBorad = new ClassBoard();
-// 						$newClassBorad->attributes = $cb->attributes;
-// 						$newClassBorad->id = null;
-// 						$newClassBorad->classroom_fk = $newClassroom->id;
-// 						$save = $save && $newClassBorad->save();
-// 					}
-// 					foreach ($teaching_data as $td){
-// 						$newTeachingData = new InstructorTeachingData();
-// 						$newTeachingData->attributes = $td->attributes;
-// 						$newTeachingData->id = null;
-// 						$newTeachingData->classroom_id_fk =  $newClassroom->id;
-// 						$newTeachingData->classroom_inep_id = null;
-// 						$save = $save && $newTeachingData->save();
-// 					}
-// 				}
+ 				if($save){
+ 					$save = true;
+ 					foreach ($class_board as $cb){
+ 						$newClassBorad = new ClassBoard();
+ 						$newClassBorad->attributes = $cb->attributes;
+ 						$newClassBorad->id = null;
+ 						$newClassBorad->classroom_fk = $newClassroom->id;
+ 						$save = $save && $newClassBorad->save();
+ 					}
+ 					foreach ($teaching_data as $td){
+ 						$newTeachingData = new InstructorTeachingData();
+ 						$newTeachingData->attributes = $td->attributes;
+ 						$newTeachingData->id = null;
+ 						$newTeachingData->classroom_id_fk =  $newClassroom->id;
+ 						$newTeachingData->classroom_inep_id = null;
+ 						$save = $save && $newTeachingData->save();
+ 					}
+ 				}
 			}
 			if($save)
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
@@ -67,7 +67,7 @@ class ConfigurationController extends Controller {
 			$this->render('index');
 		}
 		$this->render('classrooms', array(
-				'title' => Yii::t('app', 'Classroom Configurarion')
+				'title' => Yii::t('default', 'Classroom Configurarion')
 		));
 	}
 	
@@ -106,7 +106,7 @@ class ConfigurationController extends Controller {
 			$criteria->join = "JOIN student_enrollment AS se ON (se.student_fk = t.id AND se.classroom_fk = $id)";
 			$criteria->order = "name ASC";
 				
-			$data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name');
+			$data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name'.'id');
 	
 			foreach ($data as $value => $name) {
 				echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);

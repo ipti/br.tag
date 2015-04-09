@@ -3,10 +3,7 @@
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 //$school = new SchoolIdentification;
 ?>
-<div id="report-logo" class="visible-print">
-    <img src="../../../images/sntaluzia.png">
-</div>
-<h3 class="heading visible-print"><?php echo Yii::t('default', 'Result Board'); ?></h3> 
+<h3 class="heading visible-print"><?php echo @$title ?></h3> 
 <table class="table table-bordered table-striped">
     <tr>
         <th>Escola:</th><td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>

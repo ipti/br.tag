@@ -259,7 +259,7 @@ return array(
     'Discipline Others' => 'Outras disciplinas',
     'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
-    'New Discipline' => 'Nova Disciplina',
+    'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -349,6 +349,7 @@ return array(
     'Enrollment' => 'Matrícula',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
+    'Students Enrollments'=>'Alunos Matriculados',
     'Unified Class' => 'Turma unificada',
     'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno',
     'Another Scholarization Place' => 'Escolarização em outro espaço',
@@ -396,6 +397,12 @@ return array(
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
     'Neighborhood' => 'Bairro / Povoado',
+    'Received Civil Certificate'=>'Certidão de Nascimento',
+    'Received Receipt Address'=>'Comprovante Endereço',
+    'Received Photo'=>'Foto 3x4',
+    'Received NIS'=>'Comprovante NIS',
+    'Received Responsable`s RG'=>'Cópia RG(Responsável)',
+    'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
     
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',
@@ -566,9 +573,18 @@ return array(
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
     
+    //Sync
+    'Import Sync File Dialog' => 'Importar Informações do TAG-Offline',
+    
     'Send' => 'Enviar em '.(date('Y')+1),
     
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
+    'Enrollment Resume'=>'Resumo de Matrícula',
+    //Wizard
+    'Classroom Configurarion' => 'Reaproveitamento das Turmas',
+    'Copy'=>'Copiar',
+    'Select Classrom'=>'Selecione uma Turma'
+    
         )
 ?>

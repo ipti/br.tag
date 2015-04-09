@@ -24,7 +24,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
 
 <div class="innerLR">
     <div>
-        <?php $this->renderPartial('head'); ?>
+        <?php $this->renderPartial('head',array('title'=>Yii::t('default', 'Enrollment per Classroom'))); ?>
         <table class="table table-bordered table-striped">
             <tr><th>Ano Letivo: <?php echo $classroom->school_year ?></th><th>Etapa: <?php echo $stage ?></th><th>Turma: <?php echo $classroom->name?></th></tr>
         </table>

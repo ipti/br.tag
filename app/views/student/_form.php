@@ -14,19 +14,11 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
         ));
 //@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
-
-$MEs = array();
-if (isset($modelEnrollment)) {
-    foreach ($modelEnrollment as $i => $me) {
-        array_push($MEs, $me->attributes);
-    }
-}
 ?>
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></span>
-        </h3>
+        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="buttons">
             <a data-toggle="tab"
                class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
@@ -39,13 +31,15 @@ if (isset($modelEnrollment)) {
 </div>
 
 <div class="innerLR">
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
         <?php
         echo $form->errorSummary($modelStudentIdentification);
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
-        foreach ($modelEnrollment as $i => $me) {
-            echo $form->errorSummary($me);
-        }
         ?>
         <div class="widget-head">
             <ul class="tab-student">
@@ -78,7 +72,7 @@ if (isset($modelEnrollment)) {
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
-                        <div class=" span5">
+                        <div class=" span6">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
@@ -96,17 +90,7 @@ if (isset($modelEnrollment)) {
                                 </div>
                             </div>
 
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'nis', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
-                                </div>
-                            </div>
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -205,7 +189,7 @@ if (isset($modelEnrollment)) {
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities',array('rt'=>0)),
+                                            'url' => CController::createUrl('student/getcities', array('rt' => 0)),
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
@@ -228,45 +212,61 @@ if (isset($modelEnrollment)) {
                                 </div>
                             </div>
 
+
+                        </div>
+                        <div class=" span6">
+                            <div class="separator"></div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'nis', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                                    <span
+                                        class="btn-action single glyphicons circle_question_mark"
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                        <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
+                                </div>
+                            </div>
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelStudentIdentification, 'responsable', 
-                                            array(0=>'Pai',1=>'Mãe',2=>'Outro',), 
-                                            array('class' => 'select-search-off')); ?>
+                                    <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'responsable', array(0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',), array('class' => 'select-search-off'));
+                                    ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
                             <div class="control-group" style="display:none;" id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_name',array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_name'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_rg', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_rg',array('size' => 60, 'maxlength' => 45)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_rg', array('size' => 60, 'maxlength' => 45)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_rg'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf',array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 11)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity',      
-                                            array(0=>'Não Sabe Ler e Escrever ',1=>'Sabe Ler e Escrever',2=>'Ens. Fund. Incompleto',
-                                                3=>'Ens. Fund. Completo',4=>'Ens. Médio Incompleto',5=>'Ens. Médio Completo',
-                                                6=>'Ens. Sup. Incompleto',7=>'Ens. Sup. Completo'), 
-                                            array('class' => 'select-search-off')); ?>
+                                    <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(0 => 'Não Sabe Ler e Escrever ', 1 => 'Sabe Ler e Escrever', 2 => 'Ens. Fund. Incompleto',
+                                        3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off'));
+                                    ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
                                 </div>
                             </div>
@@ -274,11 +274,11 @@ if (isset($modelEnrollment)) {
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_job', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_job',array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array('size' => 60, 'maxlength' => 100)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'bf_participator', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -286,8 +286,8 @@ if (isset($modelEnrollment)) {
                                     <?php echo $form->error($modelStudentIdentification, 'bf_participator'); ?>
                                 </div>
                             </div>
-                            
-                            
+
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'food_restrictions', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -295,120 +295,12 @@ if (isset($modelEnrollment)) {
                                     <?php echo $form->error($modelStudentIdentification, 'food_restrictions'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'send_year', array('value' => date('Y') + 1, 'uncheckValue' => (date('Y')))); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class=" span5">
-                            <div class="separator"></div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group" id="deficiency_type">
-                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
-                                <div class="uniformjs margin-left">
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox" style="display: none">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_aspenger_syndrome']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_aspenger_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_rett_syndrome']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_rett_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_childhood_disintegrative_disorder']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                </div>
-                            </div>
-                            <div id="resource_null">
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_aid_lector', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_aid_transcription', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_interpreter_guide', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_interpreter_libras', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_lip_reading', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_16', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_20', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_braille_test', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelStudentIdentification, 'resource_none', array('value' => null, 'disabled' => 'disabled')); ?>
-                            </div>
-
-                            <div class="control-group" id="resource_type">
-                                <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
-                                <div class="uniformjs margin-left">
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_16']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_16', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_20']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_20', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label> <label class="checkbox"
-                                                    style="display: none">
-                                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
-                                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -417,7 +309,7 @@ if (isset($modelEnrollment)) {
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
                     <div class="row-fluid">
-                        <div class="span10">
+                        <div class="span12">
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -433,10 +325,6 @@ if (isset($modelEnrollment)) {
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
                                         </div>
                                         <div class="span3"> 
                                             <label class="checkbox">
@@ -450,12 +338,12 @@ if (isset($modelEnrollment)) {
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_history']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_history', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
-                                            <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                            </label>
+                                            <label class="checkbox">
+                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
                                             </label> 
                                         </div>
                                     </div>
@@ -465,23 +353,9 @@ if (isset($modelEnrollment)) {
                     </div>
 
                     <div class="row-fluid">
-                        <div class=" span5">
-                            <div class="widget widget-scroll margin-bottom-none"
-                                 data-toggle="collapse-widget" data-scroll-height="223px"
-                                 data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons circle_question_mark"><i></i>Justificativa</h4></div>
-                                <div class="widget-body in" style="height: auto;">
-                                    <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null => "Selecione uma justificativa", "1" => "Aluno não possui documento", "2" => "Escola não possui informação de documento do aluno"), array('class' => 'select-search-off')); ?>
-                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class=" span6">
 
-                            <div class="separator"></div>
+
 
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
@@ -499,7 +373,7 @@ if (isset($modelEnrollment)) {
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                         </div>
                                     </div>
-                                    <?php //@done S1 - Alterar tipo de certidão civil para dropdown?>
+                                    <?php //@done S1 - Alterar tipo de certidão civil para dropdown ?>
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                                         <div class="controls">
@@ -551,7 +425,7 @@ if (isset($modelEnrollment)) {
                                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                                 'ajax' => array(
                                                     'type' => 'POST',
-                                                    'url' => CController::createUrl('student/getcities',array('rt'=>1)),
+                                                    'url' => CController::createUrl('student/getcities', array('rt' => 1)),
                                                     'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                                 ),
                                                 "prompt" => "Selecione um estado",
@@ -566,7 +440,7 @@ if (isset($modelEnrollment)) {
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 'control-label')); ?>
                                         <div class="controls">
                                             <?php
-                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'cod', 'name'), array(
+                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'notary_office_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->notary_office_uf_fk), array('order' => 'name')), 'id', 'name'), array(
                                                 'ajax' => array(
                                                     'type' => 'POST',
                                                     'url' => CController::createUrl('student/getnotaryoffice'),
@@ -584,7 +458,7 @@ if (isset($modelEnrollment)) {
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 'control-label')); ?>
                                         <div class="controls">
                                             <?php
-                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um cartório",
+                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name')+array('7177'=>'OUTROS'), array("prompt" => "Selecione um cartório",
                                                 "class" => "select-search-on nationality-sensitive br", "disabled" => "disabled"));
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
@@ -601,9 +475,24 @@ if (isset($modelEnrollment)) {
 
                                 </div>
                             </div>
+                            <div class="separator"></div>
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head"><h4 class="heading glyphicons circle_question_mark"><i></i>Justificativa</h4></div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null => "Selecione uma justificativa", "1" => "Aluno não possui documento", "2" => "Escola não possui informação de documento do aluno"), array('class' => 'select-search-off')); ?>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class=" span5">
+                        <div class=" span6">
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -626,30 +515,7 @@ if (isset($modelEnrollment)) {
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="separator"></div>
-
-                            <div class="widget widget-scroll margin-bottom-none"
-                                 data-toggle="collapse-widget" data-scroll-height="223px"
-                                 data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons airplane">
-                                        <i></i>Passaporte
-                                    </h4>
-                                </div>
-                                <div class="widget-body in" style="height: auto;">
-                                    <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "nationality-sensitive n-br")); ?>
-                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="separator"></div>
-
+                            <div class="separator"></div>                         
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -715,7 +581,26 @@ if (isset($modelEnrollment)) {
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="separator"></div>
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons airplane">
+                                        <i></i>Passaporte
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "nationality-sensitive n-br")); ?>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -739,20 +624,8 @@ if (isset($modelEnrollment)) {
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8,
-                                        'maxlength' => 8,
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('Instructor/getcitybycep'),
-                                            'data' => array('cep' => 'js:this.value'),
-                                            'success' => "function(data){
-                                                data = jQuery.parseJSON(data);
-                                                if(data.UF == null) $(formDocumentsAndAddress+'cep').val('').trigger('focusout');
-                                                $(formDocumentsAndAddress+'edcenso_uf_fk').val(data['UF']).trigger('change').select2('readonly',data.UF != null);
-                                                setTimeout(function(){
-                                                        $(formDocumentsAndAddress+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
-                                                }, 500);
-                                            }"
-                                    )));
+                                        'maxlength' => 8
+                                    ));
                                     ?>
                                     <span
                                         class="btn-action single glyphicons circle_question_mark"
@@ -817,7 +690,7 @@ if (isset($modelEnrollment)) {
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('student/getcities',array('rt'=>2)),
+                                            'url' => CController::createUrl('student/getcities', array('rt' => 2)),
                                             'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
@@ -847,8 +720,8 @@ if (isset($modelEnrollment)) {
                         <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php $modelEnrollment = $modelEnrollment[0]; ?>
                                     <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+
                                 </div>
                             </div>
                             <div class="control-group">
@@ -858,49 +731,51 @@ if (isset($modelEnrollment)) {
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
+                            <div id="multiclass">
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off')); ?>
+                                        <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo CHtml::dropDownList("Stage", null, array(
-                                        "0" => "Selecione a Modalidade",
-                                        "1" => "Infantil",
-                                        "2" => "Fundamental Menor",
-                                        "3" => "Fundamental Maior",
-                                        "4" => "Médio",
-                                        "5" => "Profissional",
-                                        "6" => "EJA",
-                                        "7" => "Outros",
-                                            ), array(
-                                        'class' => 'select-search-off',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('enrollment/getmodalities'),
-                                            'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
-                                        ),
-                                    ));
-                                    ?>
+                                <div class="control-group">
+                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php
+                                        echo CHtml::dropDownList("Stage", null, array(
+                                            "0" => "Selecione a Modalidade",
+                                            "1" => "Infantil",
+                                            "2" => "Fundamental Menor",
+                                            "3" => "Fundamental Maior",
+                                            "4" => "Médio",
+                                            "5" => "Profissional",
+                                            "6" => "EJA",
+                                            "7" => "Outros",
+                                                ), array(
+                                            'class' => 'select-search-off',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('enrollment/getmodalities'),
+                                                'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
+                                            ),
+                                        ));
+                                        ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
-                                    <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on')); ?>
+                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                        <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array(null => "Selecione o espaço", "1" => "Em hospital", "2" => "Em domicílio", "3" => "Não recebe"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("3" => "Não recebe", "1" => "Em hospital", "2" => "Em domicílio"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
@@ -985,6 +860,7 @@ if (isset($modelEnrollment)) {
                             </div>
                         </div>
                     </div>
+
                     <div class="row-fluid">
                         <div class="span11">
                             <div class="widget widget-scroll margin-bottom-none">
@@ -994,18 +870,23 @@ if (isset($modelEnrollment)) {
                                     </h4>
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
-                                    <?php
-                                    foreach ($MEs as $key => $val) {
-                                        if (isset($val['classroom_fk'])) {
-                                            $classroom = Classroom::model()->findbyPK($val['classroom_fk']);
-                                            $name = strlen($classroom->name) < 12 ? substr($classroom->name, 0, 12) : substr($classroom->name, 0, 9) . "...";
-                                            $text = $classroom->school_year . " - " . $name;
-                                            echo CHtml::htmlButton($text, array('class' => "btn btn-icon btn-default enrollmentButton", "cod" => "$key"));
-                                            echo " ";
-                                        }
-                                    }
-                                    echo CHtml::htmlButton(Yii::t('default', 'New Enrollment'), array('class' => "btn btn-icon btn-default enrollmentButton", "cod" => "-1"));
-                                    ?>
+                                    <table class="table table-bordered table-striped">
+                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td></tr></thead>
+                                        <tbody>
+                                            <?php
+                                            foreach ($modelStudentIdentification->studentEnrollments as $me) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                                    <td><?php echo $me->classroomFk->name ?></td>
+                                                    <td><?php echo $me->classroomFk->school_year ?></td>
+                                                    <td><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Cancelar Matrícula</a></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1021,8 +902,6 @@ if (isset($modelEnrollment)) {
     var formIdentification = '#StudentIdentification_';
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
-    var enr = '<?php echo json_encode($MEs) ?>';
-    var enrollments = JSON.parse(enr);
+    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
     var filled = -1;
 </script>

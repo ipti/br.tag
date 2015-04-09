@@ -16,7 +16,7 @@
                 'modelStudentIdentification' => $modelStudentIdentification,
                 'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
                 'modelEnrollment' => $modelEnrollment,
-                'title' => $title));
+                'title' => $modelStudentIdentification->name));
             ?>        
         </div>
         <div class="columntwo">

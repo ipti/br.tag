@@ -57,23 +57,8 @@ $model = new StudentEnrollment();
                         <div class=" span12">
                             <div class="control-group">
                                 <?php
-                                echo Yii::t('default', 'Classrooms') . ' ' . $lastYear;
-                                echo chtml::dropDownList('Classrooms', null, CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'assistance_type' => '0'), array('order' => 'edcenso_stage_vs_modality_fk, name ASC')), 'id', 'name', 'edcensoStageVsModalityFk.name'), array(
-                                    'class' => 'select-search-on span12',
-                                    'prompt' => Yii::t('default', 'Select Classrom'),
-                                    'options' => array('null' => array('selected' => true)),
-                                    'ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('configuration/getStudents'),
-                                        'update' => '#Students'
-                                    )
-                                ));
-                                ?> 
-                            </div>
-                            <div class="control-group">
-                                <?php
                                 echo Yii::t('default', 'Students');
-                                echo chtml::dropDownList('Students', "", array(), array(
+                                echo chtml::dropDownList('Students', "", CHtml::listData(StudentIdentification::model()->findAll(), 'id', 'concatened'), array(
                                     'class' => 'select-search-on span12',
                                     'multiple' => 'multiple',
                                     'placeholder' => Yii::t('default', 'Select Student'),
@@ -87,53 +72,55 @@ $model = new StudentEnrollment();
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = " . Yii::app()->user->year . "", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = " . Yii::app()->user->year . "", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'unified_class', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($model, 'unified_class'); ?>
+                            <div id="multiclass">
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($model, 'unified_class', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off')); ?>
+                                        <?php echo $form->error($model, 'unified_class'); ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                <?php
-                                echo CHtml::dropDownList("Stage", null, array(
-                                    "0" => "Selecione a Modalidade",
-                                    "1" => "Infantil",
-                                    "2" => "Fundamental Menor",
-                                    "3" => "Fundamental Maior",
-                                    "4" => "Médio",
-                                    "5" => "Profissional",
-                                    "6" => "EJA",
-                                    "7" => "Outros",
-                                        ), array(
-                                    'class' => 'select-search-off',
-                                    'ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('enrollment/getmodalities'),
-                                        'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
-                                    ),
-                                ));
-                                ?>
+                                <div class="control-group">
+                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php
+                                        echo CHtml::dropDownList("Stage", null, array(
+                                            "0" => "Selecione a Modalidade",
+                                            "1" => "Infantil",
+                                            "2" => "Fundamental Menor",
+                                            "3" => "Fundamental Maior",
+                                            "4" => "Médio",
+                                            "5" => "Profissional",
+                                            "6" => "EJA",
+                                            "7" => "Outros",
+                                                ), array(
+                                            'class' => 'select-search-off',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('enrollment/getmodalities'),
+                                                'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
+                                            ),
+                                        ));
+                                        ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
-                                    <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on')); ?>
+                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                        <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                    </div>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'another_scholarization_place', array(null => "Selecione o espaço", "1" => "Em hospital", "2" => "Em domicílio", "3" => "Não recebe"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($model, 'another_scholarization_place', array("3" => "Não recebe","1" => "Em hospital", "2" => "Em domicílio"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($model, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
@@ -243,8 +230,10 @@ $model = new StudentEnrollment();
     </div>
 </div>
 <script type="text/javascript">
-
-    var form = '#StudentEnrollment_';
-    var updateDependenciesURL = "<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>";
+    $(document).ready(function () {
+        $("#Students").select2({width: 'resolve', maximumSelectionSize: 13, minimumInputLength: 5});
+    });
+    var formEnrollment = '#StudentEnrollment_';
+    var updateDependenciesURL = "<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>";
 
 </script>

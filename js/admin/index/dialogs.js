@@ -22,3 +22,27 @@
             }
         ],
     });
+    
+    //Cria o Diálogo de Importação para a sincronização
+    var mySyncImportFileDialog = $("#syncImport-file-dialog").dialog({
+        autoOpen: false,
+        height: 190,
+        width: 380,
+        modal: true,
+        draggable: false,
+        resizable: false,
+        buttons: [
+            {text: btnImport,
+                click: function() {
+                    $('#progressoSyncImport').show();
+                    $("#syncImport-file-form").submit();
+                }
+            },
+            {text: btnCancel,
+                click: function() {
+                    $(this).dialog("close");
+                }
+            }
+        ],
+    });
+    

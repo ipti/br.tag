@@ -8,7 +8,7 @@ $form = $this->beginWidget('CActiveForm', array(
         ));
 
 $this->breadcrumbs = array(
-    Yii::t('app', 'Classroom Configurarion'),
+    Yii::t('default', 'Classroom Configurarion'),
 );
 
 $lastYear = (Yii::app()->user->year - 1);
