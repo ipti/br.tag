@@ -151,13 +151,12 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'neighborhood' => Yii::t('default', 'Neighborhood'),
 			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
-                        'received_cc' => Yii::t('default', 'Civil Certificate'), 
-                        'received_address' => Yii::t('default', 'Address'),     
-                        'received_photo' => Yii::t('default', 'Photo'), 
-                        'received_nis' => Yii::t('default', 'NIS'), 
-                        'received_history' => Yii::t('default', 'History'),
-                        'received_responsable_rg' => Yii::t('default', 'Responsable`s RG'), 
-                        'received_responsable_cpf' => Yii::t('default', 'Responsable`s CPF')
+                        'received_cc' => Yii::t('default', 'Received Civil Certificate'), 
+                        'received_address' => Yii::t('default', 'Received Receipt Address'),     
+                        'received_photo' => Yii::t('default', 'Received Photo'), 
+                        'received_nis' => Yii::t('default', 'Received NIS'), 
+                        'received_responsable_rg' => Yii::t('default', 'Received Responsable`s RG'), 
+                        'received_responsable_cpf' => Yii::t('default', 'Received Responsable`s CPF')
 		);
 	}
 

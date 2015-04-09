@@ -106,7 +106,7 @@ class ConfigurationController extends Controller {
 			$criteria->join = "JOIN student_enrollment AS se ON (se.student_fk = t.id AND se.classroom_fk = $id)";
 			$criteria->order = "name ASC";
 				
-			$data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name');
+			$data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name'.'id');
 	
 			foreach ($data as $value => $name) {
 				echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);

@@ -10,7 +10,9 @@
     <div class="row-fluid">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
-            <div class="buttons">
+            <div class="buttons span6">
+                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>
+                <a href="?r=wizard/configuration/student" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
                 <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
             </div>
 
@@ -37,6 +39,8 @@
                     'dataProvider' => $filter->search(),
                     'enablePagination' => true,
                     'filter' => $filter,
+                    'selectableRows' => 1,
+                    'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
@@ -63,7 +67,6 @@
                 ?>
             </div>
         </div>
-            <a style="float:right;" href="?r=wizard/configuration/student" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Matrícula em Grupo</a>
     </div>
     <div class="columntwo">
     </div>

@@ -3941,6 +3941,12 @@ textarea {
 .table-primary tbody tr.selectable td {
   cursor: pointer;
 }
+.table-primary tbody tr.odd:hover td,.table-primary tbody tr.even:hover td{
+    background: #d5dded;
+}
+.table-primary tbody tr.odd td{
+    background:#eeeeee;
+}
 .table-primary tbody tr.selected td,
 .table-primary tbody tr.selectable:hover td {
   background: #e9e9e9;
@@ -6730,3 +6736,4 @@ box-shadow: none;
 .control-label.required {
     font-weight: bold;
 }
+.grid-view tbody:hover {cursor: pointer}

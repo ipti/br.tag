@@ -92,7 +92,7 @@ class StudentController extends Controller {
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
-        echo CHtml::tag('option', array('value' => '7177'), CHtml::encode('Outros'), true);
+        echo CHtml::tag('option', array('value' => '7177'), CHtml::encode('OUTROS'), true);
     }
 
     public function actionGetNations() {
@@ -122,6 +122,7 @@ class StudentController extends Controller {
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
+        $modelEnrollment =  new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
@@ -152,7 +153,7 @@ class StudentController extends Controller {
 	                        	if($modelEnrollment->validate()) {
                                             $saved = $modelEnrollment->save();
 	                        	}
-	                        	$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
+	                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 	                    	}
 	                    	if($saved){
                                     $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';

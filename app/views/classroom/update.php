@@ -2,7 +2,7 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Update Classroom'));
 
-    $title = Yii::t('default', 'Update Classroom');
+    $title = Yii::t('default', 'Update Classroom').': '.$modelClassroom->name;
     $contextDesc = Yii::t('default', 'Available actions that may be taken on Classroom.');
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new Classroom'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new Classroom')),
