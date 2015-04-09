@@ -11,9 +11,9 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
             <div class="buttons span6">
-                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>
-                <a href="?r=wizard/configuration/student" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
-                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
+                <a href="<?= $this->createUrl("student/create");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>
+                <a href="<?= $this->createUrl("wizard/configuration/student");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
+                <a href="<?= $this->createUrl("student/create");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
             </div>
 
         </div>
