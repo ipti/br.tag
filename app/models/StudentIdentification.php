@@ -46,14 +46,14 @@
  * @property integer $resource_none
  * @property integer $send_year
  * @property timestamp $last_change
- * @property integer responsable
- * @property string responsable_name
- * @property string responsable_rg
- * @property string responsable_cpf
- * @property integer responsable_scholarity
- * @property string responsable_job
- * @property integer bf_participator
- * @property string food_restrictions
+ * @property integer $responsable
+ * @property string $responsable_name
+ * @property string $responsable_rg
+ * @property string $responsable_cpf
+ * @property integer $responsable_scholarity
+ * @property string $responsable_job
+ * @property integer $bf_participator
+ * @property string $food_restrictions
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk

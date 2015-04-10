@@ -160,7 +160,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
 
                 <!-- Brand -->
                 <?php //@done s1 - Url do logotipo redirecionar para página inicial  ?>
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>v3.1</span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>Ano Atual: <?php echo Yii::app()->user->year; ?></span></span></a>
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
@@ -184,9 +184,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                             </form>
                         </div>
                     </li>
-                    <li>
-                        <span style="color:white;opacity:1;font-size:14px;"> <?php echo Yii::app()->user->year; ?></span>
-                    </li>
+<!--                    <li>
+                        <span style="color:white;opacity:1;font-size:14px;"> </span>
+                    </li>-->
                     <!-- Profile / Logout menu --
                     <li class="account">
                         <a href="<?php echo yii::app()->createUrl('site/logout') ?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>

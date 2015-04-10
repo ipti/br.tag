@@ -33,21 +33,21 @@ $this->breadcrumbs = array(
                         <div class=" span5"> 
                             <div class="row-fluid">
                                 <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('sorcerer/Configuration/school')?>" class="widget-stats">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school')?>" class="widget-stats">
                                         <span class="glyphicons flag"><i></i></span>
                                         <span class="txt">School</span>
                                         <div class="clearfix"></div>
                                     </a>
                                 </div>
                                 <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('sorcerer/Configuration/classroom')?>" class="widget-stats">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom')?>" class="widget-stats">
                                         <span class="glyphicons flag"><i></i></span>
                                         <span class="txt">Classrooms</span>
                                         <div class="clearfix"></div>
                                     </a>
                                 </div>
                                 <div class="span3">
-                                    <a href="<?php echo yii::app()->createUrl('sorcerer/Configuration/student')?>" class="widget-stats">
+                                    <a href="<?php echo yii::app()->createUrl('wizard/Configuration/student')?>" class="widget-stats">
                                         <span class="glyphicons flag"><i></i></span>
                                         <span class="txt">Students</span>
                                         <div class="clearfix"></div>
