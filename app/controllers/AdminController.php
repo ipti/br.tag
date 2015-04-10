@@ -46,8 +46,9 @@ class AdminController extends Controller {
         $json = array();
 
         //Pesquisar todos as novas matrículas
-        $allStudentEnrollment = Yii::app()->db->createCommand('SELECT * FROM student_enrollment 
-        WHERE student_inep_id IS NULL OR classroom_inep_id IS NULL;')->queryAll();
+        $school = yii::app()->user->school;
+        $allStudentEnrollment = Yii::app()->db->createCommand("SELECT * FROM student_enrollment 
+        WHERE student_inep_id IS NULL OR classroom_inep_id IS NULL and school_inep_id_fk=$school;")->queryAll();
         $json['studentEnrollment'] = array();
         $json['studentIdentification'] = array();
         $json['studentDocumentAddress'] = array();
