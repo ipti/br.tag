@@ -11,5 +11,5 @@ $config=dirname(__FILE__).'/app/config/main.php';
 require_once($yii);
 Yii::createWebApplication($config)->run();
 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 ini_set('display_errors','0');

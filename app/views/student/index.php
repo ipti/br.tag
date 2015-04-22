@@ -11,9 +11,9 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
             <div class="buttons span6">
-                <a href="<?= $this->createUrl("student/create");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>
-                <a href="<?= $this->createUrl("wizard/configuration/student");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
-                <a href="<?= $this->createUrl("student/create");?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
+                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>
+                <a href="?r=wizard/configuration/student" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
+                <a href="?r=student/create" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar aluno</a>
             </div>
 
         </div>
@@ -48,13 +48,13 @@
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
                         ),
-                        array(
+                        /*array(
                             'header' => '',
                             'value' => '0+$data->documentsFk->received_cc+$data->documentsFk->received_address+$data->documentsFk->received_photo'
                             . '+$data->documentsFk->received_nis+$data->documentsFk->received_history'
                             . '+$data->documentsFk->received_responsable_rg+$data->documentsFk->received_responsable_cpf."/7"',
                             'htmlOptions' => array('width' => '5px')
-                        ),
+                        ),*/
                         array(
                             'name' => 'mother_name',
                             'htmlOptions' => array('width' => '400px')

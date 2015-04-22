@@ -719,7 +719,7 @@ class AdminController extends Controller {
 
     public function actionClearDB() {
         $command = "
-            delete from AuthAssignment;
+            delete from auth_assignment;
             
             delete from users_school;
             delete from users;
@@ -753,11 +753,12 @@ class AdminController extends Controller {
     }
 
     public function actionImport() {
-
+        set_time_limit(0);
+        ignore_user_abort();
         $path = Yii::app()->basePath;
         //Se não passar parametro, o valor será predefinido
-        if (empty($_FILES['file'])) {
-            $fileDir = $path . '/import/2013_98018493.TXT';
+        if (empty($_FILES['file']['name'])) {
+            $fileDir = $path . '/import/IMPORTAR.TXT';
         } else {
             $myfile = $_FILES['file'];
             $uploadfile = $path . '/import/' . basename($myfile['name']);
@@ -821,18 +822,19 @@ class AdminController extends Controller {
 
         set_time_limit(0);
         ignore_user_abort();
-        Yii::app()->db->createCommand($str_fields['00'])->query();
-        Yii::app()->db->createCommand($str_fields['10'])->query();
-        Yii::app()->db->createCommand($str_fields['20'])->query();
-        Yii::app()->db->createCommand($str_fields['30'])->query();
-        Yii::app()->db->createCommand($str_fields['40'])->query();
-        Yii::app()->db->createCommand($str_fields['50'])->query();
-        Yii::app()->db->createCommand($str_fields['51'])->query();
-        Yii::app()->db->createCommand($str_fields['60'])->query();
-        Yii::app()->db->createCommand($str_fields['80'])->query();
-        Yii::app()->db->createCommand($str_fields['70'])->query();
-        set_time_limit(30);
+        Yii::app()->db->createCommand(utf8_encode($str_fields['00']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['10']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['20']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['30']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['40']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['50']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['51']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['60']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['80']))->query();
+        Yii::app()->db->createCommand(utf8_encode($str_fields['70']))->query();
         fclose($file);
+        set_time_limit(30);
+       
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
@@ -931,6 +933,8 @@ class AdminController extends Controller {
                         $insertValue[$regType].= "(";
                     } else if ($regType != 00 && $regType != 10 && $regType != 51 && $regType != 80 && $column == 3) {
                         $value = "null";
+                    } else if ($regType == 20 && $column == 4) {
+                        $value = str_replace("º","",$value);
                     } else {
                         if ($regType == '51' && $column == 3) {
                             $withoutcomma = true;
@@ -957,11 +961,13 @@ class AdminController extends Controller {
                     }
 
 
-                    $value = ($value == 'null' || $withoutcomma) ? $value : "\"" . $value . "\"";
-
+                    $value = ($value == 'null' || $withoutcomma) ? $value : "'$value'";
+                    if ($regType == 20 && $column == 4) {
+                        //echo $value;exit;
+                    }
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = date("Y");
+                            $year = 2014;
                             $value.= ',' . $year;
                         }
                         if ($line == ($totalLines)) {
