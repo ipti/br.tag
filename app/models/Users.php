@@ -51,7 +51,7 @@ class Users extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'authItems' => array(self::MANY_MANY, 'AuthItem', 'AuthAssignment(userid, itemname)'),
+			'authItems' => array(self::MANY_MANY, 'auth_item', 'auth_assignment(userid, itemname)'),
 			'usersSchools' => array(self::HAS_MANY, 'UsersSchool', 'user_fk'),
 		);
 	}

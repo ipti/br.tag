@@ -32,7 +32,7 @@ class AuthItem extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'AuthItem';
+		return 'auth_item';
 	}
 
 	/**
