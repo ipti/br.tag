@@ -307,8 +307,8 @@ class FrequencyController extends Controller
                 $schedulesStringArray[3] = $cb->week_day_wednesday;
                 $schedulesStringArray[4] = $cb->week_day_thursday;
                 $schedulesStringArray[5] = $cb->week_day_friday;
-                $schedulesStringArray[6] = $cb->week_day_saturday;
-
+                //$schedulesStringArray[6] = $cb->week_day_saturday;
+                $schedulesStringArray[6] = 1;
                 for($i=0; $i<=6;$i++){
                     $temp = $schedulesStringArray[$i];
                     if ($temp == "") {
