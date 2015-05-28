@@ -53,10 +53,25 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         $namereport = 'FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO INFANTIL';
                         $enrollment_situation = 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR';
                         $pre = 'NA __________';
-                    } else {
+                        $situation = '<div class="span9"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Repetente</div>';
+                        $specialneeds = '18 - Portador de Necessidades Especiais? ' ;
+                    } else if($_REQUEST['type'] == '1') {
                         $namereport = 'FICHA INDIVIDUAL DO ALUNO - ENSINO FUNDAMENTAL';
                         $enrollment_situation = 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT';
                         $pre = 'NO __________ ANO';
+                        $situation = '<div class="span9"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Repetente</div>';
+                        $specialneeds = '18 - Portador de Necessidades Especiais? ' ;
+                    }else{
+                        $namereport = 'FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO ESPECIAL';
+                        $enrollment_situation = 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR';
+                        $pre = 'NA EDUCAÇÃO ESPECIAL ';
+                        $situation = '<div class="span9"><b>☐</b> Primeira matrícula na Educação Especial
+                            <br><b>☐</b> Repetente</div>';
+                        $specialneeds = '18 - Tem Necessidades Especiais' ;
                     }
                     ?>
                     <?php echo $namereport ?>
@@ -217,9 +232,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr>
                     <td>
                         <div class="span9"><b>16 - Situação do Aluno na Série/Etapa: </b></div>
-                        <br><div class="span9"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
-                            <br><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)
-                            <br><b>☐</b> Repetente</div>
+                        <br><?php echo $situation ?>
                     </td>
                 </tr>
                 <tr>
@@ -240,7 +253,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b>18 - Portador de Necessidades Especiais? </b></div>
+                        <div class="span10"><b><?php echo $specialneeds ?></b></div>
                         <br><span class="deficiency"></span>
                     </td>
                 </tr>
