@@ -7,6 +7,8 @@ $cs->scriptMap = array(
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
+
+$currentPage = Yii::app()->controller->id;
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -151,7 +153,6 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
         </script>
     </head>
     <body>
-
         <!-- Main Container Fluid -->
         <div class="container-fluid fluid menu-left">
 
@@ -201,7 +202,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <li id="menu-school">
+                            <li id="menu-school" class="<?= $currentPage == "school" ? 'active' : ''?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
                                 if (count(Yii::app()->user->usersSchools) == 1) {
@@ -210,7 +211,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 ?>
                                 <a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
                             </li>
-                            <li id="menu-classroom">
+                            <li id="menu-classroom" class="<?= $currentPage == "classroom" ? 'active' : ''?>">
                                 <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Turmas</span></a>
                             </li>
                             <!--<li id="menu-student" class="hasSubmenu">
@@ -222,13 +223,13 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 </ul>
                                 <?php //<span class="count">2</span>  ?>
                             </li>-->
-                            <li id="menu-student">
+                            <li id="menu-student" class="<?= $currentPage == "student" ? 'active' : ''?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
-                            <li id="menu-instructor">
+                            <li id="menu-instructor" class="<?= $currentPage == "instructor" ? 'active' : ''?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
-                            <li id="menu-frequency">
+                            <li id="menu-frequency" class="<?= $currentPage == "frequency" ? 'active' : ''?>">
                                 <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency') ?>"><i></i><span>Frequência</span></a>
                             </li>
                             <li id="menu-grade">
@@ -243,7 +244,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatório</span></a>
                             </li>-->
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-                                <li id="menu-admin">
+                                <li id="menu-admin" class="<?= $currentPage == "admin" ? 'active' : ''?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
                             <?php } ?>

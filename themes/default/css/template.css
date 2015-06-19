@@ -6737,3 +6737,8 @@ box-shadow: none;
     font-weight: bold;
 }
 .grid-view tbody:hover {cursor: pointer}
+
+li.active a{
+    font-weight: bold !important;
+    
+}
