@@ -1,6 +1,6 @@
 <?php
 
-class FrequencyController extends Controller
+class ClassesController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class FrequencyController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','save','getdisciplines','getclasses'),
+				'actions'=>array('index','frequency','view','save','getdisciplines','getclasses'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -73,7 +73,7 @@ class FrequencyController extends Controller
             $allDisciolines = ($disciplineID == null);
             
             $classes = null;
-            $classes = Frequency::model()->findAllByAttributes(array(
+            $classes = Classes::model()->findAllByAttributes(array(
                 'classroom_fk'=>$classroomID,
                 'discipline_fk'=>$disciplineID,
                 'month'=>$month));
@@ -93,7 +93,7 @@ class FrequencyController extends Controller
 
                     foreach ($days as $schedule) {
                         if ($schedule != 0) {
-                            $class = new Frequency();
+                            $class = new Classes();
                             $class->classroom_fk = $classroomID;
                             $class->discipline_fk = $disciplineID;
                             $class->day = $day;
@@ -116,7 +116,7 @@ class FrequencyController extends Controller
             }else{
                 foreach($instructorFaults as $day => $schedules){
                     foreach($schedules as $schedule){
-                        $class = Frequency::model()->findByAttributes(array(
+                        $class = Classes::model()->findByAttributes(array(
                             'classroom_fk'=>$classroomID,
                             'discipline_fk'=>$disciplineID,
                             'month'=>$month,
@@ -125,7 +125,7 @@ class FrequencyController extends Controller
                         
                         //Adicionar novas se não existir
                         if($class == null){
-                            $class = new Frequency();
+                            $class = new Classes();
                             $class->classroom_fk = $classroomID;
                             $class->discipline_fk = $disciplineID;
                             $class->day = $day;
@@ -167,7 +167,7 @@ class FrequencyController extends Controller
                             }
                             //Caso a aula não exista, adicione-a
                             if($classID == null){
-                                $newClass = new Frequency();
+                                $newClass = new Classes();
                                 $newClass->classroom_fk = $classroomID;
                                 $newClass->discipline_fk = $disciplineID;
                                 $newClass->day = $d;
@@ -235,13 +235,25 @@ class FrequencyController extends Controller
 	 */
 	public function actionIndex()
 	{
-            $dataProvider = new CActiveDataProvider('Frequency');
-            $model = new Frequency;
-		$dataProvider=new CActiveDataProvider('Frequency');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-                        'model' => $model,
-		));
+            $model = new Classes;
+            $dataProvider=new CActiveDataProvider('Classes');
+            $this->render('index',array(
+                    'dataProvider'=>$dataProvider,
+                    'model' => $model,
+            ));
+	}
+        
+	/**
+	 * Open the Frequency View.
+	 */
+	public function actionFrequency()
+	{
+            $model = new Classes;
+            $dataProvider=new CActiveDataProvider('Classes');
+            $this->render('frequency',array(
+                    'dataProvider'=>$dataProvider,
+                    'model' => $model,
+            ));
 	}
 
 	/**
@@ -276,7 +288,7 @@ class FrequencyController extends Controller
             
             $classes = null;
 
-            $classes = Frequency::model()->findAllByAttributes(array(
+            $classes = Classes::model()->findAllByAttributes(array(
                 'classroom_fk'=>$classroom,
                 'discipline_fk'=>$discipline,
                 'month'=>$month));
@@ -405,7 +417,7 @@ class FrequencyController extends Controller
      */
 	public function actionAdmin()
 	{
-		$model=new Frequency('search');
+		$model=new Classes('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Classes']))
 			$model->attributes=$_GET['Classes'];
@@ -424,7 +436,7 @@ class FrequencyController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Frequency::model()->findByPk($id);
+		$model=Classes::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

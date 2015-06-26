@@ -29,12 +29,16 @@
  * @property integer $vehicle_type_metro_or_train
  * @property integer $student_entry_form
  * @property integer $id
+ * @property string $create_date
+ * @property integer $grade_fk
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
  * @property Classroom $classroomFk
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
+ * @property Grade $gradeFk 
+ * @property ClassFaults[] $classFaults
  */
 class StudentEnrollment extends CActiveRecord {
 
@@ -64,7 +68,7 @@ class StudentEnrollment extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, student_fk, classroom_fk,another_scholarization_place, public_transport', 'required'),
-            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form', 'numerical', 'integerOnly' => true),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, grade_fk', 'numerical', 'integerOnly' => true),
             array('register_type', 'length', 'max' => 2),
             array('school_inep_id_fk', 'length', 'max' => 8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12),
@@ -85,6 +89,9 @@ class StudentEnrollment extends CActiveRecord {
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
+            'gradeFk' => array(self::BELONGS_TO, 'Grade', 'grade_fk'),
+
         );
     }
 
@@ -119,7 +126,8 @@ class StudentEnrollment extends CActiveRecord {
             'student_entry_form' => Yii::t('default', 'Student Entry Form'),
             'school_year' => Yii::t('default', 'School Year'),
             'id' => Yii::t('default', 'ID'),
-        	'create_date' => Yii::t('default', 'Create Time')
+            'create_date' => Yii::t('default', 'Create Time'),
+            'grade_fk' => Yii::t('default', 'Grade Fk'),
         );
     }
 

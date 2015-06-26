@@ -482,6 +482,7 @@ return array(
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
     'Frequency' => 'Frequência',
+    'Classes' => 'Aulas',
     
     //Labels
     'User' => 'Usuário',

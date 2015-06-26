@@ -1,12 +1,6 @@
 <?php
-$cs = Yii::app()->clientScript;
-$cs->scriptMap = array(
-    'jquery.js' => false,
-    'jquery.ba-bbq.js' => false
-);
+
 $baseUrl = Yii::app()->theme->baseUrl;
-$cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
-$cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
 
 $currentPage = Yii::app()->controller->id;
 ?>
@@ -25,132 +19,16 @@ $currentPage = Yii::app()->controller->id;
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
-        <!-- JQueryUI -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
-
-        <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
-        <!--<link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />-->
-
-        <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
-
-        <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- Select2 Plugin -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
-
-        <!-- Bootstrap -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
-
-        <!-- Select2 Plugin -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-
-        <!-- QRCode Plugin -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
-        <!-- Print -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
-
-        <!-- Admin -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/admin.css" rel="stylesheet" type="text/css" />
-
-        <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
-        <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
-
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
-
-        <script>
-//            var dirty = false;  
-            $(document).ready(function () {
-                $(".select-search-off").select2({width: 'resolve', minimumResultsForSearch: -1});
-                $(".select-search-on").select2({width: 'resolve'});
-                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
-                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
-                $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
-                $('button[type=submit]').on('click',function(){
-                   // $(this).remove();
-                 })
-            });
-//     
-//                $('a').click(function(event){
-//                    if(dirty){
-//                        var con = confirm('Existem alterações para serem salvas... \nDeseja sair assim mesmo?');
-//                        if(!con){
-//                            event.preventDefault();
-//                        }
-//                    }
-//                });
-//                $('input, select').change(function(e){
-//                    dirty = true; 
-//                });
-            /**
-             * Select2 Brazilian Portuguese translation
-             */
-
-            (function ($) {
-                "use strict";
-
-                $.extend($.fn.select2.defaults, {
-                    formatNoMatches: function () {
-                        return "Nenhum resultado encontrado";
-                    },
-                    formatInputTooShort: function (input, min) {
-                        var n = min - input.length;
-                        return "Informe " + n + " caractere" + (n == 1 ? "" : "s");
-                    },
-                    formatInputTooLong: function (input, max) {
-                        var n = input.length - max;
-                        return "Apague " + n + " caractere" + (n == 1 ? "" : "s");
-                    },
-                    formatSelectionTooBig: function (limit) {
-                        return "Só é possível selecionar " + limit + " elemento" + (limit == 1 ? "" : "s");
-                    },
-                    formatLoadMore: function (pageNumber) {
-                        return "Carregando mais resultados…";
-                    },
-                    formatSearching: function () {
-                        return "Buscando…";
-                    }
-                });
-            })(jQuery);
-
-            $(function () {
-                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function () {
-                    $(".school").submit();
-                });
-            });
-
-            var bagaca = true;
-            $(document).on('click', '#button-menu', function () {
-                if (bagaca) {
-                    $('#content').css('margin', '0');
-                } else {
-                    $('#content').css('margin', '0 0 0 191px');
-                }
-                bagaca = !bagaca;
-
-            });
-
-            //Ao clicar ENTER não fará nada.
-            $('*').keypress(function (e) {
-                if (e.keyCode == $.ui.keyCode.ENTER) {
-                    e.preventDefault();
-                }
-            });
-
-        </script>
     </head>
     <body>
         <!-- Main Container Fluid -->
@@ -160,7 +38,6 @@ $currentPage = Yii::app()->controller->id;
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <?php //@done s1 - Url do logotipo redirecionar para página inicial  ?>
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>Ano Atual: <?php echo Yii::app()->user->year; ?></span></span></a>
 
                 <!-- Menu Toggle Button -->
@@ -185,13 +62,6 @@ $currentPage = Yii::app()->controller->id;
                             </form>
                         </div>
                     </li>
-<!--                    <li>
-                        <span style="color:white;opacity:1;font-size:14px;"> </span>
-                    </li>-->
-                    <!-- Profile / Logout menu --
-                    <li class="account">
-                        <a href="<?php echo yii::app()->createUrl('site/logout') ?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
-                    </li> -->
                 </ul>
             </div>
             <!-- Top navbar END -->
@@ -229,8 +99,8 @@ $currentPage = Yii::app()->controller->id;
                             <li id="menu-instructor" class="<?= $currentPage == "instructor" ? 'active' : ''?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
-                            <li id="menu-frequency" class="<?= $currentPage == "frequency" ? 'active' : ''?>">
-                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency') ?>"><i></i><span>Frequência</span></a>
+                            <li id="menu-classes" class="<?= $currentPage == "classes" ? 'active' : ''?>">
+                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
@@ -240,9 +110,6 @@ $currentPage = Yii::app()->controller->id;
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Notas</span></a>
                                 <!-- <?php echo yii::app()->createUrl('grade') ?> -->
                             </li>
-                            <!--<li id="menu-reports">
-                                <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatório</span></a>
-                            </li>-->
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin" class="<?= $currentPage == "admin" ? 'active' : ''?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
@@ -276,6 +143,84 @@ $currentPage = Yii::app()->controller->id;
             <div class="clearfix"></div>
             <!-- // Sidebar menu & content wrapper END -->
         </div>
-        <!-- // Main Container Fluid END -->
+        
+        <!-- // Main Container Fluid END -->      
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
+        <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
+
+        <script>
+            $(document).ready(function () {
+                $(".select-search-off").select2({width: 'resolve', minimumResultsForSearch: -1});
+                $(".select-search-on").select2({width: 'resolve'});
+                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
+                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
+                $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
+                $('button[type=submit]').on('click',function(){});
+            });
+
+            /**
+             * Select2 Brazilian Portuguese translation
+             */
+
+            (function ($) {
+                "use strict";
+
+                $.extend($.fn.select2.defaults, {
+                    formatNoMatches: function () {
+                        return "Nenhum resultado encontrado";
+                    },
+                    formatInputTooShort: function (input, min) {
+                        var n = min - input.length;
+                        return "Informe " + n + " caractere" + (n === 1 ? "" : "s");
+                    },
+                    formatInputTooLong: function (input, max) {
+                        var n = input.length - max;
+                        return "Apague " + n + " caractere" + (n === 1 ? "" : "s");
+                    },
+                    formatSelectionTooBig: function (limit) {
+                        return "Só é possível selecionar " + limit + " elemento" + (limit === 1 ? "" : "s");
+                    },
+                    formatLoadMore: function (pageNumber) {
+                        return "Carregando mais resultados…";
+                    },
+                    formatSearching: function () {
+                        return "Buscando…";
+                    }
+                });
+            })(jQuery);
+
+            $(function () {
+                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function () {
+                    $(".school").submit();
+                });
+            });
+
+            var bagaca = true;
+            $(document).on('click', '#button-menu', function () {
+                if (bagaca) {
+                    $('#content').css('margin', '0');
+                } else {
+                    $('#content').css('margin', '0 0 0 191px');
+                }
+                bagaca = !bagaca;
+
+            });
+
+            //Ao clicar ENTER não fará nada.
+            $('*').keypress(function (e) {
+                if (e.keyCode === $.ui.keyCode.ENTER) {
+                    e.preventDefault();
+                }
+            });
+
+        </script>
     </body>
 </html>

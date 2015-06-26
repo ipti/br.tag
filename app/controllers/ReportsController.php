@@ -192,10 +192,10 @@ class ReportsController extends Controller {
             $count      = isset($v['count'])        ? $v['count']       : 0;
             $faults     = isset($v['faults'])       ? $v['faults']      : 0;
             
-            //$report[$student]['Frequency'][$month] = $faults/$count or N/A
+            //$report[$student]['Classes'][$month] = $faults/$count or N/A
             //@done s3 - Calcular frequência para cada aluno: (Total de horários - faltas do aluno) / (Total de horários - Dias não ministrados)
             
-            $report[$student]['Frequency'][$month]  = 
+            $report[$student]['Classes'][$month]  = 
                         ($count == 0)   //Se Count for 0, então não houveram aulas cadastradas
                         ? ('N/A')       //Assim atribuimos N/A
                         : (floor(
@@ -212,7 +212,7 @@ class ReportsController extends Controller {
         //Se não houver aulas no mês, coloca 0 no lugar.
         foreach ($report as $name => $c){
             for ($i = $monthI; $i <= $monthF; $i++) {
-                $report[$name]['Frequency'][$i] = isset($c['Frequency'][$i]) ? $c['Frequency'][$i] : ('N/A');
+                $report[$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
             }
         }
 

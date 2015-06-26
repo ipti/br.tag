@@ -4,9 +4,9 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/frequency/index/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Frequency'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $this->menu = array(
     array('label' => 'Create Classes', 'url' => array('create')),
@@ -16,7 +16,7 @@ $this->menu = array(
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('frequency/save')),
+    'action' => CHtml::normalizeUrl(array('classes/save')),
         ));
 ?>
 
@@ -75,7 +75,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 'prompt' => 'Selecione a turma',
                 'ajax' => array(
                     'type' => 'POST',
-                    'url' => CController::createUrl('frequency/getDisciplines'),
+                    'url' => CController::createUrl('classes/getDisciplines'),
                     'update' => '#disciplines',
             )));
             ?>
@@ -144,6 +144,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <?php //@done s2 - inabilitar checkbox quando vier checado    ?>
 <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
 <?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('frequency/getClasses') ?>";
+    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
 
 </script>

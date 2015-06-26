@@ -36,7 +36,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<th>Mês:</th>"
                         . "<th>Frequência:</th>"
                         . "</tr>";
-                foreach ($r['Frequency'] as $month => $frequency) {
+                foreach ($r['Classes'] as $month => $classes) {
                     setlocale(LC_ALL, NULL);
                     setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
                     $time = mktime(0, 0, 0, $month);
@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . $monthName
                             . "</td>"
                             . "<td class='center' >"
-                            . $frequency
+                            . $classes
                             . "</td>"
                             . "</tr>";
                 }
