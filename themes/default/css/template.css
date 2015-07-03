@@ -6742,3 +6742,18 @@ li.active a{
     font-weight: bold !important;
     
 }
+
+.vmiddle{
+    vertical-align: middle !important;
+}
+
+.objectives-select{
+    width:100% !important; 
+    margin-bottom:0; 
+    opacity: 100; 
+    -webkit-appearance: none;
+}
+
+.objectives-day{
+    width: 20px;
+}

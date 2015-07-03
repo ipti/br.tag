@@ -4,25 +4,27 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/dialogs.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Objectives'));
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
-        ));
+    'action' => CHtml::normalizeUrl(array('classes/saveClassObjectives')),
+));
+
 ?>
 
 <?php echo $form->errorSummary($model); ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</span></h3>  
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Objectives'); ?></h3>  
         <div class="buttons span9">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-            <a href="<?php echo Yii::app()->createUrl('reports/bfreport') ?>" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>
             <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
         </div>
     </div>
@@ -109,16 +111,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <div>
             <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
+            <a id="add-objective" class='btn btn-icon btn-small btn-primary glyphicons circle_plus'><?php echo Yii::t('default', 'New Objective') ?><i></i></a>
+
         </div>
 
 
 
     </div>
-    <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
+    <div class="widget" id="widget-class-objectives" style="display:none; margin-top: 8px;">
         <div class="widget-head">
             <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
         </div>
-        <table id="frequency" class="table table-bordered table-striped">
+        <table id="class-objectives" class="table table-bordered table-striped">
             <thead>
             </thead>
             <tbody>
@@ -128,17 +132,37 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
-    <?php $this->endWidget(); ?>
 </div>
+    <?php $this->endWidget(); ?>
 
+    <!-- Modal -->
+    <div id="add-objective-form" title="<?php echo Yii::t('default', 'Add Objective'); ?>">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="control-group">
+                    <?php echo CHtml::label(Yii::t('default', 'description'), 'add-objective-description', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::textField('add-objective-description', ''); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 <script>
 
-<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina   ?>
-<?php //@done s2 - inabilitar checkbox quando vier checado    ?>
-<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
-<?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
+<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina    ?>
+<?php //@done s2 - inabilitar checkbox quando vier checado     ?>
+<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor    ?>
+<?php //@done s2 - reabilitar apenas os que não estão checados     ?>
+    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
+    var getObjectivesURL = "<?php echo Yii::app()->createUrl('classes/getObjectives') ?>";
+    var saveObjectiveURL = "<?php echo Yii::app()->createUrl('classes/saveObjective')?>";
+    
+    var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
+    var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
+    
+    var myAddObjectiveForm;
 
 </script>

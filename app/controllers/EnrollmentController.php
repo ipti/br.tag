@@ -28,7 +28,8 @@ class EnrollmentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies", 'delete', 'getmodalities'),
+                'actions' => array('index', 'view', 'create', 'update', "updatedependencies", 
+                    'delete', 'getmodalities','grades'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -211,19 +212,17 @@ class EnrollmentController extends Controller {
     }
 
     /**
-     * Manages all models.
+     * List the enrollment grades
      */
-    public function actionAdmin() {
-        $model = new StudentEnrollment('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['StudentEnrollment']))
-            $model->attributes = $_GET['StudentEnrollment'];
-
-        $this->render('admin', array(
-            'model' => $model,
-        ));
+    public function actionGrades($id) {
+            $model = new Classes;
+            $dataProvider=new CActiveDataProvider('Classes');
+            $this->render('grades',array(
+                    'dataProvider'=>$dataProvider,
+                    'model' => $model,
+            ));
     }
-
+    
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.

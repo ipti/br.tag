@@ -30,7 +30,7 @@ class ClassObjectives extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, class_fk, objective_fk', 'required'),
+			array('class_fk, objective_fk', 'required'),
 			array('id, class_fk, objective_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
@@ -47,7 +47,7 @@ class ClassObjectives extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'classFk' => array(self::BELONGS_TO, 'Classes', 'class_fk'),
-			'objectiveFk' => array(self::BELONGS_TO, 'ClassObjective', 'objective_fk'),
+			'objectiveFk' => array(self::BELONGS_TO, 'Objective', 'objective_fk'),
 		);
 	}
 

@@ -1,5 +1,9 @@
 <?php
-
+$cs = Yii::app()->clientScript;
+$cs->scriptMap = array(
+    'jquery.min.js' => false,
+    'jquery.ba-bbq.min.js' => false
+);
 $baseUrl = Yii::app()->theme->baseUrl;
 
 $currentPage = Yii::app()->controller->id;
@@ -99,16 +103,19 @@ $currentPage = Yii::app()->controller->id;
                             <li id="menu-instructor" class="<?= $currentPage == "instructor" ? 'active' : ''?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
-                            <li id="menu-classes" class="<?= $currentPage == "classes" ? 'active' : ''?>">
+                            <li id="menu-classes" class="<?= $currentPage == "frequency" ? 'active' : ''?>">
                                 <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
+                            </li>
+                            <li id="menu-classes" class="<?= $currentPage == "classObjectives" ? 'active' : ''?>">
+                                <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('classes/classObjectives') ?>"><i></i><span>Plano de aula</span></a>
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
                                 <!-- <?php echo yii::app()->createUrl('grade') ?> -->
                             </li>
-                             <li id="menu-grade">
-                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Notas</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
+                             <li id="menu-grade" class="<?= $currentPage == "grades" ? 'active' : ''?>">
+                                <a class="glyphicons blog" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
+                                
                             </li>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin" class="<?= $currentPage == "admin" ? 'active' : ''?>">
@@ -203,14 +210,14 @@ $currentPage = Yii::app()->controller->id;
                 });
             });
 
-            var bagaca = true;
+            var isOpen = true;
             $(document).on('click', '#button-menu', function () {
-                if (bagaca) {
+                if (isOpen) {
                     $('#content').css('margin', '0');
                 } else {
                     $('#content').css('margin', '0 0 0 191px');
                 }
-                bagaca = !bagaca;
+                isOpen = !isOpen;
 
             });
 

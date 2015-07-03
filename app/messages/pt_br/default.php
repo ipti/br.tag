@@ -481,7 +481,13 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
+    
+    //Classes
     'Frequency' => 'Frequência',
+    'Class Objectives' => 'Plano de aula',
+    'Add Objective' => 'Adicionar conteúdo',
+    'New Objective' => 'Novo conteúdo',
+    'description' => 'Descrição',
     'Classes' => 'Aulas',
     
     //Labels

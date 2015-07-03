@@ -12,7 +12,6 @@
             'data':jQuery('#classroom').parents("form").serialize(),
             'success':function(data){
                 var data = jQuery.parseJSON(data);
-                console.log(data['days'] == undefined);
                 if(data['days'] == undefined) {
                     $('#frequency > thead').html('<tr><th class="center">Não há aulas desta matéria.</th></tr>');
                     $('#frequency > tbody').html('');
