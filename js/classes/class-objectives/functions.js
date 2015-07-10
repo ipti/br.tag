@@ -7,7 +7,7 @@ function createNoDaysTable() {
 }
 
 function createTable(data, objectives) {
-    $('#class-objectives > thead').html('<tr><th class="center" style="text-align:center">Dia</th><th class="center">Conteúdo ministrado em sala de aula</th></tr>');
+    $('#class-objectives > thead').html('<tr><th class="center" style="text-align:center">Dias</th><th>Conteúdo ministrado em sala de aula</th></tr>');
     $('#class-objectives > tbody').html('');
 
     var month = $('#month').val();
@@ -20,7 +20,7 @@ function createTable(data, objectives) {
     });
 
     $.each(data, function (day, objective) {
-        var head = '<th class="center vmiddle objectives-day">' + day + '</th>';
+        var head = '<th class="center vmiddle objectives-day">'+((day < 10)? '0' : '') + day + '</th>';
         var body = '<td>'
                 + '<select id="day[' + day + ']" name="day[' + day + '][]" class="objectives-select vmiddle" multiple="yes">'
                 + options

@@ -1,9 +1,9 @@
 <?php
-$cs = Yii::app()->clientScript;
-$cs->scriptMap = array(
-    'jquery.min.js' => false,
-    'jquery.ba-bbq.min.js' => false
-);
+//$cs = Yii::app()->clientScript;
+//$cs->scriptMap = array(
+//    'jquery.min.js' => true,
+//    'jquery.ba-bbq.min.js' => true
+//);
 $baseUrl = Yii::app()->theme->baseUrl;
 
 $currentPage = Yii::app()->controller->id;
@@ -114,7 +114,7 @@ $currentPage = Yii::app()->controller->id;
                                 <!-- <?php echo yii::app()->createUrl('grade') ?> -->
                             </li>
                              <li id="menu-grade" class="<?= $currentPage == "grades" ? 'active' : ''?>">
-                                <a class="glyphicons blog" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
+                                <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                                 
                             </li>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>

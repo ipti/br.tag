@@ -260,6 +260,7 @@ return array(
     'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
+    'Writing' => 'Redação',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -490,6 +491,9 @@ return array(
     'description' => 'Descrição',
     'Classes' => 'Aulas',
     
+    //Grades
+    'Grades' => 'Notas',
+    
     //Labels
     'User' => 'Usuário',
     'Password' => 'Senha',
@@ -592,6 +596,5 @@ return array(
     'Classroom Configurarion' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma'
-    
         )
 ?>

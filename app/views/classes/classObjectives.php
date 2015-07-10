@@ -136,7 +136,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <?php $this->endWidget(); ?>
 
     <!-- Modal -->
-    <div id="add-objective-form" title="<?php echo Yii::t('default', 'Add Objective'); ?>">
+    <div id="add-objective-form" class="hide" title="<?php echo Yii::t('default', 'Add Objective'); ?>">
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">

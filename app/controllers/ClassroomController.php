@@ -245,6 +245,7 @@ class ClassroomController extends Controller {
         $labels[29] = Classroom::model()->attributeLabels()['discipline_sociology'];
         $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
         $labels[99] = Classroom::model()->attributeLabels()['discipline_others'];
+        $labels[10001] = yii::t('default', 'Writing');
 
         return $labels;
     }

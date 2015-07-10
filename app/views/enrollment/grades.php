@@ -4,23 +4,21 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
+
+$script="var getGradesUrl = '".Yii::app()->createUrl('enrollment/getGrades')."';";
+
+$cs->registerScript('variables', $script, CClientScript::POS_END);
+$cs->registerCssFile($baseUrl . '/css/grades.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
-
-$this->menu = array(
-    array('label' => 'Create Classes', 'url' => array('create')),
-    array('label' => 'Manage Classes', 'url' => array('admin')),
-);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/save')),
-        ));
+    'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+));
 ?>
-
-<?php echo $form->errorSummary($model); ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
@@ -31,22 +29,18 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<?php
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-?>
-
 <div class="innerLR">
-
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
+
     <div class="filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
             <?php
-            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
+            echo CHtml::dropDownList('classroom', '', $classrooms, array(
                 'key' => 'id',
                 'class' => 'select-search-on',
                 'prompt' => 'Selecione a turma',
@@ -57,62 +51,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             )));
             ?>
         </div>
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Student'), 'student', array('class' => 'control-label')); ?>
-            <?php
-            echo CHtml::dropDownList('student', '', CHtml::listData(StudentEnrollment::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
-                'key' => 'id',
-                'class' => 'select-search-on',
-                'prompt' => 'Selecione a turma',
-                'ajax' => array(
-                    'type' => 'POST',
-                    'url' => CController::createUrl('classes/getDisciplines'),
-                    'update' => '#disciplines',
-            )));
-            ?>
-        </div>
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
-            <?php
-            echo CHtml::dropDownList('disciplines', '', array(), array(
-                'key' => 'id',
-                'class' => 'select-search-on',
-                'prompt' => 'Todas as disciplinas',
-            ));
-            ?>
-        </div>
-        <div>
-            <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
-        </div>
-
-
-
     </div>
-    <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
-        <div class="widget-head">
-            <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
+    <br>
+    <div class="classroom widget widget-tabs widget-tabs-vertical row row-merge hide">
+        <div class="students widget-head span4">
+            <ul></ul>
         </div>
-        <table id="frequency" class="table table-bordered table-striped">
-            <thead>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="center">1</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="grades widget-body span8">
+            <div class="tab-content"></div>
+        </div>
     </div>
-    <?php $this->endWidget(); ?>
+
 </div>
-
-
-
-<script>
-
-<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina   ?>
-<?php //@done s2 - inabilitar checkbox quando vier checado    ?>
-<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
-<?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
-
-</script>
+<?php $this->endWidget(); ?>

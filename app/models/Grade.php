@@ -14,9 +14,12 @@
  * @property double $recovery_grade3
  * @property double $recovery_grade4
  * @property double $recovery_final_grade
+ * @property integer $disciplne_fk
+ * @property integer $enrollment_fk
  *
  * The followings are the available model relations:
- * @property StudentEnrollment[] $studentEnrollments
+ * @property EdcensoDiscipline[] $disciplineFk
+ * @property StudentEnrollment[] $enrollmentFk
  */
 class Grade extends CActiveRecord
 {
@@ -36,7 +39,8 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('grade1, grade2, grade3, grade4, recovery_grade1, recovery_grade2, recovery_grade3, recovery_grade4, recovery_final_grade', 'numerical'),
+                        array('discipline_fk, enrollment_fk', 'required'),
+			array('grade1, grade2, grade3, grade4, recovery_grade1, recovery_grade2, recovery_grade3, recovery_grade4, recovery_final_grade, discipline_fk, enrollment_fk', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, grade1, grade2, grade3, grade4, recovery_grade1, recovery_grade2, recovery_grade3, recovery_grade4, recovery_final_grade', 'safe', 'on'=>'search'),
@@ -51,7 +55,8 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'grade_fk'),
+			'disciplineFk' => array(self::HAS_ONE, 'EdcensoDiscipline', 'discipline_fk'),
+			'enrollmentFk' => array(self::HAS_ONE, 'StudentEnrollment', 'enrollment_fk'),
 		);
 	}
 
@@ -71,6 +76,8 @@ class Grade extends CActiveRecord
 			'recovery_grade3' => Yii::t('default','Recovery Grade3'),
 			'recovery_grade4' => Yii::t('default','Recovery Grade4'),
 			'recovery_final_grade' => Yii::t('default','Recovery Final Grade'),
+			'discipline_fk' => Yii::t('default','Discipline'),
+			'enrollment_fk' => Yii::t('default','Enrollment'),
 		);
 	}
 
@@ -102,6 +109,8 @@ class Grade extends CActiveRecord
 		$criteria->compare('recovery_grade3',$this->recovery_grade3);
 		$criteria->compare('recovery_grade4',$this->recovery_grade4);
 		$criteria->compare('recovery_final_grade',$this->recovery_final_grade);
+		$criteria->compare('discipline_fk',$this->discipline_fk);
+		$criteria->compare('enrollment_fk',$this->enrollment_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

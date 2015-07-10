@@ -28,8 +28,8 @@ class EnrollmentController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies", 
-                    'delete', 'getmodalities','grades'),
+                'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
+                    'delete', 'getmodalities', 'grades', 'getGrades'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -55,7 +55,6 @@ class EnrollmentController extends Controller {
     public function actionUpdateDependencies() {
         //$enrollment = new StudentEnrollment;
         //$enrollment->attributes = $_POST["StudentEnrollment"];
-
         //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
         //$students = CHtml::listData($students, 'id', 'name');
 
@@ -212,17 +211,49 @@ class EnrollmentController extends Controller {
     }
 
     /**
-     * List the enrollment grades
+     * Show the view
      */
-    public function actionGrades($id) {
-            $model = new Classes;
-            $dataProvider=new CActiveDataProvider('Classes');
-            $this->render('grades',array(
-                    'dataProvider'=>$dataProvider,
-                    'model' => $model,
-            ));
+    public function actionGrades() {
+        $year = Yii::app()->user->year;
+        $school = Yii::app()->user->school;
+        $classroom = Classroom::model()->findAllByAttributes(['school_year' => $year, 'school_inep_fk' => $school]);
+
+        $classroom = CHtml::listData($classroom, 'id', 'name');
+
+        $this->render('grades', ['classrooms' => $classroom]);
     }
-    
+
+    /**
+     * 
+     * Get grades by classroom
+     * 
+     */
+    public function actionGetGrades() {
+        if (isset($_POST['classroom']) && !empty($_POST['classroom'])) {
+
+            $classroom = Classroom::model()->findByPk($_POST['classroom']);
+            $enrollments = $classroom->studentEnrollments;
+
+            function sort_objects_by_total($a, $b) {
+                if ($a->studentFk->name == $b->studentFk->name) {
+                    return 0;
+                }
+                return ($a->studentFk->name < $b->studentFk->name) ? - 1 : 1;
+            }
+            usort($enrollments, "sort_objects_by_total");
+            
+            $return = [];
+            $return['students'] = [];
+            $return['disciplines'] = [];
+
+            foreach ($enrollments as $enrollment) {
+                $return['students'][$enrollment->studentFk->name] = $enrollment->studentFk->id;
+            }
+
+            echo json_encode($return);
+        }
+    }
+
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
