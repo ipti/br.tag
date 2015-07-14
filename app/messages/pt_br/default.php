@@ -493,6 +493,8 @@ return array(
     
     //Grades
     'Grades' => 'Notas',
+    'Grades saved successfully!' => 'Notas salvas com sucesso!',
+    'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
     
     //Labels
     'User' => 'Usuário',

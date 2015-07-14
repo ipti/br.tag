@@ -6755,3 +6755,12 @@ li.active a{
 .objectives-day{
     width: 20px;
 }
+
+.grade-student-name{
+    font-size:12px;
+}
+
+.grade{
+    width:50px;
+    text-align:center;
+}

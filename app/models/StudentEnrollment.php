@@ -89,7 +89,7 @@ class StudentEnrollment extends CActiveRecord {
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
-            'grades' => array(self::HAS_MANY, 'Grades', 'enrollment_fk'),
+            'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
 
         );
     }

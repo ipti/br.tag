@@ -33,6 +33,7 @@ $currentPage = Yii::app()->controller->id;
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
+        
     </head>
     <body>
         <!-- Main Container Fluid -->
@@ -162,7 +163,7 @@ $currentPage = Yii::app()->controller->id;
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
         <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
-
+        
         <script>
             $(document).ready(function () {
                 $(".select-search-off").select2({width: 'resolve', minimumResultsForSearch: -1});

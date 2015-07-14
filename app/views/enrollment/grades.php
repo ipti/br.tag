@@ -6,7 +6,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
 
-$script="var getGradesUrl = '".Yii::app()->createUrl('enrollment/getGrades')."';";
+$script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
@@ -17,7 +17,7 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
     'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
-));
+        ));
 ?>
 
 <div class="row-fluid hidden-print">
@@ -54,13 +54,12 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <br>
     <div class="classroom widget widget-tabs widget-tabs-vertical row row-merge hide">
-        <div class="students widget-head span4">
+        <div class="students widget-head span3">
             <ul></ul>
         </div>
-        <div class="grades widget-body span8">
+        <div class="grades widget-body span9">
             <div class="tab-content"></div>
         </div>
     </div>
-
 </div>
 <?php $this->endWidget(); ?>
