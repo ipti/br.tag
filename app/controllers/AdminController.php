@@ -77,8 +77,8 @@ class AdminController extends Controller {
                     array('classroom_fk' => $studentEnrollment['classroom_fk']));
             array_push($json['classBoard'], $classBoard['attributes']);
 
-            //Frequency is the model for table 'class'
-            $allClass = Frequency::model()->findAllByAttributes(
+            //Classes is the model for table 'class'
+            $allClass = Classes::model()->findAllByAttributes(
                     array('classroom_fk' => $studentEnrollment['classroom_fk']));
             //Neste caso são muitas Aulas para um turma
             foreach ($allClass AS $class) :
@@ -272,7 +272,7 @@ class AdminController extends Controller {
                 $class['id'] = null;
                 $onlineId = null;
 
-                $classOnline = Frequency::model()->findByAttributes(array('discipline_fk' => $class['discipline_fk'],
+                $classOnline = Classes::model()->findByAttributes(array('discipline_fk' => $class['discipline_fk'],
                     'classroom_fk' => $idsClassRoom[$class['classroom_fk']], 'month' => $class['month'], 'day' => $class['day']));
                 try {
                     if (isset($classOnline)) {
@@ -284,7 +284,7 @@ class AdminController extends Controller {
                         }
                     } else {
                         //Cria um Novo
-                        $modelClass = new Frequency();
+                        $modelClass = new Classes();
                         $modelClass->attributes = $class;
                         $modelClass->id = null;
                         $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
@@ -863,7 +863,7 @@ class AdminController extends Controller {
         $auth->createOperation('updateEnrollment', 'update a Enrollment');
         $auth->createOperation('deleteEnrollment', 'delete a Enrollment');
 
-        $auth->createOperation('updateFrequency', 'update a Frequency');
+        $auth->createOperation('updateClasses', 'update a Classes');
 
         $auth->createOperation('generateBFReport', 'generate BFReport');
 
@@ -886,7 +886,7 @@ class AdminController extends Controller {
         $role->addChild('updateEnrollment');
         $role->addChild('deleteEnrollment');
 
-        $role->addChild('updateFrequency');
+        $role->addChild('updateClasses');
 
         $role->addChild('generateBFReport');
 

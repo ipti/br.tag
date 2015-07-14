@@ -260,6 +260,7 @@ return array(
     'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
+    'Writing' => 'Redação',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -481,7 +482,19 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
+    
+    //Classes
     'Frequency' => 'Frequência',
+    'Class Objectives' => 'Plano de aula',
+    'Add Objective' => 'Adicionar conteúdo',
+    'New Objective' => 'Novo conteúdo',
+    'description' => 'Descrição',
+    'Classes' => 'Aulas',
+    
+    //Grades
+    'Grades' => 'Notas',
+    'Grades saved successfully!' => 'Notas salvas com sucesso!',
+    'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
     
     //Labels
     'User' => 'Usuário',
@@ -585,6 +598,5 @@ return array(
     'Classroom Configurarion' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma'
-    
         )
 ?>
