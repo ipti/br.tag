@@ -306,6 +306,7 @@ return array(
     'Responsable`s CPF' => 'CPF do Responsável',
     'Responsable`s Scholarity' => 'Escolaridade do Responsável',
     'Responsable`s Job' => 'Profissão do Responsável',
+    "Responsible's Telephone" => 'Telefone do Responsável',
     'BF Participator' => 'Participante do Bolsa Família',
     'Food Restrictions' => 'Restrição Alimentar / Alergia',
     
@@ -329,6 +330,7 @@ return array(
     'Cpf' => 'Nº do CPF',
     'Foreign Document Or Passport' => 'Documento Estrangeiro / Passaporte',
     'Nis' => 'Nº de Identificação Social (NIS)',
+    'CNS Number' => 'Nº do CNS',
     'Document Failure Lack' => 'Justificativa para a falta de documentação do aluno',
     'Residence Zone' => 'Localização / Zona de residência',
     'CEP' => 'CEP',

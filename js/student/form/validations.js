@@ -19,6 +19,38 @@ $(formIdentification + 'nis').focusout(function() {
     }
 });
 
+//$(formIdentification + 'responsable_telephone').mask("(99)9999-9999");
+$(formIdentification + 'responsable_telephone').focusout(function() {
+    var id = '#' + $(this).attr("id");
+    if (!validatePhone($(id).val())&&($(id).val()!='')) {
+        $(id).attr('value', '');
+        addError(id, "Campo não está dentro das regras.");
+    } else {
+        removeError(id);
+    }
+});
+
+//$(formIdentification + 'responsable_cpf').mask("999.999.999-99");
+$(formIdentification + 'responsable_cpf').focusout(function() {
+    var id = '#' + $(this).attr("id");
+    if (!validateCpf($(id).val())) {
+        $(id).attr('value', '');
+        addError(id, "Campo não está dentro das regras.");
+    } else {
+        removeError(id);
+    }
+});
+
+$(formDocumentsAndAddress + 'cns').focusout(function() {
+    var id = '#' + $(this).attr("id");
+    if (!validateCns($(id).val())) {
+        $(id).attr('value', '');
+        addError(id, "Campo não está dentro das regras.");
+    } else {
+        removeError(id);
+    }
+});
+
 var date = new Date();
 $(formIdentification + 'birthday').mask("99/99/9999");
 $(formIdentification + 'birthday').focusout(function() {
@@ -338,6 +370,7 @@ $(formDocumentsAndAddress + 'neighborhood').focusout(function() {
     }
 });
 
+//$(formDocumentsAndAddress + 'cpf').mask("999.999.999-99");
 $(formDocumentsAndAddress + 'cpf').focusout(function() {
     var id = '#' + $(this).attr("id");
     if (!validateCpf($(id).val())) {
