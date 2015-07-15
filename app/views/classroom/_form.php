@@ -99,15 +99,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <!--    
-                            <div class="control-group">
+                            <div class="control-group hidden">
                             <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
                             <?php echo $form->textField($modelClassroom, 'school_year', array('value' => isset($modelClassroom->school_year) ? $modelClassroom->school_year : Yii::app()->user->year, 'size' => 5, 'maxlength' => 5)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
                             <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
-                            </div>-->
+                            </div>
 
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 'control-label')); ?>
@@ -531,6 +530,8 @@ $form = $this->beginWidget('CActiveForm', array(
     var instructor = $("#insertclass-instructor");
     var uInstructor = $("#insertclass-update-instructor");
     var discipline = $("#discipline");
+    var role = $("#Role");
+    var instructors = $("#Instructors");
     var uDiscipline = $("#update-discipline");
 
     var classroomId = '<?php echo $modelClassroom->id; ?>';

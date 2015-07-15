@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     ////////////////////////////////////////////////
     // Dialogs                                     //
@@ -13,15 +13,24 @@ $(document).ready(function() {
         resizable: false,
         buttons: [{
                 text: btnCreate,
-                click: function(){   
-                    addTeachingData();
-                    $(this).dialog("close");
-            }},
+                click: function () {
+                    var id = '#Role';
+                    if ((role.val().length !== 0 && instructors.val().length !== 0)
+                            || (role.val().length === 0 && instructors.val().length === 0)) {
+                        addTeachingData();
+                        removeError(id);
+                        $(this).dialog("close");
+                    } else {
+                        addError(id, "Selecione um cargo");
+                    }
+                }},
             {
                 text: btnCancel,
-                click: function() {
+                click: function () {
+                    var id = '#Role';
+                    removeError(id);
                     $(this).dialog("close");
-            }}
+                }}
 
         ],
     });
@@ -36,7 +45,7 @@ $(document).ready(function() {
         resizable: false,
         buttons: [
             {text: btnCreate,
-                click: function() {
+                click: function () {
                     if (discipline.val().length != 0) {
                         var l = createNewLesson();
                         if (l.classroom == '') {
@@ -46,7 +55,7 @@ $(document).ready(function() {
                             $.ajax({
                                 type: 'POST',
                                 url: addLessonUrl,
-                                success: function(e) {
+                                success: function (e) {
                                     var event = $.parseJSON(e);
                                     calendar.fullCalendar('renderEvent', event, true);
                                     myCreateDialog.dialog("close");
@@ -60,7 +69,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            {text: btnCancel, click: function() {
+            {text: btnCancel, click: function () {
                     $(this).dialog("close");
                 }}
         ],
@@ -74,12 +83,12 @@ $(document).ready(function() {
         modal: true,
         draggable: false,
         resizable: false,
-        create: function( event, ui ) {
+        create: function (event, ui) {
             uDiscipline.val(lesson.discipline).trigger('change');
         },
         buttons: [
             {text: btnUpdate,
-                click: function() {
+                click: function () {
                     if (uDiscipline.val().length != 0) {
                         lesson.discipline = uDiscipline.val();
                         var l = lesson;
@@ -92,7 +101,7 @@ $(document).ready(function() {
                             $.ajax({
                                 type: 'POST',
                                 url: updateLessonUrl,
-                                success: function(e) {
+                                success: function (e) {
                                     var event = $.parseJSON(e);
                                     calendar.fullCalendar('removeEvents', event.id);
                                     calendar.fullCalendar('renderEvent', event, true);
@@ -107,7 +116,7 @@ $(document).ready(function() {
                     }
                 }},
             {text: btnDelete,
-                click: function() {
+                click: function () {
                     lesson.discipline = uDiscipline.val();
                     var l = lesson;
                     if (l.classroom == '') {
@@ -117,7 +126,7 @@ $(document).ready(function() {
                         $.ajax({
                             type: 'POST',
                             url: deleteLessonUrl,
-                            success: function() {
+                            success: function () {
                                 calendar.fullCalendar('removeEvents', l.id);
                                 myUpdateDialog.dialog("close");
                             },
@@ -125,7 +134,9 @@ $(document).ready(function() {
                         });
                     }
                 }},
-            {text: btnCancel, click: function() { myUpdateDialog.dialog("close");}}
+            {text: btnCancel, click: function () {
+                    myUpdateDialog.dialog("close");
+                }}
         ],
     });
 });
@@ -133,7 +144,7 @@ $(document).ready(function() {
 //////////////////////////////////////////////////
 // Dialog Controls                            //
 ////////////////////////////////////////////////
-$("#newDiscipline").click(function(){
+$("#newDiscipline").click(function () {
     $("#teachingdata-dialog-form select").val('').trigger('change');
     $("#teachingdata-dialog-form").dialog('open');
 });    

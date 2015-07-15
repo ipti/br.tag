@@ -5,6 +5,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js', CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
 

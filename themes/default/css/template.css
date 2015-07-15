@@ -6764,3 +6764,7 @@ li.active a{
     width:50px;
     text-align:center;
 }
+
+.grade-dropdown{
+    width:120px;
+}

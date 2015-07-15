@@ -1,9 +1,4 @@
 <?php
-//$cs = Yii::app()->clientScript;
-//$cs->scriptMap = array(
-//    'jquery.min.js' => true,
-//    'jquery.ba-bbq.min.js' => true
-//);
 $baseUrl = Yii::app()->theme->baseUrl;
 
 $currentPage = Yii::app()->controller->id;
@@ -15,6 +10,8 @@ $currentPage = Yii::app()->controller->id;
 <!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
 <!--[if !IE]><!--><html><!-- <![endif]-->
     <head>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
         <meta charset="UTF-8" />
@@ -153,7 +150,6 @@ $currentPage = Yii::app()->controller->id;
         </div>
         
         <!-- // Main Container Fluid END -->      
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
