@@ -32,8 +32,10 @@ var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
 numberRules.cpf = /^[0-9]{11}$/;
 numberRules.nis = /^[0-9]{11}$/;
+numberRules.cns = /^[0-9]{15}$/;
 numberRules.ddd = /^[0-9]{2}$/;
-numberRules.phone = /^([9]?)+([0-9]{8})$/;
+//numberRules.phone = /^([9]?)+([0-9]{8})$/;
+numberRules.phone = /^[0-9]{10,11}$/;
 numberRules.count = /^[0-9]{0,4}$/;
 numberRules.num = /^[0-9]*$/;
 
@@ -142,7 +144,8 @@ function validateDDD(ddd){
 }
 
 function validatePhone(phone, length){
-    return (phone.length <= length && numbersNotEqual(phone) && rule(phone, numberRules.phone));
+    //return (phone.length <= length && numbersNotEqual(phone) && rule(phone, numberRules.phone));
+    return rule(phone, numberRules.phone);
 }
 
 function validateEmail(email){
@@ -260,6 +263,10 @@ function validateCpf(cpf){
 
 function validateNis(nis){
     return rule(nis, numberRules.nis);
+}
+
+function validateCns(cns){
+    return rule(cns, numberRules.cns);
 }
 
 function isset(variable){
