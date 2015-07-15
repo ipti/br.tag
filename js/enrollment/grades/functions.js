@@ -18,13 +18,15 @@ function generateGradesForm(data) {
             grades_needed = {
                 notas: 4,
                 recuperacao: 0,
-                final: false
+                final: false,
+                cycle: true
             };
         } else {
             grades_needed = {
                 notas: 4,
                 recuperacao: 4,
-                final: true
+                final: true,
+                cycle: false
             };
         }
         $.each(data, function (i, v) {
@@ -101,9 +103,10 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     var tbody = "<tr>";
     var numN = fields.notas;
     var numR = fields.recuperacao;
+    var isCycle = fields.cycle;
     tbody += '<td class="discipline-name">' + discipline.name + '</td>';
     for (var i = 0; i < numN; i++) {
-        if (numR !== 0) {
+        if (!isCycle) {
             tbody += '<td class="center"><input name="grade[' + id + '][' + discipline_id + '][' + i + ']" '
                     + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["n" + (i + 1)] + '" /></td>"';
         } else {

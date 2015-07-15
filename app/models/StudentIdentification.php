@@ -54,6 +54,7 @@
  * @property string $responsable_job
  * @property integer $bf_participator
  * @property string $food_restrictions
+ * @property integer $responsable_telephone
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -92,7 +93,7 @@ class StudentIdentification extends CActiveRecord {
             array('school_inep_id_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 12),
             array('name, mother_name, father_name', 'length', 'max' => 100),
-            array('nis, responsable_cpf', 'length', 'max' => 11),
+            array('nis, responsable_cpf, responsable_telephone', 'length', 'max' => 11),
             array('birthday', 'length', 'max' => 10),
             array('responsable_name', 'length', 'max' => 90),
             array('responsable_rg, responsable_job', 'length', 'max' => 45),
@@ -167,6 +168,7 @@ class StudentIdentification extends CActiveRecord {
             'send_year' => Yii::t('default', 'Pós Censo'),
             'last_change' => Yii::t('default', 'Last Change'),
             'responsable' => Yii::t('default', 'Responsable'),
+            'responsable_telephone' => Yii::t('default', "Responsible's Telephone"),
             'responsable_name' => Yii::t('default', 'Responsable`s Name'),
             'responsable_rg' => Yii::t('default', 'Responsable`s RG'),
             'responsable_cpf' => Yii::t('default', 'Responsable`s CPF'),

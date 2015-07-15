@@ -237,6 +237,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
+                                </div>
+                            </div>
+                            
                             <div class="control-group" style="display:none;" id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -498,6 +507,31 @@ $form = $this->beginWidget('CActiveForm', array(
                                  data-collapse-closed="false">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons nameplate">
+                                        <i></i>Cartão Nacional de Saúde
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <span
+                                                class="btn-action single glyphicons circle_question_mark"
+                                                data-toggle="tooltip" data-placement="top"
+                                                data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="separator"></div>
+                            
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons nameplate">
                                         <i></i>Cadastro de Pessoa Física
                                     </h4>
                                 </div>
@@ -515,7 +549,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            <div class="separator"></div>                         
+                            
+                            <div class="separator"></div>
+                            
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -544,7 +580,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <span
                                                 class="btn-action single glyphicons circle_question_mark"
                                                 data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Max length: ') . '20'; ?>"><i></i></span>
+                                                data-original-title="<?php echo Yii::t('help', 'Max length') . '20'; ?>"><i></i></span>
                                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
                                         </div>
                                     </div>
