@@ -127,6 +127,4 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
             + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
-    //FICA LENTO P CARAI
-    //$('select.grade-dropdown').select2();
 }

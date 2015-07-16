@@ -252,28 +252,58 @@ class EnrollmentController extends Controller {
         if (isset($_POST['grade'])) {
             $saved = true;
             $grades = $_POST['grade'];
+            $enrollments = $classroom->studentEnrollments;
+            $edc_stage = EdcensoStageVsModality::model()->findByPk($stage_id);
+            $stage = getStageIfMulti($edc_stage->id, $enrollments);
+
             foreach ($grades as $eid => $disciplines) {
                 foreach ($disciplines as $id => $values) {
+                    $portuguese = 6;
+                    $history = 12;
+                    $art = 10;
+
+                    $math = 3;
+                    $science = 5;
+                    $religion = 26;
+
+                    $writing = 10001;
+                    $geography = 13;
+                    $physical_education = 11;
+
                     $grade = Grade::model()->findByAttributes([
                         "enrollment_fk" => $eid,
                         "discipline_fk" => $id
                     ]);
                     foreach ($values as $i => $value) {
                         if ($value !== "") {
-                            if ($value[strlen($value) - 1] == "." || $value[strlen($value) - 1] == ",")
+                            if ($value[strlen($value) - 1] == "." || $value[strlen($value) - 1] == ",") {
                                 $values[$i] .= 0;
+                            }
                         }
                     }
-                    $grade->grade1 = $values[0] == "" ? null : $values[0];
-                    $grade->grade2 = $values[1] == "" ? null : $values[1];
-                    $grade->grade3 = $values[2] == "" ? null : $values[2];
-                    $grade->grade4 = $values[3] == "" ? null : $values[3];
+                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
+                    $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == "")) ? null : $values[1];
+                    $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == "")) ? null : $values[2];
+                    $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == "")) ? null : $values[3];
                     $grade->recovery_grade1 = (!isset($values[4]) || (isset($values[4]) && $values[4] == "")) ? null : $values[4];
                     $grade->recovery_grade2 = (!isset($values[5]) || (isset($values[5]) && $values[5] == "")) ? null : $values[5];
                     $grade->recovery_grade3 = (!isset($values[6]) || (isset($values[6]) && $values[6] == "")) ? null : $values[6];
                     $grade->recovery_grade4 = (!isset($values[7]) || (isset($values[7]) && $values[7] == "")) ? null : $values[7];
                     $grade->recovery_final_grade = (!isset($values[8]) || (isset($values[8]) && $values[8] == "")) ? null : $values[8];
                     $saved = $saved && $grade->save();
+
+                    if ($id === $portuguese || $id === $history || $id === $art) {
+                        $discipline2 = ($id === $portuguese ? $writing : (
+                                        $id === $history ? $geography : (
+                                                $id === $art ? $physical_education : "")));
+                        $id = Grade::model()->findByAttributes([
+                                    "enrollment_fk" => $eid,
+                                    "discipline_fk" => $discipline2]
+                                )->id;
+                        $grade->id = $id;
+                        $grade->discipline_fk = $discipline2;
+                        $saved = $saved && $grade->save();
+                    }
                 }
             }
         }
@@ -283,6 +313,38 @@ class EnrollmentController extends Controller {
             Yii::app()->user->setFlash('error', Yii::t('default', 'We have got an error saving grades!'));
         }
         $this->redirect(array('grades'));
+    }
+
+    /**
+     * 
+     * Se for multiEtapa, pega a etapa do aluno.
+     * 
+     * @param integer $stage
+     * @param StudentEnrollment[] $enrollments
+     * @return integer
+     */
+    private function getStageIfMulti($stage, $enrollments) {
+        if ($stage == 22 || $stage == 23) {
+            $count = [];
+            foreach ($enrollments as $enrollment) {
+                if (isset($enrollment->edcenso_stage_vs_modality_fk)) {
+                    $id = $enrollment->edcenso_stage_vs_modality_fk;
+                    if (!isset($count[$id]))
+                        $count[$id] = 0;
+                    $count[$id] ++;
+                }
+            }
+            $max = -1;
+            foreach ($count as $id => $c) {
+                if ($max == -1)
+                    $max = $id;
+                else if ($count[$max] < $count[$id])
+                    $max = $id;
+            }
+            $enrollment_stage = EdcensoStageVsModality::model()->findByPk($max);
+            $stage = $enrollment_stage->id;
+        }
+        return $stage;
     }
 
     /**
@@ -302,28 +364,7 @@ class EnrollmentController extends Controller {
             $enrollments = $classroom->studentEnrollments;
             $enrollments = $this->sortEnrollments($enrollments);
 
-            //Olhe no banco o que significa...
-            if ($stage == 22 || $stage == 23) {
-                $count = [];
-                foreach ($enrollments as $enrollment) {
-                    if (isset($enrollment->edcenso_stage_vs_modality_fk)) {
-                        $id = $enrollment->edcenso_stage_vs_modality_fk;
-                        if (!isset($count[$id]))
-                            $count[$id] = 0;
-                        $count[$id] ++;
-                    }
-                }
-                $max = -1;
-                foreach ($count as $id => $c) {
-                    if ($max == -1)
-                        $max = $id;
-                    else if ($count[$max] < $count[$id])
-                        $max = $id;
-                }
-                $enrollment_stage = EdcensoStageVsModality::model()->findByPk($max);
-                $stage = $enrollment_stage->id;
-            }
-
+            $stage = $this->getStageIfMulti($stage, $enrollments);
 
             $return = [];
 
@@ -363,7 +404,7 @@ class EnrollmentController extends Controller {
                 foreach ($disciplines as $discipline) {
                     $d = $disciplineId = $discipline['discipline_id'];
 
-                    $portuguese = 7;
+                    $portuguese = 6;
                     $history = 12;
                     $art = 10;
 
@@ -374,7 +415,7 @@ class EnrollmentController extends Controller {
                     $writing = 10001;
                     $geography = 13;
                     $physical_education = 11;
-                    
+
                     $disciplineName = "";
 
                     if ($stage >= 14 && $stage <= 16) {
@@ -385,15 +426,15 @@ class EnrollmentController extends Controller {
                                 $disciplineName = $discipline['discipline_name'] . " e Geografia";
                             } else if ($d == $art) {
                                 $disciplineName = $discipline['discipline_name'] . " e Educação Física";
-                            }else{
+                            } else {
                                 $disciplineName = $discipline['discipline_name'];
                             }
                         }
                     } else {
                         $disciplineName = $discipline['discipline_name'];
                     }
-                    
-                    if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing || $d != $geography || $d != $physical_education))) {
+
+                    if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing && $d != $geography && $d != $physical_education))) {
 
                         $grades = Grade::model()->findByAttributes([
                             'discipline_fk' => $disciplineId,

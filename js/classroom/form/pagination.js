@@ -6,6 +6,7 @@ $('.tab-classroom li a').click(function(){
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
     var li2 = 'tab-classboard';
+    var li3 = 'tab-students';
     var tab = '';
     switch($(this).parent().attr('id')) {
         case li1 : tab = li1; 
@@ -16,6 +17,10 @@ $('.tab-classroom li a').click(function(){
             $('.prev').show();
             $('.next').hide();
             $('.last').show(); break;
+        case li3 : tab = li3;
+            $('.prev').show();
+            $('.next').hide();
+            $('.last').hide(); break;
     }
 
     classActive.removeClass("active");
@@ -27,7 +32,7 @@ $('.tab-classroom li a').click(function(){
     $('html, body').animate({ scrollTop: 0 }, 'fast');
 });
 $('.next').click(function(){
-    var classActive = $('li[class="active"]');
+    var classActive = $('ul.tab-classroom li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
     var li2 = 'tab-classboard';
@@ -53,6 +58,7 @@ $('.prev').click(function(){
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
     var li2 = 'tab-classboard';
+    var li3 = 'tab-students';
     var previous = '';
     switch(classActive.attr('id')) {
         case li1 : previous = li1;  break;
@@ -60,6 +66,10 @@ $('.prev').click(function(){
             $('.prev').hide();
             $('.last').hide();
             $('.next').show(); break;
+        case li3 : previous = li2;
+            $('.prev').show();
+            $('.next').hide();
+            $('.last').show(); break;
     }
 
     classActive.removeClass("active");
