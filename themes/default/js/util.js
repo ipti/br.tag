@@ -143,7 +143,8 @@ function validateDDD(ddd){
     return rule(ddd, numberRules.ddd);
 }
 
-function validatePhone(phone, length){
+//function validatePhone(phone, length){
+function validatePhone(phone){
     //return (phone.length <= length && numbersNotEqual(phone) && rule(phone, numberRules.phone));
     return rule(phone, numberRules.phone);
 }

@@ -47,6 +47,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <br>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
+                <?php
+                    if ($_REQUEST['type'] == '3'){
+                        echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
+                             .'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
+                             .'</div>';
+                    }
+                ?>
                 <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
                     <?php
                     if ($_REQUEST['type'] == '0') {
@@ -65,10 +72,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <br><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)
                             <br><b>☐</b> Repetente</div>';
                         $specialneeds = '18 - Portador de Necessidades Especiais? ' ;
-                    }else{
+                    }else if($_REQUEST['type'] == '2') {
+                        $namereport = 'FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO DE JOVENS E ADULTOS';
+                        $enrollment_situation = 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT';
+                        $pre = 'NA ____ ETAPA';
+                        $situation = '<div class="span9"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)
+                            <br><b>☐</b> Repetente</div>';
+                        $specialneeds = '18 - Portador de Necessidades Especiais? ' ;
+                    }else {
                         $namereport = 'FICHA INDIVIDUAL DO ALUNO - EDUCAÇÃO ESPECIAL';
                         $enrollment_situation = 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR';
-                        $pre = 'NA EDUCAÇÃO ESPECIAL ';
+                        $pre = 'NA EDUCAÇÃO ESPECIAL';
                         $situation = '<div class="span9"><b>☐</b> Primeira matrícula na Educação Especial
                             <br><b>☐</b> Repetente</div>';
                         $specialneeds = '18 - Tem Necessidades Especiais' ;
@@ -84,7 +99,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td colspan="3" style="border-bottom: 1px solid black;"><?php echo $enrollment_situation ?></td>
                     </tr>
                     <tr>
-                        <td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA <?php echo $pre ?> DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>
+                        <?php
+                            if ($_REQUEST['type'] == '2') {                                
+                                echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ' . $pre . ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
+                            } else {
+                                echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA ' . $pre . ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
+                            }
+                        ?>
                     </tr>
                     <tr>	
                         <td style="">DATA: <!--<?php echo date("d/m/Y") ?>--></td>

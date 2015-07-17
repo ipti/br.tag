@@ -50,7 +50,8 @@ class ReportsController extends Controller {
     public function actionEnrollmentPerClassroomReport($id){
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
-                . " AND classroom_id = $id;";
+                . " AND classroom_id = $id"
+                . " ORDER BY name;";
        
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                
