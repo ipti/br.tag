@@ -487,7 +487,7 @@ return array(
     
     //Classes
     'Frequency' => 'Frequência',
-    'Class Objectives' => 'Plano de aula',
+    'Class Objectives' => 'Aulas ministradas',
     'Add Objective' => 'Adicionar conteúdo',
     'New Objective' => 'Novo conteúdo',
     'description' => 'Descrição',

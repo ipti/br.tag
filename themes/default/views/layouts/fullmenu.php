@@ -105,7 +105,7 @@ $currentPage = Yii::app()->controller->id;
                                 <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                             </li>
                             <li id="menu-classes" class="<?= $currentPage == "classObjectives" ? 'active' : ''?>">
-                                <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('classes/classObjectives') ?>"><i></i><span>Plano de aula</span></a>
+                                <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('classes/classObjectives') ?>"><i></i><span>Aulas ministradas</span></a>
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
@@ -168,6 +168,14 @@ $currentPage = Yii::app()->controller->id;
                 $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
                 $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
                 $('button[type=submit]').on('click',function(){});
+            });
+            $(document).bind("ajaxSend", function(){
+                $('body').css('cursor', 'wait');
+                $('a').css('cursor', 'wait');
+            });
+            $(document).bind("ajaxComplete", function(){
+                $('body').css('cursor', 'auto');
+                $('a').css('cursor', 'pointer');
             });
 
             /**

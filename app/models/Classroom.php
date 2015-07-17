@@ -119,7 +119,7 @@ class Classroom extends CActiveRecord {
             'classes' => array(self::HAS_MANY, 'Class', 'classroom_fk'),
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
-       'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk'),
@@ -198,7 +198,7 @@ class Classroom extends CActiveRecord {
             'instructor_situation' => Yii::t('default', 'Instructor Situation'),
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
-        	'create_date' => Yii::t('default', 'Create Time')
+            'create_date' => Yii::t('default', 'Create Time')
         );
     }
 
@@ -221,7 +221,7 @@ class Classroom extends CActiveRecord {
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->with = array('edcensoStageVsModalityFk');
-        
+
         $criteria->compare('school_inep_fk', Yii::app()->user->school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);

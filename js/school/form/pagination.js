@@ -51,7 +51,7 @@ $('.tab-school li a').click(function() {
 })
 
 $('.next').click(function() {
-    var classActive = $('li[class="active"]');
+    var classActive = $('ul.tab-school li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-school-indentify';
     var li2 = 'tab-school-structure';

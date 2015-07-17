@@ -1,13 +1,19 @@
+
 $('#classroom').change(function () {
     $.ajax({
         type: 'POST',
         url: getGradesUrl,
         cache: false,
         data: {classroom: $("#classroom").val()},
+        beforeSend:function(){
+            $(".classroom").hide();
+        },
         success: function (data) {
             data = jQuery.parseJSON(data);
             generateGradesForm(data);
-        }
+            $('select.grade-dropdown').select2();
+            $(".classroom").show();
+        },
     });
 });
 
