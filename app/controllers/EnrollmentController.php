@@ -252,9 +252,11 @@ class EnrollmentController extends Controller {
         if (isset($_POST['grade'])) {
             $saved = true;
             $grades = $_POST['grade'];
+            $classroom = Classroom::model()->findByPk($_POST['classroom']);
             $enrollments = $classroom->studentEnrollments;
+            $stage_id = $classroom->edcenso_stage_vs_modality_fk;
             $edc_stage = EdcensoStageVsModality::model()->findByPk($stage_id);
-            $stage = getStageIfMulti($edc_stage->id, $enrollments);
+            $stage = $this->getStageIfMulti($edc_stage->id, $enrollments);
 
             foreach ($grades as $eid => $disciplines) {
                 foreach ($disciplines as $id => $values) {
