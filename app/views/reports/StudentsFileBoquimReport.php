@@ -222,14 +222,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b>12 - Grau de Escolaridade do Responsável:</b></div>
-                        <br><span class="responsable_scholarity"></span>
+                        <div class="span10"><b>12 - Grau de Escolaridade do Responsável:</b>
+                            <br><span class="responsable_scholarity"></span>
+                        </<div>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="span10"><b>13 - Profissão do Responsável: </b>
-                        <br><span class="responsable_job"></span>
+                            <br><span class="responsable_job"></span>
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -252,8 +254,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span9"><b>16 - Situação do Aluno na Série/Etapa: </b></div>
-                        <br><?php echo $situation ?>
+                        <div class="span9"><b>16 - Situação do Aluno na Série/Etapa: </b>
+                            <br><?php echo $situation ?>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -274,14 +277,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b><?php echo $specialneeds ?></b></div>
-                        <br><span class="deficiency"></span>
+                        <div class="span10"><b><?php echo $specialneeds ?></b>
+                            <br><span class="deficiency"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b>19 - Participa do Programa Bolsa Família? </b></div>
-                        <br><span class="bf_participator"></span>
+                        <div class="span10"<b>19 - Participa do Programa Bolsa Família? </b>
+                            <br><span class="bf_participator"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -294,7 +299,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr>
                     <td>
                         <div class="span10"><b>21 - Restrição alimentar ou alergia a: </b>
-                        <br><span class="food_restrictions"></span>
+                            <br><span class="food_restrictions"></span>
+                        </div>
                     </td>
                 </tr>
             </table>

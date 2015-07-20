@@ -249,4 +249,12 @@ class StudentIdentification extends CActiveRecord {
         return $this->name . ' (' . $this->mother_name.')['.$this->birthday.']';
     }
 
+    /**
+     * This method is invoked before saving a record (after validation, if any).
+     * @return boolean whether the saving should be executed. Defaults to true.
+ */
+    protected function beforeSave() {
+
+        return parent::beforeSave();
+    }
 }

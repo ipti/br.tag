@@ -241,7 +241,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
                                 </div>
                             </div>
@@ -263,7 +263,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -539,7 +539,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
                                                 class="btn-action single glyphicons circle_question_mark"
                                                 data-toggle="tooltip" data-placement="top"
@@ -660,7 +660,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8,
-                                        'maxlength' => 8
+                                        'maxlength' => 9
                                     ));
                                     ?>
                                     <span
