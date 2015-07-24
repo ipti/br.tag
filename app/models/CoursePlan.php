@@ -1,25 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "class_class_objective".
+ * This is the model class for table "course_plan".
  *
- * The followings are the available columns in table 'class_class_objective':
+ * The followings are the available columns in table 'course_plan':
  * @property integer $id
- * @property integer $class_fk
- * @property integer $objective_fk
+ * @property string $name
+ * @property string $school_inep_fk
+ * @property integer $modality_fk
+ * @property integer $discipline_fk
+ * @property string $creation_date
  *
  * The followings are the available model relations:
- * @property Class $classFk
- * @property ClassObjective $objectiveFk
+ * @property ClassroomHasCoursePlan[] $classroomHasCoursePlans
+ * @property CourseClass[] $courseClasses
+ * @property SchoolIdentification $schoolInepFk
+ * @property EdcensoStageVsModality $modalityFk
+ * @property EdcensoDiscipline $disciplineFk
  */
-class ClassObjectives extends CActiveRecord
+class CoursePlan extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'class_class_objective';
+		return 'course_plan';
 	}
 
 	/**
@@ -30,11 +36,14 @@ class ClassObjectives extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('class_fk, objective_fk', 'required'),
-			array('id, class_fk, objective_fk', 'numerical', 'integerOnly'=>true),
+			array('name, school_inep_fk, modality_fk, discipline_fk', 'required'),
+			array('modality_fk, discipline_fk', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>100),
+			array('school_inep_fk', 'length', 'max'=>8),
+			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, class_fk, objective_fk', 'safe', 'on'=>'search'),
+			array('id, name, school_inep_fk, modality_fk, discipline_fk, creation_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -46,8 +55,11 @@ class ClassObjectives extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classFk' => array(self::BELONGS_TO, 'Classes', 'class_fk'),
-			'objectiveFk' => array(self::BELONGS_TO, 'Objective', 'objective_fk'),
+			'classroomHasCoursePlans' => array(self::HAS_MANY, 'ClassroomHasCoursePlan', 'course_plan_fk'),
+			'courseClasses' => array(self::HAS_MANY, 'CourseClass', 'course_plan_fk'),
+			'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
+			'modalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'modality_fk'),
+			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 		);
 	}
 
@@ -57,9 +69,12 @@ class ClassObjectives extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' =>  Yii::t('default', 'ID'),
-			'class_fk' =>  Yii::t('default', 'Class Fk'),
-			'objective_fk' =>  Yii::t('default', 'Objective Fk'),
+			'id' => 'ID',
+			'name' => 'Name',
+			'school_inep_fk' => 'School Inep Fk',
+			'modality_fk' => 'Modality Fk',
+			'discipline_fk' => 'Discipline Fk',
+			'creation_date' => 'Creation Date',
 		);
 	}
 
@@ -82,8 +97,11 @@ class ClassObjectives extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('class_fk',$this->class_fk);
-		$criteria->compare('objective_fk',$this->objective_fk);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('school_inep_fk',$this->school_inep_fk,true);
+		$criteria->compare('modality_fk',$this->modality_fk);
+		$criteria->compare('discipline_fk',$this->discipline_fk);
+		$criteria->compare('creation_date',$this->creation_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -94,7 +112,7 @@ class ClassObjectives extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return ClassObjectives the static model class
+	 * @return CoursePlan the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

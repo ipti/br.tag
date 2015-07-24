@@ -1,5 +1,5 @@
 $('#month, #disciplines, #classroom').on('change', function () {
-    $('#class-objectives').hide();
+    $('#class-contents').hide();
 });
 
 $('#classroom').on('change', function () {
@@ -16,10 +16,10 @@ $('#classesSearch').on('click', function () {
             var data = jQuery.parseJSON(data);
             $.ajax({
                 type: 'POST',
-                url: getObjectivesURL,
+                url: getContentsURL,
                 cache: false,
-                success: function (objectives) {
-                    var obj = jQuery.parseJSON(objectives);
+                success: function (contents) {
+                    var obj = jQuery.parseJSON(contents);
                     
                     if (data === null) createNoDaysTable();
                     else createTable(data,obj);
@@ -30,7 +30,7 @@ $('#classesSearch').on('click', function () {
 
 
 $(document).ready(function () {
-    $('#class-objectives').hide();
+    $('#class-contents').hide();
 });
 
 $("#print").on('click', function () {

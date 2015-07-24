@@ -487,9 +487,9 @@ return array(
     
     //Classes
     'Frequency' => 'Frequência',
-    'Class Objectives' => 'Aulas ministradas',
-    'Add Objective' => 'Adicionar conteúdo',
-    'New Objective' => 'Novo conteúdo',
+    'Class Contents' => 'Aulas ministradas',
+    'Add Content' => 'Adicionar conteúdo',
+    'New Content' => 'Novo conteúdo',
     'description' => 'Descrição',
     'Classes' => 'Aulas',
     
@@ -497,6 +497,10 @@ return array(
     'Grades' => 'Notas',
     'Grades saved successfully!' => 'Notas salvas com sucesso!',
     'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
+    
+    //Course Plan
+    'Course Plan' => 'Plano de aula',
+    'Create Plan' => 'Criar plano',
     
     //Labels
     'User' => 'Usuário',

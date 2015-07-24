@@ -1,23 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "class_objective".
+ * This is the model class for table "course_class".
  *
- * The followings are the available columns in table 'class_objective':
+ * The followings are the available columns in table 'course_class':
  * @property integer $id
- * @property string $description
+ * @property integer $order
+ * @property string $objective
+ * @property integer $course_plan_fk
  *
  * The followings are the available model relations:
- * @property ClassClassObjective[] $classClassObjectives
+ * @property CoursePlan $coursePlanFk
+ * @property CourseClassHasClassResource[] $courseClassHasClassResources
  */
-class Objective extends CActiveRecord
+class CourseClass extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'class_objective';
+		return 'course_class';
 	}
 
 	/**
@@ -28,11 +31,11 @@ class Objective extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('description', 'required'),
-			array('description', 'length', 'max'=>200),
+			array('order, objective, course_plan_fk', 'required'),
+			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description', 'safe', 'on'=>'search'),
+			array('id, order, objective, course_plan_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,7 +47,8 @@ class Objective extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'ClassObjectives' => array(self::HAS_MANY, 'ClassObjectives', 'objective_fk'),
+			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
+			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
 		);
 	}
 
@@ -54,8 +58,10 @@ class Objective extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' =>  Yii::t('default', 'ID'),
-			'description' =>  Yii::t('default', 'Description'),
+			'id' => 'ID',
+			'order' => 'Order',
+			'objective' => 'Objective',
+			'course_plan_fk' => 'Course Plan Fk',
 		);
 	}
 
@@ -78,7 +84,9 @@ class Objective extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('order',$this->order);
+		$criteria->compare('objective',$this->objective,true);
+		$criteria->compare('course_plan_fk',$this->course_plan_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -89,7 +97,7 @@ class Objective extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Objective the static model class
+	 * @return CourseClass the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

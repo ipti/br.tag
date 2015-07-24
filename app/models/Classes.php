@@ -16,7 +16,7 @@
  * The followings are the available model relations:
  * @property EdcensoDiscipline $disciplineFk
  * @property Classroom $classroomFk
- * @property ClassObjectives[] $ClassObjectives
+ * @property ClassHasContent[] $ClassContents
  * @property ClassFaults[] $classFaults
  */
 class Classes extends CActiveRecord
@@ -68,7 +68,7 @@ class Classes extends CActiveRecord
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'class_fk'),
-                        'classObjectives' => array(self::HAS_MANY, 'ClassObjectives', 'class_fk'),
+                        'classContents' => array(self::HAS_MANY, 'ClassHasContent', 'class_fk'),
 
                     );
 	}

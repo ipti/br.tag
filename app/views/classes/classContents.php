@@ -4,16 +4,16 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/functions.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-objectives/dialogs.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Objectives'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classes-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/saveClassObjectives')),
+    'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
 ));
 
 ?>
@@ -22,7 +22,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Objectives'); ?></h3>  
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>  
         <div class="buttons span9">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
             <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
@@ -111,18 +111,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <div>
             <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
-            <a id="add-objective" class='btn btn-icon btn-small btn-primary glyphicons circle_plus'><?php echo Yii::t('default', 'New Objective') ?><i></i></a>
+            <a id="add-content" class='btn btn-icon btn-small btn-primary glyphicons circle_plus'><?php echo Yii::t('default', 'New Content') ?><i></i></a>
 
         </div>
 
 
 
     </div>
-    <div class="widget" id="widget-class-objectives" style="display:none; margin-top: 8px;">
+    <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
         <div class="widget-head">
             <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
         </div>
-        <table id="class-objectives" class="table table-bordered table-striped">
+        <table id="class-contents" class="table table-bordered table-striped">
             <thead>
             </thead>
             <tbody>
@@ -136,13 +136,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <?php $this->endWidget(); ?>
 
     <!-- Modal -->
-    <div id="add-objective-form" class="hide" title="<?php echo Yii::t('default', 'Add Objective'); ?>">
+    <div id="add-content-form" class="hide" title="<?php echo Yii::t('default', 'Add Content'); ?>">
         <div class="row-fluid">
             <div class="span12">
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'description'), 'add-objective-description', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?php echo CHtml::textField('add-objective-description', ''); ?>
+                        <?php echo CHtml::textField('add-content-name', ''); ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?php echo CHtml::label(Yii::t('default', 'description'), 'add-content-description', array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::textField('add-content-description', ''); ?>
                     </div>
                 </div>
             </div>
@@ -157,12 +163,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor    ?>
 <?php //@done s2 - reabilitar apenas os que não estão checados     ?>
     var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
-    var getObjectivesURL = "<?php echo Yii::app()->createUrl('classes/getObjectives') ?>";
-    var saveObjectiveURL = "<?php echo Yii::app()->createUrl('classes/saveObjective')?>";
+    var getContentsURL = "<?php echo Yii::app()->createUrl('classes/getContents') ?>";
+    var saveContentURL = "<?php echo Yii::app()->createUrl('classes/saveContent')?>";
     
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
     
-    var myAddObjectiveForm;
+    var myAddContentForm;
 
 </script>

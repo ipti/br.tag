@@ -34,7 +34,7 @@ function changeTab(index){
 }
 
 function change2nextTab(){
-	var activeTab = $('li[class="active"]');
+	var activeTab = $('ul.tab-student li[class="active"]');
     var tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab+1);
 }
