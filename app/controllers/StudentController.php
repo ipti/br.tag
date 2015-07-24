@@ -307,6 +307,13 @@ class StudentController extends Controller {
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 250px',
                         'target'=>"_blank"),'<i></i>Ficha Individual Educação Especial');
+            $buttons .= "<br>";
+            $buttons .= CHtml::tag('a',
+                    array('href'=>yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('type'=>4, 'student_id'=>$sid)),
+                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
+                        'style'=>'margin-top: 5px; width: 250px',
+                        'target'=>"_blank"),'<i></i>Declaração de Matrícula');
+            $buttons .= "<br>";
         }
         
 

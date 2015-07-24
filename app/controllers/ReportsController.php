@@ -12,7 +12,7 @@ class ReportsController extends Controller {
                                     'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
-                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance'),
+                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance', 'EnrollmentDeclarationReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -123,6 +123,17 @@ class ReportsController extends Controller {
         $this->render('StudentsFileBoquimReport', array('student_id'=>$student_id));         
     }
     
+    public function actionEnrollmentDeclarationReport($student_id) {
+        $this->layout = "reports";
+        $this->render('EnrollmentDeclarationReport', array('student_id'=>$student_id));         
+    }
+    
+    public function actionGetEnrollmentDeclarationInformation($student_id){
+        $sql = "SELECT * FROM studentsfile_boquim WHERE id = ".$student_id.";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);
+    }
     
     public function actionGetStudentsFileInformation($student_id){
         $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";
