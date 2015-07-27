@@ -123,13 +123,15 @@ class ReportsController extends Controller {
         $this->render('StudentsFileBoquimReport', array('student_id'=>$student_id));         
     }
     
-    public function actionEnrollmentDeclarationReport($student_id) {
+    public function actionEnrollmentDeclarationReport($enrollment_id) {
         $this->layout = "reports";
-        $this->render('EnrollmentDeclarationReport', array('student_id'=>$student_id));         
+        $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id));         
     }
     
-    public function actionGetEnrollmentDeclarationInformation($student_id){
-        $sql = "SELECT * FROM studentsfile_boquim WHERE id = ".$student_id.";";
+    public function actionGetEnrollmentDeclarationInformation($enrollment_id){
+        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.sex gender, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date)"
+                . " enrollment_date FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON sd.edcenso_city_fk = ec.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
         echo json_encode($result);

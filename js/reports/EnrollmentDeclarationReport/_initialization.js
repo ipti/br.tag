@@ -36,7 +36,7 @@ function gerarRelatorio(data) {
                 for (var j = 0; j < infos["nis"].length; j++){
                     $(".table_nis td").eq(j).text(infos["nis"][j]);
                 }
-            }
+            }            
             $("." + i).html(infos[i]);
         }
     }

@@ -917,6 +917,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <td><?php echo $me->classroomFk->name ?></td>
                                                     <td><?php echo $me->classroomFk->school_year ?></td>
                                                     <td><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Cancelar Matrícula</a></td>
+                                                    <td><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>'>Declaração de Matrícula</a></td>
                                                 </tr>
                                                 <?php
                                             }

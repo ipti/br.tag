@@ -24,7 +24,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'student_id':<?php echo $student_id; ?>},
+                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
                     'url': '<?php echo Yii::app()->createUrl('reports/getEnrollmentDeclarationInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
@@ -47,65 +47,44 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
+                
+                <?php $gender = "";?>
+                
                 <div style=" height:100%;  border: 1px solid black; text-align: center; background-color: lightgray; margin-bottom: 5px;">
                     <?php echo "DECLARAÇÃO" ?>
                 </div>
                 <br/>
                 <span style="clear:both;display:block"></span>
                 DECLARAMOS PARA OS DEVIDOS FINS QUE 
-                <span class="name" style="font-weight: bold"></span>
-                , FILHO(A) DE 
+                <span class="name" style="font-weight: bold"></span>,
+                FILHO(A) DE 
                 <span class="mother"></span>
-                 E 
-                <span class="father"></span>
-                , NASCIDO(A) EM 
+                E 
+                <span class="father"></span>,
+                NASCIDO(A) EM 
                 <span class="birthday"></span>
-                 NA CIDADE DE 
-                <span class="birth_city"></span>
-                , MATRICULOU-SE NESTA UNIDADE ESCOLAR NO ANO DE 
-                <span class=""><b>**2015**</b></span>
-                 NA EDUCAÇÃO INFANTIL E ENCONTRA-SE FREQUENTANDO REGULARMENTE AS AULAS.
+                NA CIDADE DE 
+                <span class="city"></span>,
+                MATRICULOU-SE NESTA UNIDADE ESCOLAR NO ANO DE 
+                <span class="enrollment_date"></span>
+                NA EDUCAÇÃO INFANTIL E ENCONTRA-SE FREQUENTANDO REGULARMENTE AS AULAS.
                 <br/><br/>
                 <div class="pull-left" style="text-align:center">
                     <span>IDENTIFICAÇÃO ÚNICA</span>
                     <table class="table_inep_id">
                         <tr>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
 
                         </tr>
                     </table>
@@ -114,39 +93,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <span>NIS</span>
                     <table class="table_nis">
                         <tr>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
-                            <td style="border: 1px solid; line-height: 20px; width: 20px">
-                                &nbsp;
-                            </td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
+                            <td class="cell">&nbsp;</td>
                         </tr>
                     </table>
                 </div>
@@ -180,6 +137,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <style>
+    .cell {
+        border: 1px solid;
+        line-height: 20px;
+        width: 20px
+    }
+    
     @media print {
         #container-header {
             width: 425px !important;
