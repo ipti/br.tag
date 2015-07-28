@@ -4,6 +4,20 @@ jQuery(function($) {
     $(formIdentification + 'deficiency').trigger('change');
 });
 
+$(document).ready(function(){
+    var simple = getUrlVars()['simple'];
+    if (simple == '1'){
+        $("#tab-student-documents").hide();
+        $(".control-group").hide();
+        $(".required").parent().show();
+        $(".tab-student").show();
+        $(".tab-content").show();
+    } else {
+        $(".tab-student").show();
+        $(".tab-content").show();
+    }
+});
+
 $('.heading-buttons').css('width', $('#content').width());
 
 $(document).on("submit", "#student", function(){
@@ -12,3 +26,11 @@ $(document).on("submit", "#student", function(){
     $(formDocumentsAndAddress + "cpf").unmask();
     $(formDocumentsAndAddress + "cep").unmask();
 });
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}

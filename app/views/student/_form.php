@@ -42,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <div class="widget-head">
-            <ul class="tab-student">
+            <ul class="tab-student" style="display:none">
                 <li id="tab-student-identify" class="active">
                     <a class="glyphicons vcard" href="#student-identify" data-toggle="tab">
                         <i></i><?php echo Yii::t('default', 'Identification') ?>
@@ -67,7 +67,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
+            <div class="tab-content" style="display:none">
                 <!-- Tab content -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
@@ -213,7 +213,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                        </div>
+                        </div>                        
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
@@ -929,7 +929,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
             <?php $this->endWidget(); ?>
         </div>
     </div>
@@ -940,5 +940,5 @@ $form = $this->beginWidget('CActiveForm', array(
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
-    var filled = -1;
+    var filled = -1;    
 </script>
