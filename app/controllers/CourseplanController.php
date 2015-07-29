@@ -26,8 +26,8 @@ class CourseplanController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'index',
-                    'getDisciplines'),
+                'actions' => array('create', 'update', 'index', 'delete',
+                    'getDisciplines', 'save'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -37,13 +37,133 @@ class CourseplanController extends Controller {
     }
 
     /**
+     * Sabe the Course Plan, and yours course classes.
+     */
+    public function actionSave($data, $id = null) {
+        $coursePlan = isset($data['CoursePlan']) ? $data['CoursePlan'] : null;
+        $courseClasses = isset($data['course-class']) ? $data['course-class'] : [];
+        $saved = true;
+
+        if ($coursePlan != null && isset($coursePlan["modality_fk"], $coursePlan["discipline_fk"], $coursePlan["name"])) {
+
+            if ($id !== null) {
+                $newCoursePlan = CoursePlan::model()->findByPk($id);
+            } else {
+                $newCoursePlan = new CoursePlan;
+                $newCoursePlan->school_inep_fk = Yii::app()->user->school;
+            }
+            $newCoursePlan->attributes = $coursePlan;
+            if ($newCoursePlan->validate()) {
+                $saved = $saved && $newCoursePlan->save();
+                foreach($newCoursePlan->courseClasses as $class){
+                    $class->delete();
+                }
+                foreach ($courseClasses as $i => $courseClass) {
+                    if (isset($courseClass['objective']) && !empty($courseClass['objective'])) {
+                        $newCourseClass = new CourseClass;
+                        $newCourseClass->course_plan_fk = $newCoursePlan->id;
+                        $newCourseClass->order = $i;
+                        $newCourseClass->objective = $courseClass['objective'];
+                        $resources = [];
+
+                        if (isset($courseClass['content'])) {
+                            $resources = array_merge($courseClass['content'], $resources);
+                        }
+
+                        if (isset($courseClass['type'])) {
+                            $resources = array_merge($courseClass['type'], $resources);
+                        }
+
+                        if ($newCourseClass->validate()) {
+                            $saved = $saved && $newCourseClass->save();
+                            foreach ($resources as $resource) {
+                                $newCourseClassResource = new CourseClassHasClassResource;
+                                $newCourseClassResource->course_class_fk = $newCourseClass->id;
+                                $newCourseClassResource->class_resource_fk = $resource;
+                                $saved = $saved && $newCourseClassResource->save();
+                            }
+                            if (isset($courseClass['resource'])) {
+                                foreach ($courseClass['resource'] as $resource) {
+                                    $newCourseClassResource = new CourseClassHasClassResource;
+                                    $newCourseClassResource->course_class_fk = $newCourseClass->id;
+                                    $newCourseClassResource->class_resource_fk = $resource['value'];
+                                    $newCourseClassResource->amount = $resource['amount'];
+                                    $saved = $saved && $newCourseClassResource->save();
+                                }
+                            }
+                        } else {
+                            $saved = false;
+                        }
+                    } else {
+                        $saved = false;
+                    }
+                }
+                if ($saved) {
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
+                    $this->redirect(array('index'));
+                } else {
+                    Yii::app()->user->setFlash('error', Yii::t('default', 'Ouve algum erro ao salvar as aulas.'));
+                    $this->actionUpdate($newCoursePlan->id, ['courseClasses' => $courseClasses]);
+                }
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar o plano de aula.'));
+                $this->actionCreate(['coursePlan' => $newCoursePlan, 'courseClasses' => $courseClasses]);
+            }
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Preencha o cabeçalho.'));
+            $newCoursePlan = new CoursePlan;
+            $newCoursePlan->attributes = $coursePlan;
+            $newCoursePlan->school_inep_fk = Yii::app()->user->school;
+            $newCoursePlan->validate();
+            $this->actionCreate(['coursePlan' => $newCoursePlan, 'courseClasses' => $courseClasses]);
+        }
+    }
+
+    /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
-        $model = new CoursePlan;
+    public function actionCreate($data = null) {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave($_POST);
+        }
+        if ($data == null) {
+            $coursePlan = new CoursePlan;
+            $courseClasses = [];
+        } else {
+            $coursePlan = $data['coursePlan'];
+            $courseClasses = $data['courseClasses'];
+        }
+        $contents = ClassResources::model()->findAllByAttributes(['type' => ClassResources::CONTENT]);
+        $resources = ClassResources::model()->findAllByAttributes(['type' => ClassResources::RESOURCE]);
+        $types = ClassResources::model()->findAllByAttributes(['type' => ClassResources::TYPE]);
+
+        $contents = CHtml::listData($contents, "id", "name");
+        $resources = CHtml::listData($resources, "id", "name");
+        $types = CHtml::listData($types, "id", "name");
+
+        $contentsOptions = '';
+        $resourcesOptions = '';
+        $typesOptions = '';
+
+
+        foreach ($contents as $id => $name) {
+            $contentsOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+        foreach ($resources as $id => $name) {
+            $resourcesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+        foreach ($types as $id => $name) {
+            $typesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+
+
         $this->render('form', array(
-            'model' => $model,
+            'coursePlan' => $coursePlan,
+            'courseClasses' => $courseClasses,
+            'contents' => $contentsOptions,
+            'resources' => $resourcesOptions,
+            'types' => $typesOptions,
         ));
     }
 
@@ -52,14 +172,89 @@ class CourseplanController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
-        $model = $this->loadModel($id);
+    public function actionUpdate($id, $data = null) {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave($_POST, $id);
+        }
+
+        $coursePlan = $this->loadModel($id);
+        if ($data == null) {
+            $courseClasses = [];
+            foreach($coursePlan->courseClasses as $courseClass){
+                $order = $courseClass->order;
+                $courseClasses[$order] = [];
+                $courseClasses[$order]['objective'] = $courseClass->objective;
+                $courseClasses[$order]['type'] = [];
+                $courseClasses[$order]['content'] = [];
+                $courseClasses[$order]['resource'] = [];
+                $i=0;
+                foreach ($courseClass->courseClassHasClassResources as $classHasResource){
+                    $resource = ClassResources::model()->findByPk($classHasResource->class_resource_fk);
+                    
+                    if($resource->type == ClassResources::TYPE){
+                        array_push($courseClasses[$order]['type'], $resource->id);
+                    }
+                    if($resource->type == ClassResources::CONTENT){
+                        array_push($courseClasses[$order]['content'], $resource->id);
+                    }
+                    if($resource->type == ClassResources::RESOURCE){
+                        if($i === 0) {
+                            $courseClasses[$order]['resource'][$i] = [];
+                        }
+                        $courseClasses[$order]['resource'][$i]['value'] = $resource->id;
+                        $courseClasses[$order]['resource'][$i]['amount'] = $classHasResource->amount;
+                        $i++;
+                    }
+                }
+                
+            }
+        } else {
+            $courseClasses = $data['courseClasses'];
+        }
+        $contents = ClassResources::model()->findAllByAttributes(['type' => ClassResources::CONTENT]);
+        $resources = ClassResources::model()->findAllByAttributes(['type' => ClassResources::RESOURCE]);
+        $types = ClassResources::model()->findAllByAttributes(['type' => ClassResources::TYPE]);
+
+        $contents = CHtml::listData($contents, "id", "name");
+        $resources = CHtml::listData($resources, "id", "name");
+        $types = CHtml::listData($types, "id", "name");
+
+        $contentsOptions = '';
+        $resourcesOptions = '';
+        $typesOptions = '';
+
+
+        foreach ($contents as $id => $name) {
+            $contentsOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+        foreach ($resources as $id => $name) {
+            $resourcesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+        foreach ($types as $id => $name) {
+            $typesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
+        }
+
         $this->render('form', array(
-            'model' => $model,
+            'coursePlan' => $coursePlan,
+            'courseClasses' => $courseClasses,
+            'contents' => $contentsOptions,
+            'resources' => $resourcesOptions,
+            'types' => $typesOptions,
         ));
     }
 
-
+    /**
+     * Delete model.
+     */
+    public function actionDelete($id) {
+        if ($this->loadModel($id)->delete()) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de aula excluído com sucesso!'));
+            $this->redirect(array('index'));
+        } else {
+            throw new CHttpException(404, 'A página requisitada não existe.');
+        }
+    }
+    
     /**
      * Lists all models.
      */

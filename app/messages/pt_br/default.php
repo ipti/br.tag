@@ -501,6 +501,12 @@ return array(
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
+    'Class'  => 'Aula',
+    'Objective' => 'Objetivo',
+    'New' => 'Novo',
+    'Content' => 'Conteúdo',
+    'Type' => 'Tipo',
+    'Resource' => 'Recurso',
     
     //Labels
     'User' => 'Usuário',
@@ -537,7 +543,7 @@ return array(
     'Sociocultural Didactic Material' => 'Material Didático Sociocultural',
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
-    'Stage' => 'Estágio',
+    'Stage' => 'Etapa',
     'Schools' => 'Escolas',
     'Role' => 'Cargo',
     

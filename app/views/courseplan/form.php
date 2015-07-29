@@ -1,6 +1,7 @@
 <?php
 /* @var $this CoursePlanController */
-/* @var $model CoursePlan */
+/* @var $coursePlan CoursePlan */
+/* @var $courseClasses CourseClass[] */
 /* @var $form CActiveForm */
 ?>
 
@@ -20,12 +21,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
-    'action' => CHtml::normalizeUrl(array('classes/saveClassContents')),
         ));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
-<?php echo $form->errorSummary($model); ?>
+<?php echo $form->errorSummary($coursePlan); ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
@@ -56,10 +56,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo CHtml::dropDownList('stage', '', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
+                                    echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on span12',
                                         'prompt' => 'Selecione o estágio'
@@ -71,15 +71,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'discipline_fk', array('class' => 'control-label')); ?>
 
                                 <div class="controls"><?php
-                                    echo CHtml::dropDownList('disciplines', '', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
-                                        'key' => 'id',
-                                        'class' => 'select-search-on span12',
-                                        'prompt' => 'Selecione a disciplina',
-                                    ));
-                                    ?>
+                                echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
+                                    'key' => 'id',
+                                    'class' => 'select-search-on span12',
+                                    'prompt' => 'Selecione a disciplina',
+                                ));
+                                ?>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($model, 'name', ['class' => 'span12']);
+                                    echo $form->textField($coursePlan, 'name', ['class' => 'span12']);
                                     ?>
                                 </div>
 
@@ -109,38 +109,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th><?= Yii::t('default', 'Type'); ?></th>
                                 <th></th>
                             </tr>
-                        </thead>        
+                        </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td>1</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>2</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>3</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td>Bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</td>
-                                <td></td>
-                            </tr>
                         </tbody>
                         <tfoot>
-                            
                             <tr>
                                 <th></th>
                                 <th></th>
@@ -148,8 +120,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th style="width: 10px;"><a href="#" id="new-course-class" class="btn btn-success btn-small"><i class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?></a></th>
-
+                                <th style="width: 10px;"><a href="#new-course-class" id="new-course-class" class="btn btn-success btn-small"><i class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?></a></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -183,24 +154,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 
 <script>
-
-<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina              ?>
-<?php //@done s2 - inabilitar checkbox quando vier checado               ?>
-<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor              ?>
-<?php //@done s2 - reabilitar apenas os que não estão checados               ?>
     var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
     var getContentsURL = "<?php echo Yii::app()->createUrl('classes/getContents') ?>";
     var saveContentURL = "<?php echo Yii::app()->createUrl('classes/saveContent') ?>";
 
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
-    
-    var labelClass      = "<?= Yii::t('default', 'Class');?>";
-    var labelObjective  = "<?= Yii::t('default', 'Objective');?>";
-    var labelContent    = "<?= Yii::t('default', 'Content');?>";
-    var labelResource   = "<?= Yii::t('default', 'Resource');?>";
-    var labelType       = "<?= Yii::t('default', 'Type');?>";
+
+    var labelClass = "<?= Yii::t('default', 'Class'); ?>";
+    var labelObjective = "<?= Yii::t('default', 'Objective'); ?>";
+    var labelContent = "<?= Yii::t('default', 'Content'); ?>";
+    var labelResource = "<?= Yii::t('default', 'Resource'); ?>";
+    var labelType = "<?= Yii::t('default', 'Type'); ?>";
 
     var myAddContentForm;
 
+    var contents = '<?= $contents ?>';
+    var resources = '<?= $resources ?>';
+    var types = '<?= $types ?>';
+    var courseClasses = '<?= json_encode($courseClasses) ?>';
+    
 </script>

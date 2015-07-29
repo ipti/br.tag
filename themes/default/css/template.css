@@ -6779,3 +6779,22 @@ li.active a{
     resize:none;
     height: 100px;
 }
+
+.resources{
+    margin-top: 10px;
+}
+
+.resources p{
+    line-height:10px;
+    padding: 0 0 5px 0;
+    border-bottom:1px solid #ccc
+}
+
+.remove-resource{
+    color: #bd362f;
+    cursor:pointer
+}
+
+.details-control{
+    cursor:pointer
+}

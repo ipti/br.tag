@@ -339,7 +339,7 @@ class ClassesController extends Controller {
      * Get all contents
      */
     public function actionGetContents() {
-        $contents = ClassResources::model()->findAll();
+        $contents = ClassResources::model()->findAllByAttributes(['type'=>ClassResources::CONTENT]);
         $return = [];
         foreach ($contents as $content) {
             $return[$content->id] = $content->name;

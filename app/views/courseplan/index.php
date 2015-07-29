@@ -25,10 +25,36 @@
             <?php endif ?>
             <div class="widget">
                 <div class="widget-body">
-                    <?php $this->widget('zii.widgets.CListView', array(
-                            'dataProvider'=>$dataProvider,
-                            'itemView'=>'_view',
-                    )); ?>
+                    <?php $this->widget('zii.widgets.grid.CGridView', array(
+                        'dataProvider' => $dataProvider,
+                        'enablePagination' => true,
+                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'columns' => array(
+                            array(
+                                'header' => Yii::t('default', 'Name'),
+                                'name' => 'name',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
+                                'htmlOptions' => array('width' => '400px')
+                            ),
+                            array(
+                                'name' => 'ModalityFk',
+                                'header' => Yii::t('default', 'Stage'),
+                                'value' => '$data->modalityFk->name',
+                                'htmlOptions' => array('width' => '400px'),
+                            ),
+                            array(
+                                'name' => 'DisciplineFk',
+                                'header' => Yii::t('default', 'Discipline'),
+                                'value' => '$data->disciplineFk->name',
+                                'htmlOptions' => array('width' => '100px'),
+                                'filter' => false
+                            ),
+                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
+                        ),
+                    ));?>
+                    
+                    
                 </div>   
             </div>
         </div>
