@@ -501,9 +501,9 @@ return array(
     
     //Classes
     'Frequency' => 'Frequência',
-    'Class Objectives' => 'Aulas ministradas',
-    'Add Objective' => 'Adicionar conteúdo',
-    'New Objective' => 'Novo conteúdo',
+    'Class Contents' => 'Aulas ministradas',
+    'Add Content' => 'Adicionar conteúdo',
+    'New Content' => 'Novo conteúdo',
     'description' => 'Descrição',
     'Classes' => 'Aulas',
     
@@ -511,6 +511,16 @@ return array(
     'Grades' => 'Notas',
     'Grades saved successfully!' => 'Notas salvas com sucesso!',
     'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
+    
+    //Course Plan
+    'Course Plan' => 'Plano de aula',
+    'Create Plan' => 'Criar plano',
+    'Class'  => 'Aula',
+    'Objective' => 'Objetivo',
+    'New' => 'Novo',
+    'Content' => 'Conteúdo',
+    'Type' => 'Tipo',
+    'Resource' => 'Recurso',
     
     //Labels
     'User' => 'Usuário',
@@ -547,7 +557,7 @@ return array(
     'Sociocultural Didactic Material' => 'Material Didático Sociocultural',
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
-    'Stage' => 'Estágio',
+    'Stage' => 'Etapa',
     'Schools' => 'Escolas',
     'Role' => 'Cargo',
     

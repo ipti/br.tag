@@ -6745,14 +6745,14 @@ li.active a{
     vertical-align: middle !important;
 }
 
-.objectives-select{
+.contents-select{
     width:100% !important; 
     margin-bottom:0; 
     opacity: 100; 
     -webkit-appearance: none;
 }
 
-.objectives-day{
+.contents-day{
     width: 20px;
 }
 
@@ -6767,4 +6767,34 @@ li.active a{
 
 .grade-dropdown{
     width:120px;
+}
+
+.course-class{
+    margin-left: 100px;
+    display: block;
+    width: 100%;
+}
+
+.course-class-objective {
+    resize:none;
+    height: 100px;
+}
+
+.resources{
+    margin-top: 10px;
+}
+
+.resources p{
+    line-height:10px;
+    padding: 0 0 5px 0;
+    border-bottom:1px solid #ccc
+}
+
+.remove-resource{
+    color: #bd362f;
+    cursor:pointer
+}
+
+.details-control{
+    cursor:pointer
 }

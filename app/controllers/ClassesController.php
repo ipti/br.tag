@@ -28,9 +28,8 @@ class ClassesController extends Controller {
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index',
                     'frequency', 'saveFrequency',
-                    'classObjectives', 'saveClassObjectives',
-                    'saveobjective',
-                    'getdisciplines', 'getclasses', 'getclassesforfrequency', 'getobjectives'),
+                    'classContents', 'saveClassContents', 'saveContent',
+                    'getdisciplines', 'getclasses', 'getclassesforfrequency', 'getcontents'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -44,39 +43,42 @@ class ClassesController extends Controller {
     }
 
     /**
-     * Displays the Clas Objectives
+     * Displays the Class Contents
      */
-    public function actionClassObjectives() {
+    public function actionClassContents() {
         $model = new Classes;
         $dataProvider = new CActiveDataProvider('Classes');
-        $this->render('classObjectives', array(
+        $this->render('classContents', array(
             'dataProvider' => $dataProvider,
             'model' => $model,
         ));
     }
 
     /**
-     *   Save a new Objective  
+     *   Save a new Content  
      */
-    public function actionSaveObjective(){
-        if(isset($_POST['description']) && !empty($_POST['description'])){
+    public function actionSaveContent(){
+        if(isset($_POST['description'],$_POST['name']) && !empty($_POST['name']) && !empty($_POST['description'])){
+            $name = strtoupper($_POST['name']);
             $description = strtoupper($_POST['description']);
-            $exist = Objective::model()->exists('description = :d', ['d' => $description]);
+            $exist = ClassResources::model()->exists('name = :n', ['n' => $name]);
             if(!$exist){
-                $newObjective = new Objective();
-                $newObjective->description = $description;
-                $newObjective->save();
+                $newContent = new ClassResources();
+                $newContent->name = $name;
+                $newContent->description = $description;
+                $newContent->type = ClassResources::CONTENT;
+                $newContent->save();
                 
-                $return = ['id'=>$newObjective->id, 'description'=>$newObjective->description];
+                $return = ['id'=>$newContent->id, 'name'=>$newContent->name];
                 echo json_encode($return);
             }
         }
     }
     
     /**
-     * Save the objectives for each class.
+     * Save the contents for each class.
      */
-    public function actionSaveClassObjectives() {
+    public function actionSaveClassContents() {
         if(isset($_POST['classroom'], $_POST['month'],$_POST['day'])){
             $classroom = $_POST['classroom'];
             $discipline = $_POST['disciplines'];
@@ -92,19 +94,19 @@ class ClassesController extends Controller {
                 'month' => $month));
 
             foreach($classes as $class){
-                $classObjectives = $class->classObjectives;
-                foreach ($classObjectives as $classObjective) {
-                    $classObjective->delete();
+                $classContents = $class->classContents;
+                foreach ($classContents as $classContent) {
+                    $classContent->delete();
                 }
             }
             foreach($classes as $class){
                 if(isset($days[$class->day])){
-                    $objectives = $days[$class->day];
-                    foreach($objectives as $objective){
-                        $newClassObjective = new ClassObjectives();
-                        $newClassObjective->class_fk = $class->id;
-                        $newClassObjective->objective_fk = $objective;
-                        $allSaved == $allSaved && $newClassObjective->save();
+                    $contents = $days[$class->day];
+                    foreach($contents as $content){
+                        $newClassContent = new ClassHasContent();
+                        $newClassContent->class_fk = $class->id;
+                        $newClassContent->content_fk = $content;
+                        $allSaved = $allSaved && $newClassContent->save();
                     }
                 }
             }
@@ -116,7 +118,7 @@ class ClassesController extends Controller {
             }
         }
         
-        $this->redirect(array('classObjectives'));
+        $this->redirect(array('classContents'));
     }
 
     /**
@@ -334,13 +336,13 @@ class ClassesController extends Controller {
     }
 
     /**
-     * Get all objectives
+     * Get all contents
      */
-    public function actionGetObjectives() {
-        $objectives = Objective::model()->findAll();
+    public function actionGetContents() {
+        $contents = ClassResources::model()->findAllByAttributes(['type'=>ClassResources::CONTENT]);
         $return = [];
-        foreach ($objectives as $objective) {
-            $return[$objective->id] = $objective->description;
+        foreach ($contents as $content) {
+            $return[$content->id] = $content->name;
         }
         echo json_encode($return);
     }
@@ -359,10 +361,10 @@ class ClassesController extends Controller {
             $day = $class->day;
             $return[$day] = [];
 
-            $classObjectives = $class->classObjectives;
-            foreach ($classObjectives as $classObjective) {
-                $id = $classObjective->objectiveFk->id;
-                $description = $classObjective->objectiveFk->description;
+            $classContents = $class->classContents;
+            foreach ($classContents as $classContent) {
+                $id = $classContent->contentFk->id;
+                $description = $classContent->contentFk->description;
 
                 $return[$day][$id] = $description;
             }

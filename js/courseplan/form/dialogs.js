@@ -4,7 +4,7 @@ $(document).ready(function() {
     // Dialogs                                     //
     ////////////////////////////////////////////////
     //Cria o Dialogo de TeachingData
-    myAddObjectiveForm = $("#add-objective-form").dialog({
+    myAddContentForm = $("#add-content-form").dialog({
         autoOpen: false,
         height: 200,
         width: 240,
@@ -14,7 +14,7 @@ $(document).ready(function() {
         buttons: [{
                 text: btnCreate,
                 click: function(){   
-                    addObjective();
+                    addContent();
                     $(this).dialog("close");
             }},
             {
@@ -30,6 +30,6 @@ $(document).ready(function() {
 //////////////////////////////////////////////////
 // Dialog Controls                            //
 ////////////////////////////////////////////////
-$("#add-objective").click(function(){
-    $("#add-objective-form").dialog('open');
+$("#add-content").click(function(){
+    $("#add-content-form").dialog('open');
 });    
