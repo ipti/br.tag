@@ -35,7 +35,7 @@ numberRules.nis = /^[0-9]{11}$/;
 numberRules.cns = /^[0-9]{15}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 //numberRules.phone = /^([9]?)+([0-9]{8})$/;
-numberRules.phone = /^[0-9]{10,11}$/;
+numberRules.phone = /^\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}$/;
 numberRules.count = /^[0-9]{0,4}$/;
 numberRules.num = /^[0-9]*$/;
 
@@ -143,7 +143,8 @@ function validateDDD(ddd){
     return rule(ddd, numberRules.ddd);
 }
 
-function validatePhone(phone, length){
+//function validatePhone(phone, length){
+function validatePhone(phone){
     //return (phone.length <= length && numbersNotEqual(phone) && rule(phone, numberRules.phone));
     return rule(phone, numberRules.phone);
 }

@@ -209,4 +209,9 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        protected function beforeSave(){
+            
+            return parent::beforeSave();
+        }
 }

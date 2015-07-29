@@ -12,7 +12,7 @@ class ReportsController extends Controller {
                                     'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
-                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance'),
+                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance', 'EnrollmentDeclarationReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -50,7 +50,8 @@ class ReportsController extends Controller {
     public function actionEnrollmentPerClassroomReport($id){
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
-                . " AND classroom_id = $id;";
+                . " AND classroom_id = $id"
+                . " ORDER BY name;";
        
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                
@@ -122,6 +123,19 @@ class ReportsController extends Controller {
         $this->render('StudentsFileBoquimReport', array('student_id'=>$student_id));         
     }
     
+    public function actionEnrollmentDeclarationReport($enrollment_id) {
+        $this->layout = "reports";
+        $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id));         
+    }
+    
+    public function actionGetEnrollmentDeclarationInformation($enrollment_id){
+        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.sex gender, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);        
+    }
     
     public function actionGetStudentsFileInformation($student_id){
         $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";

@@ -1,6 +1,20 @@
 <?php
 
 return array(
+    //Meses
+    'January' => 'Janeiro',
+    'February' => 'Fevereiro',
+    'March' => 'Março',
+    'April' => 'Abril',
+    'May' => 'Maio',
+    'June' => 'Junho',
+    'July' => 'Julho',
+    'August' => 'Agosto',
+    'September' => 'Setembro',
+    'October' => 'Outubro',
+    'November' => 'Novembro',
+    'December' => 'Dezembro',
+    
     //Botões
     'Create' => 'Criar',
     'Save' => 'Salvar',
