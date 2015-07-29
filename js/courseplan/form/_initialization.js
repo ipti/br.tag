@@ -48,7 +48,10 @@ $("#print").on('click', function () {
 });
 
 $("#save").on('click', function () {
-    $("#course-plan-form").submit();
+    var submit = validateSave();
+    if (submit) {
+        $("#course-plan-form").submit();
+    }
 });
 
 $('.heading-buttons').css('width', $('#content').width());
@@ -128,17 +131,17 @@ $(document).ready(function () {
 });
 
 $(window).load(function () {
-    $(".details-control").click().click();
     courseClasses = JSON.parse(courseClasses);
-    $.each(courseClasses, function(i,v){
+    $.each(courseClasses, function (i, v) {
         table.row.add({
-        "class": i,
-        "objective": v.objective,
-        "content": v.content,
-        "resource": v.resource,
-        "type": v.type
-    }).draw();
-    })
+            "class": i,
+            "objective": v.objective,
+            "content": v.content,
+            "resource": v.resource,
+            "type": v.type
+        }).draw();
+    });
+    $(".details-control").click().click();
 });
 
 $(document).on("click", "#new-course-class", function () {
@@ -162,6 +165,6 @@ $(document).on("click", ".add-resource", function (evt) {
     addResource(this);
 });
 
-$(document).on("click", ".remove-resource", function(){
+$(document).on("click", ".remove-resource", function () {
     removeResource(this);
 });
