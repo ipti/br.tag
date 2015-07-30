@@ -35,6 +35,7 @@
  * @property string $neighborhood
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -65,6 +66,14 @@ class StudentDocumentsAndAddress extends CActiveRecord
 		return 'student_documents_and_address';
 	}
 
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
 	/**
 	 * @return array validation rules for model attributes.
 	 */

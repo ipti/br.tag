@@ -50,6 +50,7 @@
  * @property integer $other_courses_ethnic_education
  * @property integer $other_courses_other
  * @property integer $other_courses_none
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
@@ -79,6 +80,15 @@ class InstructorVariableData extends CActiveRecord
 		return 'instructor_variable_data';
 	}
 
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
 	/**
 	 * @return array validation rules for model attributes.
 	 */
