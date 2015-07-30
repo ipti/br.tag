@@ -38,14 +38,15 @@
                                 'htmlOptions' => array('width' => '400px')
                             ),
                             array(
-                                'name' => 'ModalityFk',
                                 'header' => Yii::t('default', 'Stage'),
+                                'name' => 'modality_fk',
+                                'type' => 'raw',
                                 'value' => '$data->modalityFk->name',
                                 'htmlOptions' => array('width' => '400px'),
                             ),
                             array(
-                                'name' => 'DisciplineFk',
                                 'header' => Yii::t('default', 'Discipline'),
+                                'name' => 'discipline_fk',
                                 'value' => '$data->disciplineFk->name',
                                 'htmlOptions' => array('width' => '100px'),
                                 'filter' => false
