@@ -57,7 +57,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Stage')."*", 'modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
@@ -72,7 +72,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'discipline_fk', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Disciplines')."*", 'discipline_fk', array('class' => 'control-label')); ?>
 
                                 <div class="controls"><?php
                                 echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
@@ -88,7 +88,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span10">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Name')."*", 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($coursePlan, 'name', ['class' => 'span12']);
@@ -163,7 +163,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
 
     var labelClass = "<?= Yii::t('default', 'Class'); ?>";
-    var labelObjective = "<?= Yii::t('default', 'Objective'); ?>";
+    var labelObjective = "<?= Yii::t('default', 'Objective') . "*"; ?>";
     var labelContent = "<?= Yii::t('default', 'Content'); ?>";
     var labelResource = "<?= Yii::t('default', 'Resource'); ?>";
     var labelType = "<?= Yii::t('default', 'Type'); ?>";

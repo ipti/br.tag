@@ -39,3 +39,53 @@ function validateSave() {
     });
     return submit;
 }
+
+$("#CoursePlan_name").focusout(function(){
+    var id = $(this).attr("id");
+    if ($(this).val().length >= 3){
+        removeError("#"+id);
+    } else {
+        addError("#"+id, "Campo 'Nome' precisa ter pelo menos 3 caracteres.'")
+    }
+});
+
+$("#CoursePlan_name").keyup(function(){
+    var id = $(this).attr("id");
+    if ($(this).val().length >= 3){
+        removeError("#"+id);
+    }
+});
+
+$("#CoursePlan_modality_fk").change(function(){
+    var id = $(this).attr("id");
+    if ($(this).val() !== ""){
+        removeError("#"+id);
+    } else {
+        addError("#"+id, "Selecione uma etapa.");
+    }
+});
+
+$("#CoursePlan_discipline_fk").change(function(){
+    var id = $(this).attr("id");
+    if ($(this).val() !== ""){
+        removeError("#"+id);
+    } else {
+        addError("#"+id, "Selecione uma disciplina.");
+    }
+});
+
+$(document).on("focusout", ".course-class-objective", function(){
+    var id = $(this).attr("id");
+    if ($(this).val().length >= 3){
+        removeError("#"+id);
+    } else {
+        addError("#"+id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.'")
+    }
+})
+
+$(document).on("keyup", ".course-class-objective", function(){
+    var id = $(this).attr("id");
+    if ($(this).val().length >= 3){
+        removeError("#"+id);
+    }
+})
