@@ -50,9 +50,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 
                 <?php $gender = "";?>
                 
-                <div style=" height:100%;  border: 1px solid black; text-align: center; background-color: lightgray; margin-bottom: 5px;">
-                    <?php echo "DECLARAÇÃO" ?>
-                </div>
+                <div style=" height:100%;  border: 1px solid black; text-align: center; background-color: lightgray; margin-bottom: 5px;">DECLARAÇÃO</div>
                 <br/>
                 <span style="clear:both;display:block"></span>
                 DECLARAMOS PARA OS DEVIDOS FINS QUE 
