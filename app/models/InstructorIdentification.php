@@ -28,6 +28,7 @@
  * @property integer $deficiency_type_phisical_disability
  * @property integer $deficiency_type_intelectual_disability
  * @property integer $deficiency_type_multiple_disabilities
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -51,6 +52,15 @@ class InstructorIdentification extends CActiveRecord {
     public function tableName() {
         return 'instructor_identification';
     }
+    
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
 
     /**
      * @return array validation rules for model attributes.

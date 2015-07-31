@@ -55,6 +55,7 @@
  * @property integer $bf_participator
  * @property string $food_restrictions
  * @property integer $responsable_telephone
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -80,6 +81,15 @@ class StudentIdentification extends CActiveRecord {
         return 'student_identification';
     }
 
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
     /**
      * @return array validation rules for model attributes.
      */

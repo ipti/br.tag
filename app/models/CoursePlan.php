@@ -10,6 +10,7 @@
  * @property integer $modality_fk
  * @property integer $discipline_fk
  * @property string $creation_date
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property ClassroomHasCoursePlan[] $classroomHasCoursePlans
@@ -27,6 +28,17 @@ class CoursePlan extends CActiveRecord
 	{
 		return 'course_plan';
 	}
+        
+        
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
 
 	/**
 	 * @return array validation rules for model attributes.

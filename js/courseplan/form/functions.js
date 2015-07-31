@@ -99,7 +99,7 @@ function removeResource(button) {
     var resources = resource.parent();
     var classe = resources.closest("tr").prev().children(".details-control").next().text();
     resource.remove();
-    $.each(resources.children(".course-class-resource"), function(){
+    $.each(resources.children(".course-class-resource"), function () {
         var index = resources.children(".course-class-resource").index(this);
         $(this).attr("name", "course-class[" + classe + "][resource][" + index + "]");
         $(this).children(".resource-value").attr("name", "course-class[" + classe + "][resource][" + index + "][value]");
@@ -112,7 +112,7 @@ function format(d) {
     var $column1 = $('<div id="course-class-column1" class="span8"></div>');
     var $objective = $('<div class="control-group span12"></div>');
     var $objectiveLabel = $('<div class="span6"><label class="" for="course-class[' + d.class + '][objective]">' + labelObjective + '</label></span>');
-    var $objectiveInput = $('<textarea class="course-class-objective span7" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
+    var $objectiveInput = $('<textarea class="course-class-objective span7" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
     var $content = $('<div class="control-group span4"></div>');
     var $contentLabel = $('<label class="" for="course-class[' + d.class + '][content][]">' + labelContent + '</label>');

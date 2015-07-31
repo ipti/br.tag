@@ -30,6 +30,7 @@
  * @property integer $student_entry_form
  * @property integer $id
  * @property string $create_date
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -59,6 +60,15 @@ class StudentEnrollment extends CActiveRecord {
         return 'student_enrollment';
     }
 
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
     /**
      * @return array validation rules for model attributes.
      */
