@@ -259,6 +259,375 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
             </table>
+            
+            
+            <div class="page-break"></div>
+            
+            
+            <div style="width: 100%; text-align: center;">TRANSFERÊNCIA DURANTE O PERÍODO LETIVO</div>
+            <table style="text-align: center">
+                <tr>
+                    <td rowspan="7">
+                        LEI FEDERAL 9394/96<br>
+                        E<br>
+                        LEI MUNICIPAL<br>
+                        523/2006
+                    </td>
+                    <td rowspan="7">
+                        ÁREAS<br>
+                        DE<br>
+                        CONHECIMENTO
+                    </td>
+                </tr>
+                <tr><td colspan="16">SIGNIFICADOS E TOTAL DE FALTAS</td></tr>
+                <tr>
+                    <td colspan="12">1º CICLO PEDAGÓGICO</td>
+                    <td colspan="4">
+                        CORREÇÃO<br>
+                        DE FLUXO
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="12">ANOS ESCOLARES</td>
+                    <td rowspan="2" colspan="4">ANOS ESCOLARES</td>
+                </tr>
+                <tr>
+                    <td colspan="4">1º ANO</td>
+                    <td colspan="4">2º ANO</td>
+                    <td colspan="4">3º ANO</td>
+                </tr>
+                <tr>
+                    <td colspan="4">UNIDADES</td>
+                    <td colspan="4">UNIDADES</td>
+                    <td colspan="4">UNIDADES</td>
+                    <td rowspan="2">1º</td>
+                    <td rowspan="2">2º</td>
+                    <td rowspan="2">3º</td>
+                    <td rowspan="2">4º</td>
+                </tr>
+                <tr>
+                    <td>1ª</td>
+                    <td>2ª</td>
+                    <td>3ª</td>
+                    <td>4ª</td>
+                    <td>1ª</td>
+                    <td>2ª</td>
+                    <td>3ª</td>
+                    <td>4ª</td>
+                    <td>1ª</td>
+                    <td>2ª</td>
+                    <td>3ª</td>
+                    <td>4ª</td>
+                </tr>
+                <tr><td rowspan="9" style="transform: translate(5px, 0px) rotate(270deg);">BASE NACIONAL COMUM</td></tr>
+                <tr>
+                    <td style="text-align: left">LÍNGUA PORTUGUESA</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">ARTE</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">EDUCAÇÃO FÍSICA</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">HISTÓRIA</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">GEOGRAFIA</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">CIÊNCIAS NATURAIS</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">MATEMÁTICA</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">ENS. RELIGIOSO</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">
+                        PARTE<br>
+                        DIVERSIFICADA
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">REDAÇÃO</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="2">TOTAL DE FALTAS</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">
+                        CARGA HORÁRIA<br>
+                        TOTAL ANUAL
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">C/ ENSINO RELIGIOSO</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left">S/ ENSINO RELIGIOSO</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+            
+            <br>
+            <table>
+                <tr><td>ESPAÇO DESTINADO À UNIDADE ESCOLAR</td></tr>
+                <tr><td>OBSERVAÇÕES<br><br><br><br><br></td></tr>
+            </table>
+            
+            <br>
+            <table>
+                <tr><td>ESPAÇO DESTINADO À DIVISÃO DE INSPEÇÃO DA SECRETARIA DE EDUCAÇÃO DE BOQUIM</td></tr>
+                <tr><td>OBSERVAÇÕES<br><br><br><br><br></td></tr>
+            </table>
+            
+            <br>
+            <table>
+                <tr><td>****O(a) aluno(a)**** tem o direito a matrícula no ano do ****1º ciclo organizado em 9 anos**** / ****(&nbsp;&nbsp;&nbsp;) na correção de fluxo****, correspondido ao ****________ ano**** escolar.</td></tr>
+                <tr>
+                    <td>
+                        OBSERVAÇÕES:<br><br>
+                        1 - Os significados são por unidade e resultam da análise do desempenho global ****do(a) aluno(a)****, sintetizada da seguinte forma:<br>
+                        <p style="text-indent: 50px">
+                            <span style="margin-right: 50px">I - Insatisfatório</span>
+                            <span style="margin-right: 50px">S - Satisfatório</span>
+                            <span>MS - Muito Satisfatório</span>
+                        </p>                        
+                        2 - O parecer conclusivo, resultante da análise de aproveitamento global ****do(a) aluno(a)**** nas diferentes áreas do conhecimento no fim do ano escolar, expresso da seguinte forma:<br>
+                        <p style="text-indent: 50px">
+                            <span style="margin-right: 100px">Pr - Promovido</span>
+                            <span>R - Retido</span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            
+            <br><br><br>
+            <span class="pull-right">Boquim/SE, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."; ?></span>
+            <br><br><br>
+            <div class="pull-left" style="text-align: center">
+                <span>______________________________________________________________________</span>
+                <br>
+                <span>Secretário(a) da Escola</span>
+                
+            </div>            
+            <div class="pull-right" style="text-align: center">
+                <span>______________________________________________________________________</span>
+                <br>
+                <span>Diretor(a)</span>
+            </div>
         </div>
     </div>
 </div>
@@ -266,9 +635,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <style>
     label {
         font-weight: bold;
-    }
-    header-label {
-
     }
     table, td, tr, th {
         border: 1px solid;
@@ -305,6 +671,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             background-repeat:no-repeat;
             background-position:center center;
             background-size: 100% 100%, auto;
+        }
+        .page-break {
+            page-break-after: always;
         }
     }
 </style>
