@@ -61,12 +61,13 @@ class ClassesController extends Controller {
         if(isset($_POST['description'],$_POST['name']) && !empty($_POST['name']) && !empty($_POST['description'])){
             $name = strtoupper($_POST['name']);
             $description = strtoupper($_POST['description']);
+            $type = isset($_POST['type']) ? $_POST['type'] : 1;
             $exist = ClassResources::model()->exists('name = :n', ['n' => $name]);
             if(!$exist){
                 $newContent = new ClassResources();
                 $newContent->name = $name;
                 $newContent->description = $description;
-                $newContent->type = ClassResources::CONTENT;
+                $newContent->type = $type;
                 $newContent->save();
                 
                 $return = ['id'=>$newContent->id, 'name'=>$newContent->name];

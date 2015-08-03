@@ -20,23 +20,34 @@ function stateIsIdle() {
     return state = idle;
 }
 
-var addContent = function () {
-    var name = $('#add-content-name').val().toUpperCase();
-    var description = $('#add-content-description').val().toUpperCase();
+var addResource = function (name, description, type) {
     $.ajax({
         type: 'POST',
         url: saveContentURL,
         cache: false,
-        data: {'name': name, 'description': description},
+        data: {'name': name, 'description': description, 'type': type},
         success: function (data) {
             var data = $.parseJSON(data);
-            var selects = $('select.contents-select');
-
+            var selects;
+           
+            var index = data['id'];
+            var value = data['name'];
+            var option ='<option value="' + index + '">' + value + '</option>'; 
+            
+            if(type == 1){
+                selects = $('select.content-select');
+                contents = contents+option;
+            } else if (type == 2){
+                selects = $('select.resource-select');
+                resources = resources+option;
+            }else{
+                selects = $('select.type-select');
+                types = types+option;
+            }
+            
             if (selects.length > 0) {
                 $.each(selects, function () {
-                    var index = data['id'];
-                    var value = data['name'];
-                    $(this).append('<option value="' + index + '">' + value + '</option>');
+                    $(this).append(option);
                 });
             }
         }
@@ -116,17 +127,17 @@ function format(d) {
 
     var $content = $('<div class="control-group span4"></div>');
     var $contentLabel = $('<label class="" for="course-class[' + d.class + '][content][]">' + labelContent + '</label>');
-    var $contentInput = $('<select class="span3" name="course-class[' + d.class + '][content][]" multiple>' + contents + '</select>');
+    var $contentInput = $('<select class="span3 content-select" name="course-class[' + d.class + '][content][]" multiple>' + contents + '</select>');
 
     var $type = $('<div class="control-group span4"></div>');
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">' + labelType + '</label>');
-    var $typeInput = $('<select class="span3" name="course-class[' + d.class + '][type][]" multiple>' + types + '</select>');
+    var $typeInput = $('<select class="span3 type-select" name="course-class[' + d.class + '][type][]" multiple>' + types + '</select>');
 
     var $column2 = $('<div id="course-class-column2" class="span4"></div>');
     var $resource = $('<div class="control-group span4"></div>');
     var $resourceLabel = $('<label class="span4" for="resource">' + labelResource + '</label>');
     var $resourceInput = $('<div class="span4 resource-input"></div>');
-    var $resourceValue = $('<select class="span3" name="resource" >' + resources + '</select>');
+    var $resourceValue = $('<select class="span3 resource-select" name="resource" >' + resources + '</select>');
     var $resourceAmount = $('<input class="pull-right" style="width:25px; height: 18px" type="number" name="amount" step="1" min="1" value="1" max="999"></input>');
     var $resourceAdd = $('<button class="btn btn-success btn-small pull-right fa fa-plus-square add-resource" style="height: 28px" ><i></i></button>');
 

@@ -502,9 +502,11 @@ return array(
     //Classes
     'Frequency' => 'Frequência',
     'Class Contents' => 'Aulas ministradas',
-    'Add Content' => 'Adicionar conteúdo',
+    'Add Content' => 'Adicionar Conteúdo',
     'New Content' => 'Novo conteúdo',
-    'description' => 'Descrição',
+    'Add Type' => 'Adicionar Tipo de Aula',
+    'Add Resource' => 'Adicionar Recurso',
+    'Description' => 'Descrição',
     'Classes' => 'Aulas',
     
     //Grades
