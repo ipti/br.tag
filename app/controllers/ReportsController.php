@@ -12,7 +12,8 @@ class ReportsController extends Controller {
                                     'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
-                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance', 'EnrollmentDeclarationReport'),
+                                    'EnrollmentPerClassroomReport','AtaSchoolPerformance',
+                                    'EnrollmentDeclarationReport', 'TransferForm'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -235,6 +236,11 @@ class ReportsController extends Controller {
         ));
     }
 
+    public function actionTransferForm(){
+        $this->layout = 'reports';
+        $this->render('TransferForm');
+    }
+    
     public function actionIndex() {
         $this->render('index');
     }
