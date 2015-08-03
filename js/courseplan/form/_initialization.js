@@ -162,7 +162,7 @@ $(document).on("keyup", ".course-class-objective", function () {
 
 $(document).on("click", ".add-resource", function (evt) {
     evt.preventDefault();
-    addResource(this);
+    addResourceLabel(this);
 });
 
 $(document).on("click", ".remove-resource", function () {

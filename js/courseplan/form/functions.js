@@ -27,28 +27,29 @@ var addResource = function (name, description, type) {
         cache: false,
         data: {'name': name, 'description': description, 'type': type},
         success: function (data) {
-            var data = $.parseJSON(data);
-            var selects;
-           
-            var index = data['id'];
-            var value = data['name'];
-            var option ='<option value="' + index + '">' + value + '</option>'; 
-            
-            if(type == 1){
-                selects = $('select.content-select');
-                contents = contents+option;
-            } else if (type == 2){
-                selects = $('select.resource-select');
-                resources = resources+option;
-            }else{
-                selects = $('select.type-select');
-                types = types+option;
-            }
-            
-            if (selects.length > 0) {
-                $.each(selects, function () {
-                    $(this).append(option);
-                });
+            if (data !== null) {
+                var data = $.parseJSON(data);
+                var selects;
+                var index = data['id'];
+                var value = data['name'];
+                var option = '<option value="' + index + '">' + value + '</option>';
+
+                if (type == 1) {
+                    selects = $('select.content-select');
+                    contents = contents + option;
+                } else if (type == 2) {
+                    selects = $('select.resource-select');
+                    resources = resources + option;
+                } else {
+                    selects = $('select.type-select');
+                    types = types + option;
+                }
+
+                if (selects.length > 0) {
+                    $.each(selects, function () {
+                        $(this).append(option);
+                    });
+                }
             }
         }
     });
@@ -83,7 +84,7 @@ function removeCoursePlanRow(element) {
     setStateIdle();
 }
 
-function addResource(button) {
+function addResourceLabel(button) {
     var div = $(button).parent();
     var resourceValue = div.children("select").val();
     var resourceName = div.children("select").select2('data').text;
