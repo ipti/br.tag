@@ -47,8 +47,7 @@ class AdminController extends Controller {
 
         //Pesquisar todos as novas matrículas
         $school = yii::app()->user->school;
-        $allStudentEnrollment = Yii::app()->db->createCommand("SELECT * FROM student_enrollment 
-        WHERE student_inep_id IS NULL OR classroom_inep_id IS NULL and school_inep_id_fk=$school;")->queryAll();
+        
         $json['studentEnrollment'] = array();
         $json['studentIdentification'] = array();
         $json['studentDocumentAddress'] = array();
@@ -56,6 +55,36 @@ class AdminController extends Controller {
         $json['classBoard'] = array();
         $json['class'] = array();
         $json['classFaults'] = array();
+        
+        $classrooms = Classroom::model()->findAll();
+        
+        $classroomArray = [];
+        
+        foreach ($classrooms as $classroom){
+            $cfkid = $classroom->fkid;
+            $classroomArray[$cfkid] = [];
+            $classroomArray[$cfkid]['classes'] = [];
+            
+            $classes = $classroom->classes;
+            $classesArray = [];
+            
+            foreach ($classes as $class){
+                $csfkid = $class->fkid;
+                $classesArray[$csfkid]['attributes'] = $class->attributes;
+                $classesArray[$csfkid]['faults'] = [];
+                
+                $faults = $class->classFaults;
+                $faultArray = [];
+                
+                foreach($faults as $fault){
+                    $ffkid = $fault->fkid;
+                    $faultArray[$ffkid]['attributes'] = $fault->attributes;
+                }
+                $classesArray[$csfkid]['faults'] = $faultArray;
+            }
+            
+            $classroom[$cfkid]['classes'] = $classesArray;
+        }
 
         foreach ($allStudentEnrollment AS $studentEnrollment) :
             // RETIRAR O ID DE TODOS ANTES DE ADD

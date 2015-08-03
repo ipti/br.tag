@@ -31,7 +31,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Create Plan'); ?></h3>  
-        <div class="buttons span9">
+        <div class="buttons span9">            
+            <a id="add-content" class='btn btn-success hidden-print'><i class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Content') ?></a>
+            <a id="add-resource" class='btn btn-success hidden-print'><i class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Resource') ?></a>
+            <a id="add-type" class='btn btn-success hidden-print'><i class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Type') ?></a>
             <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
         </div>
     </div>
@@ -57,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Stage')."*", 'modality_fk', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
@@ -72,15 +75,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
                         <div class=" span5">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Disciplines')."*", 'discipline_fk', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Disciplines') . "*", 'discipline_fk', array('class' => 'control-label')); ?>
 
                                 <div class="controls"><?php
-                                echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
-                                    'key' => 'id',
-                                    'class' => 'select-search-on span12',
-                                    'prompt' => 'Selecione a disciplina',
-                                ));
-                                ?>
+                                    echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
+                                        'key' => 'id',
+                                        'class' => 'select-search-on span12',
+                                        'prompt' => 'Selecione a disciplina',
+                                    ));
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +91,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span10">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Name')."*", 'name', array('class' => 'control-label')); ?>
+                                <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($coursePlan, 'name', ['class' => 'span12']);
@@ -132,27 +135,33 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 <?php $this->endWidget(); ?>
+<?php 
 
-<!-- Modal -->
-<div id="add-class-form" class="hide" title="<?php echo Yii::t('default', 'Add content'); ?>">
+$modals = [];
+$modals[0] = ['id'=>'content', 'title'=>Yii::t('default', 'Add Content')];
+$modals[1] = ['id'=>'resource', 'title'=>Yii::t('default', 'Add Resource')];
+$modals[2] = ['id'=>'type', 'title'=>Yii::t('default', 'Add Type')];
+
+for ($i = 0; $i<3; $i++){ ?>
+<div id="add-<?= $modals[$i]['id'] ?>-form" class="hide" title="<?= $modals[$i]['title'] ?>">
     <div class="row-fluid">
         <div class="span12">
             <div class="control-group">
-                <?php echo CHtml::label(Yii::t('default', 'name'), 'add-content-name', array('class' => 'control-label')); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-'.$modals[$i]['id'].'-name', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::textField('add-content-name', ''); ?>
+                    <?php echo CHtml::textField('add-'.$modals[$i]['id'].'-name', ''); ?>
                 </div>
             </div>
             <div class="control-group">
-                <?php echo CHtml::label(Yii::t('default', 'description'), 'add-content-description', array('class' => 'control-label')); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-'.$modals[$i]['id'].'-description', array('class' => 'control-label')); ?>
                 <div class="controls">
-                    <?php echo CHtml::textField('add-content-description', ''); ?>
+                    <?php echo CHtml::textField('add-'.$modals[$i]['id'].'-description', ''); ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<?php } ?>
 
 <script>
     var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
@@ -174,5 +183,5 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     var resources = '<?= $resources ?>';
     var types = '<?= $types ?>';
     var courseClasses = '<?= json_encode($courseClasses) ?>';
-    
+
 </script>

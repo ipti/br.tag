@@ -74,7 +74,7 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property Class[] $classes
+ * @property Classes[] $classes
  * @property ClassBoard[] $classBoards
  * @property SchoolIdentification $schoolInepFk
  * @property EdcensoProfessionalEducationCourse $edcensoProfessionalEducationCourseFk
