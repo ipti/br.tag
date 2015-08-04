@@ -48,24 +48,52 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 
-                <?php $gender = "";?>
-                
                 <div style=" height:100%;  border: 1px solid black; text-align: center; background-color: lightgray; margin-bottom: 5px;">DECLARAÇÃO</div>
                 <br/>
                 <span style="clear:both;display:block"></span>
                 DECLARAMOS PARA OS DEVIDOS FINS QUE 
                 <span class="name" style="font-weight: bold"></span>,
-                FILHO(A) DE 
+                <?php
+                    if ($gender == '1'){
+                        echo "FILHO DE ";
+                    } else {
+                        echo "FILHA DE ";
+                    }
+                ?>
                 <span class="mother"></span>
                 E 
                 <span class="father"></span>,
-                NASCIDO(A) EM 
+                <?php
+                    if ($gender == '1'){
+                        echo "NASCIDO EM ";
+                    } else {
+                        echo "NASCIDA EM ";
+                    }
+                ?>
                 <span class="birthday"></span>
                 NA CIDADE DE 
                 <span class="city"></span>,
-                MATRICULOU-SE NESTA UNIDADE ESCOLAR NO ANO DE 
+                MATRICULOU-SE NO(A) <?php echo $school->name ?> NO ANO DE 
                 <span class="enrollment_date"></span>
-                NA EDUCAÇÃO INFANTIL E ENCONTRA-SE FREQUENTANDO REGULARMENTE AS AULAS.
+                NA EDUCAÇÃO INFANTIL 
+                <?php
+//                    switch ($stage) {
+//                        case '1':
+//                            echo "NA EDUCAÇÃO INFANTIL ";
+//                            break;
+//                        case '2':
+//                        case '3':
+//                            echo "NO ENSINO FUNDAMENTAL ";
+//                            break;
+//                        case '4':
+//                            echo "NO ENSINO MÉDIO ";
+//                            break;
+//                        case '6':
+//                            echo "NA EDUCAÇÃO DE JOVENS E ADULTOS ";
+//                            break;
+//                    }
+                ?>
+                E ENCONTRA-SE FREQUENTANDO REGULARMENTE AS AULAS.
                 <br/><br/>
                 <div class="pull-left" style="text-align:center">
                     <span>IDENTIFICAÇÃO ÚNICA</span>
