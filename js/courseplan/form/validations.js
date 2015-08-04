@@ -29,7 +29,7 @@ function validateSave() {
                 tr.prev().find(".details-control").click();
             }
             submit = false;
-            addError("#" + objective, "Campo 'Objetivo' obrigatório.")
+            addError("#" + objective, "Campo 'Objetivo' obrigatório.");
         } else {
             if (tr.css("display") !== "none") {
                 tr.prev().find(".details-control").click();
@@ -45,7 +45,7 @@ $("#CoursePlan_name").focusout(function(){
     if ($(this).val().length >= 3){
         removeError("#"+id);
     } else {
-        addError("#"+id, "Campo 'Nome' precisa ter pelo menos 3 caracteres.'")
+        addError("#"+id, "Campo 'Nome' precisa ter pelo menos 3 caracteres.");
     }
 });
 
@@ -79,13 +79,13 @@ $(document).on("focusout", ".course-class-objective", function(){
     if ($(this).val().length >= 3){
         removeError("#"+id);
     } else {
-        addError("#"+id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.'")
+        addError("#"+id, "Campo 'Objetivo' precisa ter pelo menos 3 caracteres.");
     }
-})
+});
 
 $(document).on("keyup", ".course-class-objective", function(){
     var id = $(this).attr("id");
     if ($(this).val().length >= 3){
         removeError("#"+id);
     }
-})
+});

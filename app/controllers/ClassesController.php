@@ -57,30 +57,30 @@ class ClassesController extends Controller {
     /**
      *   Save a new Content  
      */
-    public function actionSaveContent(){
-        if(isset($_POST['description'],$_POST['name']) && !empty($_POST['name']) && !empty($_POST['description'])){
+    public function actionSaveContent() {
+        if (isset($_POST['description'], $_POST['name']) && !empty($_POST['name']) && !empty($_POST['description'])) {
             $name = strtoupper($_POST['name']);
             $description = strtoupper($_POST['description']);
             $type = isset($_POST['type']) ? $_POST['type'] : 1;
             $exist = ClassResources::model()->exists('name = :n', ['n' => $name]);
-            if(!$exist){
+            if (!$exist) {
                 $newContent = new ClassResources();
                 $newContent->name = $name;
                 $newContent->description = $description;
                 $newContent->type = $type;
                 $newContent->save();
-                
-                $return = ['id'=>$newContent->id, 'name'=>$newContent->name];
+
+                $return = ['id' => $newContent->id, 'name' => $newContent->name];
                 echo json_encode($return);
             }
         }
     }
-    
+
     /**
      * Save the contents for each class.
      */
     public function actionSaveClassContents() {
-        if(isset($_POST['classroom'], $_POST['month'],$_POST['day'])){
+        if (isset($_POST['classroom'], $_POST['month'], $_POST['day'])) {
             $classroom = $_POST['classroom'];
             $discipline = $_POST['disciplines'];
             $month = $_POST['month'];
@@ -94,16 +94,16 @@ class ClassesController extends Controller {
                 'discipline_fk' => $discipline,
                 'month' => $month));
 
-            foreach($classes as $class){
+            foreach ($classes as $class) {
                 $classContents = $class->classContents;
                 foreach ($classContents as $classContent) {
                     $classContent->delete();
                 }
             }
-            foreach($classes as $class){
-                if(isset($days[$class->day])){
+            foreach ($classes as $class) {
+                if (isset($days[$class->day])) {
                     $contents = $days[$class->day];
-                    foreach($contents as $content){
+                    foreach ($contents as $content) {
                         $newClassContent = new ClassHasContent();
                         $newClassContent->class_fk = $class->id;
                         $newClassContent->content_fk = $content;
@@ -118,7 +118,7 @@ class ClassesController extends Controller {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));
             }
         }
-        
+
         $this->redirect(array('classContents'));
     }
 
@@ -340,7 +340,7 @@ class ClassesController extends Controller {
      * Get all contents
      */
     public function actionGetContents() {
-        $contents = ClassResources::model()->findAllByAttributes(['type'=>ClassResources::CONTENT]);
+        $contents = ClassResources::model()->findAllByAttributes(['type' => ClassResources::CONTENT]);
         $return = [];
         foreach ($contents as $content) {
             $return[$content->id] = $content->name;
@@ -360,14 +360,16 @@ class ClassesController extends Controller {
         $return = [];
         foreach ($classes as $class) {
             $day = $class->day;
-            $return[$day] = [];
+            if ($class->given_class == 1) {
+                $return[$day] = [];
 
-            $classContents = $class->classContents;
-            foreach ($classContents as $classContent) {
-                $id = $classContent->contentFk->id;
-                $description = $classContent->contentFk->description;
+                $classContents = $class->classContents;
+                foreach ($classContents as $classContent) {
+                    $id = $classContent->contentFk->id;
+                    $description = $classContent->contentFk->description;
 
-                $return[$day][$id] = $description;
+                    $return[$day][$id] = $description;
+                }
             }
         }
 

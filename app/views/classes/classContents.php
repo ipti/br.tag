@@ -23,7 +23,9 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>  
-        <div class="buttons span9">
+        <div class="buttons span9">            
+            <a id="add-content" class='btn btn-icon btn-success'><i class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Content') ?></a>
+
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
             <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
         </div>
@@ -109,10 +111,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ));
             ?>
         </div>
-        <div>
+        <div class="pull-right">
             <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
-            <a id="add-content" class='btn btn-icon btn-small btn-primary glyphicons circle_plus'><?php echo Yii::t('default', 'New Content') ?><i></i></a>
-
         </div>
 
 
@@ -146,7 +146,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'description'), 'add-content-description', array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo CHtml::textField('add-content-description', ''); ?>
                     </div>

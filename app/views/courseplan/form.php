@@ -15,7 +15,6 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/dialogs.js', CClientScri
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
-$cs->registerCssFile($themeUrl . '/css/font-awesome.min.css');
 $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
