@@ -907,7 +907,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td><td colspan="2"></td></tr></thead>
                                         <tbody>
                                             <?php
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
@@ -916,8 +916,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <td><?php echo $me->schoolInepIdFk->name ?></td>
                                                     <td><?php echo $me->classroomFk->name ?></td>
                                                     <td><?php echo $me->classroomFk->school_year ?></td>
-                                                    <td><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Cancelar Matrícula</a></td>
-                                                    <td><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Declaração de Matrícula</a></td>
+                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></td>
+                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Excluir</a></td>
                                                 </tr>
                                                 <?php
                                             }
