@@ -124,22 +124,11 @@ class ReportsController extends Controller {
         $this->render('StudentsFileBoquimReport', array('student_id'=>$student_id));         
     }
     
-//    public function actionEnrollmentDeclarationReport($enrollment_id) {
-//        $this->layout = "reports";
-//        $sql = "SELECT si.sex gender, svm.stage stage"
-//            . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN edcenso_stage_vs_modality svm ON se.edcenso_stage_vs_modality_fk = svm.id"
-//            . " WHERE se.id = " . $enrollment_id . ";";
-//        $response = Yii::app()->db->createCommand($sql)->queryRow();
-//        $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id, 'gender'=>$response['gender'], 'stage'=>$response['stage']));         
-//    }
-    
     public function actionEnrollmentDeclarationReport($enrollment_id) {
         $this->layout = "reports";
-        $sql = "SELECT si.sex gender"
-            . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk"
-            . " WHERE se.id = " . $enrollment_id . ";";
+        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id WHERE se.id = " . $enrollment_id . ";";
         $response = Yii::app()->db->createCommand($sql)->queryRow();
-        $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id, 'gender'=>$response['gender']));         
+        $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id, 'gender'=>$response['gender'], 'stage'=>$response['stage'], 'class'=>$response['class']));         
     }
     
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
