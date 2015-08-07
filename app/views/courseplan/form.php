@@ -15,7 +15,6 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/dialogs.js', CClientScri
 $cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
-$cs->registerCssFile($themeUrl . '/css/font-awesome.min.css');
 $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
@@ -147,7 +146,7 @@ for ($i = 0; $i<3; $i++){ ?>
     <div class="row-fluid">
         <div class="span12">
             <div class="control-group">
-                <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-'.$modals[$i]['id'].'-name', array('class' => 'control-label')); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Name') . '*', 'add-'.$modals[$i]['id'].'-name', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::textField('add-'.$modals[$i]['id'].'-name', ''); ?>
                 </div>

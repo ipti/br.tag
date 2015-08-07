@@ -62,6 +62,7 @@
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property SchoolIdentification $schoolInepIdFk
+ * @property StudentDocumentsAndAddress $documentsFk
  */
 class StudentIdentification extends CActiveRecord {
 

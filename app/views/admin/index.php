@@ -106,9 +106,9 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 </a>
             </div>
                 <div class="span3">
-                    <a href="#" id="callSyncExport" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('admin/syncExport') ?>" id="callSyncExport" class="widget-stats">
                         <span class="glyphicons down_arrow"><i></i></span>
-                        <span class="txt">Sincronização(Exportar)</span>
+                        <span class="txt">Exportar para Online</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
@@ -116,7 +116,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 <div class="span3">
                     <a href="#" class="widget-stats" onclick='$("#syncImport-file-dialog").dialog("open");'>
                         <span class="glyphicons up_arrow"><i></i></span>
-                        <span class="txt">Sincronização(Importar)</span>
+                        <span class="txt">Importar Offline</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
@@ -143,7 +143,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
     <div id="syncImport-file-dialog" title="<?php echo Yii::t('default', 'Import Sync File Dialog'); ?>">
         <div class="row-fluid">
             <div class="span12">
-                <form id="syncImport-file-form" method="post" action="<?php //echo CController::createUrl('admin/synchronizationImport'); ?>" enctype="multipart/form-data" >
+                <form id="syncImport-file-form" method="post" action="<?php echo CController::createUrl('admin/syncImport'); ?>" enctype="multipart/form-data" >
                     <div class="control-group">
                         <?php echo CHtml::label(Yii::t('default', 'Import File'), 'file', array('class' => 'control-label')); ?>
                         <div class="controls">

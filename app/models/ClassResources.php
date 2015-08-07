@@ -32,7 +32,7 @@ class ClassResources extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, description, type', 'required'),
+            array('name, type', 'required'),
             array('name', 'length', 'max' => 45),
             array('description', 'length', 'max' => 200),
             // The following rule is used by search().
