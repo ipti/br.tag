@@ -146,7 +146,7 @@ for ($i = 0; $i<3; $i++){ ?>
     <div class="row-fluid">
         <div class="span12">
             <div class="control-group">
-                <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-'.$modals[$i]['id'].'-name', array('class' => 'control-label')); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Name') . '*', 'add-'.$modals[$i]['id'].'-name', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?php echo CHtml::textField('add-'.$modals[$i]['id'].'-name', ''); ?>
                 </div>

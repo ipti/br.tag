@@ -58,9 +58,9 @@ class ClassesController extends Controller {
      *   Save a new Content  
      */
     public function actionSaveContent() {
-        if (isset($_POST['description'], $_POST['name']) && !empty($_POST['name']) && !empty($_POST['description'])) {
+        if (isset($_POST['name']) && !empty($_POST['name'])) {
             $name = strtoupper($_POST['name']);
-            $description = strtoupper($_POST['description']);
+            $description = isset($_POST['description']) ? strtoupper($_POST['description']) : "";
             $type = isset($_POST['type']) ? $_POST['type'] : 1;
             $exist = ClassResources::model()->exists('name = :n', ['n' => $name]);
             if (!$exist) {

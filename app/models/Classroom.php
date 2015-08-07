@@ -126,7 +126,7 @@ class Classroom extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'classes' => array(self::HAS_MANY, 'Class', 'classroom_fk'),
+            'classes' => array(self::HAS_MANY, 'Classes', 'classroom_fk'),
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
