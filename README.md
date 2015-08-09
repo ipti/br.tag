@@ -1,66 +1,11 @@
-TAG
--
-Tecnologia de Apio à Gestão
+#Tecnologia de Apoio à Gestão
+> Vídeo explicativo sobre o TAG disponível no Vimeo.
+[![Video Demonstração](https://i.vimeocdn.com/video/485190104.webp?mw=960&mh=540)](https://vimeo.com/103056664)
 
-SGE
--
-Sistema de Gerenciamento Escolar
+###### O TAG (Tecnologia de Apoio à Gestão) é uma tecnologia social baseada em um software de gestão gratuito e opensource –código aberto para que qualquer pessoa possa modificar e adaptar.  Desenvolvido inicialmente pelo IPTI em parceria com a Prefeitura Municipal de Santa Luzia do Itanhy/SE essa tecnologia social atende à realidade de escolas de educação básica, com ênfase em escolas de áreas rurais. 
+###### Utilizando recursos como: sincronização de dados em escolas sem internet, software aberto, reaplicação entre as escolas e processo participativo continuo que envolve atores locais; essa tecnologia social visa democratizar o acesso a sistemas de gestão, que hoje só estão presentes em 30% das 250 mil escolas brasileiras.
+***
+#### Pré-Requisitos
+* PHP >= 5.4.9
+* MariaDB >= 10.5.5.34
 
-
-Ambiente de Desenvolvimento
--
-
-Programas
--
-Ubuntu              13.04
-
-NetBeans            8.0
-
-MySql Workbench     5.2.40
-
-
-Serviços
--
-PHP                 5.4.9
-
-nginx               1.4.7
-
-MySql               5.5.34
-
-
-Framework
--
-Yii                 1.1.14
-
-
-Template
--
-AdminKIT            1.5
-
-
-CSS
--
-Bootstrap           2.3.1
-
-Blueprint CSS       1.0.1
-
-GlyphIcons          -
-
-Uniform             1.6
-
-
-JavaScript
--
-JQuery              1.9.2
-
-JQuery Ui           1.9.2-Custom
-
-jQuery BBQ          1.2.1
-
-JQuery Mask         1.3.1
-
-FullCalendar        1.5.4
-
-Modernizr           2.6.2 
-
-Select2             3.4.5
