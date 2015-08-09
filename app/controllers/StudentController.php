@@ -121,6 +121,8 @@ class StudentController extends Controller {
      */
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
+        //@todo Checar o paramentro antes
+        $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $modelEnrollment =  new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
