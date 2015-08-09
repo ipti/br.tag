@@ -8,6 +8,7 @@
 #### Pré-Requisitos
 * PHP >= 5.4.9
 * MariaDB >= 10.5.5.34
+
 ***
 #### Licença
 The BSD-3-Clause
