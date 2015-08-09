@@ -87,7 +87,7 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <li id="menu-school" class="<?= isActive("school") ?>">
+                            <!--<li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
                                 if (count(Yii::app()->user->usersSchools) == 1) {
@@ -95,9 +95,12 @@ function isActive($pages){
                                 }
                                 ?>
                                 <a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
-                            </li>
+                            </li>-->
                             <li id="menu-classroom" class="<?= isActive( "classroom" )?>">
                                 <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Turmas</span></a>
+                            </li>
+                            <li id="menu-student" class="<?= isActive("student") ?>">
+                                <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
                             <!--<li id="menu-student" class="hasSubmenu <?=isActive("classroom") ?>">
                                 <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>
@@ -107,13 +110,9 @@ function isActive($pages){
                                     <a class="glyphicons notes_2" href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
                                     <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                                     <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
-
                                 </ul>
-                                <?php //<span class="count">2</span>  ?>
-                            </li>-->
-                            <li id="menu-student" class="<?= isActive("student") ?>">
-                                <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
+
                             <li id="menu-instructor" class="<?= isActive("instructor")?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
@@ -131,8 +130,8 @@ function isActive($pages){
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
-                            </li>
+                                <!-- <?php echo yii::app()->createUrl('grade') ?>
+                            </li>-->
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin" class="<?= isActive("admin") ?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
