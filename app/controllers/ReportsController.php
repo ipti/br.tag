@@ -13,7 +13,8 @@ class ReportsController extends Controller {
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance',
-                                    'EnrollmentDeclarationReport', 'TransferForm', 'EnrollmentNotification'),
+                                    'EnrollmentDeclarationReport', 'TransferForm',
+                                    'EnrollmentNotification', 'TransferRequirement'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -243,9 +244,23 @@ class ReportsController extends Controller {
         $this->render('TransferForm');
     }
     
-    public function actionEnrollmentNotification(){
+    public function actionEnrollmentNotification($enrollment_id){
         $this->layout = 'reports';
-        $this->render('EnrollmentNotification');
+        $this->render('EnrollmentNotification', array('enrollment_id'=>$enrollment_id));
+    }
+    
+    public function actionGetEnrollmentNotificationInformation($enrollment_id){
+        $sql = "SELECT si.name name, YEAR(se.create_date) enrollment_date, cr.turn shift"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom cr ON se.classroom_fk = cr.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);
+    }
+    
+    public function actionTransferRequirement($enrollment_id){
+        $this->layout = 'reports';
+        $this->render('TransferRequirement', array('enrollment_id' => $enrollment_id));
     }
     
     public function actionIndex() {
