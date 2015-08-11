@@ -43,7 +43,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span>
+                <span style="font-size: 16px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -52,34 +52,34 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <br>
-                <div id="report_type_container">
-                    <span id="report_type_label">DECLARAÇÃO</span>
+                <div id="report_type_container" style="text-align: center">
+                    <span id="report_type_label" style="font-size: 16px">DECLARAÇÃO</span>
                 </div>
                 <br><br>
                 <span style="clear:both;display:block"></span>
-                DECLARAMOS PARA OS DEVIDOS FINS QUE 
+                Declaramos para os devidos fins que 
                 <span class="name" style="font-weight: bold"></span>,
                 <?php
                     if ($gender == '1'){
-                        echo "FILHO DE ";
+                        echo "filho de ";
                     } else {
-                        echo "FILHA DE ";
+                        echo "filha de ";
                     }
                 ?>
                 <span class="mother"></span>
-                E 
+                e 
                 <span class="father"></span>,
                 <?php
                     if ($gender == '1'){
-                        echo "NASCIDO EM ";
+                        echo "nascido em ";
                     } else {
-                        echo "NASCIDA EM ";
+                        echo "nascida em ";
                     }
                 ?>
                 <span class="birthday"></span>
-                NA CIDADE DE 
+                na cidade de 
                 <span class="city"></span>,
-                MATRICULOU-SE NO(A) <?php echo $school->name ?> NO ANO DE 
+                matriculou-se no(a) <?php echo $school->name ?> no ano de 
                 <span class="enrollment_date"></span>, 
                 <?php
                     $c;
@@ -160,54 +160,54 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     }
                     switch ($stage) {
                         case '1':
-                            echo "NA EDUCAÇÃO INFANTIL E ENCONTRA-SE FREQUENTANDO REGULARMENTE AS AULAS.";
+                            echo "na Educação Infantil e encontra-se frequentando regularmente as aulas.";
                             break;
                         case '2':
                         case '3':
-                            echo "NO " . $c . " ANO DO ENSINO FUNDAMENTAL, ONDE ";
+                            echo "no " . $c . " Ano do Ensino Fundamental, onde ";
                             if ($gender == '1'){
-                                echo "O MESMO:";
+                                echo "o mesmo:";
                             } else {
-                                echo "A MESMA:";
+                                echo "a mesma:";
                             }
                             break;
                         case '4':
-                            echo "NO " . $c . " ANO DO ENSINO MÉDIO, ONDE ";
+                            echo "no " . $c . " Ano do Ensino Médio, onde ";
                             if ($gender == '1'){
-                                echo "O MESMO:";
+                                echo "o mesmo:";
                             } else {
-                                echo "A MESMA:";
+                                echo "a mesma:";
                             }
                             break;
                         case '6':
-                            echo "NA _____ SÉRIE DA EDUCAÇÃO DE JOVENS E ADULTOS, ONDE ";
+                            echo "na _____ série da Educação de Jovens e Adultos, onde ";
                             if ($gender == '1'){
-                                echo "O MESMO:";
+                                echo "o mesmo:";
                             } else {
-                                echo "A MESMA:";
+                                echo "a mesma:";
                             }
                             break;
                         case '7':
                             if ($class == '56') {
-                                echo "NO _____ ANO DO __________________________________________, ONDE ";
+                                echo "no _____ Ano do __________________________________________, onde ";
                                 if ($gender == '1'){
-                                    echo "O MESMO:";
+                                    echo "o mesmo:";
                                 } else {
-                                    echo "A MESMA:";
+                                    echo "a mesma:";
                                 }
                             } else if ($class == '41') {
-                                echo "NO " . $c . " ANO DO ENSINO FUNDAMENTAL, ONDE ";
+                                echo "no " . $c . " Ano do Ensino Fundamental, onde ";
                                 if ($gender == '1'){
-                                    echo "O MESMO:";
+                                    echo "o mesmo:";
                                 } else {
-                                    echo "A MESMA:";
+                                    echo "a mesma:";
                                 }
                             } else {
-                                echo "NO " . $c . " ANO DO ENSINO FUNDAMENTAL, ONDE ";
+                                echo "no " . $c . " Ano do Ensino Fundamental, onde ";
                                 if ($gender == '1'){
-                                    echo "O MESMO:";
+                                    echo "o mesmo:";
                                 } else {
-                                    echo "A MESMA:";
+                                    echo "a mesma:";
                                 }
                             }
                             break; 
@@ -262,86 +262,86 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         case '3':
                         case '7':
                             echo "<br><br><br><br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ESTÁ FREQUENTANDO NORMALMENTE<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) CANCELOU A MATRÍCULA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ABANDONOU OS ESTUDOS<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) está frequentando normalmente as aulas<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) cancelou a matrícula<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) abandonou os estudos<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             if ($gender == '1') {
-                                echo "APROVADO";
+                                echo "aprovado";
                             } else {
-                                echo "APROVADA";
+                                echo "aprovada";
                             }
                             if ($class == '56'){
-                                echo " PARA O _____ ANO DO __________________________________________<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                                echo " para o _____ Ano do __________________________________________<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             } else {
-                                echo " PARA O " . $c . " ANO DO ENSINO FUNDAMENTAL<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                                echo " para o " . $c . " Ano do Ensino Fundamental<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             }
                             if ($gender == '1') {
-                                echo "REPROVADO<br>";
+                                echo "reprovado<br>";
                             } else {
-                                echo "REPROVADA<br>";
+                                echo "reprovada<br>";
                             }
-                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) SOLICITOU TRANSFERÊNCIA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) PRAZO DE EXPEDIÇÃO DO DOCUMENTO ____ DIAS<br><br><br>";
+                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) solicitou transferência<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) prazo de expedição do documento ____ dias<br><br><br>";
                             break;
                         case '4':
                             echo "<br><br><br><br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ESTÁ FREQUENTANDO NORMALMENTE<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) CANCELOU A MATRÍCULA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ABANDONOU OS ESTUDOS<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) está frequentando normalmente as aulas<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) cancelou a matrícula<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) abandonou os estudos<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             if ($gender == '1') {
-                                echo "APROVADO";
+                                echo "aprovado";
                             } else {
-                                echo "APROVADA";
+                                echo "aprovada";
                             }
-                            echo " PARA O " . $c . " ANO DO ENSINO MÉDIO<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                            echo " para o " . $c . " Ano do Ensino Médio<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             if ($gender == '1') {
-                                echo "REPROVADO<br>";
+                                echo "reprovado<br>";
                             } else {
-                                echo "REPROVADA<br>";
+                                echo "reprovada<br>";
                             }
-                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) SOLICITOU TRANSFERÊNCIA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) PRAZO DE EXPEDIÇÃO DO DOCUMENTO ____ DIAS<br><br><br>";
+                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) solicitou transferência<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) prazo de expedição do documento ____<br><br><br>";
                             break;
                         case '6':
                             echo "<br><br><br><br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ESTÁ FREQUENTANDO NORMALMENTE<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) CANCELOU A MATRÍCULA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) ABANDONOU OS ESTUDOS<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) está frequentando normalmente as aulas<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) cancelou a matrícula<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) abandonou os estudos<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             if ($gender == '1') {
-                                echo "APROVADO<br>";
+                                echo "aprovado<br>";
                             } else {
-                                echo "APROVADA<br>";
+                                echo "aprovada<br>";
                             }
-                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) FOI ";
+                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             if ($gender == '1') {
-                                echo "REPROVADO<br>";
+                                echo "reprovado<br>";
                             } else {
-                                echo "REPROVADA<br>";
+                                echo "reprovada<br>";
                             }
-                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) CONCLUIU A ____ SÉRIE DO ENSINO FUNDAMENTAL<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) SOLICITOU TRANSFERÊNCIA<br>"
-                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) PRAZO DE EXPEDIÇÃO DO DOCUMENTO ____ DIAS<br><br><br>";
+                            echo "(&nbsp;&nbsp;&nbsp;&nbsp;) concluiu a ____ Série do Ensino Fundamental<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) solicitou transferência<br>"
+                                . "(&nbsp;&nbsp;&nbsp;&nbsp;) prazo de expedição do documento ____ dias<br><br><br>";
                             break;
                     }
                 ?>
                 <span>
-                    OBS:_______________________________________________________________________________________________________________________________________________________________________________<br/>
-                    ____________________________________________________________________________________________________________________________________________________________________________________<br/>
-                    ____________________________________________________________________________________________________________________________________________________________________________________
+                    OBS: _________________________________________________________________________________<br/>
+                    _______________________________________________________________________________________<br/>
+                    _______________________________________________________________________________________
                 </span>
-                <br/><br/><br/><br/><br/><br/>
+                <br/><br/><br/><br/>
                 <span class="pull-right">
                     Boquim(SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
-                <br/><br/><br/><br/><br/><br/>
+                <br/><br/><br/><br/>
                 <div style="text-align: center">
-                    <span>
+                    <span style="font-size: 16px">
                         SIMONE MOURA DE SOUZA ALMEIDA
                     </span>
                     <br/>
@@ -361,24 +361,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <style>
     .cell {
         border: 1px solid;
-        line-height: 20px;
-        width: 20px
+        line-height: 16px;
+        width: 16px
     }
-    #report_type_container{
-        height:100%;
-        border: 1px solid black;
-        text-align: center;
-        background-color: lightgray;
-        margin-bottom: 5px;
-    }
-    @media print {        
+    @media print {
+        #report {
+            margin: 0 50px 0 100px;
+        }
         #report_type_container{            
             border-color: white !important;
         }
         #report_type_label{
             border-bottom: 1px solid black !important;
-            font-size: 24px;            
-            font-weight: 400;
+            font-size: 22px !important;
+            font-weight: 500;
             font-family: serif;            
         }
         table, td, tr, th {
@@ -397,12 +393,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             width: 5px;
             line-height: 13px;
             margin: 0px 10px 0px 0px;
-        }
-        #canvas-td {
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-            background-repeat:no-repeat;
-            background-position:center center;
-            background-size: 100% 100%, auto;
         }
     }
 </style>

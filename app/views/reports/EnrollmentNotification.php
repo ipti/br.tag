@@ -42,13 +42,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         
         
         <br>
-        <div id="report" style="font-size: 12px">
+        <div id="report" style="font-size: 14px">
 
             <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span>
+                <span style="font-size: 16px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -57,9 +57,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <div style="text-align: center;">
-                    <span style="border-bottom: 1px solid">
-                        DEPARTAMENTO DE INSPEÇÃO ESCOLAR<br><br>
-                        COMUNICADO
+                    <span style="font-size: 16px">
+                        DEPARTAMENTO DE INSPEÇÃO ESCOLAR</span><br><br>
+                    <span style="border-bottom: 1px solid; font-size: 16px">COMUNICADO</span>
                     </span>
                 </div>
                 <br><br>
@@ -72,7 +72,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         echo "a aluna";
                     }
                 ?>
-                <span class="name"></span> 
+                <span class="name" style="font-weight: bold"></span> 
                 matriculou-se no(a) 
                 <?php echo $school->name?>, 
                 no ano de 
@@ -95,7 +95,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </span>
                 <br/><br/><br>
                 <div style="text-align: center">
-                    <span>
+                    <span style="font-size: 16px">
                         SIMONE MOURA DE SOUZA ALMEIDA
                     </span>
                     <br/>

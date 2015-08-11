@@ -20,14 +20,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <br/>
 <div class="innerLR boquim">
     <div>
-        <!--
         
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'enrollment_id':<?php //echo $enrollment_id;?>},
-                    'url': '<?php //echo Yii::app()->createUrl('reports/getEnrollmentDeclarationInformation') ?>',
+                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                    'url': '<?php echo Yii::app()->createUrl('reports/getTransferRequirementInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
                     }, 'error': function () {
@@ -39,15 +38,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*]]>*/
         </script>
         
-        -->
         <br>
-        <div id="report" style="font-size: 12px">
+        <div id="report" style="font-size: 14px">
 
             <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span>
+                <span style="font-size: 16px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -56,12 +54,128 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <div style="text-align: center;">
-                    <span>DIVISÃO DE INSPEÇÃO ESCOLAR</span><br><br>
-                    <span>REQUERIMENTO Nº __________</span>
+                    <span style="font-size: 16px">DIVISÃO DE INSPEÇÃO ESCOLAR</span><br><br>
+                    <span style="font-size: 18px; font-weight: bold">REQUERIMENTO Nº __________</span>
                 </div>
                 <br>
                 
-                Venho requerer da Divisão de Inspeção Escolar o documento de transferência de _________, filho(a) de ________ e _______, nascido(a) em __/__/____, matriculado(a) no ano de ____ na ****Escola Municipal _____****, Boquim-SE, no ____ Ano. No ensejo, informo que o(a) aluno(a) irá estudar no(a) ______.<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de 
+                <span class="name" style="font-weight: bold"></span>, 
+                <?php
+                    if ($gender == '1'){
+                        echo "filho de ";
+                    } else {
+                        echo "filha de ";
+                    }
+                ?>
+                <span class="mother"></span>
+                e 
+                <span class="father"></span>, 
+                <?php
+                    if ($gender == '1'){
+                        echo "nascido em ";
+                    } else {
+                        echo "nascida em ";
+                    }
+                ?>
+                <span class="birthday"></span>, 
+                <?php
+                    if ($gender == '1'){
+                        echo "matriculado no ano de ";
+                    } else {
+                        echo "matriculada no ano de ";
+                    }
+                ?>
+                <span class="enrollment_date"></span>
+                no(a) 
+                <?php echo $school->name . ', ' ?> 
+                <span class="city"></span>-<span class="state"></span>, 
+                <?php
+                    $c;
+                    switch ($class) {
+                        case '4':
+                            $c = '1º';
+                            break;
+                        case '5':
+                            $c = '2º';
+                            break;
+                        case '6':
+                            $c = '3º';
+                            break;
+                        case '7':
+                            $c = '4º';
+                            break;
+                        case '8':
+                            $c = '5º';
+                            break;
+                        case '9':
+                            $c = '6º';
+                            break;
+                        case '10':
+                            $c = '7º';
+                            break;
+                        case '11':
+                            $c = '8º';
+                            break;
+                        case '14':
+                            $c = '1º';
+                            break;
+                        case '15':
+                            $c = '2º';
+                            break;
+                        case '16':
+                            $c = '3º';
+                            break;
+                        case '17':
+                            $c = '4º';
+                            break;
+                        case '18':
+                            $c = '5º';
+                            break;
+                        case '19':
+                            $c = '6º';
+                            break;
+                        case '20':
+                            $c = '7º';
+                            break;
+                        case '21':
+                            $c = '8º';
+                            break;
+                        case '41':
+                            $c = '9º';
+                            break;
+                        case '25':
+                        case '30':
+                        case '35':
+                            $c = '1º';
+                            break;
+                        case '26':
+                        case '31':
+                        case '36':
+                            $c = '2º';
+                            break;
+                        case '27':
+                        case '32':
+                        case '37':
+                            $c = '3º';
+                            break;
+                        case '28':
+                        case '33':
+                        case '38':
+                            $c = '4º';
+                            break;
+                    }
+                    echo 'no '. $c. ' Ano. ';
+                ?>
+                No ensejo, informo que 
+                <?php
+                    if ($gender == '1'){
+                        echo "o aluno ";
+                    } else {
+                        echo "a aluna ";
+                    }
+                ?>
+                irá estudar no(a) ______.<br><br>
                 Requerente: _____.<br>
                 RG: ____.<br>
                 Motivo da transferência: _____.
@@ -70,7 +184,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span class="pull-right">
                     Boquim(SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
-                <br/><br/><br>
+                <br/><br/><br><br><br>
                 <div style="text-align: center">
                     <span>_______________________________________________________________________________________</span><br>
                     <span>Assinatura do Requerente</span>

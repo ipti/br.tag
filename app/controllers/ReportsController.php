@@ -266,7 +266,20 @@ class ReportsController extends Controller {
     
     public function actionTransferRequirement($enrollment_id){
         $this->layout = 'reports';
-        $this->render('TransferRequirement', array('enrollment_id' => $enrollment_id));
+        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class"
+                . " FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        $this->render('TransferRequirement', array('enrollment_id'=>$enrollment_id, 'gender'=>$result['gender'], 'stage'=>$result['stage'], 'class'=>$result['class']));
+    }
+    
+    public function actionGetTransferRequirementInformation($enrollment_id){
+        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);
     }
     
     public function actionIndex() {
