@@ -64,12 +64,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <br><br>
                 
-                Comunicamos que o(a) aluno(a) 
+                Comunicamos que 
+                <?php 
+                    if ($gender == '1'){
+                        echo "o aluno";
+                    } else {
+                        echo "a aluna";
+                    }
+                ?>
                 <span class="name"></span> 
-                matriculou-se nesta Unidade Escolar, no ano de 
+                matriculou-se no(a) 
+                <?php echo $school->name?>, 
+                no ano de 
                 <span class="enrollment_date"></span>, 
                 no turno
-                <span class="shift"></span>, 
+                <?php
+                    if ($shift == 'M'){
+                        echo "matutino, ";
+                    } else if ($shift == 'T'){
+                        echo "vespertino, ";
+                    } else {
+                        echo "[não informado], ";
+                    }
+                ?>
                 com o professor(a) XXXXXXX.
                 
                 <br><br>

@@ -127,7 +127,9 @@ class ReportsController extends Controller {
     
     public function actionEnrollmentDeclarationReport($enrollment_id) {
         $this->layout = "reports";
-        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id WHERE se.id = " . $enrollment_id . ";";
+        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
         $response = Yii::app()->db->createCommand($sql)->queryRow();
         $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id, 'gender'=>$response['gender'], 'stage'=>$response['stage'], 'class'=>$response['class']));         
     }
@@ -246,12 +248,16 @@ class ReportsController extends Controller {
     
     public function actionEnrollmentNotification($enrollment_id){
         $this->layout = 'reports';
-        $this->render('EnrollmentNotification', array('enrollment_id'=>$enrollment_id));
+        $sql = "SELECT si.sex gender, cr.turn shift"
+                . " FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id JOIN classroom cr ON se.classroom_fk = cr.id"
+                . " WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        $this->render('EnrollmentNotification', array('enrollment_id'=>$enrollment_id, 'gender'=>$result['gender'], 'shift'=>$result['shift']));
     }
     
     public function actionGetEnrollmentNotificationInformation($enrollment_id){
-        $sql = "SELECT si.name name, YEAR(se.create_date) enrollment_date, cr.turn shift"
-                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom cr ON se.classroom_fk = cr.id"
+        $sql = "SELECT si.name name, YEAR(se.create_date) enrollment_date"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
