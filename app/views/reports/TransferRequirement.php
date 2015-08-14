@@ -39,13 +39,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </script>
         
         <br>
-        <div id="report" style="font-size: 14px">
+        <div id="report" style="font-size: 12px">
 
             <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span style="font-size: 16px">
+                <span style="font-size: 14px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -54,12 +54,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <div style="text-align: center;">
-                    <span style="font-size: 16px">DIVISÃO DE INSPEÇÃO ESCOLAR</span><br><br>
-                    <span style="font-size: 18px; font-weight: bold">REQUERIMENTO Nº __________</span>
+                    <span style="font-size: 14px">DIVISÃO DE INSPEÇÃO ESCOLAR</span><br><br><br>
+                    <span style="font-size: 16px; font-weight: bold">REQUERIMENTO Nº __________</span>
                 </div>
                 <br>
                 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de 
                 <span class="name" style="font-weight: bold"></span>, 
                 <?php
                     if ($gender == '1'){
@@ -175,10 +175,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         echo "a aluna ";
                     }
                 ?>
-                irá estudar no(a) ______.<br><br>
-                Requerente: _____.<br>
-                RG: ____.<br>
-                Motivo da transferência: _____.
+                irá estudar no(a) _______________________________________.<br><br>
+                Requerente: ___________________________.<br>
+                RG: ___________________________.<br>
+                Motivo da transferência: ___________________________.
                 
                 <br><br><br><br>
                 <span class="pull-right">

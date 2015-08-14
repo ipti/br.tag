@@ -43,7 +43,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span style="font-size: 16px">
+                <span style="font-size: 14px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -341,7 +341,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </span>
                 <br/><br/><br/><br/>
                 <div style="text-align: center">
-                    <span style="font-size: 16px">
+                    <span style="font-size: 14px">
                         SIMONE MOURA DE SOUZA ALMEIDA
                     </span>
                     <br/>

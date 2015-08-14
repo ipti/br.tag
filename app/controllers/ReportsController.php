@@ -241,9 +241,33 @@ class ReportsController extends Controller {
         ));
     }
 
-    public function actionTransferForm(){
+    public function actionTransferForm($enrollment_id){
         $this->layout = 'reports';
-        $this->render('TransferForm');
+        $sql = "SELECT si.nationality FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        $this->render('TransferForm', array('enrollment_id'=>$enrollment_id, 'nationality'=>$result['nationality']));
+    }
+    
+    public function actionGetTransferFormInformation($enrollment_id){
+        //nacionalidade vem de que tabela?
+        
+        $sql = "SELECT si.name, si.inep_id, ec.name birth_city, euf.acronym birth_state,  
+                    si.birthday, sda.rg_number, sda.rg_number_expediction_date rg_date, 
+                    eoe.name rg_emitter, euf.acronym rg_uf, 
+                    sda.civil_certification_term_number civil_certification, sda.civil_certification_sheet, sda.civil_certification_book, 
+                    ec.name civil_certification_city, euf.acronym civil_certification_uf, 
+                    si.father_name father, si.mother_name mother
+                FROM student_identification si
+                    JOIN student_enrollment se ON se.student_fk = si.id
+                    JOIN student_documents_and_address sda ON sda.student_fk = si.inep_id
+                    JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id
+                    JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id
+                    JOIN edcenso_nation en ON si.edcenso_nation_fk = en.id
+                    JOIN edcenso_organ_id_emitter eoe ON eoe.id = sda.rg_number_edcenso_organ_id_emitter_fk
+                WHERE se.id = " . $enrollment_id . ";";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        echo json_encode($result);
     }
     
     public function actionEnrollmentNotification($enrollment_id){
