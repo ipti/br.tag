@@ -10,9 +10,11 @@ $(document).ready(function(){
         $("#tab-student-documents").hide();
         $(".control-group").hide();
         $(".required").parent().show();
+        //Não entendi aqui????
         $(".tab-student").show();
         $(".tab-content").show();
-    } else {
+    } else{
+        //E aqui também poem em cima
         $(".tab-student").show();
         $(".tab-content").show();
     }

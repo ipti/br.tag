@@ -76,16 +76,23 @@ $this->breadcrumbs = array(
                 
         <div class="span6" style="margin: 10px 0 0 0">
             <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('reports/TransferForm')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/TransferForm', array('enrollment_id'=>546))?>" class="widget-stats" target="_blank">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Guia de Transferência</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentNotification')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentNotification', array('enrollment_id'=>4603))?>" class="widget-stats" target="_blank">
                     <span class="glyphicons file_export"><i></i></span>
                     <span class="txt">Comunicado de matrícula</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('reports/TransferRequirement', array('enrollment_id'=>4647))?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Requerimento de Transferência</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
