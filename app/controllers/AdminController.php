@@ -48,76 +48,84 @@ class AdminController extends Controller {
         $json['classroom'] = [];
 
         $school = yii::app()->user->school;
-        $filterStudent = ""; //"school_inep_id_fk = " . $school;
-        $filterClassroom =""; //"school_inep_fk = " . $school;
-
+        $filterStudent = "school_inep_id_fk = " . $school;
+        $filterClassroom ="school_inep_fk = " . $school;
+        
+        $enrollments = StudentEnrollment::model()->findAll($filterStudent);
+        
+        foreach($enrollments as $enrollment){
+            $student = $enrollment->studentFk;
+            $student->school_inep_id_fk = $enrollment->school_inep_id_fk;
+            $student->save();
+        }
+        
         $students = StudentIdentification::model()->findAll($filterStudent);
         $classrooms = Classroom::model()->findAll($filterClassroom);
 
-        $updateFKID = "UPDATE `br.org.ipti.tag`.`class` as c
+        $updateFKID = "UPDATE `class` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_board` as c
+            UPDATE `class_board` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_faults` as c
+            UPDATE `class_faults` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk 
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_has_content` as c
+            UPDATE `class_has_content` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk 
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`classroom` as c
+            UPDATE `classroom` as c
             SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`classroom_has_course_plan` as c
+            UPDATE `classroom_has_course_plan` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_class` as c
+            UPDATE `course_class` as c
             SET `fkid` = CONCAT((select school_inep_fk from course_plan as cp where cp.id = c.course_plan_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_class_has_class_resource` as c
+            UPDATE `course_class_has_class_resource` as c
             SET `fkid` = CONCAT(
                     (select cp.school_inep_fk 
                             from course_class as cs
                     join course_plan as cp on (cs.course_plan_fk = cp.id)
                             where cs.id = c.course_class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_plan` as c
+            UPDATE `course_plan` as c
             SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`grade` as g
+            UPDATE `grade` as g
             SET `fkid` = CONCAT(
                     (select e.school_inep_id_fk 
                             from student_enrollment as e
                             where e.id = g.enrollment_fk),';',g.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_documents_and_address` as c
+            UPDATE `instructor_documents_and_address` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_identification` as c
+            UPDATE `instructor_identification` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_teaching_data` as c
+            UPDATE `instructor_teaching_data` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_variable_data` as c
+            UPDATE `instructor_variable_data` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_documents_and_address` as c
+            UPDATE `student_documents_and_address` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_enrollment` as c
+            UPDATE `student_enrollment` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_identification` as c
+            UPDATE `student_identification` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;";
         yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
@@ -418,6 +426,8 @@ class AdminController extends Controller {
 
 
         //classroom[fkid][classboards][fkid][attributes]
+        /**
+         * Precisa enviar junto o Instrutor
         $classboardsValues = [];
         $classboardsModel = ClassBoard::model();
         foreach ($classrooms as $classroom) {
@@ -435,7 +445,7 @@ class AdminController extends Controller {
             }
         }
         $this->createMultipleInsertOnDuplicateKeyUpdate($classboardsModel, $classboardsValues)->query();
-
+        **/
 
         $time2 = time();
         echo $time2 - $time1;

@@ -641,7 +641,6 @@ class ClassroomController extends Controller {
 
         //Pega a semana em forma de matriz
         $week = $this->getSchedule($classboard);
-
         $schedule = $week[$day];
         //Percorre o intervalo dos horários selecionados
         //removendo os que não existem mais
@@ -652,7 +651,6 @@ class ClassroomController extends Controller {
                 }
             }
         }
-
         //Coloca o horário de volta em forma de string
         //para então colocar de volta no objeto
         $schedule = implode(';', $schedule);

@@ -231,16 +231,23 @@ class EnrollmentController extends Controller {
      * @return StudentEnrollment[]
      */
     private function sortEnrollments($enrollments) {
-
-        function sort_objects_by_total($a, $b) {
-            if ($a->studentFk->name == $b->studentFk->name) {
-                return 0;
+        $array = $enrollments;
+        
+        for ($i = 0; $i < count($array); $i++) {
+            $menor = $i;
+            for ($j = $i + 1; $j < count($array); $j++) {
+                if ($array[$j]->studentFk->name < $array[$menor]->studentFk->name) {
+                    $menor = $j;
+                }
             }
-            return ($a->studentFk->name < $b->studentFk->name) ? - 1 : 1;
+            if ($menor != $i) {
+                $aux = $array[$i];
+                $array[$i] = $array[$menor];
+                $array[$menor] = $aux;
+            }
         }
 
-        usort($enrollments, 'sort_objects_by_total');
-        return $enrollments;
+        return $array;
     }
 
     /**
