@@ -22,7 +22,7 @@ $(document).ready(function() {
 
                 firstHour: 1,
                 minTime: 1,
-                maxTime: 11,
+                maxTime: 9,
                 slotMinutes: 60,
                 defaultEventMinutes: 60,
                 axisFormat: "H'º' 'Horário'",

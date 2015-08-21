@@ -641,7 +641,15 @@ class ClassroomController extends Controller {
 
         //Pega a semana em forma de matriz
         $week = $this->getSchedule($classboard);
+        
+        if($schedule_initial < 19){
+            $day = $day == 0 ? -1 : $day -1;
+        }
+        $day = $day == 6 ? 0 : $day + 1;
 
+        $schedule_initial = ($schedule_initial + 6) % 24;
+        $schedule_final = ($schedule_final + 6) % 24;
+        
         $schedule = $week[$day];
         //Percorre o intervalo dos horários selecionados
         //removendo os que não existem mais
