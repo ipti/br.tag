@@ -48,76 +48,88 @@ class AdminController extends Controller {
         $json['classroom'] = [];
 
         $school = yii::app()->user->school;
-        $filterStudent = ""; //"school_inep_id_fk = " . $school;
-        $filterClassroom =""; //"school_inep_fk = " . $school;
+        $year = yii::app()->user->year;
+        $filterStudent = "school_inep_id_fk = " . $school;
+        $filterClassroom = "school_inep_fk = " . $school . " and school_year = " . $year;
+
+        $enrollments = StudentEnrollment::model()->findAll($filterStudent);
+
+        foreach ($enrollments as $enrollment) {
+            $student = $enrollment->studentFk;
+            $classroom = $enrollment->classroomFk;
+            if ($classroom->school_year == $year) {
+                $student->school_inep_id_fk = $enrollment->school_inep_id_fk;
+                $student->save();
+            }
+        }
 
         $students = StudentIdentification::model()->findAll($filterStudent);
         $classrooms = Classroom::model()->findAll($filterClassroom);
 
-        $updateFKID = "UPDATE `br.org.ipti.tag`.`class` as c
+        $updateFKID = "UPDATE `class` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_board` as c
+            UPDATE `class_board` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_faults` as c
+            UPDATE `class_faults` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk 
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`class_has_content` as c
+            UPDATE `class_has_content` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk 
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`classroom` as c
+            UPDATE `classroom` as c
             SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`classroom_has_course_plan` as c
+            UPDATE `classroom_has_course_plan` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_class` as c
+            UPDATE `course_class` as c
             SET `fkid` = CONCAT((select school_inep_fk from course_plan as cp where cp.id = c.course_plan_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_class_has_class_resource` as c
+            UPDATE `course_class_has_class_resource` as c
             SET `fkid` = CONCAT(
                     (select cp.school_inep_fk 
                             from course_class as cs
                     join course_plan as cp on (cs.course_plan_fk = cp.id)
                             where cs.id = c.course_class_fk),';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`course_plan` as c
+            UPDATE `course_plan` as c
             SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`grade` as g
+            UPDATE `grade` as g
             SET `fkid` = CONCAT(
                     (select e.school_inep_id_fk 
                             from student_enrollment as e
                             where e.id = g.enrollment_fk),';',g.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_documents_and_address` as c
+            UPDATE `instructor_documents_and_address` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_identification` as c
+            UPDATE `instructor_identification` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_teaching_data` as c
+            UPDATE `instructor_teaching_data` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`instructor_variable_data` as c
+            UPDATE `instructor_variable_data` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_documents_and_address` as c
+            UPDATE `student_documents_and_address` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_enrollment` as c
+            UPDATE `student_enrollment` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;
-            UPDATE `br.org.ipti.tag`.`student_identification` as c
+            UPDATE `student_identification` as c
             SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
             WHERE true;";
         yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
@@ -214,30 +226,34 @@ class AdminController extends Controller {
      * @return CDbCommand
      */
     private function createMultipleInsertOnDuplicateKeyUpdate($model, $attributes) {
-        $builder = Yii::app()->db->schema->commandBuilder;
-        $command = $builder->createMultipleInsertCommand($model->tableName(), $attributes);
-        $sql = $command->getText();
+        if (count($attributes) > 0) {
+            $builder = Yii::app()->db->schema->commandBuilder;
+            $command = $builder->createMultipleInsertCommand($model->tableName(), $attributes);
+            $sql = $command->getText();
 
-        $values = [];
-        $valuesUpdate = " ON DUPLICATE KEY UPDATE ";
-        $i = 0;
-        foreach ($model->attributes as $name => $value) {
-            if ($i != 0) {
-                $valuesUpdate .= ",";
+            $values = [];
+            $valuesUpdate = " ON DUPLICATE KEY UPDATE ";
+            $i = 0;
+            foreach ($model->attributes as $name => $value) {
+                if ($i != 0) {
+                    $valuesUpdate .= ",";
+                }
+                $valuesUpdate .= " `" . $name . "`=VALUES(`" . $name . "`)";
+                $i = 1;
             }
-            $valuesUpdate .= " `" . $name . "`=VALUES(`" . $name . "`)";
-            $i = 1;
-        }
-        $sql .= $valuesUpdate . ";";
-        $i = 0;
+            $sql .= $valuesUpdate . ";";
+            $i = 0;
 
-        foreach ($attributes as $value) {
-            foreach ($value as $name => $val) {
-                $values[$name . "_" . $i] = $val;
+            foreach ($attributes as $value) {
+                foreach ($value as $name => $val) {
+                    $values[$name . "_" . $i] = $val;
+                }
+                $i++;
             }
-            $i++;
+            return Yii::app()->db->createCommand($sql)->bindValues($values);
+        } else {
+            return Yii::app()->db->createCommand("select 1+1;");
         }
-        return Yii::app()->db->createCommand($sql)->bindValues($values);
     }
 
     /**
@@ -351,7 +367,7 @@ class AdminController extends Controller {
         }
         $this->createMultipleInsertOnDuplicateKeyUpdate($classesModel, $classesValues)->query();
 
-        
+
         //classroom[fkid][enrollments][fkid][attributes]
         $enrollmentsValues = [];
         $enrollmentsModel = StudentEnrollment::model();
@@ -361,7 +377,7 @@ class AdminController extends Controller {
                 if ($myEnrollment === null) {
                     $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
                     $studentFkid = null;
-                    foreach($students as $student){
+                    foreach ($students as $student) {
                         $id = explode(';', $student['attributes']['fkid'])[1];
                         if ($enrollment['attributes']['student_fk'] == $id) {
                             $studentFkid = $student['attributes']['fkid'];
@@ -381,8 +397,8 @@ class AdminController extends Controller {
             }
         }
         $this->createMultipleInsertOnDuplicateKeyUpdate($enrollmentsModel, $enrollmentsValues)->query();
-        
-        
+
+
         //classroom[fkid][classes][fkid][faults][fkid][attributes]
         $faultsValues = [];
         $faultsModel = ClassFaults::model();
@@ -393,9 +409,9 @@ class AdminController extends Controller {
                     if ($myFault === null) {
                         $myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
                         $enrollmentFkid = null;
-                        foreach($classroom['enrollments'] as $enrollment){
+                        foreach ($classroom['enrollments'] as $enrollment) {
                             $id = $enrollment['attributes']['student_fk'];
-                            if($fault['attributes']['student_fk'] == $id){
+                            if ($fault['attributes']['student_fk'] == $id) {
                                 $enrollmentFkid = $enrollment['attributes']['fkid'];
                                 break;
                             }
@@ -404,7 +420,6 @@ class AdminController extends Controller {
                         $fault['attributes']['id'] = null;
                         $fault['attributes']['class_fk'] = $myClass->id;
                         $fault['attributes']['student_fk'] = $myEnrollment->student_fk;
-                        
                     } else {
                         $fault['attributes']['id'] = $myFault->id;
                         $fault['attributes']['class_fk'] = $myFault->class_fk;
@@ -418,25 +433,26 @@ class AdminController extends Controller {
 
 
         //classroom[fkid][classboards][fkid][attributes]
-        $classboardsValues = [];
-        $classboardsModel = ClassBoard::model();
-        foreach ($classrooms as $classroom) {
-            foreach ($classroom['classboards'] as $classboard) {
-                $myClassboard = $classboardsModel->findByAttributes(['fkid' => $classboard['attributes']['fkid']]);
-                if ($myClassboard === null) {
-                    $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
-                    $classboard['attributes']['id'] = null;
-                    $classboard['attributes']['classroom_fk'] = $myClassroom->id;
-                } else {
-                    $classboard['attributes']['id'] = $myClassboard->id;
-                    $classboard['attributes']['classroom_fk'] = $myClassboard->classroom_fk;
-                }
-                array_push($classboardsValues, $classboard['attributes']);
-            }
-        }
-        $this->createMultipleInsertOnDuplicateKeyUpdate($classboardsModel, $classboardsValues)->query();
-
-
+        /**
+         * Precisa enviar junto o Instrutor
+          $classboardsValues = [];
+          $classboardsModel = ClassBoard::model();
+          foreach ($classrooms as $classroom) {
+          foreach ($classroom['classboards'] as $classboard) {
+          $myClassboard = $classboardsModel->findByAttributes(['fkid' => $classboard['attributes']['fkid']]);
+          if ($myClassboard === null) {
+          $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
+          $classboard['attributes']['id'] = null;
+          $classboard['attributes']['classroom_fk'] = $myClassroom->id;
+          } else {
+          $classboard['attributes']['id'] = $myClassboard->id;
+          $classboard['attributes']['classroom_fk'] = $myClassboard->classroom_fk;
+          }
+          array_push($classboardsValues, $classboard['attributes']);
+          }
+          }
+          $this->createMultipleInsertOnDuplicateKeyUpdate($classboardsModel, $classboardsValues)->query();
+         * */
         $time2 = time();
         echo $time2 - $time1;
         echo "<hr>";
@@ -1075,19 +1091,13 @@ class AdminController extends Controller {
 
 
                     $value = ($value == 'null' || $withoutcomma) ? $value : "'$value'";
-                    if ($regType == 20 && $column == 4) {
-                        //echo $value;exit;
-                    }
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = 2014;
-                            $value.= ',' . $year;
+                            $value.= ',' . date("Y");
                         }
-                        if ($line == ($totalLines)) {
-                            $insertValue[$regType].= $value . ");";
-                        } else {
-                            $insertValue[$regType].= $value . "),\n";
-                        }
+                        $insertValue[$regType] .= $value;
+                        $insertValue[$regType] .= ($line == $totalLines) ? ");" : "),\n";
+
                     } else {
                         $insertValue[$regType].= $value . ", ";
                     }
