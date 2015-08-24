@@ -1091,19 +1091,13 @@ class AdminController extends Controller {
 
 
                     $value = ($value == 'null' || $withoutcomma) ? $value : "'$value'";
-                    if ($regType == 20 && $column == 4) {
-                        //echo $value;exit;
-                    }
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = 2014;
-                            $value.= ',' . $year;
+                            $value.= ',' . date("Y");
                         }
-                        if ($line == ($totalLines)) {
-                            $insertValue[$regType].= $value . ");";
-                        } else {
-                            $insertValue[$regType].= $value . "),\n";
-                        }
+                        $insertValue[$regType] .= $value;
+                        $insertValue[$regType] .= ($line == $totalLines) ? ");" : "),\n";
+
                     } else {
                         $insertValue[$regType].= $value . ", ";
                     }
