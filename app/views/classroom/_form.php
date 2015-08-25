@@ -99,7 +99,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <!--    
+                               
                             <div class="control-group">
                             <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -107,7 +107,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
                             <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
-                            </div>-->
+                            </div>
 
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 'control-label')); ?>
