@@ -49,7 +49,6 @@
 }
 body {
   font-family: 'Open Sans', sans-serif;
-  background: #ffffff url(../img/pattern1.png) repeat;
   font-size: 13px;
 }
 *,
@@ -375,7 +374,6 @@ body > .container-fluid.documentation {
   margin: 0 0 20px 191px;
   background: #fff;
   min-width: 320px;
-  min-height: 700px;
   padding: 0 0 10px;
 }
 #content.padding-none {
@@ -6737,3 +6735,66 @@ box-shadow: none;
     font-weight: bold;
 }
 .grid-view tbody:hover {cursor: pointer}
+
+li.active a{
+    font-weight: bold !important;
+    
+}
+
+.vmiddle{
+    vertical-align: middle !important;
+}
+
+.contents-select{
+    width:100% !important; 
+    margin-bottom:0; 
+    opacity: 100; 
+    -webkit-appearance: none;
+}
+
+.contents-day{
+    width: 20px;
+}
+
+.grade-student-name{
+    font-size:12px;
+}
+
+.grade{
+    width:50px;
+    text-align:center;
+}
+
+.grade-dropdown{
+    width:120px;
+}
+
+.course-class{
+    margin-left: 100px;
+    display: block;
+    width: 100%;
+}
+
+.course-class-objective {
+    resize:none;
+    height: 100px;
+}
+
+.resources{
+    margin-top: 10px;
+}
+
+.resources p{
+    line-height:10px;
+    padding: 0 0 5px 0;
+    border-bottom:1px solid #ccc
+}
+
+.remove-resource{
+    color: #bd362f;
+    cursor:pointer
+}
+
+.details-control{
+    cursor:pointer
+}

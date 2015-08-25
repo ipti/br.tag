@@ -35,6 +35,7 @@
  * @property string $neighborhood
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -65,6 +66,14 @@ class StudentDocumentsAndAddress extends CActiveRecord
 		return 'student_documents_and_address';
 	}
 
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -83,6 +92,7 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			array('rg_number_expediction_date, civil_certification_date, number', 'length', 'max'=>10),
 			array('civil_register_enrollment_number', 'length', 'max'=>32),
 			array('cpf, nis', 'length', 'max'=>11),
+                        array('cns', 'length', 'max' => 20),
 			array('address', 'length', 'max'=>100),
 			array('neighborhood', 'length', 'max'=>50),
                         array('received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf', 'safe'),
@@ -142,6 +152,7 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'cpf' => Yii::t('default', 'Cpf'),
 			'foreign_document_or_passport' => Yii::t('default', 'Foreign Document Or Passport'),
 			'nis' => Yii::t('default', 'Nis'),
+                        'cns' => Yii::t('default', 'CNS Number'),
 			'document_failure_lack' => Yii::t('default', 'Document Failure Lack'),
 			'residence_zone' => Yii::t('default', 'Residence Zone'),
 			'cep' => Yii::t('default', 'Cep'),
@@ -207,4 +218,9 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        protected function beforeSave(){
+            
+            return parent::beforeSave();
+        }
 }

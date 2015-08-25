@@ -8,6 +8,7 @@
  * @property integer $class_fk
  * @property integer $student_fk
  * @property integer $schedule
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property Class $classFk
@@ -32,6 +33,15 @@ class ClassFaults extends CActiveRecord
 	{
 		return 'class_faults';
 	}
+        
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
 
 	/**
 	 * @return array validation rules for model attributes.

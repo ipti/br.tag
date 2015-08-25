@@ -1053,6 +1053,7 @@ $form=$this->beginWidget('CActiveForm', array(
     var formStructure = '#SchoolStructure_';
     var date = new Date();
     var actual_year = date.getFullYear();
-    var initial_date = stringToDate($(formIdentification+'initial_date').val());    
-    var final_date = stringToDate($(formIdentification+'final_date').val());
+    var initial_date;
+    var final_date;
+    
 </script>

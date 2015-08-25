@@ -42,7 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
         <div class="widget-head">
-            <ul class="tab-student">
+            <ul class="tab-student" style="display:none">
                 <li id="tab-student-identify" class="active">
                     <a class="glyphicons vcard" href="#student-identify" data-toggle="tab">
                         <i></i><?php echo Yii::t('default', 'Identification') ?>
@@ -67,7 +67,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
 
         <div class="widget-body form-horizontal">
-            <div class="tab-content">
+            <div class="tab-content" style="display:none">
                 <!-- Tab content -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
@@ -213,7 +213,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                        </div>
+                        </div>                        
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
@@ -237,6 +237,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
+                            
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_telephone', array('size' => 60, 'maxlength' => 15)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
+                                </div>
+                            </div>
+                            
                             <div class="control-group" style="display:none;" id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -254,7 +263,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 11)); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -498,6 +507,31 @@ $form = $this->beginWidget('CActiveForm', array(
                                  data-collapse-closed="false">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons nameplate">
+                                        <i></i>Cartão Nacional de Saúde
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <span
+                                                class="btn-action single glyphicons circle_question_mark"
+                                                data-toggle="tooltip" data-placement="top"
+                                                data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="separator"></div>
+                            
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons nameplate">
                                         <i></i>Cadastro de Pessoa Física
                                     </h4>
                                 </div>
@@ -505,7 +539,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 11, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
                                                 class="btn-action single glyphicons circle_question_mark"
                                                 data-toggle="tooltip" data-placement="top"
@@ -515,7 +549,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            <div class="separator"></div>                         
+                            
+                            <div class="separator"></div>
+                            
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -544,7 +580,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <span
                                                 class="btn-action single glyphicons circle_question_mark"
                                                 data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Max length: ') . '20'; ?>"><i></i></span>
+                                                data-original-title="<?php echo Yii::t('help', 'Max length') . '20'; ?>"><i></i></span>
                                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
                                         </div>
                                     </div>
@@ -624,7 +660,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array('size' => 8,
-                                        'maxlength' => 8
+                                        'maxlength' => 9
                                     ));
                                     ?>
                                     <span
@@ -871,7 +907,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td><td colspan="2"></td></tr></thead>
                                         <tbody>
                                             <?php
                                             foreach ($modelStudentIdentification->studentEnrollments as $me) {
@@ -880,7 +916,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <td><?php echo $me->schoolInepIdFk->name ?></td>
                                                     <td><?php echo $me->classroomFk->name ?></td>
                                                     <td><?php echo $me->classroomFk->school_year ?></td>
-                                                    <td><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Cancelar Matrícula</a></td>
+                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></td>
+                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Excluir</a></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -892,7 +929,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
             <?php $this->endWidget(); ?>
         </div>
     </div>
@@ -903,5 +940,5 @@ $form = $this->beginWidget('CActiveForm', array(
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
-    var filled = -1;
+    var filled = -1;    
 </script>

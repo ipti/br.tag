@@ -18,6 +18,7 @@
  * @property integer $estimated_classes
  * @property integer $given_classes
  * @property integer $replaced_classes
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property InstructorIdentification $instructorFk
@@ -34,6 +35,15 @@ class ClassBoard extends CActiveRecord
 		return 'class_board';
 	}
 
+        public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
 	/**
 	 * @return array validation rules for model attributes.
 	 */

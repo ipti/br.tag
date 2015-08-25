@@ -54,12 +54,15 @@
  * @property string $responsable_job
  * @property integer $bf_participator
  * @property string $food_restrictions
+ * @property integer $responsable_telephone
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property SchoolIdentification $schoolInepIdFk
+ * @property StudentDocumentsAndAddress $documentsFk
  */
 class StudentIdentification extends CActiveRecord {
 
@@ -79,6 +82,15 @@ class StudentIdentification extends CActiveRecord {
         return 'student_identification';
     }
 
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
     /**
      * @return array validation rules for model attributes.
      */
@@ -86,13 +98,13 @@ class StudentIdentification extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, mother_name,father_name,edcenso_uf_fk,edcenso_city_fk, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk', 'required'),
+            array('school_inep_id_fk, name, mother_name,edcenso_uf_fk,edcenso_city_fk, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk', 'required'),
             array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, bf_participator', 'numerical', 'integerOnly' => true),
             array('register_type', 'length', 'max' => 2),
             array('school_inep_id_fk', 'length', 'max' => 8),
             array('inep_id', 'length', 'max' => 12),
             array('name, mother_name, father_name', 'length', 'max' => 100),
-            array('nis, responsable_cpf', 'length', 'max' => 11),
+            array('nis, responsable_cpf, responsable_telephone', 'length', 'max' => 11),
             array('birthday', 'length', 'max' => 10),
             array('responsable_name', 'length', 'max' => 90),
             array('responsable_rg, responsable_job', 'length', 'max' => 45),
@@ -167,6 +179,7 @@ class StudentIdentification extends CActiveRecord {
             'send_year' => Yii::t('default', 'Pós Censo'),
             'last_change' => Yii::t('default', 'Last Change'),
             'responsable' => Yii::t('default', 'Responsable'),
+            'responsable_telephone' => Yii::t('default', "Responsible's Telephone"),
             'responsable_name' => Yii::t('default', 'Responsable`s Name'),
             'responsable_rg' => Yii::t('default', 'Responsable`s RG'),
             'responsable_cpf' => Yii::t('default', 'Responsable`s CPF'),
@@ -247,4 +260,12 @@ class StudentIdentification extends CActiveRecord {
         return $this->name . ' (' . $this->mother_name.')['.$this->birthday.']';
     }
 
+    /**
+     * This method is invoked before saving a record (after validation, if any).
+     * @return boolean whether the saving should be executed. Defaults to true.
+ */
+    protected function beforeSave() {
+
+        return parent::beforeSave();
+    }
 }

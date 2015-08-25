@@ -1,5 +1,9 @@
-var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
-
+var simple = getUrlVars()['simple'];
+if (simple == '1') {
+    var tabs = ['tab-student-identify', 'tab-student-address', 'tab-student-enrollment'];
+}else{
+    var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
+}
 function changeTab(index){
 	var activeTab = $('li[class="active"]');
 	var activePane = $('div .active');
@@ -34,7 +38,7 @@ function changeTab(index){
 }
 
 function change2nextTab(){
-	var activeTab = $('li[class="active"]');
+	var activeTab = $('ul.tab-student li[class="active"]');
     var tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab+1);
 }

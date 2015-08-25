@@ -29,12 +29,16 @@
  * @property integer $vehicle_type_metro_or_train
  * @property integer $student_entry_form
  * @property integer $id
+ * @property string $create_date
+ * @property string $fkid
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
  * @property Classroom $classroomFk
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
+ * @property ClassFaults[] $classFaults
+ * @property Grade[] $grades
  */
 class StudentEnrollment extends CActiveRecord {
 
@@ -56,6 +60,15 @@ class StudentEnrollment extends CActiveRecord {
         return 'student_enrollment';
     }
 
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+        
     /**
      * @return array validation rules for model attributes.
      */
@@ -85,6 +98,9 @@ class StudentEnrollment extends CActiveRecord {
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
+            'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
+
         );
     }
 
@@ -119,7 +135,7 @@ class StudentEnrollment extends CActiveRecord {
             'student_entry_form' => Yii::t('default', 'Student Entry Form'),
             'school_year' => Yii::t('default', 'School Year'),
             'id' => Yii::t('default', 'ID'),
-        	'create_date' => Yii::t('default', 'Create Time')
+            'create_date' => Yii::t('default', 'Create Time'),
         );
     }
 

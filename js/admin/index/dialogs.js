@@ -9,8 +9,6 @@
         buttons: [
             {text: btnImport,
                 click: function() {
-                    var file = $("#file").val();
-                    console.log(file);
                     $("#import-file-form").submit();
                     $(this).dialog("close");
                 }

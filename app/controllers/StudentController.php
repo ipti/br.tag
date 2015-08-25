@@ -121,6 +121,8 @@ class StudentController extends Controller {
      */
     public function actionCreate() {
         $modelStudentIdentification = new StudentIdentification;
+        //@todo Checar o paramentro antes
+        $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $modelEnrollment =  new StudentEnrollment;
         // Uncomment the following line if AJAX validation is needed
@@ -234,7 +236,7 @@ class StudentController extends Controller {
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
-        	'modelEnrollment' => $modelEnrollment
+            'modelEnrollment' => $modelEnrollment
         ));
     }
     
@@ -284,8 +286,7 @@ class StudentController extends Controller {
                     array('href'=>yii::app()->createUrl('student/update',array('id'=>$sid)),
                         'class'=>"btn btn-primary btn-icon glyphicons eye_open"),'<i></i>Visualizar Aluno');
             $buttons .= "<br>";
-            $buttons .= 
-                    CHtml::tag('a',
+            $buttons .= CHtml::tag('a',
                     array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>0, 'student_id'=>$sid)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 250px',
@@ -296,11 +297,19 @@ class StudentController extends Controller {
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 250px',
                         'target'=>"_blank"),'<i></i>Ficha Individual Ensino Fundamental');
+            $buttons .= "<br>";
+            $buttons .= CHtml::tag('a',
+                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>2, 'student_id'=>$sid)),
+                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
+                        'style'=>'margin-top: 5px; width: 250px',
+                        'target'=>"_blank"),'<i></i>Ficha Individual Educação de Jovens e Adultos');
+            $buttons .= "<br>";
             $buttons .= CHtml::tag('a',
                     array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>3, 'student_id'=>$sid)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 250px',
                         'target'=>"_blank"),'<i></i>Ficha Individual Educação Especial');
+            $buttons .= "<br>";
         }
         
 

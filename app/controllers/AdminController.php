@@ -24,7 +24,7 @@ class AdminController extends Controller {
                 'actions' => array('import', 'export',
                     'clearDB', 'acl',
                     'backup', 'data',
-                    'exportStudentIdentify', 'synchronizationExport'),
+                    'exportStudentIdentify', 'syncExport', 'syncImport'),
                 'users' => array('@'),
             ),
         );
@@ -37,297 +37,426 @@ class AdminController extends Controller {
         $this->render('index');
     }
 
-    public function actionSynchronizationExport() {
+    public function actionSyncExport() {
         set_time_limit(0);
         ini_set('memory_limit', '-1');
 
         // Fazer Download no Final
         //Arquivo Json para adcionar no ZIP
-        $json = array();
+        $json = [];
+        $json['student'] = [];
+        $json['classroom'] = [];
 
-        //Pesquisar todos as novas matrículas
         $school = yii::app()->user->school;
-        $allStudentEnrollment = Yii::app()->db->createCommand("SELECT * FROM student_enrollment 
-        WHERE student_inep_id IS NULL OR classroom_inep_id IS NULL and school_inep_id_fk=$school;")->queryAll();
-        $json['studentEnrollment'] = array();
-        $json['studentIdentification'] = array();
-        $json['studentDocumentAddress'] = array();
-        $json['classRoom'] = array();
-        $json['classBoard'] = array();
-        $json['class'] = array();
-        $json['classFaults'] = array();
+        $year = yii::app()->user->year;
+        $filterStudent = "school_inep_id_fk = " . $school;
+        $filterClassroom = "school_inep_fk = " . $school . " and school_year = " . $year;
 
-        foreach ($allStudentEnrollment AS $studentEnrollment) :
-            // RETIRAR O ID DE TODOS ANTES DE ADD
-            array_push($json['studentEnrollment'], $studentEnrollment);
-            //Pesquisa o estudante de cada matrícula e a turma
-            $studentIdentification = StudentIdentification::model()->findByPk($studentEnrollment['student_fk']);
+        $enrollments = StudentEnrollment::model()->findAll($filterStudent);
 
-            array_push($json['studentIdentification'], $studentIdentification['attributes']);
+        foreach ($enrollments as $enrollment) {
+            $student = $enrollment->studentFk;
+            $classroom = $enrollment->classroomFk;
+            if ($classroom->school_year == $year) {
+                $student->school_inep_id_fk = $enrollment->school_inep_id_fk;
+                $student->save();
+            }
+        }
 
-            $studentDocumentAddress = StudentDocumentsAndAddress::model()->findByAttributes(
-                    array('student_fk' => $studentEnrollment['student_fk']));
-            array_push($json['studentDocumentAddress'], $studentDocumentAddress['attributes']);
+        $students = StudentIdentification::model()->findAll($filterStudent);
+        $classrooms = Classroom::model()->findAll($filterClassroom);
 
-            // Pequisa por fim a turma e aulas Novas
-            $classRoom = Classroom::model()->findByPk($studentEnrollment['classroom_fk']);
-            array_push($json['classRoom'], $classRoom['attributes']);
+        $updateFKID = "UPDATE `class` as c
+            SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
+            WHERE true;
+            UPDATE `class_board` as c
+            SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
+            WHERE true;
+            UPDATE `class_faults` as c
+            SET `fkid` = CONCAT(
+                    (select cr.school_inep_fk 
+                            from class as cs
+                    join classroom as cr on (cs.classroom_fk = cr.id)
+                            where cs.id = c.class_fk),';',c.id)
+            WHERE true;
+            UPDATE `class_has_content` as c
+            SET `fkid` = CONCAT(
+                    (select cr.school_inep_fk 
+                            from class as cs
+                    join classroom as cr on (cs.classroom_fk = cr.id)
+                            where cs.id = c.class_fk),';',c.id)
+            WHERE true;
+            UPDATE `classroom` as c
+            SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
+            WHERE true;
+            UPDATE `classroom_has_course_plan` as c
+            SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
+            WHERE true;
+            UPDATE `course_class` as c
+            SET `fkid` = CONCAT((select school_inep_fk from course_plan as cp where cp.id = c.course_plan_fk),';',c.id)
+            WHERE true;
+            UPDATE `course_class_has_class_resource` as c
+            SET `fkid` = CONCAT(
+                    (select cp.school_inep_fk 
+                            from course_class as cs
+                    join course_plan as cp on (cs.course_plan_fk = cp.id)
+                            where cs.id = c.course_class_fk),';',c.id)
+            WHERE true;
+            UPDATE `course_plan` as c
+            SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
+            WHERE true;
+            UPDATE `grade` as g
+            SET `fkid` = CONCAT(
+                    (select e.school_inep_id_fk 
+                            from student_enrollment as e
+                            where e.id = g.enrollment_fk),';',g.id)
+            WHERE true;
+            UPDATE `instructor_documents_and_address` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `instructor_identification` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `instructor_teaching_data` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `instructor_variable_data` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `student_documents_and_address` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `student_enrollment` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;
+            UPDATE `student_identification` as c
+            SET `fkid` = CONCAT(c.school_inep_id_fk,';',c.id)
+            WHERE true;";
+        yii::app()->db->schema->commandBuilder->createSqlCommand($updateFKID)->query();
 
-            $classBoard = ClassBoard::model()->findByAttributes(
-                    array('classroom_fk' => $studentEnrollment['classroom_fk']));
-            array_push($json['classBoard'], $classBoard['attributes']);
+        $studentArray = [];
+        foreach ($students as $student) {
+            $sfkid = $student->fkid;
+            $studentArray[$sfkid] = [];
+            $studentArray[$sfkid]['attributes'] = [];
+            $studentArray[$sfkid]['documents'] = [];
+            $studentArray[$sfkid]['documents']['attributes'] = [];
+            $documents = $student->documentsFk;
+            $studentArray[$sfkid]['documents']['attributes'] = $documents->attributes;
+            $studentArray[$sfkid]['attributes'] = $student->attributes;
+        }
+        $json['student'] = $studentArray;
 
-            //Frequency is the model for table 'class'
-            $allClass = Frequency::model()->findAllByAttributes(
-                    array('classroom_fk' => $studentEnrollment['classroom_fk']));
-            //Neste caso são muitas Aulas para um turma
-            foreach ($allClass AS $class) :
-                array_push($json['class'], $class['attributes']);
-                $allClassFaults = ClassFaults::model()->findAllByAttributes(
-                        array('class_fk' => $class['attributes']['id']));
-                //São muitas faltas registradas(de diferentes estudantes) numa mesma aula
-                foreach ($allClassFaults AS $classFaults) :
-                    array_push($json['classFaults'], $classFaults['attributes']);
-                endforeach;
 
-            endforeach;
+        $classroomArray = [];
+        foreach ($classrooms as $classroom) {
+            $cfkid = $classroom->fkid;
+            $classroomArray[$cfkid] = $classroomArray[$cfkid]['attributes'] = [];
+            $classroomArray[$cfkid]['attributes'] = $classroom->attributes;
 
-        endforeach;
+            $classroomArray[$cfkid]['classes'] = [];
+            $classes = $classroom->classes;
+            $classesArray = [];
+            foreach ($classes as $class) {
+                $csfkid = $class->fkid;
+                $classesArray[$csfkid] = [];
+                $classesArray[$csfkid]['attributes'] = [];
+                $classesArray[$csfkid]['attributes'] = $class->attributes;
+
+                $classesArray[$csfkid]['faults'] = [];
+                $faults = $class->classFaults;
+                $faultArray = [];
+                foreach ($faults as $fault) {
+                    $ffkid = $fault->fkid;
+                    $faultArray[$ffkid] = [];
+                    $faultArray[$ffkid]['attributes'] = [];
+                    $faultArray[$ffkid]['attributes'] = $fault->attributes;
+                }
+                $classesArray[$csfkid]['faults'] = $faultArray;
+            }
+            $classroomArray[$cfkid]['classes'] = $classesArray;
+
+
+            $classroomArray[$cfkid]['classboards'] = [];
+            $classBoards = $classroom->classBoards;
+            $classBoardArray = [];
+            foreach ($classBoards as $classboard) {
+                $cbfkid = $classboard->fkid;
+                $classBoardArray[$cbfkid] = [];
+                $classBoardArray[$cbfkid]['attributes'] = [];
+                $classBoardArray[$cbfkid]['attributes'] = $classboard->attributes;
+            }
+            $classroomArray[$cfkid]['classboards'] = $classBoardArray;
+
+
+            $classroomArray[$cfkid]['enrollments'] = [];
+            $enrollments = $classroom->studentEnrollments;
+            $enrollmentsArray = [];
+            foreach ($enrollments as $enrollment) {
+                $efkid = $enrollment->fkid;
+                $enrollmentsArray[$efkid] = [];
+                $enrollmentsArray[$efkid]['attributes'] = [];
+                $enrollmentsArray[$efkid]['attributes'] = $enrollment->attributes;
+            }
+            $classroomArray[$cfkid]['enrollments'] = $enrollmentsArray;
+        }
+        $json['classroom'] = $classroomArray;
 
         $json_encode = json_encode($json);
-        //Arquivo ZIP
         $date = date('d_m_Y H_i_s');
-        $zipname = 'ArquivoSincronizacaoTAG_' . $date . '.zip';
+        $zipName = 'ArquivoSincronizacaoTAG_' . $school . '_' . $date . '.zip';
         $tempArchiveZip = new ZipArchive;
-        $tempArchiveZip->open($zipname, ZipArchive::CREATE);
-        $tempArchiveZip->addFromString("syncTAG_$date.json", $json_encode);
-        //Salva as alterações no zip
+        $tempArchiveZip->open($zipName, ZipArchive::CREATE);
+        $tempArchiveZip->addFromString($school . "_" . $date . ".json", $json_encode);
         $tempArchiveZip->close();
 
 
-        if (file_exists($zipname)) {
+        if (file_exists($zipName)) {
             header('Content-type: application/zip');
-            header('Content-Disposition: attachment; filename="' . $zipname . '"');
-            readfile($zipname);
-            //Remover o arquivo zip do temp do servidor
-            unlink($zipname);
+            header('Content-Disposition: attachment; filename="' . $zipName . '"');
+            readfile($zipName);
+            unlink($zipName);
         }
     }
 
-    public function actionSynchronizationImport() {
-        $name_tmp = $_FILES['file']['tmp_name'];
-        $name = $_FILES['file']['name'];
-        $fileImport = fopen($name_tmp, 'r');
+    /**
+     * 
+     * @param CActiveRecord $model
+     * @param array $attributes
+     * @return CDbCommand
+     */
+    private function createMultipleInsertOnDuplicateKeyUpdate($model, $attributes) {
+        if (count($attributes) > 0) {
+            $builder = Yii::app()->db->schema->commandBuilder;
+            $command = $builder->createMultipleInsertCommand($model->tableName(), $attributes);
+            $sql = $command->getText();
 
-        $msgException = "";
-        //Ler o arquivo, enquanto não chegar no final
+            $values = [];
+            $valuesUpdate = " ON DUPLICATE KEY UPDATE ";
+            $i = 0;
+            foreach ($model->attributes as $name => $value) {
+                if ($i != 0) {
+                    $valuesUpdate .= ",";
+                }
+                $valuesUpdate .= " `" . $name . "`=VALUES(`" . $name . "`)";
+                $i = 1;
+            }
+            $sql .= $valuesUpdate . ";";
+            $i = 0;
+
+            foreach ($attributes as $value) {
+                foreach ($value as $name => $val) {
+                    $values[$name . "_" . $i] = $val;
+                }
+                $i++;
+            }
+            return Yii::app()->db->createCommand($sql)->bindValues($values);
+        } else {
+            return Yii::app()->db->createCommand("select 1+1;");
+        }
+    }
+
+    /**
+     * php.ini
+     * @warning max_post_size = 200M
+     * @warning upload_max_filesize = 200M
+     * 
+     * nginx
+     * @warning client_max_body_size 200M;
+     * @warning fastcgi_read_timeout 300; 
+     */
+    public function actionSyncImport() {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
+        ignore_user_abort();
+        $time1 = time();
+
+        $path = Yii::app()->basePath;
+        $myfile = $_FILES['file'];
+        $uploadfile = $path . '/import/' . basename($myfile['name']);
+        move_uploaded_file($myfile["tmp_name"], $uploadfile);
+        $fileDir = $uploadfile;
+
+        $mode = 'r';
+
+        $fileImport = fopen($fileDir, $mode);
+        if ($fileImport == false) {
+            die('O arquivo não existe.');
+        }
+
         $jsonSyncTag = "";
         while (!feof($fileImport)) {
-            //Ler linha do arquivo
-            $linha = fgets($fileImport, filesize($name_tmp));
+            $linha = fgets($fileImport, filesize($uploadfile));
             $jsonSyncTag .= $linha;
         }
-        //Fecha o ponteiro do arquivo
         fclose($fileImport);
 
-        $syncTag = json_decode($jsonSyncTag, true);
+        $json = json_decode($jsonSyncTag, true);
+        $students = isset($json['student']) ? $json['student'] : [];
+        //student[fkid][attributes]
+        //student[fkid][documents][attributes]
+        $classrooms = isset($json['classroom']) ? $json['classroom'] : [];
+        //classroom[fkid][attributes]
+        //classroom[fkid][classes][fkid][attributes]
+        //classroom[fkid][classes][fkid][faults][fkid][attributes]
+        //classroom[fkid][classboards][fkid][attributes]
+        //classroom[fkid][enrollments][fkid][attributes]
+        $exit = "";
 
-        //Array da relação dos ids de studentIdentification Antigos(OffLine) e os Novos(OnLine).
-        $idsStudentIdentification = array();
-        $offIdsStudentIdentificationUpdated = array();
-        foreach ($syncTag['studentIdentification'] AS $studentIdentification):
-            if (isset($studentIdentification)) {
 
-                $offlineId = $studentIdentification['id'];
-                $onlineId = null;
-                //Verificar se o aluno matriculado já existe no DB online
-                try {
-                    if (isset($studentIdentification['inep_id'])) {
-                        //Atualizar o Estudante já Existente
-                        $studentDocumentsAndAddressOnline = StudentIdentification::model()->findByAttributes(array('inep_id' => $studentIdentification['inep_id']));
-                        $studentDocumentsAndAddressOnline->attributes = $studentIdentification;
-                        $studentDocumentsAndAddressOnline->save();
-                        $onlineId = $studentDocumentsAndAddressOnline->id;
-                        array_push($offIdsStudentIdentificationUpdated, $offlineId);
-                    } else {
-                        //Cria um novo Aluno
-                        $modelStudentIdentification = new StudentIdentification();
-                        $modelStudentIdentification->attributes = $studentIdentification;
-                        $modelStudentIdentification->id = null;
-                        if ($modelStudentIdentification->save()) {
-                            $onlineId = $modelStudentIdentification->id;
-                        }
-                    }
-                } catch (Exception $e) {
-                    $msgException.= "Exception STUDENT IDENTIFICATION: " . $e->getMessage() . "\n";
-                }
-                $idsStudentIdentification[$offlineId] = $onlineId;
+        $studentValues = [];
+        $studentModel = StudentIdentification::model();
+        foreach ($students as $student) {
+            $myStudent = $studentModel->findByAttributes(['fkid' => $student['attributes']['fkid']]);
+            if ($myStudent === null) {
+                $student['attributes']['id'] = null;
+            } else {
+                $student['attributes']['id'] = $myStudent->id;
             }
-        endforeach;
+            array_push($studentValues, $student['attributes']);
+//            echo $student['attributes']['id']. '-' .$student['attributes']['fkid'].'<br>';
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($studentModel, $studentValues)->query();
 
-        foreach ($syncTag['studentDocumentAddress'] AS $studentDocumentAddress):
-            //id do documents Address = id student identification
-            try {
-                if (in_array($studentDocumentAddress['id'], $offIdsStudentIdentificationUpdated)) {
-                    //Atualiza o Online
-                    $studentDocumentsAndAddressOnline = StudentDocumentsAndAddress::model()->findByPk($idsStudentIdentification[$studentDocumentAddress['id']]);
-                    $studentDocumentsAndAddressOnline->attributes = $studentDocumentAddress;
-                    $studentDocumentsAndAddressOnline->save();
+        $documentValues = [];
+        $documentModel = StudentDocumentsAndAddress::model();
+        foreach ($students as $student) {
+            $document = $student['documents'];
+            $myDocument = $documentModel->findByAttributes(['fkid' => $document['attributes']['fkid']]);
+            if ($myDocument === null) {
+                $student['documents']['attributes']['id'] = null;
+            } else {
+                $document['attributes']['id'] = $myDocument->id;
+            }
+            array_push($documentValues, $document['attributes']);
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($documentModel, $documentValues)->query();
+
+
+        //classroom[fkid][attributes]
+        $classroomValues = [];
+        $classroomModel = Classroom::model();
+        foreach ($classrooms as $classroom) {
+            $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
+            if ($myClassroom === null) {
+                $classroom['attributes']['id'] = null;
+            } else {
+                $classroom['attributes']['id'] = $myClassroom->id;
+            }
+            array_push($classroomValues, $classroom['attributes']);
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($classroomModel, $classroomValues)->query();
+
+
+        //classroom[fkid][classes][fkid][attributes]
+        $classesValues = [];
+        $classesModel = Classes::model();
+        foreach ($classrooms as $classroom) {
+            foreach ($classroom['classes'] as $class) {
+                $myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
+                if ($myClass === null) {
+                    $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
+                    $class['attributes']['id'] = null;
+                    $class['attributes']['classroom_fk'] = $myClassroom->id;
                 } else {
-                    //Cria um Novo
-                    if (isset($studentDocumentAddress)) {
-                        $modelStudentDocumentAddress = new StudentDocumentsAndAddress();
-                        $modelStudentDocumentAddress->attributes = $studentDocumentAddress;
-                        //Possui o mesmo oldID = ao studentIdentification
-                        $modelStudentDocumentAddress->id = $idsStudentIdentification[$studentDocumentAddress['id']];
-                        $modelStudentDocumentAddress->save();
-                    }
+                    $class['attributes']['id'] = $myClass->id;
+                    $class['attributes']['classroom_fk'] = $myClass->classroom_fk;
                 }
-            } catch (Exception $e) {
-                $msgException.= "Exception STUDENT DOCUMENTADDRESS: " . $e->getMessage() . "\n";
+                array_push($classesValues, $class['attributes']);
             }
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($classesModel, $classesValues)->query();
 
-        endforeach;
 
-        //Array da relação dos ids de classRoomc Antigos(OffLine) e os Novos(OnLine).
-        $offIdsClassroomUpdated = array();
-        $idsClassRoom = array();
-        foreach ($syncTag['classRoom'] AS $classRoom):
-            if (isset($classRoom)) {
-
-                $offlineId = $classRoom['id'];
-                $onlineId = null;
-                //Verificar se o classRoom á existe no DB online
-                try {
-                    if (isset($classRoom['inep_id'])) {
-                        //Atualiza no BD online
-                        $classRoomOnline = Classroom::model()->findByAttributes(array('inep_id' => $classRoom['inep_id']));
-                        $classRoomOnline->attributes = $classRoom;
-                        $classRoomOnline->save();
-                        $onlineId = $classRoomOnline->id;
-                        array_push($offIdsClassroomUpdated, $offlineId);
-                    } else {
-                        //Cria uma nova
-                        $modelClassRoom = new Classroom();
-                        $modelClassRoom->attributes = $classRoom;
-                        $onlineId = null;
-                        $modelClassRoom->id = null;
-                        if ($modelClassRoom->save()) {
-                            $onlineId = $modelClassRoom->id;
+        //classroom[fkid][enrollments][fkid][attributes]
+        $enrollmentsValues = [];
+        $enrollmentsModel = StudentEnrollment::model();
+        foreach ($classrooms as $classroom) {
+            foreach ($classroom['enrollments'] as $enrollment) {
+                $myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollment['attributes']['fkid']]);
+                if ($myEnrollment === null) {
+                    $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
+                    $studentFkid = null;
+                    foreach ($students as $student) {
+                        $id = explode(';', $student['attributes']['fkid'])[1];
+                        if ($enrollment['attributes']['student_fk'] == $id) {
+                            $studentFkid = $student['attributes']['fkid'];
+                            break;
                         }
                     }
-                } catch (Exception $e) {
-                    $msgException.= "Exception CLASSROOM: " . $e->getMessage() . "\n";
+                    $myStudent = $studentModel->findByAttributes(['fkid' => $studentFkid]);
+                    $enrollment['attributes']['id'] = null;
+                    $enrollment['attributes']['classroom_fk'] = $myClassroom->id;
+                    $enrollment['attributes']['student_fk'] = $myStudent->id;
+                } else {
+                    $enrollment['attributes']['id'] = $myEnrollment->id;
+                    $enrollment['attributes']['classroom_fk'] = $myEnrollment->classroom_fk;
+                    $enrollment['attributes']['student_fk'] = $myEnrollment->student_fk;
                 }
-                $idsClassRoom[$offlineId] = $onlineId;
+                array_push($enrollmentsValues, $enrollment['attributes']);
             }
-        endforeach;
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($enrollmentsModel, $enrollmentsValues)->query();
 
-        foreach ($syncTag['studentEnrollment'] AS $studentEnrollment):
-            if (isset($studentEnrollment)) {
-                $modelStudentEnrollment = new StudentEnrollment();
-                $modelStudentEnrollment->attributes = $studentEnrollment;
-                $modelStudentEnrollment->id = null;
-                $modelStudentEnrollment->student_fk = $idsStudentIdentification[$modelStudentEnrollment->student_fk];
-                $modelStudentEnrollment->classroom_fk = $idsClassRoom[$modelStudentEnrollment->classroom_fk];
-                try {
-                    $modelStudentEnrollment->save();
-                } catch (Exception $e) {
-                    $msgException.= "Exception STUDENT ENROLLMENT: " . $e->getMessage() . "\n";
-                }
-            }
-        endforeach;
 
-        foreach ($syncTag['classBoard'] AS $classBoard):
-            if (isset($classBoard)) {
-                $classBoard['id'] = null;
-                $classBoardOnline = ClassBoard::model()->findByAttributes(array('discipline_fk' => $classBoard['discipline_fk'],
-                    'classroom_fk' => $idsClassRoom[$classBoard['classroom_fk']], 'instructor_fk' => $classBoard['instructor_fk']));
-                try {
-                    if (isset($classBoardOnline)) {
-                        //Existindo, então fara o update
-                        $classBoardOnline->attributes = $classBoard;
-                        $classBoardOnline->classroom_fk = $idsClassRoom[$classBoard['classroom_fk']];
-                        $classBoardOnline->save();
-                    } else {
-                        //Cria um novo
-                        $modelClassBoard = new ClassBoard();
-                        $modelClassBoard->attributes = $classBoard;
-                        $modelClassBoard->id = null;
-                        $modelClassBoard->classroom_fk = $idsClassRoom[$modelClassBoard->classroom_fk];
-                        $modelClassBoard->save();
-                    }
-                } catch (Exception $e) {
-                    $msgException.= "Exception CLASSBOARD: " . $e->getMessage() . "\n";
-                }
-            }
-        endforeach;
-
-        //Array da relação dos ids de Class Antigos(OffLine) e os Novos(OnLine).
-        $idsClass = array();
-        foreach ($syncTag['class'] AS $class):
-
-            if (isset($class)) {
-                $offlineId = $class['id'];
-                $class['id'] = null;
-                $onlineId = null;
-
-                $classOnline = Frequency::model()->findByAttributes(array('discipline_fk' => $class['discipline_fk'],
-                    'classroom_fk' => $idsClassRoom[$class['classroom_fk']], 'month' => $class['month'], 'day' => $class['day']));
-                try {
-                    if (isset($classOnline)) {
-                        //Atualiza
-                        $classOnline->attributes = $class;
-                        $classOnline->classroom_fk = $idsClassRoom[$class['classroom_fk']];
-                        if ($classOnline->save()) {
-                            $onlineId = $classOnline->id;
+        //classroom[fkid][classes][fkid][faults][fkid][attributes]
+        $faultsValues = [];
+        $faultsModel = ClassFaults::model();
+        foreach ($classrooms as $classroom) {
+            foreach ($classroom['classes'] as $class) {
+                foreach ($class['faults'] as $fault) {
+                    $myFault = $faultsModel->findByAttributes(['fkid' => $fault['attributes']['fkid']]);
+                    if ($myFault === null) {
+                        $myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
+                        $enrollmentFkid = null;
+                        foreach ($classroom['enrollments'] as $enrollment) {
+                            $id = $enrollment['attributes']['student_fk'];
+                            if ($fault['attributes']['student_fk'] == $id) {
+                                $enrollmentFkid = $enrollment['attributes']['fkid'];
+                                break;
+                            }
                         }
+                        $myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollmentFkid]);
+                        $fault['attributes']['id'] = null;
+                        $fault['attributes']['class_fk'] = $myClass->id;
+                        $fault['attributes']['student_fk'] = $myEnrollment->student_fk;
                     } else {
-                        //Cria um Novo
-                        $modelClass = new Frequency();
-                        $modelClass->attributes = $class;
-                        $modelClass->id = null;
-                        $modelClass->classroom_fk = $idsClassRoom[$modelClass->classroom_fk];
-                        if ($modelClass->save()) {
-                            $onlineId = $modelClass->id;
-                        }
+                        $fault['attributes']['id'] = $myFault->id;
+                        $fault['attributes']['class_fk'] = $myFault->class_fk;
+                        $fault['attributes']['student_fk'] = $myFault->student_fk;
                     }
-                } catch (Exception $e) {
-                    $msgException.= "Exception CLASS: " . $e->getMessage() . "\n";
-                }
-
-                $idsClass[$offlineId] = $onlineId;
-            }
-        endforeach;
-
-        foreach ($syncTag['classFaults'] AS $classFaults):
-            if (isset($classFaults)) {
-                $classFaults['id'] = null;
-                $classFaultsOnline = ClassFaults::model()->findByAttributes(array('class_fk' => $classFaults['class_fk'],
-                    'student_fk' => $classFaults['student_fk']));
-                try {
-                    if (isset($classFaultsOnline)) {
-                        //Atualiza
-                        $classFaultsOnline->attributes = $classFaults;
-                        $classFaultsOnline->class_fk = $idsClass[$classFaults['class_fk']];
-                        $classFaultsOnline->student_fk = $idsStudentIdentification[$classFaults['student_fk']];
-                        $classFaultsOnline->save();
-                    } else {
-                        //Cria um Novo
-                        $modelClassFaults = new ClassFaults();
-                        $modelClassFaults->attributes = $classFaults;
-                        $modelClassFaults->id = null;
-                        $modelClassFaults->class_fk = $idsClass[$modelClassFaults->class_fk];
-                        $modelClassFaults->student_fk = $idsStudentIdentification[$modelClassFaults->student_fk];
-                        $modelClassFaults->save();
-                    }
-                } catch (Exception $e) {
-                    $msgException.= "Exception CLASSFAULT: " . $e->getMessage() . "\n";
+                    array_push($faultsValues, $fault['attributes']);
                 }
             }
-        endforeach;
+        }
+        $this->createMultipleInsertOnDuplicateKeyUpdate($faultsModel, $faultsValues)->query();
 
-        echo $msgException;
+
+        //classroom[fkid][classboards][fkid][attributes]
+        /**
+         * Precisa enviar junto o Instrutor
+          $classboardsValues = [];
+          $classboardsModel = ClassBoard::model();
+          foreach ($classrooms as $classroom) {
+          foreach ($classroom['classboards'] as $classboard) {
+          $myClassboard = $classboardsModel->findByAttributes(['fkid' => $classboard['attributes']['fkid']]);
+          if ($myClassboard === null) {
+          $myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
+          $classboard['attributes']['id'] = null;
+          $classboard['attributes']['classroom_fk'] = $myClassroom->id;
+          } else {
+          $classboard['attributes']['id'] = $myClassboard->id;
+          $classboard['attributes']['classroom_fk'] = $myClassboard->classroom_fk;
+          }
+          array_push($classboardsValues, $classboard['attributes']);
+          }
+          }
+          $this->createMultipleInsertOnDuplicateKeyUpdate($classboardsModel, $classboardsValues)->query();
+         * */
+        $time2 = time();
+        echo $time2 - $time1;
+        echo "<hr>";
+        echo $exit;
     }
 
     /**
@@ -392,26 +521,26 @@ class AdminController extends Controller {
      * @return redirecrToIndex|boolean Return to the index page with a FlashMenssage or return $boolean
      */
     public static function actionBackup($return = TRUE) {
-        /*Yii::import('ext.dumpDB.dumpDB');
-        $dumper = new dumpDB();
-        $dump = $dumper->getDump(false);
+        /* Yii::import('ext.dumpDB.dumpDB');
+          $dumper = new dumpDB();
+          $dump = $dumper->getDump(false);
 
-        $fileDir = Yii::app()->basePath . '/backup/' . date('Y-m-d') . '.sql';
+          $fileDir = Yii::app()->basePath . '/backup/' . date('Y-m-d') . '.sql';
 
-        Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
-        $result = $fm->write($fileDir, $dump);
+          Yii::import('ext.FileManager.fileManager');
+          $fm = new fileManager();
+          $result = $fm->write($fileDir, $dump);
 
-        if ($return) {
-            if ($result) {
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Backup efetuado com Sucesso!'));
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Backup falhou!'));
-            }
-            Yii::app()->controller->redirect('?r=admin/index');
-        }
-        return $result;*/
-	return 0;
+          if ($return) {
+          if ($result) {
+          Yii::app()->user->setFlash('success', Yii::t('default', 'Backup efetuado com Sucesso!'));
+          } else {
+          Yii::app()->user->setFlash('error', Yii::t('default', 'Backup falhou!'));
+          }
+          Yii::app()->controller->redirect('?r=admin/index');
+          }
+          return $result; */
+        return 0;
     }
 
     /**
@@ -834,7 +963,7 @@ class AdminController extends Controller {
         Yii::app()->db->createCommand(utf8_encode($str_fields['70']))->query();
         fclose($file);
         set_time_limit(30);
-       
+
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
@@ -863,7 +992,7 @@ class AdminController extends Controller {
         $auth->createOperation('updateEnrollment', 'update a Enrollment');
         $auth->createOperation('deleteEnrollment', 'delete a Enrollment');
 
-        $auth->createOperation('updateFrequency', 'update a Frequency');
+        $auth->createOperation('updateClasses', 'update a Classes');
 
         $auth->createOperation('generateBFReport', 'generate BFReport');
 
@@ -886,7 +1015,7 @@ class AdminController extends Controller {
         $role->addChild('updateEnrollment');
         $role->addChild('deleteEnrollment');
 
-        $role->addChild('updateFrequency');
+        $role->addChild('updateClasses');
 
         $role->addChild('generateBFReport');
 
@@ -934,7 +1063,7 @@ class AdminController extends Controller {
                     } else if ($regType != 00 && $regType != 10 && $regType != 51 && $regType != 80 && $column == 3) {
                         $value = "null";
                     } else if ($regType == 20 && $column == 4) {
-                        $value = str_replace("º","",$value);
+                        $value = str_replace("º", "", $value);
                     } else {
                         if ($regType == '51' && $column == 3) {
                             $withoutcomma = true;
@@ -962,19 +1091,13 @@ class AdminController extends Controller {
 
 
                     $value = ($value == 'null' || $withoutcomma) ? $value : "'$value'";
-                    if ($regType == 20 && $column == 4) {
-                        //echo $value;exit;
-                    }
                     if ($column + 1 > $totalColumns) {
                         if ($regType == 20) {
-                            $year = 2014;
-                            $value.= ',' . $year;
+                            $value.= ',' . date("Y");
                         }
-                        if ($line == ($totalLines)) {
-                            $insertValue[$regType].= $value . ");";
-                        } else {
-                            $insertValue[$regType].= $value . "),\n";
-                        }
+                        $insertValue[$regType] .= $value;
+                        $insertValue[$regType] .= ($line == $totalLines) ? ");" : "),\n";
+
                     } else {
                         $insertValue[$regType].= $value . ", ";
                     }

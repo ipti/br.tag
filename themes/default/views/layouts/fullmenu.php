@@ -1,12 +1,19 @@
 <?php
-$cs = Yii::app()->clientScript;
-$cs->scriptMap = array(
-    'jquery.js' => false,
-    'jquery.ba-bbq.js' => false
-);
 $baseUrl = Yii::app()->theme->baseUrl;
-$cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
-$cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
+
+function isActive($pages){
+    $currentPage = Yii::app()->controller->id;
+    $active = false;
+    if (is_array($pages)) {
+        foreach($pages as $page){
+            $active = $active || ($currentPage == $page);
+        }
+    }else{
+        $active = $currentPage == $pages;
+    }
+    return $active ? 'active' : '';
+}
+
 ?>
 <!DOCTYPE html>
 <!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -15,6 +22,8 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
 <!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
 <!--[if !IE]><!--><html><!-- <![endif]-->
     <head>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
         <meta charset="UTF-8" />
@@ -23,135 +32,20 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
-        <!-- JQueryUI -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
-
-        <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css" />
-        <!--<link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />-->
-
-        <!-- Main Theme Stylesheet :: CSS -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
-
-        <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
-
-        <!-- Select2 Plugin -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet" />
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
-
-        <!-- Bootstrap -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
-
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
-
-        <!-- Select2 Plugin -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
-
-        <!-- QRCode Plugin -->
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
-        <!-- Print -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet" type="text/css" />
-
-        <!-- Admin -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/admin.css" rel="stylesheet" type="text/css" />
-
-        <!-- Calendar -->
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.css' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
-        <script type='text/javascript' src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
-
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
+        <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
 
-        <script>
-//            var dirty = false;  
-            $(document).ready(function () {
-                $(".select-search-off").select2({width: 'resolve', minimumResultsForSearch: -1});
-                $(".select-search-on").select2({width: 'resolve'});
-                $(".select-schools, .select-ComplementaryAT, .select-schools").select2({width: 'resolve', maximumSelectionSize: 6});
-                $(".select-disciplines").select2({width: 'resolve', maximumSelectionSize: 13});
-                $(".select-school").select2({dropdownCssClass: 'school-dropdown'});
-                $('button[type=submit]').on('click',function(){
-                   // $(this).remove();
-                 })
-            });
-//     
-//                $('a').click(function(event){
-//                    if(dirty){
-//                        var con = confirm('Existem alterações para serem salvas... \nDeseja sair assim mesmo?');
-//                        if(!con){
-//                            event.preventDefault();
-//                        }
-//                    }
-//                });
-//                $('input, select').change(function(e){
-//                    dirty = true; 
-//                });
-            /**
-             * Select2 Brazilian Portuguese translation
-             */
-
-            (function ($) {
-                "use strict";
-
-                $.extend($.fn.select2.defaults, {
-                    formatNoMatches: function () {
-                        return "Nenhum resultado encontrado";
-                    },
-                    formatInputTooShort: function (input, min) {
-                        var n = min - input.length;
-                        return "Informe " + n + " caractere" + (n == 1 ? "" : "s");
-                    },
-                    formatInputTooLong: function (input, max) {
-                        var n = input.length - max;
-                        return "Apague " + n + " caractere" + (n == 1 ? "" : "s");
-                    },
-                    formatSelectionTooBig: function (limit) {
-                        return "Só é possível selecionar " + limit + " elemento" + (limit == 1 ? "" : "s");
-                    },
-                    formatLoadMore: function (pageNumber) {
-                        return "Carregando mais resultados…";
-                    },
-                    formatSearching: function () {
-                        return "Buscando…";
-                    }
-                });
-            })(jQuery);
-
-            $(function () {
-                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function () {
-                    $(".school").submit();
-                });
-            });
-
-            var bagaca = true;
-            $(document).on('click', '#button-menu', function () {
-                if (bagaca) {
-                    $('#content').css('margin', '0');
-                } else {
-                    $('#content').css('margin', '0 0 0 191px');
-                }
-                bagaca = !bagaca;
-
-            });
-
-            //Ao clicar ENTER não fará nada.
-            $('*').keypress(function (e) {
-                if (e.keyCode == $.ui.keyCode.ENTER) {
-                    e.preventDefault();
-                }
-            });
-
-        </script>
     </head>
     <body>
-
         <!-- Main Container Fluid -->
         <div class="container-fluid fluid menu-left">
 
@@ -159,7 +53,6 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <?php //@done s1 - Url do logotipo redirecionar para página inicial  ?>
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>Ano Atual: <?php echo Yii::app()->user->year; ?></span></span></a>
 
                 <!-- Menu Toggle Button -->
@@ -184,13 +77,6 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                             </form>
                         </div>
                     </li>
-<!--                    <li>
-                        <span style="color:white;opacity:1;font-size:14px;"> </span>
-                    </li>-->
-                    <!-- Profile / Logout menu --
-                    <li class="account">
-                        <a href="<?php echo yii::app()->createUrl('site/logout') ?>" class="glyphicons logout share"><span class="hidden-phone text">Sair</span><i></i></a>
-                    </li> -->
                 </ul>
             </div>
             <!-- Top navbar END -->
@@ -201,7 +87,7 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <li id="menu-school">
+                            <!--<li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
                                 if (count(Yii::app()->user->usersSchools) == 1) {
@@ -209,41 +95,45 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                                 }
                                 ?>
                                 <a class="glyphicons building" href="<?php echo $schoolurl ?>"><i></i><span>Escola</span></a>
-                            </li>
-                            <li id="menu-classroom">
+                            </li>-->
+                            <li id="menu-classroom" class="<?= isActive( "classroom" )?>">
                                 <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Turmas</span></a>
                             </li>
-                            <!--<li id="menu-student" class="hasSubmenu">
-                                <a data-toggle="collapse" class="glyphicons parents" href="#menu_alunos"><i></i><span>Alunos</span></a>
-                                <ul class="collapse" id="menu_alunos">
-                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student/create"><span>Aluno Novo</span></a></li>
-                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Lista de Alunos</span></a></li>
-                                    <li class=""><a href="<?php echo Yii::app()->homeUrl; ?>?r=student"><span>Alunos PNE</span></a></li>
-                                </ul>
-                                <?php //<span class="count">2</span>  ?>
-                            </li>-->
-                            <li id="menu-student">
+                            <li id="menu-student" class="<?= isActive("student") ?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
-                            <li id="menu-instructor">
+                            <!--<li id="menu-student" class="hasSubmenu <?=isActive("classroom") ?>">
+                                <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>
+                                <ul class="collapse" id="menu-classroom2">                                
+                                    <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Procurar Turmas</span></a>
+                                    <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
+                                    <a class="glyphicons notes_2" href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
+                                    <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
+                                    <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
+                                </ul>
+                            </li>
+
+                            <li id="menu-instructor" class="<?= isActive("instructor")?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
-                            <li id="menu-frequency">
-                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('frequency') ?>"><i></i><span>Frequência</span></a>
+                            <li id="menu-plans" class="<?= isActive("courseplan") ?>">
+                                <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
+                            </li>
+                            <li id="menu-contents" class="<?= isActive("classContents") ?>">
+                                <a class="glyphicons notes_2" href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
+                            </li>
+                            <li id="menu-classes" class="<?= isActive("frequency")?>">
+                                <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
+                            </li>
+                            <li id="menu-grade" class="<?= isActive("grades") ?>">
+                                <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                             </li>
                             <li id="menu-grade">
                                 <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Censo Escolar</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
-                            </li>
-                             <li id="menu-grade">
-                                <a class="glyphicons blog" style="opacity:0.5" href="#"><i></i><span>Notas</span></a>
-                                <!-- <?php echo yii::app()->createUrl('grade') ?> -->
-                            </li>
-                            <!--<li id="menu-reports">
-                                <a class="glyphicons charts" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatório</span></a>
+                                <!-- <?php echo yii::app()->createUrl('grade') ?>
                             </li>-->
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-                                <li id="menu-admin">
+                                <li id="menu-admin" class="<?= isActive("admin") ?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
                             <?php } ?>
@@ -253,9 +143,9 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <div class="copy" style="width: 170px !IMPORTANT;">
+                    <!--<div class="copy" style="width: 170px !IMPORTANT;">
                         <div style="float: left" id="apoio">Apoio:</div>
-                    </div>
+                    </div>-->
                 </div>
 
                 <!-- // Sidebar Menu END -->
@@ -275,6 +165,17 @@ $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HE
             <div class="clearfix"></div>
             <!-- // Sidebar menu & content wrapper END -->
         </div>
-        <!-- // Main Container Fluid END -->
+
+        <!-- // Main Container Fluid END -->      
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
+        <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
     </body>
 </html>

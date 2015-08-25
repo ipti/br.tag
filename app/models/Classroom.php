@@ -71,9 +71,10 @@
  * @property integer $instructor_situation
  * @property integer $school_year
  * @property string $turn
+ * @property string $fkid
  *
  * The followings are the available model relations:
- * @property Class[] $classes
+ * @property Classes[] $classes
  * @property ClassBoard[] $classBoards
  * @property SchoolIdentification $schoolInepFk
  * @property EdcensoProfessionalEducationCourse $edcensoProfessionalEducationCourseFk
@@ -89,6 +90,15 @@ class Classroom extends CActiveRecord {
         return 'classroom';
     }
 
+    public function behaviors() {
+            return [
+                'afterSave'=>[
+                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                    'schoolInepId' => Yii::app()->user->school,
+                ],
+            ];
+        }
+    
     /**
      * @return array validation rules for model attributes.
      */
@@ -116,10 +126,10 @@ class Classroom extends CActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'classes' => array(self::HAS_MANY, 'Class', 'classroom_fk'),
+            'classes' => array(self::HAS_MANY, 'Classes', 'classroom_fk'),
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
-        	'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'edcensoProfessionalEducationCourseFk' => array(self::BELONGS_TO, 'EdcensoProfessionalEducationCourse', 'edcenso_professional_education_course_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'classroom_fk'),
@@ -198,7 +208,7 @@ class Classroom extends CActiveRecord {
             'instructor_situation' => Yii::t('default', 'Instructor Situation'),
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
-        	'create_date' => Yii::t('default', 'Create Time')
+            'create_date' => Yii::t('default', 'Create Time')
         );
     }
 
@@ -221,7 +231,7 @@ class Classroom extends CActiveRecord {
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->with = array('edcensoStageVsModalityFk');
-        
+
         $criteria->compare('school_inep_fk', Yii::app()->user->school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);

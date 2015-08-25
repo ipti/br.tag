@@ -1,6 +1,20 @@
 <?php
 
 return array(
+    //Meses
+    'January' => 'Janeiro',
+    'February' => 'Fevereiro',
+    'March' => 'Março',
+    'April' => 'Abril',
+    'May' => 'Maio',
+    'June' => 'Junho',
+    'July' => 'Julho',
+    'August' => 'Agosto',
+    'September' => 'Setembro',
+    'October' => 'Outubro',
+    'November' => 'Novembro',
+    'December' => 'Dezembro',
+    
     //Botões
     'Create' => 'Criar',
     'Save' => 'Salvar',
@@ -10,6 +24,7 @@ return array(
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
     'Add'=> 'Adicionar',
+    'Add (Simple)'=> 'Adicionar (Simplificado)',
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',
@@ -260,6 +275,7 @@ return array(
     'Instructor Situation' => 'Turma Sem Professor',
     'Turn' => 'Turno',
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
+    'Writing' => 'Redação',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -305,6 +321,7 @@ return array(
     'Responsable`s CPF' => 'CPF do Responsável',
     'Responsable`s Scholarity' => 'Escolaridade do Responsável',
     'Responsable`s Job' => 'Profissão do Responsável',
+    "Responsible's Telephone" => 'Telefone do Responsável',
     'BF Participator' => 'Participante do Bolsa Família',
     'Food Restrictions' => 'Restrição Alimentar / Alergia',
     
@@ -328,6 +345,7 @@ return array(
     'Cpf' => 'Nº do CPF',
     'Foreign Document Or Passport' => 'Documento Estrangeiro / Passaporte',
     'Nis' => 'Nº de Identificação Social (NIS)',
+    'CNS Number' => 'Nº do CNS',
     'Document Failure Lack' => 'Justificativa para a falta de documentação do aluno',
     'Residence Zone' => 'Localização / Zona de residência',
     'CEP' => 'CEP',
@@ -481,7 +499,31 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
+    
+    //Classes
     'Frequency' => 'Frequência',
+    'Class Contents' => 'Aulas ministradas',
+    'Add Content' => 'Adicionar Conteúdo',
+    'New Content' => 'Novo conteúdo',
+    'Add Type' => 'Adicionar Tipo de Aula',
+    'Add Resource' => 'Adicionar Recurso',
+    'Description' => 'Descrição',
+    'Classes' => 'Aulas',
+    
+    //Grades
+    'Grades' => 'Notas',
+    'Grades saved successfully!' => 'Notas salvas com sucesso!',
+    'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
+    
+    //Course Plan
+    'Course Plan' => 'Plano de aula',
+    'Create Plan' => 'Criar plano',
+    'Class'  => 'Aula',
+    'Objective' => 'Objetivo',
+    'New' => 'Novo',
+    'Content' => 'Conteúdo',
+    'Type' => 'Tipo',
+    'Resource' => 'Recurso',
     
     //Labels
     'User' => 'Usuário',
@@ -518,7 +560,7 @@ return array(
     'Sociocultural Didactic Material' => 'Material Didático Sociocultural',
     'Native Education Language' => 'Educação de Língua Indígena',
     'Modalities' => 'Modalidades',
-    'Stage' => 'Estágio',
+    'Stage' => 'Etapa',
     'Schools' => 'Escolas',
     'Role' => 'Cargo',
     
@@ -585,6 +627,5 @@ return array(
     'Classroom Configurarion' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
     'Select Classrom'=>'Selecione uma Turma'
-    
         )
 ?>
