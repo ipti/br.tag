@@ -1,0 +1,1 @@
+This directory is needed to run the application
