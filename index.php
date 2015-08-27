@@ -13,5 +13,5 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 require_once($yii);
 Yii::createWebApplication($config)->run();
 
-//error_reporting(E_ALL);
-ini_set('display_errors','0');
+error_reporting(E_ALL);
+ini_set('display_errors','1');
