@@ -1,4 +1,5 @@
 <?php
+/* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js', CClientScript::POS_END);
@@ -73,9 +74,11 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <div class="control-group">
+                            <div class="control-group">                                
+                                <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
+                                    <?php echo $form->textfield($modelStudentIdentification, 'inep_id', array('readonly')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
