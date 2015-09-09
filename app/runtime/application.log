@@ -7861,3 +7861,638 @@ Stack trace:
 #5 {main}
 REQUEST_URI=/index.php?r=reports/StudentsFileBoquimReportInfantil.php
 ---
+2015/09/02 08:14:10 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/02 08:14:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement/default".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/default
+---
+2015/09/02 08:14:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement/default".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/default
+---
+2015/09/02 08:14:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/02 08:15:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsmanagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/02 08:16:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "ResultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('ResultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/ResultsManagement/
+---
+2015/09/02 08:16:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:21:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:21:48 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:22:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:22:09 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:22:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "results-Management".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('results-Managem...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/results-Management/
+---
+2015/09/02 08:22:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:23:00 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:23:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:23:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:24:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:24:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:24:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:24:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsManagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsManagement/
+---
+2015/09/02 08:26:27 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsmanagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/02 08:27:14 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsmanagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/02 08:27:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsmanagemewnt".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsmanagemewnt
+---
+2015/09/02 08:27:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "resultsmanagement".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/02 08:32:15 [error] [exception.CException] exception 'CException' with message 'A propriedade "DefaultController.breadcrumbs" não está definida.' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CComponent.php:173
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php(4): CComponent->__set('breadcrumbs', Array)
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CBaseController.php(126): require('C:\\Users\\IPTIPC...')
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\Users\\IPTIPC...', NULL, true)
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): CBaseController->renderFile('C:\\Users\\IPTIPC...', NULL, true)
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): CController->renderPartial('index', NULL, true)
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(7): CController->render('index')
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('')
+#11 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#12 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/02 08:41:12 [error] [php] Undefined variable: baseUrl (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\layouts\resultsmanagement.php:110)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(784): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(7): DefaultController->render()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\layouts\resultsmanagement.php (110)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (7)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/02 08:43:39 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "lib".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('lib')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/lib
+HTTP_REFERER=http://local.tag.ipti.org.br/resultsmanagement
+---
+2015/09/02 08:43:42 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Não foi possível resolver a requisição "lib".' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('lib')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#3 {main}
+REQUEST_URI=/lib
+HTTP_REFERER=http://local.tag.ipti.org.br/resultsmanagement
+---
+2015/09/03 08:14:10 [error] [php] Undefined variable: headerDescription (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\layouts\resultsmanagement.php:108)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(784): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(7): DefaultController->render()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\layouts\resultsmanagement.php (108)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (7)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:57:34 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:49 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:50 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:50 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:51 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:51 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:51 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:51 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 09:58:52 [error] [php] Object of class CClientScript could not be converted to string (C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php:8)
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(869): DefaultController->renderFile()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(782): DefaultController->renderPartial()
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php(6): DefaultController->render()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): DefaultController->actionIndex()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): DefaultController->runAction()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): DefaultController->runActionWithFilters()
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): DefaultController->run()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CWebApplication->run()
+REQUEST_URI=/resultsmanagement
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\views\default\index.php (8)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\modules\resultsmanagement\controllers\DefaultController.php (6)
+in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php (14)
+2015/09/03 10:14:24 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[HY000] [2002] Uma tentativa de conex�o falhou porque o componente conectado n�o respondeu
+corretamente ap�s um per�odo de tempo ou a conex�o estabelecida falhou
+porque o host conectado n�o respondeu.
+' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php:382
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(330): CDbConnection->open()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(308): CDbConnection->setActive(true)
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CModule.php(387): CDbConnection->init()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(450): CModule->getComponent('db')
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(634): CApplication->getDb()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(2361): CActiveRecord->getDbConnection()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(StudentIdentification))
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(79): CActiveRecord->getMetaData()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\controllers\StudentController.php(269): CActiveRecord->__construct('search')
+#9 [internal function]: StudentController->actionIndex(NULL)
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(StudentController), Array)
+#11 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(StudentController), Object(ReflectionMethod), Array)
+#12 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#13 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#14 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#15 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#16 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#17 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#18 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(291): CFilterChain->run()
+#19 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('')
+#21 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('student')
+#22 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#23 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#24 {main}
+REQUEST_URI=/student
+HTTP_REFERER=http://tag/resultsmanagement
+---
+2015/09/03 10:14:45 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[HY000] [2002] Uma tentativa de conex�o falhou porque o componente conectado n�o respondeu
+corretamente ap�s um per�odo de tempo ou a conex�o estabelecida falhou
+porque o host conectado n�o respondeu.
+' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php:382
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(330): CDbConnection->open()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(308): CDbConnection->setActive(true)
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CModule.php(387): CDbConnection->init()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(450): CModule->getComponent('db')
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(634): CApplication->getDb()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(2361): CActiveRecord->getDbConnection()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(StudentIdentification))
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(79): CActiveRecord->getMetaData()
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\controllers\StudentController.php(269): CActiveRecord->__construct('search')
+#9 [internal function]: StudentController->actionIndex(NULL)
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs(Object(StudentController), Array)
+#11 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(47): CAction->runWithParamsInternal(Object(StudentController), Object(ReflectionMethod), Array)
+#12 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#13 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#14 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#15 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#16 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#17 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#18 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(291): CFilterChain->run()
+#19 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('')
+#21 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('student')
+#22 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#23 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#24 {main}
+REQUEST_URI=/student
+---
+2015/09/03 10:15:12 [error] [exception.CDbException] exception 'CDbException' with message 'CDbConnection failed to open the DB connection: SQLSTATE[HY000] [2002] Uma tentativa de conex�o falhou porque o componente conectado n�o respondeu
+corretamente ap�s um per�odo de tempo ou a conex�o estabelecida falhou
+porque o host conectado n�o respondeu.
+' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php:382
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(330): CDbConnection->open()
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\CDbConnection.php(308): CDbConnection->setActive(true)
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CModule.php(387): CDbConnection->init()
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(450): CModule->getComponent('db')
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(634): CApplication->getDb()
+#5 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(1428): CActiveRecord->getDbConnection()
+#6 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\db\ar\CActiveRecord.php(1517): CActiveRecord->getTableAlias(true)
+#7 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\components\UserIdentity.php(37): CActiveRecord->findByAttributes(Array)
+#8 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\models\LoginForm.php(53): UserIdentity->authenticate()
+#9 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\validators\CInlineValidator.php(42): LoginForm->authenticate('password', Array)
+#10 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\validators\CValidator.php(213): CInlineValidator->validateAttribute(Object(LoginForm), 'password')
+#11 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CModel.php(159): CValidator->validate(Object(LoginForm), NULL)
+#12 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\app\controllers\SiteController.php(105): CModel->validate()
+#13 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\actions\CInlineAction.php(49): SiteController->actionLogin()
+#14 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#15 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#16 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#17 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('login')
+#18 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('site/login')
+#19 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#20 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#21 {main}
+REQUEST_URI=/site/login
+HTTP_REFERER=http://local.tag.ipti.org.br/site/login
+---
+2015/09/09 05:31:55 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "getmapinfo" solicitada.' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php:483
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(270): CController->missingAction('getmapinfo')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('getmapinfo')
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/resultsmanagement/default/GetMapInfo
+HTTP_REFERER=http://tag/resultsmanagement
+---
+2015/09/09 05:32:03 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "getmapinfo" solicitada.' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php:483
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(270): CController->missingAction('getmapinfo')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('getmapinfo')
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/resultsmanagement/default/GetMapInfo
+---
+2015/09/09 05:33:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "getmapinfo" solicitada.' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php:483
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(270): CController->missingAction('getmapinfo')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('getmapinfo')
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/resultsmanagement/default/GetMapInfo
+---
+2015/09/09 06:47:51 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'O sistema não foi capaz de encontrar a ação "getmapinfo" solicitada.' in C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php:483
+Stack trace:
+#0 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CController.php(270): CController->missingAction('getmapinfo')
+#1 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(282): CController->run('getmapinfo')
+#2 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\web\CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#3 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\Users\IPTIPC002\Desktop\www\local.tag.ipti.org.br\index.php(14): CApplication->run()
+#5 {main}
+REQUEST_URI=/resultsmanagement/default/GetMapInfo
+---
