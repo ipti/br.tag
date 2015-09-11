@@ -7101,3 +7101,27 @@ ul.social-comments li .user-info abbr {
 .panel-title .accordion-toggle.collapsed:before {
   content: "\e080";
 }
+
+.panel-content{
+  height: auto;
+}
+
+.panel-content h5{
+  margin-top: 10px;
+  font-size: 21px;
+}
+.panel-content h5 span{
+  font-size: 14px;
+}
+
+.panel-content span{
+  padding: 0 5px;
+  color: rgb(163, 163, 163);
+}
+
+.panel-box{
+  margin: 0 5px;
+  padding: 10px 5px;
+  border: 1px solid rgb(163, 163, 163);
+  font-size: 10px;
+}
