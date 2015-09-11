@@ -80,7 +80,7 @@ function initMap() {
         city.setMap(map);
     });
 
-    $.getJSON(URLGetMapInfos, function(json){
+    $.getJSON(URLGetMapInfos, {lat: cityAxis.lat, lng: cityAxis.lng}, function(json){
         var image = {
             url: "/themes/default/common/img/oneSchool-32x42.png",
             scaledSize: new google.maps.Size(20, 26),
@@ -94,14 +94,17 @@ function initMap() {
                 icon: image
             });
 
+            var location = (data.location == 1) ? "Urbana" : "Rural";
+            var situation = (data.situation == 1) ? "Ativa" : "Inativa";
+
             var content =
                 '<p><b>'+data.name+'</b></p>'+
                 '<div>'+
-                    '<b>Código:</b> '+ data.inep_id+'<br>'+
-                    '<b>Nº de Matrículas:</b> '+ data.inep_id+'<br>'+
-                    '<b>Nº de Turmas:</b> '+ data.inep_id+'<br>'+
-                    '<b>Localização:</b> '+ data.inep_id+'<br>'+
-                    '<b>Situação de Funcionamento:</b> '+ data.inep_id+'<br>'+
+                    '<b>Código:</b> '+ data.inep_id +'<br>'+
+                    '<b>Nº de Matrículas:</b> '+ data.enrollmentCount +'<br>'+
+                    '<b>Nº de Turmas:</b> '+ data.classroomCount +'<br>'+
+                    '<b>Localização:</b> '+ location +'<br>'+
+                    '<b>Situação de Funcionamento:</b> '+ situation +'<br>'+
                 '</div>';
 
             var info = new google.maps.InfoWindow({
