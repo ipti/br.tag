@@ -1,5 +1,6 @@
 var map;
 var currentInfoWindow = null;
+var toogle = false;
 
 /**
  * Get from wikimapia the boundary by city's name, Latitude and Longitude.
@@ -28,6 +29,17 @@ function getCityBoundary(city, cityLat, cityLng, callback){
         callback(cityBoundary);
     });
 }
+
+$("#map-canvas").click(function(){
+    if(toogle)
+        toogle = false;
+    else if(!toogle && currentInfoWindow != null) {
+        currentInfoWindow.close();
+        currentInfoWindow = null;
+    }
+});
+
+
 
 
 function initMap() {
@@ -110,11 +122,17 @@ function initMap() {
             var info = new google.maps.InfoWindow({
                 content: content
             });
-            marker.addListener('click', function(){
-                if(currentInfoWindow != null)
-                    currentInfoWindow.close();
-                currentInfoWindow = info;
+            marker.addListener('click', function() {
                 info.open(map, marker);
+                if (currentInfoWindow != null)
+                    currentInfoWindow.close();
+
+                if (currentInfoWindow == info)
+                    currentInfoWindow = null;
+                else{
+                    toogle = true;
+                    currentInfoWindow = info;
+                }
             });
         });
     });
