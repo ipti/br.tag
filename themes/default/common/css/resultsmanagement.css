@@ -1,0 +1,63 @@
+
+.header-block h2 {
+    margin: 20px 120px 5px 120px;
+}
+.header-description{
+    width: 50%;
+    font-size: 22px;
+}
+.header-description span{
+    color: #575655;
+}
+.content-block{
+    margin: 0 120px;
+    padding: 0;
+}
+
+.panel-title .accordion-toggle:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";
+    float: left;
+    margin-right: 5px;
+    color: grey;
+}
+.panel-title .accordion-toggle.collapsed:before {
+    content: "\e080";
+}
+
+.panel-content{
+    height: auto;
+}
+
+.panel-content h5{
+    margin-top: 10px;
+    font-size: 21px;
+}
+.panel-content h5 span{
+    font-size: 14px;
+}
+
+.panel-content span{
+    padding: 0 5px;
+    color: rgb(163, 163, 163);
+}
+
+.panel-box{
+    margin: 0 5px;
+    padding: 10px 5px;
+    border: 1px solid rgb(163, 163, 163);
+    font-size: 10px;
+}
+.panel-bar {
+    text-align: center;
+    background-color: lightgray;
+    font-size: 11px;
+}
+
+.row > .panel-bar {
+    margin: 5px 15px;
+}
+
+.row > div > .panel-bar {
+    margin: 5px 0px;
+}
