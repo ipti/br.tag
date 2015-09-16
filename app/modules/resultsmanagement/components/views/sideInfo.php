@@ -246,7 +246,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                         <div class="box box-green-2"><?=$waterArtWellPercent   ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterArtWell   ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Artesian Well')?></span>
                         <div class="box box-green-3"><?=$waterCisternPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterCistern])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Cistern/Well')?></span>
                         <div class="box box-green-4"><?=$waterRiverPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterRiver  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fountain/River')?></span>
-                        <div class="box box-green-4"><?=$waterInexistentPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterInexistent  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                        <div class="box box-green-5"><?=$waterInexistentPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterInexistent  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
 
                     </div>
                     <div class="col-md-6">
