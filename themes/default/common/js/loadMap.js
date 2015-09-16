@@ -21,7 +21,14 @@ function getCityBoundary(city, cityLat, cityLng, callback){
 
     var cityBoundary = [];
     return $.getJSON(apiUrlFull, function(json){
-        $.each(json.places[0].polygon, function(i, data){
+        var cityPlace = null;
+        $.each(json.places, function(i, place){
+           if(place.title.toUpperCase() == city.toUpperCase()){
+               cityPlace = place;
+           }
+        });
+        if(cityPlace == null) cityPlace = json.places[0];
+        $.each(cityPlace.polygon, function(i, data){
             var lng = data.x;
             var lat = data.y;
             cityBoundary[i] = {lat: lat, lng: lng};
@@ -76,7 +83,7 @@ function initMap() {
     map.mapTypes.set("myType", mapType);
     map.setMapTypeId("myType");
 
-    getCityBoundary("Boquim", cityAxis.lat, cityAxis.lng, function(result){
+    getCityBoundary("boquim", cityAxis.lat, cityAxis.lng, function(result){
         cityBoundary = result;
 
         var city = new google.maps.Polygon({

@@ -41,6 +41,7 @@
  * @property integer $regulation
  *
  * The followings are the available model relations:
+ * @property SchoolStructure $structure
  * @property Classroom[] $classrooms
  * @property InstructorDocumentsAndAddress[] $instructorDocumentsAndAddresses
  * @property InstructorTeachingData[] $instructorTeachingDatas
@@ -109,6 +110,7 @@ class SchoolIdentification extends CActiveRecord {
             'studentDocumentsAndAddresses' => array(self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
             'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),
+            'structure'=> [self::HAS_ONE, 'SchoolStructure','school_inep_id_fk'],
         );
     }
 

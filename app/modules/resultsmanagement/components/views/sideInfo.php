@@ -28,9 +28,36 @@ $primarySchoolHigher = 0;
 $primarySchoolMulti = 0;
 
 $ejaCount = 0;
-# 43 ... 48 || 51 || 58 || 60 ... 63 || 65 || 66
-
 $specialCount = 0;
+
+$structureCount = 0;
+
+$waterPublic = 0;
+$waterArtWell = 0;
+$waterCistern = 0;
+$waterRiver = 0;
+$waterInexistent = 0;
+
+$waterFiltrated = 0;
+$waterNotFiltrated = 0;
+
+$electricityPublic = 0;
+$electricityGenerator = 0;
+$electricityOther = 0;
+$electricityInexistent = 0;
+
+$sewagePublic = 0;
+$sewageFossa = 0;
+$sewageInexistent = 0;
+
+$garbageCollect = 0;
+$garbageBurn = 0;
+$garbageThrow = 0;
+$garbageRecycle = 0;
+$garbageBury = 0;
+$garbageOther = 0;
+
+
 
 foreach($schools as $school){
     if($school->situation == 1) $schoolsActive++;
@@ -59,10 +86,60 @@ foreach($schools as $school){
             $specialCount += $classroom->modality == 2 ? $count : 0;
         }
     }
+
+    $structure = $school->structure;
+    if (isset($structure)) {
+        $structure->consumed_water_type == 2 ? $waterFiltrated++ : $waterNotFiltrated++;
+        
+        $structure->water_supply_public == 1 ? $waterPublic++ :  
+            $structure->water_supply_artesian_well == 1 ? $waterArtWell++ :
+                $structure->water_supply_well == 1 ? $waterCistern++ :
+                    $structure->water_supply_river == 1 ? $waterRiver++ : $waterInexistent++;
+
+        $structure->energy_supply_public == 1 ? $electricityPublic++ :
+            $structure->energy_supply_generator == 1 ? $electricityGenerator++ :
+                $structure->energy_supply_other == 1 ? $electricityOther++ : $electricityInexistent++;
+
+        $structure->sewage_public == 1 ? $sewagePublic++ :
+            $structure->sewage_fossa == 1 ? $sewageFossa++ : $sewageInexistent++;
+
+        $structure->garbage_destination_collect == 1 ? $garbageCollect++ :
+            $structure->garbage_destination_burn == 1 ? $garbageBurn++ :
+                $structure->garbage_destination_throw_away == 1 ? $garbageThrow++ :
+                    $structure->garbage_destination_recycle == 1 ? $garbageRecycle++ :
+                        $structure->garbage_destination_bury == 1 ? $garbageBury++ : $garbageOther++;
+
+        $structureCount++;
+    }
 }
 $earlyEducationCount = $earlyEducationDayCare + $earlyEducationKindergarten;
 $primarySchoolCount = $primarySchoolLower + $primarySchoolHigher + $primarySchoolMulti;
 
+$decimalPoint = 1;
+$waterPublicPercent = number_format(($waterPublic/$structureCount)*100,$decimalPoint)."%";
+$waterArtWellPercent = number_format(($waterArtWell/$structureCount)*100,$decimalPoint)."%";
+$waterCisternPercent = number_format(($waterCistern/$structureCount)*100,$decimalPoint)."%";
+$waterRiverPercent = number_format(($waterRiver/$structureCount)*100,$decimalPoint)."%";
+$waterInexistentPercent = number_format(($waterInexistent/$structureCount)*100,$decimalPoint)."%";
+
+$waterFiltratedPercent = number_format(($waterFiltrated/$structureCount)*100,$decimalPoint)."%";
+$waterNotFiltratedPercent = number_format(($waterNotFiltrated/$structureCount)*100,$decimalPoint)."%";
+
+$electricityPublicPercent = number_format(($electricityPublic/$structureCount)*100,$decimalPoint)."%";
+$electricityGeneratorPercent = number_format(($electricityGenerator/$structureCount)*100,$decimalPoint)."%";
+$electricityOtherPercent = number_format(($electricityOther/$structureCount)*100,$decimalPoint)."%";
+$electricityInexistentPercent =number_format(($electricityInexistent/$structureCount)*100,$decimalPoint)."%";
+
+$sewagePublicPercent = number_format(($sewagePublic/$structureCount)*100,$decimalPoint)."%";
+$sewageFossaPercent = number_format(($sewageFossa/$structureCount)*100,$decimalPoint)."%";
+$sewageInexistentPercent= number_format(($sewageInexistent/$structureCount)*100,$decimalPoint)."%";
+
+$garbageCollectPercent = number_format(($garbageCollect/$structureCount)*100,$decimalPoint)."%";
+$garbageBurnPercent = number_format(($garbageBurn/$structureCount)*100,$decimalPoint)."%";
+$garbageThrowPercent = number_format(($garbageThrow/$structureCount)*100,$decimalPoint)."%";
+$garbageRecyclePercent = number_format(($garbageRecycle/$structureCount)*100,$decimalPoint)."%";
+$garbageBuryPercent = number_format(($garbageBury/$structureCount)*100,$decimalPoint)."%";
+$garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decimalPoint)."%";
 ?>
 
 
@@ -154,9 +231,69 @@ $primarySchoolCount = $primarySchoolLower + $primarySchoolHigher + $primarySchoo
             </div>
             <div id="collapseService" class="collapse panel-content" style="height: 0px">
                 <hr/>
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor
-                brunch.
+                <h5><span><?= yii::t('resultsmanagementModule.sideInfo', 'TOTAL SCHOOLS')?>: </span><?=$schoolsCount?></h5>
+                <span>
+                    <?= yii::t('resultsmanagementModule.sideInfo', 'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
+                      ['{active}' => $schoolsActive, "{inactive}"=>$schoolsInactive, "{extinct}"=>$schoolsExtinct])?>
+                </span>
+
+                <div class="separator bottom"></div>
+                <div class="row">
+                    <div class="col-md-12"><h6><img src="/themes/default/common/img/water.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Water')?></h6></div>
+                    <div class="col-md-6">
+                        <h6><?= yii::t('resultsmanagementModule.sideInfo', 'Supply')?></h6>
+                        <div class="box box-green-1"><?=$waterPublicPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterPublic ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                        <div class="box box-green-2"><?=$waterArtWellPercent   ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterArtWell   ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Artesian Well')?></span>
+                        <div class="box box-green-3"><?=$waterCisternPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterCistern])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Cistern/Well')?></span>
+                        <div class="box box-green-4"><?=$waterRiverPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterRiver  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fountain/River')?></span>
+                        <div class="box box-green-4"><?=$waterInexistentPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterInexistent  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+
+                    </div>
+                    <div class="col-md-6">
+                        <h6><?= yii::t('resultsmanagementModule.sideInfo', 'Consumed by students')?></h6>
+                        <div class="box box-blue-1"><?=$waterFiltratedPercent    ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterFiltrated   ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Filtrated')?></span>
+                        <div class="box box-blue-2"><?=$waterNotFiltratedPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterNotFiltrated])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Not Filtrated')?></span>
+                    </div>
+                </div>
+                <div class="separator bottom"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6><img src="/themes/default/common/img/electricity.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Electricity')?></h6>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-orange-1"><?=$electricityPublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$electricityPublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                        <div class="box box-orange-2"><?=$electricityGeneratorPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$electricityGenerator])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Generator')?></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-orange-3"><?=$electricityOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$electricityOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
+                        <div class="box box-orange-4"><?=$electricityInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$electricityInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                    </div>
+                </div>
+                <div class="separator bottom"></div>
+                <div class="row">
+                    <div class="col-md-12"><h6><img src="/themes/default/common/img/sanitary-sewage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
+                    <div class="col-md-6">
+                        <div class="box box-yellow-1"><?=$sewagePublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$sewagePublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                        <div class="box box-yellow-2"><?=$sewageFossaPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$sewageFossa])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fossa')?></span>
+                        </div>
+                    <div class="col-md-6">
+                        <div class="box box-yellow-3"><?=$sewageInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$sewageInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                    </div>
+                </div>
+                <div class="separator bottom"></div>
+                <div class="row">
+                    <div class="col-md-12"><h6><img src="/themes/default/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
+                    <div class="col-md-6">
+                        <div class="box box-purple-1"><?=$garbageCollectPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageCollect])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Collect')?></span>
+                        <div class="box box-purple-2"><?=$garbageBurnPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageBurn])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Burn')?></span>
+                        <div class="box box-purple-3"><?=$garbageThrowPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageThrow])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Throw Away')?></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-purple-4"><?=$garbageRecyclePercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageRecycle])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Recycle')?></span>
+                        <div class="box box-purple-5"><?=$garbageBuryPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageBury])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Bury')?></span>
+                        <div class="box box-purple-6"><?=$garbageOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
