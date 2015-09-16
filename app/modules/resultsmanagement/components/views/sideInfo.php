@@ -282,7 +282,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                 </div>
                 <div class="separator bottom"></div>
                 <div class="row">
-                    <div class="col-md-12"><h6><img src="/themes/default/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
+                    <div class="col-md-12"><h6><img src="/themes/default/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Garbage')?></h6></div>
                     <div class="col-md-6">
                         <div class="box box-purple-1"><?=$garbageCollectPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageCollect])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Collect')?></span>
                         <div class="box box-purple-2"><?=$garbageBurnPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageBurn])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Burn')?></span>

@@ -50,6 +50,7 @@ return [
     "Sanitary sewage" => "Esgoto sanitário",
     "Fossa"=>"Fossa",
 
+    "Garbage" => "Lixo",
     "Collect" => "Coleta",
     "Burn" => "Queima",
     "Throw Away" => "Jogar Fora",
