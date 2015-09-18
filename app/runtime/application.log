@@ -9654,3 +9654,554 @@ Stack trace:
 REQUEST_URI=/resultsmanagement/default/GetGMapInfo?lat=-11.14603&lng=-37.6200178
 HTTP_REFERER=http://local.tag.ipti.org.br:8090/resultsmanagement
 ---
+2015/09/11 10:12:41 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:12:44 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:12:57 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:16 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/11 10:13:26 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:40 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:42 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:46 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:47 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:13:58 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:10 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:11 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:13 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:29 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:31 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:32 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:35 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/11 10:14:36 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:14:48 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/11 10:15:24 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/11 10:15:31 [error] [exception.CException] exception 'CException' with message 'sideInfoWidget não encontrou a visualização "sideinfo".' in /home/iptipc015/PhpstormProjects/tag/framework/web/widgets/CWidget.php:246
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/components/sideInfoWidget.php(17): CWidget->render('sideinfo', Array)
+#1 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(173): sideInfoWidget->run()
+#2 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(73): CBaseController->widget('resultsmanageme...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#6 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsmanageme...')
+#13 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#15 {main}
+REQUEST_URI=/resultsmanagement
+---
+2015/09/15 10:46:07 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/15 10:46:08 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/15 10:46:09 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/17 11:49:28 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/17 11:49:30 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/17 11:49:32 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---
+2015/09/17 11:49:34 [error] [exception.CException] exception 'CException' with message 'A propriedade "CWebUser.year" não está definida.' in /home/iptipc015/PhpstormProjects/tag/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/iptipc015/PhpstormProjects/tag/framework/web/auth/CWebUser.php(146): CComponent->__get('year')
+#1 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/views/layouts/resultsmanagement.php(6): CWebUser->__get('year')
+#2 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(126): require('/home/iptipc015...')
+#3 /home/iptipc015/PhpstormProjects/tag/framework/web/CBaseController.php(95): CBaseController->renderInternal('/home/iptipc015...', Array, true)
+#4 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(784): CBaseController->renderFile('/home/iptipc015...', Array, true)
+#5 /home/iptipc015/PhpstormProjects/tag/app/modules/resultsmanagement/controllers/DefaultController.php(6): CController->render('index')
+#6 /home/iptipc015/PhpstormProjects/tag/framework/web/actions/CInlineAction.php(49): DefaultController->actionIndex()
+#7 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#8 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(286): CController->runAction(Object(CInlineAction))
+#9 /home/iptipc015/PhpstormProjects/tag/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(282): CController->run('')
+#11 /home/iptipc015/PhpstormProjects/tag/framework/web/CWebApplication.php(141): CWebApplication->runController('resultsManageme...')
+#12 /home/iptipc015/PhpstormProjects/tag/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/iptipc015/PhpstormProjects/tag/index.php(14): CApplication->run()
+#14 {main}
+REQUEST_URI=/resultsManagement
+---

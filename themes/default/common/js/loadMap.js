@@ -1,6 +1,7 @@
 var map;
 var currentInfoWindow = null;
 var toogle = false;
+var markers = [];
 
 /**
  * Get from wikimapia the boundary by city's name, Latitude and Longitude.
@@ -92,24 +93,50 @@ function initMap() {
         city.setMap(map);
     });
 
+    getCityBoundary("Santa Luzia do Itanhy", cityAxis.lat, cityAxis.lng, function(result){
+        cityBoundary = result;
+
+        var city = new google.maps.Polygon({
+            path: cityBoundary,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: '#FF0000',
+            fillOpacity: 0.1,
+
+        });
+
+        city.setMap(map);
+    });
     $.getJSON(URLGetMapInfos, {lat: cityAxis.lat, lng: cityAxis.lng}, function(json){
-        var image = {
+        var markerImage = {
             url: "/themes/default/common/img/oneSchool-32x42.png",
-            scaledSize: new google.maps.Size(20, 26),
+            scaledSize: new google.maps.Size(20, 26)
+        };
+        var clusterImage = {
+            styles: [{
+                url: "/themes/default/common/img/manySchool-42x42.png",
+                height: 42,
+                width: 42,
+                textSize: 1, //1
+                textColor: "white", //"white"
+            }],
+            zoomOnClick: false
         };
         $.each(json, function(i, data){
             var schoolAxis = new google.maps.LatLng(data.latitude, data.longitude);
             var marker = new google.maps.Marker({
+                id: i,
                 position: schoolAxis,
                 map: map,
                 title: data.name,
-                icon: image
+                icon: markerImage
             });
 
             var location = (data.location == 1) ? "Urbana" : "Rural";
             var situation = (data.situation == 1) ? "Ativa" : "Inativa";
 
-            var content =
+            var markerContent =
                 '<p><b>'+data.name+'</b></p>'+
                 '<div>'+
                     '<b>Código:</b> '+ data.inep_id +'<br>'+
@@ -119,21 +146,54 @@ function initMap() {
                     '<b>Situação de Funcionamento:</b> '+ situation +'<br>'+
                 '</div>';
 
-            var info = new google.maps.InfoWindow({
-                content: content
+            var markerInfo = new google.maps.InfoWindow({
+                content: markerContent
             });
             marker.addListener('click', function() {
-                info.open(map, marker);
+                markerInfo.open(map, marker);
                 if (currentInfoWindow != null)
                     currentInfoWindow.close();
 
-                if (currentInfoWindow == info)
+                if (currentInfoWindow == markerInfo)
                     currentInfoWindow = null;
                 else{
                     toogle = true;
-                    currentInfoWindow = info;
+                    currentInfoWindow = markerInfo;
                 }
             });
+            markers.push(marker);
+        });
+        var markerCluster = new MarkerClusterer(map, markers, clusterImage);
+        markerCluster.addListener("clusterclick", function(mCluster){
+            var clusterContent = "";
+            var clusterMarkers = mCluster.getMarkers();
+            for (var i = 0; i < clusterMarkers.length; i++){
+                var coordinates = clusterMarkers[i].position.toString().slice(1, -1);
+                var lat = coordinates.split(", ")[0];
+                var lng = coordinates.split(", ")[1];
+                clusterContent += "<p><a style='color:#575655; cursor:pointer' onclick='moveTo(" + lat + "," + lng + "," + clusterMarkers[i].id + ")'><b>" + clusterMarkers[i].getTitle() + "</b></a></p>";
+            }
+            var clusterInfo = new google.maps.InfoWindow({
+                content: clusterContent
+            });
+            clusterInfo.setPosition(mCluster.getCenter());
+            clusterInfo.open(map);
+            if (currentInfoWindow != null)
+                currentInfoWindow.close();
+
+            if (currentInfoWindow == clusterInfo)
+                currentInfoWindow = null;
+            else{
+                toogle = true;
+                currentInfoWindow = clusterInfo;
+            }
         });
     });
+}
+
+function moveTo(lat, lng, markerID){
+    var center = new google.maps.LatLng(lat, lng);
+    map.setZoom(17);
+    map.panTo(center);
+    google.maps.event.trigger(markers[markerID], 'click');
 }

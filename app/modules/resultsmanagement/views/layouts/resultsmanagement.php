@@ -101,6 +101,8 @@ $headerDescription = CHtml::tag("span", [], yii::t("resultsmanagementModule.inde
 <script src="/themes/default/lib/extend/bootstrap-wysihtml5/js/bootstrap-wysihtml5-0.0.2.js"></script>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWiKq1o5qX_LEokFDPUkIin3ckXpmWY0&callback=initMap"></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/data.json"></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
 <script src="/themes/default/lib/js/jquery.select2.js"></script>
 <script src="/themes/default/lib/js/jquery.select2.pt-br.js"></script>
