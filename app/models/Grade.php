@@ -40,7 +40,7 @@ class Grade extends CActiveRecord
                 ],
             ];
         }
-        
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
