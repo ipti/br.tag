@@ -61,8 +61,21 @@ $(document).ready(function() {
         var $did = $("#discipline").val();
         if ($did != null && $did != "") {
             $.getJSON(chartDataUrl,{sid:$sid,cid:$cid, mid:$mid, did:$did},function(json){
-                console.log(json);
+                var enrollments = json.enrollments;
+                var classes = json.classes;
+                var classesCount = classes.length;
+                var faultsCount = 0;
 
+                $.each(classes, function(i, $class){
+                    faultsCount += parseInt($class.faults);
+                });
+
+                var faultsPercent = (faultsCount/(enrollments*classesCount) * 100).toFixed(2);
+                var presencePercent = (100 - faultsPercent).toFixed(2);
+                initChart([
+                    { label: "Presença",  data: presencePercent },
+                    { label: "Faltas",  data: faultsPercent },
+                ]);
             });
         }
     });
@@ -72,18 +85,13 @@ $(window).load(function() {
     $("#classroom").attr("data-placeholder", "Selecione uma turma").val("").change().select2();
     $("#month").attr("data-placeholder", "Selecione um mês").select2();
     $("#discipline").attr("data-placeholder", "Selecione uma disciplina").select2();
-
-    initChart();
-
 });
 
 
 
-function initChart(){
-    $.plot($("#chart_pie"),[
-        { label: "Presença",  data: 78 },
-        { label: "Faltas",  data: 22 },
-    ],{
+function initChart(data){
+    $.plot($("#chart_pie"),
+        data,{
         series: {
             pie: {
                 show: true,

@@ -70,37 +70,10 @@ $year = Yii::app()->user->year;
     <div class="clearfix"></div>
 </div>
 
-<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
-=======
-<script src="/themes/default/lib/js/plugins/system/jquery.min.js"></script>
-<script src="/themes/default/lib/js/plugins/system/jquery-ui/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="/themes/default/lib/js/plugins/system/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-<script src="/themes/default/lib/js/plugins/system/modernizr.js"></script>
-<script src="/themes/default/lib/js/bootstrap.min.js"></script>
-<script src="/themes/default/lib/js/plugins/other/jquery-slimScroll/jquery.slimscroll.min.js"></script>
-<script src="/themes/default/lib/js/plugins/other/holder/holder.js"></script>
-<script src="/themes/default/lib/js/plugins/forms/pixelmatrix-uniform/jquery.uniform.min.js"></script>
-<script src="/themes/default/lib/js/plugins/gallery/prettyphoto/js/jquery.prettyPhoto.js"></script>
-
-<script>    var basePath = '/themes/default/common/';</script>
-
-<script src="/themes/default/lib/extend/bootstrap-select/bootstrap-select.js"></script>
-<script src="/themes/default/lib/extend/bootstrap-switch/static/js/bootstrap-switch.js"></script>
-<script src="/themes/default/lib/extend/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js"></script>
-<script src="/themes/default/lib/extend/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-<script src="/themes/default/lib/extend/jasny-bootstrap/js/bootstrap-fileupload.js"></script>
-<script src="/themes/default/lib/extend/bootbox.js"></script>
-<script src="/themes/default/lib/extend/bootstrap-wysihtml5/js/wysihtml5-0.3.0_rc2.min.js"></script>
-<script src="/themes/default/lib/extend/bootstrap-wysihtml5/js/bootstrap-wysihtml5-0.0.2.js"></script>
-
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjWiKq1o5qX_LEokFDPUkIin3ckXpmWY0&callback=initMap"></script>
-<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/data.json"></script>
-<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
->>>>>>> f16149821d9c55eac2a2ed1dc1e7ccd6d2305007
 
 <script src="/themes/default/lib/js/jquery.select2.pt-br.js"></script>
 </body>

@@ -61,13 +61,13 @@ class ManagementSchoolController extends CController
 		($cid != "all" ? $params[":cid"] = $cid : $i );
 		($mid != "all" ? $params[":mid"] = $mid : $i );
 		($did != "all" && $did != "-1" ? $params[":did"] = $did : $i);
-		$faults = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+		$classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
 		$sql = "Select count(*) from student_enrollment e
 					join classroom cr on (cr.id = e.classroom_fk)
 					where cr.school_year = :year and cr.school_inep_fk = :sid;";
-		$enrollments = yii::app()->db->createCommand($sql)->queryAll(true, [":sid" => $sid,":year" => yii::app()->user->year,]);
+		$enrollments = yii::app()->db->createCommand($sql)->queryScalar([":sid" => $sid,":year" => yii::app()->user->year,]);
 
-		echo json_encode(["faults"=>$faults,"enrollments"=>$enrollments]);
+		echo json_encode(["classes"=>$classes,"enrollments"=>$enrollments]);
 	}
 }
