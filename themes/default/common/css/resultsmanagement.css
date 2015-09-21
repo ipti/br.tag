@@ -117,3 +117,20 @@ h6 img {
     font-size: 11px;
     padding: 0;
 }
+
+.map-label {
+    display:block;
+}
+.map-label a {
+    color: black;
+    decoration:none;
+}
+
+.filter-select{
+    display: block;
+    width: 100%;
+}
+
+html {
+    overflow-y: scroll;
+}

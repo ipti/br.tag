@@ -1,6 +1,5 @@
 <?php
-/* @var $schools SchoolIdentification[]
- */
+/* @var $schools SchoolIdentification[] */
 
 $year = Yii::app()->user->year;
 
@@ -57,7 +56,7 @@ $garbageRecycle = 0;
 $garbageBury = 0;
 $garbageOther = 0;
 
-
+$schoolsHtml = "";
 
 foreach($schools as $school){
     if($school->situation == 1) $schoolsActive++;
@@ -111,6 +110,7 @@ foreach($schools as $school){
 
         $structureCount++;
     }
+    $schoolsHtml .= CHtml::tag("span",["class"=>"map-label"],CHtml::link($school->name,['ManagementSchool/', 'sid'=>$school->inep_id]));
 }
 $earlyEducationCount = $earlyEducationDayCare + $earlyEducationKindergarten;
 $primarySchoolCount = $primarySchoolLower + $primarySchoolHigher + $primarySchoolMulti;
@@ -294,6 +294,28 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                         <div class="box box-purple-6"><?=$garbageOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="separator bottom"></div>
+
+        <div class="panel">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" data-toggle="collapse"
+                       data-parent="#accordion" href="#collapseSchools">
+                        <?= yii::t('resultsmanagementModule.sideInfo', 'Schools') ?>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseSchools"  class="collapse panel-content">
+                <hr/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?=$schoolsHtml?>
+                        </div>
+                    </div>
+                <div class="separator bottom"></div>
             </div>
         </div>
     </div>

@@ -58,4 +58,6 @@ return [
     "Bury" => "Enterrar",
 
     "({count} schools)" => "({count} escolas)",
+
+    "Schools" => "Escolas",
 ];

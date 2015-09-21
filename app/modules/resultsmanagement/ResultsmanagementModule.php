@@ -1,9 +1,7 @@
 <?php
 
-class ResultsManagementModule extends CWebModule
-{
-	public function init()
-	{
+class ResultsManagementModule extends CWebModule{
+	public function init()	{
 		$this->layoutPath = yii::getPathOfAlias("resultsmanagement.views.layouts");
 		$this->layout = "resultsmanagement";
 		// this method is called when the module is being created
@@ -16,12 +14,10 @@ class ResultsManagementModule extends CWebModule
 		));
 	}
 
-	public function beforeControllerAction($controller, $action)
-	{
+    public function beforeControllerAction($controller, $action){
 
-		if(parent::beforeControllerAction($controller, $action))
-		{
-			// this method is called before any module controller action is performed
+        if(parent::beforeControllerAction($controller, $action)){
+            // this method is called before any module controller action is performed
 			// you may place customized code here
 			return true;
 		}
