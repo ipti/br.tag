@@ -74,6 +74,7 @@ $year = Yii::app()->user->year;
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script src="/themes/default/common/js/resultsLayout.js"></script>
 
 <script src="/themes/default/lib/js/jquery.select2.pt-br.js"></script>
 </body>

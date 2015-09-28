@@ -3,6 +3,7 @@ var disciplines = [];
 var $select = {};
 
 function loadClassroomInfos(results) {
+    $("#chart_pie").hide();
     $("#month").html("");
     var data = $.parseJSON(results);
     $select = {};
@@ -33,6 +34,7 @@ $(document).ready(function() {
     $('.filter-select').select2();
 
     $('#month').change(function() {
+        $("#chart_pie").hide();
         $("#discipline").html("");
         var month = $(this).val();
         if (month != null && month != "") {
@@ -56,6 +58,7 @@ $(document).ready(function() {
     });
 
     $('#discipline').change(function() {
+        $("#chart_pie").hide();
         var $cid = $("#classroom").val();
         var $mid = $("#month").val();
         var $did = $("#discipline").val();
@@ -90,6 +93,7 @@ $(window).load(function() {
 
 
 function initChart(data){
+    $("#chart_pie").show();
     $.plot($("#chart_pie"),
         data,{
         series: {

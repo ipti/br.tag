@@ -87,23 +87,26 @@ h6 img {
     margin: 0;
 }
 
-.box-green-1{ background-color: #6F9749;}
-.box-green-2{ background-color: #398755;}
-.box-green-3{ background-color: #376D40;}
+.box-green-1{ background-color: #27be25;}
+.box-green-2{ background-color: #239421;}
+.box-green-3{ background-color: #186716;}
 .box-green-4{ background-color: #2E5A33;}
 .box-green-5{ background-color: #304933;}
 
-.box-blue-1{ background-color: #4587C3;}
-.box-blue-2{ background-color: #245B8D;}
+.box-blue-1{ background-color: #519ae1;}
+.box-blue-2{ background-color: #2d7eba;}
+.box-blue-3{ background-color: #235082;}
+.box-blue-4{ background-color: #15385f;}
 
 .box-orange-1 {background-color: #E4842A;}
 .box-orange-2 {background-color: #C16612;}
 .box-orange-3 {background-color: #BB6412;}
 .box-orange-4 {background-color: #8E4A0B;}
 
-.box-yellow-1 {background-color: #D4B83A;}
-.box-yellow-2 {background-color: #BDA227;}
-.box-yellow-3 {background-color: #E0C136;}
+.box-yellow-1 {background-color: #f3d442;}
+.box-yellow-2 {background-color: #b79e33;}
+.box-yellow-3 {background-color: #887320;}
+.box-yellow-3 {background-color: #624f18;}
 
 .box-purple-1 {background-color: #D577FF;}
 .box-purple-2 {background-color: #B06CCE;}
@@ -112,6 +115,20 @@ h6 img {
 .box-purple-5 {background-color: #6C3F80;}
 .box-purple-6 {background-color: #4F305D;}
 
+.box-red-1{ background-color: #e20000;}
+.box-red-2{ background-color: #b40000;}
+.box-red-3{ background-color: #8f0000;}
+.box-red-4{ background-color: #5a0000;}
+
+.box-gray-1{ background-color: #bdbdbd;}
+.box-gray-2{ background-color: #878787;}
+.box-gray-3{ background-color: #4f4f4f;}
+.box-gray-4{ background-color: #3a3a3a;}
+
+.box-brown-1{ background-color: #b1591a;}
+.box-brown-2{ background-color: #8e4117;}
+.box-brown-3{ background-color: #46230d;}
+.box-brown-4{ background-color: #3c1b0e;}
 
 .row span{
     font-size: 11px;
@@ -133,4 +150,14 @@ h6 img {
 
 html {
     overflow-y: scroll;
+}
+
+
+.efficiency-block {
+    text-align: center;
+    padding-left: 0 !important;
+}
+
+.tab-description {
+    width: 60%;
 }

@@ -6,12 +6,40 @@ class ManagementSchoolController extends CController
 
 	public function actionIndex($sid){
 		$school = SchoolIdentification::model()->findByPk($sid);
-		$this->render('index', ["school"=>$school]);
+		$this->render('index', ["school"=>$school,]);
 	}
 
 	public function actionPerformance($sid){
 		$school = SchoolIdentification::model()->findByPk($sid);
-		$this->render('performance', ["school"=>$school]);
+		$media = 5;
+		$efficiencies = [];
+		for ($i = 1; $i <= 4; $i++){
+			$unity = $i;
+			$sql = "select b.grade, count(b.grade) count
+					  from (select if(a.grade > :media+1, 1, if(a.grade <= :media+1 && a.grade >= :media, 0, -1)) grade
+						from (select if(ifnull(g.grade$unity, 0) > :media , ifnull(g.grade$unity, 0), ifnull(g.recovery_grade$unity, 0)) grade from student_enrollment se
+							left join grade g on g.enrollment_fk = se.id
+							join classroom c on c.id = se.classroom_fk
+						  where c.school_year = :year && c.school_inep_fk = :sid
+						) a
+					  ) b
+					group by b.grade
+					order by b.grade;";
+			$efficiency = yii::app()->db->createCommand($sql)->queryAll(true, [
+				":sid" => $sid,
+				":year" => yii::app()->user->year,
+				':media' => $media
+			]);
+			$efficiencies[$unity."º Bimestre"] = [];
+			$efficiencies[$unity."º Bimestre"]["bad"]=0;
+			$efficiencies[$unity."º Bimestre"]["regular"]=0;
+			$efficiencies[$unity."º Bimestre"]["good"]=0;
+			foreach($efficiency as $e){
+				$grade = $e["grade"] == -1 ? "bad" : ($e["grade"] == 0 ? "regular" :  "good");
+				$efficiencies[$unity."º Bimestre"][$grade] = $e["count"];
+			}
+		}
+		$this->render('performance', ["school"=>$school,'efficiencies'=>$efficiencies]);
 	}
 
 	public function actionFrequency($sid){
