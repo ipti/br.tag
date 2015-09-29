@@ -143,10 +143,11 @@ h6 img {
     decoration:none;
 }
 
-.filter-select{
+.filter-select+.select2{
     display: block;
-    width: 100%;
+    width: 100% !important;
 }
+
 
 html {
     overflow-y: scroll;

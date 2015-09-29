@@ -117,12 +117,12 @@ function initMap() {
     });
     $.getJSON(URLGetMapInfos, {lat: cityAxis.lat, lng: cityAxis.lng}, function(json){
         var markerImage = {
-            url: "/themes/default/common/img/oneSchool-32x42.png",
+            url: $baseScriptUrl+"/common/img/oneSchool-32x42.png",
             scaledSize: new google.maps.Size(20, 26)
         };
         var clusterImage = {
             styles: [{
-                url: "/themes/default/common/img/manySchool-42x42.png",
+                url: $baseScriptUrl+"/common/img/manySchool-42x42.png",
                 height: 42,
                 width: 42,
                 textSize: 1, //1

@@ -4,16 +4,19 @@
  * @var $efficiencies array
  */
 
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $this->headerDescription = CHtml::tag("span", [],$school->name.CHtml::tag("span", []," | ".yii::t('resultsmanagementModule.managementSchool', 'Performance')));
-
-$data = $efficiencies;
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-//$cs->registerScript("variables",
-//    "var URLGetMapInfos = '".$this->createUrl("GetGMapInfo")."';", CClientScript::POS_BEGIN);
-//$cs->registerScriptFile('/themes/default/common/js/managementschool.js', CClientScript::POS_END);
-$cs->registerCssFile('/themes/default/common/css/resultsmanagement.css');
+$cs->registerScript("variables", '
+    var chartDataUrl = "'.$this->createUrl("loadChartData").'";
+    var $sid = "'.$school->inep_id.'";
+',CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
+//$cs->registerScriptFile($baseScriptUrl.'/common/js/managementschool.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/managementschool.js', CClientScript::POS_END);
+$cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -29,10 +32,10 @@ $cs->registerCssFile('/themes/default/common/css/resultsmanagement.css');
             <div class="widget-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-1">
-                        <?= $this->renderPartial('_efficiency', array('data' => $data)); ?>
+                        <?= $this->renderPartial('_efficiency', array('data' => $efficiencies)); ?>
                     </div>
                     <div class="tab-pane" id="tab-2">
-                        <?= $this->renderPartial('_performance', array('school' => $school)); ?>
+                        <?= $this->renderPartial('_performance', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                     <div class="tab-pane" id="tab-3">
                         <?= $this->renderPartial('_proficiency', array('school' => $school)); ?>

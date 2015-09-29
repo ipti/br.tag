@@ -38,8 +38,12 @@ class ManagementSchoolController extends CController
 				$grade = $e["grade"] == -1 ? "bad" : ($e["grade"] == 0 ? "regular" :  "good");
 				$efficiencies[$unity."º Bimestre"][$grade] = $e["count"];
 			}
-		}
-		$this->render('performance', ["school"=>$school,'efficiencies'=>$efficiencies]);
+		}$classrooms = Classroom::model()->findAll(["condition" => "school_inep_fk = :sid and school_year = :year", "order"=>"name", "params"=>[":sid"=> $sid,":year"=> yii::app()->user->year]]);
+		$classroomOptions = [];
+		foreach($classrooms as $classroom)
+			$classroomOptions[$classroom->id] = CHtml::encode($classroom->name);
+		$classroomOptions["all"] = yii::t("resultsmanagementModule.managementSchool","All Classrooms");
+		$this->render('performance', ["school"=>$school,'efficiencies'=>$efficiencies, "classrooms"=>$classroomOptions]);
 	}
 
 	public function actionFrequency($sid){
@@ -98,4 +102,33 @@ class ManagementSchoolController extends CController
 
 		echo json_encode(["classes"=>$classes,"enrollments"=>$enrollments]);
 	}
+
+	public function actionLoadPerformanceChartData($sid, $cid, $mid, $did){
+		$sql = "select a.grade, count(a.grade) count
+				  from (select if(ifnull(g.grade2, 0) > 5 , ifnull(g.grade2, 0), ifnull(g.recovery_grade2, 0)) grade from student_enrollment se
+					left join grade g on g.enrollment_fk = se.id
+					join classroom c on c.id = se.classroom_fk
+				  where c.school_year = :year && c.school_inep_fk = :sid
+					   ) a
+			group by a.grade;";
+		$i = 0;
+		$params = [":sid" => $sid,":year" => yii::app()->user->year,];
+		($cid != "all" ? $params[":cid"] = $cid : $i );
+		($mid != "all" ? $params[":mid"] = $mid : $i );
+		($did != "all" && $did != "-1" ? $params[":did"] = $did : $i);
+		$classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+
+		$sql = "Select count(*) from student_enrollment e
+					join classroom cr on (cr.id = e.classroom_fk)
+					where cr.school_year = :year and cr.school_inep_fk = :sid;";
+		$enrollments = yii::app()->db->createCommand($sql)->queryScalar([":sid" => $sid,":year" => yii::app()->user->year,]);
+
+		echo json_encode(["classes"=>$classes,"enrollments"=>$enrollments]);
+	}
+
+
+
 }
+
+
+

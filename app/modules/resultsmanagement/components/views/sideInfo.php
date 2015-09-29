@@ -1,6 +1,8 @@
 <?php
 /* @var $schools SchoolIdentification[] */
 
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+
 $year = Yii::app()->user->year;
 
 $schoolsCount = count($schools);
@@ -238,7 +240,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
 
                 <div class="separator bottom"></div>
                 <div class="row row-info water">
-                    <div class="col-md-12"><h6><img src="/themes/default/common/img/water.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Water')?></h6></div>
+                    <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/water.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Water')?></h6></div>
                     <div class="col-md-6">
                         <h6><?= yii::t('resultsmanagementModule.sideInfo', 'Supply')?></h6>
                         <div class="box"><?=$waterPublicPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$waterPublic ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
@@ -257,7 +259,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                 <div class="separator bottom"></div>
                 <div class="row row-info electricity">
                     <div class="col-md-12">
-                        <h6><img src="/themes/default/common/img/electricity.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Electricity')?></h6>
+                        <h6><img src="<?=$baseScriptUrl?>/common/img/electricity.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Electricity')?></h6>
                     </div>
                     <div class="col-md-6">
                         <div class="box"><?=$electricityPublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$electricityPublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
@@ -270,7 +272,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                 </div>
                 <div class="separator bottom"></div>
                 <div class="row row-info sewage">
-                    <div class="col-md-12"><h6><img src="/themes/default/common/img/sanitary-sewage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
+                    <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/sanitary-sewage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
                     <div class="col-md-6">
                         <div class="box"><?=$sewagePublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$sewagePublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
                         <div class="box"><?=$sewageFossaPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$sewageFossa])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fossa')?></span>
@@ -281,7 +283,7 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100,$decima
                 </div>
                 <div class="separator bottom"></div>
                 <div class="row row-info garbage">
-                    <div class="col-md-12"><h6><img src="/themes/default/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Garbage')?></h6></div>
+                    <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Garbage')?></h6></div>
                     <div class="col-md-6">
                         <div class="box"><?=$garbageCollectPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageCollect])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Collect')?></span>
                         <div class="box"><?=$garbageBurnPercent?><p><?= yii::t('resultsmanagementModule.sideInfo',"({count} schools)", ['{count}'=>$garbageBurn])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Burn')?></span>
