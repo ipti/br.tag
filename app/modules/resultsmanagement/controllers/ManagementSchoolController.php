@@ -74,20 +74,23 @@ class ManagementSchoolController extends CController
 			return false;
 		}
 		echo json_encode($results);
-
+		return true;
 	}
 
 	public function actionLoadChartData($sid, $cid, $mid, $did){
+		$cFilter = ($cid != "all" ? "and cr.id = :cid " : " ");
+		$mFilter = ($mid != "all" ? "and month = :mid " : " ");
+		$dFilter = ($did == "all" ? " " : ($did == "-1" ? " and d.id is null " : "and d.id  = :did "));
 		$sql = "Select cr.id cid, cr.name cname, day, month,  d.id did, IFNULL(d.name,'Disciplinas Fundamental Menor') dname, count(cf.class_fk) as faults from class c
 					left join class_faults cf on (c.id = cf.class_fk)
 					join classroom cr on (cr.id = c.classroom_fk)
 					left join edcenso_discipline d on (discipline_fk = d.id)
-					where cr.school_year = :year and cr.school_inep_fk = :sid " .
-			($cid != "all" ? "and cr.id = :cid " : " ") .
-			($mid != "all" ? "and month = :mid " : " ") .
-			($did == "all" ? " " : ($did == "-1" ? " and d.id is null " : "and d.id  = :did ")) .
-			"group by c.day, c.month, c.discipline_fk
-					order by c.month, c.day, c.discipline_fk;";
+					where cr.school_year = :year and cr.school_inep_fk = :sid
+					$cFilter
+					$mFilter
+					$dFilter
+				group by c.day, c.month, c.discipline_fk
+				order by c.month, c.day, c.discipline_fk;";
 		$i = 0;
 		$params = [":sid" => $sid,":year" => yii::app()->user->year,];
 		($cid != "all" ? $params[":cid"] = $cid : $i );
@@ -103,27 +106,58 @@ class ManagementSchoolController extends CController
 		echo json_encode(["classes"=>$classes,"enrollments"=>$enrollments]);
 	}
 
-	public function actionLoadPerformanceChartData($sid, $cid, $mid, $did){
-		$sql = "select a.grade, count(a.grade) count
-				  from (select if(ifnull(g.grade2, 0) > 5 , ifnull(g.grade2, 0), ifnull(g.recovery_grade2, 0)) grade from student_enrollment se
-					left join grade g on g.enrollment_fk = se.id
-					join classroom c on c.id = se.classroom_fk
-				  where c.school_year = :year && c.school_inep_fk = :sid
-					   ) a
-			group by a.grade;";
-		$i = 0;
+	public function actionLoadPerformanceClassroomInfos($sid,$cid){
+		$results = null;
+		$cFilter = ($cid != "all" ? ":cid" : "se.classroom_fk");
+		$sql = "select distinct g.bimester unit, g.discipline_fk did, d.name discipline, se.classroom_fk cid from (
+				   select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk from grade
+				   union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT grade3 grade, id, 'g3' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT grade4 grade, id, 'g4' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT recovery_grade1 grade, id, 'r1' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT recovery_grade2 grade, id, 'r2' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT recovery_grade3 grade, id, 'r3' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT recovery_grade4 grade, id, 'r4' bimester, discipline_fk, enrollment_fk FROM grade)
+				   union ( SELECT recovery_final_grade grade, id, 'rf' bimester, discipline_fk, enrollment_fk FROM grade)
+				 ) g
+				  JOIN student_enrollment se on g.enrollment_fk = se.id
+				  JOIN classroom c on c.id = $cFilter
+				  LEFT JOIN edcenso_discipline d on d.id = g.discipline_fk
+				WHERE c.school_inep_fk = :sid && c.school_year = :year;";
+		$params = [":sid"=>$sid,":year"=>yii::app()->user->year];
+		if($cid != "all") $params[":cid"] = $cid;
+		$results = yii::app()->db->createCommand($sql)->queryAll(true,$params);
+		echo json_encode($results);
+		return true;
+	}
+
+	public function actionLoadPerformanceChartData($sid, $cid, $bid, $did){
+		$cFilter = ($cid == "all")? " ": " se.classroom_fk in ($cid) && ";
+		$bFilter = ($bid == "all")? " ": " g.bimester in ($bid) && ";
+		$dFilter = ($did == "all")? " ": " g.discipline_fk in ($did) && ";
+		$sql = "select g.id, g.grade, g.bimester, g.discipline_fk did, g.enrollment_fk eid, se.classroom_fk cid from (
+					select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk from grade
+					union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT grade3 grade, id, 'g3' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT grade4 grade, id, 'g4' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT recovery_grade1 grade, id, 'r1' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT recovery_grade2 grade, id, 'r2' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT recovery_grade3 grade, id, 'r3' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT recovery_grade4 grade, id, 'r4' bimester, discipline_fk, enrollment_fk FROM grade)
+					union ( SELECT recovery_final_grade grade, id, 'rf' bimester, discipline_fk, enrollment_fk FROM grade)
+				) g
+				  join student_enrollment se on g.enrollment_fk = se.id
+				  join classroom c on c.id = se.classroom_fk
+				where
+					$cFilter
+					$bFilter
+					$dFilter
+				  c.school_year = :year && c.school_inep_fk = :sid";
+
 		$params = [":sid" => $sid,":year" => yii::app()->user->year,];
-		($cid != "all" ? $params[":cid"] = $cid : $i );
-		($mid != "all" ? $params[":mid"] = $mid : $i );
-		($did != "all" && $did != "-1" ? $params[":did"] = $did : $i);
-		$classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+		$grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
-		$sql = "Select count(*) from student_enrollment e
-					join classroom cr on (cr.id = e.classroom_fk)
-					where cr.school_year = :year and cr.school_inep_fk = :sid;";
-		$enrollments = yii::app()->db->createCommand($sql)->queryScalar([":sid" => $sid,":year" => yii::app()->user->year,]);
-
-		echo json_encode(["classes"=>$classes,"enrollments"=>$enrollments]);
+		echo json_encode(["grades"=>$grades]);
 	}
 
 

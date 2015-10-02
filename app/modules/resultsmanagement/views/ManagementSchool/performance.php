@@ -10,12 +10,12 @@ $this->headerDescription = CHtml::tag("span", [],$school->name.CHtml::tag("span"
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScript("variables", '
-    var chartDataUrl = "'.$this->createUrl("loadChartData").'";
+    var chartDataUrl = "'.$this->createUrl("loadPerformanceChartData").'";
     var $sid = "'.$school->inep_id.'";
 ',CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
-//$cs->registerScriptFile($baseScriptUrl.'/common/js/managementschool.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/managementschool.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniChart.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filter.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
@@ -32,16 +32,16 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
             <div class="widget-body">
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-1">
-                        <?= $this->renderPartial('_efficiency', array('data' => $efficiencies)); ?>
+                        <?= $this->renderPartial('partialViews/_efficiency', array('data' => $efficiencies)); ?>
                     </div>
                     <div class="tab-pane" id="tab-2">
-                        <?= $this->renderPartial('_performance', array('school' => $school,'classrooms' => $classrooms)); ?>
+                        <?= $this->renderPartial('partialViews/_performance', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                     <div class="tab-pane" id="tab-3">
-                        <?= $this->renderPartial('_proficiency', array('school' => $school)); ?>
+                        <?= $this->renderPartial('partialViews/_proficiency', array('school' => $school)); ?>
                     </div>
                     <div class="tab-pane" id="tab-4">
-                        <?= $this->renderPartial('_evolution', array('school' => $school)); ?>
+                        <?= $this->renderPartial('partialViews/_evolution', array('school' => $school)); ?>
                     </div>
                 </div>
             </div>

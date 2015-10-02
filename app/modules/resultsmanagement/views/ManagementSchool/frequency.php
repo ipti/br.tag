@@ -13,9 +13,12 @@ $cs->registerScript("variables", '
     var chartDataUrl = "'.$this->createUrl("loadChartData").'";
     var $sid = "'.$school->inep_id.'";
 ',CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/managementschool.js', CClientScript::POS_END);
+
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.pie.min.js', CClientScript::POS_END);
+
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/iniChart.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/filter.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
@@ -44,6 +47,6 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 <div class="separator bottom"></div>
 <div class="row">
     <div class="col-md-12">
-        <div id="chart_pie" style="height: 400px; padding: 0px;"></div>
+        <div id="chart" style="height: 400px; padding: 0px;"></div>
     </div>
 </div>
