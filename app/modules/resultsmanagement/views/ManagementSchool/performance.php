@@ -12,10 +12,12 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScript("variables", '
     var chartDataUrl = "'.$this->createUrl("loadPerformanceChartData").'";
     var $sid = "'.$school->inep_id.'";
+    var proficiencyDataUrl = "'.$this->createUrl("loadDataForProficiency").'";
 ',CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniChart.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filter.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniPerformanceChart.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterPerformance.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterProficiency.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
@@ -38,7 +40,7 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
                         <?= $this->renderPartial('partialViews/_performance', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                     <div class="tab-pane" id="tab-3">
-                        <?= $this->renderPartial('partialViews/_proficiency', array('school' => $school)); ?>
+                        <?= $this->renderPartial('partialViews/_proficiency', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                     <div class="tab-pane" id="tab-4">
                         <?= $this->renderPartial('partialViews/_evolution', array('school' => $school)); ?>

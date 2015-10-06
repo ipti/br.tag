@@ -162,3 +162,27 @@ html {
 .tab-description {
     width: 60%;
 }
+
+.proficiency-box{
+    padding: 15px 0 15px 15px;
+}
+
+
+.proficiency-box-percentage span{
+    font-size: 14px;
+    padding-right: 5px;
+}
+
+.proficiency-box-percentage {
+    min-width: 53px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.proficiency-box-label span span{
+    font-size: 9px;
+}
+.proficiency-box-green{border-left: 2px solid  #27be25;}
+.proficiency-box-blue{ border-left: 2px solid #519ae1;}
+.proficiency-box-yellow { border-left: 2px solid #f3d442; }
+.proficiency-box-red{ border-left: 2px solid #e20000;}

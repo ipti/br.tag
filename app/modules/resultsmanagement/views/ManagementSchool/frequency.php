@@ -17,8 +17,8 @@ $cs->registerScript("variables", '
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.pie.min.js', CClientScript::POS_END);
 
-$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/iniChart.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/filter.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/iniPerformanceChart.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/filterPerformance.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
