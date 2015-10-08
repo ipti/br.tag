@@ -17,8 +17,8 @@
                 "class" => "filter-select",
                 "ajax" => [
                     "type"=>"get",
-                    "url"=>$this->createUrl("loadClassroomInfoForProficiency"),
-                    "success"=>"loadClassroomInfos",
+                    "url"=>$this->createUrl("LoadDisciplineInfo"),
+                    "success"=>"loadDisciplineInfoForProficiency",
                     "data"=>["sid"=>$school->inep_id, "cid"=>"js:this.value"],
                 ]
             ]); ?>

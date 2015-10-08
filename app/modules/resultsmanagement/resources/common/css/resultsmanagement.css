@@ -186,3 +186,23 @@ html {
 .proficiency-box-blue{ border-left: 2px solid #519ae1;}
 .proficiency-box-yellow { border-left: 2px solid #f3d442; }
 .proficiency-box-red{ border-left: 2px solid #e20000;}
+
+.efficiency-box{
+    margin-right: 5px;
+    float: left;
+    padding: 7px !important;
+}
+
+.efficiency-label{
+
+}
+
+.efficiency-number{
+    font-weight: bold;
+}
+
+.efficiency-number, .efficiency-number-label {
+    display: block;
+    text-align: center;
+    line-height: 12px;
+}

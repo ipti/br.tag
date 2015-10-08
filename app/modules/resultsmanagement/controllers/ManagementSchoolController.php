@@ -160,7 +160,7 @@ class ManagementSchoolController extends CController
 		echo json_encode(["grades"=>$grades]);
 
 	}
-	public function actionLoadClassroomInfoForProficiency($sid,$cid){
+	public function actionLoadDisciplineInfo($sid,$cid){
 		$cFilter = ($cid == "all") ? " " : "c.id in ($cid) and";
 		$sql = "select distinct c.id cid, ed.id did, ed.name discipline, c.school_year `year` from classroom c
 					join student_enrollment se on c.id = se.classroom_fk
@@ -176,17 +176,18 @@ class ManagementSchoolController extends CController
 		echo json_encode(["disciplines"=>$disciplines]);
 	}
 
+
 	public function actionLoadDataForProficiency($sid, $cid, $did){
 		$grade = 5;
 		$cFilter = ($cid == "all") ? " " : "c.id in ($cid) and";
 		$dFilter = ($did == "all") ? " " : "d.id in ($did) and";
-		$sql = "select if(grade >= $grade,  grade, recovery_final_grade) grade, g.discipline_fk did, se.classroom_fk cid,c.school_year year, count(*) count
-				  from
-					(select ((if(grade1 >= $grade, grade1, if(recovery_grade1 > grade1, recovery_grade1, grade1))
-							  + if(grade2 >= $grade, grade2, if(recovery_grade2 > grade2, recovery_grade2, grade2))
-							  + if(grade3 >= $grade, grade3, if(recovery_grade3 > grade3, recovery_grade3, grade3))
-							  + if(grade4 >= $grade, grade4, if(recovery_grade4 > grade4, recovery_grade4, grade4))) / 4) grade, recovery_final_grade, discipline_fk, enrollment_fk
-					 from grade )g
+		$sql = "select if(grade >= $grade , grade, recovery) grade, g.discipline_fk did, se.classroom_fk cid, bimester, count(*) count
+					from
+					(select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade
+					  union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk, recovery_grade2 recovery FROM grade)
+					  union ( SELECT grade3 grade, id, 'g3' bimester, discipline_fk, enrollment_fk, recovery_grade3 recovery FROM grade)
+					  union ( SELECT grade4 grade, id, 'g4' bimester, discipline_fk, enrollment_fk, recovery_grade4 recovery FROM grade)
+					  ) g
 				  JOIN edcenso_discipline d on d.id = g.discipline_fk
 				  JOIN student_enrollment se on se.id = g.enrollment_fk
 				  JOIN classroom c on c.id = se.classroom_fk
@@ -194,24 +195,64 @@ class ManagementSchoolController extends CController
 					$cFilter
 					$dFilter
 				  c.school_inep_fk = :sid
-				group by grade,did, year;";
+				group by grade,did, bimester
+				order by bimester;";
 		$params = [":sid" => $sid];
 		$grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
 		$result = [];
 		foreach($grades as $g){
-			if(!isset($result[$g["year"]])) $result[$g["year"]] = ["bad" => 0, "regular"=>0, "good"=>0, "best"=>0];
+			if(!isset($result[$g["bimester"]])) $result[$g["bimester"]] = ["bad" => 0, "regular"=>0, "good"=>0, "best"=>0];
 			$option = ($g["grade"] < 5) ? "bad"
 					:(($g["grade"] >= 5 && $g["grade"] < 7) ? "regular"
 					:(($g["grade"] >= 7 && $g["grade"] < 9) ? "good"
 					: "best" )) ;
-			$result[$g["year"]][$option] += intval($g["count"]);
+			$result[$g["bimester"]][$option] += intval($g["count"]);
 		}
 
 		echo json_encode($result);
 	}
 
+	public function actionLoadDataForEvolution($sid, $cid, $did) {
+		$grade = 5;
+		$cFilter = ($cid == "all") ? " " : "c.id in ($cid) and";
+		$dFilter = ($did == "all") ? " " : "d.id in ($did) and";
+		$sql = "select distinct if(grade >= $grade , grade, recovery) grade, g.bimester bimester, g.discipline_fk did, se.classroom_fk cid, count(*) count
+				  from
+				  (select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade
+					 union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk, recovery_grade2 recovery FROM grade)
+					 union ( SELECT grade3 grade, id, 'g3' bimester, discipline_fk, enrollment_fk, recovery_grade3 recovery FROM grade)
+					 union ( SELECT grade4 grade, id, 'g4' bimester, discipline_fk, enrollment_fk, recovery_grade4 recovery FROM grade)
+					) g
+				  JOIN student_enrollment se on g.enrollment_fk = se.id
+				  JOIN classroom c on c.id = se.classroom_fk
+				  JOIN edcenso_discipline d on d.id = g.discipline_fk
+				WHERE
+					$cFilter
+					$dFilter
+					c.school_inep_fk = :sid
+				group by grade, did, bimester
+				order by bimester;";
+		$params = [":sid" => $sid];
+		$grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+
+		$approveCount = ["g1"=>0, "g2"=>0,"g3"=>0,"g4"=>0];
+		$reproveCount = ["g1"=>0, "g2"=>0,"g3"=>0,"g4"=>0];
+		$allCount = ["g1"=>0, "g2"=>0,"g3"=>0,"g4"=>0];
+		foreach($grades as $g){
+			$bimester = $g["bimester"];
+			$count = $g["count"];
+			$grade = $g["grade"];
+			($grade >= 5) ? $approveCount[$bimester]+=$count : $reproveCount[$bimester]+=$count;
+			$allCount[$bimester]+=$count;
+		}
+
+		$result = ["g1"=>0, "g2"=>0,"g3"=>0,"g4"=>0];
+		foreach($result as $i => $v){
+			$result[$i] = number_format(($approveCount[$i]/$allCount[$i]) *100, 1, ".", "");
+		}
+
+		echo json_encode($result);
+	}
 }
-
-
 

@@ -13,11 +13,13 @@ $cs->registerScript("variables", '
     var chartDataUrl = "'.$this->createUrl("loadPerformanceChartData").'";
     var $sid = "'.$school->inep_id.'";
     var proficiencyDataUrl = "'.$this->createUrl("loadDataForProficiency").'";
+    var evolutionDataUrl = "'.$this->createUrl("loadDataForEvolution").'";
 ',CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniPerformanceChart.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterPerformance.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterProficiency.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterEvolution.js', CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
@@ -43,7 +45,7 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
                         <?= $this->renderPartial('partialViews/_proficiency', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                     <div class="tab-pane" id="tab-4">
-                        <?= $this->renderPartial('partialViews/_evolution', array('school' => $school)); ?>
+                        <?= $this->renderPartial('partialViews/_evolution', array('school' => $school,'classrooms' => $classrooms)); ?>
                     </div>
                 </div>
             </div>
