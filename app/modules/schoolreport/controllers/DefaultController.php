@@ -1,9 +1,8 @@
 <?php
 
-class DefaultController extends Controller
-{
-	public function actionIndex()
-	{
+class DefaultController extends CController{
+	public $headerDescription = "";
+	public function actionIndex(){
 		$this->render('index');
 	}
 }
