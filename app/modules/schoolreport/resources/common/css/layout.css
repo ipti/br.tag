@@ -1,16 +1,43 @@
-
-.header-block{
-    padding: 60px 120px 10px 120px;
+body {
+    background: #f1f1f1;
 }
 
-.header-description{
+header {
+    background: #19224D;
+    padding: 10px 0;
+    box-shadow: inset 0px -2px 3px rgb(15, 20, 45);
+}
+
+header h1 {
+    margin: 0;
+    color: #fff;
     font-size: 20px;
-    font-weight: normal;
 }
 
-.breadcrumb-bar{
-    padding: 2px 120px;
-    background-color: #7C7C7C;
-    width: 100%;
-    height: 30px;
+header button {
+    margin-top: 11px !important;
+}
+
+section#info {
+    background: #fff;
+    padding: 10px 0;
+}
+
+section#info .container {
+
+}
+section#info h2 {
+    font-size: 1.214rem;
+    margin-bottom: 0;
+    text-transform: capitalize;
+}
+
+section#info button {
+    margin-top: 5px;
+}
+
+section#reports{
+    border-top: 1px solid rgb(214, 214, 214);
+    padding: 20px 0;
+    margin-top: -1px;
 }
