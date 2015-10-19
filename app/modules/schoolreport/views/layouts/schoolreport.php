@@ -6,9 +6,8 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
-$year = Yii::app()->user->year;
-$eid = 6396;
-$enrollment = StudentEnrollment::model()->findByPk($eid                                       );
+$eid = 6396; //yii::app()->user->eid;
+$enrollment = StudentEnrollment::model()->findByPk($eid);
 $student = $enrollment->studentFk;
 $classroom = $enrollment->classroomFk;
 $school = $classroom->schoolInepFk;
@@ -74,136 +73,9 @@ $school = $classroom->schoolInepFk;
 
     <section id="reports">
         <div class="ui container">
-            <table class="ui striped very basic table">
-                <thead>
-                <tr>
-                    <th class="left aligned">Disciplina</th>
-                    <th>1ª</th>
-                    <th>2ª</th>
-                    <th>RS</th>
-                    <th>3ª</th>
-                    <th>4ª</th>
-                    <th>RS</th>
-                    <th>RF</th>
-                    <th>Média Final</th>
-                </tr></thead>
-                <tbody>
-                <tr>
-                    <td class="left aligned">Português</td>
-                    <td><a class="ui blue label">10</a></td>
-                    <td><a class="ui red label">4.4</a></td>
-                    <td><a class="ui blue label">6.8</a></td>
-                    <td><a class="ui blue label">6.8</a></td>
-                    <td><a class="ui blue label">6.8</a></td>
-                    <td><a class="ui blue label">6.8</a></td>
-                    <td><a class="ui blue label">6.8</a></td>
-                    <td><a class="ui blue image label">6.8<div class="detail">Aprovado</div></td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Matemática</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Geografia</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">História</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Biologia</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Física</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Química</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Inglês</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Redação</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td class="left aligned">Filosofia</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-                </tbody>
-            </table>
+            <?= $content ?>
         </div>
     </section>
-
-            <?= $content ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="<?=$baseScriptUrl?>/common/js/layout.js"></script>

@@ -1,0 +1,46 @@
+<?php
+
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/common/js/grades.js', CClientScript::POS_END);
+$cs->registerScript("vars", "var getGradesUrl = '".Yii::app()->createUrl("schoolreport/default/getGrades")."'", CClientScript::POS_BEGIN);
+$cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
+
+?>
+
+<table id="grades" class="ui striped very basic table">
+    <thead>
+        <tr>
+            <th id="discipline" class="left aligned">Disciplina</th>
+            <th class="center aligned">1ª</th>
+            <th class="center aligned">Rec. 1ª</th>
+            <th class="center aligned">2ª</th>
+            <th class="center aligned">Rec. 2ª</th>
+            <th class="center aligned">3ª</th>
+            <th class="center aligned">Rec. 3ª</th>
+            <th class="center aligned">4ª</th>
+            <th class="center aligned">Rec. 4ª</th>
+            <th class="center aligned">Rec. Final</th>
+            <th class="center aligned">Média Final</th>
+        </tr>
+        <?php foreach($disciplines as $did=>$name){
+            echo "<tr did='$did'>"
+                ."<td class='left aligned'>$name</td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."<td></td>"
+                ."</tr>";
+        }
+        ?>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
