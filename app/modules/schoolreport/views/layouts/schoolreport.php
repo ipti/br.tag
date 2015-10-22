@@ -6,7 +6,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
-$eid = 6396; //yii::app()->user->eid;
+$eid = $this->eid;
 $enrollment = StudentEnrollment::model()->findByPk($eid);
 $student = $enrollment->studentFk;
 $classroom = $enrollment->classroomFk;
@@ -27,7 +27,7 @@ $school = $classroom->schoolInepFk;
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css" rel="stylesheet"/>
+    <link href="//oss.maxcdn.com/semantic-ui/2.1.4/semantic.min.css" rel="stylesheet"/>
     <link href="<?=$baseScriptUrl?>/common/css/layout.css" rel="stylesheet"/>
     <script type="text/javascript">var $baseScriptUrl = "<?=$baseScriptUrl?>"</script>
 </head>
@@ -62,7 +62,7 @@ $school = $classroom->schoolInepFk;
                     </h2>
                 </div>
                 <div class="two wide column right aligned">
-                    <button class="ui small button">
+                    <button class="ui small button" onclick="window.print();">
                         <i class="print icon"></i>
                         Imprimir
                     </button>
@@ -77,7 +77,7 @@ $school = $classroom->schoolInepFk;
         </div>
     </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="<?=$baseScriptUrl?>/common/js/layout.js"></script>
 </body>
 </html>

@@ -22,6 +22,10 @@ $.getJSON(getGradesUrl, {}, function(json){
         var media = (parseInt(grade1)+parseInt(grade2)+parseInt(grade3)+parseInt(grade4)) / 4 ;
         media = media >= 5 ? media : (v.recovery_final_grade > media ? v.recovery_final_grade : media );
 
+        if(gradeTR.size() === 0){
+            $("#grades").append("<tr did='"+v.discipline_fk+"'></tr>");
+            gradeTR = $("#grades tbody tr[did="+v.discipline_fk+"]");
+        }
         //gradeTR.append('<tr>');
         gradeTR.html("");
         gradeTR.append('<td did="'+v.discipline_fk+'" class="left aligned">'+discipline+'</td>');

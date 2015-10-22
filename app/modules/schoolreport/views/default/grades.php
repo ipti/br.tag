@@ -8,7 +8,7 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
 
 ?>
 
-<table id="grades" class="ui striped very basic table">
+<table id="grades" class="ui compact selectable  table">
     <thead>
         <tr>
             <th id="discipline" class="left aligned">Disciplina</th>
@@ -23,24 +23,23 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
             <th class="center aligned">Rec. Final</th>
             <th class="center aligned">Média Final</th>
         </tr>
-        <?php foreach($disciplines as $did=>$name){
-            echo "<tr did='$did'>"
-                ."<td class='left aligned'>$name</td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."<td></td>"
-                ."</tr>";
-        }
-        ?>
     </thead>
     <tbody>
-
+    <?php foreach($disciplines as $did=>$name){
+        echo "<tr did='$did'>"
+            ."<td class='left aligned'>$name</td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."<td></td>"
+            ."</tr>";
+    }
+    ?>
     </tbody>
 </table>

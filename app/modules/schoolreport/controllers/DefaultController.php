@@ -36,4 +36,9 @@ class DefaultController extends CController{
         }
         echo json_encode($result);
     }
+
+    public function actionLogin(){
+        $this->layout = "login";
+        $this->render('login');
+    }
 }
