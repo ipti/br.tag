@@ -20,22 +20,30 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                 </h2>
             </div>
             <div class="ui segment">
-                <form class="ui large form">
+                <?php
+                $form = $this->beginWidget('CActiveForm', array(
+                    'id' => 'LoginForm',
+                    'enableAjaxValidation' => false,
+                    'htmlOptions' =>[
+                        'class'=>'ui large form',
+                    ],
+                ));
+                ?>
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="user icon"></i>
-                            <input type="text" name="email" placeholder="E-mail address">
+                            <input maxlength="11" type="text" name="LoginForm[username]" placeholder="CPF">
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="lock icon"></i>
-                            <input type="password" name="password" placeholder="Password">
+                            <input type="password" name="LoginForm[password]" placeholder="SENHA">
                         </div>
                     </div>
-                    <div class="ui inverted fluid large tag-blue submit button">Acessar</div>
-                    <div class="ui error message"></div>
-                </form>
+                    <input type="submit" class="ui inverted fluid large tag-blue submit button" value="Acessar"/>
+                    <div class="ui error message"><?= $form->errorSummary($model); ?></div>
+                <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>

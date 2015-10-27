@@ -6,11 +6,11 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
-$eid = $this->eid;
-$enrollment = StudentEnrollment::model()->findByPk($eid);
-$student = $enrollment->studentFk;
-$classroom = $enrollment->classroomFk;
-$school = $classroom->schoolInepFk;
+//$eid = $this->eid;
+//$enrollment = StudentEnrollment::model()->findByPk($eid);
+//$student = $enrollment->studentFk;
+//$classroom = $enrollment->classroomFk;
+//$school = $classroom->schoolInepFk;
 
 ?>
 <!DOCTYPE html>
@@ -27,7 +27,8 @@ $school = $classroom->schoolInepFk;
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
-    <link href="//oss.maxcdn.com/semantic-ui/2.1.4/semantic.min.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/accordion.min.css" rel="stylesheet"/>
     <link href="<?=$baseScriptUrl?>/common/css/layout.css" rel="stylesheet"/>
     <script type="text/javascript">var $baseScriptUrl = "<?=$baseScriptUrl?>"</script>
 </head>
@@ -43,7 +44,7 @@ $school = $classroom->schoolInepFk;
                 </div>
                 <div class="ten wide column"></div>
                 <div class="two wide column right aligned">
-                    <button class="ui inverted basic button">Sair</button>
+                    <a class="ui inverted basic button" href="<?= Yii::app()->createUrl("schoolreport/default/logout")?>">Sair</a>
                 </div>
             </div>
         </div>
@@ -56,8 +57,7 @@ $school = $classroom->schoolInepFk;
                     <h2 class="ui header">
                         <img src="https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-128.png" class="ui circular image">
                         <div class="content">
-                             <?=strtolower($student->name)?>
-                            <div class="sub header"><?=strtolower($school->name)?></div>
+                             <?=strtolower(Yii::app()->user->info['name'])?>
                         </div>
                     </h2>
                 </div>
@@ -78,6 +78,9 @@ $school = $classroom->schoolInepFk;
     </section>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/accordion.min.js"></script>
+
     <script src="<?=$baseScriptUrl?>/common/js/layout.js"></script>
 </body>
 </html>

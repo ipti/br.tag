@@ -41,3 +41,31 @@ section#reports{
     padding: 20px 0;
     margin-top: -1px;
 }
+
+.ui.inverted.tag-blue.segment{
+    background-color: #19224D!important;
+    color: #fff!important;
+}
+.ui.inverted.tag-blue.segment a{
+    color: #fff!important;
+}
+.ui.inverted.tag-blue.segment a:hover {
+    color: #BEBEBE!important;
+}
+.ui.tag-blue{
+    color:#19224D!important;
+}
+.ui.inverted.tag-blue.button, .ui.inverted.tag-blue.buttons .button{
+    background-color: transparent;
+    box-shadow: 0 0 0 2px #19224D inset!important;
+    color: #19224D;
+
+}
+.ui.inverted.tag-blue.button:hover, .ui.inverted.tag-blue.buttons .button:hover {
+    background-color: #19224D;
+    color: #fff!important;
+}
+
+.ui.cards .card{
+    margin-right: 20px;
+}
