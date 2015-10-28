@@ -27,11 +27,18 @@ class UserIdentity extends CUserIdentity
 
     public function authenticate() {
         $students = StudentIdentification::model()->findAllByAttributes(['responsable_cpf' => $this->username]);
+        if($students[0]->responsable == 0)
+            $responsible = $students[0]->father_name;
+        else if($students[0]->responsable == 1)
+            $responsible = $students[0]->mother_name;
+        else
+            $responsible = $students[0]->responsable_name;
+
         if (count($students) === 0) $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if (strtoupper($this->password) !== $this->schoolReportPassword($students[0]->responsable_name))
+        else if (strtoupper($this->password) !== $this->schoolReportPassword($responsible))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else {
-            $this->setState('info', ["cpf" => $students[0]->responsable_cpf, "name"=>$students[0]->responsable_name]);
+            $this->setState('info', ["cpf" => $students[0]->responsable_cpf, "name"=>$responsible]);
             $result =[];
             foreach($students as $student){
                 /* @var $student StudentIdentification

@@ -14,9 +14,9 @@
             $status_icon = "check";
         }
         echo '<div class="'.$active.' title">
-                    <i class="dropdown icon"></i>
+                <i class="dropdown icon"></i>
                     Ano '.$year.'
-                </div>
+              </div>
                 <div class="'.$active.' content ">
                     <div class="ui cards">';
         foreach ($enrolls as $eid => $info) {
