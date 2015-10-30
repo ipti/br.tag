@@ -29,6 +29,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.css" rel="stylesheet"/>
     <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/accordion.min.css" rel="stylesheet"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/menu.min.css" rel="stylesheet"/>
     <link href="<?=$baseScriptUrl?>/common/css/layout.css" rel="stylesheet"/>
     <script type="text/javascript">var $baseScriptUrl = "<?=$baseScriptUrl?>"</script>
 </head>
@@ -42,9 +43,10 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                     </a>
                     <h1><?= yii::t('schoolreportModule.layout', "School Report") ?></h1>
                 </div>
-                <div class="ten wide column"></div>
-                <div class="two wide column right aligned">
-                    <a class="ui inverted basic button" href="<?= Yii::app()->createUrl("schoolreport/default/logout")?>">Sair</a>
+                <div class="eight wide column"></div>
+                <div class="four wide column right aligned">
+                    <a class="ui inverted basic button float" href="#" onclick="window.history.back()">Voltar</a>
+                    <a class="ui inverted basic button float right" href="<?= Yii::app()->createUrl("schoolreport/default/logout")?>">Sair</a>
                 </div>
             </div>
         </div>
@@ -54,18 +56,39 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
         <div class="ui container">
             <div class="ui grid">
                 <div class="fourteen wide column">
-                    <h2 class="ui header">
-                        <img src="https://cdn0.iconfinder.com/data/icons/user-pictures/100/unknown2-128.png" class="ui circular image">
-                        <div class="content">
-                             <?=strtolower(Yii::app()->user->info['name'])?>
-                        </div>
+                    <h2 class="ui breadcrumb" >
+                        <a class="section" href="<?= Yii::app()->createUrl("schoolreport/default/index")?>"><?=strtolower(Yii::app()->user->info['name'])?></a>
+                        <?php if($this->studentName) {?>
+                            <i class="right chevron icon divider"></i>
+                            <div class="section">
+                                <?=strtolower($this->studentName)?>
+                            </div>
+                            <i class="right arrow icon divider"></i>
+                            <div class="active section">
+                                <div class="ui dropdown item">
+                                <?=strtolower($this->whichSectionIs)?>
+                                    <i class="dropdown icon"></i>
+                                    <div class="menu">
+                                        <a href="<?= Yii::app()->createUrl("schoolreport/default/frequency",['eid' => $this->eid])?>" class="item">
+                                            Frequência
+                                        </a>
+                                        <a href="<?= Yii::app()->createUrl("schoolreport/default/grades",['eid' => $this->eid])?>" class="item">
+                                            Notas
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+
                     </h2>
                 </div>
                 <div class="two wide column right aligned">
+                    <?php if($this->showPrintButton){?>
                     <button class="ui small button" onclick="window.print();">
                         <i class="print icon"></i>
                         Imprimir
                     </button>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -80,6 +103,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/semantic.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/accordion.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.4/components/accordion.min.js"></script>
 
     <script src="<?=$baseScriptUrl?>/common/js/layout.js"></script>
 </body>

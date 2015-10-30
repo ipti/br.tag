@@ -38,7 +38,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="lock icon"></i>
-                            <input type="password" name="LoginForm[password]" placeholder="SENHA">
+                            <input type="password" name="LoginForm[password]" placeholder="Senha">
                         </div>
                     </div>
                     <input type="submit" class="ui inverted fluid large tag-blue submit button" value="Acessar"/>

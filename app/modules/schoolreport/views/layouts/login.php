@@ -1,6 +1,5 @@
 <?php
 /* @var $content String Conteúdo da página.
- * @var $enrollment StudentEnrollment
  */
 $themeUrl = Yii::app()->theme->baseUrl;
 $homeUrl = Yii::app()->controller->module->baseUrl;

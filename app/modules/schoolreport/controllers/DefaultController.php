@@ -2,26 +2,41 @@
 
 class DefaultController extends CController{
 	public $headerDescription = "";
+    public $showPrintButton = false;
+    public $studentName = null;
+    public $whichSectionIs = null;
     public $eid = null;
 
 	public function actionIndex(){
         if(Yii::app()->user->isGuest)
-    		$this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else
             $this->render('select');
 	}
+    public function actionError(){
+        $this->layout = "login";
+        if ($error = Yii::app()->errorHandler->error) {
+            if (Yii::app()->request->isAjaxRequest)
+                echo $error['message'];
+            else
+                $this->render('error', ['error'=>$error]);
+        }
+    }
 
 	public function actionGrades($eid){
         if(Yii::app()->user->isGuest)
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
              * @var $cb ClassBoard
              */
+            $this->showPrintButton = true;
+            $this->whichSectionIs = "Notas";
             $this->eid = $eid;
             $enrollment = StudentEnrollment::model()->findByPk($this->eid);
+            $this->studentName = $enrollment->studentFk->name;
             $classroom = $enrollment->classroomFk;
             $classboards = $classroom->classBoards;
             $disciplines = [];
@@ -36,7 +51,7 @@ class DefaultController extends CController{
 
 	public function actionGetGrades($eid){
         if(Yii::app()->user->isGuest)
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else {
             /* @var $grade Grade */
             $grades = Grade::model()->findAll("enrollment_fk = :eid", [":eid" => $eid]);
@@ -50,30 +65,34 @@ class DefaultController extends CController{
     }
 
     public function actionLogin(){
-        $this->layout = "login";
-        // collect user input data
-        $model = new LoginForm();
-        if (isset($_POST['LoginForm'])) {
-            $model->attributes = $_POST['LoginForm'];
-            if ($model->validate() && $model->login()) {
-                $this->redirect($this->createUrl("default/select"));
+        if(Yii::app()->user->isGuest) {
+            $this->layout = "login";
+            // collect user input data
+            $model = new LoginForm();
+            if (isset($_POST['LoginForm'])) {
+                $model->attributes = $_POST['LoginForm'];
+                if ($model->validate() && $model->login()) {
+                    $this->redirect($this->createUrl("default/select"));
+                }
             }
+            // display the login form
+            $this->render('login', array('model' => $model));
+        }else{
+            $this->redirect(yii::app()->createUrl("schoolreport/default/select"));
         }
-        // display the login form
-        $this->render('login', array('model' => $model));
     }
     public function actionLogout(){
         if(Yii::app()->user->isGuest)
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else {
             Yii::app()->user->logout(false);
-            $this->redirect(Yii::app()->getModule('schoolreport')->user->loginUrl);
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         }
     }
 
     public function actionSelect(){
         if(Yii::app()->user->isGuest)
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else {
             $this->render('select');
         }
@@ -81,17 +100,19 @@ class DefaultController extends CController{
 
     public function actionFrequency($eid){
         if(Yii::app()->user->isGuest)
-            $this->render('login');
+            $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
              * @var $cb ClassBoard
              */
+            $this->showPrintButton = true;
+            $this->whichSectionIs = "Frequ&ecirc;ncia";
             $this->eid = $eid;
             $enrollment = StudentEnrollment::model()->findByPk($this->eid);
+            $this->studentName = $enrollment->studentFk->name;
             $classroom = $enrollment->classroomFk;
-            $disciplines = [];
             $frequency = [];
             $classesList = Yii::app()->db->createCommand(
                 "select month, discipline_fk, ed.name discipline_name, classroom_fk, count(schedule) classes from class

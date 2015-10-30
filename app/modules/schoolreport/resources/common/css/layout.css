@@ -69,3 +69,11 @@ section#reports{
 .ui.cards .card{
     margin-right: 20px;
 }
+
+.card > .content {
+    padding: 1em !important;
+}
+
+h2.ui.breadcrumb{
+    margin-top: 10px!important;
+}

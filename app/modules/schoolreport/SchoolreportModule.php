@@ -10,9 +10,9 @@ class SchoolreportModule extends CWebModule{
 		$this->layoutPath = yii::getPathOfAlias("schoolreport.views.layouts");
 		$this->layout = "schoolreport";
 
-		$this->setComponents([
+		Yii::app()->setComponents([
 			'errorHandler' => [
-				'errorAction' => 'schoolreport/default/error'
+				'errorAction' => 'schoolreport/default/error',
 			],
 			'user' =>[
 				'class' => 'CWebUser',
