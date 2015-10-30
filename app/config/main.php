@@ -30,6 +30,7 @@ return array(
             ),
         ),
         'wizard',
+        'schoolreport',
     ),
     // application components
     'components' => array(
@@ -43,14 +44,20 @@ return array(
             'showScriptName' => false,
             'caseSensitive' => false,
             'rules' => array(
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                'boletim-escolar/'                          => 'schoolreport/',
+                'boletim-escolar/'                          => 'schoolreport/default/select',
+                'boletim-escolar/notas/<eid:\d+>'           => 'schoolreport/default/grades',
+                'boletim-escolar/frequencia/<eid:\d+>'      => 'schoolreport/default/frequency',
+                'boletim-escolar/<action:\w+>'              => 'schoolreport/default/<action>',
+                'boletim-escolar/<action:\w+>/<eid:\d+>'    => 'schoolreport/default/<action>',
+                '<controller:\w+>/<id:\d+>'                 => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>'    => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'             => '<controller>/<action>',
             ),
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tag',
+            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.boquim.tag',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',
