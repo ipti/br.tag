@@ -311,10 +311,7 @@ class StudentController extends Controller {
                         'target'=>"_blank"),'<i></i>Ficha Individual Educação Especial');
             $buttons .= "<br>";
         }
-        
 
-        
-        
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter,

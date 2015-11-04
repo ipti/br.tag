@@ -763,7 +763,25 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelEnrollment, 'classroom_fk', CHtml::listData(Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year, "school_inep_fk" => Yii::app()->user->school), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
+                                    <?php
+
+
+
+                                    $stage = StudentEnrollment::model()->find() $modelStudentIdentification->studentEnrollments
+
+
+
+                                    echo $form->dropDownList($modelEnrollment, 'classroom_fk',
+                                        CHtml::listData(
+                                            Classroom::model()->findAllByAttributes([
+                                                'condition' => "school_year = :year AND school_inep_fk = :school AND edcenso_stage_vs_modality_fk in :stages",
+                                                'params' => [
+                                                    ':year' => Yii::app()->user->year,
+                                                    ':school' => Yii::app()->user->school,
+                                                    ":stages" => EdcensoStageVsModality::getNextStages($stage)
+                                                ],
+                                                'order' => 'name']), 'id', 'name'),
+                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                                 </div>
                             </div>
