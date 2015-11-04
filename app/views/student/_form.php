@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var $this StudentController
+ * @var $form CActiveForm
+ * @var $cs CClientScript
+ *
+*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js', CClientScript::POS_END);
@@ -162,11 +168,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off'), array('ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('student/getnations'),
-                                            'update' => '#StudentIdentification_edcenso_nation_fk'
-                                    )));
+                                    echo $form->dropDownList($modelStudentIdentification,
+                                        'nationality',
+                                        array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
+                                        array('class' => 'select-search-off',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('student/getnations'),
+                                                'update' => '#StudentIdentification_edcenso_nation_fk'
+                                            )
+                                        )
+                                    );
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
                                 </div>
@@ -765,22 +777,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
 
-
-
-                                    $stage = StudentEnrollment::model()->find() $modelStudentIdentification->studentEnrollments
-
-
+                                    $stage = $modelStudentIdentification->getCurrentStageVsModality();
+                                    $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
+                                    $classrooms = Classroom::model()->findAll(
+                                        "school_year = :year AND school_inep_fk = :school AND edcenso_stage_vs_modality_fk in ($stages)",
+                                        [
+                                            ':year' => Yii::app()->user->year,
+                                            ':school' => Yii::app()->user->school,
+                                        ]);
 
                                     echo $form->dropDownList($modelEnrollment, 'classroom_fk',
                                         CHtml::listData(
-                                            Classroom::model()->findAllByAttributes([
-                                                'condition' => "school_year = :year AND school_inep_fk = :school AND edcenso_stage_vs_modality_fk in :stages",
-                                                'params' => [
-                                                    ':year' => Yii::app()->user->year,
-                                                    ':school' => Yii::app()->user->school,
-                                                    ":stages" => EdcensoStageVsModality::getNextStages($stage)
-                                                ],
-                                                'order' => 'name']), 'id', 'name'),
+                                            $classrooms, 'id', 'name'),
                                         array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                                 </div>
@@ -957,6 +965,6 @@ $form = $this->beginWidget('CActiveForm', array(
     var formIdentification = '#StudentIdentification_';
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+    //var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
     var filled = -1;    
 </script>
