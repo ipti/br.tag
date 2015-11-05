@@ -1,0 +1,208 @@
+
+.header-block h2 {
+    margin: 20px 120px 5px 120px;
+}
+.header-description{
+    width: 50%;
+    font-size: 22px;
+}
+.header-description span{
+    color: #575655;
+}
+.content-block{
+    margin: 0 120px;
+    padding: 0;
+}
+
+.panel-title .accordion-toggle:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";
+    float: left;
+    margin-right: 5px;
+    color: grey;
+}
+.panel-title .accordion-toggle.collapsed:before {
+    content: "\e080";
+}
+
+.panel-content{
+    height: auto;
+}
+
+.panel-content h5{
+    margin-top: 10px;
+    font-size: 21px;
+}
+.panel-content h5 span{
+    font-size: 14px;
+}
+
+.panel-content span{
+    padding: 0 5px;
+    color: rgb(163, 163, 163);
+}
+
+.panel-box{
+    margin: 0 5px;
+    padding: 10px 5px;
+    border: 1px solid rgb(163, 163, 163);
+    font-size: 10px;
+}
+.panel-bar {
+    text-align: center;
+    background-color: lightgray;
+    font-size: 11px;
+}
+
+.row > .panel-bar {
+    margin: 5px 15px;
+}
+
+.row > div > .panel-bar {
+    margin: 5px 0px;
+}
+
+h6 img {
+    height: 26px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.box {
+    min-width: 60px;
+    display: inline-block;
+    border-radius: 3px;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    vertical-align: middle;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.box p {
+    font-size: 8px;
+    padding: 0;
+    margin: 0;
+}
+
+.box-green-1{ background-color: #27be25;}
+.box-green-2{ background-color: #239421;}
+.box-green-3{ background-color: #186716;}
+.box-green-4{ background-color: #2E5A33;}
+.box-green-5{ background-color: #304933;}
+
+.box-blue-1{ background-color: #519ae1;}
+.box-blue-2{ background-color: #2d7eba;}
+.box-blue-3{ background-color: #235082;}
+.box-blue-4{ background-color: #15385f;}
+
+.box-orange-1 {background-color: #E4842A;}
+.box-orange-2 {background-color: #C16612;}
+.box-orange-3 {background-color: #BB6412;}
+.box-orange-4 {background-color: #8E4A0B;}
+
+.box-yellow-1 {background-color: #f3d442;}
+.box-yellow-2 {background-color: #b79e33;}
+.box-yellow-3 {background-color: #887320;}
+.box-yellow-3 {background-color: #624f18;}
+
+.box-purple-1 {background-color: #D577FF;}
+.box-purple-2 {background-color: #B06CCE;}
+.box-purple-3 {background-color: #9A59B7;}
+.box-purple-4 {background-color: #8851A0;}
+.box-purple-5 {background-color: #6C3F80;}
+.box-purple-6 {background-color: #4F305D;}
+
+.box-red-1{ background-color: #e20000;}
+.box-red-2{ background-color: #b40000;}
+.box-red-3{ background-color: #8f0000;}
+.box-red-4{ background-color: #5a0000;}
+
+.box-gray-1{ background-color: #bdbdbd;}
+.box-gray-2{ background-color: #878787;}
+.box-gray-3{ background-color: #4f4f4f;}
+.box-gray-4{ background-color: #3a3a3a;}
+
+.box-brown-1{ background-color: #b1591a;}
+.box-brown-2{ background-color: #8e4117;}
+.box-brown-3{ background-color: #46230d;}
+.box-brown-4{ background-color: #3c1b0e;}
+
+.row span{
+    font-size: 11px;
+    padding: 0;
+}
+
+.map-label {
+    display:block;
+}
+.map-label a {
+    color: black;
+    decoration:none;
+}
+
+.filter-select+.select2{
+    display: block;
+    width: 100% !important;
+}
+
+
+html {
+    overflow-y: scroll;
+}
+
+
+.efficiency-block {
+    text-align: center;
+    padding-left: 0 !important;
+}
+
+.tab-description {
+    width: 60%;
+}
+
+.proficiency-box{
+    padding: 15px 0 15px 15px;
+}
+
+
+.proficiency-box-percentage span{
+    font-size: 14px;
+    padding-right: 5px;
+}
+
+.proficiency-box-percentage {
+    min-width: 53px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.proficiency-box-label span span{
+    font-size: 9px;
+}
+.proficiency-box-green{border-left: 2px solid  #27be25;}
+.proficiency-box-blue{ border-left: 2px solid #519ae1;}
+.proficiency-box-yellow { border-left: 2px solid #f3d442; }
+.proficiency-box-red{ border-left: 2px solid #e20000;}
+
+.efficiency-box{
+    margin-right: 5px;
+    float: left;
+    padding: 7px !important;
+}
+
+.efficiency-label{
+
+}
+
+.efficiency-number{
+    font-weight: bold;
+}
+
+.efficiency-number, .efficiency-number-label {
+    display: block;
+    text-align: center;
+    line-height: 12px;
+}

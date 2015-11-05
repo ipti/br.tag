@@ -466,3 +466,17 @@ $(formIdentification + 'responsable').on('change', function () {
         $('#responsable_name').hide();
     }
 });
+
+$(formEnrollment + 'school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$(formEnrollment + 'school_admission_date').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    var school_admission_date = stringToDate($(formEnrollment + 'school_admission_date').val());
+
+
+    if ((!validateDate($(formEnrollment + 'school_admission_date').val()) || !validateYear(school_admission_date.year)) && ($(id).val() != '')) {
+        //$(formIdentification + 'birthday').attr('value', '');
+        addError(id, "Campo não está dentro das regras.");
+    } else {
+        removeError(id);
+    }
+});
