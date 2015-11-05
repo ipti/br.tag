@@ -14,12 +14,11 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic">Oops - Algo Inexperado aconteceu</h3>  
+        <h3 class="heading-mosaic">Oops - Algo Inesperado aconteceu</h3>
         <div class="buttons">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
         </div>
