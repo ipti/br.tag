@@ -98,7 +98,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 </div>
                             </div>
-
                             <div class="control-group hidden">
                             <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 <div class="controls">

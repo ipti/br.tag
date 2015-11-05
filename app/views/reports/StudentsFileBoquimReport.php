@@ -510,6 +510,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 -->
                             </div>
                         </div>
+                        <?php $this->renderPartial('footer'); ?>
                         </div>
                         </div>
 

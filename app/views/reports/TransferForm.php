@@ -20,105 +20,164 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <br/>
 <div class="innerLR boquim">
     <div>
+        
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            jQuery(function ($) {
+                jQuery.ajax({'type': 'GET',
+                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                    'url': '<?php echo Yii::app()->createUrl('reports/getTransferFormInformation') ?>',
+                    'success': function (data) {
+                        gerarRelatorio(data);
+                    }, 'error': function () {
+                        limpar();
+                    }, 'cache': false});
+                return false;
+            }
+            );
+            /*]]>*/
+        </script>
+        
         <br>
-        <div id="report">
+        <div id="report" style="font-size: 10px">
 
             <div id="container-header" style="display:table; margin: 0 auto;margin-top: -30px;text-align: center;">                
                 <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 0 auto; display: block">
-                <span style="margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
+                <span style="margin-top: 5px; font-size: 12px">PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO<!--, CULTURA, ESPORTE, LAZER E TURISMO--><br>
                     BASE LEGAL: LEI FEDERAL - 9394/96 - LEI MUNICIPAL: 523/2006<br>
                     PARECER: 10/2007/CMEB, RESOLUÇÕES: 45/2010/CMEB, 44/2010/CMEB, 35/2009/CMEB, 23/2008/CMEB
                 </span>
                 <span style="clear:both;display:block"></span>
             </div>
-            <br/><br/>
+            <br/>
 
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
-                <div style=" height:100%;  border: 1px solid black; text-align: center; background-color: lightgray; margin-bottom: 5px;">GUIA DE TRANSFERÊNCIA</div>
-            </div>
-
+                <div style="text-align: center; margin-bottom: 5px; font-size: 12px">GUIA DE TRANSFERÊNCIA</div>
+            </div>            
+            
             <table>
                 <tr>
                     <td colspan="8">
-                        UNIDADE ESCOLAR: <?php echo $school->name ?><br>
-                        ENDEREÇO: <?php echo $school->address ?><br>
-                        ATO DE CRIAÇÃO: ______________________________________________________________________________________________________________________________________________<br>
-                        ATO DE AUTORIZAÇÃO: _______________________________________________________________________________________________________________________________________
+                        <span style="font-weight: bold">UNIDADE ESCOLAR: </span><?php echo $school->name ?><br>
+                        <span style="font-weight: bold">ENDEREÇO: </span><?php echo $school->address ?><br>
+                        <span style="font-weight: bold">ATO DE CRIAÇÃO: </span>___________________________________________________________________________________________________________________________________________<br>
+                        <span style="font-weight: bold">ATO DE AUTORIZAÇÃO: </span>____________________________________________________________________________________________________________________________________
                     </td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">ALUNO(A)</td>
-                    <td colspan="5"></td>
-                    <td style="text-align: center">ID. ALUNO</td>
-                    <td></td>
+                    <td style="text-align: center; font-weight: bold">ALUNO(A)</td>
+                    <td colspan="5">
+                        <span class="name"></span>
+                    </td>
+                    <td style="text-align: center; font-weight: bold">ID. ALUNO</td>
+                    <td style="text-align: center">
+                        <span class="inep_id"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <td rowspan="2" style="text-align: center">
+                    <td rowspan="2" style="text-align: center; font-weight: bold">
                         LOCAL DE<br>
                         NASCIMENTO
                     </td>
-                    <td colspan="4" style="text-align: center">CIDADE</td>
-                    <td style="text-align: center">ESTADO</td>
-                    <td style="text-align: center">NACIONALIDADE</td>
-                    <td style="text-align: center">DATA DE NASCIMENTO</td>
+                    <td colspan="3" style="text-align: center; font-weight: bold">CIDADE</td>
+                    <td style="text-align: center; font-weight: bold">ESTADO</td>
+                    <td style="text-align: center; font-weight: bold">NACIONALIDADE</td>
+                    <td colspan="2" style="text-align: center; font-weight: bold">DATA DE NASCIMENTO</td>
                 </tr>
                 <tr>
-                    <td colspan="4">&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td colspan="3" style="text-align: center">
+                        <span class="birth_city"></span>
+                    </td>
+                    <td style="text-align: center">
+                        <span class="birth_state"></span>
+                    </td>
+                    <td style="text-align: center">
+                        <?php 
+                            switch ($nationality) {
+                                case '1':
+                                    echo "BRASILEIRA";
+                                    break;
+                                case '2':
+                                    echo "BRASILEIRA: NASCIDO NO EXTERIOR OU NATURALIZADO";
+                                    break;
+                                case '3':
+                                    echo "ESTRANGEIRA";
+                                    break;
+                            }
+                        ?>
+                    </td>
+                    <td colspan="2" style="text-align: center">
+                        <span class="birthday"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: center">DOCUMENTO DE IDENTIDADE - RG</td>
-                    <td colspan="2" style="text-align: center">DATA DE EXPEDIÇÃO</td>
-                    <td colspan="2" style="text-align: center">ORGÃO EXPEDIDOR</td>
-                    <td style="text-align: center">ESTADO</td>
+                    <td colspan="3" style="border-right: none">
+                        <span style="font-weight: bold">DOCUMENTO DE IDENTIDADE - RG: </span>
+                        <span class="rg_number"></span>
+                    </td>
+                    <td colspan="2" style="border-right: none; border-left: none">
+                        <span style="font-weight: bold">DATA DE EXPEDIÇÃO: </span>
+                        <span class="rg_date"></span>
+                    </td>    
+                    <td colspan="2" style="border-right: none; border-left: none">
+                        <span style="font-weight: bold">ORGÃO EXPEDIDOR: </span>
+                        <span class="rg_emitter"></span>
+                    </td>    
+                    <td colspan="1" style="border-left: none">
+                        <span style="font-weight: bold">ESTADO: </span>
+                        <span class="rg_uf"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3">&nbsp;</td>
-                    <td colspan="2">&nbsp;</td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>&nbsp;</td>
+                    <td colspan="3" style="border-right: none">
+                        <span style="font-weight: bold">CERTIDÃO DE NASCIMENTO Nº: </span>
+                        <span class="civil_certification"></span>
+                    </td>
+                    <td colspan="1" style="border-right: none; border-left: none">    
+                        <span style="font-weight: bold">FLS: </span>
+                        <span class="civil_certification_sheet"></span>
+                    </td>    
+                    <td colspan="1" style="border-right: none; border-left: none">    
+                        <span style="font-weight: bold">LIVRO: </span>
+                        <span class="civil_certification_book"></span>
+                    </td>    
+                    <td colspan="2" style="border-right: none; border-left: none">    
+                        <span style="font-weight: bold">DISTRITO/MUNICÍPIO: </span>
+                        <span class="civil_certification_city"></span>
+                    </td>
+                    <td colspan="1" style="border-left: none">    
+                        <span style="font-weight: bold">ESTADO: </span>
+                        <span class="civil_certification_uf"></span>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: center">Nº DA CERTIDÃO DE NASCIMENTO</td>
-                    <td style="text-align: center">FLS</td>
-                    <td style="text-align: center">LIVRO</td>
-                    <td colspan="2" style="text-align: center">DISTRITO/MUNICÍPIO</td>
-                    <td style="text-align: center">ESTADO</td>
-                </tr>
-                <tr>
-                    <td colspan="3">&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="8">NOME DE PAI/MÃE: </td>
+                    <td colspan="8">
+                        <span style="font-weight: bold">NOME DE PAI/MÃE: </span>
+                        <span class="father"></span> / 
+                        <span class="mother"></span></td>
                 </tr>
             
             
                 <tr>
-                    <td colspan="8" style="text-align: center">RESULTADO DE ESTUDOS REALIZADOS NO ENSINO FUNDAMENTAL
+                    <td colspan="8" style="text-align: center; font-weight: bold">RESULTADO DE ESTUDOS REALIZADOS NO ENSINO FUNDAMENTAL
                         <br>LEI FEDERAL 9394/96 - LEI MUNICIPAL: 523/2006
                     </td>                    
                 </tr>
                 <tr>
-                    <td rowspan="10" style="text-align: center">
+                    <td rowspan="10" style="text-align: center; font-weight: bold">
                         BASE<br>
                         NACIONAL<br>
                         COMUM</td>
-                    <td rowspan="2" colspan="3" style="text-align: center">ÁREA DE CONHECIMENTO</td>
-                    <td colspan="4" style="text-align: center">RESULTADO FINAL</td>
+                    <td rowspan="2" colspan="3" style="text-align: center; font-weight: bold">ÁREA DE CONHECIMENTO</td>
+                    <td colspan="4" style="text-align: center; font-weight: bold">RESULTADO FINAL</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="text-align: center">
+                    <td colspan="2" style="text-align: center; font-weight: bold">
                         1º CICLO PEDAGÓGICO<br>
                         1º ao 3º ESCOLAR
                     </td>
-                    <td colspan="2" style="text-align: center">CORREÇÃO DE FLUXO</td>
+                    <td colspan="2" style="text-align: center; font-weight: bold">CORREÇÃO DE FLUXO</td>
                 </tr>
                 <tr>
                     <td colspan="3">LÍNGUA PORTUGUESA</td>                
@@ -143,7 +202,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr><td colspan="3">MATEMÁTICA</td></tr>
                 <tr><td colspan="3">ENSINO RELIGIOSO</td></tr>
                 <tr>
-                    <td rowspan="3" style="text-align: center">
+                    <td rowspan="3" style="text-align: center; font-weight: bold">
                         PARTE<br>
                         DIVERSIDADE
                     </td>
@@ -152,28 +211,27 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr><td colspan="3">&nbsp;</td></tr>
 
 
-                <tr><td colspan="8" style="text-align: center">ESTUDOS REALIZADOS NO ENSINO FUNDAMENTAL</td></tr>
+                <tr><td colspan="8" style="text-align: center; font-weight: bold">ESTUDOS REALIZADOS NO ENSINO FUNDAMENTAL</td></tr>
                 <tr>
-                    <td style="text-align: center">FORMA</td>
-                    <td style="text-align: center">ANO</td>
-                    <td style="text-align: center">
+                    <td style="text-align: center; font-weight: bold">FORMA</td>
+                    <td style="text-align: center; font-weight: bold">ANO</td>
+                    <td style="text-align: center; font-weight: bold">
                         ANO DE<br>
                         CONCLUSÃO
                     </td>
-                    <td style="text-align: center">
+                    <td style="text-align: center; font-weight: bold">
                         CARGA<br>
                         HORÁRIA
                     </td>
-                    <td style="text-align: center">FREQUÊNCIA</td>
-                    <td style="text-align: center">UNIDADE ESCOLAR</td>
-                    <td style="text-align: center">MUNICÍPIO</td>
-                    <td style="text-align: center">U.F.</td>
+                    <td style="text-align: center; font-weight: bold">FREQUÊNCIA</td>
+                    <td style="text-align: center; font-weight: bold">UNIDADE ESCOLAR</td>
+                    <td style="text-align: center; font-weight: bold">MUNICÍPIO</td>
+                    <td style="text-align: center; font-weight: bold">U.F.</td>
                 </tr>
                 <tr>
-                    <td rowspan="3" style="text-align: center; transform: translate(5px, 0px) rotate(270deg);">1º CICLO</td>
-                    <td style="text-align: center">
-                        1º<br>
-                        ANO
+                    <td rowspan="3" style="text-align: center; transform: translate(5px, 0px) rotate(270deg); font-weight: bold">1º CICLO</td>
+                    <td style="text-align: center; font-weight: bold">
+                        1º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -183,9 +241,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">
-                        2º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        2º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -195,9 +252,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">
-                        3º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        3º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -207,13 +263,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan="4" style="text-align: center; transform: translate(5px, 0px) rotate(270deg);">
+                    <td rowspan="4" style="text-align: center; transform: translate(5px, 0px) rotate(270deg); font-weight: bold">
                         CORREÇÃO<br>
                         DE FLUXO
                     </td>
-                    <td style="text-align: center">
-                        1º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        1º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -223,9 +278,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">
-                        2º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        2º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -235,9 +289,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">
-                        3º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        3º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -247,9 +300,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align: center">
-                        4º<br>
-                        ANO
+                    <td style="text-align: center; font-weight: bold">
+                        4º ANO
                     </td>
                     <td></td>
                     <td></td>
@@ -260,9 +312,21 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
             </table>
             
-            
+            <!--
+                *****************************************************************
+                **                                                             **
+                **   TIRAR A DIV ESCONDIDA ABAIXO QUANDO FOR USAR ESSA PÁGINA  **
+                **                                                             **
+                *****************************************************************
+            -->
+            <div style="display: none">
+                
+                
+                
+                
+                
+                
             <div class="page-break"></div>
-            
             
             <div style="width: 100%; text-align: center;">TRANSFERÊNCIA DURANTE O PERÍODO LETIVO</div>
             <table style="text-align: center">
@@ -628,7 +692,25 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <br>
                 <span>Diretor(a)</span>
             </div>
+            
+            
+            
+            
+            
+            <!--
+                ****************************
+                **                        **
+                **   //END DIV ESCONDIDA  **
+                **                        **
+                ****************************
+            -->
+            </div>
+            
+            
+            
+            
         </div>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
 
@@ -643,6 +725,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     table {
         width: 100%;
         border-collapse: collapse;
+    }
+    td {
+        padding: 5px
     }
     @media print {
         table, td, tr, th {
@@ -665,12 +750,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             width: 5px;
             line-height: 13px;
             margin: 0px 10px 0px 0px;
-        }
-        #canvas-td {
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-            background-repeat:no-repeat;
-            background-position:center center;
-            background-size: 100% 100%, auto;
         }
         .page-break {
             page-break-after: always;

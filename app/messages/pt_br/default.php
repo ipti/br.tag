@@ -24,6 +24,7 @@ return array(
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
     'Add'=> 'Adicionar',
+    'Add (Simple)'=> 'Adicionar (Simplificado)',
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',

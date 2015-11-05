@@ -20,14 +20,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <br/>
 <div class="innerLR boquim">
     <div>
-        <!--
+        
         
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
-                    'data': {'enrollment_id':<?php //echo $enrollment_id;?>},
-                    'url': '<?php //echo Yii::app()->createUrl('reports/getEnrollmentDeclarationInformation') ?>',
+                    'data': {'enrollment_id':<?php echo $enrollment_id;?>},
+                    'url': '<?php echo Yii::app()->createUrl('reports/getEnrollmentNotificationInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
                     }, 'error': function () {
@@ -39,7 +39,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             /*]]>*/
         </script>
         
-        -->
+        
+        
         <br>
         <div id="report" style="font-size: 12px">
 
@@ -47,7 +48,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div>
                     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
                 </div>
-                <span>
+                <span style="font-size: 14px">
                     ESTADO DE SERGIPE<br>
                     PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
@@ -56,14 +57,37 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <div style="text-align: center;">
-                    <span style="border-bottom: 1px solid">
-                        DEPARTAMENTO DE INSPEÇÃO ESCOLAR<br><br>
-                        COMUNICADO
+                    <span style="font-size: 14px">
+                        DEPARTAMENTO DE INSPEÇÃO ESCOLAR</span><br><br>
+                    <span style="border-bottom: 1px solid; font-size: 16px">COMUNICADO</span>
                     </span>
                 </div>
                 <br><br>
                 
-                Comunicamos que o(a) aluno(a) XXXXXX matriculou-se nesta Unidade Escolar, no ano de YYYY, no turno TTTTTTT, com o professor(a) XXXXXXX.
+                Comunicamos que 
+                <?php 
+                    if ($gender == '1'){
+                        echo "o aluno";
+                    } else {
+                        echo "a aluna";
+                    }
+                ?>
+                <span class="name" style="font-weight: bold"></span> 
+                matriculou-se no(a) 
+                <?php echo $school->name?>, 
+                no ano de 
+                <span class="enrollment_date"></span>, 
+                no turno
+                <?php
+                    if ($shift == 'M'){
+                        echo "matutino, ";
+                    } else if ($shift == 'T'){
+                        echo "vespertino, ";
+                    } else {
+                        echo "[não informado], ";
+                    }
+                ?>
+                com o professor(a) ___________________________________________________________________.
                 
                 <br><br>
                 <span class="pull-right">
@@ -71,7 +95,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </span>
                 <br/><br/><br>
                 <div style="text-align: center">
-                    <span>
+                    <span style="font-size: 14px">
                         SIMONE MOURA DE SOUZA ALMEIDA
                     </span>
                     <br/>
@@ -85,6 +109,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
         </div>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
 
