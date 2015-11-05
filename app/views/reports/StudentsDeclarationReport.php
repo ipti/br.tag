@@ -81,5 +81,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         _______________________________________________________<BR>
         <b>ASSINATURA DO DIRETOR(A)/SECRETÁRIO(A)</b>
         </p>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>

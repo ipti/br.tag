@@ -1,2 +1,1 @@
-
-<p class="info-issued">Emitido em <?php echo date('d/m/Y à\s H:i'); ?></p>
+<p class="info-issued">Gerado pelo Sistema de Informação TAG em: <?php echo date('d/m/Y à\s H:i'); ?></p>
