@@ -83,7 +83,7 @@ class StudentDocumentsAndAddress extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk, residence_zone', 'required'),
-			array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, document_failure_lack, residence_zone, edcenso_uf_fk, edcenso_city_fk', 'numerical', 'integerOnly'=>true),
+			array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, document_failure_lack, residence_zone, edcenso_uf_fk, edcenso_city_fk, justice_restriction', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
 			array('student_fk', 'length', 'max'=>12),
@@ -162,12 +162,13 @@ class StudentDocumentsAndAddress extends CActiveRecord
 			'neighborhood' => Yii::t('default', 'Neighborhood'),
 			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
-                        'received_cc' => Yii::t('default', 'Received Civil Certificate'), 
-                        'received_address' => Yii::t('default', 'Received Receipt Address'),     
-                        'received_photo' => Yii::t('default', 'Received Photo'), 
-                        'received_nis' => Yii::t('default', 'Received NIS'), 
-                        'received_responsable_rg' => Yii::t('default', 'Received Responsable`s RG'), 
-                        'received_responsable_cpf' => Yii::t('default', 'Received Responsable`s CPF')
+			'received_cc' => Yii::t('default', 'Received Civil Certificate'),
+			'received_address' => Yii::t('default', 'Received Receipt Address'),
+			'received_photo' => Yii::t('default', 'Received Photo'),
+			'received_nis' => Yii::t('default', 'Received NIS'),
+			'received_responsable_rg' => Yii::t('default', 'Received Responsable`s RG'),
+			'received_responsable_cpf' => Yii::t('default', 'Received Responsable`s CPF'),
+			'justice_restriction' => Yii::t('default', 'Justice Restriction')
 		);
 	}
 
