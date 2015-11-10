@@ -14,13 +14,14 @@ header h1 {
     font-size: 20px;
 }
 
-header button {
+header a.button {
     margin-top: 11px !important;
 }
 
 section#info {
     background: #fff;
     padding: 10px 0;
+    height: 58px;
 }
 
 section#info .container {
@@ -33,7 +34,7 @@ section#info h2 {
 }
 
 section#info button {
-    margin-top: 5px;
+    margin-top: 2px;
 }
 
 section#reports{
@@ -73,6 +74,15 @@ section#reports{
 .card > .content {
     padding: 1em !important;
 }
+
+.ui.cards .card .description {
+    margin-bottom: 10px;
+}
+.ui.cards .card .header {
+    margin-bottom: 0px;
+}
+
+
 
 h2.ui.breadcrumb{
     margin-top: 10px!important;
