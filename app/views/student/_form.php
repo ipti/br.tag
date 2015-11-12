@@ -955,7 +955,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid">
                         <div class="span11">
-                            <div class="widget widget-scroll margin-bottom-none">
+                            <div id="enrollment" class="widget widget-scroll margin-bottom-none">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons book_open">
                                         <i></i><?php echo yii::t("default", "Enrollments"); ?>
@@ -963,7 +963,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td><td colspan="2"></td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Excluir</td></tr></thead>
                                         <tbody>
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
@@ -971,7 +971,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
                                                 <td><?php echo $me->classroomFk->name ?></td>
-                                                <td><?php echo $me->classroomFk->school_year ?></td>
+                                                <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                     $type;
                                                     switch($me->classroomFk->modality){
@@ -1008,9 +1008,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             break;
                                                     }
                                                 ?>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha individual</a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Excluir</a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
                                             </tr>
                                             <?php
                                         }

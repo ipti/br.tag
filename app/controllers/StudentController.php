@@ -284,36 +284,15 @@ class StudentController extends Controller {
         if($sid != null){
             $buttons = CHtml::tag('a',
                     array('href'=>yii::app()->createUrl('student/update',array('id'=>$sid)),
-                        'class'=>"btn btn-primary btn-icon glyphicons eye_open"),'<i></i>Visualizar Aluno');
+                        'class'=>"btn btn-primary btn-icon glyphicons eye_open",
+                        'style'=>'margin-top: 5px; width: 110px'),'<i></i>Visualizar aluno');
             $buttons .= "<br>";
             $buttons .= CHtml::tag('a',
-                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>0, 'student_id'=>$sid)),
+                    array('href'=>yii::app()->createUrl('student/update', array('id'=>$sid, "#"=>'enrollment')),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
-                        'style'=>'margin-top: 5px; width: 250px',
-                        'target'=>"_blank"),'<i></i>Ficha Individual Educação Infantil');
-            $buttons .= "<br>";
-            $buttons .= CHtml::tag('a',
-                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>1, 'student_id'=>$sid)),
-                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
-                        'style'=>'margin-top: 5px; width: 250px',
-                        'target'=>"_blank"),'<i></i>Ficha Individual Ensino Fundamental');
-            $buttons .= "<br>";
-            $buttons .= CHtml::tag('a',
-                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>2, 'student_id'=>$sid)),
-                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
-                        'style'=>'margin-top: 5px; width: 250px',
-                        'target'=>"_blank"),'<i></i>Ficha Individual Educação de Jovens e Adultos');
-            $buttons .= "<br>";
-            $buttons .= CHtml::tag('a',
-                    array('href'=>yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>3, 'student_id'=>$sid)),
-                        'class'=>"btn btn-primary btn-icon glyphicons notes_2",
-                        'style'=>'margin-top: 5px; width: 250px',
-                        'target'=>"_blank"),'<i></i>Ficha Individual Educação Especial');
+                        'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
         }
-        
-
-        
         
         $this->render('index', array(
             'dataProvider' => $dataProvider,
