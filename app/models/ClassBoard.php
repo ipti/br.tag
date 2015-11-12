@@ -36,12 +36,16 @@ class ClassBoard extends CActiveRecord
 	}
 
         public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
+			if(isset(Yii::app()->user->school)){
+				return [
+					'afterSave'=>[
+						'class'=>'application.behaviors.CAfterSaveBehavior',
+						'schoolInepId' => Yii::app()->user->school,
+					],
+				];
+			}else{
+				return [];
+			}
         }
         
 	/**
