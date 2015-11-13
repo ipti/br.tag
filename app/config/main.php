@@ -26,10 +26,9 @@ return array(
             'password' => 'p@s4tag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
             'ipFilters' => array('127.0.0.1', '::1'),
-            'generatorPaths' => array(
-            ),
         ),
         'wizard',
+        'lunch',
     ),
     // application components
     'components' => array(
@@ -43,6 +42,10 @@ return array(
             'showScriptName' => false,
             'caseSensitive' => false,
             'rules' => array(
+                'merenda-escolar/'                          => 'lunch/',
+                'merenda-escolar/<action:\w+>'              => 'lunch/default/<action>',
+                'merenda-escolar/<action:\w+>/<eid:\d+>'    => 'lunch/default/<action>',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
