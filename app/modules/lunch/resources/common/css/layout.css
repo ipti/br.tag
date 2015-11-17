@@ -1,0 +1,16 @@
+
+.text-right {text-align: right !important;} /*For right align*/
+.text-left {text-align: left !important;} /*For left align*/
+.text-center {text-align: center !important;} /*For center align*/
+
+.modal, .modal-dialog, .modal-content, .modal-header{
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.modal-title{
+    padding-top: 6px!important;
+}
+
+form{
+    margin: 0!important;
+}

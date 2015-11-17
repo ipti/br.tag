@@ -1,7 +1,6 @@
 <?php
 
 class DefaultController extends Controller {
-	public $layout = "layout";
 
 	public function actionIndex(){
 		$this->render('index');

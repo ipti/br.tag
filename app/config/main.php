@@ -44,7 +44,10 @@ return array(
             'rules' => array(
                 'merenda-escolar/'                          => 'lunch/',
                 'merenda-escolar/<action:\w+>'              => 'lunch/default/<action>',
-                'merenda-escolar/<action:\w+>/<eid:\d+>'    => 'lunch/default/<action>',
+                'merenda-escolar/estoque/'                  => 'lunch/stock/',
+                'merenda-escolar/estoque/<action:\w+>'      => 'lunch/stock/<action>',
+                'merenda-escolar/menu/'                     => 'lunch/lunch/',
+                'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

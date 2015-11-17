@@ -9,7 +9,6 @@ class LunchModule extends CWebModule {
         $this->baseUrl = Yii::app()->createUrl("lunch");
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.lunch.resources'));
         $this->layoutPath = yii::getPathOfAlias("lunch.views.layouts");
-        $this->layout = "layout";
 
         Yii::app()->setComponents([
             'errorHandler' => [
@@ -24,6 +23,8 @@ class LunchModule extends CWebModule {
 	}
 
 	public function beforeControllerAction($controller, $action){
+		$controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
+
 		if(parent::beforeControllerAction($controller, $action)){
 			return true;
 		}

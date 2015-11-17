@@ -1,10 +1,27 @@
-<h1><?php echo $this->uniqueId . '/' . $this->action->id; ?></h1>
-
-<p>
-This is the view content for action "<?php echo $this->action->id; ?>".
-The action belongs to the controller "<?php echo get_class($this); ?>"
-in the "<?php echo $this->module->id; ?>" module.
-</p>
-<p>
-You may customize this page by editing <tt><?php echo __FILE__; ?></tt>
-</p>
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?= yii::t('lunchModule.index','Lunch')?></h3>
+    </div>
+</div>
+<div class="innerLR home">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="row-fluid">
+                <div class="span3">
+                    <a href="<?= yii::app()->createUrl('lunch/stock/index')?>" class="widget-stats">
+                        <span class="glyphicons shopping_bag"><i></i></span>
+                        <span class="txt"><?= yii::t('lunchModule.index','Stock')?></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+                <div class="span3">
+                    <a href="<?= yii::app()->createUrl('lunch/lunch/index')?>" class="widget-stats">
+                        <span class="glyphicons notes"><i></i></span>
+                        <span class="txt"><?= yii::t('lunchModule.index','Menu')?></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
