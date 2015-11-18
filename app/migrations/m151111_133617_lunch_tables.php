@@ -5,13 +5,13 @@ class m151111_133617_lunch_tables extends CDbMigration {
     public function up() {
         $this->createTable('lunch_received',[
             'id' => 'pk',
-            'date' => 'date NOT NULL',
+            'date' => 'datetime NOT NULL',
             'inventory_fk' => 'int NOT NULL'
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
         $this->createTable('lunch_spent',[
             'id' => 'pk',
-            'date' => 'date NOT NULL',
+            'date' => 'datetime NOT NULL',
             'motivation' => 'varchar(100) NOT NULL',
             'inventory_fk' => 'int NOT NULL'
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
@@ -66,7 +66,7 @@ class m151111_133617_lunch_tables extends CDbMigration {
 
         $this->createTable('lunch_menu',[
             'id' => 'pk',
-            'date' => 'date NOT NULL'
+            'date' => 'datetime NOT NULL'
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
         //lunch_received -> lunch_inventory

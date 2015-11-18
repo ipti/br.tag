@@ -62,8 +62,8 @@ class Inventory extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'school' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
-			'received' => array(self::HAS_MANY, 'Received', 'inventory_fk'),
-			'spent' => array(self::HAS_MANY, 'Spent', 'inventory_fk'),
+			'received' => array(self::BELONGS_TO, 'Received', 'inventory_fk'),
+			'spent' => array(self::BELONGS_TO, 'Spent', 'inventory_fk'),
 			'item' => [self::BELONGS_TO, 'Item', 'item_fk']
 		);
 	}

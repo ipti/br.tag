@@ -23,11 +23,15 @@ class School extends CActiveRecord{
         ];
     }
 
+    /**
+     *
+     * @return array Array with th
+     */
     public function itemsAmount(){
         $amount = [];
         foreach($this->inventories as $inventory){
-            $index = $inventory->item->name;
-            $exist = isset($amount[$inventory->item->name]);
+            $index = $inventory->item->id;
+            $exist = isset($amount[$inventory->item->id]);
 
             if($exist){
                 $amount[$index]["amount"] += floatval($inventory->amount);
@@ -41,6 +45,36 @@ class School extends CActiveRecord{
                 $amount[$index]["amount"] = floatval($inventory->amount);
             }
         }
+
         return $amount;
+    }
+
+    /**
+     * @param String $initialDate Format(Y-m-d) default Null
+     * @param String $finalDate Format(Y-m-d) default Null
+     *
+     * @return CDbCommand
+     */
+    public function transactions($initialDate = null, $finalDate = null){
+        $whereSchool  = "school = $this->inep_id";
+        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : " ";
+        $whereFinal   = $finalDate   != null ? " AND date <= $finalDate"   : " ";
+        $sql="select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
+                from (
+                    select lr.id, lr.date, null motivation, lr.inventory_fk inventory, li.school_fk school, li.item_fk item, li.amount from lunch_received lr
+                        join lunch_inventory li on (lr.inventory_fk = li.id)
+                    union(
+                    select ls.id, ls.date, ls.motivation, ls.inventory_fk, li.school_fk, li.item_fk, li.amount from lunch_spent ls
+                        join lunch_inventory li on (ls.inventory_fk = li.id)
+                    )
+                ) a
+                    join lunch_item li on (a.item = li.id)
+                    join lunch_unity lu on (li.unity_fk = lu.id)
+              where $whereSchool $whereInitial $whereFinal
+              order by date DESC";
+
+        $result = yii::app()->db->createCommand($sql)->queryAll();
+
+        return $result;
     }
 }

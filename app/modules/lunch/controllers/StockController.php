@@ -40,7 +40,7 @@ class StockController extends CController {
 
             $received = new Received();
             $received->inventory_fk = $inventory->id;
-            $received->date = date("Y/m/d");
+            $received->date = date("Y/m/d h:i:s");
 
             if($received->validate()){
                 $received->save();
@@ -76,7 +76,7 @@ class StockController extends CController {
 
             $spent = new Spent();
             $spent->inventory_fk = $inventory->id;
-            $spent->date = date("Y/m/d");
+            $spent->date = date("Y/m/d h:i:s");
             $spent->motivation = $motivation;
 
             if($spent->validate()){
