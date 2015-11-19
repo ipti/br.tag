@@ -65,9 +65,9 @@ class Received extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'date' => Yii::t('default', 'Date'),
-			'inventory_fk' => Yii::t('default', 'Inventory Fk'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'date' => Yii::t('lunchModule.labels', 'Date'),
+			'inventory_fk' => Yii::t('lunchModule.labels', 'Inventory'),
 		);
 	}
 

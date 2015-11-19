@@ -74,10 +74,10 @@ class Inventory extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'school_fk' => Yii::t('default', 'School Fk'),
-			'item_fk' => Yii::t('default', 'Item Fk'),
-			'amount' => Yii::t('default', 'Amount'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'school_fk' => Yii::t('lunchModule.labels', 'School'),
+			'item_fk' => Yii::t('lunchModule.labels', 'Item'),
+			'amount' => Yii::t('lunchModule.labels', 'Amount'),
 		);
 	}
 

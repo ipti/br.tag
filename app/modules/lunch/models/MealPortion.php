@@ -69,10 +69,10 @@ class MealPortion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'meal_fk' => Yii::t('default', 'Meal Fk'),
-			'portion_fk' => Yii::t('default', 'Portion Fk'),
-			'amount' => Yii::t('default', 'Amount'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'meal_fk' => Yii::t('lunchModule.labels', 'Meal'),
+			'portion_fk' => Yii::t('lunchModule.labels', 'Portion'),
+			'amount' => Yii::t('lunchModule.labels', 'Amount'),
 		);
 	}
 

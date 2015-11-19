@@ -72,11 +72,11 @@ class Portion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'item_fk' => Yii::t('default', 'Item Fk'),
-			'amount' => Yii::t('default', 'Amount'),
-			'unity_fk' => Yii::t('default', 'Unity Fk'),
-			'measure' => Yii::t('default', 'Measure'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'item_fk' => Yii::t('lunchModule.labels', 'Item'),
+			'amount' => Yii::t('lunchModule.labels', 'Amount'),
+			'unity_fk' => Yii::t('lunchModule.labels', 'Unity'),
+			'measure' => Yii::t('lunchModule.labels', 'Measure'),
 		);
 	}
 

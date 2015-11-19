@@ -67,10 +67,10 @@ class Spent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'date' => Yii::t('default', 'Date'),
-			'motivation' => Yii::t('default', 'Motivation'),
-			'inventory_fk' => Yii::t('default', 'Inventory Fk'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'date' => Yii::t('lunchModule.labels', 'Date'),
+			'motivation' => Yii::t('lunchModule.labels', 'Motivation'),
+			'inventory_fk' => Yii::t('lunchModule.labels', 'Inventory'),
 		);
 	}
 

@@ -80,11 +80,11 @@ class Item extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'name' => Yii::t('default', 'Name'),
-			'description' => Yii::t('default', 'Description'),
-			'unity_fk' => Yii::t('default', 'Unity Fk'),
-			'measure' => Yii::t('default', 'Measure'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'name' => Yii::t('lunchModule.labels', 'Name'),
+			'description' => Yii::t('lunchModule.labels', 'Description'),
+			'unity_fk' => Yii::t('lunchModule.labels', 'Unity'),
+			'measure' => Yii::t('lunchModule.labels', 'Measure'),
 		);
 	}
 

@@ -63,8 +63,8 @@ class Menu extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'date' => Yii::t('default', 'Date'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'date' => Yii::t('lunchModule.labels', 'Date'),
 		);
 	}
 

@@ -2,5 +2,5 @@
 return [
     'Lunch' => "Merenda Escolar",
     'Stock' => 'Estoque',
-    'Menu' => 'Menu de Refeições',
+    'Menu' => 'Cardápio de Refeições',
 ];

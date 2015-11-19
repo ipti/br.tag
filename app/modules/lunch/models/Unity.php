@@ -68,9 +68,9 @@ class Unity extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('default', 'ID'),
-			'name' => Yii::t('default', 'Name'),
-			'acronym' => Yii::t('default', 'Acronym'),
+			'id' => Yii::t('lunchModule.labels', 'ID'),
+			'name' => Yii::t('lunchModule.labels', 'Name'),
+			'acronym' => Yii::t('lunchModule.labels', 'Acronym'),
 		);
 	}
 
