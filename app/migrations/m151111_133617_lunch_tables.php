@@ -5,13 +5,13 @@ class m151111_133617_lunch_tables extends CDbMigration {
     public function up() {
         $this->createTable('lunch_received',[
             'id' => 'pk',
-            'date' => 'datetime NOT NULL',
+            'date' => 'datetime NULL DEFAULT CURRENT_TIMESTAMP()',
             'inventory_fk' => 'int NOT NULL'
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
         $this->createTable('lunch_spent',[
             'id' => 'pk',
-            'date' => 'datetime NOT NULL',
+            'date' => 'datetime NULL DEFAULT CURRENT_TIMESTAMP()',
             'motivation' => 'varchar(100) NOT NULL',
             'inventory_fk' => 'int NOT NULL'
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
@@ -66,7 +66,9 @@ class m151111_133617_lunch_tables extends CDbMigration {
 
         $this->createTable('lunch_menu',[
             'id' => 'pk',
-            'date' => 'datetime NOT NULL'
+            'name' => 'varchar(45) NOT NULL',
+            'date' => 'datetime NULL DEFAULT CURRENT_TIMESTAMP()',
+            'school_fk' => 'varchar(8) COLLATE utf8_unicode_ci NOT NULL',
         ],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
         //lunch_received -> lunch_inventory
@@ -95,6 +97,10 @@ class m151111_133617_lunch_tables extends CDbMigration {
         $this->addForeignKey('meals_menus','lunch_menu_meal','menu_fk','lunch_menu','id','CASCADE','CASCADE');
         //lunch_menu_meal -> lunch_meal
         $this->addForeignKey('menus_meals','lunch_menu_meal','meal_fk','lunch_meal','id','CASCADE','CASCADE');
+
+        //lunch_menu -> school_identification
+        $this->addForeignKey('school_menus','lunch_menu','school_fk','school_identification','inep_id','CASCADE','CASCADE');
+
 
     }
 

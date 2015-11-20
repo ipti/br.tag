@@ -2,6 +2,7 @@
 .text-right {text-align: right !important;} /*For right align*/
 .text-left {text-align: left !important;} /*For left align*/
 .text-center {text-align: center !important;} /*For center align*/
+table .text-center {vertical-align: middle!important;} /*For center align*/
 
 .modal, .modal-dialog, .modal-content, .modal-header{
     border-radius: 5px 5px 0px 0px !important;
@@ -28,4 +29,18 @@ form{
 }
 .green {
     color:green!important;
+}
+
+.form-group .form-control{
+    margin-left: 5px!important;
+}
+
+.table-clear td{
+    border: 0px!important;
+    border-bottom: 1px solid rgb(229, 229, 229)!important;
+    border-collapse: collapse!important;
+}
+
+.odd {
+    background-color: #f8f8f8!important;
 }

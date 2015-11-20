@@ -10,8 +10,8 @@
  * @property double $amount
  *
  * The followings are the available model relations:
- * @property Menu $menuFk
- * @property Meal $mealFk
+ * @property Menu $menu
+ * @property Meal $meal
  */
 class MenuMeal extends CActiveRecord
 {

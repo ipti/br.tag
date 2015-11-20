@@ -12,8 +12,8 @@
  *
  * The followings are the available model relations:
  * @property MealPortion[] $mealPortions
- * @property Item $itemFk
- * @property Unity $unityFk
+ * @property Item $item
+ * @property Unity $unity
  */
 class Portion extends CActiveRecord
 {
