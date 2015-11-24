@@ -74,6 +74,8 @@ return array(
     'Private School Maintainer Cnpj' => 'CNPJ da Mantenedora',
     'Private School Cnpj' => 'CNPJ',
     'Regulation' => 'Regulamentação',
+    'Act of acknowledgement' => 'Ato de reconhecimento',
+    'Logo' => 'Brasão da escola',
     
     //School Structure
     'School Inep Id Fk' => 'Escola',
@@ -390,6 +392,7 @@ return array(
     'Current stage situation' => 'Situação na série/etapa atual',
     'Previous stage situation' => 'Situação no ano anterior',
     'School admission date' => 'Data de ingresso na escola',
+    'Admission type' => 'Tipo de ingresso',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',

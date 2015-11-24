@@ -29,7 +29,7 @@ class SchoolController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update',
-                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies'),
+                    'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -153,6 +153,15 @@ class SchoolController extends Controller {
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
+            /*
+             *
+             *
+             * tratar upload do brasao da escola aqui no create
+             *
+             *
+             */
+
+
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
@@ -197,6 +206,14 @@ class SchoolController extends Controller {
 
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
+
+
+            if(!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])){
+                $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');
+                $modelSchoolIdentification->logo_file_name = $file->name;
+                $modelSchoolIdentification->logo_file_type = $file->type;
+                $modelSchoolIdentification->logo_file_content = file_get_contents($file->tempName);
+            }
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
@@ -288,6 +305,13 @@ class SchoolController extends Controller {
         if ($return === null)
             throw new CHttpException(404, 'A página requisitada não existe.');
         return $return;
+    }
+
+    public function actionDisplayLogo($id){
+        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $this->renderPartial('logo', array(
+            'model'=>$model
+        ));
     }
 
     /**

@@ -112,6 +112,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </td>
                     </tr>
                 </table>
+                <?php
+                    echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'style'=>'display:block;margin: 5px 0 5px 320px'));
+                ?>
                 <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
                     <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
                     <div class="span2"><b>INEP: </b><?php echo $school->inep_id ?></div>

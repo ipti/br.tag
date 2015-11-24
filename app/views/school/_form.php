@@ -10,6 +10,7 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScrip
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'school',
 	'enableAjaxValidation'=>false,
+    'htmlOptions' => array('enctype' => 'multipart/form-data'),
 )); ?>
 
 <div class="row-fluid">
@@ -58,11 +59,28 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">    
                         <div class=" span6">
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
+                                </div>
+                            </div>
+                            <?php
+                                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$modelSchoolIdentification->inep_id)), 'logo', array('width'=>40, 'style'=>'display:block;margin: -10px 0 15px 145px'));
+                            ?>
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'class' => 'span10')); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School code in the registration INEP'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'act_of_acknowledgement', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textArea($modelSchoolIdentification, 'act_of_acknowledgement'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'act_of_acknowledgement'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
