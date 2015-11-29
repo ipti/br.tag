@@ -38,13 +38,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </script>
         <br>
         <div id="report">
-            <div id="container-header" style="width: 600px; margin: 0 auto;margin-top: -30px;">
+            <div id="container-header" style="width: 100%; margin: -25px auto auto auto; text-align: center">
+                <?php if(isset($school->act_of_acknowledgement)){?>
+                <span style="display:block;clear:both;width: 40px;margin:0 auto;">
+                    <?php
+                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'display:block;width:40px; margin:0 auto'));
+                ?>
+                </span>
+                <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
+                <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
+                <p style="font-size:8px;font-weight: bold">
+                    <?php echo $school->address ?>,
+                    <?php echo $school->edcensoCityFk->name ?>/
+                    <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
+                </p>
+                <span style="display: block; clear: both"></span>
+                <?php }else{?>
                 <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
                 <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
                 <span style="clear:both;display:block"></span>
+                <?php }?>
             </div>
-            <br>
+            <br/>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <?php
                 if ($_REQUEST['type'] == '3') {
@@ -54,7 +70,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 }
                 ?>
                 <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
-<!--                    --><?php //echo $namereport ?>
+<?php //echo $namereport ?>
                     <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
                     <span class="stage"></span>
                 </div>
@@ -64,8 +80,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <tr>
                         <?php
                             if ($_REQUEST['type'] == '0') {
-                                echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px -11px 0px;">REQUERIMENTO</div></th>';
-                                echo '<td colspan="3" style="border-top: 1px solid black;"/>';
+                                echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
+                                echo '<td colspan="3" style="border-bottom: 1px solid black;">'
+                                    . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
+                                    . '</td>';
                             } else if ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
                                 echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                                 echo '<td colspan="3" style="border-bottom: 1px solid black;">'
@@ -84,13 +102,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         if ($_REQUEST['type'] == '2') {
                             echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
                         ?>
-                        <span class="class"></span>
+                            NO_________ANO
+                        <!--<span class="class"></span>-->
                         <?php
                             echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                         } else {
                             echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA ';
                         ?>
-                        <span class="class"></span>
+                            <?php
+                                if ($_REQUEST['type'] == '0'){
+                                    echo '<span class="class"></span>';
+                                }else{
+                                    echo 'NO_________ANO';
+                                }
+                            ?>
                         <?php
                             echo ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
                         }
@@ -112,9 +137,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </td>
                     </tr>
                 </table>
-                <?php
-                    echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'style'=>'display:block;margin: 5px 0 5px 320px'));
-                ?>
+
                 <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
                     <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
                     <div class="span2"><b>INEP: </b><?php echo $school->inep_id ?></div>
@@ -202,13 +225,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
                 <tr>
                     <td>
-                        <div class="span7" >
+                        <div class="span5" >
                             <b>11 - Nome do responsável e parentesco: </b>
                             <br><span class="responsable_name"></span>
                         </div>
-                        <div class="span3"><b>RG: </b><span class="responsable_rg"></span>
-                            <br><b>CPF: </b><span class="responsable_cpf"></span>
-                            <br><b>Telefone: </b><span class="responsable_telephone"></span>
+                        <div class="span5">
+                            <br/>
+                            <b>RG: </b><span class="responsable_rg"></span>
+                            <b>CPF: </b><span class="responsable_cpf"></span>
+                            <b>Telefone: </b><span class="responsable_telephone"></span>
                         </div>
                     </td>
                 </tr>
@@ -236,39 +261,69 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     <tr>
                                         <td>
                                             <div class="span10"><b>14 - Documentos(s) que habilita(m) matrícula no segmento: </b>
-                                                <div class="received_documents"></div>
+                                                <!--CORRIGIR AQUI--->
+                                                <!--<div class="received_documents"></div>-->
                                                 <br><b>OBS.</b>: Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="span9"><b>15 - Data de ingresso nesta escola: </b>
-                                                <br><span class="school_admission_date"></span>
+                                            <div class="span9"><b>15 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"></span></b>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <div class="span9"><b>16 - Situação do aluno na série/etapa: </b>
-                                                    <br><span class="current_stage_situation"></span>
-<!--                                                <br>--><?php //echo $situation ?>
+                                                    <br>
+                                                    <div style="margin-right: -20px;">
+                                                        <?php
+                                                        if ($_REQUEST['type'] == '0'){
+                                                            echo ' <span class="current_stage_situation"></span>';
+                                                        }else{?>
+                                                            <b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
+                                                            <br/> <b>☐</b> Promovido na série/etapa anterior do mesmo curso(nível e/ou modalidade de ensino)
+                                                            <br/> <b>☐</b> Repetente
+                                                        <?php } ?>
+
+                                                    </div>
+
                                             </div>
+
+
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>
+                                            <div class="span10"><b>17 - Situação do Aluno no ano Anterior: </b></div>
+                                            <br><div class="span3" style="margin-right: -20px;">
+                                                <b>☐</b> Não Frequentou
+                                                <br><b>☐</b> Reprovado
+                                            </div>
+                                            <div class="span4" style="margin-right: -20px;">
+                                                <b>☐</b> Afastado por transferência
+                                                <br><b>☐</b> Matricula final em Educação Infantil
+                                            </div>
+                                            <div class="span3">
+                                                <b>☐</b> Afastado por abandono
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!--<tr>
                                         <td>
                                             <div class="span10"><b>17 - Situação do aluno no ano anterior: </b>
-                                                <br><span class="previous_stage_situation"></span>
+                                                <br/>
+                                                <br>
+                                                <!--<br><span class="previous_stage_situation"></span>
                                             </div>
                                         </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-<!--                                            <div class="span10"><b>--><?php //echo $specialneeds ?><!--</b>-->
-                                            <div class="span10"><b>18 - Portador de necessidades especiais?</b>
-                                                <br><span class="deficiency"></span>
-                                            </div>
+                                    </tr>-->
+                                    <tr><td>
+                                            <div class="span11"><b>18 - Portador de Necessidades Especiais? </b></div>
+                                            <br><div class="span2"><b>☐</b> Sim</div>
+                                            <div class="span2"><b>☐</b> Não</div>
+                                            <div class="span7"><b>Tipo: </b>__________________________________________________________________________</div>
                                         </td>
                                     </tr>
                                     <tr>

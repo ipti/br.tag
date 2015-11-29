@@ -981,7 +981,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                     $type;
-                                                    switch($me->classroomFk->modality){
+                                                    switch($me->classroomFk->edcensoStageVsModalityFk->stage){
                                                         // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
 
                                                         //educação infantil
@@ -990,6 +990,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             break;
                                                         //ensino fundamental
                                                         case 2:
+                                                            $type=1;
                                                         //ensino fundamental
                                                         case 3:
                                                             $type = 1;

@@ -265,7 +265,7 @@ class StudentController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex($sid = null) {
+    public function actionIndex($sid = null,$mer_id=null) {
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentIdentification'])) {
@@ -282,13 +282,21 @@ class StudentController extends Controller {
                         )));
         $buttons ="";
         if($sid != null){
+            $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
+            $mer_id = $student->studentEnrollments[0]->id;
+            $stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
+            if($stage == 1){
+                $type = 0;
+            }else{
+                $type = 1;
+            }
             $buttons = CHtml::tag('a',
                     array('href'=>yii::app()->createUrl('student/update',array('id'=>$sid)),
                         'class'=>"btn btn-primary btn-icon glyphicons eye_open",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Visualizar aluno');
             $buttons .= "<br>";
             $buttons .= CHtml::tag('a',
-                    array('href'=>yii::app()->createUrl('student/update', array('id'=>$sid, "#"=>'enrollment')),
+                    array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileBoquimReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
