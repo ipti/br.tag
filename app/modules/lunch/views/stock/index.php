@@ -124,7 +124,6 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
     </div>
 </div>
 
-
 <div class="modal fade" id="addItem">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -140,18 +139,83 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
             ));
             ?>
             <div class="modal-body">
-                <div class="row-fluid">
-                    <div class=" span6">
-                        <?=CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
-                        <div class="controls span12">
-                            <?= CHtml::dropDownList('Item', '',
-                                CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'span10']); ?>
+
+                <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
+                    <div class="widget-head">
+                        <h4 class="heading">
+                            <i></i><?= yii::t('lunchModule.stock', 'Add Amount') ?>
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+
+                        <div class="row-fluid">
+                            <div class=" span4">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::dropDownList('Inventory[item]', '',
+                                        CHtml::listData(Item::model()->findAll(), 'id', 'concatName'), ['class' => 'pull-left span12']); ?>
+
+                                </div>
+                            </div>
+                            <div class="span2">
+                                <label class="control-label">&nbsp;</label>
+
+                                <div class="controls span6">
+                                    <a href="#" id="new-item" class="btn btn-success btn-small">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class=" span6">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class=" span6">
-                        <?=CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
-                        <div class="controls span12">
-                            <?= CHtml::numberField('Amount', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                </div>
+                <div id="is-new-item" class="widget widget-scroll margin-bottom-none">
+                    <div class="widget-head">
+                        <h4 class="heading">
+                            <i></i><?= yii::t('lunchModule.stock', 'New Item') ?>
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row-fluid">
+                            <div class=" span6">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::textField('Item[name]', '', ['class' => ' span10']); ?>
+                                </div>
+                            </div>
+                            <div class=" span2">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                                </div>
+                            </div>
+                            <div class=" span2">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10']); ?>
+                                </div>
+                            </div>
+                            <div class=" span2">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::dropDownList('Item[unity_fk]', '',
+                                        CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'), ['class' => ' span8']); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class=" span12">
+                                <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', array('class' => 'control-label')); ?>
+                                <div class="controls span12">
+                                    <?= CHtml::textField('Item[description]', '', ['class' => ' span11']); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

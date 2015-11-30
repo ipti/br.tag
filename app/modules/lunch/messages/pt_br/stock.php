@@ -16,4 +16,13 @@ return [
     'Item spent successfully.' => 'Item gasto com sucesso.',
     'Problem when spending.' => 'Problema ao gastar item.',
 
+    'Remove Item' => 'Remover Item',
+    'Remove Portion' => 'Remover Porção',
+
+    'New Item' => 'Novo Item',
+    'New Portion' => 'Nova Porção',
+
+    'Add Item' => 'Adicionar Item',
+    'Add Amount' => 'Adicionar Quantidade',
+    'Add Portion' => 'Adicionar Porção',
 ];

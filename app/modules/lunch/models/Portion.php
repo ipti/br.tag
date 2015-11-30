@@ -15,31 +15,35 @@
  * @property Item $item
  * @property Unity $unity
  */
-class Portion extends CActiveRecord
-{
+class Portion extends CActiveRecord{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
 	 * @return Portion the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__){
 		return parent::model($className);
 	}
 
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName(){
 		return 'lunch_portion';
 	}
+
+    /**
+     * Get the item name with the measure
+     * @return String the item name with the measure
+     */
+	public function getConcatName(){
+        return $this->item->name . " (". $this->measure.$this->unity->acronym.")";
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules(){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -55,8 +59,7 @@ class Portion extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations(){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -69,8 +72,7 @@ class Portion extends CActiveRecord
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels(){
 		return array(
 			'id' => Yii::t('lunchModule.labels', 'ID'),
 			'item_fk' => Yii::t('lunchModule.labels', 'Item'),
@@ -84,8 +86,7 @@ class Portion extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search(){
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 

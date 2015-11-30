@@ -18,7 +18,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
         </h3>
 
         <div class="buttons pull-right">
-            <a data-toggle="modal" href="#newMenu" class="btn btn-primary ">
+            <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="btn btn-primary ">
                 <i class="fa fa-plus-circle"></i> <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
             </a>
         </div>

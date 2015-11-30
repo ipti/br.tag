@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class m151111_133617_lunch_tables
+ *
+ * $yiic migrate up --migrationPath=application.modules.lunch.migrations
+ *
+ */
 class m151111_133617_lunch_tables extends CDbMigration {
 
     public function up() {

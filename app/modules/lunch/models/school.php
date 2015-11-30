@@ -7,6 +7,7 @@
  * @property Inventory[] $inventories
  * @property Item[] $items
  * @property Menu[] $menus
+ * @property Array itemsAmount
 */
 class School extends CActiveRecord{
     public static function model($className = __CLASS__) {
@@ -24,13 +25,13 @@ class School extends CActiveRecord{
         return [
             'inventories' => array(self::HAS_MANY, 'Inventory', 'school_fk', 'with'=>'item', 'order'=>'item.name asc'),
             'items' => array(self::MANY_MANY, 'Item', 'lunch_inventory(school_fk, item_fk)', 'order'=>'name asc'),
-            'menus' => array(self::HAS_MANY, 'Menu', 'school_fk', 'order'=>'date asc'),
+            'menus' => array(self::HAS_MANY, 'Menu', 'school_fk', 'order'=>'date desc'),
         ];
     }
 
     /**
      *
-     * @return array Array with th
+     * @return Array Array with the itens amounts.
      */
     public function itemsAmount(){
         $amount = [];
