@@ -25,13 +25,15 @@ class LunchController extends Controller {
 
         if($menuPost){
             $menu->attributes = $menuPost;
+            $menu->date = date("Y-m-d h:i:s");
             $menu->school_fk = $this->school->inep_id;
 
             if($menu->validate()){
                 $menu->save();
-                Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Menu added successfully.'));
-                $this->redirect(['lunch/index']);
+                Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu inserted successfully!'));
+                $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menu->id]));
             }else{
+                Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding menu.'));
                 $this->render('create', ["menu" => $menu]);
             }
         }else {
@@ -47,12 +49,13 @@ class LunchController extends Controller {
         $menu = Menu::model()->findByPk($id);
 
         if($menuPost){
-            $menu->attributes = $menuPost;
+            $menu->name = $menuPost['name'];
             if($menu->validate()){
                 $menu->save();
-                Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Menu added successfully.'));
-                $this->redirect(['lunch/index']);
+                Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu updated successfully!'));
+                $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menu->id]));
             }else{
+                Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating menu.'));
                 $this->render('update', ["menu" => $menu]);
             }
         }else {
@@ -142,4 +145,64 @@ class LunchController extends Controller {
         $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menuPost['id']]));
     }
 
+    public function actionAddMeal(){
+        /* @var $menuMeal MenuMeal */
+        /* @var $meal Meal */
+
+        $request = Yii::app()->getRequest();
+        $menuMealPost = $request->getPost("MenuMeal", false);
+        $mealPost = $request->getPost("Meal", false);
+        if($mealPost){
+            $meal = new Meal();
+            $meal->restrictions = empty($mealPost['restrictions'])? yii::t("lunchModule.lunch","None") : $mealPost['restrictions'];
+            if($meal->validate()){
+                $meal->save();
+
+                $menuMeal = new MenuMeal();
+                $menuMeal->meal_fk = $meal->id;
+                $menuMeal->menu_fk = $menuMealPost['menu_fk'];
+                $menuMeal->amount = $menuMealPost['amount'];
+
+                if($menuMeal->validate()){
+                    $menuMeal->save();
+                    Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal added successfully!'));
+                }else{
+                    $meal->delete();
+                    Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding new meal'));
+                }
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding new meal'));
+            }
+        }
+
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menuMealPost['menu_fk']]));
+    }
+
+    public function actionChangeMeal(){
+        /* @var $menuMeal MenuMeal */
+        /* @var $meal Meal */
+
+        $request = Yii::app()->getRequest();
+        $menuMealPost = $request->getPost("MenuMeal", false);
+        $mealPost = $request->getPost("Meal", false);
+
+        if($mealPost && $menuMealPost) {
+            $mealId = $menuMealPost['meal_fk'];
+            $menuId = $menuMealPost['menu_fk'];
+            $amount = $menuMealPost['amount'];
+            $restrictions = $mealPost['restrictions'];
+
+            $menuMeal = MenuMeal::model()->findByAttributes(['meal_fk'=>$mealId, 'menu_fk'=>$menuId]);
+            $menuMeal->amount = $amount;
+            $menuMeal->meal->restrictions = $restrictions;
+            if($menuMeal->meal->validate() && $menuMeal->validate()) {
+                $menuMeal->meal->save();
+                $menuMeal->save();
+                Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal updated successfully!'));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating meal.'));
+            }
+        }
+        $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menuMealPost['menu_fk']]));
+    }
 }

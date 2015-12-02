@@ -44,3 +44,8 @@ form{
 .odd {
     background-color: #f8f8f8!important;
 }
+
+.widget-footer {
+    padding: 6px;
+    height: 30px!important;
+}

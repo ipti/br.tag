@@ -15,6 +15,21 @@ $(document).on('click', '.button-remove-portion', function () {
 });
 
 
+$(document).on('click', '.button-change-meal', function () {
+    var button = $(this);
+    var modal = $("#changeMeal");
+    var mealId = button.data('meal-id');
+    var tr = button.closest("tr");
+    var id = tr.find("#id");
+    var restrictions = tr.find("#restrictions");
+    var amount = tr.find("#amount");
+
+    modal.find('#Meal_restrictions').val(restrictions.text());
+    modal.find('#MenuMeal_amount').val(amount.text());
+    modal.find('#meal-id').val(mealId);
+});
+
+
 
 $(document).on("show.bs.modal", "#addPortion", function(){
     $('#is-add-amount').show().children().find("input, select").prop('disabled', false);

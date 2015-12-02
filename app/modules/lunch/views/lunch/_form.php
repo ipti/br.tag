@@ -40,6 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 <?php endif ?>
+
 <div class="row-fluid ">
     <div class="widget widget-scroll margin-bottom-none">
         <div class="widget-head">
@@ -70,8 +71,16 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
             </div>
         </div>
+
+        <div class="widget-footer">
+            <button type="submit" class="pull-right btn btn-primary ">
+                <i class="fa fa-save"></i>
+                <?= Yii::t('lunchModule.lunch', 'Save'); ?>
+            </button>
+        </div>
     </div>
 </div>
+
 <?php $this->endWidget() ?>
 <br>
 <?php if ($isUpdate): ?>
@@ -90,7 +99,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <tr role="row">
                                 <th class="span1">Código</th>
                                 <th class="span4">Restrições</th>
-                                <th>Composição</th>
+                                <th>Porções</th>
                                 <th class="span1">Quantidade</th>
                                 <th class="span1">Ações</th>
                             </tr>
@@ -103,16 +112,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $odd = !$odd;
                                 ?>
                                 <tr class="<?= $odd ? "odd" : "" ?>">
-                                    <td>REF<?= $meal->id ?></td>
-                                    <td><?= $meal->restrictions ?></td>
-                                    <td>
+                                    <td id="id">REF<?= $meal->id ?></td>
+                                    <td id="restrictions"><?= $meal->restrictions ?></td>
+                                    <td id="portions">
                                         <table class="table table-clear">
                                             <tbody>
                                             <?php foreach ($meal->mealPortions as $mealPortion):
                                                 $portion = $mealPortion->portion ?>
                                                 <tr class="<?= $odd ? "odd" : "" ?>">
                                                     <td><?= $portion->item->name ?></td>
-                                                    <td class="span2"><?= (floatval($mealPortion->amount) ."x ". floatval($portion->measure)) . " " . $portion->unity->acronym ?></td>
+                                                    <td class="span2"><?= (floatval($mealPortion->amount) . "x " . floatval($portion->measure)) . " " . $portion->unity->acronym ?></td>
                                                     <td class="span1 text-right">
                                                         <a data-toggle="modal" href="#removePortion"
                                                            data-meal-portion-id="<?= $mealPortion->id ?>"
@@ -122,15 +131,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     </td>
                                                 </tr>
                                             <?php endforeach ?>
+                                            <tr>
+                                                <td colspan="3"  class="<?= $odd ? "odd" : "" ?>">
+
+                                                    <a data-toggle="modal" href="#addPortion"
+                                                       data-meal-id="<?= $menuMeal->meal_fk ?>"
+                                                       class="pull-left button-add-portion btn btn-success btn-small hidden-print">
+                                                        <i class="fa fa-plus-circle"></i>
+                                                        <?= Yii::t('lunchModule.stock', 'Add Portion'); ?>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td class="text-center"><?= $menuMeal->amount ?></td>
-                                    <td class="text-center">
-                                        <a data-toggle="modal" href="#addPortion"
+                                    <td id="amount" class="text-center"><?= $menuMeal->amount ?></td>
+                                    <td id="actions" class="text-center">
+                                        <a data-toggle="modal" href="#changeMeal"
                                            data-meal-id="<?= $menuMeal->meal_fk ?>"
-                                           class="button-add-portion btn btn-success btn-small hidden-print">
-                                            <i class="fa fa-plus-circle"></i>
+                                           class="button-change-meal btn btn-primary btn-small hidden-print">
+                                            <i class="fa fa-pencil-square-o"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -139,6 +159,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         </table>
                     </div>
                 </div>
+            </div>
+            <div class="widget-footer">
+                <button data-toggle="modal" href="#addMeal"
+                        class="button-add-meal pull-right btn btn-success ">
+                    <i class="fa fa-plus-circle"></i>
+                    <?= Yii::t('lunchModule.lunch', 'New Lunch'); ?>
+                </button>
             </div>
         </div>
     </div>
@@ -261,7 +288,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
                                         <div class="controls span12">
                                             <?= CHtml::dropDownList('MealPortion[portion_fk]', '',
-                                                CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'), ['disabled'=>'true', 'class' => 'span10']); ?>
+                                                CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'), ['disabled' => 'true', 'class' => 'span10']); ?>
                                         </div>
                                     </div>
                                     <div class=" span6">
@@ -279,6 +306,101 @@ $form = $this->beginWidget('CActiveForm', array(
                                 data-dismiss="modal"><?= Yii::t('lunchModule.stock', 'Close'); ?></button>
                         <button type="submit"
                                 class="btn btn-danger"><?= Yii::t('lunchModule.stock', 'Remove'); ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addMeal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Portion'); ?></h4>
+                </div>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/addMeal") ?>">
+                    <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
+                    <div class="modal-body">
+                        <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
+                            <div class="widget-head">
+                                <h4 class="heading">
+                                    <i></i><?= yii::t('lunchModule.lunch', 'New Lunch') ?>
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="row-fluid">
+                                    <div class=" span6">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array('class' => 'control-label')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style'=>'resize: vertical;', 'class' => 'span10']); ?>
+                                        </div>
+                                    </div>
+                                    <div class=" span6">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10']); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <?= Yii::t('lunchModule.stock', 'Close'); ?>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <?= Yii::t('lunchModule.stock', 'Add'); ?>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeMeal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Update Lunch'); ?></h4>
+                </div>
+                <form id="portion" method="post" action="<?= yii::app()->createUrl("lunch/lunch/changeMeal") ?>">
+                    <?= CHtml::hiddenField("MenuMeal[menu_fk]", $menuModel->id, ["id" => "menu-id"]) ?>
+                    <?= CHtml::hiddenField("MenuMeal[meal_fk]", '', ["id" => "meal-id"]) ?>
+                    <div class="modal-body">
+                        <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
+                            <div class="widget-head">
+                                <h4 class="heading">
+                                    <i></i><?= yii::t('lunchModule.lunch', 'Lunch Info') ?>
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <div class="row-fluid">
+                                    <div class=" span6">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array( 'class' => 'control-label')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::textArea('Meal[restrictions]', '', ['style'=>'resize: vertical;', 'class' => 'span10']); ?>
+                                        </div>
+                                    </div>
+                                    <div class=" span6">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10']); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <?= Yii::t('lunchModule.lunch', 'Close'); ?>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <?= Yii::t('lunchModule.lunch', 'Update'); ?>
+                        </button>
                     </div>
                 </form>
             </div>
