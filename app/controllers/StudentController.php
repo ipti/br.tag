@@ -283,6 +283,7 @@ class StudentController extends Controller {
         $buttons ="";
         if($sid != null){
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
+            if(isset($student->studentEnrollments[0]->id)){
             $mer_id = $student->studentEnrollments[0]->id;
             $stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
             if($stage == 1){
@@ -295,11 +296,13 @@ class StudentController extends Controller {
                         'class'=>"btn btn-primary btn-icon glyphicons eye_open",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Visualizar aluno');
             $buttons .= "<br>";
+
             $buttons .= CHtml::tag('a',
                     array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileBoquimReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
+            }
         }
         
         $this->render('index', array(

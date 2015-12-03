@@ -227,7 +227,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
                                 </div>
                             </div>
-
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
+                                </div>
+                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -322,7 +328,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Entregues</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Pendentes</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group" id="received">
                                         <div class="span3">
@@ -980,8 +986,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <td><?php echo $me->classroomFk->name ?></td>
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
-                                                    $type;
-                                                    switch($me->classroomFk->edcensoStageVsModalityFk->stage){
+                                                $type;
+                                                if(isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
+                                                    switch ($me->classroomFk->edcensoStageVsModalityFk->stage) {
                                                         // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
 
                                                         //educação infantil
@@ -990,7 +997,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             break;
                                                         //ensino fundamental
                                                         case 2:
-                                                            $type=1;
+                                                            $type = 1;
                                                         //ensino fundamental
                                                         case 3:
                                                             $type = 1;
@@ -1015,6 +1022,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             $type = 1;
                                                             break;
                                                     }
+                                                }
                                                 ?>
                                                 <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
                                                 <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>

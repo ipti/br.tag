@@ -42,7 +42,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php if(isset($school->act_of_acknowledgement)){?>
                 <span style="display:block;clear:both;width: 40px;margin:0 auto;">
                     <?php
-                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'display:block;width:40px; margin:0 auto'));
+                    if(isset($school->logo_file_name)){echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'display:block;width:40px; margin:0 auto'));};
                 ?>
                 </span>
                 <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
