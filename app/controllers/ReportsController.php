@@ -49,20 +49,16 @@ class ReportsController extends Controller {
         ));          
     }
 
-    public function actionEnrollmentPerClassroomReport($id){
-        $sql = "SELECT * FROM classroom_enrollment
-                    where `year`  = ".$this->year.""
-            . " AND classroom_id = $id"
-            . " ORDER BY name;";
-       
+    public function actionGetEnrollmentPerClassroomInformation($cid){
+        $sql = "SELECT * FROM classroom_enrollment where `year`  = " . $this->year . " AND classroom_id = " . $cid . " ORDER BY name;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-               
-        $classroom = Classroom::model()->findByPk($id);
-        
-        $this->render('EnrollmentPerClassroomReport', array(
-            'report' => $result,
-            'classroom' => $classroom
-        ));          
+
+        echo json_encode($result);
+    }
+
+    public function actionEnrollmentPerClassroomReport($cid){
+        $this->layout = "reports";
+        $this->render('EnrollmentPerClassroomReport', array('cid'=>$cid));
     }
 
     public function actionStatisticalDataReport(){
