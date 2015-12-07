@@ -11,19 +11,14 @@ return array(
 
 	// application components
 	'components'=>array(
-		'db'=>array(
-			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
-		),
-		// uncomment the following to use a MySQL database
-		/*
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
-		),
-		*/
+
+		'db' => array(
+            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.boquim.tag',
+            'emulatePrepare' => true,
+            'username' => 'user.tag',
+            'password' => '123456',
+            'charset' => 'utf8',
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

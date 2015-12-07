@@ -176,5 +176,6 @@ function valorPorExtenso( $valor = 0){
                 <span>DIRETOR(A) Nº ATO AUTORIZAÇÃO</span>
             </div>
         </div>
+        <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
