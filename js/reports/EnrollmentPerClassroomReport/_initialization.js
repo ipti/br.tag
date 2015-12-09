@@ -14,21 +14,25 @@ $(document).ready(function() {
 });
 function gerarRelatorio(data) {
     $("#report, #print").show();
-    var infos = $.parseJSON(data);
-    for (var i in infos) {
-        if(i == "cc"){
-            if(infos[i] == 1){
-                $("#old_cc").show();
-                $("#new_cc").hide();
-            }else{
-                $("#old_cc").hide();
-                $("#new_cc").show();
-            }
-        }
-        if (i != 'id')
-            $("." + i).html(infos[i]);
-    }
-
+    var enrollments = $.parseJSON(data);
+    $.each(enrollments, function(i){
+        $("table").append(
+        '<tr>' +
+            '<td>' + (i+1) +'</td>' +
+            '<td><span class="name">' + enrollments[i].name + '</span></td>' +
+            '<td><span class="male">' + ((enrollments[i].sex == 'M') ? 'X' : '') + '</span></td>' +
+            '<td><span class="female">' + ((enrollments[i].sex == 'F') ? 'X' : '') + '</span></td>' +
+            '<td><span class="birthday">' + enrollments[i].birthday.split('<br>')[0] + '</span></td>' +
+            '<td><span class="city">' + enrollments[i].city + '</span></td>' +
+            '<td><span class="enrollment-p"></span></td>' +
+            '<td><span class="enrollment-pc"></span></td>' +
+            '<td><span class="enrollment-t"></span></td>' +
+            '<td><span class="situation-n"></span></td>' +
+            '<td><span class="situation-p"></span></td>' +
+            '<td><span class="address">' + enrollments[i].address + '</span></td>' +
+        '</tr>'
+        )
+    });
 }
 
 function limpar() {
