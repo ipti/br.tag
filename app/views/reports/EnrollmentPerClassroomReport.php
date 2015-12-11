@@ -68,14 +68,14 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
             </div>
 
             <span style="clear:both;display:block"></span>
-            <br>
+            <br><br>
 
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <div style="float: left; text-align:left; margin: 5px 0;line-height: 14px;">
                     <div class="span4"><b>INEP: </b>
                         <?= isset($classroom->inep_id) ? $classroom->inep_id : 'Não informado' ?>
                     </div>
-                    <div class="span2"><b>TURNO: </b>
+                    <div class="span4"><b>TURNO: </b>
                         <?php
                             switch ($classroom->turn){
                                 case 'M':
@@ -96,10 +96,96 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                             }
                         ?>
                     </div>
-                    <div class="span4"><b>SÉRIE/ANO: </b><?php echo $classroom->edcenso_stage_vs_modality_fk ?></div>
-                    <div class="span2"><b>TURMA: </b><?php echo $classroom->name ?></div>
+
+                    <?php
+                        $c;
+                        //$stage = '7';
+                        //$class = '41';
+                        switch ($classroom->edcenso_stage_vs_modality_fk) {
+                            case '4':
+                                $c = '1º';
+                                break;
+                            case '5':
+                                $c = '2º';
+                                break;
+                            case '6':
+                                $c = '3º';
+                                break;
+                            case '7':
+                                $c = '4º';
+                                break;
+                            case '8':
+                                $c = '5º';
+                                break;
+                            case '9':
+                                $c = '6º';
+                                break;
+                            case '10':
+                                $c = '7º';
+                                break;
+                            case '11':
+                                $c = '8º';
+                                break;
+                            case '14':
+                                $c = '1º';
+                                break;
+                            case '15':
+                                $c = '2º';
+                                break;
+                            case '16':
+                                $c = '3º';
+                                break;
+                            case '17':
+                                $c = '4º';
+                                break;
+                            case '18':
+                                $c = '5º';
+                                break;
+                            case '19':
+                                $c = '6º';
+                                break;
+                            case '20':
+                                $c = '7º';
+                                break;
+                            case '21':
+                                $c = '8º';
+                                break;
+                            case '41':
+                                $c = '9º';
+                                break;
+                            case '25':
+                            case '30':
+                            case '35':
+                                $c = '1º';
+                                break;
+                            case '26':
+                            case '31':
+                            case '36':
+                                $c = '2º';
+                                break;
+                            case '27':
+                            case '32':
+                            case '37':
+                                $c = '3º';
+                                break;
+                            case '28':
+                            case '33':
+                            case '38':
+                                $c = '4º';
+                                break;
+                        }
+                    ?>
+
+                    <div class="span4"><b>SÉRIE/ANO: </b><?php echo (isset($c) ? $c : 'Não informado') ?></div>
+                    <div class="span4"><b>TURMA: </b><?php echo (isset($classroom->name) ? $classroom->name : 'Não informado') ?></div>
                     <br>
-                    <div class="span2"><b>PROFESSOR(A): </b><?php echo $classroom->instructor_situation ?></div>
+
+                    <!--
+
+                     ABAIXO: cruzar informações da turma pra puxar e imprimir o nome do professor automaticamente
+
+                     -->
+                    <div class="span10"><b>PROFESSOR(A): </b><?php echo 'Não informado' ?></div>
                 </div>
             </div>
 
@@ -149,6 +235,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
         #container-header {
             width: 425px !important;
         }
+
         table, td, tr, th {
             border-color: black !important;
         }
