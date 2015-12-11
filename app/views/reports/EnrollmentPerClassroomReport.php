@@ -66,6 +66,12 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                 <span style="clear:both;display:block"></span>
                 <?php }?>
             </div>
+            <p style="text-align: center">
+                <br>
+                <span style="font-weight: bold; font-size: 14px">
+                    RELATÓRIO DE MATRÍCULA / <?= $this->year; ?>
+                </span>
+            </p>
 
             <span style="clear:both;display:block"></span>
             <br><br>
