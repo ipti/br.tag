@@ -230,7 +230,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
     }
 
     @page {
-        size:auto;
+        size: landscape;
         margin-bottom: 25mm;
     }
 
