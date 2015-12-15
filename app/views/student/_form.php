@@ -976,7 +976,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Excluir</td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Notas</td><td style="text-align: center">Excluir</td></tr></thead>
                                         <tbody>
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
@@ -1026,6 +1026,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 ?>
                                                 <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
                                                 <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
                                                 <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
                                             </tr>
                                             <?php

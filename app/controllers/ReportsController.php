@@ -14,7 +14,7 @@ class ReportsController extends Controller {
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance',
                                     'EnrollmentDeclarationReport', 'TransferForm',
-                                    'EnrollmentNotification', 'TransferRequirement'),
+                                    'EnrollmentNotification', 'TransferRequirement', 'EnrollmentGradesReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -29,9 +29,8 @@ class ReportsController extends Controller {
     }
 
     public function actionAtaSchoolPerformance($id){
-        $sql = "SELECT * FROM ataPerformance
-                    where `year`  = ".$this->year.""
-                . " AND classroom_id = $id;";
+        $sql = "SELECT * FROM ataPerformance where `year`  = ".$this->year
+            ." AND classroom_id = $id;";
        
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         setlocale(LC_ALL, NULL);
@@ -50,8 +49,7 @@ class ReportsController extends Controller {
     }
 
     public function actionEnrollmentPerClassroomReport($id){
-        $sql = "SELECT * FROM classroom_enrollment
-                    where `year`  = ".$this->year.""
+        $sql = "SELECT * FROM classroom_enrollment where `year`  = ".$this->year
             . " AND classroom_id = $id"
             . " ORDER BY name;";
        
@@ -118,6 +116,12 @@ class ReportsController extends Controller {
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
         echo json_encode($result);
+    }
+
+    public function actionEnrollmentGradesReport($enrollment_id) {
+        $this->layout = "reports";
+        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+        $this->render('EnrollmentGradesReport', array('enrollment_id'=>$enrollment));
     }
     
     public function actionStudentsFileBoquimReport($enrollment_id) {
