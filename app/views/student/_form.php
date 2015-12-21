@@ -230,7 +230,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
                                 </div>
                             </div>
-
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'inep_id'); ?>
+                                </div>
+                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -275,7 +281,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_scholarity', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(0 => 'Não Sabe Ler e Escrever ', 1 => 'Sabe Ler e Escrever', 2 => 'Ens. Fund. Incompleto',
+                                    echo $form->dropDownList($modelStudentIdentification, 'responsable_scholarity', array(0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
                                         3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
                                         6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off'));
                                     ?>
@@ -325,7 +331,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Entregues</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Pendentes</h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group" id="received">
                                         <div class="span3">
@@ -527,9 +533,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="separator"></div>
-                            
+
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -552,9 +558,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="separator"></div>
-                            
+
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
@@ -616,6 +622,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 data-toggle="tooltip" data-placement="top"
                                                 data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
                                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="separator"></div>
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons nameplate">
+                                        <i></i>Justiça
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null=> "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off')); ?>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -812,15 +837,59 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("3" => "Não recebe", "1" => "Em hospital", "2" => "Em domicílio"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'current_stage_situation',
+                                        array(
+                                            null => "Selecione",
+                                            "0" => "Primeira matrícula no curso",
+                                            "1" => "Promovido na série anterior do mesmo curso",
+                                            "2" => "Repetente"
+                                        ),
+                                        array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'previous_stage_situation',
+                                        array(
+                                            null => "Selecione",
+                                            "0" => "Não frequentou",
+                                            "1" => "Reprovado",
+                                            "2" => "Afastado por transferência",
+                                            "3" => "Afastado por abandono",
+                                            "4" => "Matrícula final em Educação Infantil"
+                                        ),
+                                        array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
+                                </div>
+                            </div>
                         </div>
                         <div class=" span6">
-                            <div class="separator"></div>                        
+                            <div class="separator"></div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                                </div>
+                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -902,7 +971,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid">
                         <div class="span11">
-                            <div class="widget widget-scroll margin-bottom-none">
+                            <div id="enrollment" class="widget widget-scroll margin-bottom-none">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons book_open">
                                         <i></i><?php echo yii::t("default", "Enrollments"); ?>
@@ -910,21 +979,61 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td>Ano</td><td colspan="2"></td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Excluir</td></tr></thead>
                                         <tbody>
-                                            <?php
-                                            foreach ($modelStudentIdentification->studentEnrollments as $me) {
-                                                ?>
-                                                <tr>
-                                                    <td><?php echo $me->schoolInepIdFk->name ?></td>
-                                                    <td><?php echo $me->classroomFk->name ?></td>
-                                                    <td><?php echo $me->classroomFk->school_year ?></td>
-                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></td>
-                                                    <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'>Excluir</a></td>
-                                                </tr>
-                                                <?php
-                                            }
+                                        <?php
+                                        foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
+                                            <tr>
+                                                <td><?php echo $me->schoolInepIdFk->name ?></td>
+                                                <td><?php echo $me->classroomFk->name ?></td>
+                                                <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
+                                                <?php
+                                                $type;
+                                                if(isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
+                                                    switch ($me->classroomFk->edcensoStageVsModalityFk->stage) {
+                                                        // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
+
+                                                        //educação infantil
+                                                        case 1:
+                                                            $type = 0;
+                                                            break;
+                                                        //ensino fundamental
+                                                        case 2:
+                                                            $type = 1;
+                                                        //ensino fundamental
+                                                        case 3:
+                                                            $type = 1;
+                                                            break;
+                                                        //ensino médio
+                                                        case 4:
+                                                            $type = 1;
+                                                            break;
+                                                        //educação profissional
+                                                        case 5:
+                                                            $type = 1;
+                                                            break;
+                                                        //educação de jovens e adultos
+                                                        case 6:
+                                                            $type = 2;
+                                                            break;
+                                                        //ensino fundamental OU multietapa
+                                                        case 7:
+                                                            $type = 1;
+                                                            break;
+                                                        case null:
+                                                            $type = 1;
+                                                            break;
+                                                    }
+                                                }
+                                                ?>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
                                         </tbody>
                                     </table>
                                 </div>

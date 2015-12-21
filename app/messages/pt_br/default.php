@@ -74,6 +74,8 @@ return array(
     'Private School Maintainer Cnpj' => 'CNPJ da Mantenedora',
     'Private School Cnpj' => 'CNPJ',
     'Regulation' => 'Regulamentação',
+    'Act of acknowledgement' => 'Ato de reconhecimento',
+    'Logo' => 'Brasão da escola',
     
     //School Structure
     'School Inep Id Fk' => 'Escola',
@@ -358,6 +360,7 @@ return array(
     'Civil Certificate' => 'Certidão Civil',
     'Photo' => 'Foto 3x4',
     'History' => 'Histórico',
+    'Justice Restriction' => 'Restrição na Justiça',
     
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
@@ -386,7 +389,11 @@ return array(
     'Vehicle Type Waterway Boat 35' => 'Embarcação - Acima de 35 alunos',
     'Vehicle Type Metro Or Train' => 'Trem / Metrô',
     'Student Entry Form' => 'Forma de ingresso (apenas para escolas federais)',
-    
+    'Current stage situation' => 'Situação na série/etapa atual',
+    'Previous stage situation' => 'Situação no ano anterior',
+    'School admission date' => 'Data de ingresso na escola',
+    'Admission type' => 'Tipo de ingresso',
+
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
     

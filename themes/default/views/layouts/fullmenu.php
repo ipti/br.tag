@@ -128,6 +128,9 @@ function isActive($pages){
                             <li id="menu-grade" class="<?= isActive("grades") ?>">
                                 <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                             </li>
+                            <li id="menu-lunch" class="<?= isActive("lunch") ?>">
+                                <a class="glyphicons cutlery" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
+                            </li>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin" class="<?= isActive("admin") ?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>

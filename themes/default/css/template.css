@@ -518,7 +518,7 @@ body > .container-fluid.documentation {
   overflow: hidden;
   margin-bottom: -99999px;
   padding-bottom: 99999px;
-  background: #f2f2f2 url(../img/pattern1.png) repeat;
+  background: #f2f2f2 url(../common/img/pattern1.png) repeat;
   color: #7c7c7c;
   border-right: 1px solid #e1e1e1;
 }
@@ -738,7 +738,7 @@ body > .container-fluid.documentation {
 #menu > ul > li.heading {
   height: 25px;
   line-height: 25px;
-  background: #f2f2f2 url(../img/pattern1.png) repeat;
+  background: #f2f2f2 url(../common/img/pattern1.png) repeat;
 }
 #menu .slim-scroll > ul > li.heading span,
 #menu > ul > li.heading span {
@@ -1330,7 +1330,7 @@ width: 100%;
   border: 0;
 }
 .filter-bar.dark {
-  background: #ffffff url(../img/pattern1.png) repeat;
+  background: #ffffff url(../common/img/pattern1.png) repeat;
   color: #64625f;
 }
 .filter-bar.dark div div.input-append .add-on {
@@ -2218,7 +2218,7 @@ width: 100%;
   margin: 0 10px;
 }
 .widget-sidebar-stats:hover {
-  background: #ffffff url(../img/pattern1.png) repeat;
+  background: #ffffff url(../common/img/pattern1.png) repeat;
   color: #7c7c7c;
 }
 .widget-sidebar-stats.widget-stats-easy-pie {
@@ -2363,7 +2363,7 @@ width: 100%;
   -moz-border-radius: 0;
   border-radius: 0;
   margin: 0;
-  background: #ffffff url(../img/pattern1.png) repeat;
+  background: #ffffff url(../common/img/pattern1.png) repeat;
   color: #64625f;
   font-size: 9pt;
   position: fixed;
@@ -3530,7 +3530,7 @@ h2.glyphicons.cogwheels i:before {
   bottom: -24px;
 }
 .btn {
-  background-image: url(../img/pattern1.png);
+  background-image: url(../common/img/pattern1.png);
   background-repeat: repeat;
 }
 #demo_buttons .btn-block {
@@ -4258,7 +4258,7 @@ textarea {
 }
 .modal-backdrop {
   z-index: 10000;
-  background: #000000 url(../img/pattern1.png) repeat;
+  background: #000000 url(../common/img/pattern1.png) repeat;
 }
 .modal-backdrop,
 .modal-backdrop.fade.in {
@@ -4309,7 +4309,7 @@ textarea {
   -webkit-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0), inset -1px -1px 1px rgba(0, 0, 0, 0);
   border-color: #e5e5e5;
   padding: 10px;
-  background: #f5f5f5 url(../img/pattern1.png) repeat;
+  background: #f5f5f5 url(../common/img/pattern1.png) repeat;
 }
 .alert {
   margin: 0 0 10px;
@@ -4633,13 +4633,13 @@ textarea {
   padding: 15px 10px;
 }
 #content-notification .notyfy_wrapper.notyfy_default {
-  background: #fafafa url(../img/pattern1.png) repeat;
+  background: #fafafa url(../common/img/pattern1.png) repeat;
 }
 #content-notification .notyfy_wrapper.notyfy_dark {
-  background: #4a4846 url(../img/pattern1.png) repeat;
+  background: #4a4846 url(../common/img/pattern1.png) repeat;
 }
 #content-notification .notyfy_wrapper.notyfy_primary {
-  background: #e04545 url(../img/pattern1.png) repeat;
+  background: #e04545 url(../common/img/pattern1.png) repeat;
   box-shadow: inset 0 8px 8px -8px #360909, inset 0 -8px 8px -8px #a41b1b;
   -moz-box-shadow: inset 0 8px 8px -8px #360909, inset 0 -8px 8px -8px #a41b1b;
   -webkit-box-shadow: inset 0 8px 8px -8px #360909, inset 0 -8px 8px -8px #a41b1b;
@@ -6599,7 +6599,7 @@ div.glyphicons.glyphicon-primary i:before {
 }
 .heading-buttons.affix {
   opacity: 0.9;
-  background: #ffffff url(../img/pattern1.png) repeat;
+  background: #ffffff url(../common/img/pattern1.png) repeat;
   z-index: 3;
 }
 .grid-view {

@@ -91,13 +91,17 @@ class Classroom extends CActiveRecord {
     }
 
     public function behaviors() {
+        if(isset(Yii::app()->user->school)){
             return [
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
+        }else{
+            return [];
         }
+    }
     
     /**
      * @return array validation rules for model attributes.
