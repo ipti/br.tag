@@ -42,6 +42,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $year = date('Y');
                             //botar condição do mês, a partir de novembro, mostrar o próximo ano.
                             $years = array();
+                            if(date('m')>=11){$year = $year+1;}
                             for ($i = $year; $i >= 2014; $i--) {
                                 $years[$i] = $i;
                             }

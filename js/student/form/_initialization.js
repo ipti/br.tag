@@ -6,18 +6,13 @@ jQuery(function($) {
 
 $(document).ready(function(){
     var simple = getUrlVars()['simple'];
-    if (simple == '1'){
+    if (simple == '1') {
         $("#tab-student-documents").hide();
         $(".control-group").hide();
         $(".required").parent().show();
-        //Não entendi aqui????
-        $(".tab-student").show();
-        $(".tab-content").show();
-    } else{
-        //E aqui também poem em cima
-        $(".tab-student").show();
-        $(".tab-content").show();
     }
+    $(".tab-student").show();
+    $(".tab-content").show();
 });
 
 $('.heading-buttons').css('width', $('#content').width());

@@ -1,0 +1,30 @@
+
+body {
+    background-color: #f1f1f1;
+}
+body > .grid {
+    height: 100%;
+}
+.image {
+    margin-top: -100px;
+}
+.column {
+    max-width: 450px;
+}
+
+.ui.inverted.tag-blue.segment{
+    background-color: #19224D!important;
+    color: #fff!important;
+}
+.ui.tag-blue{
+    color:#19224D!important;
+}
+.ui.inverted.tag-blue.button, .ui.inverted.tag-blue.buttons .button{
+    background-color: transparent;
+    box-shadow: 0 0 0 2px #19224D inset!important;
+    color: #19224D;
+}
+.ui.inverted.tag-blue.button:hover, .ui.inverted.tag-blue.buttons .button:hover {
+    background-color: #19224D;
+    color: #fff!important;
+}

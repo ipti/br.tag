@@ -290,7 +290,8 @@ class EnrollmentController extends Controller {
                             }
                         }
                     }
-                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
+
+                    @$grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
                     $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == "")) ? null : $values[1];
                     $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == "")) ? null : $values[2];
                     $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == "")) ? null : $values[3];
@@ -300,18 +301,24 @@ class EnrollmentController extends Controller {
                     $grade->recovery_grade4 = (!isset($values[7]) || (isset($values[7]) && $values[7] == "")) ? null : $values[7];
                     $grade->recovery_final_grade = (!isset($values[8]) || (isset($values[8]) && $values[8] == "")) ? null : $values[8];
                     $saved = $saved && $grade->save();
-
                     if ($id === $portuguese || $id === $history || $id === $art) {
-                        $discipline2 = ($id === $portuguese ? $writing : (
-                                        $id === $history ? $geography : (
-                                                $id === $art ? $physical_education : "")));
-                        $id = Grade::model()->findByAttributes([
+                        $discipline2 = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
+                        /*@WTF - Esse código nunca ia funcionar - Na hora do salvamento o código já é o da disciplina master pq buscar denovo???*/
+                        $grade_exist = Grade::model()->findByAttributes([
                                     "enrollment_fk" => $eid,
                                     "discipline_fk" => $discipline2]
-                                )->id;
-                        $grade->id = $id;
-                        $grade->discipline_fk = $discipline2;
-                        $saved = $saved && $grade->save();
+                                );
+                        if(!isset($grade_exist)){
+                            $grade2 = new Grade();
+                            $grade2->attributes = $grade->attributes;
+                            $grade2->discipline_fk = $discipline2;
+                            $grade2->save();
+                        }else{
+                            $grade_exist->attributes = $grade->attributes;
+                            $grade_exist->discipline_fk = $discipline2;
+                            $grade_exist->update();
+                        }
+
                     }
                 }
             }
@@ -406,7 +413,9 @@ class EnrollmentController extends Controller {
 
             foreach ($enrollments as $enrollment) {
                 $studentName = $enrollment->studentFk->name;
-                $studentEnrId = $enrollment->studentFk->id;
+                //@WTF - studentFk relacionamento - Esse bug valia 50quentinha
+                $studentEnrId = $enrollment->id;
+
                 $return[$studentName] = [];
                 $return[$studentName]['enrollment_id'] = $studentEnrId;
                 $return[$studentName]['disciplines'] = [];

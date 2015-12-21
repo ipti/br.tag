@@ -33,14 +33,18 @@ class Grade extends CActiveRecord
 	}
 
         public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
+			if(isset(Yii::app()->user->school)){
+				return [
+					'afterSave'=>[
+						'class'=>'application.behaviors.CAfterSaveBehavior',
+						'schoolInepId' => Yii::app()->user->school,
+					],
+				];
+			}else{
+				return [];
+			}
         }
-        
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -65,8 +69,8 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'disciplineFk' => array(self::HAS_ONE, 'EdcensoDiscipline', 'discipline_fk'),
-			'enrollmentFk' => array(self::HAS_ONE, 'StudentEnrollment', 'enrollment_fk'),
+			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
 		);
 	}
 

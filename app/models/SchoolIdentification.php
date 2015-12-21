@@ -41,6 +41,7 @@
  * @property integer $regulation
  *
  * The followings are the available model relations:
+ * @property SchoolStructure $structure
  * @property Classroom[] $classrooms
  * @property InstructorDocumentsAndAddress[] $instructorDocumentsAndAddresses
  * @property InstructorTeachingData[] $instructorTeachingDatas
@@ -81,9 +82,11 @@ class SchoolIdentification extends CActiveRecord {
             array('register_type, ddd', 'length', 'max' => 2),
             array('inep_id, cep, public_phone_number, fax_number', 'length', 'max' => 8),
             array('initial_date, final_date, address_number', 'length', 'max' => 10),
-            array('name, address', 'length', 'max' => 100),
+            array('name, address, logo_file_name', 'length', 'max' => 100),
+            array('logo_file_content', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
+            array('act_of_acknowledgement', 'safe'),
             array('latitude, longitude, address_complement', 'length', 'max' => 20),
-            array('address_neighborhood, email', 'length', 'max' => 50),
+            array('address_neighborhood, email, logo_file_type', 'length', 'max' => 50),
             array('phone_number, other_phone_number', 'length', 'max' => 9),
             array('edcenso_regional_education_organ_fk', 'length', 'max' => 5),
             array('private_school_maintainer_cnpj, private_school_cnpj', 'length', 'max' => 14),
@@ -109,6 +112,7 @@ class SchoolIdentification extends CActiveRecord {
             'studentDocumentsAndAddresses' => array(self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
             'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),
+            'structure'=> [self::HAS_ONE, 'SchoolStructure','school_inep_id_fk'],
         );
     }
 
@@ -152,6 +156,8 @@ class SchoolIdentification extends CActiveRecord {
             'private_school_maintainer_cnpj' => Yii::t('default', 'Private School Maintainer Cnpj'),
             'private_school_cnpj' => Yii::t('default', 'Private School Cnpj'),
             'regulation' => Yii::t('default', 'Regulation'),
+            'act_of_acknowledgement' => Yii::t('default', 'Act of acknowledgement'),
+            'logo_file_content' => Yii::t('default', 'Logo')
         );
     }
 

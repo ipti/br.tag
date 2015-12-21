@@ -83,13 +83,17 @@ class StudentIdentification extends CActiveRecord {
     }
 
     public function behaviors() {
+        if(isset(Yii::app()->user->school)){
             return [
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
+        }else{
+            return [];
         }
+    }
         
     /**
      * @return array validation rules for model attributes.
@@ -127,7 +131,7 @@ class StudentIdentification extends CActiveRecord {
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
             'documentsFk' => array(self::BELONGS_TO, 'StudentDocumentsAndAddress', 'id'),
-            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'student_fk')
+            'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'student_fk','order'=>'id DESC')
         );
     }
 

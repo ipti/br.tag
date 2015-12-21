@@ -1,0 +1,79 @@
+body {
+    background: #f1f1f1;
+}
+
+header {
+    background: #19224D;
+    padding: 10px 0;
+    box-shadow: inset 0px -2px 3px rgb(15, 20, 45);
+}
+
+header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+}
+
+header button {
+    margin-top: 11px !important;
+}
+
+section#info {
+    background: #fff;
+    padding: 10px 0;
+}
+
+section#info .container {
+
+}
+section#info h2 {
+    font-size: 1.214rem;
+    margin-bottom: 0;
+    text-transform: capitalize;
+}
+
+section#info button {
+    margin-top: 5px;
+}
+
+section#reports{
+    border-top: 1px solid rgb(214, 214, 214);
+    padding: 20px 0;
+    margin-top: -1px;
+}
+
+.ui.inverted.tag-blue.segment{
+    background-color: #19224D!important;
+    color: #fff!important;
+}
+.ui.inverted.tag-blue.segment a{
+    color: #fff!important;
+}
+.ui.inverted.tag-blue.segment a:hover {
+    color: #BEBEBE!important;
+}
+.ui.tag-blue{
+    color:#19224D!important;
+}
+.ui.inverted.tag-blue.button, .ui.inverted.tag-blue.buttons .button{
+    background-color: transparent;
+    box-shadow: 0 0 0 2px #19224D inset!important;
+    color: #19224D;
+
+}
+.ui.inverted.tag-blue.button:hover, .ui.inverted.tag-blue.buttons .button:hover {
+    background-color: #19224D;
+    color: #fff!important;
+}
+
+.ui.cards .card{
+    margin-right: 20px;
+}
+
+.card > .content {
+    padding: 1em !important;
+}
+
+h2.ui.breadcrumb{
+    margin-top: 10px!important;
+}
