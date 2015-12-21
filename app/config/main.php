@@ -61,11 +61,15 @@ return array(
                 '<controller:\w+>/<id:\d+>'                 => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'    => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'             => '<controller>/<action>',
+				'gestao-resultados/'                      		=> 'resultsmanagement/',
+				'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
+                'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
+                'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
             ),
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tag',
+            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.local.tag.demo',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',

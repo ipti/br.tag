@@ -27,7 +27,7 @@ function loadClassroomInfos(results) {
         i++;
     });
 
-    if (i > 1) $("#month").append("<option value='all'>Todos os meses</option>");
+    //if (i > 1) $("#month").append("<option value='all'>Todos os meses</option>");
 
     $("#month").attr("data-placeholder", "Selecione um mês").val("").change().select2();
 }

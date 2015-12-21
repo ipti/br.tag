@@ -10,7 +10,7 @@ function configChart(url,$sid, $cid, $mid, $did){
         $.each(classes, function(i, $class){
             faultsCount += parseInt($class.faults);
         });
-
+		console.log(faultsCount);
         var faultsPercent = (faultsCount/(enrollments*classesCount) * 100).toFixed(2);
         var presencePercent = (100 - faultsPercent).toFixed(2);
         initChart([

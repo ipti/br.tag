@@ -17,9 +17,12 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::P
             &nbsp;<span><?= Yii::t('lunchModule.lunch', 'Make a nutritious menu to manage the school lunch.'); ?></span>
         </h3>
 
-        <div class="buttons pull-right">
+        <div style="width:250px" class="buttons pull-right">
             <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="btn btn-primary ">
                 <i class="fa fa-plus-circle"></i> <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
+            </a>
+			<a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/stock")?>" class="btn btn-primary ">
+                <i class="fa"></i> <?= Yii::t('lunchModule.lunch', 'Stock'); ?>
             </a>
         </div>
     </div>
