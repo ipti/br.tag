@@ -121,7 +121,7 @@ class ReportsController extends Controller {
     public function actionEnrollmentGradesReport($enrollment_id) {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
-        $this->render('EnrollmentGradesReport', array('enrollment_id'=>$enrollment));
+        $this->render('EnrollmentGradesReport', array('enrollment'=>$enrollment));
     }
     
     public function actionStudentsFileBoquimReport($enrollment_id) {
