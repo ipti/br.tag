@@ -79,7 +79,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <div style="float: left; text-align:left; margin: 5px 0;line-height: 14px;">
                     <div class="span4"><b>INEP: </b>
-                        <?= isset($classroom->inep_id) ? $classroom->inep_id : 'Não informado' ?>
+                        <?= isset($school->inep_id) ? $school->inep_id : 'Não informado' ?>
                     </div>
                     <div class="span4"><b>TURNO: </b>
                         <?php
@@ -188,7 +188,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
 
                     <!--
 
-                     ABAIXO: cruzar informações da turma pra puxar e imprimir o nome do professor automaticamente
+                     @todo ABAIXO: cruzar informações da turma pra puxar e imprimir o nome do professor automaticamente
 
                      -->
                     <div class="span10"><b>PROFESSOR(A): </b><?php echo 'Não informado' ?></div>
