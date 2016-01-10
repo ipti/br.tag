@@ -75,10 +75,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <div class="control-group">                                
-                                <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                                    <?php echo $form->textfield($modelStudentIdentification, 'inep_id', array('readonly'=>'readonly')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -1015,7 +1013,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             break;
                                                         //educação de jovens e adultos
                                                         case 6:
-                                                            $type = 2;
+                                                            $type = 3;
                                                             break;
                                                         //ensino fundamental OU multietapa
                                                         case 7:

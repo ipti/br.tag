@@ -288,6 +288,8 @@ class StudentController extends Controller {
             $stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
             if($stage == 1){
                 $type = 0;
+            }else if($stage == 6){
+                $type = 3;
             }else{
                 $type = 1;
             }
