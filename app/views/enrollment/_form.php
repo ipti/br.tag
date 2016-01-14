@@ -1,4 +1,5 @@
-<?php 
+
+<?php
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -7,19 +8,19 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClient
 
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'student-enrollment-form',
-	'enableAjaxValidation'=>false,
+    'id'=>'student-enrollment-form',
+    'enableAjaxValidation'=>false,
 )); ?>
 
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>
         <div class="buttons">
-                    <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
-                    <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save')),
-                                array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit'));?>
-                    <?php //echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
+            <!--//@done S1 - 19 - O nome do botão é matricular e não criar-->
+            <?php echo CHtml::htmlButton('<i></i>' . ($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save')),
+                array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'submit'));?>
+            <?php //echo CHtml::submitButton($model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save'), array('class' => 'btn btn-icon btn-primary next')); ?>
         </div>
     </div>
 </div>
@@ -52,23 +53,30 @@ $form=$this->beginWidget('CActiveForm', array(
                                     ?>
                                 </div>
                             </div>
+
+                            <!-- O aluno não devia poder ser alterado pelo dropdown
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'student_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    //@done S1 - 07 - 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
-                                    //@done S1 - 17 - Precisa estar em ordem alfabetica
-                                    //@done S1 - 10 - 20 - Melhorar o desempenho da criação dos alunos
-                                    //@done S1 - 05 - Resolver problema de pane no sistema com matrícula duplicada(urgente)
-                                    //@done S1 - 10 - Traduzir mensagens de sucesso edição e falha
-                                    //@done S1 - Remover a busca de todos os dropdowns
-                                    echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno","class" => "select-search-on"));
-                                    ?> 
-                                    <?php echo $form->error($model, 'student_fk'); ?>
+                            //@done S1 - 07 - 16 - Pode ser implementada uma busca neste dropdown, selecionar de uma lista fica dificil
+                            //@done S1 - 17 - Precisa estar em ordem alfabetica
+                            //@done S1 - 10 - 20 - Melhorar o desempenho da criação dos alunos
+                            //@done S1 - 05 - Resolver problema de pane no sistema com matrícula duplicada(urgente)
+                            //@done S1 - 10 - Traduzir mensagens de sucesso edição e falha
+                            //@done S1 - Remover a busca de todos os dropdowns
+
+                            //echo $form->dropDownList($model, 'student_fk', CHtml::listData(StudentIdentification::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um Aluno","class" => "select-search-on"));
+                            ?>
+                                    <?php //echo $form->error($model, 'student_fk'); ?>
                                 </div>
                             </div>
+
+                            -->
+
                             <div class="control-group">
-                                <?php 
+                                <?php
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -77,23 +85,24 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($model, 'unified_class', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($model, 'unified_class'); ?>
+                            <div id="multiclass">
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($model, 'unified_class', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),array('class' => 'select-search-off')); ?>
+                                        <?php echo $form->error($model, 'unified_class'); ?>
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            <?php //@done s1 - criar campo de selecionar o Stage
+
+                                <?php //@done s1 - criar campo de selecionar o Stage
                                 //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
                                 //@done s1 - criar requisição ajax para filtrar a modalidade por Stage?>
-                            <div class="control-group">
-                                <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo CHtml::dropDownList("Stage", null, array(
-                                            "0" => "Selecione a Modalidade", 
-                                            "1" => "Infantil",    
+                                <div class="control-group">
+                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo CHtml::dropDownList("Stage", null, array(
+                                            "0" => "Selecione a Modalidade",
+                                            "1" => "Infantil",
                                             "2" => "Fundamental Menor",
                                             "3" => "Fundamental Maior",
                                             "4" => "Médio",
@@ -107,16 +116,25 @@ $form=$this->beginWidget('CActiveForm', array(
                                                 'url' => CController::createUrl('enrollment/getmodalities'),
                                                 'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
                                             ),
-                                            )); ?>
+                                        )); ?>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa",'class'=>'select-search-on'));?>
+                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                        <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'admission_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa",'class'=>'select-search-on'));?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
-                                    <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                    <?php echo $form->DropDownList($model, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($model, 'admission_type'); ?>
                                 </div>
                             </div>
 
@@ -127,6 +145,39 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($model, 'current_stage_situation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($model, 'current_stage_situation',
+                                        array(
+                                            null => "Selecione",
+                                            "0" => "Primeira matrícula no curso",
+                                            "1" => "Promovido na série anterior do mesmo curso",
+                                            "2" => "Repetente"
+                                        ),
+                                        array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($model, 'current_stage_situation'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($model, 'previous_stage_situation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($model, 'previous_stage_situation',
+                                        array(
+                                            null => "Selecione",
+                                            "0" => "Não frequentou",
+                                            "1" => "Reprovado",
+                                            "2" => "Afastado por transferência",
+                                            "3" => "Afastado por abandono",
+                                            "4" => "Matrícula final em Educação Infantil"
+                                        ),
+                                        array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($model, 'previous_stage_situation'); ?>
+                                </div>
+                            </div>
+
                             <div class="control-group" style="visibility: hidden;">
                                 <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -144,14 +195,22 @@ $form=$this->beginWidget('CActiveForm', array(
                                     ?>
                                     <?php echo $form->error($model, 'student_entry_form'); ?>
                                 </div>
-                            </div> 
+                            </div>
 
                         </div>
                         <div class=" span6">
-                        <div class="separator"></div>
-                        
+                            <div class="separator"></div>
+
                             <div class="control-group">
-                                <?php 
+                                <?php echo $form->labelEx($model, 'school_admission_date', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($model, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
+                                    <?php echo $form->error($model, 'school_admission_date'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php
                                 echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->checkBox($model, 'public_transport',array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -237,8 +296,8 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 </div>
 <script type="text/javascript">
-    
+
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
-    
+
 </script>
