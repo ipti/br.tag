@@ -80,8 +80,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = ".Yii::app()->user->year."", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class'=>'select-search-on'));
-                                    ?>
+                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = ".Yii::app()->user->year."", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class'=>'select-search-on')); ?>
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
