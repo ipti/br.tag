@@ -14,6 +14,15 @@
  * @property string $night_final
  * @property string $allday_initial
  * @property string $allday_final
+ * @property string $exam1
+ * @property string $exam2
+ * @property string $exam3
+ * @property string $exam4
+ * @property string $recovery1
+ * @property string $recovery2
+ * @property string $recovery3
+ * @property string $recovery4
+ * @property string $recovery_final
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -38,10 +47,10 @@ class SchoolConfiguration extends CActiveRecord
 		return array(
 			array('school_inep_id_fk', 'required'),
 			array('school_inep_id_fk', 'length', 'max'=>8),
-			array('morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final', 'safe'),
+			array('morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, school_inep_id_fk, morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final', 'safe', 'on'=>'search'),
+			array('id, school_inep_id_fk, morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +82,15 @@ class SchoolConfiguration extends CActiveRecord
 			'night_final' => 'Night Final',
 			'allday_initial' => 'Allday Initial',
 			'allday_final' => 'Allday Final',
+			'exam1' => 'Exam1',
+			'exam2' => 'Exam2',
+			'exam3' => 'Exam3',
+			'exam4' => 'Exam4',
+			'recovery1' => 'Recovery1',
+			'recovery2' => 'Recovery2',
+			'recovery3' => 'Recovery3',
+			'recovery4' => 'Recovery4',
+			'recovery_final' => 'Recovery Final',
 		);
 	}
 
@@ -104,6 +122,15 @@ class SchoolConfiguration extends CActiveRecord
 		$criteria->compare('night_final',$this->night_final,true);
 		$criteria->compare('allday_initial',$this->allday_initial,true);
 		$criteria->compare('allday_final',$this->allday_final,true);
+		$criteria->compare('exam1',$this->exam1,true);
+		$criteria->compare('exam2',$this->exam2,true);
+		$criteria->compare('exam3',$this->exam3,true);
+		$criteria->compare('exam4',$this->exam4,true);
+		$criteria->compare('recovery1',$this->recovery1,true);
+		$criteria->compare('recovery2',$this->recovery2,true);
+		$criteria->compare('recovery3',$this->recovery3,true);
+		$criteria->compare('recovery4',$this->recovery4,true);
+		$criteria->compare('recovery_final',$this->recovery_final,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
