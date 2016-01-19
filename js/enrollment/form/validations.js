@@ -82,6 +82,7 @@ function checkMulticlass(){
     }else{
         $('#multiclass').hide();
     }
+
     //console.log(multi);
     //console.log($(cls + " option:selected").attr('value'));
 }
