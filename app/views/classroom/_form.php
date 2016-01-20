@@ -401,7 +401,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <tfooter>
                                     <?php
                                     echo "<tr><td colspan='3'>Total:</td><td>" . count($enrollments) . "</td></tr>";
-                                    echo '<tr><td colspan="3">'.Yii::t('default', 'Move to:');
+                                    echo '<tr><td colspan="3">'.Yii::t('default', 'Mover para:');
                                     echo chtml::dropDownList('classroom', "", CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si",
                                         array("sy" => (Yii::app()->user->year), "si"=>yii::app()->user->school)), 'id', 'name'), array(
                                         'class' => 'span5'
