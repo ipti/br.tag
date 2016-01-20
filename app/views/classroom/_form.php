@@ -387,13 +387,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <form action="/classroom/move" method="post">
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
-                                    <tr><th class='span1'>Mover</th><th>Matrícula</th><th>Nome</th><th>Cancelar</th></tr>
+                                    <tr><th class='span1'>Mover</th><th>Matrícula</th><th>Nome</th><th>Etapa Anterior</th><th>Cancelar</th></tr>
 
                                 </thead>
                                 <tbody>
                                      <?php
                                         foreach ($enrollments as $enr) {
-                                            echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td>" .
+                                            echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td><td>".@$enr->EnrollmentPastYear->classroomFk->edcensoStageVsModalityFk->name."</td>" .
                                                 "<td><a href='" . Yii::app()->createUrl('enrollment/delete', array('id' => $enr->id)) . "'>Cancelar Matrícula</a></td></tr>";
                                         }
                                      ?>
