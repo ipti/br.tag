@@ -33,7 +33,7 @@ class ClassroomController extends Controller {
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
                     'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard',
-                    'updateTime'
+                    'updateTime','move'
                 ),
                 'users' => array('@'),
             ),
@@ -811,6 +811,22 @@ class ClassroomController extends Controller {
             }
         }
         echo json_encode($return);
+    }
+
+    public function actionMove() {
+        if(isset($_POST['enrollments'])&&isset($_POST['classroom'])){
+            $enrollments = $_POST['enrollments'];
+            $count_students = count($_POST['enrollments']);
+            $class_room = Classroom::model()->findByPk($_POST['classroom']);
+            foreach ($enrollments as $enrollment) {
+                $enro = StudentEnrollment::model()->findByPk($enrollment);
+                $enro->classroom_fk = $class_room->id;
+                $enro->classroom_inep_id = $class_room->inep_id;
+                $enro->update(array('classroom_fk','classroom_inep_id'));
+            }
+        }
+       $this->redirect(array('index'));
+
     }
 
     public function actionGetClassBoard($classroom_fk = null) {
