@@ -84,7 +84,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
-                            <div id="multiclass">
+<!--                            <div id="multiclass">-->
                                 <div class="control-group">
                                     <?php echo $form->labelEx($model, 'unified_class', array('class' => 'control-label')); ?>
                                     <div class="controls">
@@ -127,7 +127,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                         <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                                     </div>
                                 </div>
-                            </div>
+<!--                            </div>-->
 
                             <div class="control-group">
                                 <?php echo $form->labelEx($model, 'admission_type', array('class' => 'control-label')); ?>

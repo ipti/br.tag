@@ -149,7 +149,7 @@ class EnrollmentController extends Controller {
             }
         }
 
-        $this->getMulti();
+//        $this->getMulti();
 
         $this->render('update', array(
             'model' => $model,
