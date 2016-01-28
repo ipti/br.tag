@@ -1025,9 +1025,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     }
                                                 }
                                                 ?>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
                                             </tr>
                                             <?php
                                         }
