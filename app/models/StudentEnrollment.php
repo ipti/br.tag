@@ -153,6 +153,13 @@ class StudentEnrollment extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
+    public function getEnrollmentPastYear() {
+        $criteria=new CDbCriteria;
+        $criteria->with = array('studentFk', 'classroomFk');
+        $criteria->compare('student_fk',$this->student_fk);
+        $criteria->compare( 'classroomFk.school_year', $this->classroomFk->school_year-1);
+        return @StudentEnrollment::model()->find($criteria);
+    }
     public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
