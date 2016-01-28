@@ -368,7 +368,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-                <?php $this->endWidget(); ?>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
                         <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
@@ -384,7 +383,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             $criteria->order = 's.name';
                             $enrollments = StudentEnrollment::model()->findAll($criteria);
                             ?>
-                            <form action="/classroom/move" method="post">
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
                                     <tr><th class='span1'>Mover</th><th>Matrícula</th><th>Nome</th><th>Etapa Anterior</th><th>Cancelar</th></tr>
@@ -402,7 +400,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo "<tr><td colspan='3'>Total:</td><td>" . count($enrollments) . "</td></tr>";
                                     echo '<tr><td colspan="3">'.Yii::t('default', 'Mover para:');
-                                    echo chtml::dropDownList('classroom', "", CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si",
+                                    echo chtml::dropDownList('toclassroom', "", CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si",
                                         array("sy" => (Yii::app()->user->year), "si"=>yii::app()->user->school)), 'id', 'name'), array(
                                         'class' => 'span5'
                                     ));
@@ -410,7 +408,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ?>
                                 </tfooter>
                             </table>
-                            </form>
                             <?php }?>
                         </div>
                     </div>
@@ -418,6 +415,7 @@ $form = $this->beginWidget('CActiveForm', array(
             </div>
         </div>
     </div>
+    <?php $this->endWidget(); ?>
 
     <!-- Modal -->
     <div id="create-dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">

@@ -428,9 +428,21 @@ class ClassroomController extends Controller {
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
-
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+
+        if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
+            $enrollments = $_POST['enrollments'];
+            $count_students = count($_POST['enrollments']);
+            $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+            foreach ($enrollments as $enrollment) {
+                $enro = StudentEnrollment::model()->findByPk($enrollment);
+                $enro->classroom_fk = $class_room->id;
+                $enro->classroom_inep_id = $class_room->inep_id;
+                $enro->update(array('classroom_fk','classroom_inep_id'));
+            }
+            $this->redirect(array('index'));
+        }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -811,22 +823,6 @@ class ClassroomController extends Controller {
             }
         }
         echo json_encode($return);
-    }
-
-    public function actionMove() {
-        if(isset($_POST['enrollments'])&&isset($_POST['classroom'])){
-            $enrollments = $_POST['enrollments'];
-            $count_students = count($_POST['enrollments']);
-            $class_room = Classroom::model()->findByPk($_POST['classroom']);
-            foreach ($enrollments as $enrollment) {
-                $enro = StudentEnrollment::model()->findByPk($enrollment);
-                $enro->classroom_fk = $class_room->id;
-                $enro->classroom_inep_id = $class_room->inep_id;
-                $enro->update(array('classroom_fk','classroom_inep_id'));
-            }
-        }
-       $this->redirect(array('index'));
-
     }
 
     public function actionGetClassBoard($classroom_fk = null) {
