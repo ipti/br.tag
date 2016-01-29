@@ -50,6 +50,7 @@ class ReportsController extends Controller {
     }
 
     public function actionEnrollmentPerClassroomReport($id){
+        $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
             . " AND classroom_id = $id"
@@ -58,7 +59,7 @@ class ReportsController extends Controller {
         $result = Yii::app()->db->createCommand($sql)->queryAll();
                
         $classroom = Classroom::model()->findByPk($id);
-        
+
         $this->render('EnrollmentPerClassroomReport', array(
             'report' => $result,
             'classroom' => $classroom
