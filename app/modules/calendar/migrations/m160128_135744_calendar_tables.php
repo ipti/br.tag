@@ -59,19 +59,3 @@ class m160128_135744_calendar_tables extends CDbMigration{
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
