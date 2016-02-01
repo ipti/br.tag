@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function() {
+$("#print").on('click', function() {
     window.print();
 });
-/*
-$("#print").on('click', function() {
-    
-});*/
