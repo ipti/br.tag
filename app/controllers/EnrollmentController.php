@@ -149,6 +149,8 @@ class EnrollmentController extends Controller {
             }
         }
 
+//        $this->getMulti();
+
         $this->render('update', array(
             'model' => $model,
         ));
@@ -362,6 +364,11 @@ class EnrollmentController extends Controller {
         }
         return $stage;
     }
+
+//    public function getMulti(){
+//        $teste = Classroom::model()->findAll("school_year = ".Yii::app()->user->year."", array('order' => 'name'));
+//        var_dump($teste); exit;
+//    }
 
     /**
      * 

@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+$(document).ready(function(){
+    checkMulticlass();
+});
+
 var cls = formEnrollment+'classroom_fk'
 var pt = formEnrollment + 'public_transport';
 var trg = formEnrollment + 'transport_responsable_government';
@@ -22,17 +27,7 @@ $(tt + ' input').click(function() {
 });
 
 $(cls).change(function(){
-	/*$(uni).val(0)
-	$(stg).val('0')	
-	$(mod).val('0');*/
-
-	var multi = $(cls+" option:selected" ).attr('id');
-	if(multi == 1){
-		$('#multiclass').show();
-	}else{
-		$('#multiclass').hide();
-	}
-
+    checkMulticlass();
 })
 $(trg).change(function() {
     $(tt).attr('disabled', 'disabled').hide();
@@ -78,3 +73,16 @@ $(tt + ' input').change(function() {
 });
 
 $(pt).trigger('change');
+
+function checkMulticlass(){
+
+    var multi = $(cls + " option:selected" ).attr('id');
+    if(multi == 1){
+        $('#multiclass').show();
+    }else{
+        $('#multiclass').hide();
+    }
+
+    //console.log(multi);
+    //console.log($(cls + " option:selected").attr('value'));
+}
