@@ -3716,6 +3716,9 @@ textarea {
 .form-horizontal .control-group:last-child {
   margin: 0;
 }
+div #multiclass{
+  margin-bottom: 20px;
+}
 .input-prepend .add-on,
 .input-append .add-on {
   background: #ffffff;
@@ -6689,23 +6692,37 @@ li[discipline] {
 }
 
 #frequency input[type=checkbox] {
-    margin: 4px 1px 0 0;
+    margin: 4px 1px 0 1px;
 }
-
 .table th, .table td {
     padding: 4px 4px 4px 4px;
 }
-
 tr.filters td{
     padding: 4px 25px 4px 1px;
 }
-
 #frequency td.frequency-list {
     border-left: 0;
 }
-
 #frequency {
     border: 0;
+}
+#frequency tbody{
+    overflow: auto;
+    height: 300px;
+   border-top: 1px solid #e5e5e5;
+}
+#frequency thead, tbody{
+   display: block;
+}
+#frequency thead tr th:first-of-type {
+    width: 42%;
+   border-left: 0;
+}
+#frequency tbody tr:first-of-type td{
+   border-top: 0;
+}
+#frequency tbody tr td:first-of-type {
+    width: 42%;
 }
 
 input[type=checkbox] {
@@ -6738,7 +6755,7 @@ box-shadow: none;
 
 li.active a{
     font-weight: bold !important;
-    
+
 }
 
 .vmiddle{
@@ -6746,9 +6763,9 @@ li.active a{
 }
 
 .contents-select{
-    width:100% !important; 
-    margin-bottom:0; 
-    opacity: 100; 
+    width:100% !important;
+    margin-bottom:0;
+    opacity: 100;
     -webkit-appearance: none;
 }
 

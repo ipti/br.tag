@@ -370,7 +370,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" class="btn btn-icon btn-primary glyphicons print hidden-print" target="blank"><i></i><?php echo Yii::t('default', 'Print') ?></a>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
