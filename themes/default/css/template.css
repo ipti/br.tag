@@ -6711,7 +6711,7 @@ tr.filters td{
     height: 300px;
    border-top: 1px solid #e5e5e5;
 }
-#frequency thead, tbody{
+#frequency thead, #frequency tbody{
    display: block;
 }
 #frequency thead tr th:first-of-type {
