@@ -16,21 +16,18 @@
  * @property CalendarEvent[] $calendarEvents
  * @property Classroom[] $classrooms
  */
-class Calendar extends CActiveRecord
-{
+class Calendar extends CActiveRecord{
 	/**
 	 * @return string the associated database table name
 	 */
-	public function tableName()
-	{
+	public function tableName(){
 		return 'calendar';
 	}
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
-	{
+	public function rules(){
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -47,8 +44,7 @@ class Calendar extends CActiveRecord
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
+	public function relations(){
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
@@ -61,15 +57,14 @@ class Calendar extends CActiveRecord
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
-	{
+	public function attributeLabels(){
 		return array(
-			'id' => 'ID',
-			'school_year' => 'School Year',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
-			'actual' => 'Actual',
-			'school_fk' => 'School Fk',
+			'id' => yii::t('calendarModule.labels', 'ID'),
+			'school_year' => yii::t('calendarModule.labels','School Year'),
+			'start_date' => yii::t('calendarModule.labels','Start Date'),
+			'end_date' => yii::t('calendarModule.labels','End Date'),
+			'actual' => yii::t('calendarModule.labels','Actual'),
+			'school_fk' => yii::t('calendarModule.labels','School'),
 		);
 	}
 
@@ -85,8 +80,7 @@ class Calendar extends CActiveRecord
 	 * @return CActiveDataProvider the data provider that can return the models
 	 * based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search(){
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
@@ -109,8 +103,7 @@ class Calendar extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Calendar the static model class
 	 */
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__){
 		return parent::model($className);
 	}
 }

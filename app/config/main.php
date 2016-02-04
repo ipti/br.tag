@@ -18,6 +18,7 @@ return array(
         'application.controllers.*',
         'application.components.*',
         'application.modules.wizard.models.*',
+        'application.modules.calendar.models.*',
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
