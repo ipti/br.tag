@@ -151,43 +151,43 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
         <table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
-                <th rowspan="2">Nº</th>
+                <th rowspan="2" style="text-align: center;">Nº</th>
                 <th rowspan="2">ALUNO</th>
-                <th colspan="2">GÊNERO</th>
-                <th rowspan="2">DATA DE NASCIMENTO</th>
-                <th rowspan="2">NATURALIDADE</th>
-                <th colspan="4">TIPO DE MATRÍCULA</th>
-                <th colspan="3">SITUAÇÃO NA SÉRIE</th>
-                <th rowspan="2">ENDEREÇO</th>
+                <th colspan="2" style="text-align: center;">GÊNERO</th>
+                <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+                <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+                <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+                <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+                <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
             </tr>
             <tr>
-                <th>M</th>
-                <th>F</th>
-                <th>MI</th>
-                <th>MC</th>
-                <th>MR</th>
-                <th>MT</th>
-                <th>N</th>
-                <th>P</th>
-                <th>R</th>
+                <th style="text-align: center;">M</th>
+                <th style="text-align: center;">F</th>
+                <th style="text-align: center;">MI</th>
+                <th style="text-align: center;">MC</th>
+                <th style="text-align: center;">MR</th>
+                <th style="text-align: center;">MT</th>
+                <th style="text-align: center;">N</th>
+                <th style="text-align: center;">P</th>
+                <th style="text-align: center;">R</th>
             </tr>
             <?php
                 $rows = "";
                 foreach ($report as $key=>$r){
                     $rows .= "<tr>"
-                            . "<td>" . ($key + 1) . "</td>"
+                            . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
                             . "<td>" . $r['name'] . "</td>"
-                            . "<td>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
-                            . "<td>" . $r['birthday'] . "</td>"
-                            . "<td>" . $r['city'] . "</td>"
-                            . "<td>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                            . "<td style='text-align: center;'>" . $r['city'] . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                             . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                             . "</tr>";
                 }
