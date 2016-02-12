@@ -51,7 +51,6 @@
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  * @property StudentEnrollment[] $studentEnrollments
  * @property StudentIdentification[] $studentIdentifications
- * @property Calendar[] $calendars
  */
 class SchoolIdentification extends CActiveRecord {
 
@@ -114,7 +113,6 @@ class SchoolIdentification extends CActiveRecord {
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
             'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),
             'structure'=> [self::HAS_ONE, 'SchoolStructure','school_inep_id_fk'],
-            'calendars' => [self::HAS_MANY, 'Calendar', 'school_fk']
         );
     }
 

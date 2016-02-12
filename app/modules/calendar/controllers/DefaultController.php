@@ -37,7 +37,12 @@ class DefaultController extends Controller {
 	}
 
 	public function actionIndex(){
-		$this->render('index', ["modelCalendar" =>new Calendar()] );
+        /** @var $school CalendarSchool */
+        $school = CalendarSchool::model()->findByPk(Yii::app()->user->school);
+        $calendar = $school->getActualCalendar();
+
+
+		$this->render('index', ["modelCalendar" =>$calendar] );
 	}
 
     public function actionCreate(){

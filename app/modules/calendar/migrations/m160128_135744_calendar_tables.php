@@ -6,8 +6,8 @@ class m160128_135744_calendar_tables extends CDbMigration{
 		$this->createTable('calendar',[
 			'id' => 'pk',
             'school_year' => 'varchar(10) NOT NULL',
-			'start_date' => 'datetime NOT NULL',
-            'end_date' => 'datetime NOT NULL',
+			'start_date' => 'date NOT NULL',
+            'end_date' => 'date NOT NULL',
 			'actual' => 'int NOT NULL',
             'school_fk' => 'varchar(8) COLLATE utf8_unicode_ci NOT NULL',
 		],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');

@@ -1,13 +1,14 @@
 <?php
 /* @var $this calendar.defaultController
  * @var $modelCalendar Calendar
+ * @var $cs CClientScript
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
-//$cs->registerScriptFile($baseScriptUrl . '/common/js/lunch.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
 
 ?>
 
@@ -42,11 +43,13 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
     </div>
 </div>
 <div class="innerLR home">
-    <div class="row-fluid">
-        <div class="span12">
-            teste
-        </div>
-    </div>
+
+    <?php
+    $this->widget('calendar.components.calendarWidget', [
+        'calendar' => $modelCalendar,
+    ]);
+    ?>
+
 </div>
 
 
