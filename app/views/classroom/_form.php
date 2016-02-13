@@ -370,7 +370,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" class="btn btn-icon btn-primary glyphicons print hidden-print" target="blank"><i></i><?php echo Yii::t('default', 'Print') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
@@ -394,7 +394,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                             echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td><td>".@$enr->EnrollmentPastYear->classroomFk->edcensoStageVsModalityFk->name."</td>" .
                                                 "<td><a href='" . Yii::app()->createUrl('enrollment/delete', array('id' => $enr->id)) . "'>Cancelar Matrícula</a></td></tr>";
                                         }
-                                     ?>
+                                        echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
+                                    } else {
+                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
+                                    }
+                                    ?>
                                 </tbody>
                                 <tfooter>
                                     <?php
@@ -411,7 +415,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php }?>
                         </div>
                     </div>
-                </div>   
+                </div>
             </div>
         </div>
     </div>

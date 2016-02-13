@@ -7,9 +7,8 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
-$stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
-$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
+$classroom = Classroom::model()->findByPk($cid);
+$school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
 
 ?>
 
@@ -24,184 +23,243 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 <div class="innerLR">
     <div>
-        <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
-            <div>
-                <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 35px 0 5px 0">
-            </div>
-                <span style="font-size: 10px">
-                    ESTADO DE SERGIPE<br>
-                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO
+
+        <script type="text/javascript">
+            /*<![CDATA[*/
+            jQuery(function ($) {
+                    jQuery.ajax({'type': 'GET',
+                        'data': {'cid':<?php echo $cid; ?>},
+                        'url': '<?php echo Yii::app()->createUrl('reports/getEnrollmentPerClassroomInformation') ?>',
+                        'success': function (data) {
+                            gerarRelatorio(data);
+                        }, 'error': function () {
+                            limpar();
+                        }, 'cache': false});
+                    return false;
+                }
+            );
+            /*]]>*/
+        </script>
+
+        <div id="report">
+            <div id="container-header" style="width: 100%; margin: auto; text-align: center">
+                <?php
+                    if(isset($school->act_of_acknowledgement)){
+                ?>
+                <span style="display:block;clear:both;width: 40px;margin:0 auto;">
+                <?= CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'display:block;width:40px; margin:0 auto')) ?>
                 </span>
-            <br>
-            <span style="font-size: 14px;">RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></span>
+                <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
+                <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
+                <p style="font-size:8px;font-weight: bold">
+                    <?= $school->address ?>,
+                    <?= $school->edcensoCityFk->name ?>/
+                    <?= $school->edcensoUfFk->name ?> - CEP: <?= $school->cep ?>
+                </p>
+                <span style="display: block; clear: both"></span>
+                <?php
+                    }else{
+                ?>
+                <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
+                <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
+                SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
+                <span style="clear:both;display:block"></span>
+                <?php }?>
+            </div>
+            <p style="text-align: center">
+                <br>
+                <span style="font-weight: bold; font-size: 14px">
+                    RELATÓRIO DE MATRÍCULA / <?= $this->year; ?>
+                </span>
+            </p>
+
             <span style="clear:both;display:block"></span>
-        </div>
+            <br><br>
 
-        <br>
+            <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
+                <div style="float: left; text-align:left; margin: 5px 0;line-height: 14px;">
+                    <div class="span4"><b>INEP: </b>
+                        <?= isset($school->inep_id) ? $school->inep_id : 'Não informado' ?>
+                    </div>
+                    <div class="span4"><b>TURNO: </b>
+                        <?php
+                            switch ($classroom->turn){
+                                case 'M':
+                                    echo 'Manhã';
+                                    break;
+                                case 'T':
+                                    echo 'Tarde';
+                                    break;
+                                case 'N':
+                                    echo 'Noite';
+                                    break;
+                                case 'I':
+                                    echo 'Integral';
+                                    break;
+                                default:
+                                    echo 'Não informado';
+                                    break;
+                            }
+                        ?>
+                    </div>
 
-        <table class="table">
-            <tr>
-                <td colspan="3">ESCOLA: <?= $school->name?></td>
-                <td>CÓDIGO: <?= $classroom->school_inep_fk?></td>
-            </tr>
-            <tr>
-                <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ", " . $school->address_number : "")?></td>
-                <td colspan="1">TURNO:
                     <?php
-                        switch($classroom->turn){
-                            case "M":
-                                echo "MANHÃ";
-                                break;
-                            case "T":
-                                echo "TARDE";
-                                break;
-                            case "N":
-                                echo "NOITE";
-                                break;
-                        }
-                    ?>
-                </td>
-                <td colspan="1">SÉRIE/ANO:
-                    <?php
-                        $stage = "";
+                        $c;
+                        //$stage = '7';
+                        //$class = '41';
                         switch ($classroom->edcenso_stage_vs_modality_fk) {
                             case '4':
-                                $stage = '1ª SÉRIE';
+                                $c = '1º';
                                 break;
                             case '5':
-                                $stage = '2ª SÉRIE';
+                                $c = '2º';
                                 break;
                             case '6':
-                                $stage = '3ª SÉRIE';
+                                $c = '3º';
                                 break;
                             case '7':
-                                $stage = '4ª SÉRIE';
+                                $c = '4º';
                                 break;
                             case '8':
-                                $stage = '5ª SÉRIE';
+                                $c = '5º';
                                 break;
                             case '9':
-                                $stage = '6ª SÉRIE';
+                                $c = '6º';
                                 break;
                             case '10':
-                                $stage = '7ª SÉRIE';
+                                $c = '7º';
                                 break;
                             case '11':
-                                $stage = '8ª SÉRIE';
+                                $c = '8º';
                                 break;
                             case '14':
-                                $stage = '1º ANO';
+                                $c = '1º';
                                 break;
                             case '15':
-                                $stage = '2º ANO';
+                                $c = '2º';
                                 break;
                             case '16':
-                                $stage = '3º ANO';
+                                $c = '3º';
                                 break;
                             case '17':
-                                $stage = '4º ANO';
+                                $c = '4º';
                                 break;
                             case '18':
-                                $stage = '5º ANO';
+                                $c = '5º';
                                 break;
                             case '19':
-                                $stage = '6º ANO';
+                                $c = '6º';
                                 break;
                             case '20':
-                                $stage = '7º ANO';
+                                $c = '7º';
                                 break;
                             case '21':
-                                $stage = '8º ANO';
+                                $c = '8º';
                                 break;
                             case '41':
-                                $stage = '9º ANO';
+                                $c = '9º';
                                 break;
                             case '25':
                             case '30':
                             case '35':
-                                $stage = '1ª SÉRIE';
+                                $c = '1º';
                                 break;
                             case '26':
                             case '31':
                             case '36':
-                                $stage = '2ª SÉRIE';
+                                $c = '2º';
                                 break;
                             case '27':
                             case '32':
                             case '37':
-                                $stage = '3ª SÉRIE';
+                                $c = '3º';
                                 break;
                             case '28':
                             case '33':
                             case '38':
-                                $stage = '4ª SÉRIE';
+                                $c = '4º';
                                 break;
                         }
-                        echo $stage;
                     ?>
-                </td>
-                <td colspan="1">TURMA: <?= $classroom->name?></td>
-            </tr>
-            <tr>
-                <td>PROFESSOR(A): </td>
-            </tr>
-        </table>
 
-        <br>
+                    <div class="span4"><b>SÉRIE/ANO: </b><?php echo (isset($c) ? $c : 'Não informado') ?></div>
+                    <div class="span4"><b>TURMA: </b><?php echo (isset($classroom->name) ? $classroom->name : 'Não informado') ?></div>
+                    <br>
 
-        <table class="table table-bordered table-striped" style="font-size: 11px">
-            <tr>
-                <th rowspan="2">Nº</th>
-                <th rowspan="2">ALUNO</th>
-                <th colspan="2">GÊNERO</th>
-                <th rowspan="2">DATA DE NASCIMENTO</th>
-                <th rowspan="2">NATURALIDADE</th>
-                <th colspan="4">TIPO DE MATRÍCULA</th>
-                <th colspan="3">SITUAÇÃO NA SÉRIE</th>
-                <th rowspan="2">ENDEREÇO</th>
-            </tr>
-            <tr>
-                <th>M</th>
-                <th>F</th>
-                <th>MI</th>
-                <th>MC</th>
-                <th>MR</th>
-                <th>MT</th>
-                <th>N</th>
-                <th>P</th>
-                <th>R</th>
-            </tr>
-            <?php
-                $rows = "";
-                foreach ($report as $key=>$r){
-                    $rows .= "<tr>"
-                            . "<td>" . ($key + 1) . "</td>"
-                            . "<td>" . $r['name'] . "</td>"
-                            . "<td>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
-                            . "<td>" . $r['birthday'] . "</td>"
-                            . "<td>" . $r['city'] . "</td>"
-                            . "<td>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
-                            . "<td>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
-                            . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
-                            . "</tr>";
-                }
-                echo $rows;
-            ?>
-        </table>
-        <?php $this->renderPartial('footer'); ?>
+                    <!--
+
+                     @todo ABAIXO: cruzar informações da turma pra puxar e imprimir o nome do professor automaticamente
+
+                     -->
+                    <div class="span10"><b>PROFESSOR(A): </b><?php echo 'Não informado' ?></div>
+                </div>
+            </div>
+
+            <span style="clear:both;display:block"></span>
+            <br>
+
+            <table>
+                <tr>
+                    <th rowspan="2" style="width: 30px">Nº</th>
+                    <th rowspan="2" style="width: 280px">Nome do aluno</th>
+                    <th colspan="2" style="width: 40px">Gênero</th>
+                    <th rowspan="2" style="width: 70px">Data de nascimento</th>
+                    <th rowspan="2" style="width: 100px">Naturalidade</th>
+                    <th colspan="3" style="width: 80px">Tipo de matrícula</th>
+                    <th colspan="2" style="width: 60px">Situação na série</th>
+                    <th rowspan="2" style="width: 280px">Endereço</th>
+                </tr>
+                <tr>
+                    <th>M</th>
+                    <th>F</th>
+                    <th>P</th>
+                    <th>PC</th>
+                    <th>T</th>
+                    <th>N</th>
+                    <th>P</th>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 
 <style>
-    @media print{
-        @page {
-            size: landscape;
+    table, td, tr, th {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    @page {
+        size: landscape;
+        margin-bottom: 25mm;
+    }
+
+    @media print {
+        #report{
+            width: 100%;
+        }
+        #container-header {
+            width: 425px !important;
+        }
+
+        table, td, tr, th {
+            border-color: black !important;
+        }
+        table {
+            page-break-inside: auto;
+        }
+        thead {
+            display: table-header-group;
+        }
+        .report-table-empty td {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        #canvas-td {
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
+            background-repeat:no-repeat;
+            background-position:center center;
+            background-size: 100% 100%, auto;
         }
     }
 </style>
