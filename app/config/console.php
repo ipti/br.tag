@@ -11,15 +11,13 @@ return array(
 
 	// application components
 	'components'=>array(
-
 		'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.boquim.tag',
-            'emulatePrepare' => true,
-            'username' => 'user.tag',
-            'password' => '123456',
-            'charset' => 'utf8',
-        ),
-		
+			'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tag',
+			'emulatePrepare' => true,
+			'username' => 'user.tag',
+			'password' => '123456',
+			'charset' => 'utf8',
+		),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
