@@ -7,6 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileBoquimReport/_initia
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 <div class="row-fluid hidden-print">
@@ -124,7 +125,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         ?>
                     </tr>
                     <tr>	
-                        <td style="">DATA: <?php echo date("d/m/y") ?></td>
+                        <td style="">DATA:  <?php echo date('d/m/y',strtotime($enrollment->create_date));?></td>
                         <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                             <br>Pai, Mãe ou Responsável
                         </td>

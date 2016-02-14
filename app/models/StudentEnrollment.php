@@ -76,6 +76,19 @@ class StudentEnrollment extends CActiveRecord
             return [];
         }
     }
+    public function TransportOptions(){
+        return array('vehicle_type_van' => Yii::t('default', 'Vehicle Type Van'),
+            'vehicle_type_microbus' => Yii::t('default', 'Vehicle Type Microbus'),
+            'vehicle_type_bus' => Yii::t('default', 'Vehicle Type Bus'),
+            'vehicle_type_bike' => Yii::t('default', 'Vehicle Type Bike'),
+            'vehicle_type_animal_vehicle' => Yii::t('default', 'Vehicle Type Animal Vehicle'),
+            'vehicle_type_other_vehicle' => Yii::t('default', 'Vehicle Type Other Vehicle'),
+            'vehicle_type_waterway_boat_5' => Yii::t('default', 'Vehicle Type Waterway Boat 5'),
+            'vehicle_type_waterway_boat_5_15' => Yii::t('default', 'Vehicle Type Waterway Boat 5 15'),
+            'vehicle_type_waterway_boat_15_35' => Yii::t('default', 'Vehicle Type Waterway Boat 15 35'),
+            'vehicle_type_waterway_boat_35' => Yii::t('default', 'Vehicle Type Waterway Boat 35'),
+            'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'));
+    }
 
     /**
      * @return array validation rules for model attributes.

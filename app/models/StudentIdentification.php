@@ -142,7 +142,7 @@ class StudentIdentification extends CActiveRecord {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
-            'inep_id' => Yii::t('default', 'Inep'),
+            'inep_id' => Yii::t('default', 'ID INEP'),
             'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Name'),
             'nis' => Yii::t('default', 'Nis'),

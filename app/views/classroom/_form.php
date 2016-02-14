@@ -390,6 +390,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </thead>
                                 <tbody>
                                      <?php
+                                     if(isset($enrollments)){
                                         foreach ($enrollments as $enr) {
                                             echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td><td>".@$enr->EnrollmentPastYear->classroomFk->edcensoStageVsModalityFk->name."</td>" .
                                                 "<td><a href='" . Yii::app()->createUrl('enrollment/delete', array('id' => $enr->id)) . "'>Cancelar Matrícula</a></td></tr>";

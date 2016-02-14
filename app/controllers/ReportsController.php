@@ -56,9 +56,21 @@ class ReportsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionEnrollmentPerClassroomReport($cid){
+    public function actionEnrollmentPerClassroomReport($id){
         $this->layout = "reports";
-        $this->render('EnrollmentPerClassroomReport', array('cid'=>$cid));
+        $sql = "SELECT * FROM classroom_enrollment
+                    where `year`  = ".$this->year.""
+            . " AND classroom_id = $id"
+            . " ORDER BY name;";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $classroom = Classroom::model()->findByPk($id);
+
+        $this->render('EnrollmentPerClassroomReport', array(
+            'report' => $result,
+            'classroom' => $classroom
+        ));
     }
 
     public function actionStatisticalDataReport(){
@@ -138,8 +150,8 @@ class ReportsController extends Controller {
     }
 
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
-        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
-                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
+        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, c.school_year enrollment_date"
+                . " FROM student_enrollment se JOIN classroom c ON(c.id=se.classroom_fk) JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 

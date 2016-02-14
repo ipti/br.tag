@@ -984,7 +984,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ?>
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
-                                                <td><?php echo $me->classroomFk->name ?></td>
+                                                <td><a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)) ?>'><?php echo $me->classroomFk->name ?></a></td>
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                 $type;
