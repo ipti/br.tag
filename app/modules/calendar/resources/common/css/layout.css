@@ -2,3 +2,72 @@
     margin-bottom: 0;
 
 }
+
+.span1-7{
+    width: 12.63157894736842% !important;
+    position:relative;
+}
+
+.calendar-header{
+    background-color: rgb(149, 171, 211);
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 3px;
+    height: 27px;
+}
+
+.start-calendar{
+    background: #598b58;
+    color: white;
+}
+
+.sunday .calendar-text{
+    color: #ff0000;
+}
+
+.calendar-yellow{
+    color: #d9d303;
+}
+.calendar-red {
+    color: #ff0000;
+}
+.calendar-green {
+    color: #26cb24;
+}
+.calendar-blue{
+    color: #0081c2;
+}
+.calendar-purple{
+    color: #9700f6
+}
+.calendar-black{
+    color: #333333;
+}
+.calendar-pink{
+    color: pink;
+}
+
+.calendar-icon{
+    position: absolute;
+    left: calc(50% - 9px);
+    top: 1px;
+    font-size: 20px!important;
+    z-index: 0;
+}
+.calendar-icon+.calendar-text{
+    font-weight: 600;
+    color: white;
+    text-shadow: 0px 0px 2px #333333;
+}
+
+
+.calendar-text{
+    position: absolute;
+    font-size: 12px!important;
+    left: calc(50% - 8px);
+}
+
+.calendar-subtitles span{
+    color:black;
+}

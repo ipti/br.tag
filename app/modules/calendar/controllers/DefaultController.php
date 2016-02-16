@@ -23,7 +23,7 @@ class DefaultController extends Controller {
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','createEvent','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -40,9 +40,9 @@ class DefaultController extends Controller {
         /** @var $school CalendarSchool */
         $school = CalendarSchool::model()->findByPk(Yii::app()->user->school);
         $calendar = $school->getActualCalendar();
+        $event = new CalendarEvent();
 
-
-		$this->render('index', ["modelCalendar" =>$calendar] );
+		$this->render('index', ["modelCalendar" =>$calendar,"modelEvent" =>$event] );
 	}
 
     public function actionCreate(){
@@ -67,9 +67,23 @@ class DefaultController extends Controller {
                 Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
             }
         }
-		$this->render('index', ["modelCalendar" =>$calendar] );
+		$this->render('index', ["modelCalendar" =>$calendar,"modelEvent" =>new CalendarEvent()] );
     }
 
+    public function actionCreateEvent(){
+        $event = new CalendarEvent();
+        $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : null;
+        if($attributes != null) {
+            $event->attributes = $attributes;
+            if ($event->validate()) {
+                $event->save();
+                Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
+            }
+        }
+        $this->render('index', ["modelCalendar" =>$this->loadModel($event->calendar_fk),"modelEvent" =>new CalendarEvent()] );
+    }
 
     public function loadModel($id){
         $model=Calendar::model()->findByPk($id);

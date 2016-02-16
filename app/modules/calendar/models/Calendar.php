@@ -48,7 +48,7 @@ class Calendar extends CActiveRecord{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
+			'schoolFk' => array(self::BELONGS_TO, 'CalendarSchool', 'school_fk'),
 			'calendarEvents' => array(self::HAS_MANY, 'CalendarEvent', 'calendar_fk'),
 			'classrooms' => array(self::HAS_MANY, 'Classroom', 'calendar_fk'),
 		);

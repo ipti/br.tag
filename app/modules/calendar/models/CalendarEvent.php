@@ -62,13 +62,13 @@ class CalendarEvent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'start_date' => 'Start Date',
-			'end_date' => 'End Date',
-			'calendar_fk' => 'Calendar Fk',
-			'calendar_event_type_fk' => 'Calendar Event Type Fk',
-			'copyable' => 'Copyable',
+			'id' => yii::t('calendarModule.labels','ID'),
+			'name' => yii::t('calendarModule.labels','Name'),
+			'start_date' => yii::t('calendarModule.labels','Start Date'),
+			'end_date' => yii::t('calendarModule.labels','End Date'),
+			'calendar_fk' => yii::t('calendarModule.labels','Calendar'),
+			'calendar_event_type_fk' => yii::t('calendarModule.labels','Event Type'),
+			'copyable' => yii::t('calendarModule.labels','Copyable'),
 		);
 	}
 

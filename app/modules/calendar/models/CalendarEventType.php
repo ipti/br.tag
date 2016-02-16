@@ -58,11 +58,11 @@ class CalendarEventType extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'icon' => 'Icon',
-			'color' => 'Color',
-			'copyable' => 'Copyable',
+			'id' => yii::t('calendarModule.labels','ID'),
+			'name' => yii::t('calendarModule.labels','Name'),
+			'icon' => yii::t('calendarModule.labels','Icon'),
+			'color' => yii::t('calendarModule.labels','Color'),
+			'copyable' => yii::t('calendarModule.labels','Copyable'),
 		);
 	}
 
@@ -104,5 +104,9 @@ class CalendarEventType extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function getNameTranslated(){
+		return yii::t('calendarModule.labels',$this->name);
 	}
 }
