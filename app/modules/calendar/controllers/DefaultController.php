@@ -23,7 +23,7 @@ class DefaultController extends Controller {
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','createEvent','update'),
+				'actions'=>array('create','createEvent','update','event','changeEvent'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -83,6 +83,16 @@ class DefaultController extends Controller {
             }
         }
         $this->render('index', ["modelCalendar" =>$this->loadModel($event->calendar_fk),"modelEvent" =>new CalendarEvent()] );
+    }
+
+    public function actionEvent($id){
+        $event = CalendarEvent::model()->findByPk($id);
+        echo json_encode($event->attributes);
+    }
+
+    public function actionChangeEvent(){
+        $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : null;
+
     }
 
     public function loadModel($id){

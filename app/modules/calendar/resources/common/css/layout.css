@@ -1,6 +1,11 @@
+.calendar a, .calendar a:hover, .calendar a:visited{
+    text-decoration: none !important;
+    cursor: pointer;
+    color: inherit;
+}
+
 .modal-dialog form{
     margin-bottom: 0;
-
 }
 
 .span1-7{
@@ -56,9 +61,9 @@
     z-index: 0;
 }
 .calendar-icon+.calendar-text{
-    font-weight: 600;
-    color: white;
-    text-shadow: 0px 0px 2px #333333;
+    font-weight: 600 !important;
+    color: white !important;
+    text-shadow: 0px 0px 2px #333333 !important;
 }
 
 
