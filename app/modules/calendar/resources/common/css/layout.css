@@ -1,4 +1,9 @@
-.calendar a, .calendar a:hover, .calendar a:visited{
+
+.text-right {text-align: right !important;} /*For right align*/
+.text-left {text-align: left !important;} /*For left align*/
+.text-center {text-align: center !important;} /*For center align*/
+
+.calendar a, .calendar a:hover, .calendar a:visited, .accordion-toggle a{
     text-decoration: none !important;
     cursor: pointer;
     color: inherit;
@@ -63,7 +68,7 @@
 .calendar-icon+.calendar-text{
     font-weight: 600 !important;
     color: white !important;
-    text-shadow: 0px 0px 2px #333333 !important;
+    text-shadow: 0px 0px 2px #000 !important;
 }
 
 
@@ -75,4 +80,33 @@
 
 .calendar-subtitles span{
     color:black;
+}
+
+
+.modal, .modal-dialog, .modal-content, .modal-header{
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.modal-title{
+    padding-top: 6px!important;
+}
+
+form{
+    margin: 0!important;
+}
+
+.divider {
+    margin: 0 3px;
+    width: 0;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #bfc2c5;
+    height: 10px;
+}
+
+.accordion-toggle:hover{
+    background-color: #b3b3b3!important;
+}
+
+.accordion-toggle{
+    width: calc(100% - 20px)!important;
 }

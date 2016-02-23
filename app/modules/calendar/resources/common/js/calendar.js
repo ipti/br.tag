@@ -1,16 +1,19 @@
 $(document).on("click", ".change-event", function () {
     var eventId = $(this).data('id');
-    var calendarFk = "";
+    //var calendarFk = "";
     var eventName = "";
     var m = $(this).data('month');
     var d = $(this).data('day');
-    var eventStartDate = $(this).data('year') + "-" + (m.length == 2? m : "0"+m) + "-" + (d.length == 2? m : "0"+d);
-    var eventEndDate =  $(this).data('year') + "-" + (m.length == 2? m : "0"+m) + "-" + (d.length == 2? m : "0"+d);
+    var eventStartDate = $(this).data('year') + "-" + (m > 9? m : "0"+m) + "-" + (d > 9? d : "0"+d);
+    var eventEndDate =  $(this).data('year') + "-" + (m > 9? m : "0"+m) + "-" + (d > 9? d : "0"+d)
     var eventTypeFk = "";
     var eventCopyable = "0";
+
+    var url = GET_EVENT_URL+"/"+eventId;
+
     var change = function(){
         $("#CalendarEvent_id").val(eventId);
-        $("#CalendarEvent_calendar_fk").val(calendarFk);
+        //$("#CalendarEvent_calendar_fk").val(calendarFk);
         $("#CalendarEvent_name").val(eventName);
         $("#CalendarEvent_start_date").val(eventStartDate);
         $("#CalendarEvent_end_date").val(eventEndDate);
@@ -25,12 +28,11 @@ $(document).on("click", ".change-event", function () {
 
     if(eventId != -1) {
         $.ajax({
-            url: GET_EVENT_URL,
-            data: {id: eventId},
+            url: url,
             success: function (data) {
                 data = $.parseJSON(data);
                 eventId = data.id;
-                calendarFk = data.calendar_fk;
+                //calendarFk = data.calendar_fk;
                 eventName = data.name;
                 eventStartDate = data.start_date.split(" ")[0];
                 eventEndDate = data.end_date.split(" ")[0];
@@ -43,7 +45,4 @@ $(document).on("click", ".change-event", function () {
         change();
     }
 
-    // As pointed out in comments,
-    // it is superfluous to have to manually call the modal.
-    // $('#addBookDialog').modal('show');
 });

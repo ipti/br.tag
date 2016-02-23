@@ -37,6 +37,9 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::P
         <h3 class="heading-mosaic"><?= yii::t('calendarModule.index', 'Calendar') ?></h3>
 
         <div class="buttons span9">
+            <a href="<?= yii::app()->createUrl("calendar/default/others")?>" class="btn btn-primary btn-icon glyphicons calendar">
+                <i></i><?= yii::t('calendarModule.index', "Other Calendars") ?>
+            </a>
             <button data-toggle="modal" data-target="#myNewEvent" class="btn btn-primary btn-icon glyphicons circle_plus">
                 <i></i><?= yii::t('calendarModule.index', "New Event") ?>
             </button>
@@ -57,7 +60,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::P
 </div>
 
 
-<!-- Modal -->
+<!-- Modals -->
 <div class="modal fade" id="myNewCalendar" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -104,10 +107,19 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::P
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class=" span6">
+                    <div class=" span12">
                         <div class="span12">
-                            <?= $form->checkBox($modelCalendar, "actual") ?> <?= $form->label($modelCalendar, "actual"); ?>
-
+                            <?= $form->checkBox($modelCalendar, "actual") ?> <?= yii::t("calendarModule.labels","Actual"); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class=" span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Copy From"),"copy", array('class' => 'control-label')); ?>
+                        <div class="span12">
+                            <?= chtml::dropDownList("copy","",
+                                    chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "school_year"),
+                                    array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'),)) ?>
                         </div>
                     </div>
                 </div>
@@ -154,7 +166,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::P
                     <div class=" span12">
                         <?= $form->label($modelEvent, "name", array('class' => 'control-label')); ?>
                         <div class="span12">
-                            <?= $form->hiddenField($modelEvent, "calendar_fk", ['class' => 'span11']) ?>
+                            <?= $form->hiddenField($modelEvent, "calendar_fk", ['value'=>$modelCalendar->id]) ?>
                             <?= $form->textField($modelEvent, "name", ['class' => 'span11']) ?>
                         </div>
                     </div>
@@ -187,7 +199,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::P
                 <div class="row-fluid">
                     <div class=" span6">
                         <div class="span12">
-                            <?= $form->checkBox($modelEvent, "copyable") ?> <?= $form->label($modelEvent, "copyable"); ?>
+                            <?= $form->checkBox($modelEvent, "copyable") ?> <?= yii::t("calendarModule.labels", "Copyable"); ?>
                         </div>
                     </div>
                 </div>

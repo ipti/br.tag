@@ -97,6 +97,17 @@ class Calendar extends CActiveRecord{
 		));
 	}
 
+    public function getCopyableEvents(){
+        /** @var $event CalendarEvent */
+        $events = $this->calendarEvents;
+        $copyables = [];
+        foreach($events as $event){
+            if($event->copyable && $event->calendarEventTypeFk->copyable){
+                array_push($copyables,$event);
+            }
+        }
+        return $copyables;
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -106,4 +117,6 @@ class Calendar extends CActiveRecord{
 	public static function model($className=__CLASS__){
 		return parent::model($className);
 	}
+
+
 }

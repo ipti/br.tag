@@ -18,7 +18,7 @@ return array(
         'application.controllers.*',
         'application.components.*',
         'application.modules.wizard.models.*',
-        'application.modules.calendar.models.*',
+//        'application.modules.calendar.models.*',
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -50,6 +50,7 @@ return array(
             'rules' => array(
                 'calendario/'                               => 'calendar/',
                 'calendario/<action:\w+>'                   => 'calendar/default/<action>',
+                'calendario/<action:\w+>/<id:\d+>'          => 'calendar/default/<action>',
                 'merenda-escolar/'                          => 'lunch/',
                 'merenda-escolar/estoque/'                  => 'lunch/stock/',
                 'merenda-escolar/estoque/<action:\w+>'      => 'lunch/stock/<action>',

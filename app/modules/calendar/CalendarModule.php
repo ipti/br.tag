@@ -12,8 +12,8 @@ class CalendarModule extends CWebModule {
 
 
 		$this->setImport(array(
-			'lunch.models.*',
-			'lunch.components.*',
+			'calendar.models.*',
+			'calendar.components.*',
 		));
 	}
 

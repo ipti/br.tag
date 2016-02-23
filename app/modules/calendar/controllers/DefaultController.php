@@ -23,7 +23,7 @@ class DefaultController extends Controller {
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','createEvent','update','event','changeEvent'),
+				'actions'=>array('create','createEvent','update','event','changeEvent','others','SetActual'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -48,6 +48,7 @@ class DefaultController extends Controller {
     public function actionCreate(){
         $calendar = new Calendar();
         $attributes = isset($_POST['Calendar']) ? $_POST['Calendar'] : null;
+        $copyFrom = isset($_POST['copy']) ? $_POST['copy'] : null;
         if($attributes != null){
             $calendar->attributes = $attributes;
             $calendar->school_fk = Yii::app()->user->school;
@@ -61,6 +62,47 @@ class DefaultController extends Controller {
                     }
                     $calendar->actual = 1;
                     $calendar->save();
+
+                    if($copyFrom != null){
+                        /** @var $calendarBase Calendar*/
+                        $calendarBase = Calendar::model()->findByPk($copyFrom);
+                        $events = $calendarBase->getCopyableEvents();
+
+                        foreach($events as $event){
+                            $calendarStart = new DateTime($calendar->start_date);
+                            $calendarEnd = new DateTime($calendar->end_date);
+                            $eventStart = new DateTime($event->start_date);
+                            $eventEnd = new DateTime($event->end_date);
+
+                            $newStart = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventStart->format('m'), $eventStart->format('d'), $calendarStart->format('Y'))));
+                            $newEnd = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventEnd->format('m'), $eventEnd->format('d'), $calendarStart->format('Y'))));
+
+                            $e = new CalendarEvent();
+                            $e->attributes = $event->attributes;
+
+                            $e->start_date =$newStart->format("Y-m-d");
+                            $e->end_date = $newEnd->format("Y-m-d");
+
+                            $e->calendar_fk = $calendar->id;
+                            $e->id = null;
+                            $e->save();
+
+                            if($calendarStart->format('Y') != $calendarEnd->format('Y')){
+                                $newStart = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventStart->format('m'), $eventStart->format('d'), $calendarEnd->format('Y'))));
+                                $newEnd = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventEnd->format('m'), $eventEnd->format('d'), $calendarEnd->format('Y'))));
+
+                                $e = new CalendarEvent();
+                                $e->attributes = $event->attributes;
+
+                                $e->start_date = $newStart->format("Y-m-d");
+                                $e->end_date = $newEnd->format("Y-m-d");
+
+                                $e->calendar_fk = $calendar->id;
+                                $e->id = null;
+                                $e->save();
+                            }
+                        }
+                    }
                 }
                 Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
             } else {
@@ -91,8 +133,58 @@ class DefaultController extends Controller {
     }
 
     public function actionChangeEvent(){
+        /** @var CalendarEvent $event */
         $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : null;
+        if($attributes != null){
+            $event = null;
+            if($attributes["id"] == -1){
+                $event = new CalendarEvent();
+                $event->attributes = $attributes;
+                $event->setAttribute("id", null);
+            }else{
+                $event = CalendarEvent::model()->findByPk($attributes["id"]);
+                $event->attributes = $attributes;
+            }
 
+            if ($event->validate()) {
+                $event->save();
+                Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
+            }
+        }
+        $this->render('index', ["modelCalendar" =>$this->loadModel($event->calendar_fk),"modelEvent" =>new CalendarEvent()] );
+
+    }
+
+    public function actionOthers(){
+        /** @var $school CalendarSchool */
+        $school = CalendarSchool::model()->findByPk(Yii::app()->user->school);
+        $calendars = $school->calendars;
+        $this->render('others', ['calendars' => $calendars]);
+    }
+
+    public function actionSetActual(){
+        /** @var $school CalendarSchool */
+        /** @var $calendar Calendar*/
+        $id = $_POST['id'];
+        $calendar = Calendar::model()->findByPk($id);
+        $school = $calendar->schoolFk;
+        $actual = $school->getActualCalendar();
+
+        if($actual != null) {
+            $actual->actual = 0;
+            $actual->save();
+        }
+
+        $calendar->actual = 1;
+        if(!$calendar->save()){
+            if($actual != null) {
+                $actual->actual = 1;
+                $actual->save();
+            }
+        }
+        header("location:".yii::app()->createUrl("/calendar/default/others"));
     }
 
     public function loadModel($id){

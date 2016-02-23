@@ -15,36 +15,36 @@ var GET_EVENT_URL = '$getEventUrl';
 ", CClientScript::POS_BEGIN);
 
 
-/**
- * @param $start DateTime
- * @param $end DateTime
- * @param $day Integer
- * @param $month Integer
- * @return bool {True} If the $day and $month are in the interval.
- */
-function isInInterval($start, $end, $day, $month)
-{
-    $sd = $start->format('d');
-    $sm = $start->format('n');
-    $ed = $end->format('d');
-    $em = $end->format('n');
+if(!function_exists('isInInterval')) {
+    /**
+     * @param $start DateTime
+     * @param $end DateTime
+     * @param $day Integer
+     * @param $month Integer
+     * @return bool {True} If the $day and $month are in the interval.
+     */
+    function isInInterval($start, $end, $day, $month)
+    {
+        $sd = $start->format('d');
+        $sm = $start->format('n');
+        $ed = $end->format('d');
+        $em = $end->format('n');
 
-    if ($month >= $sm && $month <= $em) {
-        if ($month == $sm && $month == $em) {
-            return ($day >= $sd && $day <= $ed);
+        if ($month >= $sm && $month <= $em) {
+            if ($month == $sm && $month == $em) {
+                return ($day >= $sd && $day <= $ed);
+            }
+            if ($month == $sm) {
+                return ($day >= $sd);
+            }
+            if ($month == $em) {
+                return ($day <= $ed);
+            }
+            return true;
+        } else {
+            return false;
         }
-        if ($month == $sm) {
-            return ($day >= $sd);
-        }
-        if ($month == $em) {
-            return ($day <= $ed);
-        }
-        return true;
-    } else {
-
-        return false;
     }
-
 }
 
 $types = CalendarEventType::model()->findAll();
@@ -71,6 +71,10 @@ foreach ($calendar->calendarEvents as $event) {
 }
 
 ?>
+
+<div class="row-fluid">
+    <div class="span12 img-polaroid">
+        <h4><?= yii::t("calendarModule.labels", "School Year").": ".$calendar->school_year?></h4>
 
 <?php for ($i = 0; $i < $total / 4; $i++): ?>
     <div class="row-fluid calendar">
@@ -162,6 +166,9 @@ foreach ($calendar->calendarEvents as $event) {
     <br>
     <?php
 endfor; ?>
+    </div>
+</div>
+<br>
 <div class="row-fluid">
     <div class="span12 img-polaroid">
 
@@ -255,7 +262,7 @@ endfor; ?>
                 <div class="row-fluid">
                     <div class=" span6">
                         <div class="span12">
-                            <?= $form->checkBox($modelEvent, "copyable") ?> <?= $form->label($modelEvent, "copyable"); ?>
+                            <?= $form->checkBox($modelEvent, "copyable") ?><?= yii::t("calendarModule.labels", "Copyable"); ?>
                         </div>
                     </div>
                 </div>

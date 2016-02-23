@@ -41,6 +41,7 @@ return [
     'Final Exam'=>'Prova Final',
     'Subtitles'=>'Legenda',
 
-
+    'Copy From' => "Copiar de",
+    'Select calendar base' => "Selecione o calendário base",
   //  December
 ];
