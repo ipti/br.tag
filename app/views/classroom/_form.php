@@ -370,7 +370,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Relatório de Matrícula') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Lista de Alunos') ?></a>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
@@ -383,6 +384,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             $criteria->order = 's.name';
                             $enrollments = StudentEnrollment::model()->findAll($criteria);
                             ?>
+                            <style type="text/css" media="print">
+                                a[href]:after {
+                                    content:"" !important;
+                                }
+                            </style>
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
                                     <tr><th class='span1'>Mover</th><th>Matrícula</th><th>Nome</th><th>Etapa Anterior</th><th>Cancelar</th></tr>
