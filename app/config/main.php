@@ -18,6 +18,7 @@ return array(
         'application.controllers.*',
         'application.components.*',
         'application.modules.wizard.models.*',
+//        'application.modules.calendar.models.*',
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -33,6 +34,7 @@ return array(
         'lunch',
         'resultsmanagement',
         'schoolreport',
+        'calendar',
     ),
     // application components
     'components' => array(
@@ -46,6 +48,9 @@ return array(
             'showScriptName' => false,
             'caseSensitive' => false,
             'rules' => array(
+                'calendario/'                               => 'calendar/',
+                'calendario/<action:\w+>'                   => 'calendar/default/<action>',
+                'calendario/<action:\w+>/<id:\d+>'          => 'calendar/default/<action>',
                 'merenda-escolar/'                          => 'lunch/',
                 'merenda-escolar/estoque/'                  => 'lunch/stock/',
                 'merenda-escolar/estoque/<action:\w+>'      => 'lunch/stock/<action>',
@@ -69,7 +74,7 @@ return array(
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.local.tag.demo',
+            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tag',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',

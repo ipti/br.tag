@@ -63,6 +63,7 @@
  * @property EdcensoCity $edcensoCityFk
  * @property SchoolIdentification $schoolInepIdFk
  * @property StudentDocumentsAndAddress $documentsFk
+ * @property StudentEnrollment[] $studentEnrollments
  */
 class StudentIdentification extends CActiveRecord {
 
@@ -271,5 +272,22 @@ class StudentIdentification extends CActiveRecord {
     protected function beforeSave() {
 
         return parent::beforeSave();
+    }
+
+
+    public function getCurrentStageVsModality(){
+        $sid = $this->id;
+        $sql = "select student_fk student, se.id enrollment, se.edcenso_stage_vs_modality_fk enrollment_svm, c.edcenso_stage_vs_modality_fk classroom_svm from student_enrollment se
+                  join classroom c on c.id = se.classroom_fk
+                where se.student_fk = $sid
+                order by school_year desc;";
+        $result = Yii::app()->db->createCommand($sql)->queryRow();
+
+        $stage = null;
+        if(isset($result)){
+            $stage = isset($result['enrollment_svm']) ? $result['enrollment_svm'] : $result['classroom_svm'];
+        }
+        return $stage;
+
     }
 }
