@@ -56,11 +56,11 @@ class ReportsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionEnrollmentPerClassroomReport($id){
+    public function actionEnrollmentPerClassroomReport($cid){
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
-            . " AND classroom_id = $id"
+            . " AND classroom_id = $cid"
             . " ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
