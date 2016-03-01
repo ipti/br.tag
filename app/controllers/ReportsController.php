@@ -65,7 +65,7 @@ class ReportsController extends Controller {
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->findByPk($cid);
 
         $this->render('EnrollmentPerClassroomReport', array(
             'report' => $result,
