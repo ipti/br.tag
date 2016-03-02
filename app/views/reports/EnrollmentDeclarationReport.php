@@ -292,7 +292,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 echo " para o _____ Ano do __________________________________________<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             } else {
-                                echo " para o " . $c . " Ano do Ensino Fundamental<br>"
+                                echo " para o ______Ano do Ensino Fundamental<br>"
+                                //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             }
                             if ($gender == '1') {
