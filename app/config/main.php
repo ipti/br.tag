@@ -35,6 +35,7 @@ return array(
         'resultsmanagement',
         'schoolreport',
         'calendar',
+        'timesheet',
     ),
     // application components
     'components' => array(
@@ -48,26 +49,35 @@ return array(
             'showScriptName' => false,
             'caseSensitive' => false,
             'rules' => array(
+                'quadro-de-horario/'                        => 'timesheet/',
+                'quadro-de-horario/<action:\w+>'            => 'timesheet/timesheet/<action>',
+                'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
+
                 'calendario/'                               => 'calendar/',
                 'calendario/<action:\w+>'                   => 'calendar/default/<action>',
                 'calendario/<action:\w+>/<id:\d+>'          => 'calendar/default/<action>',
+
                 'merenda-escolar/'                          => 'lunch/',
                 'merenda-escolar/estoque/'                  => 'lunch/stock/',
                 'merenda-escolar/estoque/<action:\w+>'      => 'lunch/stock/<action>',
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',
                 'boletim-escolar/notas/<eid:\d+>'           => 'schoolreport/default/grades',
                 'boletim-escolar/frequencia/<eid:\d+>'      => 'schoolreport/default/frequency',
                 'boletim-escolar/<action:\w+>'              => 'schoolreport/default/<action>',
                 'boletim-escolar/<action:\w+>/<eid:\d+>'    => 'schoolreport/default/<action>',
+
                 '<controller:\w+>/<id:\d+>'                 => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>'    => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'             => '<controller>/<action>',
+
 				'gestao-resultados/'                      		=> 'resultsmanagement/',
 				'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
+
                 'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
             ),
