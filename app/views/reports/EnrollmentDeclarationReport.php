@@ -59,7 +59,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </p>
                         <span style="display: block; clear: both"></span>
                     <?php }else{?>
-                        <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="display:block; margin-right:0 auto">
+                        <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="display:block; margin:0 auto">
                         <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
                         <span style="clear:both;display:block"></span>
