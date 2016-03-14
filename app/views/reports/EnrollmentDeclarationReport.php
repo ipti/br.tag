@@ -358,7 +358,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     Boquim(SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
                 <br/><br/><br/><br/>
-                <!--<div style="text-align: center">
+                <?php if(!(isset($school->act_of_acknowledgement))){?>
+                <div style="text-align: center">
                     <span style="font-size: 14px">
                         SIMONE MOURA DE SOUZA ALMEIDA
                     </span>
@@ -370,7 +371,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <span>
                         Decreto de 03/05/2013
                     </span>
-                </div>-->
+                </div>
+                <?php } ?>
             </div>
         </div>
         <?php $this->renderPartial('footer'); ?>
