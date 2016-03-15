@@ -3,7 +3,7 @@
 	/**
 	 * Class m160311_140704_timeseet_tables
 	 *
-	 * $yiic migrate up --migrationPath=application.modules.calendar.migrations
+	 * $yiic migrate up --migrationPath=application.modules.timesheet.migrations
 	 *
 	 */
 	class m160311_140704_timeseet_tables extends CDbMigration {
