@@ -34,6 +34,11 @@
 				'final_hour' => 'time NOT NULL',
 			], 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
+			$this->createTable('instructor_school', [
+				'id' => 'pk',
+				'school_fk' => 'VARCHAR(8) NOT NULL',
+				'instructor_fk' => 'int NOT NULL',
+			], 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
 
 			//instructor -> instructor_discipline
@@ -53,6 +58,11 @@
 			//discipline -> classroom
 			$this->addForeignKey('classroom_schedule', 'schedule', 'classroom_fk', 'classroom', 'id', 'CASCADE', 'CASCADE');
 
+			//instructor -> instructor_discipline
+			$this->addForeignKey('instructor_instructor_school', 'instructor_school', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
+			//discipline -> instructor_discipline
+			$this->addForeignKey('school_instructor_school', 'instructor_school', 'school_fk', 'school_identification', 'inep_id', 'CASCADE', 'CASCADE');
+
 		}
 
 		public function down() {
@@ -66,9 +76,13 @@
 			$this->dropForeignKey('discipline_schedule', 'schedule');
 			$this->dropForeignKey('classroom_schedule', 'schedule');
 
+			$this->dropForeignKey('instructor_instructor_school', 'instructor_school');
+			$this->dropForeignKey('school_instructor_school', 'instructor_school');
+
 			$this->dropTable('instructor_disciplines');
 			$this->dropTable('unavailability');
 			$this->dropTable('schedule');
+			$this->dropTable('instructor_school');
 		}
 
 	}

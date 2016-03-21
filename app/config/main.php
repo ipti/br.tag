@@ -51,7 +51,7 @@ return array(
             'rules' => array(
                 'quadro-de-horario/'                        => 'timesheet/',
                 'quadro-de-horario/<action:\w+>'            => 'timesheet/timesheet/<action>',
-                'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
+	            'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
 
                 'calendario/'                               => 'calendar/',
                 'calendario/<action:\w+>'                   => 'calendar/default/<action>',
