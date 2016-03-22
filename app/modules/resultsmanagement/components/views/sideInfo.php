@@ -112,7 +112,7 @@ foreach($schools as $school){
 
         $structureCount++;
     }
-    $schoolsHtml .= CHtml::tag("span",["class"=>"map-label"],CHtml::link($school->name,['ManagementSchool/', 'sid'=>$school->inep_id]));
+    $schoolsHtml .= CHtml::tag("span",["class"=>"map-label"],CHtml::link($school->name,yii::app()->createUrl("resultsmanagement/ManagementSchool/index")."/{$school->inep_id}"));
 }
 $earlyEducationCount = $earlyEducationDayCare + $earlyEducationKindergarten;
 $primarySchoolCount = $primarySchoolLower + $primarySchoolHigher + $primarySchoolMulti;

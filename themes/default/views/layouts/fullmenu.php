@@ -87,6 +87,9 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
+                            <li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                                <a class="glyphicons dashboard" href="/"><i></i><span>Dashboard</span></a>
+                            </li>
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
