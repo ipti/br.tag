@@ -23,7 +23,7 @@
 					'actions' => [], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['index', 'instructor','GetInstructorDisciplines','addInstructors'], 'users' => ['@'],
+					'actions' => ['index', 'instructors','GetInstructorDisciplines','addInstructors'], 'users' => ['@'],
 				], [
 					'allow', // allow admin user to perform 'admin' and 'delete' actions
 					'actions' => [], 'users' => ['admin'],
@@ -39,7 +39,7 @@
 			$this->render('index');
 		}
 
-		public function actionInstructor() {
+		public function actionInstructors() {
 			$this->render('instructors');
 		}
 

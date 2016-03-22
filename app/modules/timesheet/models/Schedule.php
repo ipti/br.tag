@@ -110,4 +110,17 @@
 		public static function model($className = __CLASS__) {
 			return parent::model($className);
 		}
+
+		public static function weekDays(){
+			return [
+				0 => yii::t('timesheetModule.labels', 'Sunday'),
+				1 => yii::t('timesheetModule.labels', 'Monday'),
+				2 => yii::t('timesheetModule.labels', 'Tuesday'),
+				3 => yii::t('timesheetModule.labels', 'Wednesday'),
+				4 => yii::t('timesheetModule.labels', 'Thursday'),
+				5 => yii::t('timesheetModule.labels', 'Friday'),
+				6 => yii::t('timesheetModule.labels', 'Saturday'),
+			];
+		}
+
 	}
