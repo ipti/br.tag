@@ -129,7 +129,7 @@
 					<div class="row-fluid">
 						<div class=" span12">
 							<?= CHtml::label(Yii::t("timesheetModule.instructors", "Instructors"), "add-instructors-unavailability-ids", ['class' => 'control-label']); ?>
-							<?= CHtml::dropDownList("add-instructors-unavailability-ids", "", CHtml::listData(InstructorIdentification::model()->findAll(['order' => 'name']), 'id', 'name'), [
+							<?= CHtml::dropDownList("add-instructors-unavailability-ids", "", CHtml::listData(InstructorSchool::model()->findAll(), 'id', 'name'), [
 								"class" => "select-search-on span12", "multiple" => "multiple"
 							]) ?>
 						</div>
