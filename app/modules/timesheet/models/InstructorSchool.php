@@ -41,7 +41,7 @@
 			// NOTE: you may need to adjust the relation name and the related
 			// class name for the relations automatically generated below.
 			return [
-				'instructorFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'],
+				'instructorFk' => [self::BELONGS_TO, 'TimesheetInstructor', 'instructor_fk'],
 				'schoolFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
 			];
 		}
@@ -51,8 +51,7 @@
 		 */
 		public function attributeLabels() {
 			return [
-				'id' => 'ID',
-				'school_fk' => yii::t('timesheetModule.labels', 'School'),
+				'id' => 'ID', 'school_fk' => yii::t('timesheetModule.labels', 'School'),
 				'instructor_fk' => yii::t('timesheetModule.labels', 'Instructor'),
 			];
 		}
@@ -93,7 +92,16 @@
 			return parent::model($className);
 		}
 
-		public function getName(){
+		public function getName() {
 			return $this->instructorFk->name;
+		}
+
+		public function getDisciplines() {
+
+			return $this->instructorFk->disciplines;
+		}
+
+		public function getStages() {
+			return $this->instructorFk->stages;
 		}
 	}
