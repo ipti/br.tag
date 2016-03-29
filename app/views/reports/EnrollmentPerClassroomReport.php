@@ -183,7 +183,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                             . "<td style='text-align: center;'>" . $r['city'] . "</td>"
                             . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
                             . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-                            . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                            . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
                             . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
                             . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
                             . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"

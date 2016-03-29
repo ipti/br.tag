@@ -33,7 +33,7 @@ class ClassroomController extends Controller {
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
                     'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard',
-                    'updateTime','move'
+                    'updateTime','move','batchupdate'
                 ),
                 'users' => array('@'),
             ),
@@ -423,6 +423,29 @@ class ClassroomController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
+    public function actionBatchupdate($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $fields) {
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->admission_type = $fields['admission_type'];
+                $enro->current_stage_situation = $fields['current_stage_situation'];
+                $enro->update(array('admission_type','current_stage_situation'));
+            }
+        }
+
+
+        $this->render('batchupdate', array(
+            'modelClassroom' => $modelClassroom,
+        ));
+    }
+
     public function actionUpdate($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
@@ -477,7 +500,7 @@ class ClassroomController extends Controller {
                 $modelTeachingData[$key]->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
             }
 
-            // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
+            // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
             if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
                 $compActs = $_POST['Classroom']["complementary_activity_type_1"];
@@ -540,7 +563,6 @@ class ClassroomController extends Controller {
             'complementaryActivities' => $compActs
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
