@@ -61,10 +61,19 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                         }
                     ?>
                 </td>
-                <td colspan="1">SÉRIE/ANO:
+                <td colspan="1">ANO:
                     <?php
                         $stage = "";
                         switch ($classroom->edcenso_stage_vs_modality_fk) {
+                            case '1':
+                                $stage = 'CRECHE';
+                                break;
+                            case '2':
+                                $stage = 'PRÉ-ESCOLA';
+                                break;
+                            case '3':
+                                $stage = 'UNIFICADA';
+                                break;
                             case '4':
                                 $stage = '1ª SÉRIE';
                                 break;
@@ -143,7 +152,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <td colspan="1">TURMA: <?= $classroom->name?></td>
             </tr>
             <tr>
-                <td>PROFESSOR(A): </td>
+                <td>PROFESSOR(A): <?php $board = ClassBoard::model()->findByAttributes(array('classroom_fk'=>$classroom->id)); echo @$board->instructorFk->name; ?></td>
             </tr>
         </table>
 
