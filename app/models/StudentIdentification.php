@@ -9,13 +9,12 @@
  * @property string $inep_id
  * @property integer $id
  * @property string $name
- * @property string $nis
  * @property string $birthday
  * @property integer $sex
  * @property integer $color_race
  * @property integer $filiation
- * @property string $mother_name
- * @property string $father_name
+ * @property string $filiation_1
+ * @property string $filiation_2
  * @property integer $nationality
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
@@ -45,7 +44,7 @@
  * @property integer $resource_braille_test
  * @property integer $resource_none
  * @property integer $send_year
- * @property timestamp $last_change
+ * @property strign $last_change
  * @property integer $responsable
  * @property string $responsable_name
  * @property string $responsable_rg
@@ -54,16 +53,16 @@
  * @property string $responsable_job
  * @property integer $bf_participator
  * @property string $food_restrictions
- * @property integer $responsable_telephone
+ * @property string $responsable_telephone
  * @property string $fkid
  *
  * The followings are the available model relations:
+ * @property StudentEnrollment[] $studentEnrollments
  * @property EdcensoNation $edcensoNationFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property SchoolIdentification $schoolInepIdFk
  * @property StudentDocumentsAndAddress $documentsFk
- * @property StudentEnrollment[] $studentEnrollments
  */
 class StudentIdentification extends CActiveRecord {
 
@@ -99,24 +98,26 @@ class StudentIdentification extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, mother_name,edcenso_uf_fk,edcenso_city_fk, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk', 'required'),
-            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, bf_participator', 'numerical', 'integerOnly' => true),
-            array('register_type', 'length', 'max' => 2),
-            array('school_inep_id_fk', 'length', 'max' => 8),
-            array('inep_id', 'length', 'max' => 12),
-            array('name, mother_name, father_name', 'length', 'max' => 100),
-            array('nis, responsable_cpf, responsable_telephone', 'length', 'max' => 11),
-            array('birthday', 'length', 'max' => 10),
-            array('responsable_name', 'length', 'max' => 90),
-            array('responsable_rg, responsable_job', 'length', 'max' => 45),
+            array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('inep_id', 'length', 'max'=>12),
+            array('name, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('birthday', 'length', 'max'=>10),
+            array('responsable_name', 'length', 'max'=>90),
+            array('responsable_rg, responsable_job', 'length', 'max'=>45),
+            array('responsable_cpf, responsable_telephone', 'length', 'max'=>11),
+            array('fkid', 'length', 'max'=>40),
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, nis, birthday, sex, color_race, filiation, mother_name, father_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions', 'safe', 'on' => 'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, birthday, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid', 'safe', 'on'=>'search'),
         );
     }
 
@@ -146,13 +147,12 @@ class StudentIdentification extends CActiveRecord {
             'inep_id' => Yii::t('default', 'Inep'),
             'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Name'),
-            'nis' => Yii::t('default', 'Nis'),
             'birthday' => Yii::t('default', 'Birthday'),
             'sex' => Yii::t('default', 'Sex'),
             'color_race' => Yii::t('default', 'Color Race'),
             'filiation' => Yii::t('default', 'Filiation'),
-            'mother_name' => Yii::t('default', 'Mother Name'),
-            'father_name' => Yii::t('default', 'Father Name'),
+            'filiation_1' => Yii::t('default', 'Filiation 1'),
+            'filiation_2' => Yii::t('default', 'Filiation 2'),
             'nationality' => Yii::t('default', 'Nationality'),
             'edcenso_nation_fk' => Yii::t('default', 'Edcenso Nation Fk'),
             'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
