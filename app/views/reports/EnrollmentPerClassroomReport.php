@@ -12,6 +12,8 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
 $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 ?>
+<style type="text/css">
+</style>
 <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
 <div>
     <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 35px 0 5px 0">
@@ -173,7 +175,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-            . "<td style='text-align: center;'>" . $r['city'] . "</td>"
+            . "<td style='text-align: center;'>" . $r['city'] .'/'.$r['uf']."</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
