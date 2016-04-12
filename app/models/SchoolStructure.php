@@ -6,10 +6,6 @@
  * The followings are the available columns in table 'school_structure':
  * @property string $register_type
  * @property string $school_inep_id_fk
- * @property string $manager_cpf
- * @property string $manager_name
- * @property integer $manager_role
- * @property string $manager_email
  * @property integer $operation_location_building
  * @property integer $operation_location_temple
  * @property integer $operation_location_businness_room
@@ -90,6 +86,7 @@
  * @property integer $equipments_fax
  * @property integer $equipments_camera
  * @property integer $equipments_computer
+ * @property integer $equipments_multifunctional_printer
  * @property integer $administrative_computers_count
  * @property integer $student_computers_count
  * @property integer $internet_access
@@ -101,27 +98,7 @@
  * @property integer $modalities_regular
  * @property integer $modalities_especial
  * @property integer $modalities_eja
- * @property integer $stage_regular_education_creche
- * @property integer $stage_regular_education_preschool
- * @property integer $stage_regular_education_fundamental_eigth_years
- * @property integer $stage_regular_education_fundamental_nine_years
- * @property integer $stage_regular_education_high_school
- * @property integer $stage_regular_education_high_school_integrated
- * @property integer $stage_regular_education_high_school_normal_mastership
- * @property integer $stage_regular_education_high_school_preofessional_education
- * @property integer $stage_special_education_creche
- * @property integer $stage_special_education_preschool
- * @property integer $stage_special_education_fundamental_eigth_years
- * @property integer $stage_special_education_fundamental_nine_years
- * @property integer $stage_special_education_high_school
- * @property integer $stage_special_education_high_school_integrated
- * @property integer $stage_special_education_high_school_normal_mastership
- * @property integer $stage_special_education_high_school_professional_education
- * @property integer $stage_special_education_eja_fundamental_education
- * @property integer $stage_special_education_eja_high_school_education
- * @property integer $stage_education_eja_fundamental_education
- * @property integer $stage_education_eja_fundamental_education_projovem
- * @property integer $stage_education_eja_high_school_education
+ * @property integer $modalities_professional
  * @property integer $basic_education_cycle_organized
  * @property integer $different_location
  * @property integer $sociocultural_didactic_material_none
@@ -163,16 +140,13 @@ class SchoolStructure extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, manager_cpf, manager_name, manager_role, manager_email, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'required'),
-			array('manager_role, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_none, classroom_count, used_classroom_count, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, stage_regular_education_creche, stage_regular_education_preschool, stage_regular_education_fundamental_eigth_years, stage_regular_education_fundamental_nine_years, stage_regular_education_high_school, stage_regular_education_high_school_integrated, stage_regular_education_high_school_normal_mastership, stage_regular_education_high_school_preofessional_education, stage_special_education_creche, stage_special_education_preschool, stage_special_education_fundamental_eigth_years, stage_special_education_fundamental_nine_years, stage_special_education_high_school, stage_special_education_high_school_integrated, stage_special_education_high_school_normal_mastership, stage_special_education_high_school_professional_education, stage_special_education_eja_fundamental_education, stage_special_education_eja_high_school_education, stage_education_eja_fundamental_education, stage_education_eja_fundamental_education_projovem, stage_education_eja_high_school_education, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'numerical', 'integerOnly'=>true),
+			array('school_inep_id_fk', 'required'),
+			array('operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_none, classroom_count, used_classroom_count, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6', 'length', 'max'=>8),
-			array('manager_cpf', 'length', 'max'=>11),
-			array('manager_name', 'length', 'max'=>100),
-			array('manager_email', 'length', 'max'=>50),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, manager_cpf, manager_name, manager_role, manager_email, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_none, classroom_count, used_classroom_count, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, stage_regular_education_creche, stage_regular_education_preschool, stage_regular_education_fundamental_eigth_years, stage_regular_education_fundamental_nine_years, stage_regular_education_high_school, stage_regular_education_high_school_integrated, stage_regular_education_high_school_normal_mastership, stage_regular_education_high_school_preofessional_education, stage_special_education_creche, stage_special_education_preschool, stage_special_education_fundamental_eigth_years, stage_special_education_fundamental_nine_years, stage_special_education_high_school, stage_special_education_high_school_integrated, stage_special_education_high_school_normal_mastership, stage_special_education_high_school_professional_education, stage_special_education_eja_fundamental_education, stage_special_education_eja_high_school_education, stage_education_eja_fundamental_education, stage_education_eja_fundamental_education_projovem, stage_education_eja_high_school_education, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_none, classroom_count, used_classroom_count, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -195,10 +169,6 @@ class SchoolStructure extends CActiveRecord
 		return array(
 			'register_type' => Yii::t('default', 'Register Type'),
 			'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
-			'manager_cpf' => Yii::t('default', 'Manager Cpf'),
-			'manager_name' => Yii::t('default', 'Manager Name'),
-			'manager_role' => Yii::t('default', 'Manager Role'),
-			'manager_email' => Yii::t('default', 'Manager Email'),
 			'operation_location_building' => Yii::t('default', 'Operation Location Building'),
 			'operation_location_temple' => Yii::t('default', 'Operation Location Temple'),
 			'operation_location_businness_room' => Yii::t('default', 'Operation Location Businness Room'),
@@ -279,6 +249,7 @@ class SchoolStructure extends CActiveRecord
 			'equipments_fax' => Yii::t('default', 'Equipments Fax'),
 			'equipments_camera' => Yii::t('default', 'Equipments Camera'),
 			'equipments_computer' => Yii::t('default', 'Equipments Computer'),
+			'equipments_multifunctional_printer' => Yii::t('default', 'Equipments Multifunctional Printer'),
 			'administrative_computers_count' => Yii::t('default', 'Administrative Computers Count'),
 			'student_computers_count' => Yii::t('default', 'Student Computers Count'),
 			'internet_access' => Yii::t('default', 'Internet Access'),
@@ -290,27 +261,7 @@ class SchoolStructure extends CActiveRecord
 			'modalities_regular' => Yii::t('default', 'Modalities Regular'),
 			'modalities_especial' => Yii::t('default', 'Modalities Especial'),
 			'modalities_eja' => Yii::t('default', 'Modalities Eja'),
-			'stage_regular_education_creche' => Yii::t('default', 'Stage Regular Education Creche'),
-			'stage_regular_education_preschool' => Yii::t('default', 'Stage Regular Education Preschool'),
-			'stage_regular_education_fundamental_eigth_years' => Yii::t('default', 'Stage Regular Education Fundamental Eigth Years'),
-			'stage_regular_education_fundamental_nine_years' => Yii::t('default', 'Stage Regular Education Fundamental Nine Years'),
-			'stage_regular_education_high_school' => Yii::t('default', 'Stage Regular Education High School'),
-			'stage_regular_education_high_school_integrated' => Yii::t('default', 'Stage Regular Education High School Integrated'),
-			'stage_regular_education_high_school_normal_mastership' => Yii::t('default', 'Stage Regular Education High School Normal Mastership'),
-			'stage_regular_education_high_school_preofessional_education' => Yii::t('default', 'Stage Regular Education High School Preofessional Education'),
-			'stage_special_education_creche' => Yii::t('default', 'Stage Special Education Creche'),
-			'stage_special_education_preschool' => Yii::t('default', 'Stage Special Education Preschool'),
-			'stage_special_education_fundamental_eigth_years' => Yii::t('default', 'Stage Special Education Fundamental Eigth Years'),
-			'stage_special_education_fundamental_nine_years' => Yii::t('default', 'Stage Special Education Fundamental Nine Years'),
-			'stage_special_education_high_school' => Yii::t('default', 'Stage Special Education High School'),
-			'stage_special_education_high_school_integrated' => Yii::t('default', 'Stage Special Education High School Integrated'),
-			'stage_special_education_high_school_normal_mastership' => Yii::t('default', 'Stage Special Education High School Normal Mastership'),
-			'stage_special_education_high_school_professional_education' => Yii::t('default', 'Stage Special Education High School Professional Education'),
-			'stage_special_education_eja_fundamental_education' => Yii::t('default', 'Stage Special Education Eja Fundamental Education'),
-			'stage_special_education_eja_high_school_education' => Yii::t('default', 'Stage Special Education Eja High School Education'),
-			'stage_education_eja_fundamental_education' => Yii::t('default', 'Stage Education Eja Fundamental Education'),
-			'stage_education_eja_fundamental_education_projovem' => Yii::t('default', 'Stage Education Eja Fundamental Education Projovem'),
-			'stage_education_eja_high_school_education' => Yii::t('default', 'Stage Education Eja High School Education'),
+			'modalities_professional' => Yii::t('default', 'Modalities Professional'),
 			'basic_education_cycle_organized' => Yii::t('default', 'Basic Education Cycle Organized'),
 			'different_location' => Yii::t('default', 'Different Location'),
 			'sociocultural_didactic_material_none' => Yii::t('default', 'Sociocultural Didactic Material None'),
