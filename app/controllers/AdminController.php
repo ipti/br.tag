@@ -652,7 +652,8 @@ class AdminController extends Controller {
         //Escolas
         $schools = SchoolIdentification::model()->findAll();
         foreach ($schools as $key => $school) {
-            $export .= implode('|', $school->attributes);
+            $attributes = $school->attributes;
+            $export .= implode('|', $attributes);
             $export .= "|\n";
         }
 
