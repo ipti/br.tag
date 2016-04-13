@@ -216,7 +216,7 @@ class StudentIdentification extends CActiveRecord {
 //        $criteria->compare('sex', $this->sex);
 //        $criteria->compare('color_race', $this->color_race);
 //        $criteria->compare('filiation', $this->filiation);
-        $criteria->compare('mother_name', $this->mother_name, true);
+        $criteria->compare('filiation_1', $this->filiation_1, true);
 //        $criteria->compare('father_name', $this->father_name, true);
 //        $criteria->compare('nationality', $this->nationality);
 //        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
@@ -262,7 +262,7 @@ class StudentIdentification extends CActiveRecord {
     }
 
     public function getConcatened() {
-        return $this->name . ' (' . $this->mother_name.')['.$this->birthday.']';
+        return $this->name . ' (' . $this->filiation_1.')['.$this->birthday.']';
     }
 
     /**
