@@ -1104,6 +1104,10 @@ class AdminController extends Controller
                         }
                     }
 
+                    if ($isSchoolIdentification && $column == 19){
+                        $value = $value[7].$value[8];
+                    }
+
                     if ($isRegInstructorIdentification) {
                         if ($column == 2) {
                             $instructorInepIds[$line] = $value;
