@@ -15,16 +15,16 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 <style type="text/css">
 </style>
 <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
-<div>
-    <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 35px 0 5px 0">
-</div>
+    <div>
+        <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 35px 0 5px 0">
+    </div>
 <span style="font-size: 10px">
                     ESTADO DE SERGIPE<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO
                 </span>
-<br>
-<span style="font-size: 14px;">RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></span>
-<span style="clear:both;display:block"></span>
+    <br>
+    <span style="font-size: 14px;">RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></span>
+    <span style="clear:both;display:block"></span>
 </div>
 <table class="table">
     <tr>
@@ -59,7 +59,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                     $stage = 'PRÉ-ESCOLA';
                     break;
                 case '3':
-                    $stage = 'UNIFICADA';
+                    $stage = 'INFANTIL - UNIFICADA';
                     break;
                 case '4':
                     $stage = '1ª SÉRIE';
@@ -138,13 +138,17 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         </td>
         <td colspan="1">TURMA: <?= $classroom->name?></td>
     </tr>
-    <tr>
-        <td>PROFESSOR(A): <?php $board = ClassBoard::model()->findByAttributes(array('classroom_fk'=>$classroom->id)); echo @$board->instructorFk->name; ?></td>
-    </tr>
+    <?php
+    $board = ClassBoard::model()->findByAttributes(array('classroom_fk'=>$classroom->id));
+    $teacher = @$board->instructorFk->name;
+    if (strlen($teacher) > 0) {
+        echo "<tr><td>PROFESSOR(A): " . $teacher . "</td></tr>";
+    }
+    ?>
 </table>
 
 <br>
-<table class="table table-bordered table-striped" style="font-size: 11px">
+<table class="table table-bordered table-striped" style="font-size: 11px;">
     <tr>
         <th rowspan="2" style="text-align: center;">Nº</th>
         <th rowspan="2">ALUNO</th>
@@ -175,7 +179,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-            . "<td style='text-align: center;'>" . $r['city'] .'/'.$r['uf']."</td>"
+            . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
             . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
@@ -204,16 +208,24 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 <br>
 <br>
-<p style="margin: 0 auto; text-align: center; width:600px">
-    _______________________________________________________<BR>
-    <b>ASSINATURA DO DIRETOR(A)/SECRETÁRIO(A)</b>
-</p>
+<div style="margin: 20px auto 0; text-align:center; width: 1000px">
+    <span style="float: left; margin: 0 100px 0 100px">
+        ________________________________________________________<br>
+        <b>ASSINATURA DO DIRETOR(A)</b>
+    </span>
+    <span>
+        ________________________________________________________<br>
+        <b>ASSINATURA DO SECRETÁRIO(A)</b>
+    </span>
+</div>
+
 <style>
     @media print
     {
-        table { page-break-after:auto }
-        tr    { page-break-inside:avoid; page-break-after:auto }
-        td    { page-break-inside:avoid; page-break-after:auto }
+        .table-striped td, .table-striped tr, .table-striped th,.table-striped{border-color:#000 !important;font-size:9px !important; }
+        table { page-break-after:auto; }
+        tr    { page-break-inside:avoid; page-break-after:auto;}
+        td    { page-break-inside:avoid; page-break-after:auto;}
         thead { display:table-header-group }
         tfoot { display:table-footer-group }
     }
