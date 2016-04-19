@@ -5984,7 +5984,7 @@
 			 name=VALUES(name);");
 
  			// STAGE_VS_MODALITY
-			$this->execute("start transaction; INSERT INTO edcenso_stage_vs_modality (stage,id, name) VALUES
+			$this->execute("INSERT INTO edcenso_stage_vs_modality (stage,id, name) VALUES
 				('1','1','Educação Infantil - Creche (0 a 3 anos)'),
 				('1','2','Educação Infantil - Pré-escola (4 e 5 anos)'),
 				('1','3','Educação Infantil - Unificada (0 a 5 anos)'),
@@ -6036,27 +6036,83 @@
 				('6','64','Educação Profissional Mista - Concomitante e Subsequente '),
 				('6','65','EJA Presencial - Ensino Fundamental - Projovem Urbano')
 				ON DUPLICATE KEY UPDATE
-						id=VALUES(id), name=VALUES(name),stage=VALUES(stage); commit;");
+						id=VALUES(id), name=VALUES(name),stage=VALUES(stage);");
 
 			// EDCENSO CREATE STAGE_VS_MODALITY_COMPLEMENTARY
-			// $this->execute("CREATE TABLE IF NOT EXISTS edcenso_stage_vs_modality_complementary (
-			// 	  id INT NOT NULL AUTO_INCREMENT,
-			// 	  fk_edcenso_stage_vs_modality INT NOT NULL,
-			// 	  educational_mediation_types TINYINT(1) NULL,
-			// 	  modalities TINYINT(1) NULL,
-			// 	  PRIMARY KEY (id, fk_edcenso_stage_vs_modality),
-			// 	  INDEX fk_edcenso_stage_vs_modality_complementary_edcenso_stage_vs_idx (fk_edcenso_stage_vs_modality ASC),
-			// 	  CONSTRAINT fk_edcenso_stage_vs_modality_complementary_edcenso_stage_vs_m
-			// 		FOREIGN KEY (fk_edcenso_stage_vs_modality)
-			// 		REFERENCES mydb.edcenso_stage_vs_modality (id)
-			// 		ON DELETE NO ACTION
-			// 		ON UPDATE NO ACTION);");
-
+			$this->createTable('edcenso_stage_vs_modality_complementary', [
+				'id' => 'pk',
+				'fk_edcenso_stage_vs_modality' => 'INT NOT NULL',
+				'educational_mediation_types' => 'TINYINT(1) NULL',
+				'modalities' => 'TINYINT(1) NULL'
+				]);
+			$this->createIndex(
+				'fk_edcenso_stage_vs_modality',
+				'edcenso_stage_vs_modality_complementary',
+				'fk_edcenso_stage_vs_modality'
+			);
+			$this->addForeignKey(
+				'fk_edcenso_stage_vs_modality',
+				'edcenso_stage_vs_modality_complementary',
+				'fk_edcenso_stage_vs_modality',
+				'edcenso_stage_vs_modality',
+				'id',
+				'CASCADE',
+				'CASCADE'
+			);
+				
 			// EDCENSO STAGE_VS_MODALITY_COMPLEMENTARY INSERTs
-			// $this->execute("INSERT INTO edcenso_stage_vs_modality_complementary (id, fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
-			// (1, 1, 1, 1),
-			// (2, 1, 1, 2),
-			// ");
+			 $this->execute("INSERT INTO edcenso_stage_vs_modality_complementary (fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
+				(1,1,1),(1,1,2),
+				(2,1,1),(2,1,2),
+				(3,1,1),(3,1,2),
+				(4,1,1),(4,1,2),
+				(5,1,1),(5,1,2),
+				(6,1,1),(6,1,2),
+				(7,1,1),(7,1,2),
+				(8,1,1),(8,1,2),
+				(9,1,1),(9,1,2),
+				(10,1,1),(10,1,2),
+				(11,1,1),(11,1,2),
+				(12,1,1),(12,1,2),
+				(13,1,1),(13,1,2),
+				(14,1,1),(14,1,2),
+				(15,1,1),(15,1,2),
+				(16,1,1),(16,1,2),
+				(17,1,1),(17,1,2),
+				(18,1,1),(18,1,2),
+				(19,1,1),(19,1,2),
+				(20,1,1),(20,1,2),
+				(21,1,1),(21,1,2),
+				(22,1,1),(22,1,2),
+				(23,1,1),(23,1,2),
+				(24,1,1),(24,1,2),
+				(25,1,1),(25,1,2),
+				(26,1,1),(26,1,2),
+				(27,1,1),(27,1,2),
+				(28,1,1),(28,1,2),
+				(29,1,1),(29,1,2),
+				(30,1,2),(30,1,4),(30,3,4),
+				(31,1,2),(31,1,4),(31,3,4),
+				(32,1,2),(32,1,4),(32,3,4),
+				(33,1,2),(33,1,4),(33,3,4),
+				(34,1,2),(34,1,4),(34,3,4),
+				(35,1,1),(35,1,2),(35,3,1),
+				(36,1,1),(36,1,2),(36,3,1),
+				(37,1,1),(37,1,2),(37,3,1),
+				(38,1,1),(38,1,2),(38,3,1),
+				(39,1,2),(39,1,4),(39,3,4),
+				(40,1,2),(40,1,4),(40,3,4),
+				(41,1,1),(41,1,2),
+				(69,1,2),(69,1,3),(69,2,2),(69,2,3),
+				(70,1,2),(70,1,3),(70,2,2),(70,2,3),(70,3,3),
+				(71,1,2),(71,1,3),(71,2,2),(71,2,3),(71,3,3),
+				(72,1,2),(72,1,3),(72,2,2),(72,2,3),
+				(56,1,1),(56,1,2),				
+				(73,1,2),(73,1,4),(73,3,4),
+				(74,1,2),(74,1,4),(74,3,4),
+				(64,1,2),(64,1,4),(64,3,4),
+				(65,1,3)		
+			 ;");
 
 			// $this->execute("INSERT INTO <TABELA> (<colunms>)
 			// VALUES
@@ -6069,10 +6125,13 @@
 			//  <colunm>=VALUES(<colunm>);");
 			
 			set_time_limit(30);
+			//return false;
 
 		}
 
 		public function safeDown() {
+			// Drop edcenso_stage_vs_modality_complementary table
+			$this->dropTable('edcenso_stage_vs_modality_complementary');
 
 		}
 	}
