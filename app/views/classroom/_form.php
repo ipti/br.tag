@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * @var $form CActiveForm
+ */
+
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js', CClientScript::POS_END);
@@ -270,14 +275,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>-->
 
-                            <?php $instructorSituationEnum = array(null => 'Selecione a situação', "0" => "Turma com Professor", "1" => "Turma sem Professor"); ?>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'instructor_situation', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'instructor_situation', $instructorSituationEnum, array('class' => 'select-search-off')); ?>
-                                    <?php echo $form->error($modelClassroom, 'instructor_situation'); ?>
-                                </div>
-                            </div>
                             <div class="control-group" id="mais_educacao">
                                 <div id="none">
                                     <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled')) ?>
@@ -286,6 +283,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls" id="some">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,7 @@
-<?php 
+<?php
+/**
+ * @var $form CActiveForm
+ */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -142,37 +145,37 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">    
                         <div class=" span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'manager_cpf', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelSchoolStructure, 'manager_cpf', array('size' => 11, 'maxlength' => 11)); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_cpf', array('size' => 11, 'maxlength' => 11)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span>
-                                    <?php echo $form->error($modelSchoolStructure, 'manager_cpf'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_cpf'); ?>
                                 </div>
                             </div> 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'manager_name', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelSchoolStructure, 'manager_name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span>
-                                    <?php echo $form->error($modelSchoolStructure, 'manager_name'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_name'); ?>
                                 </div>
                             </div>
                         </div>
                         <div class="span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'manager_role', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_role', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelSchoolStructure, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off')); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span>
-                                    <?php echo $form->error($modelSchoolStructure, 'manager_role'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_role'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'manager_email', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_email', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelSchoolStructure, 'manager_email', array('size' => 50, 'maxlength' => 50)); ?>
+                                    <?php echo $form->textField($modelSchoolIdentification, 'manager_email', array('size' => 50, 'maxlength' => 50)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
-                                    <?php echo $form->error($modelSchoolStructure, 'manager_email'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
                                 </div>
                             </div>
                         </div>
@@ -319,6 +322,27 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelSchoolIdentification, 'location', array(null => 'Selecione a localização', 1 => 'Urbano', 2 => 'Rural'), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'location'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'offer_or_linked_unity', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'offer_or_linked_unity', array(null => 'Selecione a localização', 0 => 'Não', 1 => 'Unidade vinculada a escola de Educação Básica', 2 => 'Unidade ofertante de Ensino Superior'), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'offer_or_linked_unity'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'inep_head_school', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolIdentification, 'inep_head_school'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'inep_head_school'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'ies_code', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolIdentification, 'ies_code'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'ies_code'); ?>
                                 </div>
                             </div>
                         </div>
@@ -725,11 +749,13 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_copier'); ?>
                                 </div>
                             </div>
+
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolStructure, 'internet_access', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelSchoolStructure, 'equipments_multifunctional_printer', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'internet_access', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'internet_access'); ?>
+                                    <?php echo $form->textField($modelSchoolStructure, 'equipments_multifunctional_printer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelSchoolStructure, 'equipments_multifunctional_printer'); ?>
                                 </div>
                             </div>
                         </div>
@@ -780,7 +806,6 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -826,6 +851,13 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolStructure, 'internet_access', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'internet_access', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'internet_access'); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -967,95 +999,10 @@ $form=$this->beginWidget('CActiveForm', array(
                                         <?php echo SchoolStructure::model()->attributeLabels()['modalities_eja']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'modalities_eja', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Stage'); ?></label>
-                                <div class="uniformjs margin-left">
                                     <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_creche']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_creche', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo SchoolStructure::model()->attributeLabels()['modalities_professional']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'modalities_professional', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_preschool']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_preschool', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_fundamental_eigth_years']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_fundamental_eigth_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_fundamental_nine_years']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_fundamental_nine_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_high_school']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_high_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_high_school_integrated']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_high_school_integrated', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_high_school_normal_mastership']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_high_school_normal_mastership', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_regular_education_high_school_preofessional_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_regular_education_high_school_preofessional_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_creche']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_creche', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_preschool']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_preschool', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_fundamental_eigth_years']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_fundamental_eigth_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_fundamental_nine_years']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_fundamental_nine_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_high_school']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_high_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_high_school_integrated']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_high_school_integrated', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_high_school_normal_mastership']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_high_school_normal_mastership', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_high_school_professional_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_high_school_professional_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_eja_fundamental_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_eja_fundamental_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_special_education_eja_high_school_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_special_education_eja_high_school_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_education_eja_fundamental_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_education_eja_fundamental_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_education_eja_fundamental_education_projovem']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_education_eja_fundamental_education_projovem', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['stage_education_eja_high_school_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'stage_education_eja_high_school_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>                                
                                 </div>
                             </div>
                         </div>

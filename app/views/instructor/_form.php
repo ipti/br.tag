@@ -1,10 +1,16 @@
 <?php
+/**
+ * @var $cs CClientScript
+ */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/pagination.js', CClientScript::POS_END);
+$cs->registerScript("VARS","
+    var GET_INSTITUTIONS = '".$this->createUrl('instructor/getInstitutions')."';
+", CClientScript::POS_BEGIN);
 
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -115,11 +121,28 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
 
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelInstructorIdentification, 'filiation', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'filiation', array(null => "Selecione uma opção", 0 => "Não declarado", 1 => "Declarado"), array("class" => "select-search-off")); ?>
+                                    <?php echo $form->error($modelInstructorIdentification, 'filiation'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation_1'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_2', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelInstructorIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelInstructorIdentification, 'filiation_2'); ?>
                                 </div>
                             </div>
                         </div>
@@ -506,14 +529,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                         </div>
 
                                                         <div class="control-group">
-                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_1', array('class' => 'control-label')); ?>
-                                                            <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_1', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class' => 'select-search-off')); ?>
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_1'); ?>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style" => "width:220px;")); ?>                                                            
@@ -586,14 +601,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                         </div>
 
                                                         <div class="control-group">
-                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_2', array('class' => 'control-label')); ?>
-                                                            <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_2', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class' => 'select-search-off')); ?>
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_2'); ?>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="control-group">
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_1_fk', array("style" => "width:220px;")); ?>   
@@ -662,14 +669,6 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4)); ?>
                                                                 <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="control-group">
-                                                            <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_type_3', array('class' => 'control-label')); ?>
-                                                            <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_institution_type_3', array(null => "Selecione o tipo", 1 => "Pública", 2 => "Privada"), array('class' => 'select-search-off'));?>
-                                                                <?php echo $form->error($modelInstructorVariableData, 'high_education_institution_type_3'); ?>
                                                             </div>
                                                         </div>
 
