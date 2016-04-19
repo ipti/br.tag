@@ -16,9 +16,9 @@
 					school_identification.manager_email = school_structure.manager_email
 				where school_identification.inep_id = school_structure.school_inep_id_fk;");
 
-				$this->addColumn("school_identification","offer_or_linked_unity", "INT NOT NULL DEFAULT -1");
-				$this->addColumn("school_identification","inep_head_school", "VARCHAR(8)");
-				$this->addColumn("school_identification","ies_code", "VARCHAR(14)");
+				$this->addColumn("school_identification","offer_or_linked_unity", "INT NOT NULL DEFAULT -1 AFTER private_school_cnpj");
+				$this->addColumn("school_identification","inep_head_school", "VARCHAR(8) AFTER offer_or_linked_unity");
+				$this->addColumn("school_identification","ies_code", "VARCHAR(14) AFTER inep_head_school");
 
 				echo("Registro 10\n");
 				$this->dropColumn("school_structure","manager_cpf");

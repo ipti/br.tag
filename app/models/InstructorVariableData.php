@@ -14,21 +14,18 @@
  * @property string $high_education_course_code_1_fk
  * @property string $high_education_initial_year_1
  * @property string $high_education_final_year_1
- * @property integer $high_education_institution_type_1
  * @property integer $high_education_institution_code_1_fk
  * @property integer $high_education_situation_2
  * @property integer $high_education_formation_2
  * @property string $high_education_course_code_2_fk
  * @property string $high_education_initial_year_2
  * @property string $high_education_final_year_2
- * @property integer $high_education_institution_type_2
  * @property integer $high_education_institution_code_2_fk
  * @property integer $high_education_situation_3
  * @property integer $high_education_formation_3
  * @property string $high_education_course_code_3_fk
  * @property string $high_education_initial_year_3
  * @property string $high_education_final_year_3
- * @property integer $high_education_institution_type_3
  * @property integer $high_education_institution_code_3_fk
  * @property integer $post_graduation_specialization
  * @property integer $post_graduation_master
@@ -98,15 +95,16 @@ class InstructorVariableData extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk, scholarity, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'required'),
-			array('scholarity, high_education_situation_1, high_education_formation_1, high_education_institution_type_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_institution_type_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_institution_type_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'numerical', 'integerOnly'=>true),
+			array('scholarity, high_education_situation_1, high_education_formation_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
 			array('high_education_course_code_1_fk, high_education_course_code_2_fk, high_education_course_code_3_fk', 'length', 'max'=>6),
 			array('high_education_initial_year_1, high_education_final_year_1, high_education_initial_year_2, high_education_final_year_2, high_education_initial_year_3, high_education_final_year_3', 'length', 'max'=>4),
+			array('fkid', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_type_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_type_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_type_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, inep_id, id, scholarity, high_education_situation_1, high_education_formation_1, high_education_course_code_1_fk, high_education_initial_year_1, high_education_final_year_1, high_education_institution_code_1_fk, high_education_situation_2, high_education_formation_2, high_education_course_code_2_fk, high_education_initial_year_2, high_education_final_year_2, high_education_institution_code_2_fk, high_education_situation_3, high_education_formation_3, high_education_course_code_3_fk, high_education_initial_year_3, high_education_final_year_3, high_education_institution_code_3_fk, post_graduation_specialization, post_graduation_master, post_graduation_doctorate, post_graduation_none, other_courses_nursery, other_courses_pre_school, other_courses_basic_education_initial_years, other_courses_basic_education_final_years, other_courses_high_school, other_courses_education_of_youth_and_adults, other_courses_special_education, other_courses_native_education, other_courses_field_education, other_courses_environment_education, other_courses_human_rights_education, other_courses_sexual_education, other_courses_child_and_teenage_rights, other_courses_ethnic_education, other_courses_other, other_courses_none, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -143,21 +141,18 @@ class InstructorVariableData extends CActiveRecord
 			'high_education_course_code_1_fk' => Yii::t('default', 'High Education Course Code 1 Fk'),
 			'high_education_initial_year_1' => Yii::t('default', 'High Education Initial Year 1'),
 			'high_education_final_year_1' => Yii::t('default', 'High Education Final Year 1'),
-			'high_education_institution_type_1' => Yii::t('default', 'High Education Institution Type 1'),
 			'high_education_institution_code_1_fk' => Yii::t('default', 'High Education Institution Code 1 Fk'),
 			'high_education_situation_2' => Yii::t('default', 'High Education Situation 2'),
 			'high_education_formation_2' => Yii::t('default', 'High Education Formation 2'),
 			'high_education_course_code_2_fk' => Yii::t('default', 'High Education Course Code 2 Fk'),
 			'high_education_initial_year_2' => Yii::t('default', 'High Education Initial Year 2'),
 			'high_education_final_year_2' => Yii::t('default', 'High Education Final Year 2'),
-			'high_education_institution_type_2' => Yii::t('default', 'High Education Institution Type 2'),
 			'high_education_institution_code_2_fk' => Yii::t('default', 'High Education Institution Code 2 Fk'),
 			'high_education_situation_3' => Yii::t('default', 'High Education Situation 3'),
 			'high_education_formation_3' => Yii::t('default', 'High Education Formation 3'),
 			'high_education_course_code_3_fk' => Yii::t('default', 'High Education Course Code 3 Fk'),
 			'high_education_initial_year_3' => Yii::t('default', 'High Education Initial Year 3'),
 			'high_education_final_year_3' => Yii::t('default', 'High Education Final Year 3'),
-			'high_education_institution_type_3' => Yii::t('default', 'High Education Institution Type 3'),
 			'high_education_institution_code_3_fk' => Yii::t('default', 'High Education Institution Code 3 Fk'),
 			'post_graduation_specialization' => Yii::t('default', 'Post Graduation Specialization'),
 			'post_graduation_master' => Yii::t('default', 'Post Graduation Master'),

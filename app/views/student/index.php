@@ -57,7 +57,7 @@
                             'htmlOptions' => array('width' => '5px')
                         ),*/
                         array(
-                            'name' => 'mother_name',
+                            'name' => 'filiation_1',
                             'htmlOptions' => array('width' => '400px')
                         ),
                         array(

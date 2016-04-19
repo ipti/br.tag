@@ -31,6 +31,10 @@
  * @property integer $id
  * @property string $create_date
  * @property string $fkid
+ * @property string $school_admission_date
+ * @property integer $current_stage_situation
+ * @property integer $previous_stage_situation
+ * @property integer $admission_type
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -76,19 +80,21 @@ class StudentEnrollment extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, student_fk, classroom_fk,another_scholarization_place, public_transport', 'required'),
-            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly' => true),
-            array('register_type', 'length', 'max' => 2),
-            array('school_inep_id_fk', 'length', 'max' => 8),
-            array('school_admission_date', 'length', 'max' => 10),
-            array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max' => 12),
+            array('school_inep_id_fk, student_fk, classroom_fk, create_date', 'required'),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
+            array('fkid', 'length', 'max'=>40),
+            array('school_admission_date', 'length', 'max'=>10),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('school_year,studentFk.name,classroomFk.name,register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type', 'safe', 'on'=>'search'),
         );
     }
 

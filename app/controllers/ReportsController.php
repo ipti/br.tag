@@ -135,7 +135,7 @@ class ReportsController extends Controller {
     }
     
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
-        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
+        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
                 . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
@@ -256,7 +256,7 @@ class ReportsController extends Controller {
                     eoe.name rg_emitter, euf.acronym rg_uf, 
                     sda.civil_certification_term_number civil_certification, sda.civil_certification_sheet, sda.civil_certification_book, 
                     ec.name civil_certification_city, euf.acronym civil_certification_uf, 
-                    si.father_name father, si.mother_name mother
+                    si.filiation_2 filiation_2, si.filiation_1 filiation_1
                 FROM student_identification si
                     JOIN student_enrollment se ON se.student_fk = si.id
                     JOIN student_documents_and_address sda ON sda.student_fk = si.inep_id
@@ -298,7 +298,7 @@ class ReportsController extends Controller {
     }
     
     public function actionGetTransferRequirementInformation($enrollment_id){
-        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date"
+        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date"
                 . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
