@@ -8,7 +8,9 @@
 	$cs = Yii::app()->getClientScript();
 	$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 	$cs->registerScriptFile($baseScriptUrl . '/common/js/instructors.js', CClientScript::POS_END);
-	$cs->registerScript("vars", "var getInstructorsDiscipinesURL = '" . $this->createUrl('timesheet/getInstructorDisciplines') . "';", CClientScript::POS_HEAD);
+	$cs->registerScript("vars", "
+	var getInstructorsDisciplinesURL = '" . $this->createUrl('timesheet/getInstructorDisciplines') . "';
+	var loadUnavailability = '" . $this->createUrl("loadUnavailability") . "';", CClientScript::POS_HEAD);
 
 ?>
 
@@ -57,17 +59,42 @@
 </div>
 
 <div class="innerLR home">
-	<?= CHtml::dropDownList('instructor_fk', "", CHtml::listData(InstructorSchool::model()->findAllByAttributes(["school_fk" => Yii::app()->user->school]), 'id', 'instructorFk.name'), [
-		"prompt" => yii::t("timesheetModule.instructors", "Select a Instructor"), "class" => "select-search-on",
-	]); ?>
-
-	<?= CHtml::dropDownList('disciplines_fk', "", CHtml::listData(EdcensoDiscipline::model()->findAll(['order' => 'name']), 'id', 'name'), [
-		"prompt" => yii::t("timesheetModule.instructors", "Select a Discipline"), "class" => "select-search-on",
-	]); ?>
-
-	<?= CHtml::dropDownList('stage_vs_modality_fk', "", CHtml::listData(EdcensoStageVsModality::model()->findAll(['order' => 'name']), 'id', 'name'), [
-		"prompt" => yii::t("timesheetModule.instructors", "Select a Stage"), "class" => "select-search-on",
-	]); ?>
+	<div class="row-fluid">
+		<div class="span4">
+			<?= CHtml::dropDownList('instructor_fk', "", CHtml::listData(InstructorSchool::model()->findAllByAttributes(["school_fk" => Yii::app()->user->school]), 'id', 'instructorFk.name'), [
+				"prompt" => yii::t("timesheetModule.instructors", "Select a Instructor"),
+				"class" => "select-search-on span12",
+			]); ?>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+			<table class="table-unavailability table table-bordered">
+				<tr>
+					<th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
+					<th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
+					<th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
+					<th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
+					<th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
+					<th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
+					<th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
+					<th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
+				</tr>
+				<?php for ($i = 7; $i < 24; $i++): ?>
+					<tr id="h<?= $i ?>">
+						<th><?= $i ?>:00 - <?= $i + 1 ?>:00</th>
+						<td week_day="0"></td>
+						<td week_day="1"></td>
+						<td week_day="2"></td>
+						<td week_day="3"></td>
+						<td week_day="4"></td>
+						<td week_day="5"></td>
+						<td week_day="6"></td>
+					</tr>
+				<?php endfor; ?>
+			</table>
+		</div>
+	</div>
 </div>
 
 
@@ -175,7 +202,7 @@
 							</div>
 						</div>
 						<div class=" span12">
-							<?= CHtml::link(Yii::t("timesheetModule.instructors", "+ new unavailability"), "#", [
+							<?= CHtml::link("+ ".Yii::t("timesheetModule.instructors", "new unavailability"), "#", [
 								"id" => "add-unavailability", 'class' => 'control-label'
 							]); ?>
 						</div>
@@ -233,14 +260,12 @@
 						</div>
 						<div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_0">
 							<div class=" span6">
-								<?= CHtml::dropDownList("add-instructors-disciplines-stage[0]", "",
-									CHtml::listData(EdcensoStageVsModality::getAll(), 'id', 'name'), [
+								<?= CHtml::dropDownList("add-instructors-disciplines-stage[0]", "", CHtml::listData(EdcensoStageVsModality::getAll(), 'id', 'name'), [
 									"class" => "select-search-on span12", "multiple" => "multiple"
 								]) ?>
 							</div>
 							<div class=" span5">
-								<?= CHtml::dropDownList("add-instructors-disciplines-discipline[0]", "",
-									CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'),[
+								<?= CHtml::dropDownList("add-instructors-disciplines-discipline[0]", "", CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
 									"class" => "select-search-on span12", "multiple" => "multiple"
 								]) ?>
 							</div>

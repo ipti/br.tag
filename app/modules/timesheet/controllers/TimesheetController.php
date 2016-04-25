@@ -23,7 +23,7 @@
 					'actions' => [], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['index', 'instructors', 'GetInstructorDisciplines', 'addInstructors'],
+					'actions' => ['index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability'],
 					'users' => ['@'],
 				], [
 					'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -99,5 +99,16 @@
 				}
 			}
 			$this->render('instructors');
+		}
+
+		public function actionLoadUnavailability(){
+			/** @var  $iu Unavailability */
+			$instructorId = $_POST["id"];
+			$instructorUnavailability = Unavailability::model()->findAll("instructor_fk = :instructor", [":instructor"=>$instructorId]);
+			$response = [];
+			foreach($instructorUnavailability as $iu){
+				$response[$iu->week_day] = ['initial'=>$iu->initial_hour, 'final'=>$iu->final_hour];
+			}
+			echo json_encode($response);
 		}
 	}

@@ -22,3 +22,36 @@ form{
     border-right: 1px solid #bfc2c5;
     height: 10px;
 }
+
+
+.table-unavailability tr th{
+    text-align: center;
+}
+.table-unavailability tr:hover{
+    background-color: #cccccc!important;
+}
+
+.table-unavailability tr:hover:first-child{
+    background-color: transparent!important;
+}
+
+.table-unavailability tr:hover .available{
+    background-color: green!important;
+}
+.table-unavailability tr:hover .unavailable{
+    background-color: red!important;
+}
+
+.table-unavailability tr td{
+    width: 13%;
+}
+
+.schedule{
+    width:100px;
+}
+.available{
+    background-color: lightgreen!important;
+}
+.unavailable{
+    background-color: lightcoral!important;
+}

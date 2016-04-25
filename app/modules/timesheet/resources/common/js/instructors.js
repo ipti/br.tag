@@ -1,10 +1,10 @@
 $("#instructor_fk").on("change", function () {
     $.ajax({
-        'url': getInstructorsDiscipinesURL + "/" + $(this).val(),
-        'method': 'get'
+        'url': getInstructorsDisciplinesURL + "/" + $(this).val(),
+        'type': 'get'
     }).success(function(data){
         data = $.parseJSON(data);
-        console.log(data);
+        //console.log(data);
     });
 });
 
@@ -37,4 +37,29 @@ $(document).on("click", "#add-discipline", function(){
     $("#add-instructors-disciplines").append(html);
     $("#add-instructors-disciplines").append(last);
     $("#add-instructors-disciplines-modal .modal-body").scrollTop($("#add-instructors-disciplines-modal .modal-body").prop("scrollHeight"));
+});
+
+$("#instructor_fk").on("change", function () {
+    $.ajax({
+        'url': loadUnavailability ,
+        'type': 'POST',
+        'data': {
+            'id': $(this).val()
+        },
+    }).success(function(result){
+        result = $.parseJSON(result);
+        $(".table-unavailability  td").removeClass("available").removeClass("unavailable");
+        if(Object.keys(result).length > 0)
+            $(".table-unavailability  td").addClass("available");
+        $.each(result, function(week_day, hours){
+            var initial = hours.initial.split(':')[0];
+            var final = hours.final.split(':')[0];
+            var finalMinutes = hours.final.split(':')[1];
+            if(finalMinutes == 0) final--;
+            for(i = initial; i <= final; i++){
+                if(i < 7) continue;
+                $("#h"+i+" td[week_day="+week_day+"]").removeClass("available").addClass("unavailable");
+            }
+        });
+    });
 });
