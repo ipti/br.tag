@@ -141,7 +141,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     <?php
     $board = ClassBoard::model()->findByAttributes(array('classroom_fk'=>$classroom->id));
     $teacher = @$board->instructorFk->name;
-    if (strlen($teacher) > 0) {
+    $modality = $classroom->edcenso_stage_vs_modality_fk;
+    if ((strlen($teacher) > 0) && ($modality < 18)) {
         echo "<tr><td>PROFESSOR(A): " . $teacher . "</td></tr>";
     }
     ?>

@@ -285,7 +285,7 @@ class StudentController extends Controller {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if(isset($student->studentEnrollments[0]->id)){
             $mer_id = $student->studentEnrollments[0]->id;
-            $stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
+            @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
             if($stage == 1){
                 $type = 0;
             }else if($stage == 6){
@@ -328,7 +328,7 @@ class StudentController extends Controller {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
-            
+            $countReg = StudentDocumentsAndAddress::model()->findAllby(array('id' => $id))
             $return = ($student_inep_id === null || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));

@@ -663,7 +663,9 @@ class ClassroomController extends Controller {
         $minutes = isset($_POST['minutes']) ? $_POST['minutes'] : 0;
 
         $classboard = ClassBoard::model()->findByPk($lesson['db']);
+        $classboard->delete();
 
+        /*
         $initial_timestamp = strtotime($lesson['start']);
         $final_timestamp = empty($lesson['end']) ? -1 : strtotime($lesson['end']);
 
@@ -712,9 +714,9 @@ class ClassroomController extends Controller {
                 break;
             case 6: $classboard->week_day_saturday = $schedule;
                 break;
-        }
+        }*/
 
-        return ($classboard->validate() && $classboard->save());
+        return true;
     }
 
     public function actionUpdateLesson() {
