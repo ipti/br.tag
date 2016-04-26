@@ -18,6 +18,18 @@ return [
 	"Week Day" => "Dia da Semana",
 	"new unavailability" => "nova indisponibilidade",
 
+	"Add Instructors Disciplines" => "Adicionar Disciplinas aos Instrutores",
+	"Stages" => "Estágios",
+	"Disciplines" => "Disciplinas",
+	"new discipline/stage" => "nova disciplina/estagio",
+
+	"Sunday" => "Domingo",
+	"Monday" => "Segunda",
+	"Tuesday" => "Terça",
+	"Wednesday" => "Quarta",
+	"Thursday" => "Quinta",
+	"Friday" => "Sexta",
+	"Saturday" => "Sábado",
 
 	"Schedule" => "Horário",
 

@@ -271,7 +271,7 @@
 							</div>
 						</div>
 						<div class=" span12">
-							<?= CHtml::link(Yii::t("timesheetModule.instructors", "+ new discipline/stage"), "#", [
+							<?= CHtml::link("+ ".Yii::t("timesheetModule.instructors", "new discipline/stage"), "#", [
 								"id" => "add-discipline", 'class' => 'control-label'
 							]); ?>
 						</div>
