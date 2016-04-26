@@ -55,3 +55,11 @@ form{
 .unavailable{
     background-color: lightcoral!important;
 }
+
+.table-timesheet {
+    display: none;
+}
+
+.display-hide {
+    display: none !important;
+}
