@@ -8,7 +8,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
-//$cs->registerScript("vars", "var loadUnavailability = '" . $this->createUrl("loadUnavailability") . "';", CClientScript::POS_HEAD);
+$cs->registerScript("vars", "var generateTimesheet = '" . $this->createUrl("generateTimesheet") . "';", CClientScript::POS_HEAD);
 
 ?>
 
@@ -49,7 +49,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScrip
         <div class="span4">
             <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAllByAttributes(["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), [
                 "prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"),
-                "class" => "select-search-on span12",
+                "class" => "select-search-on span12 classroom-id",
                 "ajax" => [
                     "type" => "POST",
                     "url" => $this->createUrl("getTimesheet"),
@@ -58,13 +58,22 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScrip
                 ]
             ]); ?>
         </div>
-        <div class="span4">
-            <button data-toggle="modal" data-target="#generate-timesheet-modal"
-                    class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet display-hide">
-                <i></i><?= yii::t('timesheetModule.timesheet', "Generate timesheet") ?>
-            </button>
+        <div class="span8 form-inline schedule-info display-hide">
+            <div class="span5">
+                <div class="form-group">
+                    <label for="schedules">Quantidade de horários:</label>
+                    <input type="number" class="form-control" id="schedules" min="0" max="10">
+                </div>
+            </div>
+            <div class="span6">
+                <button data-toggle="modal" data-target="#generate-timesheet-modal"
+                        class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
+                    <i></i><?= yii::t('timesheetModule.timesheet', "Generate timesheet") ?>
+                </button>
+            </div>
         </div>
     </div>
+    <hr/>
     <div class="row-fluid">
         <div class="span12">
             <table class="table-timesheet table table-bordered">

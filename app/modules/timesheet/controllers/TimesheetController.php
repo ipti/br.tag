@@ -26,7 +26,7 @@ class TimesheetController extends Controller
                 'actions' => [], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability', 'getTimesheet'],
+                'actions' => ['index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability', 'getTimesheet', 'generateTimesheet'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -158,5 +158,48 @@ class TimesheetController extends Controller
             $response = ["valid" => null];
         }
         echo json_encode($response);
+    }
+
+    public function actionGenerateTimesheet()
+    {
+        /**
+         * @var $classroom Classroom
+         * @var $instructorDisciplines InstructorDisciplines
+         */
+        $classroomId = $_POST["classroom"];
+        $schedulesQuantity = $_POST["schedules"];
+        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $classroomId]);
+        $initialMinute = ($classroom->initial_hour * 60) + $classroom->initial_minute;
+        $finalMinute = ($classroom->final_hour * 60) + $classroom->final_minute;
+        $scheduleMinutes = round(($finalMinute - $initialMinute) / $schedulesQuantity);
+        $weekDays = [];
+        if ($classroom->week_days_sunday) array_push($weekDays, 0);
+        if ($classroom->week_days_monday) array_push($weekDays, 1);
+        if ($classroom->week_days_tuesday) array_push($weekDays, 2);
+        if ($classroom->week_days_wednesday) array_push($weekDays, 3);
+        if ($classroom->week_days_thursday) array_push($weekDays, 4);
+        if ($classroom->week_days_friday) array_push($weekDays, 5);
+        if ($classroom->week_days_saturday) array_push($weekDays, 6);
+        $schedules = [];
+
+        foreach($weekDays as $wk) {
+            $actualInitialMinutes = $initialMinute;
+            for ($i = 0; $i < $schedulesQuantity; $i++) {
+                $schedule = new Schedule();
+                $schedule->classroom_fk = $classroomId;
+                $schedule->week_day = $wk;
+                $hour = floor($actualInitialMinutes/60);
+                $minute = $actualInitialMinutes % 60;
+                $schedule->initial_hour = $hour.":".$minute;
+                $actualInitialMinutes += $scheduleMinutes;
+                $hour = floor($actualInitialMinutes / 60);
+                $minute = $actualInitialMinutes % 60;
+                $schedule->final_hour = $hour.":".$minute;
+                array_push($schedules, $schedule);
+            }
+        }
+
+        $instructorDisciplines = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :svm", [":svm" => $classroom->edcenso_stage_vs_modality_fk]);
+        //gerar alguma forma de distribuir as disciplinas  no quadro de horário
     }
 }
