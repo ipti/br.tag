@@ -7,16 +7,15 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
-
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school-configuration-form',
     'enableAjaxValidation' => false
         ));
 
 $this->breadcrumbs = array(
-    Yii::t('app', 'Classroom Configurarion'),
+    Yii::t('default', 'Student Configuration'),
 );
-
+$this->setPageTitle("TAG - " . Yii::t('default', 'Student Configuration'));
 $lastYear = (Yii::app()->user->year - 1);
 $year = (Yii::app()->user->year);
 
