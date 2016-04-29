@@ -16,9 +16,5 @@ $(document).on("click", "#add-matrix", function () {
             workload: workload,
             credits: credits
         }
-    }).success(function(data){
-        data = $.parseJSON(data);
-        console.info(data);
     });
-
 });

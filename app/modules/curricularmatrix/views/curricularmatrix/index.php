@@ -1,6 +1,8 @@
 <?php
 	/* @var $this TimesheetController
 	 * @var $cs CClientScript
+	 * @var $filter CurricularMatrix
+	 * @var $dataProvider CActiveDataProvider
 	 */
 
 	$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
@@ -36,7 +38,7 @@
 	</div>
 </div>
 
-<div class="innerLR home">
+<div class="innerLR">
 	<div class="row-fluid">
 		<div class="span5">
 			<?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
@@ -69,9 +71,37 @@
 		<div class="span2">
 			<?= CHtml::label("&nbsp;", 'credits', ['class' => "control-label"]) ?>
 			<div class="form-group ">
-				<?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'),["id"=>"add-matrix", "class" => "btn btn-primary"]) ?>
+				<?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
+					"id" => "add-matrix", "class" => "btn btn-primary"
+				]) ?>
 			</div>
 		</div>
 	</div>
 	<hr>
+	<?php
+
+		$this->widget('zii.widgets.grid.CGridView', [
+			'dataProvider' => $filter->search(), 'filter' => $filter,
+			'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+			'enablePagination' => TRUE, 'columns' => [
+				[
+					'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
+					'name' => 'stage_fk',
+                    'value' => '$data->stageFk->name',
+				], [
+					'header' => Yii::t('curricularMatrixModule.index', 'Discipline'),
+					'name' => 'discipline_fk',
+					'value' => '$data->disciplineFk->name',
+				], [
+					'header' => Yii::t('curricularMatrixModule.index', 'Workload'),
+					'name' => 'workload',
+					'htmlOptions' => ['width' => '150px']
+				], [
+					'header' => Yii::t('curricularMatrixModule.index', 'Credits'),
+					'name' => 'credits',
+					'htmlOptions' => ['width' => '150px']
+				],
+			],
+		]);
+	?>
 </div>

@@ -23,7 +23,7 @@
 					'actions' => [], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['index','addMatrix'], 'users' => ['@'],
+					'actions' => ['index', 'addMatrix'], 'users' => ['@'],
 				], [
 					'allow', // allow admin user to perform 'admin' and 'delete' actions
 					'actions' => [], 'users' => ['admin'],
@@ -36,18 +36,58 @@
 
 
 		public function actionIndex() {
-			$this->render('index');
+
+
+			$this->render('index', $this->getDataProviderAndFilter());
 		}
 
-		public function actionAddMatrix(){
+		public function actionAddMatrix() {
 			$stages = $_POST['stages'];
 			$disciplines = $_POST['disciplines'];
-			$workload  = $_POST['workload'];
+			$workload = $_POST['workload'];
 			$credits = $_POST['credits'];
+			$school = Yii::app()->user->school;
 
-			if(isset($stages,$disciplines,$workload,$credits)){
-				foreach($stages as $stage){
+			if (isset($stages, $disciplines, $workload, $credits)) {
+				foreach ($stages as $stage) {
+					foreach ($disciplines as $discipline) {
+						$matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline and school_fk = :school", [
+							":stage" => $stage, ":discipline" => $discipline, ":school" => $school
+						]);
+						if ($matrix == NULL) {
+							$matrix = new CurricularMatrix();
+							$matrix->setAttributes([
+								"stage_fk" => $stage, "school_fk" => $school, "discipline_fk" => $discipline
+							]);
+						}
+						$matrix->setAttributes([
+							"workload" => $workload, "credits" => $credits,
+						]);
+						$matrix->save();
+					}
+
 				}
 			}
+
+			$this->redirect($this->createUrl('index'), $this->getDataProviderAndFilter());
 		}
+
+
+		private function getDataProviderAndFilter() {
+
+			$filter = new CurricularMatrix('search');
+			$filter->unsetAttributes();
+			$filter->school_fk = Yii::app()->user->school;
+
+			$dataProvider =
+				new CActiveDataProvider('CurricularMatrix', [
+				'pagination' => [
+					'pageSize' => 20,
+				]
+			]);
+
+			return ['dataProvider'=>$dataProvider, 'filter'=>$filter];
+
+		}
+
 	}
