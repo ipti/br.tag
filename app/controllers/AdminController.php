@@ -78,14 +78,14 @@ class AdminController extends Controller
             WHERE true;
             UPDATE `class_faults` as c
             SET `fkid` = CONCAT(
-                    (select cr.school_inep_fk 
+                    (select cr.school_inep_fk
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
             WHERE true;
             UPDATE `class_has_content` as c
             SET `fkid` = CONCAT(
-                    (select cr.school_inep_fk 
+                    (select cr.school_inep_fk
                             from class as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
                             where cs.id = c.class_fk),';',c.id)
@@ -101,7 +101,7 @@ class AdminController extends Controller
             WHERE true;
             UPDATE `course_class_has_class_resource` as c
             SET `fkid` = CONCAT(
-                    (select cp.school_inep_fk 
+                    (select cp.school_inep_fk
                             from course_class as cs
                     join course_plan as cp on (cs.course_plan_fk = cp.id)
                             where cs.id = c.course_class_fk),';',c.id)
@@ -111,7 +111,7 @@ class AdminController extends Controller
             WHERE true;
             UPDATE `grade` as g
             SET `fkid` = CONCAT(
-                    (select e.school_inep_id_fk 
+                    (select e.school_inep_id_fk
                             from student_enrollment as e
                             where e.id = g.enrollment_fk),';',g.id)
             WHERE true;
@@ -665,14 +665,14 @@ class AdminController extends Controller
         foreach ($schools as $key => $school) {
             $attributes = $school->attributes;
             $export .= implode('|', $attributes);
-            $export .= "|\n";
+            $export .= "\n";
         }
 
         //Estrutura Escolar
         $schoolsStructure = SchoolStructure::model()->findAll();
         foreach ($schoolsStructure as $key => $schoolStructure) {
             $export .= implode('|', $schoolStructure->attributes);
-            $export .= "|\n";
+            $export .= "\n";
         }
 
         //Turma
@@ -687,7 +687,7 @@ class AdminController extends Controller
             //Remove Ano
             array_pop($attributes);
             $export .= implode('|', $attributes);
-            $export .= "|\n";
+            $export .= "\n";
         }
 
         //Identificação do Professor
@@ -701,17 +701,17 @@ class AdminController extends Controller
         $instructors = InstructorIdentification::model()->findAll($criteria);
         foreach ($instructors as $key => $instructor) {
             $export .= implode('|', $instructor->attributes);
-            $export .= "|\n";
+            $export .= "\n";
 
             //Documentos do Professor
             $instructorDocs = InstructorDocumentsAndAddress::model()->findByPk($instructor->id);
             $export .= implode('|', $instructorDocs->attributes);
-            $export .= "|\n";
+            $export .= "\n";
 
             //Variáveis de Encino do Professor
             $instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
             $export .= implode('|', $instructorVariables->attributes);
-            $export .= "|\n";
+            $export .= "\n";
 
             //Dados de Docência do Professor
             $criteria->select = 't.*';
@@ -723,7 +723,7 @@ class AdminController extends Controller
                 //Remove Id
                 array_pop($attributes);
                 $export .= implode('|', $attributes);
-                $export .= "|\n";
+                $export .= "\n";
             }
         }
 
@@ -752,7 +752,7 @@ class AdminController extends Controller
             array_pop($attributes);
             array_pop($attributes);
             $export .= implode('|', $attributes);
-            $export .= "|\n";
+            $export .= "\n";
 
             //Documentos do Aluno
             $studentDocs = StudentDocumentsAndAddress::model()->findByPk($student->id);
@@ -765,7 +765,7 @@ class AdminController extends Controller
             array_pop($attributes);
             array_pop($attributes);;
             $export .= implode('|', $attributes);
-            $export .= "|\n";
+            $export .= "\n";
 
             //Matricula do Aluno
             $criteria->select = 't.*';
@@ -779,7 +779,7 @@ class AdminController extends Controller
                 //Remove Id
                 array_pop($attributes);
                 $export .= implode('|', $attributes);
-                $export .= "|\n";
+                $export .= "\n";
             }
         }
 
@@ -863,7 +863,7 @@ class AdminController extends Controller
     {
         $command = "
             delete from auth_assignment;
-            
+
             delete from users_school;
             delete from users;
 
@@ -943,7 +943,7 @@ class AdminController extends Controller
 
             //Tipo do registro são os 2 primeiros caracteres
             $regType = $fileLine[0] . $fileLine[1];
-            //Querba a linha nos caracteres | 
+            //Querba a linha nos caracteres |
             $lineFields_Aux = explode("|", $fileLine);
             $lineFields = [];
 
