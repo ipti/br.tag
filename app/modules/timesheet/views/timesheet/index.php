@@ -9,7 +9,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
 $cs->registerScript("vars", "var generateTimesheet = '" . $this->createUrl("generateTimesheet") . "';", CClientScript::POS_HEAD);
-
+$this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
 <?php if (Yii::app()->user->hasFlash('success')): ?>

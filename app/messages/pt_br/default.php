@@ -631,8 +631,12 @@ return array(
     'Enrollment per Classroom' => 'Matrículas por Turma',
     'Enrollment Resume'=>'Resumo de Matrícula',
     //Wizard
-    'Classroom Configurarion' => 'Reaproveitamento das Turmas',
+    'Classroom Configuration' => 'Reaproveitamento das Turmas',
     'Copy'=>'Copiar',
-    'Select Classrom'=>'Selecione uma Turma'
+    'Select Classrom'=>'Selecione uma Turma',
+    'Student Configuration' => 'Reaproveitamento de Alunos',
+
+    //ClassContents
+    'Classes Contents'=>'Aulas Ministradas',
         )
 ?>

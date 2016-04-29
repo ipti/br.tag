@@ -36,6 +36,7 @@ return array(
         'schoolreport',
         'calendar',
         'timesheet',
+        'curricularmatrix',
     ),
     // application components
     'components' => array(
@@ -45,10 +46,14 @@ return array(
         ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
-            'urlFormat' => 'path',
+            'urlFormat' => 'get',
             'showScriptName' => false,
             'caseSensitive' => false,
             'rules' => array(
+                'matriz-curricular/'                        => 'curricularmatrix/',
+                'matriz-curricular/<action:\w+>'            => 'curricularmatrix/curricularmatrix/<action>',
+                'matriz-curricular/<action:\w+>/<id:\d+>'   => 'curricularmatrix/curricularmatrix/<action>',
+
                 'quadro-de-horario/'                        => 'timesheet/',
                 'quadro-de-horario/<action:\w+>'            => 'timesheet/timesheet/<action>',
 	            'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',

@@ -17,7 +17,7 @@ $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClie
 $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
