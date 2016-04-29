@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * This is the model class for table "curricular_matrix".
+ *
+ * The followings are the available columns in table 'curricular_matrix':
+ * @property integer $id
+ * @property integer $stage_fk
+ * @property integer $discipline_fk
+ * @property string $school_fk
+ * @property integer $workload
+ * @property integer $credits
+ *
+ * The followings are the available model relations:
+ * @property EdcensoDiscipline $disciplineFk
+ * @property SchoolIdentification $schoolFk
+ * @property EdcensoStageVsModality $stageFk
+ */
+class CurricularMatrix extends CActiveRecord
+{
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'curricular_matrix';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('stage_fk, discipline_fk, school_fk, workload, credits', 'required'),
+			array('stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly'=>true),
+			array('school_fk', 'length', 'max'=>8),
+			// The following rule is used by search().
+			// @todo Please remove those attributes that should not be searched.
+			array('id, stage_fk, discipline_fk, school_fk, workload, credits', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+			'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
+			'stageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'),
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => yii::t('curricularmatrixModule.labels', 'ID'),
+			'stage_fk' => yii::t('curricularmatrixModule.labels', 'Stage Fk'),
+			'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
+			'school_fk' => yii::t('curricularmatrixModule.labels', 'School Fk'),
+			'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
+			'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
+		);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('stage_fk',$this->stage_fk);
+		$criteria->compare('discipline_fk',$this->discipline_fk);
+		$criteria->compare('school_fk',$this->school_fk,true);
+		$criteria->compare('workload',$this->workload);
+		$criteria->compare('credits',$this->credits);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return CurricularMatrix the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+}
