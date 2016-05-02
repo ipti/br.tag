@@ -16,5 +16,7 @@ $(document).on("click", "#add-matrix", function () {
             workload: workload,
             credits: credits
         }
+    }).success(function () {
+        window.location = window.location;
     });
 });

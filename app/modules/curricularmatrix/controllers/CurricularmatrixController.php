@@ -68,8 +68,6 @@
 
 				}
 			}
-
-			$this->redirect($this->createUrl('index'), $this->getDataProviderAndFilter());
 		}
 
 
