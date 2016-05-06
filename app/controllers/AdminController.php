@@ -664,6 +664,12 @@ class AdminController extends Controller
         $schools = SchoolIdentification::model()->findAll();
         foreach ($schools as $key => $school) {
             $attributes = $school->attributes;
+            // Remove
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            // Remove
+            array_pop($attributes);
             $export .= implode('|', $attributes);
             $export .= "\n";
         }
@@ -680,12 +686,16 @@ class AdminController extends Controller
         $classrooms = Classroom::model()->findAll($where);
         foreach ($classrooms as $key => $classroom) {
             $attributes = $classroom->attributes;
+
+            // Remove fkid
+            array_pop($attributes);
             //Remove create_time
             array_pop($attributes);
             //Remove Turno
             array_pop($attributes);
             //Remove Ano
             array_pop($attributes);
+
             $export .= implode('|', $attributes);
             $export .= "\n";
         }
@@ -700,18 +710,27 @@ class AdminController extends Controller
         $criteria->group = 't.id';
         $instructors = InstructorIdentification::model()->findAll($criteria);
         foreach ($instructors as $key => $instructor) {
-            $export .= implode('|', $instructor->attributes);
+
+            //Dados do Professor
+            $instructorId = $instructor->attributes;
+            // Remove fkid
+            array_pop($instructorId);
+            $export .= implode('|', $instructorId);
             $export .= "\n";
 
             //Documentos do Professor
             $instructorDocs = InstructorDocumentsAndAddress::model()->findByPk($instructor->id);
-            $export .= implode('|', $instructorDocs->attributes);
+            $instructorDocsAtt = $instructorDocs->attributes;
+            // Remove fkid
+            array_pop($instructorDocsAtt);
+            $export .= implode('|', $instructorDocsAtt);
             $export .= "\n";
 
             //Variáveis de Encino do Professor
             $instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
             $export .= implode('|', $instructorVariables->attributes);
             $export .= "\n";
+            //$export .= "50|\n";
 
             //Dados de Docência do Professor
             $criteria->select = 't.*';
@@ -720,6 +739,8 @@ class AdminController extends Controller
             $instructorTeachingDatas = InstructorTeachingData::model()->findAll($criteria);
             foreach ($instructorTeachingDatas as $itd) {
                 $attributes = $itd->attributes;
+                //Remove fkid
+                array_pop($attributes);
                 //Remove Id
                 array_pop($attributes);
                 $export .= implode('|', $attributes);
@@ -739,7 +760,7 @@ class AdminController extends Controller
         $students = StudentIdentification::model()->findAll($criteria);
         foreach ($students as $key => $student) {
             $attributes = $student->attributes;
-            //Remove send_year
+            // Remove fkid
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
@@ -750,6 +771,8 @@ class AdminController extends Controller
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
+            array_pop($attributes);
+            // Remove
             array_pop($attributes);
             $export .= implode('|', $attributes);
             $export .= "\n";
@@ -757,12 +780,17 @@ class AdminController extends Controller
             //Documentos do Aluno
             $studentDocs = StudentDocumentsAndAddress::model()->findByPk($student->id);
             $attributes = $studentDocs->attributes;
+            // Remove
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
             array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            // Remove
             array_pop($attributes);;
             $export .= implode('|', $attributes);
             $export .= "\n";
@@ -775,6 +803,11 @@ class AdminController extends Controller
             foreach ($enrollments as $enrollment) {
                 $attributes = $enrollment->attributes;
                 //Remove create_time
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
                 array_pop($attributes);
                 //Remove Id
                 array_pop($attributes);
