@@ -90,19 +90,19 @@ class TimesheetController extends Controller
     public function actionAddInstructorsUnavailability()
     {
         $instructorsIds = $_POST["add-instructors-unavailability-ids"];
-        $initials = $_POST["add-instructors-unavailability-initial"];
-        $finals = $_POST["add-instructors-unavailability-final"];
+        $turns = $_POST["add-instructors-unavailability-turn"];
+        $schedules = $_POST["add-instructors-unavailability-schedule"];
         $weekDays = $_POST["add-instructors-unavailability-week-day"];
 
         foreach ($instructorsIds as $instructorId) {
-            foreach ($initials as $key => $initial) {
-                $final = $finals[$key];
+            foreach ($turns as $key => $turn) {
+                $schedule = $schedules[$key];
                 $weekDay = $weekDays[$key];
                 $unavailability = new Unavailability();
-                $unavailability->instructor_fk = $instructorId;
+                $unavailability->instructor_school_fk = $instructorId;
                 $unavailability->week_day = $weekDay;
-                $unavailability->initial_hour = $initial;
-                $unavailability->final_hour = $final;
+                $unavailability->turn = $turn;
+                $unavailability->schedule = $schedule;
                 $unavailability->save();
             }
         }
@@ -113,10 +113,11 @@ class TimesheetController extends Controller
     {
         /** @var  $iu Unavailability */
         $instructorId = $_POST["id"];
-        $instructorUnavailability = Unavailability::model()->findAll("instructor_fk = :instructor", [":instructor" => $instructorId]);
+        $instructorUnavailability = Unavailability::model()->findAll("instructor_school_fk = :instructorSchool", [":instructorSchool" => $instructorId]);
         $response = [];
         foreach ($instructorUnavailability as $iu) {
-            $response[$iu->week_day] = ['initial' => $iu->initial_hour, 'final' => $iu->final_hour];
+            if(!isset($response[$iu->week_day])) $response[$iu->week_day]=["0"=>[],"1"=>[],"2"=>[]];
+            array_push($response[$iu->week_day][$iu->turn], $iu->schedule);
         }
         echo json_encode($response);
     }

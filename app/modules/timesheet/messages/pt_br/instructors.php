@@ -32,5 +32,6 @@ return [
 	"Saturday" => "Sábado",
 
 	"Schedule" => "Horário",
+	"Turn" => "Turno",
 
 ];

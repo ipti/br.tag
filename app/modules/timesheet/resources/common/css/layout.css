@@ -63,3 +63,35 @@ form{
 .display-hide {
     display: none !important;
 }
+
+table.afternoon, table.night {
+    display: none;
+}
+
+.instructor-container {
+    margin-top: 10px;
+}
+
+.menu {
+    border: 1px solid #e5e5e5;
+}
+
+.menu div {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 4px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu div.selected {
+    background: #CCCCCC;
+}
+
+.menu div:hover {
+    background: #cccccc;
+}
+
+.menu div:last-of-type {
+    border: 0;
+}
