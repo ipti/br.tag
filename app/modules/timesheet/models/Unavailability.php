@@ -5,13 +5,13 @@
 	 *
 	 * The followings are the available columns in table 'unavailability':
 	 * @property integer $id
-	 * @property integer $instructor_fk
+	 * @property integer $instructor_school_fk
 	 * @property integer $week_day
-	 * @property string $initial_hour
-	 * @property string $final_hour
+	 * @property string $schedule
+	 * @property string $turn
 	 *
 	 * The followings are the available model relations:
-	 * @property InstructorIdentification $instructorFk
+	 * @property InstructorIdentification $instructorSchoolFk
 	 */
 	class Unavailability extends CActiveRecord {
 		/**
@@ -28,11 +28,11 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['instructor_fk, week_day, initial_hour, final_hour', 'required'],
-				['instructor_fk, week_day', 'numerical', 'integerOnly' => TRUE],
+				['instructor_school_fk, week_day, schedule, turn', 'required'],
+				['instructor_school_fk, week_day, schedule, turn', 'numerical', 'integerOnly' => TRUE],
 				// The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
-				['id, instructor_fk, week_day, initial_hour, final_hour', 'safe', 'on' => 'search'],
+				['id, instructor_school_fk, week_day, schedule, turn', 'safe', 'on' => 'search'],
 			];
 		}
 
@@ -43,7 +43,7 @@
 			// NOTE: you may need to adjust the relation name and the related
 			// class name for the relations automatically generated below.
 			return [
-				'instructorFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'],
+				'instructorSchoolFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_school_fk'],
 			];
 		}
 
@@ -53,10 +53,10 @@
 		public function attributeLabels() {
 			return [
 				'id' => yii::t('timesheetModule.labels','ID'),
-				'instructor_fk' => yii::t('timesheetModule.labels','Instructor'),
+				'instructor_school_fk' => yii::t('timesheetModule.labels','Instructor'),
 				'week_day' => yii::t('timesheetModule.labels','Week Day'),
-				'initial_hour' => yii::t('timesheetModule.labels','Initial Hour'),
-				'final_hour' => yii::t('timesheetModule.labels','Final Hour'),
+				'schedule' => yii::t('timesheetModule.labels','Schedule'),
+				'turn' => yii::t('timesheetModule.labels','Turn'),
 			];
 		}
 
@@ -78,10 +78,10 @@
 			$criteria = new CDbCriteria;
 
 			$criteria->compare('id', $this->id);
-			$criteria->compare('instructor_fk', $this->instructor_fk);
+			$criteria->compare('instructor_school_fk', $this->instructor_school_fk);
 			$criteria->compare('week_day', $this->week_day);
-			$criteria->compare('initial_hour', $this->initial_hour, TRUE);
-			$criteria->compare('final_hour', $this->final_hour, TRUE);
+			$criteria->compare('schedule', $this->schedule, TRUE);
+			$criteria->compare('turn', $this->turn, TRUE);
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,

@@ -10,6 +10,7 @@
 	 * @property integer $classroom_fk
 	 * @property integer $week_day
 	 * @property integer $schedule
+	 * @property integer $turn
 	 *
 	 * The followings are the available model relations:
 	 * @property Classroom $classroomFk
@@ -31,8 +32,8 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['discipline_fk, classroom_fk, week_day, schedule', 'required'],
-				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule', 'numerical', 'integerOnly' => TRUE],
+				['discipline_fk, classroom_fk, week_day, schedule, turn', 'required'],
+				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn', 'numerical', 'integerOnly' => TRUE],
 				// The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
 				[
@@ -65,7 +66,8 @@
 				'discipline_fk' => yii::t('timesheetModule.labels', 'Discipline'),
 				'classroom_fk' => yii::t('timesheetModule.labels', 'Classroom'),
 				'week_day' => yii::t('timesheetModule.labels', 'Week Day'),
-				'initial_hour' => yii::t('timesheetModule.labels', 'Schedule'),
+				'schedule' => yii::t('timesheetModule.labels', 'Schedule'),
+				'turn' => yii::t('timesheetModule.labels', 'Turn'),
 			];
 		}
 
@@ -92,6 +94,7 @@
 			$criteria->compare('classroom_fk', $this->classroom_fk);
 			$criteria->compare('week_day', $this->week_day);
 			$criteria->compare('schedule', $this->schedule);
+			$criteria->compare('turn', $this->turn);
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,
