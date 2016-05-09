@@ -74,7 +74,7 @@ return array(
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tag',
+            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.local.tag.demo',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',
