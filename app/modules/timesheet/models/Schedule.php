@@ -9,8 +9,7 @@
 	 * @property integer $discipline_fk
 	 * @property integer $classroom_fk
 	 * @property integer $week_day
-	 * @property string $initial_hour
-	 * @property string $final_hour
+	 * @property integer $schedule
 	 *
 	 * The followings are the available model relations:
 	 * @property Classroom $classroomFk
@@ -32,12 +31,12 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['discipline_fk, classroom_fk, week_day, initial_hour, final_hour', 'required'],
-				['instructor_fk, discipline_fk, classroom_fk, week_day', 'numerical', 'integerOnly' => TRUE],
+				['discipline_fk, classroom_fk, week_day, schedule', 'required'],
+				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule', 'numerical', 'integerOnly' => TRUE],
 				// The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
 				[
-					'id, instructor_fk, discipline_fk, classroom_fk, week_day, initial_hour, final_hour', 'safe',
+					'id, instructor_fk, discipline_fk, classroom_fk, week_day, schedule', 'safe',
 					'on' => 'search'
 				],
 			];
@@ -66,8 +65,7 @@
 				'discipline_fk' => yii::t('timesheetModule.labels', 'Discipline'),
 				'classroom_fk' => yii::t('timesheetModule.labels', 'Classroom'),
 				'week_day' => yii::t('timesheetModule.labels', 'Week Day'),
-				'initial_hour' => yii::t('timesheetModule.labels', 'Initial Hour'),
-				'final_hour' => yii::t('timesheetModule.labels', 'Final Hour'),
+				'initial_hour' => yii::t('timesheetModule.labels', 'Schedule'),
 			];
 		}
 
@@ -93,12 +91,15 @@
 			$criteria->compare('discipline_fk', $this->discipline_fk);
 			$criteria->compare('classroom_fk', $this->classroom_fk);
 			$criteria->compare('week_day', $this->week_day);
-			$criteria->compare('initial_hour', $this->initial_hour, TRUE);
-			$criteria->compare('final_hour', $this->final_hour, TRUE);
+			$criteria->compare('schedule', $this->schedule);
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,
 			]);
+		}
+
+		public function getInitialHour(){
+
 		}
 
 		/**

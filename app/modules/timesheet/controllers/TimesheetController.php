@@ -188,18 +188,28 @@ class TimesheetController extends Controller
                 $schedule = new Schedule();
                 $schedule->classroom_fk = $classroomId;
                 $schedule->week_day = $wk;
-                $hour = floor($actualInitialMinutes/60);
-                $minute = $actualInitialMinutes % 60;
-                $schedule->initial_hour = $hour.":".$minute;
-                $actualInitialMinutes += $scheduleMinutes;
-                $hour = floor($actualInitialMinutes / 60);
-                $minute = $actualInitialMinutes % 60;
-                $schedule->final_hour = $hour.":".$minute;
+                $schedule->initial_hour = $i;
+//                $hour = floor($actualInitialMinutes/60);
+//                $minute = $actualInitialMinutes % 60;
+//                $schedule->initial_hour = $hour.":".$minute;
+//                $actualInitialMinutes += $scheduleMinutes;
+//                $hour = floor($actualInitialMinutes / 60);
+//                $minute = $actualInitialMinutes % 60;
+//                $schedule->final_hour = $hour.":".$minute;
                 array_push($schedules, $schedule);
             }
         }
-
+        $curricularMatrix = CurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school]);
         $instructorDisciplines = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :svm", [":svm" => $classroom->edcenso_stage_vs_modality_fk]);
-        //gerar alguma forma de distribuir as disciplinas  no quadro de horário
+
+        $disciplines = [];
+        $i = 0;
+        foreach($curricularMatrix as $cm) {
+            $disciplines[$i] = [
+                "discipline" => $cm->discipline_fk,
+                "instructor" => "asds"
+            ];
+            $i++;
+        }
     }
 }
