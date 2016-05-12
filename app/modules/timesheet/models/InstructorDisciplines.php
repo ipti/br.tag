@@ -11,7 +11,7 @@
 	 *
 	 * The followings are the available model relations:
 	 * @property EdcensoDiscipline $disciplineFk
-	 * @property InstructorIdentification $instructorFk
+	 * @property TimesheetInstructor $instructorFk
 	 * @property EdcensoStageVsModality $stageVsModalityFk
 	 */
 	class InstructorDisciplines extends CActiveRecord {
@@ -45,7 +45,7 @@
 			// class name for the relations automatically generated below.
 			return [
 				'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
-				'instructorFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'],
+				'instructorFk' => [self::BELONGS_TO, 'TimesheetInstructor', 'instructor_fk'],
 				'stageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_vs_modality_fk'],
 			];
 		}

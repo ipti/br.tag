@@ -79,72 +79,72 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
             <table class="table-unavailability table table-bordered morning table0">
                 <tr>
                     <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                     <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
                     <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
                     <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
                     <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
                     <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
                     <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                 </tr>
-                <?php for ($i = 1; $i < 11; $i++): ?>
+                <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i ?></th>
-                        <td week_day="0" turn="0"></td>
+                        <th><?= $i+1 ?></th>
                         <td week_day="1" turn="0"></td>
                         <td week_day="2" turn="0"></td>
                         <td week_day="3" turn="0"></td>
                         <td week_day="4" turn="0"></td>
                         <td week_day="5" turn="0"></td>
                         <td week_day="6" turn="0"></td>
+                        <td week_day="0" turn="0"></td>
                     </tr>
                 <?php endfor; ?>
             </table>
             <table class="table-unavailability table table-bordered afternoon table1">
                 <tr>
                     <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                     <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
                     <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
                     <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
                     <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
                     <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
                     <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                 </tr>
-                <?php for ($i = 1; $i < 11; $i++): ?>
+                <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i ?></th>
-                        <td week_day="0" turn="1"></td>
+                        <th><?= $i+1 ?></th>
                         <td week_day="1" turn="1"></td>
                         <td week_day="2" turn="1"></td>
                         <td week_day="3" turn="1"></td>
                         <td week_day="4" turn="1"></td>
                         <td week_day="5" turn="1"></td>
                         <td week_day="6" turn="1"></td>
+                        <td week_day="0" turn="0"></td>
                     </tr>
                 <?php endfor; ?>
             </table>
             <table class="table-unavailability table table-bordered night table2">
                 <tr>
                     <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                     <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
                     <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
                     <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
                     <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
                     <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
                     <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                 </tr>
-                <?php for ($i = 1; $i < 11; $i++): ?>
+                <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i ?></th>
-                        <td week_day="0" turn="2"></td>
+                        <th><?= $i+1 ?></th>
                         <td week_day="1" turn="2"></td>
                         <td week_day="2" turn="2"></td>
                         <td week_day="3" turn="2"></td>
                         <td week_day="4" turn="2"></td>
                         <td week_day="5" turn="2"></td>
                         <td week_day="6" turn="2"></td>
+                        <td week_day="0" turn="2"></td>
                     </tr>
                 <?php endfor; ?>
             </table>
@@ -258,7 +258,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
                             </div>
                             <div class=" span3">
                                 <?= CHtml::dropDownList("add-instructors-unavailability-week-day[0]", "", Schedule::weekDays(), [
-                                    "class" => "select-search-off span12"
+                                    "class" => "span12"
                                 ]) ?>
                             </div>
                         </div>
@@ -303,7 +303,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
                     <div class="row-fluid">
                         <div class=" span12">
                             <?= CHtml::label(Yii::t("timesheetModule.instructors", "Instructors"), "add-instructors-unavailability-ids", ['class' => 'control-label']); ?>
-                            <?= CHtml::dropDownList("add-instructors-disciplines-ids", "", CHtml::listData(InstructorSchool::model()->findAll(), 'id', 'name'), [
+                            <?= CHtml::dropDownList("add-instructors-disciplines-ids", "", CHtml::listData(InstructorIdentification::model()->findAll(["order"=>"name"]), 'id', 'name'), [
                                 "class" => "select-search-on span12", "multiple" => "multiple"
                             ]) ?>
                         </div>

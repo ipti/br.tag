@@ -95,3 +95,39 @@ table.afternoon, table.night {
 .menu div:last-of-type {
     border: 0;
 }
+
+table.table-timesheet td{
+    width: 180px;
+    position: relative;
+}
+
+.instructor-name{
+    font-size: 9px!important;
+    line-height: initial!important;
+    margin-bottom: 0!important;
+    padding-left: 0!important;
+}
+.discipline-name{
+    line-height: initial!important;
+    margin-bottom: 0!important;
+    padding-left: 0!important;
+}
+
+.unavailability-icon {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    color: darkred;
+}
+
+.conflict-icon {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    color: darkgoldenrod;
+}
+
+#turn {
+    font-size: 16;
+    font-weight: bold;
+}

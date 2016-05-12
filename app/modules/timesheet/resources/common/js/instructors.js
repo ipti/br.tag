@@ -21,6 +21,10 @@ $(document).on("click", "#add-instructors-button", function () {
 $(document).on("click", "#add-instructors-unavailability-button", function () {
     $("#add-instructors-unavailability-form").submit();
 });
+$(document).on("click", "#add-instructors-disciplines-button", function () {
+    $("#add-instructors-disciplines-form").submit();
+});
+
 
 $(document).on("click", "#add-unavailability", function () {
     var html = $("#add-instructors-unavailability-times_0")[0].outerHTML
@@ -35,15 +39,43 @@ $(document).on("click", "#add-unavailability", function () {
 });
 
 $(document).on("click", "#add-discipline", function () {
-    var html = "<br>" + $("#add-instructors-disciplines_0")[0].outerHTML
-            .replace(/_0/g, "_" + $(".add-instructors-disciplines").length)
-            .replace(/\[0]/g, "[" + $(".add-instructors-disciplines").length + "]");
+    var qtde = $(".add-instructors-disciplines").length;
+/*
+    <div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_0">
+        <div class=" span6">
+    <?= CHtml::dropDownList("add-instructors-disciplines-stage[0]", "", CHtml::listData(EdcensoStageVsModality::getAll(), 'id', 'name'), [
+        "class" => "select-search-on span12", "multiple" => "multiple"
+    ]) ?>
+    </div>
+    <div class=" span5">
+    <?= CHtml::dropDownList("add-instructors-disciplines-discipline[0]", "", CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
+        "class" => "select-search-on span12", "multiple" => "multiple"
+    ]) ?>
+    </div>
+    </div>
+*/
+    var stageOptions = $("#add-instructors-disciplines-stage_0")[0].innerHTML;
+    var disciplineOptions = $("#add-instructors-disciplines-discipline_0")[0].innerHTML;
+    var select
+    var html = '<br><div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_'+qtde+'">' +
+        '<div class=" span6">' +
+            '<select class="select-search-on span12 select2-offscreen" multiple="multiple" name="add-instructors-disciplines-stage['+qtde+'][]" id="add-instructors-disciplines-stage_'+qtde+'" tabindex="-1"> ' +
+                stageOptions+
+            '</select>' +
+        '</div>' +
+        '<div class=" span5">'+
+            '<select class="select-search-on span12 select2-offscreen" multiple="multiple" name="add-instructors-disciplines-discipline['+qtde+'][]" id="add-instructors-disciplines-discipline_'+qtde+'" tabindex="-1"> ' +
+                disciplineOptions+
+            '</select>' +
+        '</div>' +
+        '</div>';
 
     var last = $("#add-instructors-disciplines").children().last();
     $("#add-instructors-disciplines").children().last().remove();
     $("#add-instructors-disciplines").append(html);
     $("#add-instructors-disciplines").append(last);
     $("#add-instructors-disciplines-modal .modal-body").scrollTop($("#add-instructors-disciplines-modal .modal-body").prop("scrollHeight"));
+    $("#add-instructors-disciplines_"+qtde).find("select").select2();
 });
 
 $("#instructor_school_fk").on("change", function () {

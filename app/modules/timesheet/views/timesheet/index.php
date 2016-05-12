@@ -8,7 +8,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
-$cs->registerScript("vars", "var generateTimesheet = '" . $this->createUrl("generateTimesheet") . "';", CClientScript::POS_HEAD);
+$cs->registerScript("vars", "var generateTimesheetURL = '" . $this->createUrl("generateTimesheet") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
@@ -59,15 +59,8 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             ]); ?>
         </div>
         <div class="span8 form-inline schedule-info display-hide">
-            <div class="span5">
-                <div class="form-group">
-                    <label for="schedules">Quantidade de horários:</label>
-                    <input type="number" class="form-control" id="schedules" min="0" max="10">
-                </div>
-            </div>
             <div class="span6">
-                <button data-toggle="modal" data-target="#generate-timesheet-modal"
-                        class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
+                <button class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
                     <i></i><?= yii::t('timesheetModule.timesheet', "Generate timesheet") ?>
                 </button>
             </div>
@@ -76,29 +69,30 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
     <hr/>
     <div class="row-fluid">
         <div class="span12">
+            <div class="span12"><span id="turn"></span></div>
             <table class="table-timesheet table table-bordered">
                 <tr>
                     <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                     <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
                     <th week_day="2"><?= yii::t('timesheetModule.instructors', "Tuesday"); ?></th>
                     <th week_day="3"><?= yii::t('timesheetModule.instructors', "Wednesday"); ?></th>
                     <th week_day="4"><?= yii::t('timesheetModule.instructors', "Thursday"); ?></th>
                     <th week_day="5"><?= yii::t('timesheetModule.instructors', "Friday"); ?></th>
                     <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
+                    <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                 </tr>
-                <!--                --><?php //for ($i = 7; $i < 24; $i++): ?>
-                <!--                    <tr id="h--><? //= $i ?><!--">-->
-                <!--                        <th>--><? //= $i ?><!--:00 - --><? //= $i + 1 ?><!--:00</th>-->
-                <!--                        <td week_day="0"></td>-->
-                <!--                        <td week_day="1"></td>-->
-                <!--                        <td week_day="2"></td>-->
-                <!--                        <td week_day="3"></td>-->
-                <!--                        <td week_day="4"></td>-->
-                <!--                        <td week_day="5"></td>-->
-                <!--                        <td week_day="6"></td>-->
-                <!--                    </tr>-->
-                <!--                --><?php //endfor; ?>
+                <?php for ($i = 0; $i < 10; $i++): ?>
+                    <tr id="h<?= $i ?>">
+                        <th><?= $i+1 ?>º Horário</th>
+                        <td week_day="1"></td>
+                        <td week_day="2"></td>
+                        <td week_day="3"></td>
+                        <td week_day="4"></td>
+                        <td week_day="5"></td>
+                        <td week_day="6"></td>
+                        <td week_day="0"></td>
+                    </tr>
+                <?php endfor; ?>
             </table>
         </div>
     </div>

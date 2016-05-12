@@ -1,28 +1,27 @@
 <?php
 
 	/**
-	 * This is the model class for table "schedule".
+	 * This is the model class for table "curricular_matrix".
 	 *
-	 * The followings are the available columns in table 'schedule':
+	 * The followings are the available columns in table 'curricular_matrix':
 	 * @property integer $id
-	 * @property integer $instructor_fk
+	 * @property integer $stage_fk
 	 * @property integer $discipline_fk
-	 * @property integer $classroom_fk
-	 * @property integer $week_day
-	 * @property integer $schedule
-	 * @property integer $turn
+	 * @property string $school_fk
+	 * @property integer $workload
+	 * @property integer $credits
 	 *
 	 * The followings are the available model relations:
-	 * @property Classroom $classroomFk
 	 * @property EdcensoDiscipline $disciplineFk
-	 * @property InstructorIdentification $instructorFk
+	 * @property SchoolIdentification $schoolFk
+	 * @property EdcensoStageVsModality $stageFk
 	 */
-	class Schedule extends CActiveRecord {
+	class TimesheetCurricularMatrix extends CActiveRecord {
 		/**
 		 * @return string the associated database table name
 		 */
 		public function tableName() {
-			return 'schedule';
+			return 'curricular_matrix';
 		}
 
 		/**
@@ -32,14 +31,11 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['discipline_fk, classroom_fk, week_day, schedule, turn', 'required'],
-				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn', 'numerical', 'integerOnly' => TRUE],
-				// The following rule is used by search().
+				['stage_fk, discipline_fk, school_fk, workload, credits', 'required'],
+				['stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly' => TRUE],
+				['school_fk', 'length', 'max' => 8], // The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
-				[
-					'id, instructor_fk, discipline_fk, classroom_fk, week_day, schedule', 'safe',
-					'on' => 'search'
-				],
+				['id, stage_fk, discipline_fk, school_fk, workload, credits', 'safe', 'on' => 'search'],
 			];
 		}
 
@@ -50,9 +46,9 @@
 			// NOTE: you may need to adjust the relation name and the related
 			// class name for the relations automatically generated below.
 			return [
-				'classroomFk' => [self::BELONGS_TO, 'Classroom', 'classroom_fk'],
 				'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
-				'instructorFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'],
+				'schoolFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
+				'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
 			];
 		}
 
@@ -61,13 +57,12 @@
 		 */
 		public function attributeLabels() {
 			return [
-				'id' => 'ID',
-				'instructor_fk' => yii::t('timesheetModule.labels', 'Instructor'),
-				'discipline_fk' => yii::t('timesheetModule.labels', 'Discipline'),
-				'classroom_fk' => yii::t('timesheetModule.labels', 'Classroom'),
-				'week_day' => yii::t('timesheetModule.labels', 'Week Day'),
-				'schedule' => yii::t('timesheetModule.labels', 'Schedule'),
-				'turn' => yii::t('timesheetModule.labels', 'Turn'),
+				'id' => yii::t('curricularmatrixModule.labels', 'ID'),
+				'stage_fk' => yii::t('curricularmatrixModule.labels', 'Stage Fk'),
+				'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
+				'school_fk' => yii::t('curricularmatrixModule.labels', 'School Fk'),
+				'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
+				'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
 			];
 		}
 
@@ -88,43 +83,31 @@
 
 			$criteria = new CDbCriteria;
 
+			$criteria->with = array('stageFk', 'disciplineFk');
+			$criteria->together = true;
 			$criteria->compare('id', $this->id);
-			$criteria->compare('instructor_fk', $this->instructor_fk);
+			$criteria->compare('stage_fk', $this->stage_fk);
 			$criteria->compare('discipline_fk', $this->discipline_fk);
-			$criteria->compare('classroom_fk', $this->classroom_fk);
-			$criteria->compare('week_day', $this->week_day);
-			$criteria->compare('schedule', $this->schedule);
-			$criteria->compare('turn', $this->turn);
+			$criteria->compare('school_fk', $this->school_fk, TRUE);
+			$criteria->compare('workload', $this->workload);
+			$criteria->compare('credits', $this->credits);
+
+			$criteria->addCondition('stageFk.name like "%' . $this->stage_fk . '%"');
+			$criteria->addCondition('disciplineFk.name like "%' . $this->discipline_fk . '%"');
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,
 			]);
 		}
 
-		public function getInitialHour(){
-
-		}
-
 		/**
 		 * Returns the static model of the specified AR class.
 		 * Please note that you should have this exact method in all your CActiveRecord descendants!
 		 * @param string $className active record class name.
-		 * @return Schedule the static model class
+		 * @return CurricularMatrix the static model class
 		 */
 		public static function model($className = __CLASS__) {
 			return parent::model($className);
-		}
-
-		public static function weekDays(){
-			return [
-				0 => yii::t('timesheetModule.instructors', 'Sunday'),
-				1 => yii::t('timesheetModule.instructors', 'Monday'),
-				2 => yii::t('timesheetModule.instructors', 'Tuesday'),
-				3 => yii::t('timesheetModule.instructors', 'Wednesday'),
-				4 => yii::t('timesheetModule.instructors', 'Thursday'),
-				5 => yii::t('timesheetModule.instructors', 'Friday'),
-				6 => yii::t('timesheetModule.instructors', 'Saturday'),
-			];
 		}
 
 	}
