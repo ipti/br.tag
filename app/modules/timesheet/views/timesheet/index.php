@@ -121,7 +121,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
     </div>
     <div class="alert alert-info display-hide">
-        <span>Esta turma não possui matriz curricular. Para criar uma, clique <a
+        <span>A etapa desta turma não possui matriz curricular. Para criar uma, clique <a
                 href="<?php echo yii::app()->createUrl('curricularmatrix') ?>">aqui</a>.</span>
     </div>
 </div>
