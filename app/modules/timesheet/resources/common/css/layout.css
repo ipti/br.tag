@@ -1,18 +1,30 @@
 
-.text-right {text-align: right !important;} /*For right align*/
-.text-left {text-align: left !important;} /*For left align*/
-.text-center {text-align: center !important;} /*For center align*/
+.text-right {
+    text-align: right !important;
+}
 
-.modal, .modal-dialog, .modal-content, .modal-header{
+/*For right align*/
+.text-left {
+    text-align: left !important;
+}
+
+/*For left align*/
+.text-center {
+    text-align: center !important;
+}
+
+/*For center align*/
+
+.modal, .modal-dialog, .modal-content, .modal-header {
     border-radius: 5px 5px 0px 0px !important;
 }
 
-.modal-title{
-    padding-top: 6px!important;
+.modal-title {
+    padding-top: 6px !important;
 }
 
-form{
-    margin: 0!important;
+form {
+    margin: 0 !important;
 }
 
 .divider {
@@ -23,40 +35,43 @@ form{
     height: 10px;
 }
 
-
-.table-unavailability tr th{
+.table-unavailability tr th {
     text-align: center;
 }
-.table-unavailability tr:hover{
-    background-color: #cccccc!important;
+
+.table-unavailability tr:hover {
+    background-color: #cccccc !important;
 }
 
-.table-unavailability tr:hover:first-child{
-    background-color: transparent!important;
+.table-unavailability tr:hover:first-child {
+    background-color: transparent !important;
 }
 
-.table-unavailability tr:hover .available{
-    background-color: green!important;
-}
-.table-unavailability tr:hover .unavailable{
-    background-color: red!important;
+.table-unavailability tr:hover .available {
+    background-color: green !important;
 }
 
-.table-unavailability tr td{
+.table-unavailability tr:hover .unavailable {
+    background-color: red !important;
+}
+
+.table-unavailability tr td {
     width: 13%;
 }
 
-.schedule{
-    width:100px;
-}
-.available{
-    background-color: lightgreen!important;
-}
-.unavailable{
-    background-color: lightcoral!important;
+.schedule {
+    width: 100px;
 }
 
-.table-timesheet {
+.available {
+    background-color: lightgreen !important;
+}
+
+.unavailable {
+    background-color: lightcoral !important;
+}
+
+.table-container {
     display: none;
 }
 
@@ -96,38 +111,52 @@ table.afternoon, table.night {
     border: 0;
 }
 
-table.table-timesheet td{
+table.table-timesheet td {
     width: 180px;
     position: relative;
 }
 
-.instructor-name{
-    font-size: 9px!important;
-    line-height: initial!important;
-    margin-bottom: 0!important;
-    padding-left: 0!important;
+.instructor-name {
+    font-size: 9px !important;
+    line-height: initial !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
 }
-.discipline-name{
-    line-height: initial!important;
-    margin-bottom: 0!important;
-    padding-left: 0!important;
+
+.discipline-name {
+    line-height: initial !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
 }
 
 .unavailability-icon {
     position: absolute;
     top: 5px;
     right: 20px;
-    color: darkred;
 }
 
 .conflict-icon {
     position: absolute;
     top: 5px;
     right: 2px;
+}
+
+.darkgoldenrod {
     color: darkgoldenrod;
 }
 
+.darkred {
+    color: darkred;
+}
+
 #turn {
-    font-size: 16;
+    display: block;
+    font-size: 20px;
     font-weight: bold;
+    margin: 20px 0;
+}
+
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+    background-color: rgba(173, 216, 230, 0.4) !important;
 }

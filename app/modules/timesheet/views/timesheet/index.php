@@ -67,10 +67,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
     </div>
     <hr/>
-    <div class="row-fluid">
+    <div class="row-fluid table-container">
         <div class="span12">
-            <div class="span12"><span id="turn"></span></div>
-            <table class="table-timesheet table table-bordered">
+            <span id="turn"></span>
+            <table class="table-timesheet table table-bordered table-striped table-hover">
+                <thead>
                 <tr>
                     <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
                     <th week_day="1"><?= yii::t('timesheetModule.instructors', "Monday"); ?></th>
@@ -81,9 +82,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     <th week_day="6"><?= yii::t('timesheetModule.instructors', "Saturday"); ?></th>
                     <th week_day="0"><?= yii::t('timesheetModule.instructors', "Sunday"); ?></th>
                 </tr>
+                </thead>
+                <tbody>
                 <?php for ($i = 0; $i < 10; $i++): ?>
                     <tr id="h<?= $i ?>">
-                        <th><?= $i+1 ?>º Horário</th>
+                        <th><?= $i + 1 ?>º Horário</th>
                         <td week_day="1"></td>
                         <td week_day="2"></td>
                         <td week_day="3"></td>
@@ -93,7 +96,32 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                         <td week_day="0"></td>
                     </tr>
                 <?php endfor; ?>
+                </tbody>
             </table>
         </div>
+    </div>
+    <br/>
+
+    <div class="row-fluid table-container">
+        <div class="span12 img-polaroid">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <h4>Legenda</h4>
+                </div>
+            </div>
+            <div class="span12">
+                <i class="fa fa-exclamation-triangle darkgoldenrod"></i>
+                <span>Instrutor possui n conflitos neste horário.</span>
+            </div>
+            <div class="span12">
+                <i class="fa fa-times-circle darkred"></i>
+                <span>Horário indisponível para o instrutor.</span>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info display-hide">
+        <span>Esta turma não possui matriz curricular. Para criar uma, clique <a
+                href="<?php echo yii::app()->createUrl('curricularmatrix') ?>">aqui</a>.</span>
     </div>
 </div>
