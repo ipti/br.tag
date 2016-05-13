@@ -823,12 +823,30 @@ class AdminController extends Controller
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="/admin/downloadexportfile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
 
         $this->render('index');
+    }
+    public function actionDownloadExportFile()
+    {
+      $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+      if (file_exists($fileDir)) {
+          header('Content-Description: File Transfer');
+          header('Content-Type: application/octet-stream');
+          header('Content-Disposition: attachment; filename="'.basename($fileDir).'"');
+          header('Expires: 0');
+          header('Cache-Control: must-revalidate');
+          header('Pragma: public');
+          header('Content-Length: ' . filesize($fileDir));
+          readfile($fileDir);
+      } else {
+          Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+          $this->render('index');
+      }
+
     }
 
     public function actionCreateUser()
