@@ -158,5 +158,5 @@ table.table-timesheet td {
 
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-    background-color: rgba(173, 216, 230, 0.4) !important;
+    background-color: rgba(173, 216, 230, 0.5) !important;
 }
