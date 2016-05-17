@@ -114,6 +114,7 @@ table.afternoon, table.night {
 table.table-timesheet td {
     width: 180px;
     position: relative;
+    cursor: pointer;
 }
 
 .instructor-name {
@@ -156,7 +157,22 @@ table.table-timesheet td {
     margin: 20px 0;
 }
 
-.table-striped tbody tr:nth-child(odd) td,
-.table-striped tbody tr:nth-child(odd) th {
-    background-color: rgba(173, 216, 230, 0.5) !important;
+.table-timesheet td:hover:not(.schedule-selected){
+    background-color: rgba(173, 216, 230, 0.5)!important;
+}
+
+.schedule-selected, .schedule-selected:hover{
+    background-color: rgba(173, 216, 230, 1)!important;
+}
+
+.schedule-selected .instructor-name:hover{
+    background-color: #f8f8f8 !important;
+}
+.schedule-selected .instructor-name:hover .edit-instructor{
+    display: inline-block!important;
+}
+
+.edit-instructor{
+    float:right;
+    display: none!important;
 }

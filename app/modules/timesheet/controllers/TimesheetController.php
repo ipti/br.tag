@@ -28,7 +28,7 @@ class TimesheetController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
-                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines"
+                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor"
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -196,12 +196,14 @@ class TimesheetController extends Controller
                         $unavailable = $instructor->isUnavailable($schedule->week_day, $schedule->turn, $schedule->schedule);
                         $countConflicts = $instructor->countConflicts($schedule->week_day, $schedule->turn, $schedule->schedule);
                         $instructorInfo = [
+	                        "id" => $schedule->instructorFk->id,
                             "name" => $schedule->instructorFk->name,
                             "unavailable" => $unavailable,
                             "countConflicts" => $countConflicts
                         ];
                     } else {
                         $instructorInfo = [
+	                        "id" => null,
                             "name" => "Sem Instrutor",
                             "unavailable" => false,
                             "countConflicts" => 0
@@ -274,17 +276,6 @@ class TimesheetController extends Controller
             if ($classroom->week_days_saturday) {
                 array_push($weekDays, 6);
             }
-            $schedules = [];
-
-            foreach ($weekDays as $wk) {
-                for ($i = 0; $i < $schedulesQuantity; $i++) {
-                    $schedule = new Schedule();
-                    $schedule->classroom_fk = $classroomId;
-                    $schedule->week_day = $wk;
-                    $schedule->schedule = $i;
-                    array_push($schedules, $schedule);
-                }
-            }
 
             $instructorDisciplines = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :svm", [":svm" => $classroom->edcenso_stage_vs_modality_fk]);
             $instructors = [];
@@ -339,6 +330,18 @@ class TimesheetController extends Controller
                 $i++;
             }
 
+            $schedules = [];
+
+            for ($i = 0; $i < $schedulesQuantity; $i++) {
+                foreach ($weekDays as $wk) {
+                    $schedule = new Schedule();
+                    $schedule->classroom_fk = $classroomId;
+                    $schedule->week_day = $wk;
+                    $schedule->schedule = $i;
+                    array_push($schedules, $schedule);
+                }
+            }
+
             /** @var Schedule $schedule */
             foreach ($schedules as $schedule) {
                 shuffle($disciplines);
@@ -384,4 +387,79 @@ class TimesheetController extends Controller
 
         $this->actionGetTimesheet($classroomId);
     }
+
+    public function actionChangeSchedules(){
+		if(isset($_POST["firstSchedule"], $_POST["secondSchedule"])){
+			$first = $_POST["firstSchedule"]; //{id, week_day, schedule}
+			$second = $_POST["secondSchedule"]; //{id, week_day, schedule}
+			$firstSchedule = null;
+			$secondSchedule = null;
+			if($first['id'] != null){
+				$firstSchedule = Schedule::model()->findByPk($first['id']);
+			}
+			if($second['id'] != null){
+				$secondSchedule = Schedule::model()->findByPk($second['id']);
+			}
+
+			/** @var $firstSchedule Schedule
+			  * @var $secondSchedule Schedule
+			 */
+			$classroomID = null;
+			if($firstSchedule != null && $secondSchedule != null){
+				$tmpWK = $secondSchedule->week_day;
+				$secondSchedule->week_day = $firstSchedule->week_day;
+				$firstSchedule->week_day = $tmpWK;
+
+				$tmpSC = $secondSchedule->schedule;
+				$secondSchedule->schedule = $firstSchedule->schedule;
+				$firstSchedule->schedule = $tmpSC;
+
+				$firstSchedule->save();
+				$secondSchedule->save();
+				$classroomID = $firstSchedule->classroom_fk;
+			}else if($firstSchedule == null && $secondSchedule != null){
+				$secondSchedule->week_day = $first['week_day'];
+				$secondSchedule->schedule = $first['schedule'];
+				$secondSchedule->save();
+				$classroomID = $secondSchedule->classroom_fk;
+			}else if($firstSchedule != null && $secondSchedule == null){
+				$firstSchedule->week_day = $second['week_day'];
+				$firstSchedule->schedule = $second['schedule'];
+				$firstSchedule->save();
+				$classroomID = $firstSchedule->classroom_fk;
+			}
+
+			if($classroomID != null){
+				$this->actionGetTimesheet($classroomID);
+			}
+		}
+
+    }
+
+	public function actionGetInstructors(){
+		if(isset($_POST['discipline'])){
+			$id = $_POST['discipline'];
+			$list = CHtml::listData(InstructorDisciplines::model()->findAllByAttributes(["discipline_fk" => $id]),"instructorFk.id","instructorFk.name");
+			echo  CHtml::tag('option', ["value"=>"null"], "Sem Instrutor");
+			foreach($list as $id => $name){
+				echo  CHtml::tag('option', ["value"=>$id], $name);
+			}
+		}
+	}
+
+	public function actionChangeInstructor(){
+		if(isset($_POST['schedule'], $_POST['instructor'])){
+			$scheduleId = $_POST['schedule'];
+			$instructorId = $_POST['instructor'];
+			if($instructorId == 'null'){
+				$instructorId = null;
+			}
+			/** @var Schedule $schedule */
+			$schedule = Schedule::model()->findByPk($scheduleId);
+			$schedule->instructor_fk = $instructorId;
+			$schedule->save();
+
+			$this->actionGetTimesheet($schedule->classroom_fk);
+		}
+	}
 }

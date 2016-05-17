@@ -8,7 +8,11 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
-$cs->registerScript("vars", "var generateTimesheetURL = '" . $this->createUrl("generateTimesheet") . "';", CClientScript::POS_HEAD);
+$cs->registerScript("vars",
+	"var generateTimesheetURL = '" . $this->createUrl("generateTimesheet") . "'; ".
+    "var changeSchedulesURL = '" . $this->createUrl("changeSchedules") . "'; " .
+	"var getInstructorsUrl = '" . $this->createUrl("getInstructors") . "'; " .
+	"var changeInstructorUrl = '" . $this->createUrl("changeInstructor") . "'; ", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
@@ -124,4 +128,46 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <span>A etapa desta turma não possui matriz curricular. Para criar uma, clique <a
                 href="<?php echo yii::app()->createUrl('curricularmatrix') ?>">aqui</a>.</span>
     </div>
+</div>
+
+
+
+<div class="modal fade" id="change-instructor-modal" tabindex="-1" role="dialog"
+     aria-labelledby="<?= Yii::t("timesheetModule.timesheet", "Change Instructor") ?>">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+				        aria-label="<?= Yii::t("timesheetModule.timesheet", "Close") ?>">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title"
+				    id="myModalLabel"><?= Yii::t("timesheetModule.timesheet", "Change Instructor") ?></h4>
+			</div>
+			<div class="modal-body">
+				<div class="row-fluid">
+					<form id="change-instructor-form" method="POST">
+						<div class=" span12">
+							<input type="hidden" id="change-instructor-schedule"/>
+							<?= CHtml::label(Yii::t("timesheetModule.timesheet", "Instructor"), "change-instructor-id", ['class' => 'control-label']); ?>
+							<div class="span12">
+								<?= CHtml::dropDownList("change-instructor-id", "",[], [
+									"class" => "select-search-on span11"
+								]) ?>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<?= yii::t("timesheetModule.timesheet", "Cancel") ?>
+				</button>
+				<button type="button" class="btn btn-primary" id="change-instructor-button">
+					<?= yii::t("timesheetModule.timesheet", "Change") ?>
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
