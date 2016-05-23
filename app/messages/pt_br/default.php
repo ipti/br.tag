@@ -76,7 +76,10 @@ return array(
     'Regulation' => 'Regulamentação',
     'Act of acknowledgement' => 'Ato de reconhecimento',
     'Logo' => 'Brasão da escola',
-    
+    'Offer Or Linked Unity' => 'Unidade vinculada de Educação Básica ou ofertante de Ensino Superior',
+    'Inep Head School' => 'Código da Escola Sede',
+    'Ies Code' => 'Código da IES',
+
     //School Structure
     'School Inep Id Fk' => 'Escola',
     'Manager Cpf' => 'CPF do Gestor',
@@ -163,6 +166,7 @@ return array(
     'Equipments Fax' => 'Fax',
     'Equipments Camera' => 'Máquina Fotográfica',
     'Equipments Computer' => 'Computadores',
+    'Equipments Multifunctional Printer' => 'Impressora Multifuncional',
     'Administrative Computers Count' => 'Computadores de Uso Administrativo',
     'Student Computers Count' => 'Computadores de Uso Estudantil',
     'Internet Access' => 'Acesso à Internet',
@@ -278,6 +282,7 @@ return array(
     'Turn' => 'Turno',
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     'Writing' => 'Redação',
+    'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -402,7 +407,9 @@ return array(
     'Birthday Date' => 'Data de Nascimento',
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
-    'Mother Name' => 'Nome Completo da Mãe',
+    'Filiation' => 'Filiação',
+    'Filiation 1' => 'Nome Completo da Mãe',
+    'Filiation 2' => 'Nome Completo do Pai',
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
     'Full name' => 'Nome completo',

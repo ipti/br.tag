@@ -400,19 +400,6 @@ $('#InstructorVariableData_high_education_final_year_1,\n\
     }
 });
 
-$(formInstructorvariableData + 'high_education_institution_type_1').on('change', function() {
-    filter[1] = $(this).val();
-    actualFilter = filter[1];
-});
-$(formInstructorvariableData + 'high_education_institution_type_2').on('change', function() {
-    filter[2] = $(this).val();
-    actualFilter = filter[2];
-});
-$(formInstructorvariableData + 'high_education_institution_type_3').on('change', function() {
-    filter[3] = $(this).val();
-    actualFilter = filter[3];
-});
-
 $(formInstructorvariableData + 'scholarity').on('change', function() {
     if ($(this).val() == 6) {
         $("#instructorVariableData").show();
@@ -425,7 +412,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_1_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_1').removeAttr('disabled');
         $(formInstructorvariableData + 'high_education_institution_code_1_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'high_education_situation_2').removeAttr('disabled');
@@ -433,7 +419,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_2_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_2').removeAttr('disabled');
         $(formInstructorvariableData + 'high_education_institution_code_2_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'high_education_situation_3').removeAttr('disabled');
@@ -441,7 +426,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_3_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_3').removeAttr('disabled');
         $(formInstructorvariableData + 'high_education_institution_code_3_fk').removeAttr('disabled');
 
         $(formInstructorvariableData + 'post_graduation_specialization').removeAttr('disabled');
@@ -474,7 +458,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_1_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled', 'disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_1').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_institution_code_1_fk').add().attr('disabled', 'disabled');
 
         $(formInstructorvariableData + 'high_education_situation_2').add().attr('disabled', 'disabled');
@@ -482,7 +465,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_2_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled', 'disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_2').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_institution_code_2_fk').add().attr('disabled', 'disabled');
 
         $(formInstructorvariableData + 'high_education_situation_3').add().attr('disabled', 'disabled');
@@ -490,7 +472,6 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
         $(formInstructorvariableData + 'high_education_course_code_3_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_final_year_3').add().attr('disabled', 'disabled');
-        $(formInstructorvariableData + 'high_education_institution_type_3').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_institution_code_3_fk').add().attr('disabled', 'disabled');
 
         $(formInstructorvariableData + 'post_graduation_specialization').add().attr('disabled', 'disabled');

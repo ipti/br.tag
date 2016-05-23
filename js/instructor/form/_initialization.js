@@ -11,13 +11,13 @@ $(document).ready(function() {
         placeholder: "Selecione a Instituição",
         minimumInputLength: 3,
         ajax: {
-            url: "<?php echo CController::createUrl('instructor/getInstitutions'); ?>",
+            type: 'POST',
+            url: GET_INSTITUTIONS,
             dataType: 'json',
             quietMillis: 500,
             data: function(term, page) { // page is the one-based page number tracked by Select2
                 return {
                     q: term, //search term
-                    f: actualFilter,
                     page: page // page number
                 };
             },

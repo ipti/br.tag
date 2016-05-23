@@ -147,7 +147,7 @@ class InstructorController extends Controller {
             if (isset($modelInstructorVariableData->scholarity) &&
                     $modelInstructorVariableData->scholarity == 6) {
 
-                if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_type_1, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_type_2, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_type_3, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
+                if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
                     $saveVariableData = true;
                 } else {
                     $error['variableData'] = "Pelo menos uma situação do curso superior, código
@@ -252,7 +252,7 @@ preenchidos";
             if (isset($modelInstructorVariableData->scholarity) &&
                     $modelInstructorVariableData->scholarity == 6) {
 
-                if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_type_1, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_type_2, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_type_3, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
+                if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
                     $saveVariableData = true;
                 } else {
                     $error['variableData'] = "Pelo menos uma situação do curso superior, código
@@ -399,12 +399,11 @@ preenchidos";
 
     //@done s1 - Criar Função que retorna instituições filtrando por tipo
     //@done s1 - Modificar função para que ela fique mais rápida
-    public function actionGetInstitutions($q, $f, $page) {
+    public function actionGetInstitutions() {
+        $q = $_POST['q'];
+        $page = $_POST['page'];
 
-        $institution_type = $f == 0 ? '' : ($f == 1 ? 'PÚBLICA' : 'PRIVADA');
-
-        $condition = $f == 0 ? '' : "institution_type='$institution_type' AND ";
-        $condition .= "name like '%$q%'";
+        $condition = "name like '%$q%'";
 
         $sql = "SELECT COUNT(*) as total FROM edcenso_ies where ".$condition;
         $command = Yii::app()->db->createCommand($sql);
