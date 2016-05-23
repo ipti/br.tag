@@ -67,7 +67,7 @@ class ConfigurationController extends Controller {
             $this->render('index');
         }
         $this->render('classrooms', array(
-            'title' => Yii::t('default', 'Classroom Configurarion')
+            'title' => Yii::t('default', 'Classroom Configuration')
         ));
     }
 
@@ -102,7 +102,7 @@ class ConfigurationController extends Controller {
             $this->render('index');
         }else {
             $this->render('students', array(
-                'title' => Yii::t('app', 'Student Configurarion')
+                'title' => Yii::t('default', 'Student Configuration')
             ));
         }
     }

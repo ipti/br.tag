@@ -1,0 +1,178 @@
+
+.text-right {
+    text-align: right !important;
+}
+
+/*For right align*/
+.text-left {
+    text-align: left !important;
+}
+
+/*For left align*/
+.text-center {
+    text-align: center !important;
+}
+
+/*For center align*/
+
+.modal, .modal-dialog, .modal-content, .modal-header {
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.modal-title {
+    padding-top: 6px !important;
+}
+
+form {
+    margin: 0 !important;
+}
+
+.divider {
+    margin: 0 3px;
+    width: 0;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #bfc2c5;
+    height: 10px;
+}
+
+.table-unavailability tr th {
+    text-align: center;
+}
+
+.table-unavailability tr:hover {
+    background-color: #cccccc !important;
+}
+
+.table-unavailability tr:hover:first-child {
+    background-color: transparent !important;
+}
+
+.table-unavailability tr:hover .available {
+    background-color: green !important;
+}
+
+.table-unavailability tr:hover .unavailable {
+    background-color: red !important;
+}
+
+.table-unavailability tr td {
+    width: 13%;
+}
+
+.schedule {
+    width: 100px;
+}
+
+.available {
+    background-color: lightgreen !important;
+}
+
+.unavailable {
+    background-color: lightcoral !important;
+}
+
+.table-container {
+    display: none;
+}
+
+.display-hide {
+    display: none !important;
+}
+
+table.afternoon, table.night {
+    display: none;
+}
+
+.instructor-container {
+    margin-top: 10px;
+}
+
+.menu {
+    border: 1px solid #e5e5e5;
+}
+
+.menu div {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 4px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu div.selected {
+    background: #CCCCCC;
+}
+
+.menu div:hover {
+    background: #cccccc;
+}
+
+.menu div:last-of-type {
+    border: 0;
+}
+
+table.table-timesheet td {
+    width: 180px;
+    position: relative;
+    cursor: pointer;
+}
+
+.instructor-name {
+    font-size: 9px !important;
+    line-height: initial !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+}
+
+.discipline-name {
+    line-height: initial !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+}
+
+.unavailability-icon {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+}
+
+.conflict-icon {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+}
+
+.darkgoldenrod {
+    color: darkgoldenrod;
+}
+
+.darkred {
+    color: darkred;
+}
+
+#turn {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.table-timesheet td:hover:not(.schedule-selected){
+    background-color: rgba(173, 216, 230, 0.5)!important;
+}
+
+.schedule-selected, .schedule-selected:hover{
+    background-color: rgba(173, 216, 230, 1)!important;
+}
+
+.schedule-selected .instructor-name:hover{
+    background-color: #f8f8f8 !important;
+}
+.schedule-selected .instructor-name:hover .edit-instructor{
+    display: inline-block!important;
+}
+
+.edit-instructor{
+    float:right;
+    display: none!important;
+}
