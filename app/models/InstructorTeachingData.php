@@ -88,9 +88,10 @@ class InstructorTeachingData extends CActiveRecord
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, classroom_inep_id', 'length', 'max'=>8),
 			array('instructor_inep_id', 'length', 'max'=>12),
+			array('fkid', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, instructor_inep_id, instructor_fk, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, id', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, instructor_inep_id, instructor_fk, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, id, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
