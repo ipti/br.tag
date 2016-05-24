@@ -55,6 +55,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <i></i><?php echo Yii::t('default', 'Identification') ?>
                     </a>
                 </li>
+                <li id="tab-student-deficiency">
+                    <a class="glyphicons vcard" href="#student-deficiency" data-toggle="tab">
+                        <i></i><?php echo 'Deficiência' ?>
+                    </a>
+                </li>
                 <li id="tab-student-documents">
                     <a class="glyphicons credit_card" href="#student-documents" data-toggle="tab">
                         <i></i><?php echo Yii::t('default', 'Documents') ?>
@@ -316,6 +321,68 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab Student Deficiency -->
+                <div class="tab-pane" id="student-deficiency">
+                    <div class="row-fluid">
+                        <div class="span12">
+                                <div class="span3">
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_aspenger_syndrome']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_aspenger_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_rett_syndrome']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_rett_syndrome', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_childhood_disintegrative_disorder']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_childhood_disintegrative_disorder', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+
                         </div>
                     </div>
                 </div>
