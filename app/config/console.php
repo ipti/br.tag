@@ -19,6 +19,7 @@ return array(
             'password' => '123456',
             'charset' => 'utf8',
         ),
+
 		
 		'log'=>array(
 			'class'=>'CLogRouter',
