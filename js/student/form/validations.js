@@ -192,6 +192,9 @@ $(formIdentification + 'deficiency_type_gifted').on('click', function() {
     else {
         $(formIdentification + 'deficiency_type_intelectual_disability').removeAttr('disabled');
     }
+    if (false) {
+
+    }
 });
 $(formIdentification + 'deficiency_type_blindness').on('click', function() {
     if (($(formIdentification + 'deficiency_type_blindness').is(':checked') && $(formIdentification + 'deficiency_type_phisical_disability').is(':checked'))
