@@ -18,7 +18,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <br/>
-<div class="innerLR boquim">
+<div class="innerLR district">
     <div>
         
         <script type="text/javascript">
@@ -42,8 +42,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div id="report" style="font-size: 10px">
 
             <div id="container-header" style="display:table; margin: 0 auto;margin-top: -30px;text-align: center;">                
-                <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin: 0 auto; display: block">
-                <span style="margin-top: 5px; font-size: 12px">PREFEITURA MUNICIPAL DE BOQUIM<br>
+                <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="margin: 0 auto; display: block">
+                <span style="margin-top: 5px; font-size: 12px">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO<!--, CULTURA, ESPORTE, LAZER E TURISMO--><br>
                     BASE LEGAL: LEI FEDERAL - 9394/96 - LEI MUNICIPAL: 523/2006<br>
                     PARECER: 10/2007/CMEB, RESOLUÇÕES: 45/2010/CMEB, 44/2010/CMEB, 35/2009/CMEB, 23/2008/CMEB
@@ -653,7 +653,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             
             <br>
             <table>
-                <tr><td>ESPAÇO DESTINADO À DIVISÃO DE INSPEÇÃO DA SECRETARIA DE EDUCAÇÃO DE BOQUIM</td></tr>
+                <tr><td>ESPAÇO DESTINADO À DIVISÃO DE INSPEÇÃO DA SECRETARIA DE EDUCAÇÃO DE <?=strtoupper($school->edcensoCityFk->name)?></td></tr>
                 <tr><td>OBSERVAÇÕES<br><br><br><br><br></td></tr>
             </table>
             
@@ -679,7 +679,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </table>
             
             <br><br><br>
-            <span class="pull-right">Boquim/SE, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."; ?></span>
+            <span class="pull-right"><?=$school->edcensoCityFk->name?>/<?=$school->edcensoUfFk->acronym?>, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."; ?></span>
             <br><br><br>
             <div class="pull-left" style="text-align: center">
                 <span>______________________________________________________________________</span>

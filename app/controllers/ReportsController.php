@@ -9,7 +9,7 @@ class ReportsController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                                    'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
+                                    'InstructorsPerClassroomReport','StudentsFileReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance',
@@ -108,21 +108,17 @@ class ReportsController extends Controller {
             'report' => $result
         ));         
     }
- 
-    public function actionStudentsFileReport() {
-        $this->render('StudentsFileReport', array());         
-    }
     
-    public function actionGetStudentsFileBoquimInformation($enrollment_id){
-        $sql = "SELECT * FROM studentsfile_boquim WHERE enrollment_id = ".$enrollment_id.";";
+    public function actionGetStudentsFileInformation($enrollment_id){
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
         echo json_encode($result);
     }
     
-    public function actionStudentsFileBoquimReport($enrollment_id) {
+    public function actionStudentsFileReport($enrollment_id) {
         $this->layout = "reports";
-        $this->render('StudentsFileBoquimReport', array('enrollment_id'=>$enrollment_id));
+        $this->render('StudentsFileReport', array('enrollment_id'=>$enrollment_id));
     }
     
     public function actionEnrollmentDeclarationReport($enrollment_id) {
@@ -135,19 +131,12 @@ class ReportsController extends Controller {
     }
     
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
-        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
+        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, sd.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
                 . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         
         echo json_encode($result);        
-    }
-    
-    public function actionGetStudentsFileInformation($student_id){
-        $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";
-        $result = Yii::app()->db->createCommand($sql)->queryRow();
-        
-        echo json_encode($result);
     }
     
     public function actionBFReport() {
@@ -181,11 +170,12 @@ class ReportsController extends Controller {
         
         $command = Yii::app()->db->createCommand();
         //day é um armengo, se colocar colunas que não estão na tabela o count não aparece na array
-        $command->select = 'c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults ';
+        $command->select = 'c.name classroom, si.name student, sd.nis nis, si.birthday, t.month, count(*) count , cf.faults ';
         $command->from = 'class t ';
         $command->join  ='left join classroom c on c.id = t.classroom_fk ';
         $command->join .='left join student_enrollment se on se.classroom_fk = t.classroom_fk ';
         $command->join .='left join student_identification si on se.student_fk = si.id ';
+        $command->join .='left join student_documents_and_address sd on sd.id = si.id ';
         $command->join .='left join (
             SELECT class.classroom_fk, class.month, student_fk, count(*) faults 
             FROM class_faults cf
