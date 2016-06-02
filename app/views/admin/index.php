@@ -11,7 +11,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Administration'); ?></h3>  
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Administration'); ?></h3>
     </div>
 </div>
 
@@ -120,6 +120,13 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <div class="clearfix"></div>
                     </a>
                 </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/centralize') ?>" class="widget-stats"'>
+                    <span class="glyphicons inbox"><i></i></span>
+                    <span class="txt">Centralizador</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
 
         </div>
     </div>
