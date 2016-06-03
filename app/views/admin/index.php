@@ -121,13 +121,28 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     </a>
                 </div>
             <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('admin/centralize') ?>" class="widget-stats"'>
+                <a href="<?php echo Yii::app()->createUrl('admin/exportToMaster') ?>" class="widget-stats"'>
                     <span class="glyphicons inbox"><i></i></span>
-                    <span class="txt">Centralizador</span>
+                    <span class="txt">Exportar para o banco mestre</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
-
+        </div>
+        <div class="span6">
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/cleanMaster') ?>" class="widget-stats">
+                    <span class="glyphicons cleaning"><i></i></span>
+                    <span class="txt">Higienizar Banco mestre</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/importFromMaster') ?>" class="widget-stats">
+                    <span class="glyphicons bomb"><i></i></span>
+                    <span class="txt">Importar do banco mestre</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
         </div>
     </div>
 

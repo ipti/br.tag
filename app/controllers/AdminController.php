@@ -26,7 +26,7 @@ class AdminController extends Controller
                 'actions' => array('import', 'export',
                     'clearDB', 'acl',
                     'backup', 'data',
-                    'exportStudentIdentify', 'syncExport', 'syncImport', 'centralize'),
+                    'exportStudentIdentify', 'syncExport', 'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'),
                 'users' => array('@'),
             ),
         );
@@ -1257,8 +1257,15 @@ class AdminController extends Controller
         return $str_fields;
     }
 
-    public function actionCentralize()
+    public function actionExportToMaster()
     {
+        $importToFile = false;
+        try {
+            Yii::app()->db2;
+        } catch (Exception $e) {
+            $importToFile = true;
+        }
+
         ini_set('memory_limit', '256M');
 
         $sql = "";
@@ -1270,7 +1277,7 @@ class AdminController extends Controller
         for ($i = 0; $i < count($tables); $i++) {
             $array = array();
             $objects = "";
-            switch($i) {
+            switch ($i) {
                 case "0":
                     $objects = SchoolIdentification::model()->findAll();
                     break;
@@ -1303,7 +1310,7 @@ class AdminController extends Controller
                     break;
             }
             foreach ($objects as $object) {
-                if ($i == 0) { //remover atributo blobado
+                if ($i == 0) { //remover atributo blob do school_identification
                     $object->logo_file_content = "";
                 }
                 array_push($array, $object->attributes);
@@ -1316,13 +1323,37 @@ class AdminController extends Controller
             $sql = substr($sql, 0, -1) . ";";
         }
 
-        yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+        if ($importToFile) {
+            ini_set('memory_limit', '128M');
+            $fileName = "./app/export/exportSQL " . date("Y-m-d") . ".sql";
+            $file = fopen($fileName, "w");
+            fwrite($file, $sql);
+            fclose($file);
+            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($fileName));
+            header("Connection: close");
 
-        ini_set('memory_limit', '128M');
-
-        $this->redirect(array('index'));
+            $file = fopen($fileName, "r");
+            fpassthru($file);
+            fclose($file);
+            unlink($fileName);
+            return;
+        } else {
+            yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+            ini_set('memory_limit', '128M');
+            $this->redirect(array('index'));
+        }
     }
 
+    public function actionCleanMaster()
+    {
+
+    }
+
+    public function importFromMaster() {
+
+    }
 }
 
 ?>
