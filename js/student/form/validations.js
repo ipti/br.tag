@@ -436,12 +436,13 @@ $('#resource_type ' + rNone).change(function () {
 
 $(deficiency).change(function () {
     if ($(this).is(":checked")) {
-        $(allDeficiency).attr('checked', false).removeAttr('disabled');
-        $("#deficiency_type").show();
+        $(allDeficiency).removeAttr('disabled');
+        $("#StudentIdentification_deficiencies").parent(".control-group").show();
     } else {
-        $(allDeficiency).attr('disabled', "disabled");
+
+        $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
         $(allResource).attr('disabled', "disabled");
-        $("#deficiency_type").hide();
+        $("#StudentIdentification_deficiencies").parent(".control-group").hide();
         $("#resource_type").hide();
     }
 });

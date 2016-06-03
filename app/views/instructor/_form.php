@@ -203,32 +203,32 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     <label class="checkbox">
                                         <?php
                                         echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
-                                        echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true));
+                                        echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0));
                                         ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
-                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'disabled' => true)); ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
                             </div>

@@ -89,7 +89,7 @@ return array(
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.local.tag',
+            'connectionString' => 'mysql:host=localhost:3306;dbname=br.org.ipti.local.tag',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',

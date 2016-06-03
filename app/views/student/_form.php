@@ -55,11 +55,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         <i></i><?php echo Yii::t('default', 'Identification') ?>
                     </a>
                 </li>
-                <li id="tab-student-deficiency">
-                    <a class="glyphicons vcard" href="#student-deficiency" data-toggle="tab">
-                        <i></i><?php echo 'Deficiência' ?>
-                    </a>
-                </li>
                 <li id="tab-student-documents">
                     <a class="glyphicons credit_card" href="#student-documents" data-toggle="tab">
                         <i></i><?php echo Yii::t('default', 'Documents') ?>
@@ -321,14 +316,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'send_year'); ?>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Tab Student Deficiency -->
-                <div class="tab-pane" id="student-deficiency">
-                    <div class="row-fluid">
-                        <div class="span12">
-                                <div class="span3">
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                                <div class="uniformjs margin-left" id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -382,7 +381,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
-
+                            </div>
                         </div>
                     </div>
                 </div>
