@@ -46,7 +46,6 @@ $(document).ready(function(){
     }
 
 
-
 });
 
 $('.heading-buttons').css('width', $('#content').width());
