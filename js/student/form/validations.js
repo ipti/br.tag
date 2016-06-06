@@ -177,7 +177,10 @@ $(allResource).click(function () {
 
 
 // Contador de checkboxes selecionadas, necessário para verificar se o aluno possui deficiência múltipla
-var countDeficiency = 0;
+var countDeficiency = $("#StudentIdentification_deficiencies input[checked='checked']").length;
+if (countDeficiency > 1) {
+    $(formIdentification + 'deficiency_type_multiple_disabilities').attr('checked', 'checked');
+}
 
 $(formIdentification + 'deficiency_type_blindness').on('click', function() {
     if ($(this).is(':checked')) {
@@ -439,7 +442,7 @@ $(deficiency).change(function () {
         $(allDeficiency).removeAttr('disabled');
         $("#StudentIdentification_deficiencies").parent(".control-group").show();
     } else {
-
+        countDeficiency = 0;
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
         $(allResource).attr('disabled', "disabled");
         $("#StudentIdentification_deficiencies").parent(".control-group").hide();

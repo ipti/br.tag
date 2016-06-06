@@ -13,6 +13,40 @@ $(document).ready(function(){
     }
     $(".tab-student").show();
     $(".tab-content").show();
+
+    if ($(formIdentification + "deficiency_type_blindness").is(":checked")){
+        $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_low_vision").is(":checked")){
+        $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_deafness").is(":checked")){
+        $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_disability_hearing").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_disability_hearing").is(":checked")){
+        $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafblindness").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_deafblindness").is(":checked")){
+        $(formIdentification + "deficiency_type_blindness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_low_vision").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_deafness").attr("disabled", "disabled");
+        $(formIdentification + "deficiency_type_disability_hearing").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_intelectual_disability").is(":checked")){
+        $(formIdentification + "deficiency_type_gifted").attr("disabled", "disabled");
+    }
+    if ($(formIdentification + "deficiency_type_gifted").is(":checked")){
+        $(formIdentification + "deficiency_type_intelectual_disability").attr("disabled", "disabled");
+    }
+
+
+
 });
 
 $('.heading-buttons').css('width', $('#content').width());
