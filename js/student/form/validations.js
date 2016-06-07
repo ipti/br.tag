@@ -198,9 +198,11 @@ $(formIdentification + 'deficiency_type_blindness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
+        if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+            $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
         $(formIdentification + 'deficiency_type_low_vision').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
     }
 });
 
@@ -219,8 +221,12 @@ $(formIdentification + 'deficiency_type_low_vision').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_deafness').is(':checked')){
+            $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+                $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
 });
 
@@ -241,9 +247,11 @@ $(formIdentification + 'deficiency_type_deafness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')){
+            $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
         $(formIdentification + 'deficiency_type_disability_hearing').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
     }
 });
 
@@ -262,8 +270,12 @@ $(formIdentification + 'deficiency_type_disability_hearing').on('click', functio
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_blindness').is(':checked')) {
+            $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')) {
+                $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
 });
 $(formIdentification + 'deficiency_type_deafblindness').on('click', function() {
