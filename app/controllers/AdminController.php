@@ -1348,10 +1348,13 @@ class AdminController extends Controller
 
     public function actionCleanMaster()
     {
+        $schoolSql = "select s1.* from school_identification as s1 join school_identification as s2 on (s1.name = s2.name and s1.cep = s2.cep and s1.inep_id != s2.inep_id)";
+        $schools = Yii::app()->db->schema->commandBuilder->createSqlCommand($schoolSql)->query();
 
     }
 
-    public function importFromMaster() {
+    public function importFromMaster()
+    {
 
     }
 }

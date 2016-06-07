@@ -49,13 +49,13 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <div class="clearfix"></div>
                     </a>
                 </div>
-                <div class="span3">
-                    <a href="<?php echo Yii::app()->createUrl('admin/clearDB') ?>" class="widget-stats">
-                        <span class="glyphicons database_minus"><i></i></span>
-                        <span class="txt">Limpar Banco</span>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
+<!--                <div class="span3">-->
+<!--                    <a href="--><?php //echo Yii::app()->createUrl('admin/clearDB') ?><!--" class="widget-stats">-->
+<!--                        <span class="glyphicons database_minus"><i></i></span>-->
+<!--                        <span class="txt">Limpar Banco</span>-->
+<!--                        <div class="clearfix"></div>-->
+<!--                    </a>-->
+<!--                </div>-->
                 <div class="span3">
                     <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>" class="widget-stats">
                         <span class="glyphicons user"><i></i></span>
@@ -120,15 +120,15 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                         <div class="clearfix"></div>
                     </a>
                 </div>
-            <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('admin/exportToMaster') ?>" class="widget-stats"'>
-                    <span class="glyphicons inbox"><i></i></span>
-                    <span class="txt">Exportar para o banco mestre</span>
-                    <div class="clearfix"></div>
-                </a>
-            </div>
         </div>
         <div class="span6">
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/exportToMaster') ?>" class="widget-stats"'>
+                <span class="glyphicons inbox"><i></i></span>
+                <span class="txt">Exportar para o banco mestre</span>
+                <div class="clearfix"></div>
+                </a>
+            </div>
             <div class="span3">
                 <a href="<?php echo Yii::app()->createUrl('admin/cleanMaster') ?>" class="widget-stats">
                     <span class="glyphicons cleaning"><i></i></span>
