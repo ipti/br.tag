@@ -1,8 +1,8 @@
 var simple = getUrlVars()['simple'];
 if (simple == '1') {
-    var tabs = ['tab-student-identify', 'tab-student-deficiency', 'tab-student-address', 'tab-student-enrollment'];
+    var tabs = ['tab-student-identify', 'tab-student-address', 'tab-student-enrollment'];
 }else{
-    var tabs = ['tab-student-identify', 'tab-student-deficiency', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
+    var tabs = ['tab-student-identify', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment'];
 }
 function changeTab(index){
 	var activeTab = $('li[class="active"]');

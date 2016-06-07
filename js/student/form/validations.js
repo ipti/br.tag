@@ -177,7 +177,10 @@ $(allResource).click(function () {
 
 
 // Contador de checkboxes selecionadas, necessário para verificar se o aluno possui deficiência múltipla
-var countDeficiency = 0;
+var countDeficiency = $("#StudentIdentification_deficiencies input[checked='checked']").length;
+if (countDeficiency > 1) {
+    $(formIdentification + 'deficiency_type_multiple_disabilities').attr('checked', 'checked');
+}
 
 $(formIdentification + 'deficiency_type_blindness').on('click', function() {
     if ($(this).is(':checked')) {
@@ -195,9 +198,11 @@ $(formIdentification + 'deficiency_type_blindness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
+        if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+            $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
         $(formIdentification + 'deficiency_type_low_vision').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
     }
 });
 
@@ -216,8 +221,12 @@ $(formIdentification + 'deficiency_type_low_vision').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_deafness').is(':checked')){
+            $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+                $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
 });
 
@@ -238,9 +247,11 @@ $(formIdentification + 'deficiency_type_deafness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')){
+            $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
+            $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        }
         $(formIdentification + 'deficiency_type_disability_hearing').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
     }
 });
 
@@ -259,8 +270,12 @@ $(formIdentification + 'deficiency_type_disability_hearing').on('click', functio
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
-        $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+        if (!$(formIdentification + 'deficiency_type_blindness').is(':checked')) {
+            $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
+            if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')) {
+                $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
+            }
+        }
     }
 });
 $(formIdentification + 'deficiency_type_deafblindness').on('click', function() {
@@ -436,12 +451,13 @@ $('#resource_type ' + rNone).change(function () {
 
 $(deficiency).change(function () {
     if ($(this).is(":checked")) {
-        $(allDeficiency).attr('checked', false).removeAttr('disabled');
-        $("#deficiency_type").show();
+        $(allDeficiency).removeAttr('disabled');
+        $("#StudentIdentification_deficiencies").parent(".control-group").show();
     } else {
-        $(allDeficiency).attr('disabled', "disabled");
+        countDeficiency = 0;
+        $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
         $(allResource).attr('disabled', "disabled");
-        $("#deficiency_type").hide();
+        $("#StudentIdentification_deficiencies").parent(".control-group").hide();
         $("#resource_type").hide();
     }
 });
