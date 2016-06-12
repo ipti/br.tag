@@ -49,18 +49,18 @@ class m160128_135744_calendar_tables extends CDbMigration{
         //classroom -> calendar
         $this->addForeignKey('classroom_calendar','classroom','calendar_fk','calendar','id','CASCADE','CASCADE');
 
-        $this->insert('calendar_event_type', [id=>101, name=>'Holyday', icon=>'fa-square', color=>'red', copyable=>1]);
-        $this->insert('calendar_event_type', [id=>102, name=>'Vacation', icon=>'fa-square', color=>'green', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>103, name=>'Commemoration', icon=>'fa-star', color=>'yellow', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>201, name=>'Admnistrative Meeting', icon=>'fa-group', color=>'green', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>202, name=>'Parents Meeting', icon=>'fa-group', color=>'yellow', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>203, name=>'Planning', icon=>'fa-group', color=>'blue', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>301, name=>'Saturday School', icon=>'fa-square', color=>'black', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>302, name=>'Replacement', icon=>'fa-square-o', color=>'black', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>401, name=>'Exam', icon=>'fa-file-text', color=>'pink', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>402, name=>'Semester Recovery', icon=>'fa-file-text', color=>'yellow', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>403, name=>'Final Exam', icon=>'fa-file-text', color=>'purple', copyable=>0]);
-        $this->insert('calendar_event_type', [id=>501, name=>'Continuing Education', icon=>'fa-square', color=>'purple', copyable=>0]);
+        $this->insert('calendar_event_type', ['id'=>101, 'name'=>'Holyday', 'icon'=>'fa-square', 'color'=>'red', 'copyable'=>1]);
+        $this->insert('calendar_event_type', ['id'=>102, 'name'=>'Vacation', 'icon'=>'fa-square', 'color'=>'green', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>103, 'name'=>'Commemoration', 'icon'=>'fa-star', 'color'=>'yellow', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>201, 'name'=>'Admnistrative Meeting', 'icon'=>'fa-group', 'color'=>'green', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>202, 'name'=>'Parents Meeting', 'icon'=>'fa-group', 'color'=>'yellow', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>203, 'name'=>'Planning', 'icon'=>'fa-group', 'color'=>'blue', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>301, 'name'=>'Saturday School', 'icon'=>'fa-square', 'color'=>'black', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>302, 'name'=>'Replacement', 'icon'=>'fa-square-o', 'color'=>'black', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>401, 'name'=>'Exam', 'icon'=>'fa-file-text', 'color'=>'pink', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>402, 'name'=>'Semester Recovery', 'icon'=>'fa-file-text', 'color'=>'yellow', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>403, 'name'=>'Final Exam', 'icon'=>'fa-file-text', 'color'=>'purple', 'copyable'=>0]);
+        $this->insert('calendar_event_type', ['id'=>501, 'name'=>'Continuing Education', 'icon'=>'fa-square', 'color'=>'purple', 'copyable'=>0]);
 
 	}
 
