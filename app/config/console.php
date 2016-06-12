@@ -13,12 +13,13 @@ return array(
 	'components'=>array(
 
 		'db' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.boquim.tag',
+            'connectionString' => 'mysql:host=localhost:3306;dbname=br.org.ipti.local.tag',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',
             'charset' => 'utf8',
         ),
+
 		
 		'log'=>array(
 			'class'=>'CLogRouter',

@@ -50,3 +50,11 @@ $(document).ready(function() {
     $(formInstructorIdentification + "edcenso_city_fk").select2("disable", "true");
     $(formInstructorIdentification + "nationality").trigger("change");
 });
+
+$("#InstructorIdentification_deficiency").change(function(){
+    if ($(this).is(":checked")){
+        $("#InstructorIdentification_deficiencies").parent(".control-group").show();
+    } else {
+        $("#InstructorIdentification_deficiencies").parent(".control-group").hide();
+    }
+});

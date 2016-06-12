@@ -276,7 +276,7 @@ class StudentIdentification extends CActiveRecord {
 
 
     public function getCurrentStageVsModality(){
-        $sid = $this->id;
+        $sid = isset($this->id) ? $this->id : 0;
         $sql = "select student_fk student, se.id enrollment, se.edcenso_stage_vs_modality_fk enrollment_svm, c.edcenso_stage_vs_modality_fk classroom_svm from student_enrollment se
                   join classroom c on c.id = se.classroom_fk
                 where se.student_fk = $sid
