@@ -10,7 +10,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
-
+$this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 ?>
 
 <?php if (Yii::app()->user->hasFlash('success')): ?>

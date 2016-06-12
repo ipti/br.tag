@@ -79,21 +79,21 @@ $(formIdentification + 'birthday').focusout(function () {
 });
 
 $(formIdentification + 'filiation').change(function () {
-    $(formIdentification + 'mother_name').attr("disabled", "disabled");
-    $(formIdentification + 'father_name').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_1').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_2').attr("disabled", "disabled");
 
     if ($(formIdentification + 'filiation').val() == 1) {
-        $(formIdentification + 'mother_name').removeAttr("disabled");
-        $(formIdentification + 'father_name').removeAttr("disabled");
+        $(formIdentification + 'filiation_1').removeAttr("disabled");
+        $(formIdentification + 'filiation_2').removeAttr("disabled");
     }
     else {
-        $(formIdentification + 'mother_name').val("");
-        $(formIdentification + 'father_name').val("");
+        $(formIdentification + 'filiation_1').val("");
+        $(formIdentification + 'filiation_2').val("");
     }
 });
 
-$(formIdentification + 'mother_name, '
-        + formIdentification + 'father_name').focusout(function () {
+$(formIdentification + 'filiation_1, '
+        + formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     var ret = validateNamePerson(($(id).val()));
@@ -104,8 +104,8 @@ $(formIdentification + 'mother_name, '
         removeError(id);
     }
 
-    if ($(formIdentification + 'mother_name').val() == $(formIdentification + 'father_name').val()) {
-        $(formIdentification + 'father_name').attr('value', '');
+    if ($(formIdentification + 'filiation_1').val() == $(formIdentification + 'filiation_2').val()) {
+        $(formIdentification + 'filiation_2').attr('value', '');
         addError(id, "Campo não está dentro das regras.");
     } else {
         removeError(id);

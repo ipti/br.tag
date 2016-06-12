@@ -116,7 +116,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     height: auto;
     width: auto;
     opacity: 0;
-    z-index: 9998;
+    z-index: 10001;
     /* styles required for IE to work */
     background-color: #fff;
     filter: alpha(opacity=0);
@@ -126,7 +126,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     width: 100%;
     margin-top: -1px;
     position: absolute;
-    z-index: 9999;
+    z-index: 10002;
     top: 100%;
 
     background: #fff;

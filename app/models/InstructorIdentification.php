@@ -14,7 +14,9 @@
  * @property string $birthday_date
  * @property integer $sex
  * @property integer $color_race
- * @property string $mother_name
+ * @property integer $filiation
+ * @property string $filiation_1
+ * @property string $filiation_2
  * @property integer $nationality
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
@@ -31,9 +33,15 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
+ * @property ClassBoard[] $classBoards
+ * @property InstructorDisciplines[] $instructorDisciplines
  * @property EdcensoNation $edcensoNationFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
+ * @property InstructorSchool[] $instructorSchools
+ * @property InstructorTeachingData[] $instructorTeachingDatas
+ * @property Schedule[] $schedules
+ * @property Unavailability[] $unavailabilities
  */
 class InstructorIdentification extends CActiveRecord {
     
@@ -65,21 +73,23 @@ class InstructorIdentification extends CActiveRecord {
     /**
      * @return array validation rules for model attributes.
      */
-    public function rules() {
+    public function rules()
+    {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency', 'required'),
-            array('sex, color_race, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'numerical', 'integerOnly' => true),
-            array('register_type', 'length', 'max' => 2),
-            array('school_inep_id_fk', 'length', 'max' => 8),
-            array('inep_id', 'length', 'max' => 12),
-            array('name, email, mother_name', 'length', 'max' => 100),
-            array('nis', 'length', 'max' => 11),
-            array('birthday_date', 'length', 'max' => 10),
+            array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'numerical', 'integerOnly'=>true),
+            array('register_type', 'length', 'max'=>2),
+            array('school_inep_id_fk', 'length', 'max'=>8),
+            array('inep_id', 'length', 'max'=>12),
+            array('name, email, filiation_1, filiation_2', 'length', 'max'=>100),
+            array('nis', 'length', 'max'=>11),
+            array('birthday_date', 'length', 'max'=>10),
+            array('fkid', 'length', 'max'=>40),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('documents, register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, mother_name, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, fkid', 'safe', 'on'=>'search'),
         );
     }
 
@@ -112,7 +122,9 @@ class InstructorIdentification extends CActiveRecord {
             'birthday_date' => Yii::t('default', 'Birthday Date'),
             'sex' => Yii::t('default', 'Sex'),
             'color_race' => Yii::t('default', 'Color Race'),
-            'mother_name' => Yii::t('default', 'Mother Name'),
+            'filiation' => Yii::t('default', 'Filiation'),
+            'filiation_1' => Yii::t('default', 'Filiation 1'),
+            'filiation_2' => Yii::t('default', 'Filiation 2'),
             'nationality' => Yii::t('default', 'Nationality'),
             'edcenso_nation_fk' => Yii::t('default', 'Edcenso Nation Fk'),
             'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),

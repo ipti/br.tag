@@ -6,6 +6,10 @@
  * The followings are the available columns in table 'school_identification':
  * @property string $register_type
  * @property string $inep_id
+ * @property string $manager_cpf
+ * @property string $manager_name
+ * @property integer $manager_role
+ * @property string $manager_email
  * @property integer $situation
  * @property string $initial_date
  * @property string $final_date
@@ -38,19 +42,31 @@
  * @property integer $private_school_s_system
  * @property string $private_school_maintainer_cnpj
  * @property string $private_school_cnpj
+ * @property integer $offer_or_linked_unity
+ * @property string $inep_head_school
+ * @property string $ies_code
  * @property integer $regulation
+ * @property string $logo_file_name
+ * @property string $logo_file_type
+ * @property string $logo_file_content
+ * @property string $act_of_acknowledgement
  *
  * The followings are the available model relations:
  * @property SchoolStructure $structure
+ * @property Calendar[] $calendars
  * @property Classroom[] $classrooms
+ * @property CoursePlan[] $coursePlans
  * @property InstructorDocumentsAndAddress[] $instructorDocumentsAndAddresses
+ * @property InstructorSchool[] $instructorSchools
  * @property InstructorTeachingData[] $instructorTeachingDatas
+ * @property SchoolConfiguration[] $schoolConfigurations
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property EdcensoDistrict $edcensoDistrictFk
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  * @property StudentEnrollment[] $studentEnrollments
  * @property StudentIdentification[] $studentIdentifications
+ * @property UsersSchool[] $usersSchools
  */
 class SchoolIdentification extends CActiveRecord {
 
@@ -77,22 +93,22 @@ class SchoolIdentification extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location,edcenso_regional_education_organ_fk', 'required'),
-            array('situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, regulation', 'numerical', 'integerOnly' => true),
-            array('register_type, ddd', 'length', 'max' => 2),
-            array('inep_id, cep, public_phone_number, fax_number', 'length', 'max' => 8),
-            array('initial_date, final_date, address_number', 'length', 'max' => 10),
-            array('name, address, logo_file_name', 'length', 'max' => 100),
-            array('logo_file_content', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true),
-            array('act_of_acknowledgement', 'safe'),
-            array('latitude, longitude, address_complement', 'length', 'max' => 20),
-            array('address_neighborhood, email, logo_file_type', 'length', 'max' => 50),
-            array('phone_number, other_phone_number', 'length', 'max' => 9),
-            array('edcenso_regional_education_organ_fk', 'length', 'max' => 5),
-            array('private_school_maintainer_cnpj, private_school_cnpj', 'length', 'max' => 14),
+            array('inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity', 'required'),
+            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation', 'numerical', 'integerOnly'=>true),
+            array('register_type, ddd', 'length', 'max'=>2),
+            array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),
+            array('manager_cpf', 'length', 'max'=>11),
+            array('manager_name, name, address, logo_file_name', 'length', 'max'=>100),
+            array('manager_email, address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
+            array('initial_date, final_date, address_number', 'length', 'max'=>10),
+            array('latitude, longitude, address_complement', 'length', 'max'=>20),
+            array('phone_number, other_phone_number', 'length', 'max'=>9),
+            array('edcenso_regional_education_organ_fk', 'length', 'max'=>5),
+            array('private_school_maintainer_cnpj, private_school_cnpj, ies_code', 'length', 'max'=>14),
+            array('logo_file_content, act_of_acknowledgement', 'safe'),
             // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('register_type, inep_id, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, regulation', 'safe', 'on' => 'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('register_type, inep_id, manager_cpf, manager_name, manager_role, manager_email, situation, initial_date, final_date, name, latitude, longitude, cep, address, address_number, address_complement, address_neighborhood, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, ddd, phone_number, public_phone_number, other_phone_number, fax_number, email, edcenso_regional_education_organ_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, private_school_maintainer_cnpj, private_school_cnpj, offer_or_linked_unity, inep_head_school, ies_code, regulation, logo_file_name, logo_file_type, logo_file_content, act_of_acknowledgement', 'safe', 'on'=>'search'),
         );
     }
 
@@ -123,6 +139,10 @@ class SchoolIdentification extends CActiveRecord {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'inep_id' => Yii::t('default', 'Inep'),
+            'manager_cpf' => Yii::t('default', 'Manager Cpf'),
+            'manager_name' => Yii::t('default', 'Manager Name'),
+            'manager_role' => Yii::t('default', 'Manager Role'),
+            'manager_email' => Yii::t('default', 'Manager Email'),
             'situation' => Yii::t('default', 'Situation'),
             'initial_date' => Yii::t('default', 'Initial Date'),
             'final_date' => Yii::t('default', 'Final Date'),
@@ -155,6 +175,9 @@ class SchoolIdentification extends CActiveRecord {
             'private_school_s_system' => Yii::t('default', 'Private School S System'),
             'private_school_maintainer_cnpj' => Yii::t('default', 'Private School Maintainer Cnpj'),
             'private_school_cnpj' => Yii::t('default', 'Private School Cnpj'),
+            'offer_or_linked_unity' => Yii::t('default', 'Offer Or Linked Unity'),
+            'inep_head_school' => Yii::t('default', 'Inep Head School'),
+            'ies_code' => Yii::t('default', 'Ies Code'),
             'regulation' => Yii::t('default', 'Regulation'),
             'act_of_acknowledgement' => Yii::t('default', 'Act of acknowledgement'),
             'logo_file_content' => Yii::t('default', 'Logo')

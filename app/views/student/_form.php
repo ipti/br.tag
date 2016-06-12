@@ -144,26 +144,26 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'mother_name', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'mother_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
                                     <span
                                         class="btn-action single glyphicons circle_question_mark"
                                         data-toggle="tooltip" data-placement="top"
                                         data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'mother_name'); ?>
+                                        <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'father_name', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'father_name', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
                                     <span
                                         class="btn-action single glyphicons circle_question_mark"
                                         data-toggle="tooltip" data-placement="top"
                                         data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'father_name'); ?>
+                                        <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                                 </div>
                             </div>
 
@@ -225,17 +225,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>                        
                         <div class=" span6">
                             <div class="separator"></div>
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentIdentification, 'nis', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->textField($modelStudentIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'nis'); ?>
-                                </div>
-                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -499,21 +488,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                 </div>
                             </div>
-                            <div class="separator"></div>
-                            <div class="widget widget-scroll margin-bottom-none"
-                                 data-toggle="collapse-widget" data-scroll-height="223px"
-                                 data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons circle_question_mark"><i></i>Justificativa</h4></div>
-                                <div class="widget-body in" style="height: auto;">
-                                    <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'document_failure_lack', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'document_failure_lack', array(null => "Selecione uma justificativa", "1" => "Aluno não possui documento", "2" => "Escola não possui informação de documento do aluno"), array('class' => 'select-search-off')); ?>
-                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'document_failure_lack'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class=" span6">
@@ -586,17 +560,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 data-toggle="tooltip" data-placement="top"
                                                 data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.'); ?>"><i></i></span>
                                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_complement', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_complement', array('size' => 4, 'maxlength' => 4, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
-                                            <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Max length') . '20'; ?>"><i></i></span>
-                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_complement'); ?>
                                         </div>
                                     </div>
 

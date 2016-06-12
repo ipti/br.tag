@@ -87,6 +87,9 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
+<!--                            <li id="menu-dashboard" class="--><?//= isActive( "site" )?><!--">-->
+<!--                                <a class="glyphicons dashboard" href="/"><i></i><span>Dashboard</span></a>-->
+<!--                            </li>-->
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
@@ -133,6 +136,12 @@ function isActive($pages){
                             </li>
                             <li id="menu-calendar" class="<?= isActive("calendar") ?>">
                                 <a class="glyphicons calendar" href="<?php echo yii::app()->createUrl('calendar') ?> "><i></i><span>Calendário Escolar</span></a>
+                            </li>
+                            <li id="menu-timesheet" class="<?= isActive("timesheet") ?>">
+                                <a class="glyphicons table" href="<?php echo yii::app()->createUrl('timesheet') ?> "><i></i><span>Quadro de Horário</span></a>
+                            </li>
+                            <li id="menu-matrix" class="<?= isActive("curricularmatrix") ?>">
+                                <a class="glyphicons stats" href="<?php echo yii::app()->createUrl('curricularmatrix') ?> "><i></i><span>Matriz Curricular</span></a>
                             </li>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                                 <li id="menu-admin" class="<?= isActive("admin") ?>">

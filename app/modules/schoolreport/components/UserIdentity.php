@@ -28,9 +28,9 @@ class UserIdentity extends CUserIdentity
     public function authenticate() {
         $students = StudentIdentification::model()->findAllByAttributes(['responsable_cpf' => $this->username]);
         if($students[0]->responsable == 0)
-            $responsible = $students[0]->father_name;
+            $responsible = $students[0]->filiation_2;
         else if($students[0]->responsable == 1)
-            $responsible = $students[0]->mother_name;
+            $responsible = $students[0]->filiation_1;
         else
             $responsible = $students[0]->responsable_name;
 

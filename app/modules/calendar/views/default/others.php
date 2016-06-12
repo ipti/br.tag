@@ -11,7 +11,7 @@ $setActiveUrl = Yii::app()->createUrl("/calendar/default/setActive");
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/others.js', CClientScript::POS_END);
-
+$this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'));
 ?>
 
 <?php if (Yii::app()->user->hasFlash('success')): ?>
