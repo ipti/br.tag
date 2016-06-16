@@ -50,3 +50,13 @@
 //
 //
 
+$(document).on("click", ".collapse-icon", function() {
+    if ($(this).hasClass("fa-plus-square")) {
+        $(this).removeClass("fa-plus-square").addClass("fa-minus-square");
+        $(this).closest(".conflict-container").find(".conflict-values").show();
+    } else {
+        $(this).addClass("fa-plus-square").removeClass("fa-minus-square");
+        $(this).closest(".conflict-container").find(".conflict-values").hide();
+    }
+});
+

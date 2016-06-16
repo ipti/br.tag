@@ -18,7 +18,7 @@
 			return [
 				[
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'index'], 'users' => ['*'],
+					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
@@ -1252,31 +1252,31 @@
 						$objects = SchoolIdentification::model()->findAllByPk(yii::app()->user->school);
 						break;
 					case "1":
-						$objects = SchoolStructure::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = SchoolStructure::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "2":
-						$objects = Classroom::model()->findAllByAttributes(array("school_inep_fk" => yii::app()->user->school));
+						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school]);
 						break;
 					case "3":
-						$objects = InstructorIdentification::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = InstructorIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "4":
-						$objects = InstructorDocumentsAndAddress::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = InstructorDocumentsAndAddress::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "5":
-						$objects = InstructorVariableData::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = InstructorVariableData::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "6":
-						$objects = InstructorTeachingData::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = InstructorTeachingData::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "7":
-						$objects = StudentIdentification::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "8":
-						$objects = StudentDocumentsAndAddress::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = StudentDocumentsAndAddress::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "9":
-						$objects = StudentEnrollment::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = StudentEnrollment::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 				}
 				foreach ($objects as $object) {
@@ -1286,20 +1286,55 @@
 					array_push($array, $object->attributes);
 				}
 				$sql .= "INSERT INTO $tables[$i]";
-				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`) VALUES";
+				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`, `tag_id`) VALUES";
 				foreach ($array as $value) {
-					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "'),";
-
+					$tagId = "";
+					switch ($i) {
+						case "0":
+							$tagId = md5($value["inep_id"]);
+							break;
+						case "1":
+							$tagId = md5($value["school_inep_id_fk"]);
+							break;
+						case "2":
+							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
+							break;
+						case "3":
+							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday_date"]);
+							break;
+						case "4":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							break;
+						case "5":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							break;
+						case "6":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["instructor_fk"]]);
+							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_id_fk"]]);
+							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
+							break;
+						case "7":
+							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday"]);
+							break;
+						case "8":
+							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($studentIdentification->school_inep_id_fk . $studentIdentification->name . $studentIdentification->birthday);
+							break;
+						case "9":
+							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["student_fk"]]);
+							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_fk"]]);
+							$tagId = md5($value["school_inep_id_fk"] . $studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
+							break;
+					}
+					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 				}
 				$sql = substr($sql, 0, -1) . " ON DUPLICATE KEY UPDATE ";
-				foreach(array_keys($array[0]) as $key) {
+				foreach (array_keys($array[0]) as $key) {
 					$sql .= "`" . $key . "` = VALUES(`" . $key . "`), ";
 				}
 				$sql = substr($sql, 0, -2) . ";";
-				//
-				//TROCAR TAG_ID PARA UM HASH MD5
-				//INSERIR NO EXPORTTOMASTER O TAG_ID
-				//CHECAR CONFLITO DE DUPLICATAS NA HIGIENIZAÇÃO
 			}
 
 			if ($importToFile) {
@@ -1322,50 +1357,86 @@
 			} else {
 				yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
 				ini_set('memory_limit', '128M');
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 				$this->redirect(['index']);
 			}
 		}
 
+		/**
+		 * Descobre similaridade em uma tabela.
+		 *
+		 * @param $table String Nome da tabela que será analisada.
+		 * @param $column String Campo que será analisado.
+		 * @param $distance Integer Valor para verificar similaridade, menor que esse valor é dado como igual.
+		 * @return array Array contendo os Tag Ids das linhas semelhantes.
+		 */
+		private function getSimilarRows($table, $column, $distance) {
+			$sql = "select distinct least(t1.tag_id, t2.tag_id) as tg1, greatest(t1.tag_id, t2.tag_id) as tg2
+						from $table t1
+					  join $table t2 on (
+					  		t1.tag_id <> t2.tag_id
+					  		and levenshtein(t1.$column, t2.$column) < $distance);";
+
+			return Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+		}
+
+		private function getTableRow($object, $value = NULL, $where = NULL) {
+			$table = $object->tableName();
+			if ($where == NULL) {
+				$sql = "select * from $table where tag_id = '$value';";
+			} else {
+				$sql = "select * from $table where $where;";
+			}
+			$array = Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->queryAll();
+			if (count($array) > 1) {
+				$objects = [];
+				foreach ($array as $arr) {
+					$ob = $object;
+					$ob->id = $arr["id"];
+					$ob->attributes = $arr;
+					array_push($objects, $ob);
+				}
+				return $objects;
+			} else {
+				$object->id = $array[0]["id"];
+				$object->attributes = $array[0];
+				return $object;
+			}
+
+		}
+
+
 		public function actionCleanMaster() {
 
-			//Escola
-			$schoolIdentificationSql = "select distinct s1.* from school_identification s1 join school_identification s2 on (s1.tag_id <> s2.tag_id and s1.inep_id = s2.inep_id) order by inep_id";
-			$schoolsIdentification = Yii::app()->db2->schema->commandBuilder->createSqlCommand($schoolIdentificationSql)->query();
-			foreach($schoolsIdentification as $si) {
-				$school = new SchoolIdentification();
-				$school->attributes = $si;
-				$school->setTagId($si["tag_id"]);
+			$conflicts = ['students' => [], 'instructors' => []];
 
-				$school->structure = new SchoolStructure();
-				$schoolStructureSql = "select * from school_structure where tag_id = " . $si["tag_id"];
-				$school->structure->attributes = Yii::app()->db2->schema->commandBuilder->createSqlCommand($schoolStructureSql)->queryRow();
+			//Professor
+			$instructorTgs = $this->getSimilarRows(InstructorIdentification::model()->tableName(), "name", 5);
+			foreach ($instructorTgs as $row) {
+				$instructor1 = $this->getTableRow(new InstructorIdentification(), $row["tg1"]);
+				$instructor2 = $this->getTableRow(new InstructorIdentification(), $row["tg2"]);
+				$instructor1->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and instructor_fk = $instructor1->id");
+				$instructor2->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and instructor_fk = $instructor2->id");
+				array_push($conflicts['instructors'], [$instructor1, $instructor2]);
 			}
-
-			//Turma
-			$classroomSql = "select distinct c1.* from classroom c1 join classroom c2 on (c1.tag_id <> c2.tag_id and c1.school_inep_fk = c2.school_inep_fk and c1.name = c2.name and c1.school_year = c2.school_year) order by name";
-			$classrooms = Yii::app()->db2->schema->commandBuilder->createSqlCommand($classroomSql)->query();
-			foreach($classrooms as $c) {
-				$classroom = new Classroom();
-				$classroom->attributes = $c;
-			}
-
-//			//Professor
-//			$instructorIdentificationSql = "select distinct c1.* from classroom c1 join classroom c2 on (c1.tag_id <> c2.tag_id and c1.school_inep_fk = c2.school_inep_fk and c1.name = c2.name and c1.school_year = c2.school_year) order by name";
-//			$instructorsIdentification = Yii::app()->db2->schema->commandBuilder->createSqlCommand($instructorIdentificationSql)->query();
-//			foreach($instructorsIdentification as $ii) {
-//				$instructor = new InstructorIdentification();
-//				$instructor->attributes = $ii;
-//			}
 
 			//Aluno
-			$studentIdentificationSql = "select distinct c1.* from classroom c1 join classroom c2 on (c1.tag_id <> c2.tag_id and c1.school_inep_fk = c2.school_inep_fk and c1.name = c2.name and c1.school_year = c2.school_year) order by name";
-			$studentsIdentification = Yii::app()->db2->schema->commandBuilder->createSqlCommand($studentIdentificationSql)->query();
-			foreach($studentsIdentification as $si) {
-				$student = new StudentIdentification();
-				$student->attributes = $si;
+			$studentTgs = $this->getSimilarRows(StudentIdentification::model()->tableName(), "name", 5);
+			foreach ($studentTgs as $row) {
+				$student1 = $this->getTableRow(new StudentIdentification(), $row["tg1"]);
+				$student2 = $this->getTableRow(new StudentIdentification(), $row["tg2"]);
+				$student1->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				$student1->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				array_push($conflicts['students'], [$student1, $student2]);
 			}
 
-			$this->redirect(['index']);
+			$this->render('conflicts',["conflicts" => $conflicts]);
 		}
 
 		public function actionImportFromMaster() {
