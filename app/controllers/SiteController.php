@@ -45,8 +45,8 @@ class SiteController extends Controller {
         if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl('site/login'));
         }
-        $this->redirect(yii::app()->createUrl('student'));
-//        $this->render('index');
+//        $this->redirect(yii::app()->createUrl('student'));
+        $this->render('index');
     }
 
     /**
