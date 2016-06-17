@@ -106,6 +106,7 @@ class EnrollmentController extends Controller {
                 $model->student_inep_id = StudentIdentification::model()->findByPk($model->student_fk)->inep_id;
                 try {
                     if ($model->save()) {
+                        Log::model()->saveAction("student_enrollment", $model->id, "C");
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno matriculado com sucesso!'));
                         $this->redirect(array('index'));
                     }
@@ -143,6 +144,7 @@ class EnrollmentController extends Controller {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
                 if ($model->save()) {
+                    Log::model()->saveAction("student_enrollment", $model->id, "U");
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
                     $this->redirect(array('index'));
                 }
@@ -161,9 +163,10 @@ class EnrollmentController extends Controller {
      */
     public function actionDelete($id) {
 
-        $name = $this->loadModel($id)->studentFk->name;
-        if ($this->loadModel($id)->delete()) {
-            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de $name foi excluída com sucesso!"));
+        $model = $this->loadModel($id);
+        if ($model->delete()) {
+            Log::model()->saveAction("student_enrollment", $model->id, "D", $model->studentFk->name);
+            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de " . $model->studentFk->name . " foi excluída com sucesso!"));
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');

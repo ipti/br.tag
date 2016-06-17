@@ -107,4 +107,16 @@ class Log extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public static function saveAction($table, $tablePk, $crud, $purgedInfo = null) {
+		date_default_timezone_set("America/Recife");
+		$date = new DateTime();
+		$log = new Log();
+		$log->table = $table;
+		$log->table_pk = $tablePk;
+		$log->crud = $crud;
+		$log->date = $date->format("Y-m-d H:i:s");
+		$log->purged_info = $purgedInfo;
+		$log->save();
+	}
 }

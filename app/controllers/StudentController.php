@@ -157,6 +157,7 @@ class StudentController extends Controller {
 	                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 	                    	}
 	                    	if($saved){
+                                Log::model()->saveAction("student_identification", $modelStudentIdentification->id, "C");
                                     $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';
                                         
 		                    Yii::app()->user->setFlash('success', Yii::t('default',$msg));
@@ -222,6 +223,7 @@ class StudentController extends Controller {
                         	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                     	}
                     	if($saved){
+                            Log::model()->saveAction("student_identification", $modelStudentIdentification->id, "U");
                             $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi alterado com sucesso!';
                             Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                             $this->redirect(array('index', 'sid'=>$modelStudentIdentification->id));
@@ -237,7 +239,7 @@ class StudentController extends Controller {
             'modelEnrollment' => $modelEnrollment
         ));
     }
-    
+
 
     /**
      * Deletes a particular model.
