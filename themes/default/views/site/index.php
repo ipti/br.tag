@@ -152,17 +152,39 @@
 				?>
 			</div>
 			<div class="eggs">
-				<?php
-					foreach ($events[$m] as $event) {
-						//puxar as dodjera de events
-						echo $event->name;
-						echo $event->calendarEventTypeFk->color;
-						echo $event->calendarEventTypeFk->icon;
-						echo $event->start_date;
-						echo $event->end_date;
-						echo "<br>";
-					}
-				?>
+				<div class="widget widget-scroll widget-gray margin-bottom-none"
+				     data-toggle="collapse-widget" data-scroll-height="223px"
+				     data-collapse-closed="false">
+					<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Eventos do mês</h5>
+					</div>
+					<div class="widget-body in" style="height: auto;">
+						<span class="actual-date"><strong>Data atual:</strong> <?= $date->format("d/m") ?></span>
+						<?php
+							if ($start->format("n") == $m) :
+								?>
+								<span class="calendar-event"><i
+										class="fa fa-circle calendar-black"></i><?= $start->format("d/m") . ": Início do Período Letivo" ?></span>
+								<?php
+							endif;
+							foreach ($events[$m] as $event) :
+								$eventStart = new DateTime($event->start_date);
+								$eventEnd = new DateTime($event->end_date);
+								$eventStart = $eventStart->format("d/m");
+								$eventEnd = $eventEnd->format("d/m");
+								$eventDate = ($eventStart == $eventEnd ? $eventStart : $eventStart . " - " . $eventEnd);
+								?>
+								<span class="calendar-event"><i
+										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": " . $event->name ?></span>
+								<?php
+							endforeach;
+							if ($end->format("n") == $m) :
+								?>
+								<span class="calendar-event"><i
+										class="fa fa-circle calendar-black"></i><?= $end->format("d/m") . ": Término do Período Letivo" ?></span>
+							<?php endif;
+						?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

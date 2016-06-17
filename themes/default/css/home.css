@@ -111,6 +111,44 @@ form{
     width: calc(100% - 20px)!important;
 }
 
-.img-polaroid {
-    width: 300px;
+.eggs {
+    margin-top: 10px;
+}
+
+.eggs .widget-head {
+    background: #496cad !important;
+}
+
+.widget > .widget-head .heading {
+    text-shadow: none !important;
+    color: white !important;
+    border-color: #496cad !important;
+}
+
+.calendar-header {
+    background:#496cad !important;
+}
+
+.widget.widget-gray > .widget-head .heading.glyphicons i:before {
+    color: white !important;
+}
+
+.widget {
+    border-color: #ccc !important;
+}
+
+.calendar-event {
+    width: 100%;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.calendar-event i {
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+.actual-date {
+    margin-bottom: 5px;
+    display: block;
 }
