@@ -111,11 +111,11 @@ form{
     width: calc(100% - 20px)!important;
 }
 
-.eggs {
+.eggs .widget {
     margin-top: 10px;
 }
 
-.eggs .widget-head {
+.widget-head {
     background: #496cad !important;
 }
 

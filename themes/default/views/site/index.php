@@ -68,17 +68,27 @@
 </div>
 
 <div class="innerLR home">
-	<?php
-		date_default_timezone_set("America/Recife");
-		$date = new DateTime();
-		$date->setDate($date->format("Y"), $date->format("m"), 1);
-		$month = $date->format("F");
-		$m = $date->format("n");
-		$y = $date->format("Y");
-	?>
 	<div class="row-fluid">
-		<div class="span9"></div>
+		<div class="span4">
+			<div class="widget widget-scroll widget-gray margin-bottom-none"
+			     data-toggle="collapse-widget" data-scroll-height="223px"
+			     data-collapse-closed="false">
+				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Atividades Recentes</h5>
+				</div>
+				<div class="widget-body in" style="height: auto;">
+				</div>
+			</div>
+		</div>
+		<div class="span5"></div>
 		<div class="span3">
+			<?php
+				date_default_timezone_set("America/Recife");
+				$date = new DateTime();
+				$date->setDate($date->format("Y"), $date->format("m"), 1);
+				$month = $date->format("F");
+				$m = $date->format("n");
+				$y = $date->format("Y");
+			?>
 			<div class="img-polaroid">
 				<div class="row-fluid">
 					<div class="span12 center">
