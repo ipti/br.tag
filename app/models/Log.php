@@ -131,6 +131,7 @@ class Log extends CActiveRecord
 		$log->crud = $crud;
 		$log->date = $date->format("Y-m-d H:i:s");
 		$log->user_fk = Yii::app()->user->loginInfos->id;
+		$log->school_fk = Yii::app()->user->school;
 		$log->additional_info = $additionalInfo;
 		$log->save();
 	}

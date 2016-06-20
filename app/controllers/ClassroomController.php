@@ -400,7 +400,7 @@ class ClassroomController extends Controller {
                                 $e['classroom'] = $modelClassroom->id;
                                 $this->actionAddLesson($e);
                             }
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "C");
+                            Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                             $this->redirect(array('index'));
                         }
@@ -499,7 +499,7 @@ class ClassroomController extends Controller {
                             $save = $save && $modelTeachingData[$key]->save();
                         }
                         if ($save) {
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "U");
+                            Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma atualizada com sucesso!'));
                             $this->redirect(array('index'));
                         }

@@ -1,24 +1,36 @@
 
-.text-right {text-align: right !important;} /*For right align*/
-.text-left {text-align: left !important;} /*For left align*/
-.text-center {text-align: center !important;} /*For center align*/
+.text-right {
+    text-align: right !important;
+}
 
-.calendar a, .calendar a:hover, .calendar a:visited, .accordion-toggle a{
+/*For right align*/
+.text-left {
+    text-align: left !important;
+}
+
+/*For left align*/
+.text-center {
+    text-align: center !important;
+}
+
+/*For center align*/
+
+.calendar a, .calendar a:hover, .calendar a:visited, .accordion-toggle a {
     text-decoration: none !important;
     cursor: pointer;
     color: inherit;
 }
 
-.modal-dialog form{
+.modal-dialog form {
     margin-bottom: 0;
 }
 
-.span1-7{
+.span1-7 {
     width: 12.63157894736842% !important;
-    position:relative;
+    position: relative;
 }
 
-.calendar-header{
+.calendar-header {
     background-color: rgb(149, 171, 211);
     color: #FFFFFF;
     font-weight: bold;
@@ -27,72 +39,77 @@
     height: 27px;
 }
 
-.start-calendar{
+.start-calendar {
     background: #598b58;
     color: white;
 }
 
-.sunday .calendar-text{
-    color: #ff0000!important;
+.sunday .calendar-text {
+    color: #ff0000 !important;
 }
 
-.calendar-yellow{
-    color: #d9d303!important;
+.calendar-yellow {
+    color: #d9d303 !important;
 }
+
 .calendar-red {
-    color: #ff0000!important;
-}
-.calendar-green {
-    color: #26cb24!important;
-}
-.calendar-blue{
-    color: #0081c2!important;
-}
-.calendar-purple{
-    color: #9700f6!important;
-}
-.calendar-black{
-    color: #333333!important;
-}
-.calendar-pink{
-    color: pink!important;
+    color: #ff0000 !important;
 }
 
-.calendar-icon{
+.calendar-green {
+    color: #26cb24 !important;
+}
+
+.calendar-blue {
+    color: #0081c2 !important;
+}
+
+.calendar-purple {
+    color: #9700f6 !important;
+}
+
+.calendar-black {
+    color: #333333 !important;
+}
+
+.calendar-pink {
+    color: pink !important;
+}
+
+.calendar-icon {
     position: absolute;
     left: calc(50% - 9px);
     top: 1px;
-    font-size: 20px!important;
+    font-size: 20px !important;
     z-index: 0;
 }
-.calendar-icon+.calendar-text{
+
+.calendar-icon + .calendar-text {
     font-weight: 600 !important;
     color: white !important;
     text-shadow: 0px 0px 2px #000 !important;
 }
 
-
-.calendar-text{
+.calendar-text {
     position: absolute;
-    font-size: 12px!important;
+    font-size: 12px !important;
     left: calc(50% - 8px);
 }
 
-.calendar-subtitles span{
-    color:black!important;
+.calendar-subtitles span {
+    color: black !important;
 }
 
-
-.modal, .modal-dialog, .modal-content, .modal-header{
+.modal, .modal-dialog, .modal-content, .modal-header {
     border-radius: 5px 5px 0px 0px !important;
 }
 
-.modal-title{
-    padding-top: 6px!important;
+.modal-title {
+    padding-top: 6px !important;
 }
 
-form{
-    margin: 0!important;
+form {
+    margin: 0 !important;
 }
 
 .divider {
@@ -103,16 +120,12 @@ form{
     height: 10px;
 }
 
-.accordion-toggle:hover{
-    background-color: #b3b3b3!important;
+.accordion-toggle:hover {
+    background-color: #b3b3b3 !important;
 }
 
-.accordion-toggle{
-    width: calc(100% - 20px)!important;
-}
-
-.eggs .widget {
-    margin-top: 10px;
+.accordion-toggle {
+    width: calc(100% - 20px) !important;
 }
 
 .eggs .widget-head {
@@ -126,7 +139,7 @@ form{
 }
 
 .calendar-header {
-    background:#496cad !important;
+    background: #496cad !important;
 }
 
 .eggs .widget.widget-gray > .widget-head .heading.glyphicons i:before {
@@ -151,4 +164,63 @@ form{
 .actual-date {
     margin-bottom: 5px;
     display: block;
+}
+
+.next-events {
+    margin-top: 10px;
+}
+
+.log {
+    display: block;
+    padding: 7px 12px;
+    height: 36px;
+}
+
+.eggs .glyphicons i:before {
+    padding: 5px;
+    border: 1px solid black;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.eggs .glyphicons {
+    padding: 7px 0 0 40px;
+}
+
+.log-date {
+    float: right;
+    color: gray;
+    margin-top: 7px;
+}
+
+.log-author {
+    float: right;
+    margin: 7px 5px 0 0;
+}
+
+.log:hover {
+    background-color: #ccc;
+}
+
+.logs {
+    padding: 0px !important;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.load-more {
+    margin-top: 10px;
+    background: #496cad !important;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;cursor: pointer;
+    color: white;
+    float: right;
+}
+
+.load-more:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }

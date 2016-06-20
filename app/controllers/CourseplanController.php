@@ -46,7 +46,6 @@ class CourseplanController extends Controller {
 
         if ($coursePlan != null && isset($coursePlan["modality_fk"], $coursePlan["discipline_fk"], $coursePlan["name"])) {
 
-            $logSituation = "";
             if ($id !== null) {
                 $newCoursePlan = CoursePlan::model()->findByPk($id);
                 $logSituation = "U";
@@ -102,7 +101,7 @@ class CourseplanController extends Controller {
                     }
                 }
                 if ($saved) {
-                    Log::model()->saveAction("courseplan", $id, $logSituation);
+                    Log::model()->saveAction("courseplan", $id, $logSituation, $newCoursePlan->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
                     $this->redirect(array('index'));
                 } else {

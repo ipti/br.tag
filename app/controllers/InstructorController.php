@@ -177,7 +177,7 @@ preenchidos";
                     $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk) ? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save() && $modelInstructorVariableData->save()) {
-                        Log::model()->saveAction("instructor", $modelInstructorIdentification->id, "C");
+                        Log::model()->saveAction("instructor", $modelInstructorIdentification->id, "C", $modelInstructorIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Professor adicionado com sucesso!'));
                         $this->redirect(array('index'));
                     }
@@ -287,7 +287,7 @@ preenchidos";
                     $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk) ? null : $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save() && $modelInstructorVariableData->save()) {
-                        Log::model()->saveAction("instructor", $modelInstructorIdentification->id, "U");
+                        Log::model()->saveAction("instructor", $modelInstructorIdentification->id, "U", $modelInstructorIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Professor alterado com sucesso!'));
                         $this->redirect(array('index'));
                     }

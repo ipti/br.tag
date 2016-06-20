@@ -47,16 +47,21 @@
 	for ($i = 1; $i <= 12; $i++) {
 		$events[$i] = [];
 	}
-	foreach ($calendar->calendarEvents as $event) {
-		$start_event = new DateTime($event->start_date);
-		$end_event = new DateTime($event->end_date);
-		$mStart = $start_event->format('n');
-		$mEnd = $end_event->format('n');
+	if (isset($calendar)) {
+		foreach ($calendar->calendarEvents as $event) {
+			$start_event = new DateTime($event->start_date);
+			$end_event = new DateTime($event->end_date);
+			$mStart = $start_event->format('n');
+			$mEnd = $end_event->format('n');
 
-		for ($i = $mStart; $i <= $mEnd; $i++) {
-			$events[$i][] = $event;
+			for ($i = $mStart; $i <= $mEnd; $i++) {
+				$events[$i][] = $event;
+			}
 		}
 	}
+
+	$logs = Log::model()->findAll("school_fk = :school order by date desc limit 5", [':school' => Yii::app()->user->school]);
+	$logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii::app()->user->school]));
 ?>
 
 
@@ -65,64 +70,119 @@
 		<h3 class="heading-mosaic">Página Inicial</h3>
 	</div>
 </div>
-<div class="innerLR home eggs">
+<div class="innerLR eggs">
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span9">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
 			     data-toggle="collapse-widget" data-scroll-height="223px"
 			     data-collapse-closed="false">
 				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Atividades Recentes</h5>
 				</div>
-				<div class="widget-body in" style="height: auto;">
-					<!--
-switch($reference) {
-case "class":
-break;
-case "frequency":
-break;
-case "classroom":
-break;
-case "courseplan":
-break;
-case "enrollment":
-break;
-case "instructor":
-break;
-case "school":
-break;
-case "student":
-break;
-case "grade":
-break;
-case "calendar":
-break;
-case "curricular_matrix":
-break;
-case "lunch_received":
-break;
-case "lunch_spent":
-break;
-case "lunch_menu":
-break;
-case "lunch_meal":
-break;
-case "timesheet":
-break;
-case "wizard_classroom":
-break;
-case "wizard_student":
-break;
-}
--->
+				<div class="widget-body logs in" style="height: auto;">
+					<?php
+						if (count($logs) > 0) {
+						foreach ($logs as $log) :
+							$text = $icon = $crud = "";
+
+							switch ($log->crud) {
+								case "C" :
+									$crud = "criado(a)";
+									break;
+								case "U" :
+									$crud = "atualizado(a)";
+									break;
+								case "D":
+									$crud = "excluído(a)";
+									break;
+							}
+
+							switch ($log->reference) {
+								case "class":
+									$icon = "notes_2";
+									break;
+								case "frequency":
+									$icon = "check";
+									break;
+								case "classroom": //done
+									$text = 'Turma "' . $log->additional_info . '" foi ' . $crud . ".";
+									$icon = "adress_book";
+									break;
+								case "courseplan": //done
+									$text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . ".";
+									$icon = "book_open";
+									break;
+								case "enrollment":
+									$icon = "book";
+									break;
+								case "instructor": //done
+									$text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . ".";
+									$icon = "nameplate";
+									break;
+								case "school": //done
+									$text = 'Escola "' . $log->additional_info . '" foi ' . $crud . ".";
+									$icon = "building";
+									break;
+								case "student": //done
+									$text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . ".";
+									$icon = "parents";
+									break;
+								case "grade":
+									$icon = "list";
+									break;
+								case "calendar": //done
+									$text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . ".";
+									$icon = "calendar";
+									break;
+								case "curricular_matrix":
+									$icon = "stats";
+									break;
+								case "lunch_received":
+									$icon = "upload";
+									break;
+								case "lunch_spent":
+									$icon = "download";
+									break;
+								case "lunch_menu":
+									$icon = "notes";
+									break;
+								case "lunch_meal":
+									$icon = "cutlery";
+									break;
+								case "timesheet": //done
+									$text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi gerado.';
+									$icon = "signal";
+									break;
+								case "wizard_classroom":
+									$icon = "unchecked";
+									break;
+								case "wizard_student":
+									$icon = "unchecked";
+									break;
+							}
+							$date = date("d-m-Y H:i:s", strtotime($log->date));
+							?>
+							<li class="log">
+								<span class="glyphicons <?= $icon ?>"><i></i><?= $text ?></span>
+								<span class="log-date"><?= $date ?></span>
+								<span class="log-author"><?= $log->userFk->name ?> - </span>
+							</li>
+						<?php endforeach; } else { ?>
+							<li class="log">
+								<span class="glyphicons notes"><i></i> Não há atividades recentes.</span>
+							</li>
+						<?php }  ?>
+
 				</div>
 			</div>
+			<?php if (count($logs) < $logCount) : ?>
+				<span class="load-more fa fa-plus-circle"> Carregar mais</span>
+			<?php endif; ?>
 		</div>
-		<div class="span5"></div>
 		<div class="span3">
 			<?php
 				date_default_timezone_set("America/Recife");
 				$date = new DateTime();
-				$date->setDate($date->format("Y"), $date->format("m"), 1);
+				$date->setDate($date->format("Y"), $date->format("m"), $date->format("d"));
 				$month = $date->format("F");
 				$m = $date->format("n");
 				$y = $date->format("Y");
@@ -200,7 +260,7 @@ break;
 				?>
 			</div>
 			<div>
-				<div class="widget widget-scroll widget-gray margin-bottom-none"
+				<div class="next-events widget widget-scroll widget-gray margin-bottom-none"
 				     data-toggle="collapse-widget" data-scroll-height="223px"
 				     data-collapse-closed="false">
 					<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Eventos do mês</h5>
@@ -208,7 +268,7 @@ break;
 					<div class="widget-body in" style="height: auto;">
 						<span class="actual-date"><strong>Data atual:</strong> <?= $date->format("d/m") ?></span>
 						<?php
-							if ($start->format("n") == $m) :
+							if ($start->format("n") == $m && $start != $end) :
 								?>
 								<span class="calendar-event"><i
 										class="fa fa-circle calendar-black"></i><?= $start->format("d/m") . ": Início do Período Letivo" ?></span>
@@ -225,7 +285,7 @@ break;
 										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": " . $event->name ?></span>
 								<?php
 							endforeach;
-							if ($end->format("n") == $m) :
+							if ($end->format("n") == $m && $start != $end) :
 								?>
 								<span class="calendar-event"><i
 										class="fa fa-circle calendar-black"></i><?= $end->format("d/m") . ": Término do Período Letivo" ?></span>
