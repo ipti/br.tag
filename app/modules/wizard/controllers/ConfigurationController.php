@@ -60,10 +60,13 @@ class ConfigurationController extends Controller {
                     }
                 }
             }
-            if ($save)
+            if ($save) {
+                Log::model()->saveAction("wizard_classroom", $year, "C");
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
-            else
+            }
+            else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
+            }
             $this->render('index');
         }
         $this->render('classrooms', array(
@@ -74,6 +77,7 @@ class ConfigurationController extends Controller {
     public function actionStudent() {
         if (isset($_POST["Classrooms"], $_POST["StudentEnrollment"])) {
             $save = true;
+            $logYear = "";
             foreach ($_POST["Classrooms"] as $classroom) {
                 $emrollments = StudentEnrollment::model()->findAll("classroom_fk = :c", array("c" => $classroom));
                 foreach($emrollments as $e){
@@ -82,23 +86,26 @@ class ConfigurationController extends Controller {
 
                     $st = StudentIdentification::model()->findByPk($e->student_fk);
                     $c = Classroom::model()->findByPk($enrollment->classroom_fk);
-                    $exist = StudentEnrollment::model()->findAll("classroom_fk = :c AND student_fk = :s", 
+                    $exist = StudentEnrollment::model()->findAll("classroom_fk = :c AND student_fk = :s",
                             array("c" => $c->id, "s"=>$st->id));
                     //Se não existe, cadastra
                     if(count($exist)==0){
                         $enrollment->school_inep_id_fk = Yii::app()->user->school;
-                        $enrollment->student_fk = $st->id; 
+                        $enrollment->student_fk = $st->id;
                         $enrollment->classroom_fk = $c->id;
                         $enrollment->student_inep_id = $st->inep_id;
                         $enrollment->classroom_inep_id = $c->inep_id;
                         $save = $save && $enrollment->save();
+                        $logYear = $c->school_year;
                     }
                 }
             }
-            if ($save)
+            if ($save) {
+                Log::model()->saveAction("wizard_student", $logYear, "C");
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Alunos matriculados com sucesso!'));
-            else
+            }else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na matrícula dos Alunos.'));
+            }
             $this->render('index');
         }else {
             $this->render('students', array(

@@ -103,6 +103,7 @@
                             }
                         }
                     }
+                    Log::model()->saveAction("calendar", $calendar->id, "U");
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));

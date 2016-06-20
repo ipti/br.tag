@@ -113,6 +113,7 @@ class ClassesController extends Controller {
             }
 
             if ($allSaved) {
+                Log::model()->saveAction("class", $classroom . "|" . $discipline, "U");
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Aula Atualizado com Sucesso!'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));
@@ -281,6 +282,7 @@ class ClassesController extends Controller {
         }
 
         if ($everyThingIsOkay) {
+            Log::model()->saveAction("frequency", $classroomID . "|" . $disciplineID . "|" . $month, "U");
             Yii::app()->user->setFlash('success', Yii::t('default', 'Frequência Atualizada com Sucesso!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));

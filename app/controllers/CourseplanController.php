@@ -46,11 +46,14 @@ class CourseplanController extends Controller {
 
         if ($coursePlan != null && isset($coursePlan["modality_fk"], $coursePlan["discipline_fk"], $coursePlan["name"])) {
 
+            $logSituation = "";
             if ($id !== null) {
                 $newCoursePlan = CoursePlan::model()->findByPk($id);
+                $logSituation = "U";
             } else {
                 $newCoursePlan = new CoursePlan;
                 $newCoursePlan->school_inep_fk = Yii::app()->user->school;
+                $logSituation = "C";
             }
             $newCoursePlan->attributes = $coursePlan;
             if ($newCoursePlan->validate()) {
@@ -99,6 +102,7 @@ class CourseplanController extends Controller {
                     }
                 }
                 if ($saved) {
+                    Log::model()->saveAction("courseplan", $id, $logSituation);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
                     $this->redirect(array('index'));
                 } else {
@@ -247,7 +251,9 @@ class CourseplanController extends Controller {
      * Delete model.
      */
     public function actionDelete($id) {
-        if ($this->loadModel($id)->delete()) {
+        $coursePlan = $this->loadModel($id);
+        if ($coursePlan->delete()) {
+            Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de aula excluído com sucesso!'));
             $this->redirect(array('index'));
         } else {

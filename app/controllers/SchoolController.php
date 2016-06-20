@@ -165,7 +165,7 @@ class SchoolController extends Controller {
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        Log::model()->saveAction("school_identification", $modelSchoolIdentification->inep_id, "C");
+                        Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "C");
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
                         $this->redirect(array('index'));
                     }
@@ -221,7 +221,7 @@ class SchoolController extends Controller {
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-                        Log::model()->saveAction("school_identification", $modelSchoolIdentification->inep_id, "U");
+                        Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U");
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
                         $this->redirect(array('index'));
                     }

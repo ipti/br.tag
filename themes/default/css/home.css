@@ -115,11 +115,11 @@ form{
     margin-top: 10px;
 }
 
-.widget-head {
+.eggs .widget-head {
     background: #496cad !important;
 }
 
-.widget > .widget-head .heading {
+.eggs .widget > .widget-head .heading {
     text-shadow: none !important;
     color: white !important;
     border-color: #496cad !important;
@@ -129,11 +129,11 @@ form{
     background:#496cad !important;
 }
 
-.widget.widget-gray > .widget-head .heading.glyphicons i:before {
+.eggs .widget.widget-gray > .widget-head .heading.glyphicons i:before {
     color: white !important;
 }
 
-.widget {
+.eggs .widget {
     border-color: #ccc !important;
 }
 

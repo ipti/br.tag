@@ -5,11 +5,17 @@
  *
  * The followings are the available columns in table 'log':
  * @property integer $id
- * @property string $table
- * @property string $table_pk
+ * @property string $reference
+ * @property string $reference_ids
  * @property string $crud
- * @property string $purged_info
  * @property string $date
+ * @property string $additional_info
+ * @property string $school_fk
+ * @property integer $user_fk
+ *
+ * The followings are the available model relations:
+ * @property SchoolIdentification $schoolFk
+ * @property Users $userFk
  */
 class Log extends CActiveRecord
 {
@@ -29,15 +35,17 @@ class Log extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('table, table_pk, crud', 'required'),
-			array('table', 'length', 'max'=>50),
-			array('table_pk', 'length', 'max'=>20),
+			array('reference, reference_ids, crud, school_fk, user_fk', 'required'),
+			array('user_fk', 'numerical', 'integerOnly'=>true),
+			array('reference', 'length', 'max'=>50),
+			array('reference_ids', 'length', 'max'=>20),
 			array('crud', 'length', 'max'=>1),
-			array('purged_info', 'length', 'max'=>100),
+			array('additional_info', 'length', 'max'=>100),
+			array('school_fk', 'length', 'max'=>8),
 			array('date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, table, table_pk, crud, purged_info, date', 'safe', 'on'=>'search'),
+			array('id, reference, reference_ids, crud, date, additional_info, school_fk, user_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,6 +57,8 @@ class Log extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
+			'userFk' => array(self::BELONGS_TO, 'Users', 'user_fk'),
 		);
 	}
 
@@ -59,11 +69,13 @@ class Log extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'table' => 'Table',
-			'table_pk' => 'Table Pk',
+			'reference' => 'Reference',
+			'reference_ids' => 'Reference Ids',
 			'crud' => 'Crud',
-			'purged_info' => 'Purged Info',
 			'date' => 'Date',
+			'additional_info' => 'Additional Info',
+			'school_fk' => 'School Fk',
+			'user_fk' => 'User Fk',
 		);
 	}
 
@@ -86,11 +98,13 @@ class Log extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('table',$this->table,true);
-		$criteria->compare('table_pk',$this->table_pk,true);
+		$criteria->compare('reference',$this->reference,true);
+		$criteria->compare('reference_ids',$this->reference_ids,true);
 		$criteria->compare('crud',$this->crud,true);
-		$criteria->compare('purged_info',$this->purged_info,true);
 		$criteria->compare('date',$this->date,true);
+		$criteria->compare('additional_info',$this->additional_info,true);
+		$criteria->compare('school_fk',$this->school_fk,true);
+		$criteria->compare('user_fk',$this->user_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -108,15 +122,16 @@ class Log extends CActiveRecord
 		return parent::model($className);
 	}
 
-	public static function saveAction($table, $tablePk, $crud, $purgedInfo = null) {
+	public static function saveAction($reference, $referenceIds, $crud, $additionalInfo = null) {
 		date_default_timezone_set("America/Recife");
 		$date = new DateTime();
 		$log = new Log();
-		$log->table = $table;
-		$log->table_pk = $tablePk;
+		$log->reference = $reference;
+		$log->reference_ids = $referenceIds;
 		$log->crud = $crud;
 		$log->date = $date->format("Y-m-d H:i:s");
-		$log->purged_info = $purgedInfo;
+		$log->user_fk = Yii::app()->user->loginInfos->id;
+		$log->additional_info = $additionalInfo;
 		$log->save();
 	}
 }

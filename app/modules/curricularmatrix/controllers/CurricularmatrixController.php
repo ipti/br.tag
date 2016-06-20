@@ -54,16 +54,19 @@
 						$matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline and school_fk = :school", [
 							":stage" => $stage, ":discipline" => $discipline, ":school" => $school
 						]);
+						$logSituation = "U";
 						if ($matrix == NULL) {
 							$matrix = new CurricularMatrix();
 							$matrix->setAttributes([
 								"stage_fk" => $stage, "school_fk" => $school, "discipline_fk" => $discipline
 							]);
+							$logSituation = "C";
 						}
 						$matrix->setAttributes([
 							"workload" => $workload, "credits" => $credits,
 						]);
 						$matrix->save();
+						Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation);
 					}
 
 				}

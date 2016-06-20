@@ -5,7 +5,6 @@
 	$this->breadcrumbs = [
 		'',
 	];
-
 	$year = Yii::app()->user->year;
 
 	if (!function_exists('isInInterval')) {
@@ -66,8 +65,7 @@
 		<h3 class="heading-mosaic">Página Inicial</h3>
 	</div>
 </div>
-
-<div class="innerLR home">
+<div class="innerLR home eggs">
 	<div class="row-fluid">
 		<div class="span4">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
@@ -76,6 +74,46 @@
 				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Atividades Recentes</h5>
 				</div>
 				<div class="widget-body in" style="height: auto;">
+					<!--
+switch($reference) {
+case "class":
+break;
+case "frequency":
+break;
+case "classroom":
+break;
+case "courseplan":
+break;
+case "enrollment":
+break;
+case "instructor":
+break;
+case "school":
+break;
+case "student":
+break;
+case "grade":
+break;
+case "calendar":
+break;
+case "curricular_matrix":
+break;
+case "lunch_received":
+break;
+case "lunch_spent":
+break;
+case "lunch_menu":
+break;
+case "lunch_meal":
+break;
+case "timesheet":
+break;
+case "wizard_classroom":
+break;
+case "wizard_student":
+break;
+}
+-->
 				</div>
 			</div>
 		</div>
@@ -161,7 +199,7 @@
 					echo $html;
 				?>
 			</div>
-			<div class="eggs">
+			<div>
 				<div class="widget widget-scroll widget-gray margin-bottom-none"
 				     data-toggle="collapse-widget" data-scroll-height="223px"
 				     data-collapse-closed="false">
