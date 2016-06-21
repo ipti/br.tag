@@ -40,7 +40,6 @@ class Log extends CActiveRecord
 			array('reference', 'length', 'max'=>50),
 			array('reference_ids', 'length', 'max'=>20),
 			array('crud', 'length', 'max'=>1),
-			array('additional_info', 'length', 'max'=>100),
 			array('school_fk', 'length', 'max'=>8),
 			array('date', 'safe'),
 			// The following rule is used by search().

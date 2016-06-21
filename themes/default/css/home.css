@@ -172,7 +172,7 @@ form {
 
 .log {
     display: block;
-    padding: 7px 12px;
+    padding: 4px 12px;
     height: 36px;
 }
 
@@ -183,6 +183,18 @@ form {
     -moz-border-radius: 5px;
     border-radius: 5px;
     margin-right: 10px;
+}
+
+.eggs .glyphicons.lightskyblue i:before {
+    background: lightskyblue;
+}
+
+.eggs .glyphicons.lightgreen i:before {
+    background: lightgreen;
+}
+
+.eggs .glyphicons.lightcoral i:before {
+    background: lightcoral;
 }
 
 .eggs .glyphicons {
@@ -206,7 +218,7 @@ form {
 
 .logs {
     padding: 0px !important;
-    max-height: 250px;
+    max-height: 220px;
     overflow-y: auto;
 }
 
@@ -216,7 +228,8 @@ form {
     padding: 10px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    border-radius: 5px;cursor: pointer;
+    border-radius: 5px;
+    cursor: pointer;
     color: white;
     float: right;
 }

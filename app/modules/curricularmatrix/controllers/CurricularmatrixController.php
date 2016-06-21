@@ -65,8 +65,10 @@
 						$matrix->setAttributes([
 							"workload" => $workload, "credits" => $credits,
 						]);
+						$stageName = EdcensoStageVsModality::model()->find("id = :stage", [":stage" => $stage])->name;
+						$disciplineName = EdcensoDiscipline::model()->find("id = :discipline", [":discipline" => $discipline])->name;
+						Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|". $disciplineName);
 						$matrix->save();
-						Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation);
 					}
 
 				}

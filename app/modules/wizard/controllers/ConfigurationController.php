@@ -30,8 +30,10 @@ class ConfigurationController extends Controller {
         if (isset($_POST['Classrooms'])) {
             $Classrooms_ids = $_POST['Classrooms'];
             $year = Yii::app()->user->year;
+            $logYear = "";
             foreach ($Classrooms_ids as $id) {
                 $classroom = Classroom::model()->findByPk($id);
+                $logYear = $classroom->school_year;
                 $class_board = ClassBoard::model()->findAllByAttributes(array('classroom_fk' => $id));
                 $teaching_data = InstructorTeachingData::model()->findAllByAttributes(array('classroom_id_fk' => $id));
 
@@ -49,6 +51,7 @@ class ConfigurationController extends Controller {
                         $newClassBorad->id = null;
                         $newClassBorad->classroom_fk = $newClassroom->id;
                         $save = $save && $newClassBorad->save();
+
                     }
                     foreach ($teaching_data as $td) {
                         $newTeachingData = new InstructorTeachingData();
@@ -61,13 +64,15 @@ class ConfigurationController extends Controller {
                 }
             }
             if ($save) {
-                Log::model()->saveAction("wizard_classroom", $year, "C");
+
+                Log::model()->saveAction("wizard_classroom", $logYear, "C", $logYear);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
             }
             else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
             }
             $this->render('index');
+            return true;
         }
         $this->render('classrooms', array(
             'title' => Yii::t('default', 'Classroom Configuration')
@@ -80,6 +85,7 @@ class ConfigurationController extends Controller {
             $logYear = "";
             foreach ($_POST["Classrooms"] as $classroom) {
                 $emrollments = StudentEnrollment::model()->findAll("classroom_fk = :c", array("c" => $classroom));
+                $logYear = Classroom::model()->findByPk($classroom)->school_year;
                 foreach($emrollments as $e){
                     $enrollment = new StudentEnrollment();
                     $enrollment->attributes = $_POST["StudentEnrollment"];
@@ -96,12 +102,11 @@ class ConfigurationController extends Controller {
                         $enrollment->student_inep_id = $st->inep_id;
                         $enrollment->classroom_inep_id = $c->inep_id;
                         $save = $save && $enrollment->save();
-                        $logYear = $c->school_year;
                     }
                 }
             }
             if ($save) {
-                Log::model()->saveAction("wizard_student", $logYear, "C");
+                Log::model()->saveAction("wizard_student", $logYear, "C", $logYear);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Alunos matriculados com sucesso!'));
             }else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na matrícula dos Alunos.'));

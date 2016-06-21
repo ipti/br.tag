@@ -113,7 +113,13 @@ class ClassesController extends Controller {
             }
 
             if ($allSaved) {
-                Log::model()->saveAction("class", $classroom . "|" . $discipline, "U");
+                $classroomName = Classroom::model()->findByPk($classroom)->name;
+                if ($discipline == null) {
+                    $disciplineName = "Todas as Disciplinas";
+                } else {
+                    $disciplineName = EdcensoDiscipline::model()->findByPk($discipline)->name;
+                }
+                Log::model()->saveAction("class", $classroom . "|" . $discipline . "|" . $month, "U", $classroomName . "|" . $disciplineName . "|" . Yii::t("default", date('F', mktime(0, 0, 0, $month, 10))));
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Aula Atualizado com Sucesso!'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));
@@ -282,7 +288,13 @@ class ClassesController extends Controller {
         }
 
         if ($everyThingIsOkay) {
-            Log::model()->saveAction("frequency", $classroomID . "|" . $disciplineID . "|" . $month, "U");
+            $classroomName = Classroom::model()->findByPk($classroomID)->name;
+            if ($disciplineID == null) {
+                $disciplineName = "Todas as Disciplinas";
+            } else {
+                $disciplineName = EdcensoDiscipline::model()->findByPk($disciplineID)->name;
+            }
+            Log::model()->saveAction("frequency", $classroomID . "|" . $disciplineID . "|" . $month, "U", $classroomName . "|" . $disciplineName . "|" . Yii::t("default", date('F', mktime(0, 0, 0, $month, 10))));
             Yii::app()->user->setFlash('success', Yii::t('default', 'Frequência Atualizada com Sucesso!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));

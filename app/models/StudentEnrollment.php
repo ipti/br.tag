@@ -85,7 +85,7 @@ class StudentEnrollment extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, student_fk, classroom_fk, create_date', 'required'),
+            array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
             array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),

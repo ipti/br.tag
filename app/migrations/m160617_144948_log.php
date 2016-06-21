@@ -10,7 +10,7 @@ class m160617_144948_log extends CDbMigration
 			'reference_ids' => 'varchar(20) NOT NULL',
 			'crud' => 'char(1) NOT NULL',
 			'date' => 'datetime NOT NULL DEFAULT CURRENT_TIMESTAMP()',
-			'additional_info' => 'varchar(100)',
+			'additional_info' => 'text',
 			'school_fk' => 'varchar(8) NOT NULL',
 			'user_fk' => 'integer NOT NULL',
 		],  'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
