@@ -2,9 +2,15 @@
 	$baseUrl = Yii::app()->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/amcharts.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/serial.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/lang/pt.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/themes/light.js', CClientScript::POS_END);
 	/* @var $this SiteController */
 
-	$cs->registerScript("vars", "var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; ", CClientScript::POS_HEAD);
+	$cs->registerScript("vars",
+		"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
+		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; ", CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name . '';
 	$this->breadcrumbs = [
@@ -84,10 +90,10 @@
 				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Atividades Recentes</h5>
 				</div>
 				<div class="widget-body logs in" style="height: auto;">
-					<?=$html?>
+					<?= $html ?>
+					<span class="load-more fa fa-plus-circle"> Carregar mais</span>
 				</div>
 			</div>
-			<span class="load-more fa fa-plus-circle"> Carregar mais</span>
 		</div>
 		<div class="span3">
 			<?php
@@ -203,6 +209,19 @@
 							<?php endif;
 						?>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row-fluid lineChart-container">
+		<div class="span12">
+			<div class="widget widget-scroll widget-gray margin-bottom-none"
+			     data-toggle="collapse-widget" data-scroll-height="223px"
+			     data-collapse-closed="false" total="<?= $logCount ?>">
+				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Cadastros anuais</h5>
+				</div>
+				<div class="widget-body in" style="height: auto;">
+					<div id="lineChart"></div>
 				</div>
 			</div>
 		</div>
