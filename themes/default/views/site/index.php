@@ -4,13 +4,16 @@
 	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/amcharts.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/serial.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/pie.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/lang/pt.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/themes/light.js', CClientScript::POS_END);
 	/* @var $this SiteController */
 
 	$cs->registerScript("vars",
 		"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
-		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; ", CClientScript::POS_HEAD);
+		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
+		"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
+		"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; ", CClientScript::POS_HEAD);
 
 	$this->pageTitle = Yii::app()->name . '';
 	$this->breadcrumbs = [
@@ -87,7 +90,7 @@
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
 			     data-toggle="collapse-widget" data-scroll-height="223px"
 			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Atividades Recentes</h5>
+				<div class="widget-head"><h5 class="heading glyphicons history"><i></i>Atividades Recentes</h5>
 				</div>
 				<div class="widget-body logs in" style="height: auto;">
 					<?= $html ?>
@@ -182,7 +185,7 @@
 				     data-collapse-closed="false">
 					<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Eventos do mês</h5>
 					</div>
-					<div class="widget-body in" style="height: auto;">
+					<div class="widget-body events in" style="height: auto;">
 						<span class="actual-date"><strong>Data atual:</strong> <?= $date->format("d/m") ?></span>
 						<?php
 							if ($start->format("n") == $m && $start != $end) :
@@ -213,12 +216,71 @@
 			</div>
 		</div>
 	</div>
+	<div class="row-fluid cockadoodledoo">
+		<div class="span6">
+			<div class="widget widget-scroll widget-gray margin-bottom-none"
+			     data-toggle="collapse-widget" data-scroll-height="223px"
+			     data-collapse-closed="false" total="<?= $logCount ?>">
+				<div class="widget-head"><h5 class="heading glyphicons parents"><i></i>Alunos Matriculados</h5>
+				</div>
+				<div class="widget-body in" style="height: auto;">
+					<div id="pieChart"></div>
+					<div class="container-fluid">
+						<div class="row text-center" style="overflow:hidden;">
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Ângulo:</label>
+								<input class="pie-chart-input" data-property="angle" type="range" min="0" max="60" value="30" step="1"/>
+							</div>
+
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Profundidade:</label>
+								<input class="pie-chart-input" data-property="depth3D" type="range" min="1" max="25" value="10" step="1"/>
+							</div>
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Raio interno:</label>
+								<input class="pie-chart-input" data-property="innerRadius" type="range" min="0" max="80" value="0" step="1"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="widget widget-scroll widget-gray margin-bottom-none"
+			     data-toggle="collapse-widget" data-scroll-height="223px"
+			     data-collapse-closed="false" total="<?= $logCount ?>">
+				<div class="widget-head"><h5 class="heading glyphicons database_plus"><i></i>Base de Dados</h5>
+				</div>
+				<div class="widget-body in" style="height: auto;">
+					<div id="cylinderChart"></div>
+					<div class="container-fluid">
+						<div class="row text-center" style="overflow:hidden;">
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Raio superior:</label>
+								<input class="cylinder-chart-input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01"/>
+							</div>
+
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Ângulo:</label>
+								<input class="cylinder-chart-input" data-property="angle" type="range" min="0" max="89" value="30" step="1"/>
+							</div>
+
+							<div class="col-sm-3" style="float: none !important;display: inline-block;">
+								<label class="text-left">Profundidade:</label>
+								<input class="cylinder-chart-input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row-fluid lineChart-container">
 		<div class="span12">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
 			     data-toggle="collapse-widget" data-scroll-height="223px"
 			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons calendar"><i></i>Cadastros anuais</h5>
+				<div class="widget-head"><h5 class="heading glyphicons list"><i></i>Cadastros anuais</h5>
 				</div>
 				<div class="widget-body in" style="height: auto;">
 					<div id="lineChart"></div>

@@ -22,8 +22,141 @@ $(document).ready(function () {
         $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").html(), 100));
     });
 
+    if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
+        $(".load-more").hide();
+    }
+
     loadLineChart(new Date().getFullYear());
+    loadCylinderChart(new Date().getFullYear());
+    loadPieChart(new Date().getFullYear());
 });
+
+function loadPieChart(year) {
+    $.ajax({
+        type: "POST",
+        url: loadPieChartData,
+        data: {
+            year: year
+        },
+        success: function (data) {
+            data = $.parseJSON(data);
+            var chart = AmCharts.makeChart( "pieChart", {
+                "language": "pt",
+                "type": "pie",
+                "theme": "light",
+                "dataProvider": [ {
+                    "country": "Matriculados",
+                    "value": data.enrollments
+                }, {
+                    "country": "Não-matriculados",
+                    "value": data.students - data.enrollments
+                }],
+                "valueField": "value",
+                "titleField": "country",
+                "outlineAlpha": 0.4,
+                "depth3D": 15,
+                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "angle": 30,
+                "export": {
+                    "enabled": true
+                }
+            } );
+            $( '.pie-chart-input' ).off().on( 'input change', function() {
+                var property = jQuery( this ).data( 'property' );
+                var target = chart;
+                var value = Number( this.value );
+                chart.startDuration = 0;
+
+                if ( property == 'innerRadius' ) {
+                    value += "%";
+                }
+
+                target[ property ] = value;
+                chart.validateNow();
+            });
+        }
+    });
+}
+
+function loadCylinderChart(year) {
+    $.ajax({
+        type: "POST",
+        url: loadCylinderChartData,
+        data: {
+            year: year
+        },
+        success: function (data) {
+            data = $.parseJSON(data);
+            var chart = AmCharts.makeChart("cylinderChart", {
+                "theme": "light",
+                "type": "serial",
+                "startDuration": 2,
+                "dataProvider": [{
+                    "category": "Escolas",
+                    "quantity": data.schools,
+                    "color": "#FF6600"
+                }, {
+                    "category": "Turmas",
+                    "quantity": data.classrooms,
+                    "color": "#FCD202"
+                }, {
+                    "category": "Professores",
+                    "quantity": data.instructors,
+                    "color": "#04D215"
+                }, {
+                    "category": "Alunos",
+                    "quantity": data.students,
+                    "color": "#0D8ECF"
+                }],
+                "valueAxes": [{
+                    "position": "left",
+                    "axisAlpha": 0,
+                    "gridAlpha": 0
+                }],
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "colorField": "color",
+                    "fillAlphas": 0.85,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "topRadius": 1,
+                    "valueField": "quantity"
+                }],
+                "depth3D": 40,
+                "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": false,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "category",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "axisAlpha": 0,
+                    "gridAlpha": 0
+
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            }, 0);
+
+            $('.cylinder-chart-input').off().on('input change', function () {
+                var property = jQuery(this).data('property');
+                var target = chart;
+                chart.startDuration = 0;
+
+                if (property == 'topRadius') {
+                    target = chart.graphs[0];
+                }
+
+                target[property] = this.value;
+                chart.validateNow();
+            });
+        }
+    });
+}
 
 function loadLineChart(year) {
     $.ajax({

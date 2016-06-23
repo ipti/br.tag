@@ -253,12 +253,13 @@
 
 		public function actionLoadLineChartData(){
 			$year = $_POST["year"];
+			$school = Yii::app()->user->school;
 			$sql = "select " .
 					"month(date) as month, " .
-					"(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month) as schools, " .
-					"(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month) as classrooms, " .
-					"(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month) as instructors, " .
-					"(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month) as students " .
+					"(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
+					"(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
+					"(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
+					"(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
 					"from log " .
 					"group by month(date)";
 			$chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
@@ -324,6 +325,28 @@
 						break;
 				}
 			}
+			echo json_encode($chartData);
+		}
+
+		public function actionLoadCylinderChartData() {
+			$school = Yii::app()->user->school;
+			$year = $_POST["year"];
+			$sql = "select " .
+					"1 as schools, " .
+					"(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
+					"(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
+					"(select count(*) from student_identification where school_inep_id_fk = $school) as students";
+			$chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
+			echo json_encode($chartData);
+		}
+
+		public function actionLoadPieChartData() {
+			$school = Yii::app()->user->school;
+			$year = $_POST["year"];
+			$sql = "select " .
+					"(select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
+					"(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = $year and si.school_inep_id_fk = $school) as enrollments";
+			$chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
 			echo json_encode($chartData);
 		}
 	}
