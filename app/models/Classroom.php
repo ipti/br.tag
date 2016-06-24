@@ -248,68 +248,6 @@ class Classroom extends CActiveRecord {
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('school_year', Yii::app()->user->year);
-//        $criteria->compare('initial_hour', $this->initial_hour, true);
-//        $criteria->compare('initial_minute', $this->initial_minute, true);
-//        $criteria->compare('final_hour', $this->final_hour, true);
-//        $criteria->compare('final_minute', $this->final_minute, true);
-//        $criteria->compare('week_days_sunday', $this->week_days_sunday);
-//        $criteria->compare('week_days_monday', $this->week_days_monday);
-//        $criteria->compare('week_days_tuesday', $this->week_days_tuesday);
-//        $criteria->compare('week_days_wednesday', $this->week_days_wednesday);
-//        $criteria->compare('week_days_thursday', $this->week_days_thursday);
-//        $criteria->compare('week_days_friday', $this->week_days_friday);
-//        $criteria->compare('week_days_saturday', $this->week_days_saturday);
-//        $criteria->compare('assistance_type', $this->assistance_type);
-//        $criteria->compare('mais_educacao_participator', $this->mais_educacao_participator);
-//        $criteria->compare('complementary_activity_type_1', $this->complementary_activity_type_1);
-//        $criteria->compare('complementary_activity_type_2', $this->complementary_activity_type_2);
-//        $criteria->compare('complementary_activity_type_3', $this->complementary_activity_type_3);
-//        $criteria->compare('complementary_activity_type_4', $this->complementary_activity_type_4);
-//        $criteria->compare('complementary_activity_type_5', $this->complementary_activity_type_5);
-//        $criteria->compare('complementary_activity_type_6', $this->complementary_activity_type_6);
-//        $criteria->compare('aee_braille_system_education', $this->aee_braille_system_education);
-//        $criteria->compare('aee_optical_and_non_optical_resources', $this->aee_optical_and_non_optical_resources);
-//        $criteria->compare('aee_mental_processes_development_strategies', $this->aee_mental_processes_development_strategies);
-//        $criteria->compare('aee_mobility_and_orientation_techniques', $this->aee_mobility_and_orientation_techniques);
-//        $criteria->compare('aee_libras', $this->aee_libras);
-//        $criteria->compare('aee_caa_use_education', $this->aee_caa_use_education);
-//        $criteria->compare('aee_curriculum_enrichment_strategy', $this->aee_curriculum_enrichment_strategy);
-//        $criteria->compare('aee_soroban_use_education', $this->aee_soroban_use_education);
-//        $criteria->compare('aee_usability_and_functionality_of_computer_accessible_education', $this->aee_usability_and_functionality_of_computer_accessible_education);
-//        $criteria->compare('aee_teaching_of_Portuguese_language_written_modality', $this->aee_teaching_of_Portuguese_language_written_modality);
-//        $criteria->compare('aee_strategy_for_school_environment_autonomy', $this->aee_strategy_for_school_environment_autonomy);
-//        $criteria->compare('modality', $this->modality);
-//        $criteria->compare('edcenso_stage_vs_modality_fk', $this->edcenso_stage_vs_modality_fk, true);
-//        $criteria->compare('edcenso_professional_education_course_fk', $this->edcenso_professional_education_course_fk);
-//        $criteria->compare('discipline_chemistry', $this->discipline_chemistry);
-//        $criteria->compare('discipline_physics', $this->discipline_physics);
-//        $criteria->compare('discipline_mathematics', $this->discipline_mathematics);
-//        $criteria->compare('discipline_biology', $this->discipline_biology);
-//        $criteria->compare('discipline_science', $this->discipline_science);
-//        $criteria->compare('discipline_language_portuguese_literature', $this->discipline_language_portuguese_literature);
-//        $criteria->compare('discipline_foreign_language_english', $this->discipline_foreign_language_english);
-//        $criteria->compare('discipline_foreign_language_spanish', $this->discipline_foreign_language_spanish);
-//        $criteria->compare('discipline_foreign_language_franch', $this->discipline_foreign_language_franch);
-//        $criteria->compare('discipline_foreign_language_other', $this->discipline_foreign_language_other);
-//        $criteria->compare('discipline_arts', $this->discipline_arts);
-//        $criteria->compare('discipline_physical_education', $this->discipline_physical_education);
-//        $criteria->compare('discipline_history', $this->discipline_history);
-//        $criteria->compare('discipline_geography', $this->discipline_geography);
-//        $criteria->compare('discipline_philosophy', $this->discipline_philosophy);
-//        $criteria->compare('discipline_social_study', $this->discipline_social_study);
-//        $criteria->compare('discipline_sociology', $this->discipline_sociology);
-//        $criteria->compare('discipline_informatics', $this->discipline_informatics);
-//        $criteria->compare('discipline_professional_disciplines', $this->discipline_professional_disciplines);
-//        $criteria->compare('discipline_special_education_and_inclusive_practices', $this->discipline_special_education_and_inclusive_practices);
-//        $criteria->compare('discipline_sociocultural_diversity', $this->discipline_sociocultural_diversity);
-//        $criteria->compare('discipline_libras', $this->discipline_libras);
-//        $criteria->compare('discipline_pedagogical', $this->discipline_pedagogical);
-//        $criteria->compare('discipline_religious', $this->discipline_religious);
-//        $criteria->compare('discipline_native_language', $this->discipline_native_language);
-//        $criteria->compare('discipline_others', $this->discipline_others);
-//        $criteria->compare('instructor_situation', $this->instructor_situation);
-//        $criteria->compare('school_year', $this->school_year);
-//        $criteria->compare('turn', $this->turn, true);
         $criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
 
         return new CActiveDataProvider($this, array(
@@ -323,6 +261,95 @@ class Classroom extends CActiveRecord {
                 'pageSize' => 50,
             ),
         ));
+    }
+
+    /**
+     * @param int $disciplineId
+     * @return Classes[]
+     */
+    public function getGivenClassesByDiscipline($disciplineId){
+        $classes = [];
+        foreach($this->classes as $class){
+            if($class->given_class == 1 && $class->discipline_fk == $disciplineId){
+                array_push($classes, $class);
+            }
+        }
+        return $classes;
+    }
+
+    public function getSchoolDaysByExam($exam){
+        /* @var $schoolConfiguration SchoolConfiguration */
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $schoolDays = 0;
+        switch ($exam) {
+            case 1:
+                $initial = new DateTime("01/01/" . yii::app()->user->year);
+                $final = new DateTime($schoolConfiguration->exam1);
+                break;
+            case 2:
+                $initial = new DateTime($schoolConfiguration->exam1);
+                $final = new DateTime($schoolConfiguration->exam2);
+                break;
+            case 3:
+                $initial = new DateTime($schoolConfiguration->exam2);
+                $final = new DateTime($schoolConfiguration->exam3);
+                break;
+            case 4:
+                $initial = new DateTime($schoolConfiguration->exam3);
+                $final = new DateTime($schoolConfiguration->exam4);
+                break;
+            default:
+                return [];
+        }
+
+        $dateIndex = new DateTime("1-1-".yii::app()->user->year);
+        foreach ($this->classes as $class) {
+            $date = new DateTime($class->day."-".$class->month."-".yii::app()->user->year);
+            if ($date > $initial && $date <= $final && $class->given_class == 1) {
+                if($dateIndex->format("d-m") == "1-1")
+                    $schoolDays++;
+                else{
+                    if($dateIndex != $date){
+                        $dateIndex = $date;
+                        $schoolDays++;
+                    }
+                }
+            }
+        }
+        return $schoolDays;
+    }
+    public function getWorkingHoursByExam($exam){
+        /* @var $schoolConfiguration SchoolConfiguration */
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $workingHours = 0;
+        switch ($exam) {
+            case 1:
+                $initial = new DateTime("01/01/" . yii::app()->user->year);
+                $final = new DateTime($schoolConfiguration->exam1);
+                break;
+            case 2:
+                $initial = new DateTime($schoolConfiguration->exam1);
+                $final = new DateTime($schoolConfiguration->exam2);
+                break;
+            case 3:
+                $initial = new DateTime($schoolConfiguration->exam2);
+                $final = new DateTime($schoolConfiguration->exam3);
+                break;
+            case 4:
+                $initial = new DateTime($schoolConfiguration->exam3);
+                $final = new DateTime($schoolConfiguration->exam4);
+                break;
+            default:
+                return [];
+        }
+
+        foreach ($this->classes as $class) {
+            $date = new DateTime($class->day."-".$class->month."-".yii::app()->user->year);
+            if ($date > $initial && $date <= $final && $class->given_class == 1) {
+                $workingHours++;
+            }
+        }
+        return $workingHours;
     }
 
     /**

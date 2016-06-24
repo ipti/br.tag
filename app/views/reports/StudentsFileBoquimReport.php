@@ -7,6 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileBoquimReport/_initia
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 <div class="row-fluid hidden-print">
@@ -46,7 +47,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
                 </span>
                 <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
-                <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
+                <p style="font-size:10px;font-weight: bold">
+                    <?php
+                    if ($_REQUEST['type'] == '3') {
+                        echo 'RESOLUÇÃO Nº 69 29/04/2013/CMEB';
+                    }else{
+                        echo $school->act_of_acknowledgement;
+                    }
+                    ?>
+                </p>
                 <p style="font-size:8px;font-weight: bold">
                     <?php echo $school->address ?>,
                     <?php echo $school->edcensoCityFk->name ?>/
@@ -62,15 +71,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <br/>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
-                <?php
-                if ($_REQUEST['type'] == '3') {
-                    echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
-                    . 'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
-                    . '</div>';
-                }
-                ?>
+
                 <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
-<?php //echo $namereport ?>
+                    <?php //echo $namereport ?>
                     <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
                     <span class="stage"></span>
                 </div>
@@ -92,7 +95,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             } else if ($_REQUEST['type'] == '3') {
                                 echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                                 echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                                    . 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR'
+                                    . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
                                     . '</td>';
                             }
                         ?>
@@ -122,7 +125,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         ?>
                     </tr>
                     <tr>	
-                        <td style="">DATA: <?php echo date("d/m/y") ?></td>
+                        <td style="">DATA:  <?php echo date('d/m/y',strtotime($enrollment->create_date));?></td>
                         <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                             <br>Pai, Mãe ou Responsável
                         </td>

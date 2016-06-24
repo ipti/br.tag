@@ -39,16 +39,33 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <div id="report" style="font-size: 14px">
 
-            <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
-                <div>
-                    <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
-                </div>
-                <span style="font-size: 14px">
-                    ESTADO DE SERGIPE<br>
-                    PREFEITURA MUNICIPAL DE BOQUIM<br>
+                <div id="container-header" style="width: 100%; margin: -25px auto auto auto; text-align: center">
+                    <?php if(isset($school->act_of_acknowledgement)){?>
+                        <span style="display:block;clear:both;width: 40px;margin:0 auto;">
+                    <?php
+                    if(isset($school->logo_file_name)){echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$school->inep_id)), 'logo', array('width'=>40, 'display:block;width:40px; margin:0 auto'));};
+                    ?>
+                </span>
+                        <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
+                        <p style="font-size:10px;font-weight: bold">
+                            <?php
+                                echo $school->act_of_acknowledgement;
+                            ?>
+                        </p>
+                        <p style="font-size:8px;font-weight: bold">
+                            <?php echo $school->address ?>,
+                            <?php echo $school->edcensoCityFk->name ?>/
+                            <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
+                        </p>
+                        <span style="display: block; clear: both"></span>
+                    <?php }else{?>
+                        <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="display:block; margin:0 auto">
+                        <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE BOQUIM<br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
+                        <span style="clear:both;display:block"></span>
+                    <?php }?>
+                </div>
                 <span style="clear:both;display:block"></span>
-            </div>
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <br>
@@ -275,7 +292,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 echo " para o _____ Ano do __________________________________________<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             } else {
-                                echo " para o " . $c . " Ano do Ensino Fundamental<br>"
+                                echo " para o ______Ano do Ensino Fundamental<br>"
+                                //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
                             }
                             if ($gender == '1') {
@@ -340,6 +358,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     Boquim(SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
                 <br/><br/><br/><br/>
+                <?php if(!(isset($school->act_of_acknowledgement))){?>
                 <div style="text-align: center">
                     <span style="font-size: 14px">
                         SIMONE MOURA DE SOUZA ALMEIDA
@@ -353,6 +372,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         Decreto de 03/05/2013
                     </span>
                 </div>
+                <?php } ?>
             </div>
         </div>
         <?php $this->renderPartial('footer'); ?>

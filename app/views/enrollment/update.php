@@ -18,7 +18,8 @@
     <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
             <?php echo $this->renderPartial('_form', array(
-                'model' => $model, 
+                'model' => $model,
+                'transoption'=>$transoption,
                 'title' => $title)); 
             ?>       
         </div>

@@ -19,8 +19,8 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property EdcensoDiscipline[] $disciplineFk
- * @property StudentEnrollment[] $enrollmentFk
+ * @property EdcensoDiscipline $disciplineFk
+ * @property StudentEnrollment $enrollmentFk
  */
 class Grade extends CActiveRecord
 {
@@ -141,4 +141,19 @@ class Grade extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function getAverage(){
+		$g1 = $this->grade1 != null ? $this->grade1 : 0;
+		$g2 = $this->grade2 != null ? $this->grade2 : 0;
+		$g3 = $this->grade3 != null ? $this->grade3 : 0;
+		$g4 = $this->grade4 != null ? $this->grade4 : 0;
+		return ($g1 + $g2 + $g3 + $g4) / 4;
+	}
+	public function getFinalAverage(){
+		$grf = $this->recovery_final_grade != null ? $this->grade4 : 0;
+		$average = ($this->getAverage() + $grf)/2;
+
+		return $average > $this->getAverage() ? $average : $this->getAverage();
+	}
+
 }

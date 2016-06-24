@@ -92,7 +92,7 @@ $(document).ready(function () {
                     var id = '#add-resource-name';
                     var name = $('#add-resource-name').val().toUpperCase();
                     var description = $('#add-resource-description').val().toUpperCase();
-                    var type = 3;
+                    var type = 2;
                     if (name !== "") {
                         addResource(name, description, type);
                         $(this).dialog("close");

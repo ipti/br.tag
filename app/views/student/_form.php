@@ -80,11 +80,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
                         <div class=" span6">
-                            <div class="control-group">                                
-                                <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
+                            <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelStudentIdentification, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
-                                    <?php echo $form->textfield($modelStudentIdentification, 'inep_id', array('readonly'=>'readonly')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -222,7 +220,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                        </div>                        
+                        </div>
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
@@ -241,7 +239,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -249,7 +247,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_telephone'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group" style="display:none;" id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -399,21 +397,21 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
+                                            </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
+                                            </label>
                                         </div>
-                                        <div class="span3"> 
+                                        <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
+                                            </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
+                                            </label>
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
@@ -423,7 +421,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                            </label> 
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -888,7 +886,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
                                 </div>
                             </div>
@@ -1028,14 +1026,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Excluir</td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Declaração</td><td style="text-align: center">Notas</td><td style="text-align: center">Excluir</td></tr></thead>
                                         <tbody>
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
-                                                <td><?php echo $me->classroomFk->name ?></td>
+                                                <td><a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)) ?>'><?php echo $me->classroomFk->name ?></a></td>
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                 $type;
@@ -1064,7 +1062,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                             break;
                                                         //educação de jovens e adultos
                                                         case 6:
-                                                            $type = 2;
+                                                            $type = 3;
                                                             break;
                                                         //ensino fundamental OU multietapa
                                                         case 7:
@@ -1076,9 +1074,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     }
                                                 }
                                                 ?>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
-                                                <td style="text-align: center"><a href='<?php echo Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('reports/StudentsFileBoquimReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('reports/EnrollmentDeclarationReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('reports/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
                                             </tr>
                                             <?php
                                         }
@@ -1090,7 +1089,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
             <?php $this->endWidget(); ?>
         </div>
     </div>
@@ -1101,5 +1100,5 @@ $form = $this->beginWidget('CActiveForm', array(
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
-    var filled = -1;    
+    var filled = -1;
 </script>
