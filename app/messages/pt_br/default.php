@@ -484,7 +484,6 @@ return array(
     
     // Instructor-TeachingData
     'Instructor' => 'Professor',
-    'ID' => 'Professor',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
@@ -560,6 +559,7 @@ return array(
     'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
     'Students' => 'Alunos',
+    'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
     
     //
@@ -622,7 +622,7 @@ return array(
     'admin' => 'Administrador',
     
     'Administration' => 'Administração',
-    
+    'Conflicts' => 'Conflitos',
     'Confirm' => "Confirme a Senha",
     
     //Import
