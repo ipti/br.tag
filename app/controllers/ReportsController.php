@@ -9,7 +9,7 @@ class ReportsController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                                    'InstructorsPerClassroomReport','StudentsFileReport','StudentsFileBoquimReport',
+                                    'InstructorsPerClassroomReport','StudentsFileReport',
                                     'getStudentsFileInformation', 'ResultBoardReport',
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance',
@@ -133,13 +133,9 @@ class ReportsController extends Controller {
             'report' => $result
         ));
     }
-
-    public function actionStudentsFileReport() {
-        $this->render('StudentsFileReport', array());
-    }
     
-    public function actionGetStudentsFileBoquimInformation($enrollment_id){
-        $sql = "SELECT * FROM studentsfile_boquim WHERE enrollment_id = ".$enrollment_id.";";
+    public function actionGetStudentsFileInformation($enrollment_id){
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         echo json_encode($result);
@@ -154,7 +150,7 @@ class ReportsController extends Controller {
 
     public function actionStudentsFileBoquimReport($enrollment_id) {
         $this->layout = "reports";
-        $this->render('StudentsFileBoquimReport', array('enrollment_id'=>$enrollment_id));
+        $this->render('StudentsFileReport', array('enrollment_id'=>$enrollment_id));
     }
 
     public function actionEnrollmentDeclarationReport($enrollment_id) {
@@ -167,21 +163,14 @@ class ReportsController extends Controller {
     }
 
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
-        $sql = "SELECT si.name name, si.mother_name mother, si.father_name father, si.birthday birthday, si.inep_id inep_id, si.nis nis, ec.name city, c.school_year enrollment_date"
-                . " FROM student_enrollment se JOIN classroom c ON(c.id=se.classroom_fk) JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
+        $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, sd.nis nis, ec.name city, YEAR(se.create_date) enrollment_date"
+                . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
                 . " WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         echo json_encode($result);
     }
-
-    public function actionGetStudentsFileInformation($student_id){
-        $sql = "SELECT * FROM StudentsFile WHERE id = ".$student_id.";";
-        $result = Yii::app()->db->createCommand($sql)->queryRow();
-
-        echo json_encode($result);
-    }
-
+    
     public function actionBFReport() {
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
@@ -213,11 +202,12 @@ class ReportsController extends Controller {
 
         $command = Yii::app()->db->createCommand();
         //day é um armengo, se colocar colunas que não estão na tabela o count não aparece na array
-        $command->select = 'c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults ';
+        $command->select = 'c.name classroom, si.name student, sd.nis nis, si.birthday, t.month, count(*) count , cf.faults ';
         $command->from = 'class t ';
         $command->join  ='left join classroom c on c.id = t.classroom_fk ';
         $command->join .='left join student_enrollment se on se.classroom_fk = t.classroom_fk ';
         $command->join .='left join student_identification si on se.student_fk = si.id ';
+        $command->join .='left join student_documents_and_address sd on sd.id = si.id ';
         $command->join .='left join (
             SELECT class.classroom_fk, class.month, student_fk, count(*) faults 
             FROM class_faults cf
@@ -288,7 +278,7 @@ class ReportsController extends Controller {
                     eoe.name rg_emitter, euf.acronym rg_uf, 
                     sda.civil_certification_term_number civil_certification, sda.civil_certification_sheet, sda.civil_certification_book, 
                     ec.name civil_certification_city, euf.acronym civil_certification_uf, 
-                    si.father_name father, si.mother_name mother
+                    si.filiation_2 filiation_2, si.filiation_1 filiation_1
                 FROM student_identification si
                     JOIN student_enrollment se ON se.student_fk = si.id
                     JOIN student_documents_and_address sda ON sda.student_fk = si.inep_id

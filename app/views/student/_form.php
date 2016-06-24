@@ -220,7 +220,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                        </div>
+                        </div>                        
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
@@ -239,7 +239,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
-
+                            
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
                                 <div class="controls">
