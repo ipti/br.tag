@@ -56,6 +56,7 @@ class StockController extends CController{
 
             if ($received->validate()) {
                 $received->save();
+                Log::model()->saveAction("lunch_stock", $received->id, "C", $received->inventory->item->name . "|" . $amount * $received->inventory->item->measure . " " . $received->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item added successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -93,6 +94,7 @@ class StockController extends CController{
 
             if ($spent->validate()) {
                 $spent->save();
+                Log::model()->saveAction("lunch_stock", $spent->id, "D", $spent->inventory->item->name . "|" . $amount * $spent->inventory->item->measure . " " . $spent->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item spent successfully.'));
                 $this->redirect(['stock/index']);
             } else {

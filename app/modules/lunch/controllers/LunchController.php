@@ -30,6 +30,7 @@ class LunchController extends Controller {
 
             if($menu->validate()){
                 $menu->save();
+                Log::model()->saveAction("lunch_menu", $menu->id, "C", $menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu inserted successfully!'));
                 $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menu->id]));
             }else{
@@ -52,6 +53,7 @@ class LunchController extends Controller {
             $menu->name = $menuPost['name'];
             if($menu->validate()){
                 $menu->save();
+                Log::model()->saveAction("lunch_menu", $menu->id, "U", $menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu updated successfully!'));
                 $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menu->id]));
             }else{
@@ -165,6 +167,7 @@ class LunchController extends Controller {
 
                 if($menuMeal->validate()){
                     $menuMeal->save();
+                    Log::model()->saveAction("lunch_meal", $menuMeal->id, "C", $menuMeal->menu->name);
                     Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal added successfully!'));
                 }else{
                     $meal->delete();
@@ -198,6 +201,7 @@ class LunchController extends Controller {
             if($menuMeal->meal->validate() && $menuMeal->validate()) {
                 $menuMeal->meal->save();
                 $menuMeal->save();
+                Log::model()->saveAction("lunch_meal", $menuMeal->id, "U", $menuMeal->menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal updated successfully!'));
             }else{
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating meal.'));

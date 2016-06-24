@@ -383,6 +383,7 @@ class TimesheetController extends Controller
                 $schedule->turn = $turn;
                 $schedule->save();
             }
+            Log::model()->saveAction("timesheet", $classroom->id, "U", $classroom->name);
         }
 
         $this->actionGetTimesheet($classroomId);

@@ -106,6 +106,7 @@ class EnrollmentController extends Controller {
                 $model->student_inep_id = StudentIdentification::model()->findByPk($model->student_fk)->inep_id;
                 try {
                     if ($model->save()) {
+                        Log::model()->saveAction("enrollment", $model->id, "C", $model->studentFk->name . "|" . $model->classroomFk->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno matriculado com sucesso!'));
                         $this->redirect(array('index'));
                     }
@@ -113,6 +114,7 @@ class EnrollmentController extends Controller {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
                     //echo $exc->getTraceAsString();
+
                 }
             } else {
                 unset($model->s);
@@ -150,6 +152,7 @@ class EnrollmentController extends Controller {
                 $transportset = '$model->'.$_POST['StudentEnrollment']['transport_type'].'='.'1;';
                 eval($transportset);
                 if ($model->save()) {
+                    Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
                     $this->redirect(array('student/index'));
                 }
@@ -169,9 +172,10 @@ class EnrollmentController extends Controller {
      */
     public function actionDelete($id) {
 
-        $name = $this->loadModel($id)->studentFk->name;
-        if ($this->loadModel($id)->delete()) {
-            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de $name foi excluída com sucesso!"));
+        $model = $this->loadModel($id);
+        if ($model->delete()) {
+            Log::model()->saveAction("enrollment", $model->id, "D", $model->studentFk->name . "|" . $model->classroomFk->name);
+            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de " . $model->studentFk->name . " foi excluída com sucesso!"));
             $this->redirect(Yii::app()->request->urlReferrer);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -332,6 +336,7 @@ class EnrollmentController extends Controller {
             }
         }
         if ($saved) {
+            Log::model()->saveAction("grade", $classroom->id, "U", $classroom->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Grades saved successfully!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'We have got an error saving grades!'));

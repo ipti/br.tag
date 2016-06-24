@@ -103,6 +103,7 @@
                             }
                         }
                     }
+                    Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->school_year);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
@@ -118,6 +119,7 @@
                 $event->attributes = $attributes;
                 if ($event->validate()) {
                     $event->save();
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
@@ -149,6 +151,7 @@
 
                 if ($event->validate()) {
                     $event->save();
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
