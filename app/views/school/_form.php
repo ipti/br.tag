@@ -10,23 +10,29 @@ $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
 
-$form=$this->beginWidget('CActiveForm', array(
-	'id'=>'school',
-	'enableAjaxValidation'=>false,
+$form = $this->beginWidget('CActiveForm', array(
+    'id' => 'school',
+    'enableAjaxValidation' => false,
     'htmlOptions' => array('enctype' => 'multipart/form-data'),
 )); ?>
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+        <h3 class="heading-mosaic"><?php echo $title; ?>
+            <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>
+
         <div class="buttons">
-            <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+            <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
+               style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+            <a data-toggle="tab"
+               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
+                <i></i></a>
+
             <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
         </div>
     </div>
 </div>
-            
+
 <div class="innerLR">
 
     <div class="widget widget-tabs border-bottom-none">
@@ -34,13 +40,23 @@ $form=$this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <div class="widget-head">
             <ul class="tab-school">
-                <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
-                <li id="tab-school-structure"   ><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?></a></li>
-                <li id="tab-school-equipment"  ><a class="glyphicons imac"     href="#school-equipment" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?></a></li>
-                <li id="tab-school-education"   ><a class="glyphicons book"     href="#school-education" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?></a></li>
+                <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify"
+                                                                data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?>
+                    </a></li>
+                <li id="tab-school-structure"><a class="glyphicons settings" href="#school-structure" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Structure') ?>
+                    </a></li>
+                <li id="tab-school-equipment"><a class="glyphicons imac" href="#school-equipment"
+                                                 data-toggle="tab"><i></i><?php echo Yii::t('default', 'Equipments') ?>
+                    </a></li>
+                <li id="tab-school-education"><a class="glyphicons book" href="#school-education"
+                                                 data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?>
+                    </a></li>
+                <li id="tab-school-reports"><a class="glyphicons stats" href="#school-reports"
+                                               data-toggle="tab"><i></i><?php echo Yii::t('default', 'Reports') ?></a>
+                </li>
             </ul>
         </div>
-        
+
         <div class="widget-body form-horizontal">
             <div class="tab-content">
                 <!-- Tab content -->
@@ -48,18 +64,20 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <?php // @done S1 - Alinhar o campo nome, o span12 não esta funcionando devidamente(remover o style e corrigir no css) ?>
                         <div class="span12">
-                            <!--//@done S1 - 09 - O Campo de nome está muito pequeno, aumentar -->   
+                            <!--//@done S1 - 09 - O Campo de nome está muito pequeno, aumentar -->
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100, 'class' => 'span10')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.') . " " . Yii::t('help', 'Min length') . '4'; ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.') . " " . Yii::t('help', 'Min length') . '4'; ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'name'); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">    
+                    <div class="row-fluid">
                         <div class=" span6">
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label')); ?>
@@ -69,13 +87,15 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <?php
-                                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$modelSchoolIdentification->inep_id)), 'logo', array('width'=>40, 'style'=>'display:block;margin: -10px 0 15px 145px'));
+                            echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id' => $modelSchoolIdentification->inep_id)), 'logo', array('width' => 40, 'style' => 'display:block;margin: -10px 0 15px 145px'));
                             ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'inep_id', array('size' => 8, 'maxlength' => 8, 'class' => 'span10')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'School code in the registration INEP'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'School code in the registration INEP'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'inep_id'); ?>
                                 </div>
                             </div>
@@ -91,12 +111,12 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                        $criteria = new CDbCriteria();
-                                        $criteria->select = 't.*';
-                                        //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
-                                        //$criteria->condition = 'city.edcenso_uf_fk = ';
-                                        $criteria->order = 'name';
-                                        echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
+                                    $criteria = new CDbCriteria();
+                                    $criteria->select = 't.*';
+                                    //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                    //$criteria->condition = 'city.edcenso_uf_fk = ';
+                                    $criteria->order = 'name';
+                                    echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                                 </div>
                             </div>
@@ -113,7 +133,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'situation', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelSchoolIdentification, 'situation', array(null => 'Selecione a situação', 1 => 'Em Atividade', 2 => 'Paralisada', 3 => 'Extinta'), array('class' => 'select-search-off')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Current situation school run'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Current situation school run'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'situation'); ?>
                                 </div>
                             </div>
@@ -121,7 +143,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'initial_date', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'initial_date', array('size' => 10, 'maxlength' => 10)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Initial Date Help'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Initial Date Help'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'initial_date'); ?>
                                 </div>
                             </div>
@@ -129,7 +153,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'final_date', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'final_date', array('size' => 10, 'maxlength' => 10)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Final Date Help'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Final Date Help'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'final_date'); ?>
                                 </div>
                             </div>
@@ -142,21 +168,25 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid">    
+                    <div class="row-fluid">
                         <div class=" span6">
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'manager_cpf', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'manager_cpf', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'CPF school manager. Numbers only.'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_cpf'); ?>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'manager_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'manager_name', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Full name of school manager'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_name'); ?>
                                 </div>
                             </div>
@@ -166,7 +196,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'manager_role', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_role', array(null => "Selecione o cargo", "1" => "Diretor", "2" => "Outro Cargo"), array('class' => 'select-search-off')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Role of the school manager'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_role'); ?>
                                 </div>
                             </div>
@@ -174,7 +206,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'manager_email', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'manager_email', array('size' => 50, 'maxlength' => 50)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
                                 </div>
                             </div>
@@ -186,7 +220,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'address', array('size' => 60, 'maxlength' => 100, 'class' => 'span10')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'address'); ?>
                                 </div>
                             </div>
@@ -194,7 +230,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_number', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'address_number', array('size' => 10, 'maxlength' => 10, 'class' => 'span2')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'address_number'); ?>
                                 </div>
                             </div>
@@ -202,7 +240,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_complement', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'address_complement', array('size' => 20, 'maxlength' => 20, 'class' => 'span10')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'address_complement'); ?>
                                 </div>
                             </div>
@@ -210,16 +250,20 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'address_neighborhood', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'address_neighborhood', array('size' => 50, 'maxlength' => 50, 'class' => 'span10')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'address_neighborhood'); ?>
                                 </div>
                             </div>
-                            <?php // @done S1 -10 - Campo de DDD tem que estar junto com o campo de Telefone (cancelado) ?> 
+                            <?php // @done S1 -10 - Campo de DDD tem que estar junto com o campo de Telefone (cancelado) ?>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'ddd', array('size' => 2, 'maxlength' => 2, 'class' => 'span2')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'ddd'); ?>
                                 </div>
                             </div>
@@ -227,7 +271,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array('size' => 9, 'maxlength' => 9)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                                 </div>
                             </div>
@@ -235,7 +281,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'other_phone_number', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'other_phone_number', array('size' => 9, 'maxlength' => 9)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Phone'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'other_phone_number'); ?>
                                 </div>
                             </div>
@@ -243,7 +291,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'email', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolIdentification, 'email', array('size' => 50, 'maxlength' => 50)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'email'); ?>
                                 </div>
                             </div>
@@ -265,8 +315,10 @@ $form=$this->beginWidget('CActiveForm', array(
                                         $(formIdentification+'edcenso_city_fk').val(data['City']).trigger('change').select2('readonly',data.City != null);
                                         }, 500);
                                     }"
-                                    )));?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
+                                        ))); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
 
                                     <?php echo $form->error($modelSchoolIdentification, 'cep'); ?>
                                 </div>
@@ -289,7 +341,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                             $('#SchoolIdentification_edcenso_regional_education_organ_fk').html(data.Regional).val(valR).trigger('change');
                                             $('#SchoolIdentification_edcenso_city_fk').html(data.City).val(valC).trigger('change');
                                         }",
-                                    ))); ?>      
+                                        ))); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_uf_fk'); ?>
                                 </div>
                             </div>
@@ -306,14 +358,14 @@ $form=$this->beginWidget('CActiveForm', array(
                                             valD = $('#SchoolIdentification_edcenso_district_fk').val();
                                             $('#SchoolIdentification_edcenso_district_fk').html(data.District).val(valD).trigger('change');
                                         }",
-                                    ))); ?>  
+                                        ))); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_district_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on')); ?>  
+                                    <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
                                 </div>
                             </div>
@@ -346,7 +398,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                    </div>            
+                    </div>
                 </div>
                 <div class="tab-pane" id="school-structure">
                     <div class="row-fluid">
@@ -355,7 +407,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'classroom_count'); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'classroom_count'); ?>
                                 </div>
                             </div>
@@ -363,10 +417,12 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'used_classroom_count', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'used_classroom_count'); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'used_classroom_count'); ?>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                         <div class="span6">
                             <?php
@@ -378,7 +434,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'employees_count', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'employees_count'); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'employees_count'); ?>
                                 </div>
                             </div>
@@ -387,14 +445,16 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelSchoolStructure, 'feeding'); ?>
-                                </div>                             
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span6">      
+                        <div class=" span6">
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
+                                <label
+                                    class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
+
                                 <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['operation_location_building'];
@@ -433,7 +493,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelSchoolStructure, 'operation_location_other', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
-                            </div>                    
+                            </div>
                         </div>
                         <div class=" span6">
                             <div class="control-group">
@@ -457,13 +517,14 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->dropDownList($modelSchoolStructure, 'shared_school_inep_id_1', CHtml::listData(SchoolIdentification::model()->findAll(), 'inep_id', 'name'), array('multiple' => true, 'key' => 'inep_id', 'class' => 'select-schools multiselect')); ?>
                                     <?php echo $form->error($modelSchoolStructure, 'shared_school_inep_id_1'); ?>
                                 </div>
-                            </div>            
+                            </div>
                         </div>
                     </div>
-                    <div class="row-fluid"> 
+                    <div class="row-fluid">
                         <div class=" span4">
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Dependencies'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_principal_room']; ?>
@@ -503,7 +564,8 @@ $form=$this->beginWidget('CActiveForm', array(
                                     </label>
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_library']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_library', array('value' => 1, 'uncheckValue' => 0)); ?>                                            Biblioteca
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_library', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        Biblioteca
                                     </label>
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_reading_room']; ?>
@@ -606,6 +668,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="span4">
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Water Supply'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['water_supply_public']; ?>
@@ -633,6 +696,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="span4">
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Energy Supply'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_public']; ?>
@@ -655,6 +719,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Sewage'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
@@ -673,7 +738,9 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="span4">
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Garbage Destination'); ?></label>
+                                <label
+                                    class="control-label"><?php echo Yii::t('default', 'Garbage Destination'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_collect']; ?>
@@ -713,7 +780,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_tv', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_tv', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_tv'); ?>
                                 </div>
                             </div>
@@ -721,7 +790,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_vcr', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_vcr', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_vcr'); ?>
                                 </div>
                             </div>
@@ -729,7 +800,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_dvd', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_dvd', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_dvd'); ?>
                                 </div>
                             </div>
@@ -737,7 +810,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_satellite_dish', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_satellite_dish', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_satellite_dish'); ?>
                                 </div>
                             </div>
@@ -745,7 +820,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_copier', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_copier', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_copier'); ?>
                                 </div>
                             </div>
@@ -754,7 +831,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_multifunctional_printer', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_multifunctional_printer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_multifunctional_printer'); ?>
                                 </div>
                             </div>
@@ -764,7 +843,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_overhead_projector', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_overhead_projector', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_overhead_projector'); ?>
                                 </div>
                             </div>
@@ -773,7 +854,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_printer', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_printer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_printer'); ?>
                                 </div>
                             </div>
@@ -782,7 +865,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_stereo_system', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_stereo_system', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_stereo_system'); ?>
                                 </div>
                             </div>
@@ -791,7 +876,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_data_show', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_data_show', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_data_show'); ?>
                                 </div>
                             </div>
@@ -801,8 +888,10 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_fax', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_fax', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
-                                            <?php echo $form->error($modelSchoolStructure, 'equipments_fax'); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelSchoolStructure, 'equipments_fax'); ?>
                                 </div>
                             </div>
 
@@ -819,7 +908,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_camera', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_camera', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_camera'); ?>
                                 </div>
                             </div>
@@ -828,7 +919,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_computer', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'equipments_computer', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Count') . " " . Yii::t('help', 'School equipment'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_computer'); ?>
                                 </div>
                             </div>
@@ -837,7 +930,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'administrative_computers_count', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'administrative_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'administrative_computers_count'); ?>
                                 </div>
                             </div>
@@ -846,7 +941,9 @@ $form=$this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolStructure, 'student_computers_count', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'student_computers_count', array('size' => 4, 'maxlength' => 4, 'class' => 'equipments_input')); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . " " . Yii::t('help', 'Count'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolStructure, 'student_computers_count'); ?>
                                 </div>
                             </div>
@@ -900,14 +997,16 @@ $form=$this->beginWidget('CActiveForm', array(
                                         "5" => "Unidade de uso sustentável em terra indígena",
                                         "6" => "Unidade de uso sustentável em área remanescente de quilombos",
                                         "7" => "Não se aplica",
-                                            ), array('class' => 'select-search-off'));
+                                    ), array('class' => 'select-search-off'));
                                     ?>
                                     <?php echo $form->error($modelSchoolStructure, 'different_location'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Sociocultural Didactic Material'); ?></label>
+                                <label
+                                    class="control-label"><?php echo Yii::t('default', 'Sociocultural Didactic Material'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_none']; ?>
@@ -933,10 +1032,12 @@ $form=$this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group" id="native_education_language">
-                                <label class="control-label"><?php echo Yii::t('default', 'Native Education Language'); ?></label>
+                                <label
+                                    class="control-label"><?php echo Yii::t('default', 'Native Education Language'); ?></label>
+
                                 <div id="native_education_lenguage_none">
-                                <?php echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_native', array('value'=>null, 'disabled'=>'disabled'));
-                                        echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_portuguese', array('value'=>null, 'disabled'=>'disabled'));?>
+                                    <?php echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_native', array('value' => null, 'disabled' => 'disabled'));
+                                    echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_portuguese', array('value' => null, 'disabled' => 'disabled')); ?>
                                 </div>
                                 <div class="uniformjs margin-left" id="native_education_lenguage_some">
                                     <label class="checkbox">
@@ -981,11 +1082,12 @@ $form=$this->beginWidget('CActiveForm', array(
                                     <?php echo $form->checkBox($modelSchoolStructure, 'pedagogical_formation_by_alternance', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <?php echo $form->error($modelSchoolStructure, 'pedagogical_formation_by_alternance'); ?>
                                 </div>
-                            </div>   
+                            </div>
                         </div>
                         <div class="span7">
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Modalities'); ?></label>
+
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['modalities_regular']; ?>
@@ -1008,6 +1110,60 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane" id="school-reports">
+                    <div class="report-button">
+                        <a href="/?r=reports/enrollmentcomparativeanalysisreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Análise Comparativa de
+                            Matrículas</a>
+                    </div>
+                    <div class="report-button">
+                        <a href="/?r=reports/schoolprofessionalnumberbyclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Numero de Profissionais por
+                            turma</a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/educationalassistantperclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Auxiliar/Assistente
+                            Educacional
+                            por Turma</a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/disciplineandinstructorrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relacao Docente/Disciplina
+                            por
+                            Turma</a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/complementaractivityassistantbyclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Monitores de
+                            Atividade
+                            Complementar por Turma</a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/classroomwithoutinstructorrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Turmas sem Instrutor </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentinstructornumbersrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Instrutores e Alunos por Turma </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentsbyclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Alunos por Turma </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentsinalphabeticalorderrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Alunos em Ordem Alfab&eacute;tica </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentswithdisabilitiesrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Alunos com Defici&ecirc;ncia </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentsusingschooltransportationrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Alunos que Utilizam Transporte Escolar </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentswithotherschoolenrollmentreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos com Vínculo em Outra Escola </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/incompatiblestudentagebyclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos com Idade Incompatível Por Turma </a></div>
+                    <div class="report-button">
+                        <a href="/?r=reports/studentsbetween5and14yearsoldreport&id=<?= $modelSchoolIdentification->inep_id ?>"
+                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos com Idade Entre 5 e 14 Anos </a></div>
+                </div>
+
                 <?php $this->endWidget(); ?>
             </div>
         </div>
@@ -1020,5 +1176,5 @@ $form=$this->beginWidget('CActiveForm', array(
     var actual_year = date.getFullYear();
     var initial_date;
     var final_date;
-    
+
 </script>

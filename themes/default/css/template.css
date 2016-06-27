@@ -6798,3 +6798,7 @@ li.active a{
 .details-control{
     cursor:pointer
 }
+
+.report-button {
+  margin-bottom: 10px;
+}
