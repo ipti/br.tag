@@ -135,7 +135,7 @@ class ReportsController extends Controller {
     }
     
     public function actionGetStudentsFileInformation($enrollment_id){
-        $sql = "SELECT * FROM studentsfile WHERE id = ".$enrollment_id.";";
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         echo json_encode($result);
