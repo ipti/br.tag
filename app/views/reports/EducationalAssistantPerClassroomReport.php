@@ -11,7 +11,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
 
-
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Educational Assistant Per Classroom'); ?></h3>
@@ -69,10 +68,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; professores auxiliares nas turmas.</span>";
                 }
                 else {
-                    var_dump($c['name']);
+
                     foreach ($professor as $p) {
-                        var_dump($p['className']);
-                        if ($p['className'] == $c['name']) {
+                       if ($p['className'] == $c['name']) {
                             $html .= "<tr>"
                                 . "<td>" . $ordem . "</td>"
                                 . "<td>" . $p['inep_id'] . "</td>"

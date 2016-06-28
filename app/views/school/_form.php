@@ -1154,9 +1154,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         <a href="/?r=reports/studentsusingschooltransportationrelationreport&id=<?= $modelSchoolIdentification->inep_id ?>"
                            class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Relação de Alunos que Utilizam Transporte Escolar </a></div>
                     <div class="report-button">
-                        <a href="/?r=reports/studentswithotherschoolenrollmentreport&id=<?= $modelSchoolIdentification->inep_id ?>"
-                           class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos com Vínculo em Outra Escola </a></div>
-                    <div class="report-button">
                         <a href="/?r=reports/incompatiblestudentagebyclassroomreport&id=<?= $modelSchoolIdentification->inep_id ?>"
                            class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos com Idade Incompatível Por Turma </a></div>
                     <div class="report-button">

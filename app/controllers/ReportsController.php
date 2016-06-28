@@ -293,10 +293,10 @@ class ReportsController extends Controller {
                 order by name";
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "select c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
+        $sql1 = "select DISTINCT c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
                 from (((instructor_teaching_data as i join instructor_identification as id on id.inep_id = i.instructor_inep_id)
                 join instructor_variable_data as iv on iv.inep_id = id.inep_id) join classroom as c on i.school_inep_id_fk = c.school_inep_fk)
-                WHERE  c.school_inep_fk = ".$_GET['id']." AND c.school_year = ".$this->year." AND i.role = 2 order by c.name";
+                WHERE  c.school_inep_fk = ".$_GET['id']." AND c.school_year = ".$this->year." AND i.role = 2 order by id.name";
 
         $professor = Yii::app()->db->createCommand($sql1)->queryAll();
 
