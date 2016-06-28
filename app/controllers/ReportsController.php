@@ -141,6 +141,24 @@ class ReportsController extends Controller {
         echo json_encode($result);
     }
 
+    public function actionStudentsBetween5And14YearsOldReport(){
+        $school = SchoolIdentification::model()->findByPk($_GET['id']);
+        $sql = "select c.*, q.modality,q.stage
+                from classroom as c join classroom_qtd_students as q
+                on c.school_inep_fk = q.school_inep_fk
+                where c.school_year = ".$this->year." AND q.school_year = ".$this->year." and c.school_inep_fk = ".$_GET['id']." AND q.school_inep_fk = ".$_GET['id']."  AND c.id = q.id
+                order by name";
+        $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
+        $sql1 = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , si.filiation_1, si.filiation_2
+                FROM (student_identification as si join student_enrollment as se on si.inep_id = se.student_inep_id )
+                where se.school_inep_id_fk =".$_GET['id']." ";
+        $students = Yii::app()->db->createCommand($sql1)->queryAll();
+        $this->render('StudentsBetween5And14YearsOldReport',array(
+            'school' => $school,
+            'classroom' => $classrooms,
+            'students' => $students
+        ));
+    }
 
     public function actionEnrollmentGradesReport($enrollment_id) {
         $this->layout = "reports";
