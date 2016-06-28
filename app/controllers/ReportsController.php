@@ -143,6 +143,7 @@ class ReportsController extends Controller {
 
     public function actionStudentsBetween5And14YearsOldReport(){
         $this->layout = "reportsclean";
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $sql = "select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
