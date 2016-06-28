@@ -42,16 +42,29 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <div id="report" style="font-size: 14px">
 
-            <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
-                <div>
-                    <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="margin-bottom:10px">
-                </div>
-                <span style="font-size: 14px">
-                    ESTADO DE SERGIPE<br>
-
-                    PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                    <?php //strtoupper($school->report_header)?></span>
-                <span style="clear:both;display:block"></span>
+            <div id="container-header" style="width: 100%; margin: -25px auto auto auto; text-align: center">
+                <?php if(isset($school->act_of_acknowledgement)){?>
+                    <span style="display:block;clear:both;width: 40px;margin:0 auto;">
+                    <?php
+                    if(isset($school->logo_file_name)){
+                        echo '<img src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'" width="40px" style="margin: 0 auto; display: block">';
+                    };
+                    ?>
+                </span>
+                    <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
+                    <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
+                    <p style="font-size:8px;font-weight: bold">
+                        <?php echo $school->address ?>,
+                        <?php echo $school->edcensoCityFk->name ?>/
+                        <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
+                    </p>
+                    <span style="display: block; clear: both"></span>
+                <?php }else{?>
+                    <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="float: left; margin-right: 5px;">
+                    <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                        <?php //strtoupper($school->report_header)?></span>
+                    <span style="clear:both;display:block"></span>
+                <?php }?>
             </div>
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">

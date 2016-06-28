@@ -58,7 +58,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php }else{?>
                 <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="float: left; margin-right: 5px;">
                 <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                    <?=strtoupper($school->report_header)?></span>
+                    <?php //strtoupper($school->report_header)?></span>
                 <span style="clear:both;display:block"></span>
                 <?php }?>
             </div>
