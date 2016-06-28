@@ -142,7 +142,8 @@ class ReportsController extends Controller {
     }
 
     public function actionStudentsBetween5And14YearsOldReport(){
-        $school = SchoolIdentification::model()->findByPk($_GET['id']);
+        $this->layout = "reportsclean";
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $sql = "select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk

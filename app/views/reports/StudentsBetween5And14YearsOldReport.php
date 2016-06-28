@@ -4,7 +4,6 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsBetween5And14YearsOldReport/_initialization.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>

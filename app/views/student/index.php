@@ -15,6 +15,7 @@
                 <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Matrícula em Grupo</a>
                 <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add') ?></a>
                 <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add (Simple)') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('reports/studentsBetween5And14YearsOldReport'))?>" class="btn btn-primary btn-icon glyphicons report"><i></i> <?= Yii::t('default', 'Alunos de 5 a 14 anos') ?></a>
             </div>
 
         </div>
