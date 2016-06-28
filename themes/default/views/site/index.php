@@ -64,8 +64,8 @@
 	}
 	if (isset($calendar)) {
 		foreach ($calendar->calendarEvents as $event) {
-			$start_event = new DateTime($event->start_date);
-			$end_event = new DateTime($event->end_date);
+			@$start_event = new DateTime($event->start_date);
+			@$end_event = new DateTime($event->end_date);
 			$mStart = $start_event->format('n');
 			$mEnd = $end_event->format('n');
 
