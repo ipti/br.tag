@@ -57,6 +57,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <?php echo $school->address ?>,
                         <?php echo $school->edcensoCityFk->name ?>/
                         <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
+                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                     </p>
                     <span style="display: block; clear: both"></span>
                 <?php }else{?>
