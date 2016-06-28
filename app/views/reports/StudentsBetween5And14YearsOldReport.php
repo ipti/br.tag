@@ -7,33 +7,51 @@ $cs = Yii::app()->getClientScript();
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Students Between 5 And 14 Years Old'); ?></h3>
-            <div class="buttons">
-                <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
-                    <i></i></a>
-            </div>
+<script type="text/javascript">
+    $("#print").on('click', function() {
+        window.print();
+    });
+
+    $(document).ready(function() {
+        $(".table-classroom").each(function() {
+            if (!$(this).find(".student").length) {
+                $("<tr class='student'><td>N&atilde;o h&aacute; alunos entre 5 e 14 anos</td></tr>").insertAfter($(this).find("th").parent());
+            }
+        })
+    });
+</script>
+<div class="row-fluid hidden-print">
+    <div class="span12">
+        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Students Between 5 And 14 Years Old'); ?></h3>
+
+        <div class="buttons">
+            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
+                <i></i></a>
         </div>
     </div>
+</div>
 
 
 <div class="innerLR">
-    <p> <b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
-            $school->administrative_dependence == 2? "Estadual" :
-                $school->administrative_dependence == 3? "Municipal": "Estadual"
+    <p><b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
+
+    <p><b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
+
+    <p><b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
+
+    <p><b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0 ? "Rural" : "Urbana" ?> </p>
+
+    <p><b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+            $school->administrative_dependence == 2 ? "Estadual" :
+                $school->administrative_dependence == 3 ? "Municipal" : "Estadual"
         ?> </p>
 
     <?
 
-    if(count($classroom) == 0){
+    if (count($classroom) == 0) {
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
-    }else {
-        foreach($classroom as $c) {
+    } else {
+        foreach ($classroom as $c) {
             $html = "";
 
             echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
@@ -46,7 +64,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 ($c['week_days_thursday'] == 1 ? "Quinta - " : "") . ($c['week_days_friday'] == 1 ? "Sexta - " : "") .
                 ($c['week_days_saturday'] == 1 ? "Sabado " : "") . "<br>";
 
-            $html .= "<table class= table table-bordered table-striped >";
+            $html .= "<table class='table-classroom table table-bordered table-striped'>";
             $html .= "<tr>"
                 . "<th> <b>Ordem </b></th>"
                 . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
@@ -65,29 +83,28 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     // Declara a data! :P
                     $data = $s['birthday'];
 
-                    // Separa em dia, m�s e ano
+                    // Separa em dia, mês e ano
                     list($dia, $mes, $ano) = explode('/', $data);
 
-                    // Descobre que dia � hoje e retorna a unix timestamp
+                    // Descobre que dia é hoje e retorna a unix timestamp
                     $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
                     // Descobre a unix timestamp da data de nascimento do fulano
-                    $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
+                    $nascimento = mktime(0, 0, 0, $mes, $dia, $ano);
 
-                    // Depois apenas fazemos o c�lculo j� citado :)
+                    // Depois apenas fazemos o cálculo já citado :)
                     $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
-
-                    if($idade >= 5 && $idade <= 14) {
-                           $html .= "<tr>"
-                                . "<td>" . $ordem . "</td>"
-                                . "<td>" . $s['inep_id'] . "</td>"
-                                . "<td>" . $s['birthday'] . "</td>"
-                                . "<td>" . $idade .' anos' . "</td>"
-                                . "<td>" . $s['name'] . "</td>"
-                                . "<td>" . $s['filiation_1'] . "</td>"
-                                . "<td>" . $s['filiation_2'] . "</td>"
-                                . "</tr>";
-                            $ordem++;
-                            $total_alunos++;
+                    if ($idade >= 5 && $idade <= 14) {
+                        $html .= "<tr class='student'>"
+                            . "<td>" . $ordem . "</td>"
+                            . "<td>" . $s['inep_id'] . "</td>"
+                            . "<td>" . $s['birthday'] . "</td>"
+                            . "<td>" . $idade . ' anos' . "</td>"
+                            . "<td>" . $s['name'] . "</td>"
+                            . "<td>" . $s['filiation_1'] . "</td>"
+                            . "<td>" . $s['filiation_2'] . "</td>"
+                            . "</tr>";
+                        $ordem++;
+                        $total_alunos++;
                     }
                 }
             }
