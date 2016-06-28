@@ -128,6 +128,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </tbody>
         </table>
     </div>
+    <div id="buttons-frequency">
+        <div id="next-student-frequency"></div>
+        <div id="save-student-frequency"></div>
+    </div>
     <?php $this->endWidget(); ?>
 </div>
 
