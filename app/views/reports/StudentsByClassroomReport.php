@@ -49,7 +49,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 ($c['week_days_thursday'] == 1 ? "Quinta - " : "") . ($c['week_days_friday'] == 1 ? "Sexta - " : "") .
                 ($c['week_days_saturday'] == 1 ? "Sabado " : "") . "<br>";
 
-            $html .= "<table class= table table-bordered table-striped >";
+            $html .= "<table class= 'table table-bordered table-striped' >";
             $html .= "<tr>"
                 . "<th> <b>Ordem </b></th>"
                 . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"

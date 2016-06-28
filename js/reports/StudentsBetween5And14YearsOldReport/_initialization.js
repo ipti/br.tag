@@ -8,3 +8,11 @@
 $("#print").on('click', function() {
     window.print();
 });
+
+$(document).ready(function() {
+    $(".table-classroom").each(function() {
+        if (!$(this).find(".student").length) {
+            $("<tr class='student'><td>N&atilde;o h&aacute; alunos entre 5 e 14 anos</td></tr>").insertAfter($(this).find("th").parent());
+        }
+    })
+});

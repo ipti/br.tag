@@ -171,8 +171,8 @@ class ReportsController extends Controller {
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
         $sql1 = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , si.filiation_1, si.filiation_2
-                FROM (student_identification as si join student_enrollment as se on si.inep_id = se.student_inep_id )
-                where se.school_inep_id_fk =".$_GET['id']." ";
+                FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk join classroom as c on se.classroom_fk = c.id )
+                where se.school_inep_id_fk =".$_GET['id']." and c.school_year = ".$this->year." order by si.name ";
 
         $students = Yii::app()->db->createCommand($sql1)->queryAll();
 
