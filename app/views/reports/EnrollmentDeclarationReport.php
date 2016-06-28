@@ -83,9 +83,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         echo "filha de ";
                     }
                 ?>
-                <span class="mother"></span>
+                <span class="filiation_1"></span>
                 e 
-                <span class="father"></span>,
+                <span class="filiation_2"></span>,
                 <?php
                     if ($gender == '1'){
                         echo "nascido em ";
