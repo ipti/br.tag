@@ -50,7 +50,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ESTADO DE SERGIPE<br>
 
                     PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                    <?=strtoupper($school->report_header)?></span>
+                    <?php //strtoupper($school->report_header)?></span>
                 <span style="clear:both;display:block"></span>
             </div>
             <br/><br/>
