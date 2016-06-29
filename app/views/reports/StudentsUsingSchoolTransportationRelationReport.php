@@ -69,7 +69,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 echo $html;
                 $html = "";
                 foreach($students as $s) {
-                    if ($s['classroom_inep_id'] == $c['inep_id']) {
+                    if ($s['classroom_fk'] == $c['id']) {
                         $transportes = "";
 
                         if ($s['vehicle_type_van'] == 1) {

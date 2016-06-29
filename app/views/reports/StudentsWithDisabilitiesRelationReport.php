@@ -73,7 +73,7 @@ if(count($classrooms) == 0){
         $html = "";
 
         foreach ($students as $s) {
-            if ($s['classroom_inep_id'] == $c['inep_id']) {
+            if ($s['classroom_fk'] == $c['id']) {
 
                 if ($s['deficiency_type_blindness'] == 1) {
                     $student_disabilities[$i++] = "Cegueira";

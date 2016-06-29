@@ -70,7 +70,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 else {
 
                     foreach ($professor as $p) {
-                       if ($p['className'] == $c['name']) {
+                       if ($p['classroomID'] == $c['id']) {
                             $html .= "<tr>"
                                 . "<td>" . $ordem . "</td>"
                                 . "<td>" . $p['inep_id'] . "</td>"

@@ -3,7 +3,6 @@
 /* @var $this ReportsController */
 /* @var $students mixed */
 
-
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsInAlphabeticalOrderRelationReport/_initialization.js', CClientScript::POS_END);
@@ -50,11 +49,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
         <?
         $ordem = 1;
-        $studentName = "";
         foreach($students as $s) {
-            //if ($s['studentName'] != $studentName) {
 
-            $studentName = $s['studentName'];
             $html = "";
             $html .= "<tr>"
                 . "<td>" . $ordem . "</td>"
@@ -70,9 +66,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
             $ordem++;
             echo $html;
-        //}else
-
-
         }
         $html = "";
         $html .= "<tr>"
@@ -80,7 +73,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             . "</tr>";
 
         echo $html;
-
         ?>
 
     </table>

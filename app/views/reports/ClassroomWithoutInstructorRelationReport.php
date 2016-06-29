@@ -15,7 +15,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Incompatible Student Age By Classroom'); ?></h3>
+        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Classroom Without Instructor Relation'); ?></h3>
         <div class="buttons">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
                 <i></i></a>

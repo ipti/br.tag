@@ -63,7 +63,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 );
 
                 foreach ($instructor as $i) {
-                    if ($i['name'] == $c['name']) {
+                    if ($i['classroomId'] == $c['id']) {
                         if ($i['role'] == '1') {
                             $cargos[0]++;
                         } else if ($i['role'] == '2') {

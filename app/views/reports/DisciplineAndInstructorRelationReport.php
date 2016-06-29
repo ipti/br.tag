@@ -71,7 +71,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "</tr>";
 
             foreach($professor as $p) {
-                if($p['classroom_inep_id'] == $c['inep_id']) {
+                if($p['classroom_id_fk'] == $c['id']) {
                     $instructor = InstructorTeachingData::model()->findByPk($p['id']);
 
                     $disciplinas = array(
