@@ -6798,3 +6798,25 @@ li.active a{
 .details-control{
     cursor:pointer
 }
+
+.instructor-emails .control-label {
+  width: 50%;
+  margin-right: 10px;
+}
+
+.instructor-emails .form-horizontal .controls {
+  margin-left: calc(50% - 10px);
+}
+
+.instructor-emails .form-horizontal {
+  margin-top: 20px;
+}
+
+.instructor-emails .form-horizontal .control-group {
+  float: left;
+  width: 50%;
+}
+
+.instructor-emails .alert {
+  display: none;
+}

@@ -3,7 +3,7 @@ $(formIdentification + 'name').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     var ret = validateNamePerson(($(id).val()));
     if (!ret[0] && ($(id).val() != '')) {
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, ret[1]);
     } else {
         removeError(id);
     }
@@ -13,7 +13,7 @@ $(formIdentification + 'nis').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateNis($(id).val()) && ($(id).val() != '')) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Apenas números são aceitos. Deve possuir 11 números");
     } else {
         removeError(id);
     }
@@ -36,7 +36,7 @@ $(formIdentification + 'responsable_telephone').focusout(function() {
     var phone = $(id).cleanVal();
     if (phone.length !== 11 && phone.length !== 10) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Apenas números são aceitos. Deve possuir de 10 a 11 números.");
     } else {
         removeError(id);
     }
@@ -47,7 +47,7 @@ $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateCpf($(id).cleanVal())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
     }
@@ -57,7 +57,7 @@ $(formDocumentsAndAddress + 'cns').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateCns($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Apenas números são aceitos. Deve possuir 15 números");
     } else {
         removeError(id);
     }
@@ -72,7 +72,7 @@ $(formIdentification + 'birthday').focusout(function () {
 
     if ((!validateDate($(formIdentification + 'birthday').val()) || !validateYear(birthday.year)) && ($(id).val() != '')) {
         //$(formIdentification + 'birthday').attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
     } else {
         removeError(id);
     }
@@ -99,14 +99,14 @@ $(formIdentification + 'filiation_1, '
     var ret = validateNamePerson(($(id).val()));
     if (!ret[0]) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, ret[1]);
     } else {
         removeError(id);
     }
 
     if ($(formIdentification + 'filiation_1').val() == $(formIdentification + 'filiation_2').val()) {
         $(formIdentification + 'filiation_2').attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo não deve ser igual à outra filiação.");
     } else {
         removeError(id);
     }
@@ -467,7 +467,7 @@ $(formDocumentsAndAddress + 'address').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     if (!validateStudentAddress($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -478,7 +478,7 @@ $(formDocumentsAndAddress + 'number').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     if (!validateStudentAddressNumber($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -489,7 +489,7 @@ $(formDocumentsAndAddress + 'complement').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     if (!validateStudentAddressComplement($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -500,7 +500,7 @@ $(formDocumentsAndAddress + 'neighborhood').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     if (!validateStudentAddressNeighborhood($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -511,7 +511,7 @@ $(formDocumentsAndAddress + 'cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateCpf($(id).cleanVal())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
     }
@@ -522,7 +522,7 @@ $(formDocumentsAndAddress + 'cep').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateCEP($(id).cleanVal())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe um CEP cadastrado nos correios. Apenas números são aceitos. Deve possuir no máximo 8 caracteres.");
     } else {
         removeError(id);
     }
@@ -533,7 +533,7 @@ $(formDocumentsAndAddress + 'rg_number').focusout(function () {
     $(id).val($(id).val().toUpperCase());
     if (!validateRG($(id).val())) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe um RG válido.");
     } else {
         removeError(id);
     }
@@ -575,7 +575,7 @@ $(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAdd
     var birthday = stringToDate($(formIdentification + 'birthday').val());
     if (!validateDate($(id).val()) || birthday.asianStr > documentDate.asianStr) {
         //$(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data de nascimento do aluno.");
     } else {
         removeError(id);
     }
@@ -599,7 +599,7 @@ $(formEnrollment + 'school_admission_date').focusout(function () {
 
     if ((!validateDate($(formEnrollment + 'school_admission_date').val()) || !validateYear(school_admission_date.year)) && ($(id).val() != '')) {
         //$(formIdentification + 'birthday').attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
     } else {
         removeError(id);
     }
