@@ -81,13 +81,3 @@ $("#discipline").change(function(){
         removeError(id);
     }
 });
-//Validação da Classroom
-$(formClassBoard+'classroom_fk').change(function(){
-    var id = formClassBoard+'classroom_fk';
-    calendar.fullCalendar('removeEvents');
-    if($(id).val().length == 0){
-        addError(id, "Selecione a Turma."); 
-    }else{
-        removeError(id);
-    }
-});

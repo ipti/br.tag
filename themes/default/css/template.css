@@ -6678,10 +6678,6 @@ li[instructor] {
 li[discipline]:hover {
   background-color: lightcyan;
 }
-li[instructor],
-li[discipline] {
-  list-style-type: none;
-}
 
 .frequency-list {
     font-size: 12px;
@@ -6819,4 +6815,19 @@ li.active a{
 
 .instructor-emails .alert {
   display: none;
+}
+
+.disciplines-with-container {
+  width: 30%;
+  margin-right: 2%;
+  display: inline-table;
+}
+
+#DisciplinesWithInstructors > li > span {
+  font-weight: bold;
+}
+
+.disciplines-without-container {
+  width: 30%;
+  display: inline-table;
 }
