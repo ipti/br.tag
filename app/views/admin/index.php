@@ -11,7 +11,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Administration'); ?></h3>  
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Administration'); ?></h3>
     </div>
 </div>
 
@@ -105,22 +105,41 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     <div class="clearfix"></div>
                 </a>
             </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/syncExport') ?>" id="callSyncExport" class="widget-stats">
+                    <span class="glyphicons down_arrow"><i></i></span>
+                    <span class="txt">Exportar para Online</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+
+            <div class="span3">
+                <a href="#" class="widget-stats" onclick='$("#syncImport-file-dialog").dialog("open");'>
+                    <span class="glyphicons up_arrow"><i></i></span>
+                    <span class="txt">Importar Offline</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+
+            <div class="span3">
+                <a href="<?php echo $this->createUrl('admin/exportStudentWithoutInepid',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Exportar Alunos sem Inep Id</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+
+        </div>
+        <div class="row-fluid">
+            <div class="span6">
                 <div class="span3">
-                    <a href="<?php echo Yii::app()->createUrl('admin/syncExport') ?>" id="callSyncExport" class="widget-stats">
-                        <span class="glyphicons down_arrow"><i></i></span>
-                        <span class="txt">Exportar para Online</span>
+                    <a href="<?php echo $this->createUrl('admin/exportInstructorWithoutInepid',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                        <span class="glyphicons file_export"><i></i></span>
+                        <span class="txt">Exportar Professores sem Inep Id</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-
-                <div class="span3">
-                    <a href="#" class="widget-stats" onclick='$("#syncImport-file-dialog").dialog("open");'>
-                        <span class="glyphicons up_arrow"><i></i></span>
-                        <span class="txt">Importar Offline</span>
-                        <div class="clearfix"></div>
-                    </a>
-                </div>
-
+            </div>
         </div>
     </div>
 

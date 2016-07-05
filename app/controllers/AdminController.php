@@ -26,7 +26,7 @@ class AdminController extends Controller
                 'actions' => array('import', 'export',
                     'clearDB', 'acl',
                     'backup', 'data',
-                    'exportStudentIdentify', 'syncExport', 'syncImport'),
+                    'exportStudentIdentify', 'syncExport', 'syncImport', 'exportStudentWithoutInepid' , 'exportInstructorWithoutInepid'),
                 'users' => array('@'),
             ),
         );
@@ -39,6 +39,178 @@ class AdminController extends Controller
     {
         $this->render('index');
     }
+
+    public function actionExportInstructorWithoutInepid($id){
+        $year = Yii::app()->user->year;
+
+        $sql = "SELECT DISTINCT id.school_inep_id_fk , id.inep_id , id.name , id.email, id.birthday_date , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
+                FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
+                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
+
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if(count($instructors) == 0){
+            echo "N&atilde;o h&aacute; professores cadastrados nesta escola no ano de " . $year;
+        }
+        else {
+            $fileName = date("Y-i-d") . "_" . $id . "_instructors_without_inep_id.txt";
+            $fileDir = "./app/export/" . $fileName;
+            $file = fopen($fileDir, 'w');
+
+
+            foreach ($instructors as $i) {
+                $linha = "";
+
+                if ($i['school_inep_id_fk'] == null) {
+                    $linha .= "||";
+                } else {
+                    $linha .= $i['school_inep_id_fk'] . "|";
+                }
+
+                if ($i['name'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['name'] . "|";
+                }
+
+                if ($i['email'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['email'] . "|";
+                }
+
+                if ($i['birthday_date'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['birthday_date'] . "|";
+                }
+
+                if ($i['filiation_1'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['filiation_1'] . "|";
+                }
+
+                if ($i['filiation_2'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['filiation_2'] . "|";
+                }
+
+                if ($i['edcenso_uf_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['edcenso_uf_fk'] . "|";
+                }
+
+                if ($i['edcenso_city_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['edcenso_city_fk'] . "|";
+                }
+
+                if ($i['inep_id'] == null) {
+                    $linha .= "|" . "\n";
+                } else {
+                    $linha .= $i['inep_id'] . "\n";
+                }
+
+                fwrite($file, $linha);
+            }
+
+            fclose($file);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        }
+    }
+
+    public function actionExportStudentWithoutInepid($id)
+    {
+        $year = Yii::app()->user->year;
+        $sql = "SELECT DISTINCT si.school_inep_id_fk , si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
+			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
+			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if(count($students) == 0){
+            echo "N&atilde;o h&aacute; alunos cadastrados nesta escola no ano de " . $year;
+        }else {
+            $fileName = date("Y-i-d") . "_" . $id . "_students_without_inep_id.txt";
+            $fileDir = "./app/export/" . $fileName;
+            $file = fopen($fileDir, 'w');
+
+            foreach ($students as $s) {
+                $linha = "";
+
+                if ($s['school_inep_id_fk'] == null) {
+                    $linha .= "||";
+                } else {
+                    $linha .= $s['school_inep_id_fk'] . "|";
+                }
+
+                if ($s['name'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['name'] . "|";
+                }
+                if ($s['birthday'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['birthday'] . "|";
+                }
+
+                if ($s['filiation_1'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['filiation_1'] . "|";
+                }
+
+                if ($s['filiation_2'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['filiation_2'] . "|";
+                }
+
+                if ($s['edcenso_uf_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['edcenso_uf_fk'] . "|";
+                }
+
+                if ($s['edcenso_city_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['edcenso_city_fk'] . "|";
+                }
+
+                if ($s['inep_id'] == null) {
+                    $linha .= "|" . "\n";
+                } else {
+                    $linha .= $s['inep_id'] . "\n";
+                }
+
+                fwrite($file, $linha);
+            }
+
+            fclose($file);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        }
+    }
+
 
     public function actionSyncExport()
     {
@@ -830,22 +1002,23 @@ class AdminController extends Controller
 
         $this->render('index');
     }
+
     public function actionDownloadExportFile()
     {
-      $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-      if (file_exists($fileDir)) {
-          header('Content-Description: File Transfer');
-          header('Content-Type: application/octet-stream');
-          header('Content-Disposition: attachment; filename="'.basename($fileDir).'"');
-          header('Expires: 0');
-          header('Cache-Control: must-revalidate');
-          header('Pragma: public');
-          header('Content-Length: ' . filesize($fileDir));
-          readfile($fileDir);
-      } else {
-          Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
-          $this->render('index');
-      }
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        if (file_exists($fileDir)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            $this->render('index');
+        }
 
     }
 
@@ -1155,8 +1328,8 @@ class AdminController extends Controller
                         }
                     }
 
-                    if ($isSchoolIdentification && $column == 19){
-                        $value = $value[7].$value[8];
+                    if ($isSchoolIdentification && $column == 19) {
+                        $value = $value[7] . $value[8];
                     }
 
                     if ($isRegInstructorIdentification) {
@@ -1204,58 +1377,57 @@ class AdminController extends Controller
         return $return;
     }
 
-private
-function getInsertSQL($insertValue)
-{
-    $str_fields = [];
-    foreach ($insertValue as $regType => $lines):
-        switch ($regType) {
-            case '00': {
-                $str_fields[$regType] = "INSERT INTO `school_identification`(`register_type`,`inep_id`,`manager_cpf`,`manager_name`,`manager_role`,`manager_email`,`situation`,`initial_date`,`final_date`,`name`,`latitude`,`longitude`,`cep`,`address`,`address_number`,`address_complement`,`address_neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`,`edcenso_district_fk`,`ddd`,`phone_number`,`public_phone_number`,`other_phone_number`,`fax_number`,`email`,`edcenso_regional_education_organ_fk`,`administrative_dependence`,`location`,`private_school_category`,`public_contract`,`private_school_business_or_individual`,`private_school_syndicate_or_association`,`private_school_ong_or_oscip`,`private_school_non_profit_institutions`,`private_school_s_system`,`private_school_maintainer_cnpj`,`private_school_cnpj`,`offer_or_linked_unity`,`inep_head_school`,`ies_code`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '10': {
-                $str_fields[$regType] = "INSERT INTO `school_structure`(`register_type`,`school_inep_id_fk`,`operation_location_building`,`operation_location_temple`,`operation_location_businness_room`,`operation_location_instructor_house`,`operation_location_other_school_room`,`operation_location_barracks`,`operation_location_socioeducative_unity`,`operation_location_prison_unity`,`operation_location_other`,`building_occupation_situation`,`shared_building_with_school`,`shared_school_inep_id_1`,`shared_school_inep_id_2`,`shared_school_inep_id_3`,`shared_school_inep_id_4`,`shared_school_inep_id_5`,`shared_school_inep_id_6`,`consumed_water_type`,`water_supply_public`,`water_supply_artesian_well`,`water_supply_well`,`water_supply_river`,`water_supply_inexistent`,`energy_supply_public`,`energy_supply_generator`,`energy_supply_other`,`energy_supply_inexistent`,`sewage_public`,`sewage_fossa`,`sewage_inexistent`,`garbage_destination_collect`,`garbage_destination_burn`,`garbage_destination_throw_away`,`garbage_destination_recycle`,`garbage_destination_bury`,`garbage_destination_other`,`dependencies_principal_room`,`dependencies_instructors_room`,`dependencies_secretary_room`,`dependencies_info_lab`,`dependencies_science_lab`,`dependencies_aee_room`,`dependencies_indoor_sports_court`,`dependencies_outdoor_sports_court`,`dependencies_kitchen`,`dependencies_library`,`dependencies_reading_room`,`dependencies_playground`,`dependencies_nursery`,`dependencies_outside_bathroom`,`dependencies_inside_bathroom`,`dependencies_child_bathroom`,`dependencies_prysical_disability_bathroom`,`dependencies_physical_disability_support`,`dependencies_bathroom_with_shower`,`dependencies_refectory`,`dependencies_storeroom`,`dependencies_warehouse`,`dependencies_auditorium`,`dependencies_covered_patio`,`dependencies_uncovered_patio`,`dependencies_student_accomodation`,`dependencies_instructor_accomodation`,`dependencies_green_area`,`dependencies_laundry`,`dependencies_none`,`classroom_count`,`used_classroom_count`,`equipments_tv`,`equipments_vcr`,`equipments_dvd`,`equipments_satellite_dish`,`equipments_copier`,`equipments_overhead_projector`,`equipments_printer`,`equipments_stereo_system`,`equipments_data_show`,`equipments_fax`,`equipments_camera`,`equipments_computer`,`equipments_multifunctional_printer`,`administrative_computers_count`,`student_computers_count`,`internet_access`,`bandwidth`,`employees_count`,`feeding`,`aee`,`complementary_activities`,`modalities_regular`,`modalities_especial`,`modalities_eja`,`modalities_professional`,`basic_education_cycle_organized`,`different_location`,`sociocultural_didactic_material_none`,`sociocultural_didactic_material_quilombola`,`sociocultural_didactic_material_native`,`native_education`,`native_education_language_native`,`native_education_language_portuguese`,`edcenso_native_languages_fk`,`brazil_literate`,`open_weekend`,`pedagogical_formation_by_alternance`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '20': {
-                $str_fields[$regType] = "INSERT INTO `classroom`(`register_type`,`school_inep_fk`,`inep_id`,`id`,`name`,`pedagogical_mediation_type`,`initial_hour`,`initial_minute`,`final_hour`,`final_minute`,`week_days_sunday`,`week_days_monday`,`week_days_tuesday`,`week_days_wednesday`,`week_days_thursday`,`week_days_friday`,`week_days_saturday`,`assistance_type`,`mais_educacao_participator`,`complementary_activity_type_1`,`complementary_activity_type_2`,`complementary_activity_type_3`,`complementary_activity_type_4`,`complementary_activity_type_5`,`complementary_activity_type_6`,`aee_braille_system_education`,`aee_optical_and_non_optical_resources`,`aee_mental_processes_development_strategies`,`aee_mobility_and_orientation_techniques`,`aee_libras`,`aee_caa_use_education`,`aee_curriculum_enrichment_strategy`,`aee_soroban_use_education`,`aee_usability_and_functionality_of_computer_accessible_education`,`aee_teaching_of_Portuguese_language_written_modality`,`aee_strategy_for_school_environment_autonomy`,`modality`,`edcenso_stage_vs_modality_fk`,`edcenso_professional_education_course_fk`,`discipline_chemistry`,`discipline_physics`,`discipline_mathematics`,`discipline_biology`,`discipline_science`,`discipline_language_portuguese_literature`,`discipline_foreign_language_english`,`discipline_foreign_language_spanish`,`discipline_foreign_language_franch`,`discipline_foreign_language_other`,`discipline_arts`,`discipline_physical_education`,`discipline_history`,`discipline_geography`,`discipline_philosophy`,`discipline_social_study`,`discipline_sociology`,`discipline_informatics`,`discipline_professional_disciplines`,`discipline_special_education_and_inclusive_practices`,`discipline_sociocultural_diversity`,`discipline_libras`,`discipline_pedagogical`,`discipline_religious`,`discipline_native_language`,`discipline_others`,`school_year`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '30': {
-                $str_fields[$regType] = "INSERT INTO `instructor_identification`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`name`,`email`,`nis`,`birthday_date`,`sex`,`color_race`,`filiation`,`filiation_1`,`filiation_2`,`nationality`,`edcenso_nation_fk`,`edcenso_uf_fk`,`edcenso_city_fk`,`deficiency`,`deficiency_type_blindness`,`deficiency_type_low_vision`,`deficiency_type_deafness`,`deficiency_type_disability_hearing`,`deficiency_type_deafblindness`,`deficiency_type_phisical_disability`,`deficiency_type_intelectual_disability`,`deficiency_type_multiple_disabilities`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '40': {
-                $str_fields[$regType] = "INSERT INTO `instructor_documents_and_address`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`cpf`,`area_of_residence`,`cep`,`address`,`address_number`,`complement`,`neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '50': {
-                $str_fields[$regType] = "INSERT INTO `instructor_variable_data`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`scholarity`,`high_education_situation_1`,`high_education_formation_1`,`high_education_course_code_1_fk`,`high_education_initial_year_1`,`high_education_final_year_1`,`high_education_institution_code_1_fk`,`high_education_situation_2`,`high_education_formation_2`,`high_education_course_code_2_fk`,`high_education_initial_year_2`,`high_education_final_year_2`,`high_education_institution_code_2_fk`,`high_education_situation_3`,`high_education_formation_3`,`high_education_course_code_3_fk`,`high_education_initial_year_3`,`high_education_final_year_3`,`high_education_institution_code_3_fk`,`post_graduation_specialization`,`post_graduation_master`,`post_graduation_doctorate`,`post_graduation_none`,`other_courses_nursery`,`other_courses_pre_school`,`other_courses_basic_education_initial_years`,`other_courses_basic_education_final_years`,`other_courses_high_school`,`other_courses_education_of_youth_and_adults`,`other_courses_special_education`,`other_courses_native_education`,`other_courses_field_education`,`other_courses_environment_education`,`other_courses_human_rights_education`,`other_courses_sexual_education`,`other_courses_child_and_teenage_rights`,`other_courses_ethnic_education`,`other_courses_other`,`other_courses_none`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
+    private
+    function getInsertSQL($insertValue)
+    {
+        $str_fields = [];
+        foreach ($insertValue as $regType => $lines):
+            switch ($regType) {
+                case '00': {
+                    $str_fields[$regType] = "INSERT INTO `school_identification`(`register_type`,`inep_id`,`manager_cpf`,`manager_name`,`manager_role`,`manager_email`,`situation`,`initial_date`,`final_date`,`name`,`latitude`,`longitude`,`cep`,`address`,`address_number`,`address_complement`,`address_neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`,`edcenso_district_fk`,`ddd`,`phone_number`,`public_phone_number`,`other_phone_number`,`fax_number`,`email`,`edcenso_regional_education_organ_fk`,`administrative_dependence`,`location`,`private_school_category`,`public_contract`,`private_school_business_or_individual`,`private_school_syndicate_or_association`,`private_school_ong_or_oscip`,`private_school_non_profit_institutions`,`private_school_s_system`,`private_school_maintainer_cnpj`,`private_school_cnpj`,`offer_or_linked_unity`,`inep_head_school`,`ies_code`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '10': {
+                    $str_fields[$regType] = "INSERT INTO `school_structure`(`register_type`,`school_inep_id_fk`,`operation_location_building`,`operation_location_temple`,`operation_location_businness_room`,`operation_location_instructor_house`,`operation_location_other_school_room`,`operation_location_barracks`,`operation_location_socioeducative_unity`,`operation_location_prison_unity`,`operation_location_other`,`building_occupation_situation`,`shared_building_with_school`,`shared_school_inep_id_1`,`shared_school_inep_id_2`,`shared_school_inep_id_3`,`shared_school_inep_id_4`,`shared_school_inep_id_5`,`shared_school_inep_id_6`,`consumed_water_type`,`water_supply_public`,`water_supply_artesian_well`,`water_supply_well`,`water_supply_river`,`water_supply_inexistent`,`energy_supply_public`,`energy_supply_generator`,`energy_supply_other`,`energy_supply_inexistent`,`sewage_public`,`sewage_fossa`,`sewage_inexistent`,`garbage_destination_collect`,`garbage_destination_burn`,`garbage_destination_throw_away`,`garbage_destination_recycle`,`garbage_destination_bury`,`garbage_destination_other`,`dependencies_principal_room`,`dependencies_instructors_room`,`dependencies_secretary_room`,`dependencies_info_lab`,`dependencies_science_lab`,`dependencies_aee_room`,`dependencies_indoor_sports_court`,`dependencies_outdoor_sports_court`,`dependencies_kitchen`,`dependencies_library`,`dependencies_reading_room`,`dependencies_playground`,`dependencies_nursery`,`dependencies_outside_bathroom`,`dependencies_inside_bathroom`,`dependencies_child_bathroom`,`dependencies_prysical_disability_bathroom`,`dependencies_physical_disability_support`,`dependencies_bathroom_with_shower`,`dependencies_refectory`,`dependencies_storeroom`,`dependencies_warehouse`,`dependencies_auditorium`,`dependencies_covered_patio`,`dependencies_uncovered_patio`,`dependencies_student_accomodation`,`dependencies_instructor_accomodation`,`dependencies_green_area`,`dependencies_laundry`,`dependencies_none`,`classroom_count`,`used_classroom_count`,`equipments_tv`,`equipments_vcr`,`equipments_dvd`,`equipments_satellite_dish`,`equipments_copier`,`equipments_overhead_projector`,`equipments_printer`,`equipments_stereo_system`,`equipments_data_show`,`equipments_fax`,`equipments_camera`,`equipments_computer`,`equipments_multifunctional_printer`,`administrative_computers_count`,`student_computers_count`,`internet_access`,`bandwidth`,`employees_count`,`feeding`,`aee`,`complementary_activities`,`modalities_regular`,`modalities_especial`,`modalities_eja`,`modalities_professional`,`basic_education_cycle_organized`,`different_location`,`sociocultural_didactic_material_none`,`sociocultural_didactic_material_quilombola`,`sociocultural_didactic_material_native`,`native_education`,`native_education_language_native`,`native_education_language_portuguese`,`edcenso_native_languages_fk`,`brazil_literate`,`open_weekend`,`pedagogical_formation_by_alternance`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '20': {
+                    $str_fields[$regType] = "INSERT INTO `classroom`(`register_type`,`school_inep_fk`,`inep_id`,`id`,`name`,`pedagogical_mediation_type`,`initial_hour`,`initial_minute`,`final_hour`,`final_minute`,`week_days_sunday`,`week_days_monday`,`week_days_tuesday`,`week_days_wednesday`,`week_days_thursday`,`week_days_friday`,`week_days_saturday`,`assistance_type`,`mais_educacao_participator`,`complementary_activity_type_1`,`complementary_activity_type_2`,`complementary_activity_type_3`,`complementary_activity_type_4`,`complementary_activity_type_5`,`complementary_activity_type_6`,`aee_braille_system_education`,`aee_optical_and_non_optical_resources`,`aee_mental_processes_development_strategies`,`aee_mobility_and_orientation_techniques`,`aee_libras`,`aee_caa_use_education`,`aee_curriculum_enrichment_strategy`,`aee_soroban_use_education`,`aee_usability_and_functionality_of_computer_accessible_education`,`aee_teaching_of_Portuguese_language_written_modality`,`aee_strategy_for_school_environment_autonomy`,`modality`,`edcenso_stage_vs_modality_fk`,`edcenso_professional_education_course_fk`,`discipline_chemistry`,`discipline_physics`,`discipline_mathematics`,`discipline_biology`,`discipline_science`,`discipline_language_portuguese_literature`,`discipline_foreign_language_english`,`discipline_foreign_language_spanish`,`discipline_foreign_language_franch`,`discipline_foreign_language_other`,`discipline_arts`,`discipline_physical_education`,`discipline_history`,`discipline_geography`,`discipline_philosophy`,`discipline_social_study`,`discipline_sociology`,`discipline_informatics`,`discipline_professional_disciplines`,`discipline_special_education_and_inclusive_practices`,`discipline_sociocultural_diversity`,`discipline_libras`,`discipline_pedagogical`,`discipline_religious`,`discipline_native_language`,`discipline_others`,`school_year`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '30': {
+                    $str_fields[$regType] = "INSERT INTO `instructor_identification`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`name`,`email`,`nis`,`birthday_date`,`sex`,`color_race`,`filiation`,`filiation_1`,`filiation_2`,`nationality`,`edcenso_nation_fk`,`edcenso_uf_fk`,`edcenso_city_fk`,`deficiency`,`deficiency_type_blindness`,`deficiency_type_low_vision`,`deficiency_type_deafness`,`deficiency_type_disability_hearing`,`deficiency_type_deafblindness`,`deficiency_type_phisical_disability`,`deficiency_type_intelectual_disability`,`deficiency_type_multiple_disabilities`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '40': {
+                    $str_fields[$regType] = "INSERT INTO `instructor_documents_and_address`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`cpf`,`area_of_residence`,`cep`,`address`,`address_number`,`complement`,`neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '50': {
+                    $str_fields[$regType] = "INSERT INTO `instructor_variable_data`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`scholarity`,`high_education_situation_1`,`high_education_formation_1`,`high_education_course_code_1_fk`,`high_education_initial_year_1`,`high_education_final_year_1`,`high_education_institution_code_1_fk`,`high_education_situation_2`,`high_education_formation_2`,`high_education_course_code_2_fk`,`high_education_initial_year_2`,`high_education_final_year_2`,`high_education_institution_code_2_fk`,`high_education_situation_3`,`high_education_formation_3`,`high_education_course_code_3_fk`,`high_education_initial_year_3`,`high_education_final_year_3`,`high_education_institution_code_3_fk`,`post_graduation_specialization`,`post_graduation_master`,`post_graduation_doctorate`,`post_graduation_none`,`other_courses_nursery`,`other_courses_pre_school`,`other_courses_basic_education_initial_years`,`other_courses_basic_education_final_years`,`other_courses_high_school`,`other_courses_education_of_youth_and_adults`,`other_courses_special_education`,`other_courses_native_education`,`other_courses_field_education`,`other_courses_environment_education`,`other_courses_human_rights_education`,`other_courses_sexual_education`,`other_courses_child_and_teenage_rights`,`other_courses_ethnic_education`,`other_courses_other`,`other_courses_none`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
 
-            case '51': {
-                $str_fields[$regType] = "INSERT INTO `instructor_teaching_data`(`register_type`,`school_inep_id_fk`,`instructor_inep_id`,`instructor_fk`,`classroom_inep_id`,`classroom_id_fk`,`role`,`contract_type`,`discipline_1_fk`,`discipline_2_fk`,`discipline_3_fk`,`discipline_4_fk`,`discipline_5_fk`,`discipline_6_fk`,`discipline_7_fk`,`discipline_8_fk`,`discipline_9_fk`,`discipline_10_fk`,`discipline_11_fk`,`discipline_12_fk`,`discipline_13_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
+                case '51': {
+                    $str_fields[$regType] = "INSERT INTO `instructor_teaching_data`(`register_type`,`school_inep_id_fk`,`instructor_inep_id`,`instructor_fk`,`classroom_inep_id`,`classroom_id_fk`,`role`,`contract_type`,`discipline_1_fk`,`discipline_2_fk`,`discipline_3_fk`,`discipline_4_fk`,`discipline_5_fk`,`discipline_6_fk`,`discipline_7_fk`,`discipline_8_fk`,`discipline_9_fk`,`discipline_10_fk`,`discipline_11_fk`,`discipline_12_fk`,`discipline_13_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '60': {
+                    $str_fields[$regType] = "INSERT INTO `student_identification`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`name`,`birthday`,`sex`,`color_race`,`filiation`,`filiation_1`,`filiation_2`,`nationality`,`edcenso_nation_fk`,`edcenso_uf_fk`,`edcenso_city_fk`,`deficiency`,`deficiency_type_blindness`,`deficiency_type_low_vision`,`deficiency_type_deafness`,`deficiency_type_disability_hearing`,`deficiency_type_deafblindness`,`deficiency_type_phisical_disability`,`deficiency_type_intelectual_disability`,`deficiency_type_multiple_disabilities`,`deficiency_type_autism`,`deficiency_type_aspenger_syndrome`,`deficiency_type_rett_syndrome`,`deficiency_type_childhood_disintegrative_disorder`,`deficiency_type_gifted`,`resource_aid_lector`,`resource_aid_transcription`,`resource_interpreter_guide`,`resource_interpreter_libras`,`resource_lip_reading`,`resource_zoomed_test_16`,`resource_zoomed_test_20`,`resource_zoomed_test_24`,`resource_braille_test`,`resource_none`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '70': {
+                    $str_fields[$regType] = "INSERT INTO `student_documents_and_address`(`register_type`,`school_inep_id_fk`,`student_fk`,`id`,`rg_number`,`rg_number_edcenso_organ_id_emitter_fk`,`rg_number_edcenso_uf_fk`,`rg_number_expediction_date`,`civil_certification`,`civil_certification_type`,`civil_certification_term_number`,`civil_certification_sheet`,`civil_certification_book`,`civil_certification_date`,`notary_office_uf_fk`,`notary_office_city_fk`,`edcenso_notary_office_fk`,`civil_register_enrollment_number`,`cpf`,`foreign_document_or_passport`,`nis`,`residence_zone`,`cep`,`address`,`number`,`complement`,`neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
+                case '80': {
+                    $str_fields[$regType] = "INSERT INTO student_enrollment (`register_type`,`school_inep_id_fk`,`student_inep_id`,`student_fk`,`classroom_inep_id`,`classroom_fk`,`enrollment_id`,`unified_class`,`edcenso_stage_vs_modality_fk`,`another_scholarization_place`,`public_transport`,`transport_responsable_government`,`vehicle_type_van`,`vehicle_type_microbus`,`vehicle_type_bus`,`vehicle_type_bike`,`vehicle_type_animal_vehicle`,`vehicle_type_other_vehicle`,`vehicle_type_waterway_boat_5`,`vehicle_type_waterway_boat_5_15`,`vehicle_type_waterway_boat_15_35`,`vehicle_type_waterway_boat_35`,`vehicle_type_metro_or_train`,`student_entry_form`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
+                    break;
+                }
             }
-            case '60': {
-                $str_fields[$regType] = "INSERT INTO `student_identification`(`register_type`,`school_inep_id_fk`,`inep_id`,`id`,`name`,`birthday`,`sex`,`color_race`,`filiation`,`filiation_1`,`filiation_2`,`nationality`,`edcenso_nation_fk`,`edcenso_uf_fk`,`edcenso_city_fk`,`deficiency`,`deficiency_type_blindness`,`deficiency_type_low_vision`,`deficiency_type_deafness`,`deficiency_type_disability_hearing`,`deficiency_type_deafblindness`,`deficiency_type_phisical_disability`,`deficiency_type_intelectual_disability`,`deficiency_type_multiple_disabilities`,`deficiency_type_autism`,`deficiency_type_aspenger_syndrome`,`deficiency_type_rett_syndrome`,`deficiency_type_childhood_disintegrative_disorder`,`deficiency_type_gifted`,`resource_aid_lector`,`resource_aid_transcription`,`resource_interpreter_guide`,`resource_interpreter_libras`,`resource_lip_reading`,`resource_zoomed_test_16`,`resource_zoomed_test_20`,`resource_zoomed_test_24`,`resource_braille_test`,`resource_none`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '70': {
-                $str_fields[$regType] = "INSERT INTO `student_documents_and_address`(`register_type`,`school_inep_id_fk`,`student_fk`,`id`,`rg_number`,`rg_number_edcenso_organ_id_emitter_fk`,`rg_number_edcenso_uf_fk`,`rg_number_expediction_date`,`civil_certification`,`civil_certification_type`,`civil_certification_term_number`,`civil_certification_sheet`,`civil_certification_book`,`civil_certification_date`,`notary_office_uf_fk`,`notary_office_city_fk`,`edcenso_notary_office_fk`,`civil_register_enrollment_number`,`cpf`,`foreign_document_or_passport`,`nis`,`residence_zone`,`cep`,`address`,`number`,`complement`,`neighborhood`,`edcenso_uf_fk`,`edcenso_city_fk`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-            case '80': {
-                $str_fields[$regType] = "INSERT INTO student_enrollment (`register_type`,`school_inep_id_fk`,`student_inep_id`,`student_fk`,`classroom_inep_id`,`classroom_fk`,`enrollment_id`,`unified_class`,`edcenso_stage_vs_modality_fk`,`another_scholarization_place`,`public_transport`,`transport_responsable_government`,`vehicle_type_van`,`vehicle_type_microbus`,`vehicle_type_bus`,`vehicle_type_bike`,`vehicle_type_animal_vehicle`,`vehicle_type_other_vehicle`,`vehicle_type_waterway_boat_5`,`vehicle_type_waterway_boat_5_15`,`vehicle_type_waterway_boat_15_35`,`vehicle_type_waterway_boat_35`,`vehicle_type_metro_or_train`,`student_entry_form`) VALUES " . $lines . " ON DUPLICATE KEY UPDATE register_type = register_type;";
-                break;
-            }
-        }
-    endforeach;
-    return $str_fields;
-}
-
+        endforeach;
+        return $str_fields;
+    }
 }
 
 ?>
