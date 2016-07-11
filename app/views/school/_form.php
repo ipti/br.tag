@@ -72,10 +72,7 @@ $form=$this->beginWidget('CActiveForm', array(
                                 echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id'=>$modelSchoolIdentification->inep_id)), 'logo', array('width'=>40, 'style'=>'display:block;margin: -10px 0 15px 145px'));
                             ?>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'report_header', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->textArea($modelSchoolIdentification, 'report_header', array('placeholder' => 'Ex: Secretaria Municipal de Educação','size' => 8, 'maxlength' => 200, 'class' => 'span10')); ?>
-                                    <?php echo $form->error($modelSchoolIdentification, 'report_header'); ?>
                                 </div>
                             </div>
                             <div class="control-group">

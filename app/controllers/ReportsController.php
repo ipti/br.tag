@@ -174,7 +174,7 @@ class ReportsController extends Controller {
         $this->render('EnrollmentGradesReport', array('enrollment'=>$enrollment));
     }
 
-    public function actionStudentsFileBoquimReport($enrollment_id) {
+    public function actionStudentsFileReport($enrollment_id) {
         $this->layout = "reports";
         $this->render('StudentsFileReport', array('enrollment_id'=>$enrollment_id));
     }
