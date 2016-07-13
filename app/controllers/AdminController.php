@@ -1283,7 +1283,12 @@
 					if ($i == 0) { //remover atributo blob do school_identification
 						$object->logo_file_content = "";
 					}
-					array_push($array, $object->attributes);
+					$attributesArray = [];
+					foreach($object->attributes as $key => $attr) {
+						$attr = addslashes($attr);
+						$attributesArray[$key] = $attr;
+					}
+					array_push($array, $attributesArray);
 				}
 				$sql .= "INSERT INTO $tables[$i]";
 				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`, `tag_id`) VALUES";
@@ -1336,7 +1341,6 @@
 				}
 				$sql = substr($sql, 0, -2) . ";";
 			}
-
 			if ($importToFile) {
 				ini_set('memory_limit', '128M');
 				$fileName = "./app/export/exportSQL " . date("Y-m-d") . ".sql";
