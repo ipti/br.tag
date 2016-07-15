@@ -36,13 +36,19 @@
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
-                                'htmlOptions' => array('width' => '400px')
+                                'htmlOptions' => array('width' => '300px')
                             ),
                             array(
                                 'name' => 'edcensoStageVsModalityFk',
                                 'header' => 'Etapa',
                                 'value' => '$data->edcensoStageVsModalityFk->name',
-                                'htmlOptions' => array('width' => '400px'),
+                                'htmlOptions' => array('width' => '300px'),
+                            ),
+                            array(
+                                'header' => 'Escola',
+                                'value' => 'SchoolIdentification::model()->findByAttributes(array("inep_id"=>$data->school_inep_fk))->name',
+                                'htmlOptions' => array('width' => '300px'),
+                                'filter' => false
                             ),
                             array(
                                 'header' => 'Horário',
@@ -50,7 +56,7 @@
                                 'htmlOptions' => array('width' => '200px'),
                                 'filter' => false
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
+
                         ),
                     ));
                     ?>
