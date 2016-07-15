@@ -1305,32 +1305,32 @@
 							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
 							break;
 						case "3":
-							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday_date"]);
+							$tagId = md5($value["name"] . $value["birthday_date"]);
 							break;
 						case "4":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
 							break;
 						case "5":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
 							break;
 						case "6":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["instructor_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_id_fk"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
 							break;
 						case "7":
-							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday"]);
+							$tagId = md5($value["name"] . $value["birthday"]);
 							break;
 						case "8":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($studentIdentification->school_inep_id_fk . $studentIdentification->name . $studentIdentification->birthday);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday);
 							break;
 						case "9":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["student_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_fk"]]);
-							$tagId = md5($value["school_inep_id_fk"] . $studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
 							break;
 					}
 					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
