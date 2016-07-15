@@ -9,8 +9,9 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>  
-            <div class="buttons">
+            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
+            <div class="buttons span7">
+                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="btn btn-primary btn-icon glyphicons envelope"><i></i> Atualizar e-mails</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
             </div>
         </div>
@@ -51,7 +52,7 @@
                         ),
                 ));
                 ?>
-            </div>   
+            </div>
         </div>
     </div>
 </div>

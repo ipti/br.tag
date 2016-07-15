@@ -267,6 +267,7 @@ class StudentController extends Controller {
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['StudentIdentification'])) {
+            $_GET['StudentIdentification']['name'] = $this->removeWhiteSpace($_GET['StudentIdentification']['name']);
             $filter->attributes = $_GET['StudentIdentification'];
         }
         $school = Yii::app()->user->school;
@@ -308,6 +309,13 @@ class StudentController extends Controller {
             'filter' => $filter,
             'buttons' => $buttons,
         ));
+    }
+
+    private function removeWhiteSpace($text) {
+        $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
+        $text = preg_replace('/([\s])\1+/', ' ', $text);
+        $text = trim($text);
+        return $text;
     }
 
     /**

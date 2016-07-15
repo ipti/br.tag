@@ -279,9 +279,9 @@ class TimesheetController extends Controller
 
             $instructorDisciplines = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :svm", [":svm" => $classroom->edcenso_stage_vs_modality_fk]);
             $instructors = [];
-            foreach ($instructorDisciplines as $istructorDiscipline) {
-                if (!isset($instructors[$istructorDiscipline->instructor_fk])) {
-                    $instructors[$istructorDiscipline->instructor_fk] = $istructorDiscipline->instructorFk;
+            foreach ($instructorDisciplines as $instructorDiscipline) {
+                if (!isset($instructors[$instructorDiscipline->instructor_fk])) {
+                    $instructors[$instructorDiscipline->instructor_fk] = $instructorDiscipline->instructorFk;
                 }
             }
 
@@ -318,14 +318,19 @@ class TimesheetController extends Controller
                 $disciplines[$i] = [
                     "discipline" => $cm->discipline_fk, "instructor" => NULL, "credits" => $cm->credits
                 ];
-                $j = 0;
-                while ($j < count($instructors)) {
-                    if ($instructorsUnavailabilities[$j]['unavailabilities']['count'] + $needed < $schedulesQuantity * 7) {
-                        $disciplines[$i]["instructor"] = $instructorsUnavailabilities[$j]['id'];
-                        $instructorsUnavailabilities[$j]['unavailabilities']['count'] += $needed;
-                        break;
-                    }
-                    $j++;
+                if (count($instructors) > 0) {
+                    $indexArray = array();
+	                for ($idx = 0; $idx < count($instructors); $idx++) {
+		                array_push($indexArray, $idx);
+	                }
+	                shuffle($indexArray);
+		            for ($idx = 0; $idx < count($indexArray); $idx++) {
+			            if ($instructorsUnavailabilities[$indexArray[$idx]]['unavailabilities']['count'] + $needed < $schedulesQuantity * 7) {
+				            $disciplines[$i]["instructor"] = $instructorsUnavailabilities[$indexArray[$idx]]['id'];
+				            $instructorsUnavailabilities[$indexArray[$idx]]['unavailabilities']['count'] += $needed;
+				            break;
+			            }
+		            }
                 }
                 $i++;
             }
