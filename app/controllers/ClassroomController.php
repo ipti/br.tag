@@ -32,7 +32,6 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'addLesson', 'updateLesson', 'removeDraggedLesson', 'deleteLesson', 'getClassBoard',
                     'updateTime'
                 ),
                 'users' => array('@'),
@@ -435,15 +434,11 @@ class ClassroomController extends Controller {
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
 
-            $mtdLength = count($modelTeachingData);
-
             foreach ($modelTeachingData as $key => $td) {
                 $td->delete();
             }
 
             foreach ($teachingData as $key => $td) {
-                $update = false;
-
                 $modelTeachingData[$key] = new InstructorTeachingData;
                 $modelTeachingData[$key]->instructor_fk = $td->Instructor;
 
@@ -622,175 +617,6 @@ class ClassroomController extends Controller {
         }
     }
 
-    public function actionDeleteLesson($lesson = null) {
-        $lesson = ($lesson == null) ? $_POST['lesson'] : $lesson;
-
-        $days = isset($_POST['days']) ? $_POST['days'] : 0;
-        $minutes = isset($_POST['minutes']) ? $_POST['minutes'] : 0;
-
-        $classboard = ClassBoard::model()->findByPk($lesson['db']);
-
-        $initial_timestamp = strtotime($lesson['start']);
-        $final_timestamp = empty($lesson['end']) ? -1 : strtotime($lesson['end']);
-
-        $day = date('w', $initial_timestamp);
-        $day -= $days;
-        $schedule_initial = date('G', $initial_timestamp);
-        $schedule_initial -= $minutes / 60;
-        $schedule_final = ($final_timestamp == -1) ? ($schedule_initial + 1) : date('G', $final_timestamp);
-
-        //Pega a semana em forma de matriz
-        $week = $this->getSchedule($classboard);
-        
-        if($schedule_initial < 19){
-            $day = $day == 0 ? -1 : $day -1;
-        }
-        $day = $day == 6 ? 0 : $day + 1;
-
-        $schedule_initial = ($schedule_initial + 6) % 24;
-        $schedule_final = ($schedule_final + 6) % 24;
-        
-        $schedule = $week[$day];
-        //Percorre o intervalo dos horários selecionados
-        //removendo os que não existem mais
-        for ($i = $schedule_initial; $i < $schedule_final; $i++) {
-            foreach ($schedule as $key => $value) {
-                if ($value == $i) {
-                    unset($schedule[$key]);
-                }
-            }
-        }
-        //Coloca o horário de volta em forma de string
-        //para então colocar de volta no objeto
-        $schedule = implode(';', $schedule);
-        switch ($day) {
-            case 0: $classboard->week_day_sunday = $schedule;
-                break;
-            case 1: $classboard->week_day_monday = $schedule;
-                break;
-            case 2: $classboard->week_day_tuesday = $schedule;
-                break;
-            case 3: $classboard->week_day_wednesday = $schedule;
-                break;
-            case 4: $classboard->week_day_thursday = $schedule;
-                break;
-            case 5: $classboard->week_day_friday = $schedule;
-                break;
-            case 6: $classboard->week_day_saturday = $schedule;
-                break;
-        }
-
-        return ($classboard->validate() && $classboard->save());
-    }
-
-    public function actionUpdateLesson() {
-        $lesson = $_POST['lesson'];
-        return $this->actionDeleteLesson($lesson) && $this->actionAddLesson($lesson);
-    }
-
-    public function actionAddLesson($lesson = null) {
-        $lesson = ($lesson == null) ? $_POST['lesson'] : $lesson;
-        $classroom = $lesson['classroom'];
-        $discipline = $lesson['discipline'];
-        $instructor = $lesson['instructor'];
-        $classboard = ClassBoard::model()->find("classroom_fk = $classroom and discipline_fk =$discipline");
-
-        $pinitial = explode('GMT', $lesson['start']);
-        $lesson['start'] = $pinitial[0];
-        $initial_timestamp = strtotime($lesson['start']);
-
-        $pfinal = explode('GMT', $lesson['end']);
-        $lesson['end'] = $pfinal[0];
-        $final_timestamp = empty($lesson['end']) ? -1 : strtotime($lesson['end']);
-
-        $schedule_initial = date('G', $initial_timestamp);
-        $schedule_final = ($final_timestamp == -1) ? ($schedule_initial + 1) : date('G', $final_timestamp);
-
-        $week_day = date('w', $initial_timestamp);
-
-        if ($classboard == null) {
-            $classboard = new ClassBoard;
-            $classboard->classroom_fk = $classroom;
-            $classboard->discipline_fk = $discipline;
-            $classboard->instructor_fk = $instructor;
-
-            $schedule = array();
-        } else {
-            switch ($week_day) {
-                case 0: $schedule = $classboard->week_day_sunday;
-                    break;
-                case 1: $schedule = $classboard->week_day_monday;
-                    break;
-                case 2: $schedule = $classboard->week_day_tuesday;
-                    break;
-                case 3: $schedule = $classboard->week_day_wednesday;
-                    break;
-                case 4: $schedule = $classboard->week_day_thursday;
-                    break;
-                case 5: $schedule = $classboard->week_day_friday;
-                    break;
-                case 6: $schedule = $classboard->week_day_saturday;
-                    break;
-            }
-            $schedule = $schedule == '0' ? array() : explode(';', $schedule);
-        }
-
-        for ($i = $schedule_initial; $i < $schedule_final; $i++) {
-            array_push($schedule, $i);
-        }
-        $schedule = array_unique($schedule);
-        $schedule = implode(';', $schedule);
-
-        switch ($week_day) {
-            case 0: $classboard->week_day_sunday = $schedule;
-                break;
-            case 1: $classboard->week_day_monday = $schedule;
-                break;
-            case 2: $classboard->week_day_tuesday = $schedule;
-                break;
-            case 3: $classboard->week_day_wednesday = $schedule;
-                break;
-            case 4: $classboard->week_day_thursday = $schedule;
-                break;
-            case 5: $classboard->week_day_friday = $schedule;
-                break;
-            case 6: $classboard->week_day_saturday = $schedule;
-                break;
-        }
-
-        if ($classboard->validate() && $classboard->save()) {
-            $lesson['title'] = $classboard->disciplineFk->name;
-            $instructorName = $classboard->instructor_fk == null ? 'Sem Instrutor' : $classboard->instructorFk->name;
-            $event = array(
-                'id' => $lesson['id'],
-                'db' => $classboard->id,
-                'title' => (strlen($lesson['title']) > 30 ? substr($lesson['title'], 0, 27) . "..." : $lesson['title']) . " - " . $instructorName,
-                'discipline' => $lesson['discipline'],
-                'classroom' => $lesson['classroom'],
-                'instructor' => $lesson['instructor'],
-                'start' => $lesson['start'],
-                'end' => $lesson['end'],
-            );
-            echo json_encode($event);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private function getSchedule($classboard) {
-        $schedule = array(
-            explode(';', $classboard->week_day_sunday),
-            explode(';', $classboard->week_day_monday),
-            explode(';', $classboard->week_day_tuesday),
-            explode(';', $classboard->week_day_wednesday),
-            explode(';', $classboard->week_day_thursday),
-            explode(';', $classboard->week_day_friday),
-            explode(';', $classboard->week_day_saturday),
-        );
-        return $schedule;
-    }
-
     public function actionUpdateTime() {
         $return = array('first' => ":", 'last' => ":");
         if (isset($_POST['Classroom']['turn'])) {
@@ -812,41 +638,4 @@ class ClassroomController extends Controller {
         }
         echo json_encode($return);
     }
-
-    public function actionGetClassBoard($classroom_fk = null) {
-        $year = 1996;
-        $month = 1;
-
-        if ((!isset($_POST['ClassBoard']['classroom_fk']) || empty($_POST['ClassBoard']['classroom_fk'])) && $classroom_fk == null)
-            return null;
-        $classroom = $classroom_fk == null ? $_POST['ClassBoard']['classroom_fk'] : $classroom_fk;
-        $classboard = ClassBoard::model()->findAll("classroom_fk = $classroom");
-        $lessons = 0;
-
-        $events = array();
-        foreach ($classboard as $cb) {
-            $discipline = $cb->disciplineFk;
-            $week = $this->getSchedule($cb);
-            $title = $discipline->name;
-            $instructorName = $cb->instructor_fk == null ? 'Sem Instrutor' : $cb->instructorFk->name;
-            foreach ($week as $day => $d) {
-                foreach ($d as $schedule) {
-                    if ($schedule != 0) {
-                        $event = array(
-                            'id' => ++$lessons,
-                            'db' => $cb->id,
-                            'title' => (strlen($title) > 30 ? substr($title, 0, 37) . "..." : $title) . ' - ' . $instructorName,
-                            'discipline' => $discipline->id,
-                            'classroom' => $classroom,
-                            'instructor' => $cb->instructor_fk,
-                            'start' => date(DateTime::ISO8601, mktime($schedule, 0, 0, $month, $day == 0 ? 7 : $day, $year))
-                        );
-                        array_push($events, $event);
-                    }
-                }
-            }
-        }
-        echo json_encode($events);
-    }
-
 }

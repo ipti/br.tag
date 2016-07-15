@@ -3,9 +3,10 @@ $(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filia
 
     $(this).val($(this).val().toUpperCase());
 
-    if (!validateNamePerson(this.value)[0]) {
+    var validation = validateNamePerson(this.value);
+    if (!validation[0]) {
         $(id).attr('value', '');
-        addError(id, "Campo Nome não está dentro das regras.");
+        addError(id, validation[1]);
     } else {
         removeError(id);
     }
@@ -18,7 +19,7 @@ $(formInstructorIdentification + 'email').on('focusout', function() {
 
     if (!validateEmail($(id).val())) {
         $(id).attr('value', '');
-        addError(id, "Campo Email não está dentro das regras.");
+        addError(id, "Digite um e-mail válido.");
     } else {
         removeError(id);
     }
@@ -32,7 +33,7 @@ $(formInstructorIdentification + 'birthday_date').on('focusout', function() {
 
     if (!validateDate($(id).val()) || !validateYear(birthday.year)) {
         $(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo deve possuir apenas números, seguindo a estrutura Dia/Mês/Ano. Deve possuir um ano inferior ao ano atual.");
     } else {
         removeError(id);
     }
@@ -291,7 +292,7 @@ $(formDocumentsAndAddress + 'cpf').on('change', function() {
 
     if (!validateCpf($(id).val())) {
         $(id).attr('value', '');
-        addError(id, "Campo CPF não está dentro das regras.");
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
         removeError(id);
     }
@@ -322,7 +323,7 @@ $(formDocumentsAndAddress + 'cep').focusout(function() {
         removeError(id);
     }else{
         element.attr('value', '');
-        addError(id, "Campo CEP não está dentro das regras.");
+        addError(id, "Informe um CEP cadastrado nos correios. Apenas números são aceitos. Deve possuir no máximo 8 caracteres.");
     }
     
     if(required){
@@ -349,7 +350,7 @@ $(formDocumentsAndAddress + 'address').focusout(function() {
 
     if (!validateInstructorAddress($(id).val())) {
         $(id).attr('value', '');
-        addError(id, "Campo Endereço não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -361,7 +362,7 @@ $(formDocumentsAndAddress + 'address_number').focusout(function() {
 
     if (!validateInstructorAddressNumber($(id).val())) {
         $(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }
@@ -372,7 +373,7 @@ $(formDocumentsAndAddress + 'neighborhood').focusout(function() {
 
     if (!validateInstructorAddressNeighborhood($(this).val())) {
         $(id).attr('value', '');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 1.");
     } else {
         removeError(id);
     }

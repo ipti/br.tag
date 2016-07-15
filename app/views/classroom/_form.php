@@ -45,11 +45,11 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
-                <li id="tab-classboard"><a class="glyphicons calendar" href="#classboard" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Class Board') ?></a></li> 
+                <li id="tab-instructors"><a class="glyphicons nameplate" href="#instructors" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructors') ?></a></li>
                 <?php if (!$modelClassroom->isNewRecord) { ?>
                     <li id="tab-students">
                         <a class="glyphicons parents" href="#students" data-toggle="tab">
-                            <i></i><?php echo Yii::t('default', 'Students Enrollments') ?>
+                            <i></i><?php echo Yii::t('default', 'Students') ?>
                         </a>
                     </li>
                 <?php } ?>r
@@ -297,18 +297,14 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
 
-                <div class="tab-pane" id="classboard">
+                <div class="tab-pane" id="instructors">
                     <div class="row-fluid">
-                        <div class=" span8">
-                            <div id="loading" style="display:none">loading...</div>
-                            <div id="calendar"></div>
-                        </div>
-                        <div class=" span4">
+                        <div class=" span12">
                             <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
                             <div class="separator"></div>
                             <?php
-                            $teachingDataList = "<ul>"
-                                    . "<li><span><b>Disciplinas com Instrutores</b></span>"
+                            $teachingDataList = "<div>"
+                                    . "<div class='disciplines-with-container'><span><b>Disciplinas com Instrutores</b></span><div class='separator'></div>"
                                     . "<ul id='DisciplinesWithInstructors'>";
                             $teachingDataArray = array();
                             $teachingDataDisciplines = array();
@@ -346,7 +342,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $teachingDataList .= "</ul></li>";
                                 $i++;
                             }
-                            $teachingDataList .= "</ul></li>";
+                            $teachingDataList .= "</ul></div>";
 
                             //Pega a lista de disciplinas que possuem instrutores e tira as duplicatas
                             $teachingDataDisciplines = array_unique($teachingDataDisciplines);
@@ -357,7 +353,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             $disciplinesWithoutInstructor = array_diff($disciplinesArray, $teachingDataDisciplines);
 
                             //monta a lista com as disciplinas que não possuem instrutor                                
-                            $teachingDataList .= "<li><span><b>Disciplinas sem Instrutores</b></span>"
+                            $teachingDataList .= "<div class='disciplines-without-container'><span><b>Disciplinas sem Instrutores</b></span><div class='separator'></div>"
                                     . "<ul id='DisciplinesWithoutInstructors'>";
                             $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
                             foreach ($disciplinesWithoutInstructor as $disciplineId => $value) {
@@ -366,7 +362,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             . '<a href="#" class="deleteTeachingData delete" title="Excluir"></a>';
                                 }
                             }
-                            $teachingDataList .= "</ul></ul>";
+                            $teachingDataList .= "</ul></div></div>";
 
                             echo $teachingDataList;
                             ?>     
@@ -407,45 +403,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>   
                 <?php $this->endWidget(); ?>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="create-dialog-form" title="<?php echo Yii::t('default', 'Insert class'); ?>">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'insertclass-instructor', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::dropDownList('insertclass-instructor', '', array(), array('prompt' => 'Selecione o instrutor', 'class' => 'select-search-on')); ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::dropDownList('discipline', '', array(), array('prompt' => 'Selecione a disciplina', 'class' => 'select-search-on')); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="update-dialog-form" title="<?php echo Yii::t('default', 'Update class'); ?>">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'insertclass-update-instructor', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::dropDownList('insertclass-update-instructor', '', array(), array('prompt' => 'Selecione o instrutor', 'class' => 'select-search-on')); ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'update-discipline', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::dropDownList('update-discipline', '', array(), array('prompt' => 'Selecione a disciplina', 'class' => 'select-search-on')); ?>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -512,7 +469,6 @@ $form = $this->beginWidget('CActiveForm', array(
     var teachingDataNames = <?php echo json_encode($teachingDataNames); ?>;
 
     var form = '#Classroom_';
-    var formClassBoard = "#ClassBoard_";
     var formTeaching = '#InstructorTeachingData_';
     var lesson = {};
     var lessons = {};
@@ -525,11 +481,7 @@ $form = $this->beginWidget('CActiveForm', array(
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    var calendar;
-
     var myTeachingDataDialog;
-    var myCreateDialog;
-    var myUpdateDialog;
 
     var instructor = $("#insertclass-instructor");
     var uInstructor = $("#insertclass-update-instructor");
@@ -544,16 +496,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
     var getAssistanceURL = '<?php echo Yii::app()->createUrl('classroom/getassistancetype') ?>';
     var jsonCompActv = '<?php echo json_encode($complementaryActivities); ?>';
-    var eventsUrl = '<?php echo CController::createUrl('classroom/getClassBoard', array('classroom_fk' => $modelClassroom->id)); ?>';
     var updateLessonUrl = '<?php echo CController::createUrl('classroom/updateLesson'); ?>';
     var addLessonUrl = '<?php echo CController::createUrl('classroom/addLesson'); ?>';
     var deleteLessonUrl = '<?php echo CController::createUrl('classroom/deleteLesson'); ?>';
 
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
-    var btnDelete = "<?php echo Yii::t('default', 'Delete'); ?>";
-    var btnUpdate = "<?php echo Yii::t('default', 'Update'); ?>";
-
 
     $("#print").on('click', function () {
         window.print();
