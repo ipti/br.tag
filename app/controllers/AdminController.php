@@ -1258,29 +1258,32 @@
 						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => date("Y")]);
 						break;
 					case "3":
-						$sql = "select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
-						$objects = InstructorIdentification::model()->findAllBySql($sql, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
+						$query = "select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "4":
-						$sql = "select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
-						$objects = InstructorDocumentsAndAddress::model()->findAllBySql($sql, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
+						$query = "select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "5":
-						$sql = "select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
-						$objects = InstructorVariableData::model()->findAllBySql($sql, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
+						$query = "select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorVariableData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "6":
-						$sql = "select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
-						$objects = InstructorTeachingData::model()->findAllBySql($sql, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
+						$query = "select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorTeachingData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "7":
-						$objects = StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select si.* from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "8":
-						$objects = StudentDocumentsAndAddress::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select sdaa.* from student_documents_and_address sdaa join student_enrollment se on sdaa.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "9":
-						$objects = StudentEnrollment::model()->findAllBySql(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select se.* from student_enrollment se join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentEnrollment::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 				}
 				foreach ($objects as $object) {
