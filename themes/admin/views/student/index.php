@@ -42,7 +42,7 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
+                            'value' => '$data->name',
                         ),
                         /*array(
                             'header' => '',

@@ -1,4 +1,6 @@
-<div id="mainPage" class="main">
+
+
+<div id="querovc" class="main">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'School Identifications'));
     $contextDesc = Yii::t('default', 'Available actions that may be taken on SchoolIdentification.');
@@ -28,6 +30,7 @@
                     $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $filter->search(),
                         'filter' => $filter,
+                        'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'enablePagination' => true,
                         'columns' => array(
@@ -38,7 +41,7 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update", array("id"=>$data->inep_id)))',
+                                'value' => '$data->name',
                             ),),
                     ));
                     ?>
@@ -50,3 +53,4 @@
 
     </div>
 </div>
+
