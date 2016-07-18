@@ -123,7 +123,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
         </div>
         <div class="span6">
             <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('admin/exportToMaster') ?>" class="widget-stats"'>
+                <a href="<?php echo Yii::app()->createUrl('admin/exportToMaster') ?>" class="widget-stats">
                 <span class="glyphicons inbox"><i></i></span>
                 <span class="txt">Exportar para o banco mestre</span>
                 <div class="clearfix"></div>
@@ -140,6 +140,13 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 <a href="<?php echo Yii::app()->createUrl('admin/importFromMaster') ?>" class="widget-stats">
                     <span class="glyphicons bomb"><i></i></span>
                     <span class="txt">Importar do banco mestre</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/MultiStageClassroomVerify',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                    <span class="glyphicons notes"><i></i></span>
+                    <span class="txt">Verificação de Turmas MultiEtapa </span>
                     <div class="clearfix"></div>
                 </a>
             </div>

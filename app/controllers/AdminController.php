@@ -23,7 +23,7 @@
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
 						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'saveMultiStage'
 					], 'users' => ['@'],
 				],
 			];
@@ -34,6 +34,42 @@
 		 */
 		public function actionIndex() {
 			$this->render('index');
+		}
+
+		public function actionMultiStageClassroomVerify($id){
+				$year = Yii::app()->user->year;
+
+				$sql = "SELECT si.name as studentName, si.id as studentId , cq.name as className, cq.stage 
+						from classroom_qtd_students as cq
+						join student_enrollment as se on se.classroom_fk = cq.id
+						join student_identification as si on se.student_fk = si.id 
+						where cq.school_inep_fk = $id  AND cq.school_year = $year AND se.edcenso_stage_vs_modality_fk is null
+						AND(cq.name LIKE '%multi%' or cq.name LIKE '%MULTI%' or cq.name LIKE '%MULTIETAPA%' or cq.name LIKE '%multietapa%') order by studentName";					
+				$student = Yii::app()->db->createCommand($sql)->queryAll();
+
+				$school = SchoolIdentification::model()->findByPk($_GET['id']);
+
+
+				$sql1 = "SELECT * FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21)";
+
+				$stage = Yii::app()->db->createCommand($sql1)->queryAll();
+
+				$this->render('MultiStageClassroomVerify', array(
+					'school' => $school,
+					'student' => $student,
+					'stage' => $stage
+					)); 
+		}
+
+		public function actionSaveMultiStage() {
+			$student = json_decode($_POST["data"]);
+
+			foreach($student as $st) {
+				$sql = "UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = $st->val  where student_fk = $st->idx ";
+				Yii::app()->db->createCommand($sql)->query();
+			}
+				
+		
 		}
 
 		public function actionSyncExport() {
