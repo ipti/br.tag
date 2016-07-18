@@ -27,7 +27,7 @@
                 <div class="widget-body">
                     <?php
                     $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
+                        'dataProvider' => $filter->search(false),
                         'enablePagination' => true,
                         'filter' => $filter,
                         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
