@@ -4,22 +4,10 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsBetween5And14YearsOldReport/_initialization.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
-<script type="text/javascript">
-    $("#print").on('click', function() {
-        window.print();
-    });
-
-    $(document).ready(function() {
-        $(".table-classroom").each(function() {
-            if (!$(this).find(".student").length) {
-                $("<tr class='student'><td>N&atilde;o h&aacute; alunos entre 5 e 14 anos</td></tr>").insertAfter($(this).find("th").parent());
-            }
-        })
-    });
-</script>
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Students Between 5 And 14 Years Old'); ?></h3>
@@ -83,15 +71,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     // Declara a data! :P
                     $data = $s['birthday'];
 
-                    // Separa em dia, mês e ano
+                    // Separa em dia, m�s e ano
                     list($dia, $mes, $ano) = explode('/', $data);
 
-                    // Descobre que dia é hoje e retorna a unix timestamp
+                    // Descobre que dia � hoje e retorna a unix timestamp
                     $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
                     // Descobre a unix timestamp da data de nascimento do fulano
                     $nascimento = mktime(0, 0, 0, $mes, $dia, $ano);
 
-                    // Depois apenas fazemos o cálculo já citado :)
+                    // Depois apenas fazemos o c�lculo j� citado :)
                     $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
                     if ($idade >= 5 && $idade <= 14) {
                         $html .= "<tr class='student'>"

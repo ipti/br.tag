@@ -135,6 +135,26 @@
                     <div class="clearfix"></div>
                 </a>
             </div>
+            
+            <div class="span3">
+                <a href="<?php echo $this->createUrl('admin/exportStudentWithoutInepid',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Exportar Alunos sem Inep Id</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+
+        </div>
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="span3">
+                    <a href="<?php echo $this->createUrl('admin/exportInstructorWithoutInepid',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                        <span class="glyphicons file_export"><i></i></span>
+                        <span class="txt">Exportar Professores sem Inep Id</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="span6">
             <div class="span3">
@@ -187,7 +207,7 @@
                 <form id="syncImport-file-form" method="post"
                       action="<?php echo CController::createUrl('admin/syncImport'); ?>" enctype="multipart/form-data">
                     <div class="control-group">
-                        <?php echo CHtml::label(Yii::t('default', 'Import File'), 'file', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(Yii::t('default', 'Import File'), 'file', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <input type="file" name="file" id="syncFile" accept=".json"/>
                         </div>

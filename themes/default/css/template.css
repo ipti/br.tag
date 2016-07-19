@@ -6690,15 +6690,19 @@ li[discipline]:hover {
 #frequency input[type=checkbox] {
     margin: 4px 1px 0 1px;
 }
+
 .table th, .table td {
     padding: 4px 4px 4px 4px;
 }
+
 tr.filters td{
     padding: 4px 25px 4px 1px;
 }
+
 #frequency td.frequency-list {
     border-left: 0;
 }
+
 #frequency {
     border: 0;
 }
@@ -6847,4 +6851,8 @@ li.active a{
 .disciplines-without-container {
   width: 30%;
   display: inline-table;
+}
+
+.report-button {
+  margin-bottom: 10px;
 }

@@ -13,6 +13,7 @@ $('.tab-school li a').click(function() {
     var li2 = 'tab-school-structure';
     var li3 = 'tab-school-equipment';
     var li4 = 'tab-school-education';
+    var li5 = 'tab-school-reports';
     var tab = '';
     switch ($(this).parent().attr('id')) {
         case li1 :
@@ -39,6 +40,11 @@ $('.tab-school li a').click(function() {
             $('.next').hide();
             $('.last').show();
             break;
+        case li5 :
+            tab = li5;
+            $('.prev').hide();
+            $('.next').hide();
+            $('.last').hide();
     }
 
     classActive.removeClass("active");
