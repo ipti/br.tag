@@ -430,7 +430,10 @@ class ClassroomController extends Controller {
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
 
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
+        if($dbname[1] != "br.org.ipti.tagmaster"){
+            $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -465,7 +468,7 @@ class ClassroomController extends Controller {
                 $modelTeachingData[$key]->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
             }
 
-            // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
+            // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
             if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
                 $compActs = $_POST['Classroom']["complementary_activity_type_1"];
@@ -597,8 +600,11 @@ class ClassroomController extends Controller {
             $return = Classroom::model()->findByPk($id);
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
+
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
+
+
         } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);
