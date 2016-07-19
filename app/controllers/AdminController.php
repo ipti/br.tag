@@ -1476,35 +1476,47 @@
 						$objects = SchoolStructure::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "2":
-						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school]);
+						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => date("Y")]);
 						break;
 					case "3":
-						$objects = InstructorIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "4":
-						$objects = InstructorDocumentsAndAddress::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "5":
-						$objects = InstructorVariableData::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorVariableData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "6":
-						$objects = InstructorTeachingData::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorTeachingData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "7":
-						$objects = StudentIdentification::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select si.* from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "8":
-						$objects = StudentDocumentsAndAddress::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select sdaa.* from student_documents_and_address sdaa join student_enrollment se on sdaa.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "9":
-						$objects = StudentEnrollment::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$query = "select se.* from student_enrollment se join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentEnrollment::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 				}
 				foreach ($objects as $object) {
 					if ($i == 0) { //remover atributo blob do school_identification
 						$object->logo_file_content = "";
 					}
-					array_push($array, $object->attributes);
+					$attributesArray = [];
+					foreach($object->attributes as $key => $attr) {
+						$attr = addslashes($attr);
+						$attributesArray[$key] = $attr;
+					}
+					array_push($array, $attributesArray);
 				}
 				$sql .= "INSERT INTO $tables[$i]";
 				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`, `tag_id`) VALUES";
@@ -1521,32 +1533,32 @@
 							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
 							break;
 						case "3":
-							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday_date"]);
+							$tagId = md5($value["name"] . $value["birthday_date"]);
 							break;
 						case "4":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
 							break;
 						case "5":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
 							break;
 						case "6":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["instructor_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_id_fk"]]);
-							$tagId = md5($instructorIdentification->school_inep_id_fk . $instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
 							break;
 						case "7":
-							$tagId = md5($value["school_inep_id_fk"] . $value["name"] . $value["birthday"]);
+							$tagId = md5($value["name"] . $value["birthday"]);
 							break;
 						case "8":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
-							$tagId = md5($studentIdentification->school_inep_id_fk . $studentIdentification->name . $studentIdentification->birthday);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday);
 							break;
 						case "9":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["student_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_fk"]]);
-							$tagId = md5($value["school_inep_id_fk"] . $studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
 							break;
 					}
 					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
@@ -1557,7 +1569,6 @@
 				}
 				$sql = substr($sql, 0, -2) . ";";
 			}
-
 			if ($importToFile) {
 				ini_set('memory_limit', '128M');
 				$fileName = "./app/export/exportSQL " . date("Y-m-d") . ".sql";
