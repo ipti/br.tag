@@ -155,13 +155,12 @@ class InstructorIdentification extends CActiveRecord {
 
         $criteria = new CDbCriteria;
         $criteria->with = array('documents');
-                
+
         $criteria->compare('register_type', $this->register_type, true);        
 //        $school = Yii::app()->user->school;
 //        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name, true);
 //        $criteria->compare('email', $this->email, true);
 //        $criteria->compare('nis', $this->nis, true);
 //        $criteria->compare('birthday_date', $this->birthday_date, true);
@@ -181,6 +180,7 @@ class InstructorIdentification extends CActiveRecord {
 //        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
 //        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
 //        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
+        $criteria->addCondition("REGEXP_REPLACE(name, '[[:space:]]+', ' ') like '%$this->name%'");
         $criteria->addCondition('documents.cpf like "' . $this->documents . '%"');
 
         return new CActiveDataProvider($this, array(

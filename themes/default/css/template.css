@@ -6681,10 +6681,6 @@ li[instructor] {
 li[discipline]:hover {
   background-color: lightcyan;
 }
-li[instructor],
-li[discipline] {
-  list-style-type: none;
-}
 
 .frequency-list {
     font-size: 12px;
@@ -6814,4 +6810,41 @@ li.active a{
 
 .details-control{
     cursor:pointer
+}
+
+.instructor-emails .control-label {
+  width: 50%;
+  margin-right: 10px;
+}
+
+.instructor-emails .form-horizontal .controls {
+  margin-left: calc(50% - 10px);
+}
+
+.instructor-emails .form-horizontal {
+  margin-top: 20px;
+}
+
+.instructor-emails .form-horizontal .control-group {
+  float: left;
+  width: 50%;
+}
+
+.instructor-emails .alert {
+  display: none;
+}
+
+.disciplines-with-container {
+  width: 30%;
+  margin-right: 2%;
+  display: inline-table;
+}
+
+#DisciplinesWithInstructors > li > span {
+  font-weight: bold;
+}
+
+.disciplines-without-container {
+  width: 30%;
+  display: inline-table;
 }

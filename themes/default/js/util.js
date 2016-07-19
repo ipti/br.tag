@@ -15,20 +15,20 @@ dateRules.time = /^([01][0-9]|2[0-3]):[0-5][0-9]:?([0-5][0-9])?$/;
 dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9]{2})$/;
 
 var stringRules = new Object();
-stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
-stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
-stringRules.personName = /^[A-Z]{1,100}$/;
+stringRules.schoolName = /^SZ]{4,100}$/;
+stringRules.classroomName = /^[A-Z0-9°ºª\-À-ú ?]{4,80}$/;
+stringRules.personName = /^[A-ZÀ-ú]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
-stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
+stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]*$/;
 stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
-stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
+stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,100}$/;
 stringRules.instructorAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
-stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
-stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
-stringRules.studentAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
+stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,20}$/;
+stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,50}$/;
+stringRules.studentAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,100}$/;
 stringRules.studentAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
-stringRules.studentAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
-stringRules.studentAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
+stringRules.studentAddressComplement = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,20}$/;
+stringRules.studentAddressNeighborhood = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,50}$/;
 
 var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
@@ -198,7 +198,7 @@ function validateNamePerson(personName){
                 
                 if(until4 > 4){
                     ret[0] = false;
-                    ret[1] = "O nome não pode ter mais de 4 letras seguidas.";
+                    ret[1] = "O nome não deve possuir a mesma letra 4 vezes seguidas.";
                     return ret;
                 }
             }
@@ -209,7 +209,7 @@ function validateNamePerson(personName){
         }
     }else{
         ret[0] = false;
-        ret[1] = "O nome somente deve ter letras.";
+        ret[1] = "O campo aceita somente caracteres de A a Z. Tamanho mínimo: 1.";
         return ret;
     }
     ret[0] = true;

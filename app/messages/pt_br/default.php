@@ -484,6 +484,8 @@ return array(
     
     // Instructor-TeachingData
     'Instructor' => 'Professor',
+    'Instructors' => 'Professores',
+    'ID' => 'Professor',
     'Classroom Inep' => 'Inep da turma',
     'Classroom Id Fk' => 'Turma',
     'Role' => 'Função que exerce na escola / Turma',
@@ -502,6 +504,9 @@ return array(
     'Discipline 11 Fk' => '',
     'Discipline 12 Fk' => '',
     'Discipline 13 Fk' => '',
+
+    //Instructor email update
+    'Update Instructor e-mails' => "Atualizar e-mail dos professores",
     
     //Classboards
     'Insert class' => 'Inserir aula',

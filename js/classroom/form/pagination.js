@@ -5,7 +5,7 @@ $('.tab-classroom li a').click(function(){
     var classActive = $('li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
-    var li2 = 'tab-classboard';
+    var li2 = 'tab-instructors';
     var li3 = 'tab-students';
     var tab = '';
     switch($(this).parent().attr('id')) {
@@ -35,7 +35,7 @@ $('.next').click(function(){
     var classActive = $('ul.tab-classroom li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
-    var li2 = 'tab-classboard';
+    var li2 = 'tab-instructors';
     var next = '';
     switch(classActive.attr('id')) {
         case li1 : next = li2; 
@@ -57,7 +57,7 @@ $('.prev').click(function(){
     var classActive = $('li[class="active"]');
     var divActive = $('div .active');
     var li1 = 'tab-classroom';
-    var li2 = 'tab-classboard';
+    var li2 = 'tab-instructors';
     var li3 = 'tab-students';
     var previous = '';
     switch(classActive.attr('id')) {

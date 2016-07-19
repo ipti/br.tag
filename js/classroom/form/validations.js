@@ -9,19 +9,7 @@ $(form+'name').focusout(function() {
 
     if(!validateClassroomName($(id).val())){ 
         $(id).attr('value','');
-        addError(id, "Campo Nome não está dentro das regras.");
-    }else{
-        removeError(id);
-    }
-});
-$(form+'school_year').focusout(function() {
-    var id = '#'+$(this).attr("id");
-
-    $(id).val($(id).val().toUpperCase());
-
-    if(!validateYear($(id).val())){ 
-        $(id).attr('value','');
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "O campo aceita somente caracteres de A a Z, 0 a 9, ª, º, espaço e -. Tamanho mínimo: 4.");
     }else{
         removeError(id);
     }
@@ -37,7 +25,7 @@ $(form+'initial_time').focusout(function() {
         $(id).attr('value','');
         $(hour).attr('value','');
         $(minute).attr('value','');
-        addError(id, "Campo Hora Inicial não está dentro das regras.");
+        addError(id, "O horário deve ser válido e inferior ao horário final.");
     }
     else {
         var time = $(id).val().split(":");
@@ -58,7 +46,7 @@ $(form+'final_time').focusout(function() {
         $(id).attr('value','');
         $(hour).attr('value','');
         $(minute).attr('value','');
-        addError(id, "Campo Hora Final não está dentro das regras.");
+        addError(id, "O horário deve ser válido e superior ao horário inicial.");
     }
     else {
         var time = $(id).val().split(":"); 
@@ -71,7 +59,7 @@ $(form+'final_time').focusout(function() {
 $(form+'week_days input[type=checkbox]').change(function(){
     var id = '#'+$(form+'week_days').attr("id");
     if($(form+'week_days input[type=checkbox]:checked').length == 0){
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Escolha ao menos um dia.");
     }else{
         removeError(id);
     }
@@ -79,7 +67,7 @@ $(form+'week_days input[type=checkbox]').change(function(){
 $(form+'week_days').focusout(function(){
     var id = '#'+$(this).attr("id");
     if($(form+'week_days input[type=checkbox]:checked').length == 0){
-        addError(id, "Campo não está dentro das regras.");
+        addError(id, "Escolha ao menos um dia.");
     }else{
         removeError(id);
     }
@@ -89,16 +77,6 @@ $("#discipline").change(function(){
     var id = '#discipline';
     if($(id).val().length == 0){
         addError(id, "Selecione a Disciplina."); 
-    }else{
-        removeError(id);
-    }
-});
-//Validação da Classroom
-$(formClassBoard+'classroom_fk').change(function(){
-    var id = formClassBoard+'classroom_fk';
-    calendar.fullCalendar('removeEvents');
-    if($(id).val().length == 0){
-        addError(id, "Selecione a Turma."); 
     }else{
         removeError(id);
     }

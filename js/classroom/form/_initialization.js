@@ -24,20 +24,6 @@ $(document).ready(function() {
 $('#enviar_essa_bagaca').click(function() { 
     $('#teachingData').val(JSON.stringify(teachingData)); 
     $('#disciplines').val(JSON.stringify(disciplines));
-    var myEvents = [];
-    $.each(calendar.fullCalendar('clientEvents'), function(i,e){
-        var event = {};
-        event.classroom = e.classroom;
-        event.discipline =  e.discipline;
-        event.end =  e.end;
-        event.id =  e.id;
-        event.id_db =  e.id_db;
-        event.instructor =  e.instructor;
-        event.start =  e.start;
-        event.title =  e.title;
-        myEvents.push(event);
-    });
-    $('#events').val(JSON.stringify(myEvents));
     $('form').submit();
 });
 
