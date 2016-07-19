@@ -114,9 +114,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 
     </div>
+
     <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
         <div class="widget-head">
-            <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
+            <h4 class="heading" id="frequency-student-name" style="text-align: center; float: none"></h4>
         </div>
         <table id="frequency" class="table table-bordered table-striped">
             <thead>
@@ -127,7 +128,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </tr>
             </tbody>
         </table>
-    </div>
+    </div
     <?php $this->endWidget(); ?>
 </div>
 

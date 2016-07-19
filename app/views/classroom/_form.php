@@ -424,11 +424,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php }?>
                         </div>
                     </div>
-                </div>
+                </div>   
+                <?php $this->endWidget(); ?>
             </div>
         </div>
     </div>
-    <?php $this->endWidget(); ?>
 
     <div id="teachingdata-dialog-form" title="<?php echo Yii::t('default', 'New Discipline'); ?>">
         <div class="row-fluid">
