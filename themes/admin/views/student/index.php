@@ -69,3 +69,17 @@
 </div>
 
 </div>
+
+
+<script>
+
+    window.onload = function () {
+        $("input, textarea, select").attr('disabled', true);
+        $("#tab-student-identify, #tab-student-address, #tab-student-data, #tab-student-enrollment").click(function(){
+            $("input, textarea, select").attr('disabled', true);
+        });
+        $(".buttons").remove()
+    }
+
+</script>
+
