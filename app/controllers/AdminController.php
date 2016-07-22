@@ -1244,6 +1244,8 @@
 				"student_identification", "student_documents_and_address", "student_enrollment"
 			];
 
+			$classroom_tagId = array();
+			$studentIndetification_tagId = array();
 			for ($i = 0; $i < count($tables); $i++) {
 				$array = [];
 				$objects = "";
@@ -1297,53 +1299,100 @@
 					}
 					array_push($array, $attributesArray);
 				}
+				$keys = array_keys($array[0]);
 				$sql .= "INSERT INTO $tables[$i]";
-				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`, `tag_id`) VALUES";
+				switch ($i) {
+					case "0":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "1":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "2":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "3":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "4":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "5":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "6":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`,  `classroom_tag_id`) VALUES";
+						break;
+					case "7":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "8":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "9":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES";
+						break;
+				}
+				//$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+
 				foreach ($array as $value) {
 					$tagId = "";
 					switch ($i) {
 						case "0":
 							$tagId = md5($value["inep_id"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "1":
 							$tagId = md5($value["school_inep_id_fk"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "2":
 							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+
+							$classroom_tagId[$value[id]] =  $tagId;
 							break;
 						case "3":
 							$tagId = md5($value["name"] . $value["birthday_date"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "4":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
 							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "5":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
 							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "6":
 							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["instructor_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_id_fk"]]);
 							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "', '" . $classroom_tagId[$classroom->id] . "'),";
 							break;
 						case "7":
 							$tagId = md5($value["name"] . $value["birthday"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							$studentIndetification_tagId[$value[id]] = $tagId;
 							break;
 						case "8":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
 							$tagId = md5($studentIdentification->name . $studentIdentification->birthday);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 							break;
 						case "9":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["student_fk"]]);
 							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_fk"]]);
 							$tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
 							break;
 					}
-					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+					//$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 				}
 				$sql = substr($sql, 0, -1) . " ON DUPLICATE KEY UPDATE ";
-				foreach (array_keys($array[0]) as $key) {
+				foreach ($keys as $key) {
 					$sql .= "`" . $key . "` = VALUES(`" . $key . "`), ";
 				}
 				$sql = substr($sql, 0, -2) . ";";
