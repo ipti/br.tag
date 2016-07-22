@@ -27,10 +27,11 @@
 
     window.onload = function () {
         $("input, textarea, select").attr('disabled', true);
-        $("#tab-classroom, #tab-students").click(function(){
+        $("#tab-classroom, #tab-students, #tab-classroom").click(function(){
             $("input, textarea, select").attr('disabled', true);
         });
         $(".buttons").remove()
-    }
 
+    }
+  
 </script>
