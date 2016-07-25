@@ -7,6 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initializati
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 <div class="row-fluid hidden-print">
