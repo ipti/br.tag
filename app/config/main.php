@@ -1,5 +1,5 @@
 <?php
-// testando
+
 // unomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
@@ -20,7 +20,7 @@ switch ($domain) {
         $db = 'io.escola.josejacomildes';
         break;
     case 'lourival':
-        $db = 'io.escola.lourival';
+        $db = 'br.org.ipti.boquim';
         break;
     case 'mariadagloria':
         $db = 'io.escola.mariadagloria';
@@ -85,7 +85,7 @@ return array(
 
                 'quadro-de-horario/'                        => 'timesheet/',
                 'quadro-de-horario/<action:\w+>'            => 'timesheet/timesheet/<action>',
-	            'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
+                'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
 
                 'calendario/'                               => 'calendar/',
                 'calendario/<action:\w+>'                   => 'calendar/default/<action>',
@@ -109,8 +109,8 @@ return array(
                 '<controller:\w+>/<action:\w+>/<id:\d+>'    => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'             => '<controller>/<action>',
 
-				'gestao-resultados/'                      		=> 'resultsmanagement/',
-				'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
+                'gestao-resultados/'                      		=> 'resultsmanagement/',
+                'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
 
                 'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
@@ -120,8 +120,8 @@ return array(
         'db' => array(
             'connectionString' => "mysql:host=localhost;dbname=$db",
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
+            'username' => 'user.tag',
+            'password' => '123456',
             'charset' => 'utf8',
         ),
         'db2' => array(
@@ -150,12 +150,12 @@ return array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-            // uncomment the following to show log messages on web pages
-            /*
-              array(
-              'class'=>'CWebLogRoute',
-              ),
-             */
+                // uncomment the following to show log messages on web pages
+                /*
+                  array(
+                  'class'=>'CWebLogRoute',
+                  ),
+                 */
             ),
         ),
     ),
