@@ -24,10 +24,12 @@
 </div>
 
 <script>
-
     window.onload = function () {
-        $("input, textarea, select").attr('disabled', true);
-        $("#tab-classroom, #tab-students, #tab-classroom").click(function(){
+        $(".select2-container").width("250");
+        $("input, textarea").prop('disabled', true);
+        $("input, textarea, select").attr('readonly', true);
+        $("#tab-classroom, #tab-students, #tab-classroom, #Classroom_mais_educacao_participator").click(function(){
+            $("input[name='Classroom[mais_educacao_participator]'").prop('checked', $("input[name='Classroom[mais_educacao_participator]'").prop('checked'));
             $("input, textarea, select").attr('disabled', true);
         });
         $(".buttons").remove()

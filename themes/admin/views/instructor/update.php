@@ -29,6 +29,7 @@
 <script>
 
     window.onload = function () {
+        $(".select2-container").width("250");
         $("input, textarea, select").attr('disabled', true);
         $(".buttons").remove();
         $(".heading-mosaic").html("Atualizar Professor");

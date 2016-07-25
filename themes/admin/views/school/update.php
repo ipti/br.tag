@@ -28,6 +28,7 @@
 <script>
 
     window.onload = function () {
+        $(".select2-container").width("250");
         $("input, textarea, select").attr('disabled', true);
         $("#tab-school-identify, #tab-school-structure, #tab-school-equipment, #tab-student-education").click(function(){
             $("input, textarea, select").attr('disabled', true);

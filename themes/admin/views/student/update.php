@@ -28,6 +28,7 @@
 
     window.onload = function () {
         $("input, textarea, select").attr('disabled', true);
+        $(".select2-container").width("250");
         $("#tab-student-identify, #tab-student-address, #tab-student-data, #tab-student-enrollment").click(function(){
             $("input, textarea, select").attr('disabled', true);
         });

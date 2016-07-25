@@ -325,7 +325,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                     echo "<tr><th>Matrícula</th><th>Nome</th></tr>";
                                     foreach ($enrollments as $enr) {
-                                        echo "<tr><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentTagIdFk->name . "</a></td>";
+                                        echo "<tr><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentTagIdFk->tag_id)) . "'>" . $enr->studentTagIdFk->name . "</a></td>";
                                     }
                                     echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
                                 } else {
