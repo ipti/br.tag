@@ -57,8 +57,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </p>
                 <span style="display: block; clear: both"></span>
                 <?php }else{?>
-                <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="float: left; margin-right: 5px;">
+                <img src="/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
                 <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
+                    <?php echo $school->name ?>
                     <?php //strtoupper($school->report_header)?></span>
                 <span style="clear:both;display:block"></span>
                 <?php }?>
@@ -125,7 +127,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         ?>
                     </tr>
                     <tr>	
-                        <td style="">DATA: <?php echo date("d/m/y") ?></td>
+                        <td style="">DATA: <?php echo date('d/m/y',strtotime($enrollment->create_date));?></td>
                         <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                             <br>Pai, Mãe ou Responsável
                         </td>

@@ -63,6 +63,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php }else{?>
                     <img src="/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
                     <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                        SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
                         <?php echo $school->name ?>
                         <?php //strtoupper($school->report_header)?></span>
                     <span style="clear:both;display:block"></span>
