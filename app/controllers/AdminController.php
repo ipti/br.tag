@@ -246,10 +246,6 @@
     }
 
 
-    public function actionSyncExport()
-    {
-        set_time_limit(0);
-        ini_set('memory_limit', '-1');
 		public function actionSyncExport() {
 			set_time_limit(0);
 			ini_set('memory_limit', '-1');
@@ -1037,25 +1033,9 @@
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
 
-			$this->render('index');
-		}
-
-		public function actionDownloadExportFile() {
-			$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-			if (file_exists($fileDir)) {
-				header('Content-Description: File Transfer');
-				header('Content-Type: application/octet-stream');
-				header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
-				header('Expires: 0');
-				header('Cache-Control: must-revalidate');
-				header('Pragma: public');
-				header('Content-Length: ' . filesize($fileDir));
-				readfile($fileDir);
-			} else {
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
-				$this->render('index');
-			}
+        $this->render('index');
     }
+
 
     public function actionDownloadExportFile()
     {
