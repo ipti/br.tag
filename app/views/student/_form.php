@@ -224,6 +224,18 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'nis', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
+                                    <span
+                                        class="btn-action single glyphicons circle_question_mark"
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'inep_id', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'inep_id', array('size' => 60, 'maxlength' => 12)); ?>
