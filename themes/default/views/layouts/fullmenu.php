@@ -150,6 +150,9 @@ function isActive($pages){
                                 </li>
                             <?php } ?>
                             <li id="menu-logout">
+                                <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
+                            </li>
+                            <li id="menu-logout">
                                 <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
                             </li>
                         </ul>
