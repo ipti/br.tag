@@ -65,6 +65,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
                         SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
                         <?php echo $school->name ?>
+                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                         <?php //strtoupper($school->report_header)?></span>
                     <span style="clear:both;display:block"></span>
                 <?php }?>

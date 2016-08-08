@@ -62,6 +62,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
                     SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
                     <?php echo $school->name ?>
+                    CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                     <?php //strtoupper($school->report_header)?></span>
                 <span style="clear:both;display:block"></span>
                 <?php }?>
@@ -69,11 +70,11 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             <br/>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <?php
-                if ($_REQUEST['type'] == '3') {
+               /* if ($_REQUEST['type'] == '3') {
                     echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
                     . 'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
                     . '</div>';
-                }
+                }*/
                 ?>
                 <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
 <?php //echo $namereport ?>
