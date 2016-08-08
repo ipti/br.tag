@@ -186,7 +186,7 @@ class StudentController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+        @$modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         
         //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
