@@ -186,7 +186,7 @@ class StudentController extends Controller {
      * @param integer $id the ID of the model to be updated
      */
     public function actionUpdate($id) {
-        $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+        @$modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         
         //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
@@ -335,10 +335,12 @@ class StudentController extends Controller {
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
-            $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
-            $return = ($student_inep_id === null || empty($student_inep_id))
+            //$student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
+            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
+            /*$return = ($student_inep_id === null || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
+            */
         } else if ($model == $this->STUDENT_ENROLLMENT){            
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);            

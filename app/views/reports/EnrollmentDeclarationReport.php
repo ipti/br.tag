@@ -61,8 +61,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </p>
                     <span style="display: block; clear: both"></span>
                 <?php }else{?>
-                    <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="float: left; margin-right: 5px;">
+                    <img src="/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
                     <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                        SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
+                        <?php echo $school->name ?>
+                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                         <?php //strtoupper($school->report_header)?></span>
                     <span style="clear:both;display:block"></span>
                 <?php }?>

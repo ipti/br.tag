@@ -7,6 +7,7 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initializati
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+$enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 <div class="row-fluid hidden-print">
@@ -57,8 +58,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </p>
                 <span style="display: block; clear: both"></span>
                 <?php }else{?>
-                <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="float: left; margin-right: 5px;">
+                <img src="/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
                 <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
+                    <?php echo $school->name ?>
+                    CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                     <?php //strtoupper($school->report_header)?></span>
                 <span style="clear:both;display:block"></span>
                 <?php }?>
@@ -66,11 +70,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <br/>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <?php
-                if ($_REQUEST['type'] == '3') {
+               /* if ($_REQUEST['type'] == '3') {
                     echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
                     . 'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
                     . '</div>';
-                }
+                }*/
                 ?>
                 <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
 <?php //echo $namereport ?>
@@ -125,7 +129,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         ?>
                     </tr>
                     <tr>	
-                        <td style="">DATA: <?php echo date("d/m/y") ?></td>
+                        <td style="">DATA: <?php echo date('d/m/y',strtotime($enrollment->create_date));?></td>
                         <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                             <br>Pai, Mãe ou Responsável
                         </td>
