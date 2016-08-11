@@ -133,6 +133,8 @@ h6 img {
 .row span{
     font-size: 11px;
     padding: 0;
+    min-width: 80px;
+    display: inline-block;
 }
 
 .map-label {

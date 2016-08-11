@@ -17,9 +17,9 @@
     <div class="row">
         <?php foreach($data as $unity => $d) {
             $total = $d["good"]+$d["regular"]+$d["bad"];
-            $good = number_format($d["good"]/$total,2);
-            $regular = number_format($d["regular"]/$total,2);
-            $bad = number_format($d["bad"]/$total,2);
+            @$good = number_format($d["good"]/$total,2);
+            @$regular = number_format($d["regular"]/$total,2);
+            @$bad = number_format($d["bad"]/$total,2);
 
             $goodColor = "box-blue-".ceil(($good == 0 ? 1 : $good) / 25);
             $regularColor = "box-gray-".ceil(($regular == 0 ? 1 : $regular) / 25);
