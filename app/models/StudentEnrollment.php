@@ -122,6 +122,22 @@ class StudentEnrollment extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
+
+
+        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
+        if($dbname[1] == "br.org.ipti.tagmaster"){
+            return array(
+                'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
+                'studentTagIdFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_identification_tag_id'),
+                'classroomTagIdFk' => array(self::BELONGS_TO, 'Classroom', 'fk_classroom_tag_id'),
+                'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
+                'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
+                'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+                'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
+                'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
+
+            );
+        }
         return array(
             'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),

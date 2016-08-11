@@ -235,15 +235,16 @@ class Classroom extends CActiveRecord {
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search() {
+    public function search($is_default_theme = true) {
         //  Please modify the following code to remove attributes that should not be searched.
 
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->with = array('edcensoStageVsModalityFk');
-
-        $criteria->compare('school_inep_fk', Yii::app()->user->school);
+        if($is_default_theme == true){
+            $criteria->compare('school_inep_fk', Yii::app()->user->school);
+        }
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -254,7 +255,8 @@ class Classroom extends CActiveRecord {
             'criteria' => $criteria,
             'sort' => array(
                 'defaultOrder' => array(
-                    'name' => CSort::SORT_ASC
+                    'school_inep_fk' =>  CSort::SORT_ASC,
+                    'name' => CSort::SORT_ASC,
                 ),
             ),
             'pagination' => array(

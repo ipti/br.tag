@@ -452,6 +452,10 @@ class ClassroomController extends Controller {
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
+        if($dbname[1] != "br.org.ipti.tagmaster"){
+            $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        }
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
         if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
@@ -629,8 +633,11 @@ class ClassroomController extends Controller {
             $return = Classroom::model()->findByPk($id);
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
+
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
+
+
         } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);
