@@ -1,12 +1,13 @@
 <?php
-/* @var $this AdminController */
+    /* @var $this AdminController */
 
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+    $baseUrl = Yii::app()->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
 
-$this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
+    $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
+
 ?>
 
 <div class="row-fluid">
@@ -140,6 +141,13 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                 <a href="<?php echo Yii::app()->createUrl('admin/importFromMaster') ?>" class="widget-stats">
                     <span class="glyphicons bomb"><i></i></span>
                     <span class="txt">Importar do banco mestre</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('admin/MultiStageClassroomVerify',['id'=>Yii::app()->user->school]) ?>" class="widget-stats">
+                    <span class="glyphicons notes"><i></i></span>
+                    <span class="txt">Verificação de Turmas MultiEtapa </span>
                     <div class="clearfix"></div>
                 </a>
             </div>

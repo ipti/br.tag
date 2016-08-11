@@ -11,7 +11,7 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property Class $classFk
+ * @property Classes $classFk
  * @property StudentEnrollment $studentFk
  */
 class ClassFaults extends CActiveRecord
@@ -67,7 +67,7 @@ class ClassFaults extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classFk' => array(self::BELONGS_TO, 'Class', 'class_fk'),
+			'classFk' => array(self::BELONGS_TO, 'Classes', 'class_fk'),
 			'studentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'student_fk'),
 		);
 	}

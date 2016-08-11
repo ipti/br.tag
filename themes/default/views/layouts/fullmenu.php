@@ -43,7 +43,7 @@ function isActive($pages){
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.print.css' media='print' />
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
         <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css' />
-
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css"/>
     </head>
     <body>
         <!-- Main Container Fluid -->
@@ -87,9 +87,9 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-<!--                            <li id="menu-dashboard" class="--><?//= isActive( "site" )?><!--">-->
-<!--                                <a class="glyphicons dashboard" href="/"><i></i><span>Dashboard</span></a>-->
-<!--                            </li>-->
+                            <!--<li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                                <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
+                            </li>-->
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
@@ -105,6 +105,10 @@ function isActive($pages){
                             <li id="menu-student" class="<?= isActive("student") ?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
+                            <li id="menu-student" class="<?= isActive("student") ?>">
+                                <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
+                            </li>
+
                             <!--<li id="menu-student" class="hasSubmenu <?=isActive("classroom") ?>">
                                 <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>
                                 <ul class="collapse" id="menu-classroom2">                                
@@ -149,6 +153,9 @@ function isActive($pages){
                                 </li>
                             <?php } ?>
                             <li id="menu-logout">
+                                <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
+                            </li>
+                            <li id="menu-logout">
                                 <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
                             </li>
                         </ul>
@@ -177,7 +184,7 @@ function isActive($pages){
             <!-- // Sidebar menu & content wrapper END -->
         </div>
 
-        <!-- // Main Container Fluid END -->      
+        <!-- // Main Container Fluid END -->
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js" ></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>

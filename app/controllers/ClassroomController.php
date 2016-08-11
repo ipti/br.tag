@@ -32,7 +32,7 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime'
+                    'updateTime','move','batchupdate'
                 ),
                 'users' => array('@'),
             ),
@@ -399,6 +399,7 @@ class ClassroomController extends Controller {
                                 $e['classroom'] = $modelClassroom->id;
                                 $this->actionAddLesson($e);
                             }
+                            Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                             $this->redirect(array('index'));
                         }
@@ -422,14 +423,53 @@ class ClassroomController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
+    public function actionBatchupdate($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $fields) {
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->admission_type = $fields['admission_type'];
+                $enro->current_stage_situation = $fields['current_stage_situation'];
+                $enro->update(array('admission_type','current_stage_situation'));
+            }
+        }
+
+
+        $this->render('batchupdate', array(
+            'modelClassroom' => $modelClassroom,
+        ));
+    }
+
     public function actionUpdate($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
-
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
+        if($dbname[1] != "br.org.ipti.tagmaster"){
+            $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        }
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+
+        if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
+            $enrollments = $_POST['enrollments'];
+            $count_students = count($_POST['enrollments']);
+            $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+            foreach ($enrollments as $enrollment) {
+                $enro = StudentEnrollment::model()->findByPk($enrollment);
+                $enro->classroom_fk = $class_room->id;
+                $enro->classroom_inep_id = $class_room->inep_id;
+                $enro->update(array('classroom_fk','classroom_inep_id'));
+            }
+            $this->redirect(array('index'));
+        }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -460,7 +500,7 @@ class ClassroomController extends Controller {
                 $modelTeachingData[$key]->discipline_13_fk = isset($td->Disciplines[12]) ? $td->Disciplines[12] : NULL;
             }
 
-            // Em adição, inserir a condição dos campos 25-35 (AEE activities) 
+            // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
             if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
                 $compActs = $_POST['Classroom']["complementary_activity_type_1"];
@@ -493,6 +533,7 @@ class ClassroomController extends Controller {
                             $save = $save && $modelTeachingData[$key]->save();
                         }
                         if ($save) {
+                            Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma atualizada com sucesso!'));
                             $this->redirect(array('index'));
                         }
@@ -523,7 +564,6 @@ class ClassroomController extends Controller {
             'complementaryActivities' => $compActs
         ));
     }
-
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -539,8 +579,9 @@ class ClassroomController extends Controller {
         foreach ($instructors as $key => $value) {
             $value->delete();
         }
-
-        if ($this->loadModel($id, $this->MODEL_CLASSROOM)->delete()) {
+        $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        if ($classroom->delete()) {
+            Log::model()->saveAction("classroom", $id, "D", $classroom->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
             $this->redirect(array('index'));
         } else {
@@ -592,8 +633,11 @@ class ClassroomController extends Controller {
             $return = Classroom::model()->findByPk($id);
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
+
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
+
+
         } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);

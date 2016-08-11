@@ -25,73 +25,163 @@ $this->breadcrumbs = array(
             </div>
             <br/>
         <?php endif ?>
-        <div class="span6">
-            <div class="row-fluid">
-                <div class="span3">
+        <div class="span12">
+                <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/BFReport')?>" class="widget-stats">
-                        <span class="glyphicons user"><i></i></span>
+                        <span class="glyphicons justify"><i></i></span>
                         <span class="txt">Bolsa Família</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-                <div class="span3">
+                <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport')?>" class="widget-stats">
-                        <span class="glyphicons group"><i></i></span>
+                        <span class="glyphicons justify"><i></i></span>
                         <span class="txt">Número de Alunos por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-                <div class="span3">
+                <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport')?>" class="widget-stats">
-                        <span class="glyphicons group"><i></i></span>
+                        <span class="glyphicons justify"><i></i></span>
                         <span class="txt">Professores por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-                <div class="span3">
+                <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/StudentsFileReport')?>" class="widget-stats">
-                        <span class="glyphicons user"><i></i></span>
+                        <span class="glyphicons notes"><i></i></span>
                         <span class="txt">Ficha Individual do Aluno</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
-            </div>
+                <div class="span2">
+                    <a href="<?php echo Yii::app()->createUrl('reports/ResultBoardReport')?>" class="widget-stats">
+                        <span class="glyphicons notes"><i></i></span>
+                        <span class="txt">Quadro de Rendimento</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+                <div class="span2">
+                    <a href="<?php echo Yii::app()->createUrl('reports/StatisticalDataReport')?>" class="widget-stats">
+                        <span class="glyphicons signal"><i></i></span>
+                        <span class="txt">Dados Estatísticos</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
         </div>
-        <div class="span6">
-            <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('reports/ResultBoardReport')?>" class="widget-stats">
-                    <span class="glyphicons file_export"><i></i></span>
-                    <span class="txt">Quadro de Rendimento</span>
+        <div class="span12" style="margin: 10px 0 0 0">
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons signal"><i></i></span>
+                    <span class="txt">Análise Comparativa de Matrículas</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
-            <div class="span3">
-                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalDataReport')?>" class="widget-stats">
-                    <span class="glyphicons file_export"><i></i></span>
-                    <span class="txt">Dados Estatísticos</span>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons signal"><i></i></span>
+                    <span class="txt">Número de Profissionais por turma</span>
                     <div class="clearfix"></div>
                 </a>
-            </div>            
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Auxiliar/Assistente Educacional por Turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação Disciplina/Docente</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação de Monitores de Atividade Complementar por Turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação Turmas sem Instrutor</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
         </div>
-                
-        <div class="span6" style="margin: 10px 0 0 0">
-            <div class="span3">
+        <div class="span12" style="margin: 10px 0 0 0">
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação de Número de Alunos e Professores por Turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Alunos Por Turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsinalphabeticalorderrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relaçao de Alunos em ordem Alfabética</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação de Estudantes com Deficiências</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Relação de Estudantes que utilizam Transporte Escolar</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Alunos com Idade Incompatível por Turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div>
+        <div class="span12" style="margin: 10px 0 0 0">
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons justify"><i></i></span>
+                    <span class="txt">Alunos com Idade Entre 5 e 14 Anos</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/TransferForm', array('enrollment_id'=>546))?>" class="widget-stats" target="_blank">
-                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="glyphicons notes"><i></i></span>
                     <span class="txt">Guia de Transferência</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
-            <div class="span3">
+            <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentNotification', array('enrollment_id'=>4603))?>" class="widget-stats" target="_blank">
-                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="glyphicons notes"><i></i></span>
                     <span class="txt">Comunicado de matrícula</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
-            <div class="span3">
+            <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/TransferRequirement', array('enrollment_id'=>4647))?>" class="widget-stats" target="_blank">
-                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="glyphicons notes"><i></i></span>
                     <span class="txt">Requerimento de Transferência</span>
                     <div class="clearfix"></div>
                 </a>

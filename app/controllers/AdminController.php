@@ -18,7 +18,7 @@
 			return [
 				[
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'index'], 'users' => ['*'],
+					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
@@ -35,6 +35,214 @@
 		public function actionIndex() {
 			$this->render('index');
 		}
+
+		public function actionMultiStageClassroomVerify($id){
+				$year = Yii::app()->user->year;
+
+				$sql = "SELECT si.name as studentName, si.id as studentId , cq.name as className, cq.stage 
+						from classroom_qtd_students as cq
+						join student_enrollment as se on se.classroom_fk = cq.id
+						join student_identification as si on se.student_fk = si.id 
+						where cq.school_inep_fk = $id  AND cq.school_year = $year AND se.edcenso_stage_vs_modality_fk is null
+						AND(cq.name LIKE '%multi%' or cq.name LIKE '%MULTI%' or cq.name LIKE '%MULTIETAPA%' or cq.name LIKE '%multietapa%') order by studentName";					
+				$student = Yii::app()->db->createCommand($sql)->queryAll();
+
+				$school = SchoolIdentification::model()->findByPk($_GET['id']);
+
+
+				$sql1 = "SELECT * FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21)";
+
+				$stage = Yii::app()->db->createCommand($sql1)->queryAll();
+
+				$this->render('MultiStageClassroomVerify', array(
+					'school' => $school,
+					'student' => $student,
+					'stage' => $stage
+					)); 
+		}
+
+		public function actionSaveMultiStage() {
+			$student = json_decode($_POST["data"]);
+
+			foreach($student as $st) {
+				$sql = "UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = $st->val  where student_fk = $st->idx ";
+				Yii::app()->db->createCommand($sql)->query();
+			}
+				
+		
+		}
+
+    public function actionExportInstructorWithoutInepid($id){
+        $year = Yii::app()->user->year;
+
+        $sql = "SELECT DISTINCT id.school_inep_id_fk , id.inep_id , id.name , id.email, id.birthday_date , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
+                FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
+                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
+
+        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if(count($instructors) == 0){
+            echo "N&atilde;o h&aacute; professores cadastrados nesta escola no ano de " . $year;
+        }
+        else {
+            $fileName = date("Y-i-d") . "_" . $id . "_instructors_without_inep_id.txt";
+            $fileDir = "./app/export/" . $fileName;
+            $file = fopen($fileDir, 'w');
+
+
+            foreach ($instructors as $i) {
+                $linha = "";
+
+                if ($i['school_inep_id_fk'] == null) {
+                    $linha .= "||";
+                } else {
+                    $linha .= $i['school_inep_id_fk'] . "|";
+                }
+
+                if ($i['name'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['name'] . "|";
+                }
+
+                if ($i['email'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['email'] . "|";
+                }
+
+                if ($i['birthday_date'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['birthday_date'] . "|";
+                }
+
+                if ($i['filiation_1'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['filiation_1'] . "|";
+                }
+
+                if ($i['filiation_2'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['filiation_2'] . "|";
+                }
+
+                if ($i['edcenso_uf_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['edcenso_uf_fk'] . "|";
+                }
+
+                if ($i['edcenso_city_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $i['edcenso_city_fk'] . "|";
+                }
+
+                if ($i['inep_id'] == null) {
+                    $linha .= "|" . "\n";
+                } else {
+                    $linha .= $i['inep_id'] . "\n";
+                }
+
+                fwrite($file, $linha);
+            }
+
+            fclose($file);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        }
+    }
+
+    public function actionExportStudentWithoutInepid($id)
+    {
+        $year = Yii::app()->user->year;
+        $sql = "SELECT DISTINCT si.school_inep_id_fk , si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
+			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
+			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
+
+        $students = Yii::app()->db->createCommand($sql)->queryAll();
+
+        if(count($students) == 0){
+            echo "N&atilde;o h&aacute; alunos cadastrados nesta escola no ano de " . $year;
+        }else {
+            $fileName = date("Y-i-d") . "_" . $id . "_students_without_inep_id.txt";
+            $fileDir = "./app/export/" . $fileName;
+            $file = fopen($fileDir, 'w');
+
+            foreach ($students as $s) {
+                $linha = "";
+
+                if ($s['school_inep_id_fk'] == null) {
+                    $linha .= "||";
+                } else {
+                    $linha .= $s['school_inep_id_fk'] . "|";
+                }
+
+                if ($s['name'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['name'] . "|";
+                }
+                if ($s['birthday'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['birthday'] . "|";
+                }
+
+                if ($s['filiation_1'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['filiation_1'] . "|";
+                }
+
+                if ($s['filiation_2'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['filiation_2'] . "|";
+                }
+
+                if ($s['edcenso_uf_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['edcenso_uf_fk'] . "|";
+                }
+
+                if ($s['edcenso_city_fk'] == null) {
+                    $linha .= "|";
+                } else {
+                    $linha .= $s['edcenso_city_fk'] . "|";
+                }
+
+                if ($s['inep_id'] == null) {
+                    $linha .= "|" . "\n";
+                } else {
+                    $linha .= $s['inep_id'] . "\n";
+                }
+
+                fwrite($file, $linha);
+            }
+
+            fclose($file);
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        }
+    }
+
 
 		public function actionSyncExport() {
 			set_time_limit(0);
@@ -556,53 +764,53 @@
 			$classrooms = Classroom::model()->count($where);
 			$data['classroom'] = $classrooms;
 
-			//Identificação do Professor
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
-			$criteria->join .= 'LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
-			$criteria->condition = 'c.school_year = :value';
-			$criteria->params = [":value" => date('Y')];
-			$criteria->group = 't.id';
-			$instructors = InstructorIdentification::model()->count($criteria);
-			$data['instructors'] = $instructors;
+        //Identificação do Professor
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join .= 'LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $instructors = InstructorIdentification::model()->count($criteria);
+        $data['instructors'] = $instructors;
 
-			//Identificação do Aluno
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
-			$criteria->join .= 'LEFT JOIN classroom c ON c.id = se.classroom_fk';
-			$criteria->condition = 'c.school_year = :value';
-			$criteria->params = [":value" => date('Y')];
-			$criteria->group = 't.id';
-			$students = StudentIdentification::model()->count($criteria);
-			$data['students'] = $students;
+        //Identificação do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join .= 'LEFT JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->count($criteria);
+        $data['students'] = $students;
 
-			//Matricula do Aluno
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->join .= 'LEFT JOIN classroom c ON c.id = t.classroom_fk';
-			$criteria->condition = 'c.school_year = :value';
-			$criteria->params = [":value" => date('Y')];
-			$enrollments = StudentEnrollment::model()->count($criteria);
-			$data['enrollments'] = $enrollments;
+        //Matricula do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join .= 'LEFT JOIN classroom c ON c.id = t.classroom_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $enrollments = StudentEnrollment::model()->count($criteria);
+        $data['enrollments'] = $enrollments;
 
-			if ($file) {
-				$fileDir = Yii::app()->basePath . '/backup/Data/' . date('Y-m-d') . '.dat';
-				$dataText = json_encode($data);
+        if ($file) {
+            $fileDir = Yii::app()->basePath . '/backup/Data/' . date('Y-m-d') . '.dat';
+            $dataText = json_encode($data);
 
-				Yii::import('ext.FileManager.fileManager');
-				$fm = new fileManager();
-				$result = $fm->write($fileDir, $dataText);
-				if ($result) {
-					Yii::app()->user->setFlash('success', Yii::t('default', 'Dados salvos com Sucesso!'));
-				} else {
-					Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar os dados!'));
-				}
-			}
+            Yii::import('ext.FileManager.fileManager');
+            $fm = new fileManager();
+            $result = $fm->write($fileDir, $dataText);
+            if ($result) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Dados salvos com Sucesso!'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar os dados!'));
+            }
+        }
 
-			$this->render('data', ['data' => $data]);
-		}
+        $this->render('data', array('data' => $data));
+    }
 
 		public function actionExportStudentIdentify() {
 
@@ -614,26 +822,34 @@
 			$export = "";
 			/* |id|nome|nascimento|mae|pai|UF|municipio| */
 
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->condition = 't.inep_id is null ' . 'AND t.send_year <= :year';
-			$criteria->params = [":year" => date('Y')];
-			$criteria->group = 't.id';
-			$students = StudentIdentification::model()->findAll($criteria);
-			foreach ($students as $key => $student) {
-				$a = $student;
-				$export .= "|" . $a->id . "|" . $a->name . "|" . $a->birthday . "|" . $a->filiation_1 . "|" . $a->filiation_2 . "|" . $a->edcenso_uf_fk . "|" . $a->edcenso_city_fk . "|\n";
-			}
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->condition = 't.inep_id is null '
+            . 'AND t.send_year <= :year';
+        $criteria->params = array(":year" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->findAll($criteria);
+        foreach ($students as $key => $student) {
+            $a = $student;
+            $export .= "|" . $a->id
+                . "|" . $a->name
+                . "|" . $a->birthday
+                . "|" . $a->filiation_1
+                . "|" . $a->filiation_2
+                . "|" . $a->edcenso_uf_fk
+                . "|" . $a->edcenso_city_fk
+                . "|\n";
+        }
 
-			$result = $fm->write($fileDir, $export);
-			if ($result) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação dos Alunos Concluida com Sucesso.'));
-			} else {
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação dos Alunos.'));
-			}
+        $result = $fm->write($fileDir, $export);
+        if ($result) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação dos Alunos Concluida com Sucesso.'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação dos Alunos.'));
+        }
 
-			$this->render('index');
-		}
+        $this->render('index');
+    }
 
 		/**
 		 * Generate the ExportFile.
@@ -682,16 +898,16 @@
 				$export .= "\n";
 			}
 
-			//Identificação do Professor
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
-			$criteria->join .= 'LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
-			$criteria->condition = 'c.school_year = :value';
-			$criteria->params = [":value" => date('Y')];
-			$criteria->group = 't.id';
-			$instructors = InstructorIdentification::model()->findAll($criteria);
-			foreach ($instructors as $key => $instructor) {
+        //Identificação do Professor
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join = 'LEFT JOIN instructor_teaching_data ita ON ita.instructor_fk = t.id ';
+        $criteria->join .= 'LEFT JOIN classroom c ON c.id = ita.classroom_id_fk';
+        $criteria->condition = 'c.school_year = :value';
+        $criteria->params = array(":value" => date('Y'));
+        $criteria->group = 't.id';
+        $instructors = InstructorIdentification::model()->findAll($criteria);
+        foreach ($instructors as $key => $instructor) {
 
 				//Dados do Professor
 				$instructorId = $instructor->attributes;
@@ -714,49 +930,50 @@
 				$export .= "\n";
 				//$export .= "50|\n";
 
-				//Dados de Docência do Professor
-				$criteria->select = 't.*';
-				$criteria->condition = 't.instructor_fk = :value';
-				$criteria->params = [":value" => $instructor->id];
-				$instructorTeachingDatas = InstructorTeachingData::model()->findAll($criteria);
-				foreach ($instructorTeachingDatas as $itd) {
-					$attributes = $itd->attributes;
-					//Remove fkid
-					array_pop($attributes);
-					//Remove Id
-					array_pop($attributes);
-					$export .= implode('|', $attributes);
-					$export .= "\n";
-				}
-			}
+            //Dados de Docência do Professor
+            $criteria->select = 't.*';
+            $criteria->condition = 't.instructor_fk = :value';
+            $criteria->params = array(":value" => $instructor->id);
+            $instructorTeachingDatas = InstructorTeachingData::model()->findAll($criteria);
+            foreach ($instructorTeachingDatas as $itd) {
+                $attributes = $itd->attributes;
+                //Remove fkid
+                array_pop($attributes);
+                //Remove Id
+                array_pop($attributes);
+                $export .= implode('|', $attributes);
+                $export .= "\n";
+            }
+        }
 
-			//Identificação do Aluno
-			$criteria = new CDbCriteria();
-			$criteria->select = 't.*';
-			$criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
-			$criteria->join .= 'LEFT JOIN classroom c ON c.id = se.classroom_fk';
-			$criteria->condition = 'c.school_year = :value ' . 'AND t.send_year <= :year';
-			$criteria->params = [":value" => date('Y'), ":year" => date('Y')];
-			$criteria->group = 't.id';
-			$students = StudentIdentification::model()->findAll($criteria);
-			foreach ($students as $key => $student) {
-				$attributes = $student->attributes;
-				// Remove fkid
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				array_pop($attributes);
-				// Remove
-				array_pop($attributes);
-				$export .= implode('|', $attributes);
-				$export .= "\n";
+        //Identificação do Aluno
+        $criteria = new CDbCriteria();
+        $criteria->select = 't.*';
+        $criteria->join = 'LEFT JOIN student_enrollment se ON se.student_fk = t.id ';
+        $criteria->join .= 'LEFT JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.school_year = :value '
+            . 'AND t.send_year <= :year';
+        $criteria->params = array(":value" => date('Y'), ":year" => date('Y'));
+        $criteria->group = 't.id';
+        $students = StudentIdentification::model()->findAll($criteria);
+        foreach ($students as $key => $student) {
+            $attributes = $student->attributes;
+            // Remove fkid
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            array_pop($attributes);
+            // Remove
+            array_pop($attributes);
+            $export .= implode('|', $attributes);
+            $export .= "\n";
 
 				//Documentos do Aluno
 				$studentDocs = StudentDocumentsAndAddress::model()->findByPk($student->id);
@@ -776,32 +993,32 @@
 				$export .= implode('|', $attributes);
 				$export .= "\n";
 
-				//Matricula do Aluno
-				$criteria->select = 't.*';
-				$criteria->condition = 't.student_fk = :value';
-				$criteria->params = [":value" => $student->id];
-				$enrollments = StudentEnrollment::model()->findAll($criteria);
-				foreach ($enrollments as $enrollment) {
-					$attributes = $enrollment->attributes;
-					//Remove create_time
-					array_pop($attributes);
-					array_pop($attributes);
-					array_pop($attributes);
-					array_pop($attributes);
-					array_pop($attributes);
-					array_pop($attributes);
-					//Remove Id
-					array_pop($attributes);
-					$export .= implode('|', $attributes);
-					$export .= "\n";
-				}
-			}
+            //Matricula do Aluno
+            $criteria->select = 't.*';
+            $criteria->condition = 't.student_fk = :value';
+            $criteria->params = array(":value" => $student->id);
+            $enrollments = StudentEnrollment::model()->findAll($criteria);
+            foreach ($enrollments as $enrollment) {
+                $attributes = $enrollment->attributes;
+                //Remove create_time
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                array_pop($attributes);
+                //Remove Id
+                array_pop($attributes);
+                $export .= implode('|', $attributes);
+                $export .= "\n";
+            }
+        }
 
-			$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
-			Yii::import('ext.FileManager.fileManager');
-			$fm = new fileManager();
-			$result = $fm->write($fileDir, $export);
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $export);
 
 			if ($result) {
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="/admin/downloadexportfile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
@@ -920,9 +1137,9 @@
 
 			$this->addTestUsers();
 
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-			$this->redirect(['index']);
-		}
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
+        $this->redirect(array('index'));
+    }
 
 		public function actionImport() {
 			set_time_limit(0);
@@ -1010,9 +1227,9 @@
 			set_time_limit(30);
 
 
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-			$this->redirect(['index']);
-		}
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo do Educacenso importado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
+        $this->redirect(array('index'));
+    }
 
 		public function actionACL() {
 			$auth = Yii::app()->authManager;
@@ -1072,9 +1289,9 @@
 			$role->addChild('deleteSchool');
 
 
-			Yii::app()->user->setFlash('success', Yii::t('default', 'ACL configurada com sucesso.'));
-			$this->redirect(['index']);
-		}
+        Yii::app()->user->setFlash('success', Yii::t('default', 'ACL configurada com sucesso.'));
+        $this->redirect(array('index'));
+    }
 
 		//Retorna uma Array com 2 arrays. InsertValue e InstructorInepID
 		/**
@@ -1164,16 +1381,15 @@
 							$insertValue[$regType] .= $value;
 							$insertValue[$regType] .= ($line == $totalLines) ? ")" : "),\n";
 
-						} else {
-							$insertValue[$regType] .= $value . ", ";
-						}
-					}
-				}
-			endforeach;
-			$return = ['insert' => $insertValue, 'instructor' => $instructorInepIds];
-
-			return $return;
-		}
+                    } else {
+                        $insertValue[$regType] .= $value . ", ";
+                    }
+                }
+            }
+        endforeach;
+        $return = array('insert' => $insertValue, 'instructor' => $instructorInepIds);
+        return $return;
+    }
 
 		private function getInsertSQL($insertValue) {
 			$str_fields = [];
@@ -1244,6 +1460,8 @@
 				"student_identification", "student_documents_and_address", "student_enrollment"
 			];
 
+			$classroom_tagId = array();
+			$studentIndetification_tagId = array();
 			for ($i = 0; $i < count($tables); $i++) {
 				$array = [];
 				$objects = "";
@@ -1252,56 +1470,149 @@
 						$objects = SchoolIdentification::model()->findAllByPk(yii::app()->user->school);
 						break;
 					case "1":
-						$objects = SchoolStructure::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$objects = SchoolStructure::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
 						break;
 					case "2":
-						$objects = Classroom::model()->findAllByAttributes(array("school_inep_fk" => yii::app()->user->school));
+						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => date("Y")]);
 						break;
 					case "3":
-						$objects = InstructorIdentification::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select ii.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "4":
-						$objects = InstructorDocumentsAndAddress::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select idaa.* from instructor_teaching_data itd join instructor_documents_and_address idaa on idaa.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "5":
-						$objects = InstructorVariableData::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select ivd.* from instructor_teaching_data itd join instructor_variable_data ivd on ivd.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorVariableData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "6":
-						$objects = InstructorTeachingData::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select itd.* from instructor_teaching_data itd join instructor_identification ii on ii.id = itd.instructor_fk join classroom c on itd.classroom_id_fk = c.id where itd.school_inep_id_fk = :school_inep_id_fk and c.school_year = :year";
+						$objects = InstructorTeachingData::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "7":
-						$objects = StudentIdentification::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select si.* from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentIdentification::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "8":
-						$objects = StudentDocumentsAndAddress::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select sdaa.* from student_documents_and_address sdaa join student_enrollment se on sdaa.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentDocumentsAndAddress::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 					case "9":
-						$objects = StudentEnrollment::model()->findAllByAttributes(array("school_inep_id_fk" => yii::app()->user->school));
+						$query = "select se.* from student_enrollment se join classroom c on c.id = se.classroom_fk where c.school_year = :year and se.school_inep_id_fk = :school_inep_id_fk";
+						$objects = StudentEnrollment::model()->findAllBySql($query, [":school_inep_id_fk" => yii::app()->user->school, ":year" => date("Y")]);
 						break;
 				}
 				foreach ($objects as $object) {
 					if ($i == 0) { //remover atributo blob do school_identification
 						$object->logo_file_content = "";
 					}
-					array_push($array, $object->attributes);
+					$attributesArray = [];
+					foreach($object->attributes as $key => $attr) {
+						$attr = addslashes($attr);
+						$attributesArray[$key] = $attr;
+					}
+					array_push($array, $attributesArray);
 				}
+				$keys = array_keys($array[0]);
 				$sql .= "INSERT INTO $tables[$i]";
-				$sql .= " (`" . implode("`, `", array_keys($array[0])) . "`) VALUES";
-				foreach ($array as $value) {
-					$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "'),";
+				switch ($i) {
+					case "0":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "1":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "2":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "3":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "4":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "5":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "6":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`,  `classroom_tag_id`) VALUES";
+						break;
+					case "7":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "8":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
+						break;
+					case "9":
+						$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`,  `student_identification_tag_id`, `fk_classroom_tag_id`) VALUES";
+						break;
+				}
+				//$sql .= " (`" . implode("`, `", $keys) . "`, `tag_id`) VALUES";
 
+				foreach ($array as $value) {
+					$tagId = "";
+					switch ($i) {
+						case "0":
+							$tagId = md5($value["inep_id"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "1":
+							$tagId = md5($value["school_inep_id_fk"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "2":
+							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+
+							$classroom_tagId[$value[id]] =  $tagId;
+							break;
+						case "3":
+							$tagId = md5($value["name"] . $value["birthday_date"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "4":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "5":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "6":
+							$instructorIdentification = InstructorIdentification::model()->findByAttributes(["id" => $value["instructor_fk"]]);
+							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_id_fk"]]);
+							$tagId = md5($instructorIdentification->name . $instructorIdentification->birthday_date . $classroom->name . $classroom->school_year);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "', '" . $classroom_tagId[$classroom->id] . "'),";
+							break;
+						case "7":
+							$tagId = md5($value["name"] . $value["birthday"]);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							$studentIndetification_tagId[$value[id]] = $tagId;
+							break;
+						case "8":
+							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
+							break;
+						case "9":
+							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["student_fk"]]);
+							$classroom = Classroom::model()->findByAttributes(["id" => $value["classroom_fk"]]);
+							$tagId = md5($studentIdentification->name . $studentIdentification->birthday . $classroom->name . $classroom->school_year);
+							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
+							break;
+					}
+					//$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 				}
 				$sql = substr($sql, 0, -1) . " ON DUPLICATE KEY UPDATE ";
-				foreach(array_keys($array[0]) as $key) {
+				foreach ($keys as $key) {
 					$sql .= "`" . $key . "` = VALUES(`" . $key . "`), ";
 				}
 				$sql = substr($sql, 0, -2) . ";";
-				//
-				//TROCAR TAG_ID PARA UM HASH MD5
-				//INSERIR NO EXPORTTOMASTER O TAG_ID
-				//CHECAR CONFLITO DE DUPLICATAS NA HIGIENIZAÇÃO
 			}
-
 			if ($importToFile) {
 				ini_set('memory_limit', '128M');
 				$fileName = "./app/export/exportSQL " . date("Y-m-d") . ".sql";
@@ -1322,23 +1633,71 @@
 			} else {
 				yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
 				ini_set('memory_limit', '128M');
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 				$this->redirect(['index']);
 			}
 		}
 
+		/**
+		 * Descobre similaridade em uma tabela.
+		 *
+		 * @param $table String Nome da tabela que será analisada.
+		 * @param $column String Campo que será analisado.
+		 * @param $distance Integer Valor para verificar similaridade, menor que esse valor é dado como igual.
+		 * @return array Array contendo os Tag Ids das linhas semelhantes.
+		 */
+		private function getSimilarRows($table, $column, $distance) {
+			$sql = "select distinct least(t1.tag_id, t2.tag_id) as tg1, greatest(t1.tag_id, t2.tag_id) as tg2
+						from $table t1
+					  join $table t2 on (
+					  		t1.tag_id <> t2.tag_id
+					  		and levenshtein(t1.$column, t2.$column) < $distance);";
+
+			return Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+		}
+
+		private function getTableRow($object, $value = NULL, $where = NULL) {
+			$table = $object->tableName();
+			if ($where == NULL) {
+				$sql = "select * from $table where tag_id = '$value';";
+			} else {
+				$sql = "select * from $table where $where;";
+			}
+			$array = Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->queryAll();
+			if (count($array) > 1) {
+				$objects = [];
+				foreach ($array as $arr) {
+					$ob = $object;
+					$ob->id = $arr["id"];
+					$ob->attributes = $arr;
+					array_push($objects, $ob);
+				}
+				return $objects;
+			} else {
+				$object->id = $array[0]["id"];
+				$object->attributes = $array[0];
+				return $object;
+			}
+
+		}
+
+
 		public function actionCleanMaster() {
 
-			//Escola
-			$schoolIdentificationSql = "select distinct s1.* from school_identification s1 join school_identification s2 on (s1.tag_id <> s2.tag_id and s1.inep_id = s2.inep_id) order by inep_id";
-			$schoolsIdentification = Yii::app()->db2->schema->commandBuilder->createSqlCommand($schoolIdentificationSql)->query();
-			foreach($schoolsIdentification as $si) {
-				$school = new SchoolIdentification();
-				$school->attributes = $si;
-				$school->setTagId($si["tag_id"]);
+			$conflicts = ['students' => [], 'instructors' => []];
 
-				$school->structure = new SchoolStructure();
-				$schoolStructureSql = "select * from school_structure where tag_id = " . $si["tag_id"];
-				$school->structure->attributes = Yii::app()->db2->schema->commandBuilder->createSqlCommand($schoolStructureSql)->queryRow();
+			//Professor
+			$instructorTgs = $this->getSimilarRows(InstructorIdentification::model()->tableName(), "name", 5);
+			foreach ($instructorTgs as $row) {
+				$instructor1 = $this->getTableRow(new InstructorIdentification(), $row["tg1"]);
+				$instructor2 = $this->getTableRow(new InstructorIdentification(), $row["tg2"]);
+				$instructor1->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and instructor_fk = $instructor1->id");
+				$instructor2->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and instructor_fk = $instructor2->id");
+				array_push($conflicts['instructors'], [$instructor1, $instructor2]);
 			}
 
 			//Turma
@@ -1358,14 +1717,18 @@
 //			}
 
 			//Aluno
-			$studentIdentificationSql = "select distinct c1.* from classroom c1 join classroom c2 on (c1.tag_id <> c2.tag_id and c1.school_inep_fk = c2.school_inep_fk and c1.name = c2.name and c1.school_year = c2.school_year) order by name";
-			$studentsIdentification = Yii::app()->db2->schema->commandBuilder->createSqlCommand($studentIdentificationSql)->query();
-			foreach($studentsIdentification as $si) {
-				$student = new StudentIdentification();
-				$student->attributes = $si;
+			$studentTgs = $this->getSimilarRows(StudentIdentification::model()->tableName(), "name", 5);
+			foreach ($studentTgs as $row) {
+				$student1 = $this->getTableRow(new StudentIdentification(), $row["tg1"]);
+				$student2 = $this->getTableRow(new StudentIdentification(), $row["tg2"]);
+				$student1->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				$student1->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				array_push($conflicts['students'], [$student1, $student2]);
 			}
 
-			$this->redirect(['index']);
+			$this->render('conflicts',["conflicts" => $conflicts]);
 		}
 
 		public function actionImportFromMaster() {

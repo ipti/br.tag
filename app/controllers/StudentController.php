@@ -157,6 +157,7 @@ class StudentController extends Controller {
 	                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
 	                    	}
 	                    	if($saved){
+                                Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
                                     $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';
                                         
 		                    Yii::app()->user->setFlash('success', Yii::t('default',$msg));
@@ -222,6 +223,7 @@ class StudentController extends Controller {
                         	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                     	}
                     	if($saved){
+                            Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                             $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi alterado com sucesso!';
                             Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                             $this->redirect(array('index', 'sid'=>$modelStudentIdentification->id));
@@ -237,7 +239,7 @@ class StudentController extends Controller {
             'modelEnrollment' => $modelEnrollment
         ));
     }
-    
+
 
     /**
      * Deletes a particular model.
@@ -284,9 +286,11 @@ class StudentController extends Controller {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if(isset($student->studentEnrollments[0]->id)){
             $mer_id = $student->studentEnrollments[0]->id;
-            $stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
+            @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
             if($stage == 1){
                 $type = 0;
+            }else if($stage == 6){
+                $type = 3;
             }else{
                 $type = 1;
             }
@@ -297,7 +301,7 @@ class StudentController extends Controller {
             $buttons .= "<br>";
 
             $buttons .= CHtml::tag('a',
-                    array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileBoquimReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
+                    array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
@@ -332,8 +336,7 @@ class StudentController extends Controller {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
-            
-            $return = ($student_inep_id === null) 
+            $return = ($student_inep_id === null || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
         } else if ($model == $this->STUDENT_ENROLLMENT){            

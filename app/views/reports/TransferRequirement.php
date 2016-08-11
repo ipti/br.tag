@@ -18,7 +18,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <br/>
-<div class="innerLR boquim">
+<div class="innerLR district">
     <div>
         
         <script type="text/javascript">
@@ -43,12 +43,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
             <div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
                 <div>
-                    <img src="<?php echo yii::app()->baseUrl; ?>/images/boquim.png" width="40px" style="margin-bottom:10px">
+                    <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="margin-bottom:10px">
                 </div>
                 <span style="font-size: 14px">
                     ESTADO DE SERGIPE<br>
-                    PREFEITURA MUNICIPAL DE BOQUIM<br>
-                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO</span>
+                    PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                    
+                </span>
                 <span style="clear:both;display:block"></span>
             </div>
             <br/><br/>
@@ -182,7 +183,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 
                 <br><br><br><br>
                 <span class="pull-right">
-                    Boquim(SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
                 <br/><br/><br><br><br>
                 <div style="text-align: center">

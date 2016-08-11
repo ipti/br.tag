@@ -39,7 +39,7 @@ $year = Yii::app()->user->year;
 
 <div class="container fluid menu-left">
     <div class="navbar main hidden-print">
-        <a href="<?=$homeUrl?>" class="appbrand pull-left">
+        <a href="<?="/"?>" class="appbrand pull-left">
             <img src="/themes/default/img/tag_logo.png"/>
 <!--            <span><span>Ano atual: --><?//=$year?><!--</span></span>-->
         </a>

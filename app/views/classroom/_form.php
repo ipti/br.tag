@@ -369,28 +369,39 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Print') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('classroom/batchupdate', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualização em Lote') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Relatório de Matrícula') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('cid' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Lista de Alunos') ?></a>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
+                            <?php
+                            if (!$modelClassroom->isNewRecord) {
+                            $classroom = $modelClassroom->id;
+                            $criteria = new CDbCriteria();
+                            $criteria->alias = 'e';
+                            $criteria->select = '*';
+                            $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
+                            $criteria->condition = "classroom_fk = $classroom";
+                            $criteria->order = 's.name';
+                            $enrollments = StudentEnrollment::model()->findAll($criteria);
+                            ?>
+                            <style type="text/css" media="print">
+                                a[href]:after {
+                                    content:"" !important;
+                                }
+                            </style>
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
-                                <tbody>
-                                    <?php
-                                    if (!$modelClassroom->isNewRecord) {
-                                        $classroom = $modelClassroom->id;
-                                        $criteria = new CDbCriteria();
-                                        $criteria->alias = 'e';
-                                        $criteria->select = '*';
-                                        $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
-                                        $criteria->condition = "classroom_fk = $classroom";
-                                        $criteria->order = 's.name';
+                                <thead>
+                                    <tr><th class='span1'>Mover</th><th>Matrícula</th><th>Nome</th><th>Etapa Anterior</th><th>Cancelar</th></tr>
 
-                                        $enrollments = StudentEnrollment::model()->findAll($criteria);
-                                        echo "<tr><th>Matrícula</th><th>Nome</th><th>Cancelar</th></tr>";
+                                </thead>
+                                <tbody>
+                                     <?php
+                                     if(isset($enrollments)){
                                         foreach ($enrollments as $enr) {
-                                            echo "<tr><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td>" .
-                                            "<td><a href='" . Yii::app()->createUrl('enrollment/delete', array('id' => $enr->id)) . "'>Cancelar Matrícula</a></td></tr>";
+                                            echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td><td>".@$enr->EnrollmentPastYear->classroomFk->edcensoStageVsModalityFk->name."</td>" .
+                                                "<td><a href='" . Yii::app()->createUrl('enrollment/delete', array('id' => $enr->id)) . "'>Cancelar Matrícula</a></td></tr>";
                                         }
                                         echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
                                     } else {
@@ -398,7 +409,19 @@ $form = $this->beginWidget('CActiveForm', array(
                                     }
                                     ?>
                                 </tbody>
+                                <tfooter>
+                                    <?php
+                                    echo "<tr><td colspan='3'>Total:</td><td>" . count($enrollments) . "</td></tr>";
+                                    echo '<tr><td colspan="3">'.Yii::t('default', 'Mover para:');
+                                    echo chtml::dropDownList('toclassroom', "", CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si",
+                                        array("sy" => (Yii::app()->user->year), "si"=>yii::app()->user->school)), 'id', 'name'), array(
+                                        'class' => 'span5'
+                                    ));
+                                    echo '<input value="Mover" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
+                                    ?>
+                                </tfooter>
                             </table>
+                            <?php }?>
                         </div>
                     </div>
                 </div>   

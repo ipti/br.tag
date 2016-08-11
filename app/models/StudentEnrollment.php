@@ -44,39 +44,56 @@
  * @property ClassFaults[] $classFaults
  * @property Grade[] $grades
  */
-class StudentEnrollment extends CActiveRecord {
+class StudentEnrollment extends CActiveRecord
+{
 
     public $school_year;
-    
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return StudentEnrollment the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'student_enrollment';
     }
 
-    public function behaviors() {
-        if(isset(Yii::app()->user->school)){
+    public function behaviors()
+    {
+        if (isset(Yii::app()->user->school)) {
             return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
+                'afterSave' => [
+                    'class' => 'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
-        }else{
+        } else {
             return [];
         }
-        }
-        
+    }
+    public function TransportOptions(){
+        return array('vehicle_type_van' => Yii::t('default', 'Vehicle Type Van'),
+            'vehicle_type_microbus' => Yii::t('default', 'Vehicle Type Microbus'),
+            'vehicle_type_bus' => Yii::t('default', 'Vehicle Type Bus'),
+            'vehicle_type_bike' => Yii::t('default', 'Vehicle Type Bike'),
+            'vehicle_type_animal_vehicle' => Yii::t('default', 'Vehicle Type Animal Vehicle'),
+            'vehicle_type_other_vehicle' => Yii::t('default', 'Vehicle Type Other Vehicle'),
+            'vehicle_type_waterway_boat_5' => Yii::t('default', 'Vehicle Type Waterway Boat 5'),
+            'vehicle_type_waterway_boat_5_15' => Yii::t('default', 'Vehicle Type Waterway Boat 5 15'),
+            'vehicle_type_waterway_boat_15_35' => Yii::t('default', 'Vehicle Type Waterway Boat 15 35'),
+            'vehicle_type_waterway_boat_35' => Yii::t('default', 'Vehicle Type Waterway Boat 35'),
+            'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'));
+    }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -85,7 +102,7 @@ class StudentEnrollment extends CActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_inep_id_fk, student_fk, classroom_fk, create_date', 'required'),
+            array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
             array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
@@ -101,9 +118,26 @@ class StudentEnrollment extends CActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
+
+
+        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
+        if($dbname[1] == "br.org.ipti.tagmaster"){
+            return array(
+                'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
+                'studentTagIdFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_identification_tag_id'),
+                'classroomTagIdFk' => array(self::BELONGS_TO, 'Classroom', 'fk_classroom_tag_id'),
+                'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
+                'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
+                'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+                'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
+                'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
+
+            );
+        }
         return array(
             'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
@@ -111,14 +145,14 @@ class StudentEnrollment extends CActiveRecord {
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
             'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
             'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
-
         );
     }
 
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
@@ -159,6 +193,13 @@ class StudentEnrollment extends CActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
+    public function getEnrollmentPastYear() {
+        $criteria=new CDbCriteria;
+        $criteria->with = array('studentFk', 'classroomFk');
+        $criteria->compare('student_fk',$this->student_fk);
+        $criteria->compare( 'classroomFk.school_year', $this->classroomFk->school_year-1);
+        return @StudentEnrollment::model()->find($criteria);
+    }
     public function search() {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
@@ -166,67 +207,95 @@ class StudentEnrollment extends CActiveRecord {
         $criteria = new CDbCriteria;
         $criteria->with = array('studentFk', 'classroomFk');
         $criteria->together = true;
-        
-//                $criteria->compare('register_type',$this->register_type,true);
-//                $criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
-//                $criteria->compare('student_inep_id',$this->student_inep_id,true);
-//                //$criteria->compare('student_fk',$this->student_fk, true);
-//                $criteria->compare('classroom_inep_id',$this->classroom_inep_id,true);
-//                $criteria->compare('classroom_fk',$this->classroom_fk);
-        $criteria->compare('enrollment_id',$this->enrollment_id,true);
-//                $criteria->compare('unified_class',$this->unified_class);
-//                $criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
-//                $criteria->compare('another_scholarization_place',$this->another_scholarization_place);
-//                $criteria->compare('public_transport',$this->public_transport);
-//                $criteria->compare('transport_responsable_government',$this->transport_responsable_government);
-//                $criteria->compare('vehicle_type_van',$this->vehicle_type_van);
-//                $criteria->compare('vehicle_type_microbus',$this->vehicle_type_microbus);
-//                $criteria->compare('vehicle_type_bus',$this->vehicle_type_bus);
-//                $criteria->compare('vehicle_type_bike',$this->vehicle_type_bike);
-//                $criteria->compare('vehicle_type_animal_vehicle',$this->vehicle_type_animal_vehicle);
-//                $criteria->compare('vehicle_type_other_vehicle',$this->vehicle_type_other_vehicle);
-//                $criteria->compare('vehicle_type_waterway_boat_5',$this->vehicle_type_waterway_boat_5);
-//                $criteria->compare('vehicle_type_waterway_boat_5_15',$this->vehicle_type_waterway_boat_5_15);
-//                $criteria->compare('vehicle_type_waterway_boat_15_35',$this->vehicle_type_waterway_boat_15_35);
-//                $criteria->compare('vehicle_type_waterway_boat_35',$this->vehicle_type_waterway_boat_35);
-//                $criteria->compare('vehicle_type_metro_or_train',$this->vehicle_type_metro_or_train);
-//                $criteria->compare('student_entry_form',$this->student_entry_form);
+        $criteria->compare('enrollment_id', $this->enrollment_id, true);
         $criteria->compare('id', $this->id);
-        $criteria->compare( 'classroomFk.school_year', Yii::app()->user->year );
+        $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');
         $criteria->addCondition('classroomFk.name like "%' . $this->classroom_fk . '%"');
 
-//                $criteria->compare('StudentIdentification.name',$this->studentFk->name, true);
-
 
         return new CActiveDataProvider($this, array(
-                    'criteria' => $criteria,
-                    'sort' => array(
-                        'attributes' => array(
-                            'studentFk.name' => array(
-                                'asc' => 'studentFk.name',
-                                'desc' => 'studentFk.name DESC',
-                            ),
-                            'classroomFk.name' => array(
-                                'asc' => 'classroomFk.name',
-                                'desc' => 'classroomFk.name DESC',
-                            ),
-                            'classroomFk.school_year' => array(
-                                'asc' => 'classroomFk.school_year',
-                                'desc' => 'classroomFk.school_year DESC',
-                            ),
-                            '*', // Make all other columns sortable, too
-                        ),
-                        'defaultOrder' => array(
-                            'studentFk.name' => CSort::SORT_ASC
-                        ),
+            'criteria' => $criteria,
+            'sort' => array(
+                'attributes' => array(
+                    'studentFk.name' => array(
+                        'asc' => 'studentFk.name',
+                        'desc' => 'studentFk.name DESC',
                     ),
-                    'pagination' => array(
-                        'pageSize' => 12,
+                    'classroomFk.name' => array(
+                        'asc' => 'classroomFk.name',
+                        'desc' => 'classroomFk.name DESC',
                     ),
-                ));
+                    'classroomFk.school_year' => array(
+                        'asc' => 'classroomFk.school_year',
+                        'desc' => 'classroomFk.school_year DESC',
+                    ),
+                    '*', // Make all other columns sortable, too
+                ),
+                'defaultOrder' => array(
+                    'studentFk.name' => CSort::SORT_ASC
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => 12,
+            ),
+        ));
     }
 
+
+    /**
+     * Get all faults by discipline
+     *
+     * @param integer $disciplineId
+     * @return ClassFaults[]
+     */
+    public function getFaultsByDiscipline($disciplineId)
+    {
+        /* @var $class Classes */
+        /* @var $discipline EdcensoDiscipline */
+        $faults = [];
+        foreach ($this->classFaults as $fault) {
+            $class = $fault->classFk;
+            $discipline = $class->disciplineFk;
+            if ($discipline->id == $disciplineId && $class->given_class == 1) {
+                array_push($faults, $fault);
+            }
+        }
+        return $faults;
+    }
+
+    public function getFaultsByExam($exam){
+        /* @var $schoolConfiguration SchoolConfiguration */
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $faults = [];
+        switch ($exam) {
+            case 1:
+                $initial = new DateTime("01/01/" . yii::app()->user->year);
+                $final = new DateTime($schoolConfiguration->exam1);
+                break;
+            case 2:
+                $initial = new DateTime($schoolConfiguration->exam1);
+                $final = new DateTime($schoolConfiguration->exam2);
+                break;
+            case 3:
+                $initial = new DateTime($schoolConfiguration->exam2);
+                $final = new DateTime($schoolConfiguration->exam3);
+                break;
+            case 4:
+                $initial = new DateTime($schoolConfiguration->exam3);
+                $final = new DateTime($schoolConfiguration->exam4);
+                break;
+            default:
+                return [];
+        }
+        foreach ($this->classFaults as $fault) {
+            $date = new DateTime($fault->classFk->day."-".$fault->classFk->month."-".yii::app()->user->year);
+            if ($date > $initial && $date <= $final && $fault->classFk->given_class == 1) {
+                array_push($faults,$fault);
+            }
+        }
+        return $faults;
+    }
 }

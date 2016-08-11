@@ -6,7 +6,9 @@
 function rule(string, exp) {
     return ((string.match(exp)) && (string !== ''));
 }
-
+function changeNameLength(name, limit) {
+    return (name.length > limit) ? name.substring(0, limit - 3) + "..." : name;
+}
 
 var dateRules = new Object();
 dateRules.time = /^([01][0-9]|2[0-3]):[0-5][0-9]:?([0-5][0-9])?$/;

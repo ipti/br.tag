@@ -75,7 +75,8 @@ return array(
     'Private School Cnpj' => 'CNPJ',
     'Regulation' => 'Regulamentação',
     'Act of acknowledgement' => 'Ato de reconhecimento',
-    'Logo' => 'Brasão da escola',
+    'Logo' => 'Brasão da escola (Para relatório)',
+    'Report Header' => 'Cabeçalho (Para relatório)',
     'Offer Or Linked Unity' => 'Unidade vinculada de Educação Básica ou ofertante de Ensino Superior',
     'Inep Head School' => 'Código da Escola Sede',
     'Ies Code' => 'Código da IES',
@@ -563,6 +564,7 @@ return array(
     'Variable Data' => 'Dados Educacionais',
     'Teaching Data' => 'Dados de Ensino',
     'Students' => 'Alunos',
+    'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
     
     //
@@ -625,7 +627,7 @@ return array(
     'admin' => 'Administrador',
     
     'Administration' => 'Administração',
-    
+    'Conflicts' => 'Conflitos',
     'Confirm' => "Confirme a Senha",
     
     //Import
@@ -649,5 +651,22 @@ return array(
 
     //ClassContents
     'Classes Contents'=>'Aulas Ministradas',
+
+    //Edcenso Reports
+    'Students Number By Classroom'=>'Número de Alunos por Turma',
+    'Enrollment Comparative Analysis'=>'Análise Comparativa de Matrículas',
+    'School Professional Number By Classroom'=>'Numero de profissionais da escola por turma',
+    'Educational Assistant Per Classroom' => 'Auxiliar/Assistente Educacional por Turma',
+    'Discipline And Instructor Relation' => 'Relação Disciplina/Docente',
+    'Complementar Activity Assistant By Classroom Relation'=> 'Relação de Monitores de Atividade Complementar por Turma',
+    'Classroom Without Instructor Relation' => 'Relação Turmas sem Instrutor',
+    'Student Instructor Numbers Relation' => 'Relação de Número de Alunos e Professores por Turma',
+    'Students By Classroom' => 'Alunos Por Turma',
+    'Students In Alphabetical Order Relation' => 'Relaçao de Alunos em ordem Alfabética',
+    'Students With Disabilities Relation' => 'Relação de Estudantes com Deficiências',
+    'Students Using School Transportation Relation' => 'Relação de Estudantes que utilizam Transporte Escolar',
+    'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
+    'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos'
+
         )
 ?>

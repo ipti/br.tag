@@ -15,14 +15,16 @@ $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-3">
-            <a href="<?=$this->createUrl("frequency")."/$school->inep_id"?>" class="widget-stats margin-bottom-none">
+            <??>
+            <a href="<?=yii::app()->createUrl("resultsmanagement/ManagementSchool/frequency",["sid" => $school->inep_id]);?>"
+               class="widget-stats margin-bottom-none">
                 <span class="glyphicons check"><i></i></span>
                 <span class="txt"><?= yii::t('resultsmanagementModule.managementSchool', 'Frequency') ?></span>
                 <div class="clearfix"></div>
             </a>
         </div>
         <div class="col-md-3">
-            <a href="<?=$this->createUrl("performance")."/$school->inep_id"?>" class="widget-stats margin-bottom-none">
+            <a href="<?=yii::app()->createUrl("resultsmanagement/ManagementSchool/performance",["sid" => $school->inep_id]);?>" class="widget-stats margin-bottom-none">
                 <span class="glyphicons list"><i></i></span>
                 <span class="txt"><?= yii::t('resultsmanagementModule.managementSchool', 'Performance') ?></span>
                 <div class="clearfix"></div>

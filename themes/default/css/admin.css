@@ -19,3 +19,44 @@
 .modal {
     display: none;
 }
+
+#instructors, #students {
+    max-height: 550px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.conflict-container {
+    border: 1px solid #cccccc;
+    width: 99%;
+    margin-bottom: 10px;
+}
+
+.conflict-1, .conflict-2 {
+    float: left;
+    width: 50%;
+}
+
+.conflict-title {
+    font-size: 14px;
+    padding: 10px;
+    color: white;
+    background: #496cad;
+    border-bottom: 1px solid #cccccc;
+}
+
+.conflict-values {
+    padding: 10px;
+    display: none;
+}
+
+.conflict-1 .conflict-values {
+    padding-left: 30px;
+}
+
+.collapse-icon {
+    margin-top: 3px;
+    cursor: pointer;
+    width: 20px;
+    float: left;
+}

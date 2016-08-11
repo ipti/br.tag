@@ -42,6 +42,8 @@
  * @property InstructorTeachingData[] $instructorTeachingDatas
  * @property Schedule[] $schedules
  * @property Unavailability[] $unavailabilities
+ * @property InstructorDocumentsAndAddress $documents
+ * @property InstructorVariableData $instructorVariableData
  */
 class InstructorIdentification extends CActiveRecord {
     
@@ -103,7 +105,9 @@ class InstructorIdentification extends CActiveRecord {
             'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
-            'documents' => array(self::HAS_ONE, 'InstructorDocumentsAndAddress', 'id')
+            'documents' => array(self::HAS_ONE, 'InstructorDocumentsAndAddress', 'id'),
+            'instructorVariableData' => array(self::HAS_ONE, 'InstructorVariableData', 'id'),
+            'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'instructor_fk'),
         );
     }
 
