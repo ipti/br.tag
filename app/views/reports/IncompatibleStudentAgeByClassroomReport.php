@@ -19,16 +19,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </div>
 
 <div class="innerLR">
-    <p> <b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
+    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
 
-<?
+<?php
 
 $min_age = 0;
 $max_age = 0;
@@ -63,112 +63,112 @@ if(count($classroom) == 0){
 
         //mapeamento feito atraves da relacao idade x serie mostrada em http://www.escolaparalelo.com/idadexserie.html
 
-        if ($c['stage'] == utf8_encode('Educação Infantil - Creche (0 a 3 anos)')) {
+        if ($c['stage'] == 'EducaÃ§Ã£o Infantil - Creche (0 a 3 anos)') {
             $min_age = 0;
             $max_age = 3;
-        } else if ($c['stage'] == utf8_encode('Educação Infantil - Pré-escola (4 e 5 anos)')) {
+        } else if ($c['stage'] == utf8_encode('Educaï¿½ï¿½o Infantil - Prï¿½-escola (4 e 5 anos)')) {
             $min_age = 4;
             $max_age = 5;
-        } else if ($c['stage'] == utf8_encode('Educação Infantil - Unificada (0 a 5 anos)')) {
+        } else if ($c['stage'] == utf8_encode('Educaï¿½ï¿½o Infantil - Unificada (0 a 5 anos)')) {
             $min_age = 0;
             $max_age = 5;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 1ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 1ï¿½ Sï¿½rie')) {
             $min_age = 6;
             $max_age = 6;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 2ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 2ï¿½ Sï¿½rie')) {
             $min_age = 7;
             $max_age = 7;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 3ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 3ï¿½ Sï¿½rie')) {
             $min_age = 8;
             $max_age = 8;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 4ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 4ï¿½ Sï¿½rie')) {
             $min_age = 9;
             $max_age = 9;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 5ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 5ï¿½ Sï¿½rie')) {
             $min_age = 10;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 6ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 6ï¿½ Sï¿½rie')) {
             $min_age = 11;
             $max_age = 11;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 7ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 7ï¿½ Sï¿½rie')) {
             $min_age = 12;
             $max_age = 12;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 8ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 8ï¿½ Sï¿½rie')) {
             $min_age = 13;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 1º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 1ï¿½ Ano')) {
             $min_age = 6;
             $max_age = 6;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 2º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 2ï¿½ Ano')) {
             $min_age = 7;
             $max_age = 7;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 3º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 3ï¿½ Ano')) {
             $min_age = 8;
             $max_age = 8;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 4º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 4ï¿½ Ano')) {
             $min_age = 9;
             $max_age = 9;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 5º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 5ï¿½ Ano')) {
             $min_age = 10;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 6º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 6ï¿½ Ano')) {
             $min_age = 11;
             $max_age = 11;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 7º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 7ï¿½ Ano')) {
             $min_age = 12;
             $max_age = 12;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 8º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 8ï¿½ Ano')) {
             $min_age = 13;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9ï¿½ Ano')) {
             $min_age = 14;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - 1ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - 1ï¿½ Sï¿½rie')) {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - 2ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - 2ï¿½ Sï¿½rie')) {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - 3ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - 3ï¿½ Sï¿½rie')) {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - 4ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - 4ï¿½ Sï¿½rie')) {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - Não Seriada')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - Nï¿½o Seriada')) {
             $min_age = 15;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado (Ensino Médio Integrado) 1ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado (Ensino Mï¿½dio Integrado) 1ï¿½ Sï¿½rie')) {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado (Ensino Médio Integrado) 2ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado (Ensino Mï¿½dio Integrado) 2ï¿½ Sï¿½rie')) {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado (Ensino Médio Integrado) 3ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado (Ensino Mï¿½dio Integrado) 3ï¿½ Sï¿½rie')) {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado (Ensino Médio Integrado) 4ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado (Ensino Mï¿½dio Integrado) 4ï¿½ Sï¿½rie')) {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado (Ensino Médio Integrado) Não Seriada')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado (Ensino Mï¿½dio Integrado) Nï¿½o Seriada')) {
             $min_age = 15;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - Normal/Magistério 1ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - Normal/Magistï¿½rio 1ï¿½ Sï¿½rie')) {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - Normal/Magistério 2ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - Normal/Magistï¿½rio 2ï¿½ Sï¿½rie')) {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - Normal/Magistério 3ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - Normal/Magistï¿½rio 3ï¿½ Sï¿½rie')) {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Ensino Médio - Normal/Magistério 4ª Série')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Mï¿½dio - Normal/Magistï¿½rio 4ï¿½ Sï¿½rie')) {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico  - Concomitante')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico  - Concomitante')) {
             $min_age = 15;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico  - Subsequente')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico  - Subsequente')) {
             $min_age = 17;
             $max_age = 18;
         } else if ($c['stage'] == utf8_encode('EJA Presencial - Anos iniciais')) {
@@ -208,7 +208,7 @@ if(count($classroom) == 0){
             $min_age = 15;
             $max_age = 17;
         } //duvidas
-        else if ($c['stage'] == utf8_encode('Educação Profissional Mista - Concomitante e Subsequente')) {
+        else if ($c['stage'] == utf8_encode('Educaï¿½ï¿½o Profissional Mista - Concomitante e Subsequente')) {
             $min_age = 6;
             $max_age = 17;
         } else if ($c['stage'] == utf8_encode('EJA Presencial - Ensino Fundamental - Projovem Urbano')) {
@@ -223,37 +223,37 @@ if(count($classroom) == 0){
         } else if ($c['stage'] == utf8_encode('EJA - Ensino Fundamental -  Anos finais')) {
             $min_age = 11;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA - Ensino Médio')) {
+        } else if ($c['stage'] == utf8_encode('EJA - Ensino Mï¿½dio')) {
             $min_age = 11;
             $max_age = 14;
         } else if ($c['stage'] == utf8_encode('EJA - Ensino Fundamental  - Anos iniciais e Anos finais')) {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Curso FIC integrado na modalidade EJA – Nível Fundamental (EJA integrada à Educação Profissional de ')) {
+        } else if ($c['stage'] == utf8_encode('Curso FIC integrado na modalidade EJA ï¿½ Nï¿½vel Fundamental (EJA integrada ï¿½ Educaï¿½ï¿½o Profissional de ')) {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Curso Técnico Integrado na Modalidade EJA (EJA integrada à Educação Profissional de Nível Médio)')) {
+        } else if ($c['stage'] == utf8_encode('Curso Tï¿½cnico Integrado na Modalidade EJA (EJA integrada ï¿½ Educaï¿½ï¿½o Profissional de Nï¿½vel Mï¿½dio)')) {
             $min_age = 15;
             $max_age = 17;
         } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - Multi')) {
             $min_age = 6;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - Correção de Fluxo')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - Correï¿½ï¿½o de Fluxo')) {
             $min_age = 6;
             $max_age = 13;
         } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - Multi')) {
             $min_age = 6;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - Correção de Fluxo')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - Correï¿½ï¿½o de Fluxo')) {
             $min_age = 6;
             $max_age = 14;
         } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos')) {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9º Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9ï¿½ Ano')) {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa')) {
+        } else if ($c['stage'] == utf8_encode('Educaï¿½ï¿½o Infantil e Ensino Fundamental (8 e 9 anos) Multietapa')) {
             $min_age = 6;
             $max_age = 14;
         }
@@ -263,15 +263,15 @@ if(count($classroom) == 0){
                 // Declara a data! :P
                 $data = $s['birthday'];
 
-                // Separa em dia, mês e ano
+                // Separa em dia, mï¿½s e ano
                 list($dia, $mes, $ano) = explode('/', $data);
 
-                // Descobre que dia é hoje e retorna a unix timestamp
+                // Descobre que dia ï¿½ hoje e retorna a unix timestamp
                 $hoje = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
                 // Descobre a unix timestamp da data de nascimento do fulano
                 $nascimento = mktime(0, 0, 0, $mes, $dia, $ano);
 
-                // Depois apenas fazemos o cálculo já citado :)
+                // Depois apenas fazemos o cï¿½lculo jï¿½ citado :)
                 $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
 
                 if ($idade >= $min_age && $idade <= $max_age) {

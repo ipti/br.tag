@@ -22,17 +22,17 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
 
     <div class="innerLR">
-    <p> <b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
+    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
 
 
-<?
+<?php
         if(count($classrooms) == 0){
         echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
 
@@ -76,7 +76,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             $transportes .= "Rodovi&aacute;rio - Van/Kombi";
                         } else if ($s['vehicle_type_microbus'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Micro&ocirc;nibus";
-                        } else if ($s['vehicle_type_bus'] == 1) {
+                        } else if ($s['vehicle_type_bus'] == 1 || $s['public_transport'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - &Ocirc;nibus";
                         } else if ($s['vehicle_type_bike'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Bicicleta";

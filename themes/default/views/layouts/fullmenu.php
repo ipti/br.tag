@@ -105,6 +105,9 @@ function isActive($pages){
                             <li id="menu-student" class="<?= isActive("student") ?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
+                            <li id="menu-student" class="<?= isActive("student") ?>">
+                                <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
+                            </li>
 
                             <!--<li id="menu-student" class="hasSubmenu <?=isActive("classroom") ?>">
                                 <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>

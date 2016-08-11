@@ -24,11 +24,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 
 <div class="innerLR">
-    <p> <b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
+    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <th> Etapa </th>
         </tr>
 
-        <?
+        <?php
         $ordem = 1;
         foreach($students as $s) {
 

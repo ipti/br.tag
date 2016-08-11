@@ -23,11 +23,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </div>
 
 <div class="innerLR">
-    <p> <b>Escola: </b> <?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b> <? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
+    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
@@ -109,13 +109,13 @@ if(count($classrooms) == 0){
                         $student_aid[0] = "N&atilde;o informado";
                 } else {
                     if ($s['resource_aid_lector'] == 1) {
-                        $student_aid[$j++] = 'Auxílio ledor';
+                        $student_aid[$j++] = 'Auxï¿½lio ledor';
                     } else if ($s['resource_aid_transcription'] == 1) {
-                        $student_aid[$j++] = 'Auxílio transcrição';
+                        $student_aid[$j++] = 'Auxï¿½lio transcriï¿½ï¿½o';
                     } else if ($s['resource_interpreter_guide'] == 1) {
-                        $student_aid[$j++] = 'Guia-Intérprete';
+                        $student_aid[$j++] = 'Guia-Intï¿½rprete';
                     } else if ($s['resource_interpreter_libras'] == 1) {
-                        $student_aid[$j++] = 'Intérprete de Libras';
+                        $student_aid[$j++] = 'Intï¿½rprete de Libras';
                     } else if ($s['resource_lip_reading'] == 1) {
                         $student_aid[$j++] = 'Leitura Labial';
                     } else if ($s['resource_zoomed_test_16'] == 1) {

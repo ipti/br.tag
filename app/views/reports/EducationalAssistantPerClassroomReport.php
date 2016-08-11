@@ -24,16 +24,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <div class="innerLR">
 
-    <p> <b>Escola: </b><?= $school->inep_id ?>-<?= $school->name ?></p>
-    <p> <b>Estado: </b><? echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
+    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
 
-        <?
+        <?php
         $ordem = 1;
 
 
@@ -41,7 +41,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
         } else {
             foreach ($classroom as $c) {
-                $stage = EdcensoStageVsModality::model()->findByPk($c->edcenso_stage_vs_modality_fk)->name;
+                @$stage = EdcensoStageVsModality::model()->findByPk($c->edcenso_stage_vs_modality_fk)->name;
                 $total_docentes = 0;
 
                 echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
@@ -77,7 +77,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                                 . "<td>" . $p['birthday_date'] . "</td>"
                                 . "<td>" . $p['name'] . "</td>"
                                 . "<td>" . ($p['scholarity'] == 1 ? "Fundamental Incompleto" : $p['scholarity'] == 2 ? "Fundamental Completo" :
-                                    $p['scholarity'] == 3 ? "Ensino M&eacute;dio – Normal/Magist&eacute;rio" : $p['scholarity'] == 4 ? "Ensino M&eacute;dio – Normal/Magist&eacute;rio Ind&iacute;gena" :
+                                    $p['scholarity'] == 3 ? "Ensino M&eacute;dio ï¿½ Normal/Magist&eacute;rio" : $p['scholarity'] == 4 ? "Ensino M&eacute;dio ï¿½ Normal/Magist&eacute;rio Ind&iacute;gena" :
                                         $p['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior") . "</td>"
 
                                 . "</tr>";

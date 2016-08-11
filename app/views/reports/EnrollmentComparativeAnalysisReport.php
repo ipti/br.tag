@@ -23,19 +23,19 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </div>
 
 <div class="innerLR">
-    <p> <b>Escola:</b> <?= $school->inep_id ?>-<?= $school->name ?> </p>
-    <p> <b>Estado:</b> <? echo $school->edcensoUfFk->name; ?> </p>
-    <p> <b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
+    <p> <b>Escola:</b> <?php echo $school->inep_id ?>-<?php echo $school->name ?> </p>
+    <p> <b>Estado:</b> <?php echo $school->edcensoUfFk->name; ?> </p>
+    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
+    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
+    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
             $school->administrative_dependence == 2? "Estadual" :
                 $school->administrative_dependence == 3? "Municipal": "Estadual"
         ?> </p>
 
     <table class="table table-bordered table-striped">
             <tr>
-               <th> <b>Matr&iacute;culas Educacenso <? echo Yii::app()->user->year-1 ?> </b></th>
-               <th> <b>Matr&iacute;culas Educacenso <? echo Yii::app()->user->year ?> </b></th>
+               <th> <b>Matr&iacute;culas Educacenso <?php echo Yii::app()->user->year-1 ?> </b></th>
+               <th> <b>Matr&iacute;culas Educacenso <?php echo Yii::app()->user->year ?> </b></th>
                <th> <b>Produ&ccedil;&atilde;o(%) </b></th>
 
             </tr>
@@ -43,7 +43,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <?php
             $contador1 = 0;
             $contador2 = 0;
-
+            $html = '';
             foreach ($classrooms as $classroom) {
                 foreach($matricula1 as $m){
                     if($m['classe_id'] == $classroom['id']) {
@@ -86,15 +86,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             ?>
         </table>
 
-    <br> Comparativo de matriculas por modalidade e etapa-serie <? echo Yii::app()->user->year-1 ?> e <? echo Yii::app()->user->year ?>  </br>
+    <br> Comparativo de matriculas por modalidade e etapa-serie <?php echo Yii::app()->user->year-1 ?> e <?php echo Yii::app()->user->year ?>  </br>
 
    <table class="table table-bordered table-striped">
           <tr>
                <td> <b>Ordem </b></td>
                <td> <b>Modalidade</b></td>
                <td> <b>Etapa </b></td>
-               <td> <b>Matr&iacute;cula  <? echo Yii::app()->user->year-1?> (a) </b></td>
-               <td> <b>Matr&iacute;cula <? echo Yii::app()->user->year?> (b) </b></td>
+               <td> <b>Matr&iacute;cula  <?php echo Yii::app()->user->year-1?> (a) </b></td>
+               <td> <b>Matr&iacute;cula <?php echo Yii::app()->user->year?> (b) </b></td>
                <td> <b>Produ&ccedil;&atilde;o(%) </b></td>
                <td> <b>Diferen&ccedil;a b-a </b></td>
 
@@ -179,7 +179,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             $html = "";
 
             $html .= "<tr>"
-                . "<td colspan=3>" . Totalizacao . "</td>"
+                . "<td colspan=3>Totalizacao</td>"
                 ."<td>" . $total_matricula1 . "</td>"
                 ."<td>" .  $total_matricula2. "</td>"
                 ."<td>" . round($total_producao) . "%"  . "</td>"
@@ -190,14 +190,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         ?>
     </table>
 
-    <br> Comparativo de matriculas por tipo de atendimento da turma <? echo Yii::app()->user->year-1 ?> e <? echo Yii::app()->user->year ?> </br>
+    <br> Comparativo de matriculas por tipo de atendimento da turma <?php echo Yii::app()->user->year-1 ?> e <?php echo Yii::app()->user->year ?> </br>
 
     <table class="table table-bordered table-striped">
         <tr>
             <td> <b>Ordem</b> </td>
             <td> <b>Tipo de atendimento </b></td>
-            <td> <b>Matr&iacute;cula  <? echo Yii::app()->user->year-1?> (a) </b></td>
-            <td> <b>Matr&iacute;cula <? echo Yii::app()->user->year?> (b) </b></td>
+            <td> <b>Matr&iacute;cula  <?php echo Yii::app()->user->year-1?> (a) </b></td>
+            <td> <b>Matr&iacute;cula <?php echo Yii::app()->user->year?> (b) </b></td>
             <td> <b>Produ&ccedil;&atilde;o(%) </b></td>
             <td> <b>Diferen&ccedil;a b-a </b></td>
         </tr>
