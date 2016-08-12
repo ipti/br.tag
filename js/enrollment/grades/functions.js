@@ -6,6 +6,7 @@
  */
 function generateGradesForm(data) {
     if (data !== null && !$.isEmptyObject(data)) {
+        
         $('.select2-container-active').removeClass('select2-container-active');
         $(':focus').blur();
         $(".students ul li").remove();
