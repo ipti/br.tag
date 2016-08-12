@@ -1565,8 +1565,7 @@
 						case "2":
 							$tagId = md5($value["school_inep_fk"] . $value["name"] . $value["school_year"]);
 							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
-
-							$classroom_tagId[$value[id]] =  $tagId;
+							$classroom_tagId[$value['id']] =  $tagId;
 							break;
 						case "3":
 							$tagId = md5($value["name"] . $value["birthday_date"]);
@@ -1591,7 +1590,7 @@
 						case "7":
 							$tagId = md5($value["name"] . $value["birthday"]);
 							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
-							$studentIndetification_tagId[$value[id]] = $tagId;
+							$studentIndetification_tagId[$value['id']] = $tagId;
 							break;
 						case "8":
 							$studentIdentification = StudentIdentification::model()->findByAttributes(["id" => $value["id"]]);
@@ -1631,6 +1630,11 @@
 
 				return;
 			} else {
+				try {
+					yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
+				}catch (Exception $e){
+					var_dump($e);exit;
+				}
 				yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
 				ini_set('memory_limit', '128M');
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
