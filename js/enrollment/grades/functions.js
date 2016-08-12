@@ -6,7 +6,7 @@
  */
 function generateGradesForm(data) {
     if (data !== null && !$.isEmptyObject(data)) {
-        
+        console.log()
         $('.select2-container-active').removeClass('select2-container-active');
         $(':focus').blur();
         $(".students ul li").remove();
@@ -43,6 +43,7 @@ function generateGradesForm(data) {
                     addStudentGrades(id, discipline_id, discipline, grades_needed);
 
                 });
+                addFinalFrequency(id);
             }
         });
         $(".classroom .students li").first().addClass('active');
@@ -69,12 +70,21 @@ function addStudentTable(id, name, fields) {
     var numR = fields.recuperacao;
     var numF = fields.final ? 1 : 0;
 
+    var frequency = '<th class="center" scope="col">Aulas Dadas</th>' +
+                    '<th class="center" scope="col">Total de Faltas</th>' +
+                    '<th class="center" scope="col">Frequência</th>';
+
+    var media = '<th class="center" scope="col">Media Anual</th>' +
+                '<th class="center" scope="col">Média Final</th>';
+
     for (var i = 1; i <= numN; i++) {
         notas += '<th class="center" scope="col">' + i + 'ª</th>';
     }
     for (var i = 1; i <= numR; i++) {
         recuperacao += '<th class="center recuperacao" scope="col">' + i + 'ª</th>';
     }
+
+
 
     $(".grades .tab-content").append(
             '<div class="tab-pane" id="tab' + id + '">'
@@ -88,11 +98,15 @@ function addStudentTable(id, name, fields) {
             + '<td rowspan="2"></td>'
             + '<th colspan="' + numN + '" scope="colgroup" class="center">Avaliações</th>'
             + ((numR + numF) > 0 ? '<th colspan="' + (numR + numF) + '" scope="colgroup" class="center">Recuperações</th>' : "")
+            + '<th colspan="2" scope="colgroup" class="center">Médias</th>'
+            + '<th colspan="3" scope="colgroup" class="center">Frequência</th>'
             + '</tr>'
             + '<tr>'
             + notas
             + recuperacao
             + final
+            + media
+            + frequency
             + '</tr>'
             + '</thead>'
             + '<tbody class="row-grades"></tbody>'
@@ -126,6 +140,41 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     }
     tbody += fields.final ? ('<td class="center"><input name="grade[' + id + '][' + discipline_id + '][8]" '
             + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
+
+    for (var i = 0; i < 2; i++) {
+        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+    }
+
+    for (var i = 0; i < 3; i++) {
+        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+    }
+    tbody += "</tr>";
+    $('#tab' + id).find(".grade-table .row-grades").append(tbody);
+}
+
+function addFinalFrequency(id) {
+    var tbody = "<tr>";
+    tbody += '<td class="discipline-name">Dias Letivos</td>';
+    for (var i = 0; i < 4; i++) {
+        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+    }
+    tbody += "</tr>";
+    tbody += "<tr>";
+    tbody += '<td class="discipline-name">Carga Horária</td>';
+    for (var i = 0; i < 4; i++) {
+        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+    }
+    tbody += "</tr>";
+    tbody += "<tr>";
+    tbody += '<td class="discipline-name">Número de faltas</td>';
+    for (var i = 0; i < 4; i++) {
+        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+    }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
 }
