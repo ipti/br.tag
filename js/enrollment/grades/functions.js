@@ -6,7 +6,6 @@
  */
 function generateGradesForm(data) {
     if (data !== null && !$.isEmptyObject(data)) {
-        console.log()
         $('.select2-container-active').removeClass('select2-container-active');
         $(':focus').blur();
         $(".students ul li").remove();
@@ -142,12 +141,12 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
             + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
 
     for (var i = 0; i < 2; i++) {
-        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
-            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+        tbody += '<td class="center"><input name="average[' + id + '][' + discipline_id + '][' + i + ']"'
+            + 'class="average-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
 
     for (var i = 0; i < 3; i++) {
-        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+        tbody += '<td class="center"><input name="frequency[' + id + '][' + discipline_id + '][' + i + ']" '
             + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
@@ -158,21 +157,21 @@ function addFinalFrequency(id) {
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
     for (var i = 0; i < 4; i++) {
-        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+        tbody += '<td class="center"><input name="exams[' + id + '][school_days][' + i + ']" '
             + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
     tbody += '<td class="discipline-name">Carga Horária</td>';
     for (var i = 0; i < 4; i++) {
-        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+        tbody += '<td class="center"><input name="exams[' + id + '][workload][' + i + ']" '
             + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
     tbody += '<td class="discipline-name">Número de faltas</td>';
     for (var i = 0; i < 4; i++) {
-        tbody += '<td class="center"><input name="field_frequency[' + i + ']" '
+        tbody += '<td class="center"><input name="exams[' + id + '][absences][' + i + ']" '
             + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
