@@ -1,25 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "frequency_by_exam".
+ * This is the model class for table "work_by_discipline".
  *
- * The followings are the available columns in table 'frequency_by_exam':
+ * The followings are the available columns in table 'work_by_discipline':
  * @property integer $id
  * @property integer $enrollment_fk
- * @property integer $exam
- * @property integer $absences
+ * @property integer $school_days
  *
  * The followings are the available model relations:
  * @property StudentEnrollment $enrollmentFk
  */
-class FrequencyByExam extends CActiveRecord
+class WorkByDiscipline extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'frequency_by_exam';
+		return 'work_by_discipline';
 	}
 
 	/**
@@ -30,11 +29,11 @@ class FrequencyByExam extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('enrollment_fk, exam, absences', 'required'),
-			array('enrollment_fk, exam, absences', 'numerical', 'integerOnly'=>true),
+			array('enrollment_fk, school_days', 'required'),
+			array('enrollment_fk, school_days', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, enrollment_fk, exam, absences', 'safe', 'on'=>'search'),
+			array('id, enrollment_fk, school_days', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,8 +57,7 @@ class FrequencyByExam extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'enrollment_fk' => 'Enrollment Fk',
-			'exam' => 'Exam',
-			'absences' => 'Absences',
+			'school_days' => 'School Days',
 		);
 	}
 
@@ -83,8 +81,7 @@ class FrequencyByExam extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('enrollment_fk',$this->enrollment_fk);
-		$criteria->compare('exam',$this->exam);
-		$criteria->compare('absences',$this->absences);
+		$criteria->compare('school_days',$this->school_days);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -95,7 +92,7 @@ class FrequencyByExam extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FrequencyByExam the static model class
+	 * @return WorkByDiscipline the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
