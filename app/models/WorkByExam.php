@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "work_by_discipline".
+ * This is the model class for table "work_by_exam".
  *
- * The followings are the available columns in table 'work_by_discipline':
+ * The followings are the available columns in table 'work_by_exam':
  * @property integer $id
  * @property integer $classroom_fk
- * @property integer $discipline_fk
+ * @property integer $exam
  * @property integer $school_days
+ * @property integer $workload
  *
  * The followings are the available model relations:
  * @property Classroom $classroomFk
- * @property EdcensoDiscipline $disciplineFk
  */
-class WorkByDiscipline extends CActiveRecord
+class WorkByExam extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'work_by_discipline';
+		return 'work_by_exam';
 	}
 
 	/**
@@ -31,11 +31,11 @@ class WorkByDiscipline extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('classroom_fk, discipline_fk', 'required'),
-			array('classroom_fk, discipline_fk, school_days', 'numerical', 'integerOnly'=>true),
+			array('classroom_fk, exam', 'required'),
+			array('classroom_fk, exam, school_days, workload', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, classroom_fk, discipline_fk, school_days', 'safe', 'on'=>'search'),
+			array('id, classroom_fk, exam, school_days, workload', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,7 +48,6 @@ class WorkByDiscipline extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
-			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 		);
 	}
 
@@ -60,8 +59,9 @@ class WorkByDiscipline extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'classroom_fk' => 'Classroom Fk',
-			'discipline_fk' => 'Discipline Fk',
+			'exam' => 'Exam',
 			'school_days' => 'School Days',
+			'workload' => 'Workload',
 		);
 	}
 
@@ -85,8 +85,9 @@ class WorkByDiscipline extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('classroom_fk',$this->classroom_fk);
-		$criteria->compare('discipline_fk',$this->discipline_fk);
+		$criteria->compare('exam',$this->exam);
 		$criteria->compare('school_days',$this->school_days);
+		$criteria->compare('workload',$this->workload);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,7 +98,7 @@ class WorkByDiscipline extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return WorkByDiscipline the static model class
+	 * @return WorkByExam the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

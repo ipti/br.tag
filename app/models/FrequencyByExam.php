@@ -30,7 +30,7 @@ class FrequencyByExam extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('enrollment_fk, exam, absences', 'required'),
+			array('enrollment_fk, exam', 'required'),
 			array('enrollment_fk, exam, absences', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

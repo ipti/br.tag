@@ -268,6 +268,132 @@ class EnrollmentController extends Controller {
      * 
      */
     public function actionSaveGrades() {
+
+        $portuguese = 6;
+        $history = 12;
+        $art = 10;
+
+        $math = 3;
+        $science = 5;
+        $religion = 26;
+
+        $writing = 10001;
+        $geography = 13;
+        $physical_education = 11;
+
+        if (isset($_POST['exams'])) {
+            $exams = $_POST['exams'];
+
+            foreach ($exams as $enrollment_id => $field){
+
+                $school_days = $field[0];
+                $workload = $field[1];
+                $absences = $field[2];
+
+                foreach($absences as $exam_order => $number_of_absences){
+                    $frequency_by_exam = FrequencyByExam::model()->findByAttributes([
+                        "enrollment_fk" => intval($enrollment_id),
+                        "exam" => intval($exam_order)
+                    ]);
+
+                    if(!isset($frequency_by_exam)){
+                        $frequency_by_exam = new FrequencyByExam();
+                        $frequency_by_exam->enrollment_fk = intval($enrollment_id);
+                        $frequency_by_exam->exam = intval($exam_order);
+                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
+                        $frequency_by_exam->save();
+                    }else{
+                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);;
+                        $frequency_by_exam->update();
+                    }
+                }
+/*
+                foreach($school_days as $exam_order => $number_of_school_days){
+                    $work_by_exam = WorkByExam::model()->findByAttributes([
+                        "classroom_fk" => intval($_POST['classroom']),
+                        "exam" => intval($exam_order)
+                    ]);
+
+                    $hours = $workload[$exam_order];
+
+                    if(!isset($work_by_exam)){
+                        $work_by_exam = new WorkByExam();
+                        $work_by_exam->classroom_fk = intval($_POST['classroom']);
+                        $work_by_exam->exam = intval($exam_order);
+                        $work_by_exam->school_days = (!isset($number_of_school_days) || (isset($number_of_school_days) && $number_of_school_days == "")) ? null : intval($number_of_school_days);
+                        $work_by_exam->workload = (!isset($number_of_school_days) || (isset($number_of_school_days) && $number_of_school_days == "")) ? null : intval($number_of_school_days);
+                        $work_by_exam->save();
+                    }else{
+                        $work_by_exam->absences = intval($number_of_school_days);
+                        $work_by_exam->update();
+                    }
+
+
+                    $frequency_by_exam = null;
+
+                }
+                */
+            }
+        }
+
+        if(isset($_POST['avgfq'])){
+            $avgfq = $_POST['avgfq'];
+
+            foreach ($avgfq as $enrollment_id => $disciplines){
+
+                foreach ($disciplines as $id => $values) {
+                    /*    $annual_average = $values[0];
+                        $final_average = $values[1];
+                        $school_days = $values[2];
+                        $absences  = $values[3];
+                        $frequency = $values[4];*/
+
+                    $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
+                        "enrollment_fk" => $enrollment_id,
+                        "discipline_fk" => $id
+                    ]);
+
+                    if(!isset($frequency_and_mean)){
+                        $frequency_and_mean = new FrequencyAndMeanByDiscipline();
+                        $frequency_and_mean->enrollment_fk = $enrollment_id;
+                        $frequency_and_mean->discipline_fk = $id;
+                        $frequency_and_mean->annual_average = $values[0];
+                        $frequency_and_mean->final_average = $values[1];
+                        $frequency_and_mean->absences = $values[3];
+                        $frequency_and_mean->frequency = $values[4];
+                        $frequency_and_mean->save();
+                    }else{
+                        $frequency_and_mean->annual_average = $values[0];
+                        $frequency_and_mean->final_average = $values[1];
+                        $frequency_and_mean->absences = $values[3];
+                        $frequency_and_mean->frequency = $values[4];
+                        $frequency_and_mean->update();
+                    }
+
+                    if ($id === $portuguese || $id === $history || $id === $art) {
+                        $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
+                        /*@WTF - Esse código nunca ia funcionar - Na hora do salvamento o código já é o da disciplina master pq buscar denovo???*/
+                        $avgfq_exist = Grade::model()->findByAttributes([
+                                "enrollment_fk" => $enrollment_id,
+                                "discipline_fk" => $discipline_alt]
+                        );
+                        if(!isset($avgfq_exist)){
+                            $frequency_and_mean_alt = new FrequencyAndMeanByDiscipline();
+                            $frequency_and_mean_alt->attributes = $frequency_and_mean->attributes;
+                            $frequency_and_mean_alt->discipline_fk = $discipline_alt;
+                            $frequency_and_mean_alt->save();
+                        }else{
+                            $avgfq_exist->attributes = $frequency_and_mean->attributes;
+                            $avgfq_exist->discipline_fk = $discipline_alt;
+                            $avgfq_exist->update();
+                        }
+
+                    }
+                }
+            }
+
+        }
+
         if (isset($_POST['grade'])) {
             $saved = true;
             $grades = $_POST['grade'];
@@ -279,17 +405,6 @@ class EnrollmentController extends Controller {
 
             foreach ($grades as $eid => $disciplines) {
                 foreach ($disciplines as $id => $values) {
-                    $portuguese = 6;
-                    $history = 12;
-                    $art = 10;
-
-                    $math = 3;
-                    $science = 5;
-                    $religion = 26;
-
-                    $writing = 10001;
-                    $geography = 13;
-                    $physical_education = 11;
 
                     $grade = Grade::model()->findByAttributes([
                         "enrollment_fk" => $eid,
@@ -396,6 +511,7 @@ class EnrollmentController extends Controller {
             $stage = $edc_stage->id;
 
             $enrollments = $classroom->studentEnrollments;
+
             $enrollments = $this->sortEnrollments($enrollments);
 
             $stage = $this->getStageIfMulti($stage, $enrollments);
