@@ -13,6 +13,7 @@ $(document).on("click", "#add-matrix", function () {
         data: {
             stages: stages,
             disciplines: disciplines,
+            frequencies: frequencies,
             workload: workload,
             credits: credits
         }

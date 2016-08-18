@@ -545,14 +545,33 @@ class EnrollmentController extends Controller {
                     )) as classroom_disciplines
                     where classroom_id = " . $cid)->queryAll();
 
+
+
             foreach ($enrollments as $enrollment) {
                 $studentName = $enrollment->studentFk->name;
                 //@WTF - studentFk relacionamento - Esse bug valia 50quentinha
                 $studentEnrId = $enrollment->id;
 
+             /*   $avgfq = Yii::app()->db->createCommand(
+                    "SELECT * FROM frequency_and_mean_by_discipline WHERE enrollment_fk =".$enrollment->id.
+                )->queryAll();*/
+
                 $return[$studentName] = [];
                 $return[$studentName]['enrollment_id'] = $studentEnrId;
                 $return[$studentName]['disciplines'] = [];
+                $return[$studentName]['frequencies'] = [];
+
+                for ($i = 0; $i < 4; $i++){
+                    $avgbyexam = FrequencyByExam::model()->findByAttributes([
+                        'exam' => $i,
+                        'enrollment_fk' => $studentEnrId
+                    ]);
+                    $absences = $avgbyexam->absences == null ? "" : $avgbyexam->absences;
+
+                    $return[$studentName]['frequencies'][$i] = $absences;
+                }
+
+
                 foreach ($disciplines as $discipline) {
                     $d = $disciplineId = $discipline['discipline_id'];
 
@@ -586,18 +605,28 @@ class EnrollmentController extends Controller {
                         $disciplineName = $discipline['discipline_name'];
                     }
 
+
                     if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing && $d != $geography && $d != $physical_education))) {
 
                         $grades = Grade::model()->findByAttributes([
                             'discipline_fk' => $disciplineId,
                             'enrollment_fk' => $studentEnrId,
                         ]);
+
+                        $frme = FrequencyAndMeanByDiscipline::model()->findByAttributes([
+                            'enrollment_fk' =>  $studentEnrId,
+                            'discipline_fk' =>  $disciplineId
+                        ]);
+
+
+
                         if ($grades == null) {
                             $grades = new Grade();
                             $grades->discipline_fk = $disciplineId;
                             $grades->enrollment_fk = $studentEnrId;
                             $grades->save();
                         }
+
                         $n1 = $grades->grade1 == null ? "" : $grades->grade1;
                         $n2 = $grades->grade2 == null ? "" : $grades->grade2;
                         $n3 = $grades->grade3 == null ? "" : $grades->grade3;
@@ -607,6 +636,11 @@ class EnrollmentController extends Controller {
                         $r3 = $grades->recovery_grade3 == null ? "" : $grades->recovery_grade3;
                         $r4 = $grades->recovery_grade4 == null ? "" : $grades->recovery_grade4;
                         $rf = $grades->recovery_final_grade == null ? "" : $grades->recovery_final_grade;
+
+                        $annual_average = $frme->annual_average == null ? "" : $frme->annual_average;
+                        $final_average = $frme->final_average == null ? "" : $frme->final_average;
+                        $absences = $frme->absences == null ? "" : $frme->absences;
+                        $frequency = $frme->frequency == null ? "" : $frme->frequency;
 
                         $return[$studentName]['disciplines'][$disciplineId] = [];
                         $return[$studentName]['disciplines'][$disciplineId]['name'] = $disciplineName;
@@ -619,6 +653,11 @@ class EnrollmentController extends Controller {
                         $return[$studentName]['disciplines'][$disciplineId]['r3'] = $r3;
                         $return[$studentName]['disciplines'][$disciplineId]['r4'] = $r4;
                         $return[$studentName]['disciplines'][$disciplineId]['rf'] = $rf;
+
+                        $return[$studentName]['disciplines'][$disciplineId]['annual_average'] = $annual_average;
+                        $return[$studentName]['disciplines'][$disciplineId]['final_average'] = $final_average;
+                        $return[$studentName]['disciplines'][$disciplineId]['absences'] = $absences;
+                        $return[$studentName]['disciplines'][$disciplineId]['frequency'] = $frequency;
                     }
                 }
                 $return['stage'] = $stage;
