@@ -52,6 +52,37 @@ function generateGradesForm(data) {
     } else {
         $(".classroom").hide();
     }
+
+    var classList = [];
+
+    $('*[class^="school-days-group"]').each(function () {
+        if (this.className != "" && classList.indexOf(this.className) == -1){
+            $("." + this.className).blur(function () {
+                $("." + this.className).val(this.value);
+            });
+        }
+    });
+
+    var classList = [];
+
+    $('*[class^="dias-letivos"]').each(function () {
+        if (this.className != "" && classList.indexOf(this.className) == -1){
+            $("." + this.className).blur(function () {
+                $("." + this.className).val(this.value);
+            });
+        }
+    });
+
+    var classList = [];
+
+    $('*[class^="carga-horaria"]').each(function () {
+        if (this.className != "" && classList.indexOf(this.className) == -1){
+            $("." + this.className).blur(function () {
+                $("." + this.className).val(this.value);
+            });
+        }
+    });
+
 }
 
 
@@ -120,6 +151,9 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     var numN = fields.notas;
     var numR = fields.recuperacao;
     var isCycle = fields.cycle;
+
+    var classes_with_event = [];
+
     tbody += '<td class="discipline-name">' + discipline.name + '</td>';
     for (var i = 0; i < numN; i++) {
         if (!isCycle) {
@@ -151,27 +185,42 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     }
 
     for (var i = 0; i < 3; i++) {
+        var name_of_class = "";
+
         var j = i + 2;
-        tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
-            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
+
+
+        name_of_class = i == 1 ? "school-days-group" + discipline_id : "frequency-fields";
+
+
+        tbody += '<td class="center"><input id="" name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
+            + 'class="' + name_of_class + '" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
+
+
+
+
     }
     tbody += "</tr>";
+
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
+
 }
 
 function addFinalFrequency(id) {
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
     for (var i = 0; i < 4; i++) {
+        var classnamed = "dias-letivos" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
-            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
     tbody += '<td class="discipline-name">Carga Horária</td>';
     for (var i = 0; i < 4; i++) {
+        var classnamed = "carga-horaria" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
-            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="" /></td>"';
+            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="" /></td>"';
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);

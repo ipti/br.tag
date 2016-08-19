@@ -6787,6 +6787,24 @@ li.active a{
   text-align:center;
 }
 
+[class^="school-days-group"] {
+  width:50px;
+  text-align:center;
+}
+
+[class^="dias-letivos"] {
+  width:50px;
+  text-align:center;
+}
+
+[class^="carga-horaria"] {
+  width:50px;
+  text-align:center;
+}
+
+
+
+
 .grade-dropdown{
     width:120px;
 }

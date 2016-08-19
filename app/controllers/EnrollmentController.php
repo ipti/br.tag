@@ -334,6 +334,24 @@ class EnrollmentController extends Controller {
                 }
                 */
             }
+
+//            foreach($workload as $exam_order => $days){
+//                $work_by_exam = FrequencyByExam::model()->findByAttributes([
+//                    "classroom_fk" => intval($_POST[' ']),
+//                    "exam" => intval($exam_order)
+//                ]);
+//
+//                if(!isset($work_by_exam)){
+//                    $work_by_exam = new FrequencyByExam();
+//                    $work_by_exam->enrollment_fk = intval($enrollment_id);
+//                    $work_by_exam->exam = intval($exam_order);
+//                    $work_by_exam->absences = (!isset($days) || (isset($days) && $days == "")) ? null : intval($days);
+//                    $work_by_exam->save();
+//                }else{
+//                    $work_by_exam->absences = (!isset($days) || (isset($days) && $days == "")) ? null : intval($days);;
+//                    $work_by_exam->update();
+//                }
+//            }
         }
 
         if(isset($_POST['avgfq'])){
