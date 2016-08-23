@@ -121,6 +121,7 @@ class ReportsController extends Controller {
 
 
     public function actionEnrollmentPerClassroomReport($id){
+        $this->layout = "reportsclean";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
             . " AND classroom_id = $id"
