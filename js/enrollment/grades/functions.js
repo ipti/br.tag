@@ -43,7 +43,7 @@ function generateGradesForm(data) {
 
                 });
 
-                addFinalFrequency(id);
+                addFinalFrequency(id, v.school_days, v.workload);
                 addFrequencyByExam(id,  v.frequencies);
             }
         });
@@ -184,35 +184,37 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
             + 'class="average-fields" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[i]] + '" /></td>"';
     }
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 2; i++) {
         var name_of_class = "";
 
         var j = i + 2;
 
 
-        name_of_class = i == 1 ? "school-days-group" + discipline_id : "frequency-fields";
+        name_of_class = i == 0 ? "school-days-group" + discipline_id : "frequency-fields";
 
 
         tbody += '<td class="center"><input id="" name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
             + 'class="' + name_of_class + '" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
 
-
-
-
     }
+
+    tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][4]" '
+        + 'class="grade" type="number" step="0.1" min="0" max="100.0" value="' + discipline[avgfq[4]] + '" /></td>"';
+
+
     tbody += "</tr>";
 
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
 
 }
 
-function addFinalFrequency(id) {
+function addFinalFrequency(id, school_days, workload) {
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
     for (var i = 0; i < 4; i++) {
         var classnamed = "dias-letivos" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
-            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="" /></td>"';
+            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
@@ -220,7 +222,7 @@ function addFinalFrequency(id) {
     for (var i = 0; i < 4; i++) {
         var classnamed = "carga-horaria" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
-            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="" /></td>"';
+            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);

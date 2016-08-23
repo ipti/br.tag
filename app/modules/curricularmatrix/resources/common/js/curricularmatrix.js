@@ -6,6 +6,9 @@ $(document).on("click", "#add-matrix", function () {
     var disciplines = $("#disciplines").val();
     var workload = $("#workload").val();
     var credits = $("#credits").val();
+    var frequencies = $("#frequencies").val()
+    var school_days = $("#school_days").val()
+
 
     $.ajax({
         type: "POST",
@@ -14,6 +17,7 @@ $(document).on("click", "#add-matrix", function () {
             stages: stages,
             disciplines: disciplines,
             frequencies: frequencies,
+            school_days: school_days,
             workload: workload,
             credits: credits
         }
