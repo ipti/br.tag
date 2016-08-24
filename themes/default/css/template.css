@@ -6802,7 +6802,10 @@ li.active a{
   text-align:center;
 }
 
-
+.popover  {
+  background: #575655!important;
+  color: white!important
+}
 
 
 .grade-dropdown{

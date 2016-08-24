@@ -344,14 +344,6 @@ class EnrollmentController extends Controller {
 
                 foreach ($disciplines as $id => $values) {
 
-
-
-                    /*    $annual_average = $values[0];
-                        $final_average = $values[1];
-                        $school_days = $values[2];
-                        $absences  = $values[3];
-                        $frequency = $values[4];*/
-
                     $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
                         "enrollment_fk" => $enrollment_id,
                         "discipline_fk" => $id
@@ -417,29 +409,24 @@ class EnrollmentController extends Controller {
                     $saved = $saved && $work_by_discipline->update();
                 }
 
-//                if ($id === $portuguese || $id === $history || $id === $art) {
-//                    $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
-//
-//
-//                    $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes([
-//                            "classroom_fk" => $_POST['classroom'],
-//                            "discipline_fk" => $discipline_alt]
-//                    );
-//                    if(!isset($work_by_discipline_exist)){
-//                        $work_by_discipline_alt = new WorkByDiscipline();
-//                        $work_by_discipline_alt->attributes = $work_by_discipline->attributes;
-//                        $work_by_discipline_alt->discipline_fk = $discipline_alt;
-//                        $saved = $saved && $work_by_discipline_alt->save();
-//                    }else{
-//                        $work_by_discipline_exist->attributes = $frequency_and_mean->attributes;
-//                        $work_by_discipline_exist->discipline_fk = $discipline_alt;
-//                        $saved = $saved && $work_by_discipline_exist->update();
-//                    }
-//
-//
-//
-//
-//                }
+                if ($id === $portuguese || $id === $history || $id === $art) {
+                    $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
+
+                    $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes([
+                            "classroom_fk" => $_POST['classroom'],
+                            "discipline_fk" => $discipline_alt]
+                    );
+                    if(!isset($work_by_discipline_exist)){
+                        $work_by_discipline_alt = new WorkByDiscipline();
+                        $work_by_discipline_alt->attributes = $work_by_discipline->attributes;
+                        $work_by_discipline_alt->discipline_fk = $discipline_alt;
+                        $saved = $saved && $work_by_discipline_alt->save();
+                    }else{
+                        $work_by_discipline_exist->attributes = $frequency_and_mean->attributes;
+                        $work_by_discipline_exist->discipline_fk = $discipline_alt;
+                        $saved = $saved && $work_by_discipline_exist->update();
+                    }
+                }
             }
 
         }
@@ -541,11 +528,6 @@ class EnrollmentController extends Controller {
         return $stage;
     }
 
-//    public function getMulti(){
-//        $teste = Classroom::model()->findAll("school_year = ".Yii::app()->user->year."", array('order' => 'name'));
-//        var_dump($teste); exit;
-//    }
-
     /**
      * 
      * Get grades by classroom
@@ -602,10 +584,6 @@ class EnrollmentController extends Controller {
                 //@WTF - studentFk relacionamento - Esse bug valia 50quentinha
                 $studentEnrId = $enrollment->id;
 
-             /*   $avgfq = Yii::app()->db->createCommand(
-                    "SELECT * FROM frequency_and_mean_by_discipline WHERE enrollment_fk =".$enrollment->id.
-                )->queryAll();*/
-
                 $return[$studentName] = [];
                 $return[$studentName]['enrollment_id'] = $studentEnrId;
                 $return[$studentName]['disciplines'] = [];
@@ -635,10 +613,6 @@ class EnrollmentController extends Controller {
 
                     $return[$studentName]['school_days'][$i] = $sdays;
                     $return[$studentName]['workload'][$i] = $wload;
-
-
-
-
 
                 }
 
@@ -693,10 +667,6 @@ class EnrollmentController extends Controller {
                             'classroom_fk' =>  $_POST['classroom'],
                             'discipline_fk' =>  $disciplineId
                         ]);
-
-
-
-
 
                         if ($grades == null) {
                             $grades = new Grade();

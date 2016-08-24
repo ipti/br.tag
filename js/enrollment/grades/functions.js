@@ -43,7 +43,7 @@ function generateGradesForm(data) {
 
                 });
 
-                addFinalFrequency(id, v.school_days, v.workload);
+                addFieldsByFrequency(id, v.school_days, v.workload);
                 addFrequencyByExam(id,  v.frequencies);
             }
         });
@@ -63,6 +63,15 @@ function generateGradesForm(data) {
         }
     });
 
+    $('*[class^="school-days-group"]').focus(function () {
+        $(this).css("border", "1px solid orange");
+    });
+
+    $('*[class^="school-days-group"]').blur(function () {
+        $(this).css("border", "1px solid #ccc");
+    });
+
+
     var classList = [];
 
     $('*[class^="dias-letivos"]').each(function () {
@@ -71,6 +80,14 @@ function generateGradesForm(data) {
                 $("." + this.className).val(this.value);
             });
         }
+    });
+
+    $('*[class^="dias-letivos"]').focus(function () {
+        $(this).css("border", "1px solid orange");
+    });
+
+    $('*[class^="dias-letivos"]').blur(function () {
+        $(this).css("border", "1px solid #ccc");
     });
 
     var classList = [];
@@ -82,6 +99,16 @@ function generateGradesForm(data) {
             });
         }
     });
+
+    $('*[class^="carga-horaria"]').focus(function () {
+        $(this).css("border", "1px solid orange");
+    });
+
+    $('*[class^="carga-horaria"]').blur(function () {
+        $(this).css("border", "1px solid #ccc");
+    });
+
+    $('[data-toggle="popover"]').popover({ trigger: "hover" });
 
 }
 
@@ -102,11 +129,13 @@ function addStudentTable(id, name, fields) {
     var numR = fields.recuperacao;
     var numF = fields.final ? 1 : 0;
 
-    var frequency = '<th class="center" scope="col">Aulas Dadas</th>' +
+    var frequency = '<th colspan="3" scope="colgroup" class="center">Frequência</th>';
+    var media = fields.cycle? "" : '<th colspan="2" scope="colgroup" class="center">Médias</th>';
+    var fields_frequency = '<th data-toggle="tooltip" data-placement="left" title="Tooltip on left" class="center" scope="col">Aulas Dadas</th> ' +
                     '<th class="center" scope="col">Total de Faltas</th>' +
                     '<th class="center" scope="col">Frequência</th>';
 
-    var media = '<th class="center" scope="col">Media Anual</th>' +
+    var fields_media = fields.cycle? "" :  '<th class="center" scope="col">Media Anual</th>' +
                 '<th class="center" scope="col">Média Final</th>';
 
     for (var i = 1; i <= numN; i++) {
@@ -130,15 +159,15 @@ function addStudentTable(id, name, fields) {
             + '<td rowspan="2"></td>'
             + '<th colspan="' + numN + '" scope="colgroup" class="center">Avaliações</th>'
             + ((numR + numF) > 0 ? '<th colspan="' + (numR + numF) + '" scope="colgroup" class="center">Recuperações</th>' : "")
-            + '<th colspan="2" scope="colgroup" class="center">Médias</th>'
-            + '<th colspan="3" scope="colgroup" class="center">Frequência</th>'
+            + media
+            + frequency
             + '</tr>'
             + '<tr>'
             + notas
             + recuperacao
             + final
-            + media
-            + frequency
+            + fields_media
+            + fields_frequency
             + '</tr>'
             + '</thead>'
             + '<tbody class="row-grades"></tbody>'
@@ -151,9 +180,6 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     var numN = fields.notas;
     var numR = fields.recuperacao;
     var isCycle = fields.cycle;
-
-    var classes_with_event = [];
-
     tbody += '<td class="discipline-name">' + discipline.name + '</td>';
     for (var i = 0; i < numN; i++) {
         if (!isCycle) {
@@ -176,45 +202,35 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     tbody += fields.final ? ('<td class="center"><input name="grade[' + id + '][' + discipline_id + '][8]" '
             + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
 
-
     var avgfq = ["annual_average", "final_average", "school_days", "absences", "frequency"];
+    if (!isCycle) {
+        for (var i = 0; i < 2; i++) {
+            tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][' + i + ']"'
+                + 'class="average-fields" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[i]] + '" /></td>"';
+        }
 
-    for (var i = 0; i < 2; i++) {
-        tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][' + i + ']"'
-            + 'class="average-fields" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[i]] + '" /></td>"';
     }
-
     for (var i = 0; i < 2; i++) {
-        var name_of_class = "";
-
         var j = i + 2;
-
-
-        name_of_class = i == 0 ? "school-days-group" + discipline_id : "frequency-fields";
-
-
+        var name_of_class = i == 0 ? "school-days-group" + discipline_id : "frequency-fields";
+        var popover = i == 0? '  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  ' : '';
         tbody += '<td class="center"><input id="" name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
-            + 'class="' + name_of_class + '" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
-
+            + 'class="' + name_of_class + '" '+ popover +'  type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
     }
-
     tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][4]" '
         + 'class="grade" type="number" step="0.1" min="0" max="100.0" value="' + discipline[avgfq[4]] + '" /></td>"';
-
-
     tbody += "</tr>";
-
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
 
 }
 
-function addFinalFrequency(id, school_days, workload) {
+function addFieldsByFrequency(id, school_days, workload) {
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
     for (var i = 0; i < 4; i++) {
         var classnamed = "dias-letivos" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
-            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
+            + 'class="'+classnamed+'" type="number"   data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
@@ -222,7 +238,7 @@ function addFinalFrequency(id, school_days, workload) {
     for (var i = 0; i < 4; i++) {
         var classnamed = "carga-horaria" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
-            + 'class="'+classnamed+'" type="number" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
+            + 'class="'+classnamed+'" type="number"  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
