@@ -4,7 +4,7 @@ class ReportsController extends Controller {
 
     public $layout = 'fullmenu';
     public $year = 0;
-
+    /**/
     public function accessRules() {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -14,13 +14,23 @@ class ReportsController extends Controller {
                                     'StatisticalDataReport', 'StudentsDeclarationReport',
                                     'EnrollmentPerClassroomReport','AtaSchoolPerformance',
                                     'EnrollmentDeclarationReport', 'TransferForm',
-                                    'EnrollmentNotification', 'TransferRequirement'),
+                                    'EnrollmentNotification', 'TransferRequirement',
+                                    'EnrollmentDeclarationChildPropria', 'EnrollmentDeclarationFundPropria', 'StudentsFileChildPropriaReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
             ),
         );
+    }
+    public function actionStudentsFileChildPropriaReport () {
+        $this->renderPartial('StudentsFileChildPropriaReport', array());
+    }
+    public function actionEnrollmentDeclarationFundPropria () {
+        $this->renderPartial('EnrollmentDeclarationFundPropria', array());
+    }
+    public function actionEnrollmentDeclarationChildPropria() {
+        $this->renderPartial('EnrollmentDeclarationChildPropria', array());
     }
     
     public function beforeAction($action){
