@@ -96,6 +96,20 @@ $this->breadcrumbs = array(
                     <div class="clearfix"></div>
                 </a>
             </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationChildPropria')?>" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Quadro de Rendimento</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span3">
+                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentDeclarationFundPropria')?>" class="widget-stats">
+                    <span class="glyphicons file_export"><i></i></span>
+                    <span class="txt">Quadro de Rendimento</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
         </div>
     </div>
 </div>
