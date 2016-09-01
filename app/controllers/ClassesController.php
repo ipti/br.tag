@@ -411,6 +411,31 @@ class ClassesController extends Controller {
             'classroom_fk' => $classroom,
             'discipline_fk' => $discipline,
             'month' => $month));
+
+        if ($allDisciplines) {
+            $schedules = Schedule::model()->findAllByAttributes(array(
+                'classroom_fk' => $classroom));
+        } else {
+            $schedules = Schedule::model()->findAllByAttributes(array(
+                'classroom_fk' => $classroom,
+                'discipline_fk' => $discipline));
+        }
+
+/*        $calendars = Calendar::model()->findAllByAttributes(
+           array(
+               'school_year' => $_POST['year']
+           )
+        );
+
+        $match =
+        $match = addcslashes($match, '%_');*/
+
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('calenda', array('1','2'), 'OR');
+        $curyear =  Yii::app()->user->year;
+        $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
+       
+
         if ($allDisciplines) {
             $classboards = ClassBoard::model()->findAllByAttributes(array(
                 'classroom_fk' => $classroom));
@@ -421,7 +446,21 @@ class ClassesController extends Controller {
         }
 
 
-        $return = array('days' => array(), 'faults' => array(), 'students' => array());
+        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'dias' => array(), 'special_days' => array());
+
+        $return_alt = array('days' => array());
+
+        $classes_days = array();
+
+       foreach ($schedules as $key => $schedule){
+
+           $classes_days[$schedule->classroom_fk][$schedule->discipline_fk][$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
+
+       }
+
+        $return['dias'] = $classes_days;
+        $return['special_days'] = $special_days;
+
 
         $classDays = array();
         for ($i = 0; $i <= 6; $i++) {

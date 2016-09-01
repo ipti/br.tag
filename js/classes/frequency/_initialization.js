@@ -1,4 +1,4 @@
-var student0_name = "Donald Trump";
+var student0_name = "Fulano";
 var student1_name = "Gabe Newell";
 var students_array = new Array();
 var index = 0;
@@ -19,6 +19,7 @@ $('#classesSearch').on('click', function(){
         'data':jQuery('#classroom').parents("form").serialize(),
         'success':function(data){
             var data = jQuery.parseJSON(data);
+            console.log(data);
             if(data['days'] == undefined) {
                 $('#frequency > thead').html('<tr><th class="center">Não há aulas desta matéria.</th></tr>');
                 $('#frequency > tbody').html('');
