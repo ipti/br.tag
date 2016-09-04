@@ -54,6 +54,7 @@ class ReportsController extends Controller {
     }
 
     public function actionStudentsUsingSchoolTransportationRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
         $sql = "SELECT DISTINCT si.inep_id,si.name,si.birthday,sd.residence_zone, se.*
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk)
@@ -79,6 +80,7 @@ class ReportsController extends Controller {
     }
 
     public function actionStudentsWithDisabilitiesRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "SELECT si.*, se.classroom_fk
@@ -102,6 +104,7 @@ class ReportsController extends Controller {
     }
 
     public function actionStudentsInAlphabeticalOrderRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select si.name as studentName, si.inep_id as studentInepId, se.classroom_inep_id, si.birthday,cq.*
@@ -156,6 +159,7 @@ class ReportsController extends Controller {
 
 
     public function actionStudentsByClassroomReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.*, q.modality,q.stage
@@ -206,6 +210,7 @@ class ReportsController extends Controller {
     }
 
     public function actionComplementarActivityAssistantByClassroomReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.*, q.modality,q.stage
@@ -232,6 +237,7 @@ class ReportsController extends Controller {
 
 
     public function actionDisciplineAndInstructorRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.*, q.modality,q.stage
@@ -257,6 +263,7 @@ class ReportsController extends Controller {
     }
 
     public function actionIncompatibleStudentAgeByClassroomReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.*, q.modality,q.stage
@@ -329,6 +336,7 @@ class ReportsController extends Controller {
     }
 
  public function actionClassroomWithoutInstructorRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select * from classroom_qtd_students
@@ -351,6 +359,7 @@ class ReportsController extends Controller {
 
 
     public function actionStudentInstructorNumbersRelationReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
             $sql1 = "select q.*, c.mais_educacao_participator,c.inep_id
@@ -373,6 +382,7 @@ class ReportsController extends Controller {
     }
 
     public function actionSchoolProfessionalNumberByClassroomReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.inep_id, q.*
@@ -397,6 +407,7 @@ class ReportsController extends Controller {
     }
 
     public function actionEnrollmentComparativeAnalysisReport(){
+        $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
         $sql = "SELECT * FROM classroom_qtd_students
                     where `school_year` >= ".$this->year."-1 and school_inep_fk = ".$_GET['id']." order by name;";
