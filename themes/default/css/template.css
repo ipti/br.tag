@@ -6782,6 +6782,32 @@ li.active a{
     text-align:center;
 }
 
+.frequency-fields, .average-fields{
+  width:50px;
+  text-align:center;
+}
+
+[class^="school-days-group"] {
+  width:50px;
+  text-align:center;
+}
+
+[class^="dias-letivos"] {
+  width:50px;
+  text-align:center;
+}
+
+[class^="carga-horaria"] {
+  width:50px;
+  text-align:center;
+}
+
+.popover  {
+  background: #575655!important;
+  color: white!important
+}
+
+
 .grade-dropdown{
     width:120px;
 }

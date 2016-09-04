@@ -10,6 +10,8 @@ $('#classroom').change(function () {
         },
         success: function (data) {
             data = jQuery.parseJSON(data);
+
+
             generateGradesForm(data);
             $('select.grade-dropdown').select2();
             $(".classroom").show();
