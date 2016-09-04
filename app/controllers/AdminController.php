@@ -1107,12 +1107,15 @@
 		}
 
 		public function actionClearDB() {
+			//delete from users_school;
+			//delete from users;
+			// delete from auth_assignment;
+
 			$command = "
-            delete from auth_assignment;
-
-            delete from users_school;
-            delete from users;
-
+			delete from users;
+			delete from users_school;
+			delete from auth_assignment;
+			
             delete from class_board;
             delete from class_faults;
             delete from class;

@@ -85,7 +85,7 @@ $this->breadcrumbs = array(
                 </a>
             </div>
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport',array('id'=>Yii::app()->user->school))?>" class="widget-stats" target="_blank">
                     <span class="glyphicons justify"><i></i></span>
                     <span class="txt">Auxiliar/Assistente Educacional por Turma</span>
                     <div class="clearfix"></div>
@@ -159,7 +159,7 @@ $this->breadcrumbs = array(
         </div>
         <div class="span12" style="margin: 10px 0 0 0">
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport',array('id'=>Yii::app()->user->school))?>" class="widget-stats" target="_blank">
                     <span class="glyphicons justify"><i></i></span>
                     <span class="txt">Alunos com Idade Entre 5 e 14 Anos</span>
                     <div class="clearfix"></div>
