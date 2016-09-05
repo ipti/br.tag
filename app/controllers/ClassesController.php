@@ -434,21 +434,11 @@ class ClassesController extends Controller {
         $criteria->addInCondition('calenda', array('1','2'), 'OR');
         $curyear =  Yii::app()->user->year;
         $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
-       
-
-        if ($allDisciplines) {
-            $classboards = ClassBoard::model()->findAllByAttributes(array(
-                'classroom_fk' => $classroom));
-        } else {
-            $classboards = ClassBoard::model()->findAllByAttributes(array(
-                'classroom_fk' => $classroom,
-                'discipline_fk' => $discipline));
-        }
 
 
-        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'dias' => array(), 'special_days' => array());
+        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array());
 
-        $return_alt = array('days' => array());
+
 
         $classes_days = array();
 
@@ -458,53 +448,10 @@ class ClassesController extends Controller {
 
        }
 
-        $return['dias'] = $classes_days;
+        $return['weekly_schedule'] = $classes_days;
         $return['special_days'] = $special_days;
 
-
-        $classDays = array();
-        for ($i = 0; $i <= 6; $i++) {
-            $classDays[$i] = array();
-        }
-
-        foreach ($classboards as $cb) {
-
-            $schedulesStringArray = array();
-
-            $schedulesStringArray[0] = $cb->week_day_sunday;
-            $schedulesStringArray[1] = $cb->week_day_monday;
-            $schedulesStringArray[2] = $cb->week_day_tuesday;
-            $schedulesStringArray[3] = $cb->week_day_wednesday;
-            $schedulesStringArray[4] = $cb->week_day_thursday;
-            $schedulesStringArray[5] = $cb->week_day_friday;
-            //$schedulesStringArray[6] = $cb->week_day_saturday;
-            $schedulesStringArray[6] = 1;
-            for ($i = 0; $i <= 6; $i++) {
-                $temp = $schedulesStringArray[$i];
-                if ($temp == "") {
-                    $temp = array();
-                } else {
-                    $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
-                    $temp = $temp[0] == '0' ? substr($temp, 1) : $temp;
-                    $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
-
-                    $temp = $temp == "" ? array() : explode(';', $temp);
-                }
-                if (count($temp) >= 1) {
-                    if ($allDisciplines) {
-                        $classDays[$i] = array(1);
-                    } else {
-                        $classDays[$i] = array_merge($classDays[$i], $temp);
-                        $classDays[$i] = array_unique($classDays[$i]);
-                    }
-                } else {
-                    $classDays[$i] = ($classDays[$i] == array() || $classDays[$i] == array(0)) ? array(0) : $classDays[$i];
-                };
-            }
-        }
-
-        $return['days'] = $classboards == null ? null : $classDays;
-
+       /*
         if ($classes == null) {
 
             $cr = Classroom::model()->findByPk($classroom);
@@ -539,7 +486,7 @@ class ClassesController extends Controller {
                     $return['instructorFaults'][$c->day] = array_merge($return['instructorFaults'][$c->day], array($schedule));
                 }
             }
-        }
+        }*/
 
         $criteria = new CDbCriteria();
         $criteria->with = array('studentFk');
@@ -547,11 +494,26 @@ class ClassesController extends Controller {
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom), $criteria);
         $return['students'] = array();
-        foreach ($enrollments as $e) {
-            $return['students']['name'] = isset($return['students']['name']) ? $return['students']['name'] : array();
-            $return['students']['id'] = isset($return['students']['id']) ? $return['students']['id'] : array();
-            $return['students']['name'] = array_merge($return['students']['name'], array($e->studentFk->name));
+
+        foreach ($enrollments as $key => $e) {
+
+            $faults = Yii::app()->db->createCommand("select c.day , c.month, c.classtype, c.given_class, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where c.discipline_fk	= $discipline and	 
+            c.classroom_fk = $classroom and cf.student_fk = $e->student_fk;")->queryAll();
+
+            if(isset($e->student_fk)){
+                $return['students'][$key]['id'] = $e->student_fk;
+                $return['students'][$key]['name'] = $e->studentFk->name;
+                $return['students'][$key]['faults'] = $faults;
+            }
+
+
+/*            $return['students']['id'] = isset($return['students']['id']) ? $return['students']['id'] : array();
             $return['students']['id'] = array_merge($return['students']['id'], array($e->student_fk));
+
+
+            $return['students']['name'] = isset($return['students']['name']) ? $return['students']['name'] : array();
+            $return['students']['name'] = array_merge($return['students']['name'], array($e->studentFk->name));*/
+
         }
         echo json_encode($return);
         return $return;
