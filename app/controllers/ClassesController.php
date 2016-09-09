@@ -444,7 +444,7 @@ class ClassesController extends Controller {
 
        foreach ($schedules as $key => $schedule){
 
-           $classes_days[$schedule->classroom_fk][$schedule->discipline_fk][$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
+           $classes_days[$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
 
        }
 
