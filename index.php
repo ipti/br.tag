@@ -14,5 +14,5 @@ require_once($yii);
 Yii::createWebApplication($config)->run();
 
 error_reporting(E_ALL ^ E_DEPRECATED);
-ini_set('display_errors','0');
+ini_set('display_errors','1');
 ini_set('always_populate_raw_post_data','-1');

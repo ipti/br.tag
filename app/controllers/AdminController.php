@@ -1112,11 +1112,13 @@
 			// delete from auth_assignment;
 
 			$command = "
+			SET FOREIGN_KEY_CHECKS=0;
+			
+			delete from auth_assignment;
 			delete from users;
 			delete from users_school;
-			delete from auth_assignment;
 			
-            delete from class_board;
+			delete from class_board;
             delete from class_faults;
             delete from class;
 
@@ -1221,7 +1223,7 @@
 			Yii::app()->db->createCommand(utf8_encode($str_fields['30']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['40']))->query();
 //        Solução paliativa para evitar explosão
-//        Yii::app()->db->createCommand(utf8_encode($str_fields['50']))->query();
+			Yii::app()->db->createCommand(utf8_encode($str_fields['50']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['51']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['60']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['80']))->query();
@@ -1335,6 +1337,8 @@
 							$value = "null";
 						} else if ($regType == 20 && $column == 4) {
 							$value = str_replace("º", "", $value);
+						} else if($regType == 50 && $column > 41 && $column < 44){
+							continue;
 						} else {
 							if ($regType == '51' && $column == 3) {
 								$withoutcomma = TRUE;
@@ -1379,7 +1383,7 @@
 						$value = ($value == 'null' || $withoutcomma) ? $value : "'$value'";
 						if ($column + 1 > $totalColumns) {
 							if ($regType == 20) {
-								$value .= ',' . date("Y");
+								$value .= ',' . 2015;
 							}
 							$insertValue[$regType] .= $value;
 							$insertValue[$regType] .= ($line == $totalLines) ? ")" : "),\n";
