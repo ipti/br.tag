@@ -53,3 +53,97 @@ $(document).on("keyup", "input.grade", function (e) {
     }
     this.value = val;
 });
+
+$(document).on("keyup", "input.frequency-fields", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^[0-9]+$/;
+        if (val.match(grade) === null) {
+            val = "";
+        }
+        if (val > 366){
+
+            val = 366;
+        }
+    }
+    this.value = val;
+});
+
+
+
+$(document).on("keyup", "*[class^='dias-letivos']", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^[0-9]+$/;
+        if (val.match(grade) === null) {
+            val = "";
+        }
+        if (val > 366){
+
+            val = 366;
+        }
+    }
+    this.value = val;
+});
+
+
+$(document).on("keyup", "*[class^='school-days-group']", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^[0-9]+$/;
+        if (val.match(grade) === null) {
+            val = "";
+        }
+        if (val > 366){
+
+            val = 366;
+        }
+    }
+    this.value = val;
+});
+
+$(document).on("keyup", "*[class^='carga-horaria']", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^[0-9]+$/;
+        if (val.match(grade) === null) {
+            val = "";
+        }
+        if (val > 8784){
+
+            val = 8784;
+        }
+    }
+    this.value = val;
+});
+
+
+$(document).on("keyup", "input.frequency-percentage", function (e) {
+    var val = this.value;
+    if (!$.isNumeric(val)) {
+        e.preventDefault();
+        val = "";
+    } else {
+        grade = /^(100(\.0{0,2})?|(\d|[1-9]\d)(\.\d{0,2})?)$/;
+        if (val.match(grade) === null) {
+            val = "";
+        } else {
+            if (val > 100)
+                val = 100;
+        }
+    }
+    this.value = val;
+});
+

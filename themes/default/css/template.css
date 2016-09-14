@@ -6782,7 +6782,7 @@ li.active a{
     text-align:center;
 }
 
-.frequency-fields, .average-fields{
+.frequency-fields, .average-fields, .frequency-percentage{
   width:50px;
   text-align:center;
 }

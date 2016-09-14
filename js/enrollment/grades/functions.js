@@ -133,7 +133,7 @@ function addStudentTable(id, name, fields) {
     var media = fields.cycle? "" : '<th colspan="2" scope="colgroup" class="center">Médias</th>';
     var fields_frequency = '<th data-toggle="tooltip" data-placement="left" title="Tooltip on left" class="center" scope="col">Aulas Dadas</th> ' +
                     '<th class="center" scope="col">Total de Faltas</th>' +
-                    '<th class="center" scope="col">Frequência</th>';
+                    '<th class="center" scope="col">Frequência %</th>';
 
     var fields_media = fields.cycle? "" :  '<th class="center" scope="col">Media Anual</th>' +
                 '<th class="center" scope="col">Média Final</th>';
@@ -184,7 +184,7 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     for (var i = 0; i < numN; i++) {
         if (!isCycle) {
             tbody += '<td class="center"><input name="grade[' + id + '][' + discipline_id + '][' + i + ']" '
-                    + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["n" + (i + 1)] + '" /></td>"';
+                    + 'class="grade" type="text" step="0.1" min="0" max="10.0" value="' + discipline["n" + (i + 1)] + '" /></td>"';
         } else {
             tbody += '<td class="center"><select name="grade[' + id + '][' + discipline_id + '][' + i + ']" '
                     + 'class="grade-dropdown">'
@@ -197,16 +197,16 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
     }
     for (var i = numN; i < numR + numN; i++) {
         tbody += '<td class="center"><input name="grade[' + id + '][' + discipline_id + '][' + i + ']" '
-                + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["r" + (i - 3)] + '" /></td>"';
+                + 'class="grade" type="text" step="0.1" min="0" max="10.0" value="' + discipline["r" + (i - 3)] + '" /></td>"';
     }
     tbody += fields.final ? ('<td class="center"><input name="grade[' + id + '][' + discipline_id + '][8]" '
-            + 'class="grade" type="number" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
+            + 'class="grade" type="text" step="0.1" min="0" max="10.0" value="' + discipline["rf"] + '" /></td>"') : "";
 
     var avgfq = ["annual_average", "final_average", "school_days", "absences", "frequency"];
     if (!isCycle) {
         for (var i = 0; i < 2; i++) {
             tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][' + i + ']"'
-                + 'class="average-fields" type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[i]] + '" /></td>"';
+                + 'class="average-fields" type="text" step="1" min="0" max="1000" value="' + discipline[avgfq[i]] + '" /></td>"';
         }
 
     }
@@ -215,10 +215,10 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
         var name_of_class = i == 0 ? "school-days-group" + discipline_id : "frequency-fields";
         var popover = i == 0? '  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  ' : '';
         tbody += '<td class="center"><input id="" name="avgfq[' + id + '][' + discipline_id + '][' + j + ']" '
-            + 'class="' + name_of_class + '" '+ popover +'  type="number" step="1" min="0" max="1000" value="' + discipline[avgfq[j]] + '"  /></td>"';
+            + 'class="' + name_of_class + '" '+ popover +'  type="text" step="1" min="0" max="365" value="' + discipline[avgfq[j]] + '"  /></td>"';
     }
     tbody += '<td class="center"><input name="avgfq[' + id + '][' + discipline_id + '][4]" '
-        + 'class="grade" type="number" step="0.1" min="0" max="100.0" value="' + discipline[avgfq[4]] + '" /></td>"';
+        + 'class="frequency-percentage" type="text" step="0.1" min="0" max="100.0" value="' + discipline[avgfq[4]] + '" /></td>"';
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
 
@@ -230,7 +230,7 @@ function addFieldsByFrequency(id, school_days, workload) {
     for (var i = 0; i < 4; i++) {
         var classnamed = "dias-letivos" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
-            + 'class="'+classnamed+'" type="number"   data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
+            + 'class="'+classnamed+'" type="text"   data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
     }
     tbody += "</tr>";
     tbody += "<tr>";
@@ -238,7 +238,7 @@ function addFieldsByFrequency(id, school_days, workload) {
     for (var i = 0; i < 4; i++) {
         var classnamed = "carga-horaria" + i;
         tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
-            + 'class="'+classnamed+'" type="number"  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
+            + 'class="'+classnamed+'" type="text"  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
@@ -249,7 +249,7 @@ function addFrequencyByExam (id, frequencies){
     tbody += '<td class="discipline-name">Número de faltas</td>';
     for (var i = 0; i < 4; i++) {
         tbody += '<td class="center"><input name="exams[' + id + '][2][' + i + ']" '
-            + 'class="frequency-fields" type="number" step="1" min="0" max="1000" value="' + frequencies[i] + '"/></td>"';
+            + 'class="frequency-fields" type="text" step="1" min="0" max="1000" value="' + frequencies[i] + '"/></td>"';
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
