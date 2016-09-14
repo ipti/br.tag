@@ -549,7 +549,7 @@ class EnrollmentController extends Controller {
             $stage = $this->getStageIfMulti($stage, $enrollments);
 
             $return = [];
-
+            error_reporting(0);
             $disciplines = Yii::app()->db->createCommand(
                             "select * from ((select c.`id` as 'classroom_id', d.id as 'discipline_id', d.`name` as 'discipline_name'
 
