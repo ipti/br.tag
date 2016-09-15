@@ -110,6 +110,12 @@ function generateGradesForm(data) {
 
     $('[data-toggle="popover"]').popover({ trigger: "hover" });
 
+    $(".students ul li").click(function() {
+        $('html,body').animate({
+                scrollTop: $("#classes-form").offset().top},
+            'slow');
+    });
+
 }
 
 

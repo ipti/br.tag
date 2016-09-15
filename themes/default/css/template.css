@@ -6777,30 +6777,12 @@ li.active a{
     font-size:12px;
 }
 
-.grade{
-    width:50px;
+.grade, [class^="school-days-group"], [class^="dias-letivos"], [class^="carga-horaria"], .frequency-fields, .average-fields, .frequency-percentage{
+    width:25px;
     text-align:center;
 }
 
-.frequency-fields, .average-fields, .frequency-percentage{
-  width:50px;
-  text-align:center;
-}
 
-[class^="school-days-group"] {
-  width:50px;
-  text-align:center;
-}
-
-[class^="dias-letivos"] {
-  width:50px;
-  text-align:center;
-}
-
-[class^="carga-horaria"] {
-  width:50px;
-  text-align:center;
-}
 
 .popover  {
   background: #575655!important;

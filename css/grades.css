@@ -17,6 +17,10 @@ div.classroom {
 
 div.students {
     border: 1px solid #e5e5e5 !important;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.grades .tab-pane{
