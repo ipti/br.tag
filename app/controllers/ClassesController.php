@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(0);
+
 class ClassesController extends Controller {
 
     /**
@@ -516,7 +518,8 @@ class ClassesController extends Controller {
 
         }
         echo json_encode($return);
-        return $return;
+
+        return array();
     }
 
     /**

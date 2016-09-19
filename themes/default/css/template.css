@@ -6699,31 +6699,31 @@ tr.filters td{
     padding: 4px 25px 4px 1px;
 }
 
-#frequency td.frequency-list {
-    border-left: 0;
-}
+/*#frequency td.frequency-list {*/
+    /*border-left: 0;*/
+/*}*/
 
-#frequency {
-    border: 0;
-}
-#frequency tbody{
-    overflow: auto;
-    height: 300px;
-   border-top: 1px solid #e5e5e5;
-}
-#frequency thead, #frequency tbody{
-   display: block;
-}
-#frequency thead tr th:first-of-type {
-    width: 42%;
-   border-left: 0;
-}
-#frequency tbody tr:first-of-type td{
-   border-top: 0;
-}
-#frequency tbody tr td:first-of-type {
-    width: 42%;
-}
+/*#frequency {*/
+    /*border: 0;*/
+/*}*/
+/*#frequency tbody{*/
+    /*overflow: auto;*/
+    /*height: 300px;*/
+   /*border-top: 1px solid #e5e5e5;*/
+/*}*/
+/*#frequency thead, #frequency tbody{*/
+   /*display: block;*/
+/*}*/
+/*#frequency thead tr th:first-of-type {*/
+    /*width: 42%;*/
+   /*border-left: 0;*/
+/*}*/
+/*#frequency tbody tr:first-of-type td{*/
+   /*border-top: 0;*/
+/*}*/
+/*#frequency tbody tr td:first-of-type {*/
+    /*width: 42%;*/
+/*}*/
 
 input[type=checkbox] {
     background: white !important;
