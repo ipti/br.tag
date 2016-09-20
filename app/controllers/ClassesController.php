@@ -436,9 +436,9 @@ class ClassesController extends Controller {
         $criteria->addInCondition('calenda', array('1','2'), 'OR');
         $curyear =  Yii::app()->user->year;
         $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
-
-
-        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array());
+        $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  = 301;")->queryAll();
+        $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom and  (name like '1%' or name like '2%' or name like '3%');")->queryAll();
+        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
 
 
 
@@ -452,6 +452,7 @@ class ClassesController extends Controller {
 
         $return['weekly_schedule'] = $classes_days;
         $return['special_days'] = $special_days;
+        $return['saturday_school'] = $saturday_school;
 
        /*
         if ($classes == null) {

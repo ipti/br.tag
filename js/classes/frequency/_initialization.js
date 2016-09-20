@@ -21,6 +21,10 @@ function checkSpecialDay(date, specialdays){
     return true;
 }
 
+
+
+
+
 function addStudentForward() {
     index++;
     if (index == students_array.length - 1) {
@@ -49,22 +53,22 @@ function addStudentForward() {
 }
 
 function  addStudentBackward() {
+    if (index == (students_array.length - 1) && index > 0) {
+        console.log(index);
+        //var previous_student_button = "<a id='previous-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>";
+        $("<a id='next-student-button' class='btn btn-icon btn-small btn-primary glyphicons right_arrow'>Próximo aluno<i></i></a>").insertAfter('#previous-student-button')
+        $('#next-student-button').click(function() {
+            addStudentForward();
+        });
+    }
     index--;
     console.log(index);
     if (index == 0) {
         $('#previous-student-button').remove();
     }
-    if (index == (students_array.length - 1) && index > 0) {
-        console.log(index);
-        //var previous_student_button = "<a id='previous-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>";
-        $("<a id='next-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>").insertAfter('#previous-student-button')
-        $('#next-student-button').click(function() {
-            addStudentForward();
-        });
-    }
-    if (index == 0) {
-        $('#previous-student-button').remove();
-    }
+    console.log(students_array.length - 1);
+
+
     $('#frequency > tbody').html('');
     var tbody = "";
     tbody += '<tr>';
