@@ -400,9 +400,9 @@ class ClassesController extends Controller {
      * Get all classes by classroom, disciplene and month
      */
     public function actionGetClassesForFrequency($classroom = null, $discipline = null, $month = null) {
-        $classroom = $classroom == null ? $_POST['classroom'] : $classroom;
-        $discipline = $discipline == null ? $_POST['disciplines'] : $discipline;
-        $month = $month == null ? $_POST['month'] : $month;
+        $classroom = $classroom == null ? $_GET['classroom'] : $classroom;
+        $discipline = $discipline == null ? $_GET['disciplines'] : $discipline;
+        $month = $month == null ? $_GET['month'] : $month;
 
         $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
         $allDisciplines = ($discipline == null);
@@ -499,8 +499,8 @@ class ClassesController extends Controller {
         $return['students'] = array();
 
         foreach ($enrollments as $key => $e) {
-
-            $faults = Yii::app()->db->createCommand("select c.day , c.month, c.classtype, c.given_class, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where c.discipline_fk	= $discipline and	 
+            $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
+            $faults = Yii::app()->db->createCommand("select c.day , c.month, c.classtype, c.given_class, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
             c.classroom_fk = $classroom and cf.student_fk = $e->student_fk;")->queryAll();
 
             if(isset($e->student_fk)){
