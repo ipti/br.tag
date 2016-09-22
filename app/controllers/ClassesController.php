@@ -438,7 +438,8 @@ class ClassesController extends Controller {
         $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
         $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  = 301;")->queryAll();
         $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom and  (name like '1%' or name like '2%' or name like '3%');")->queryAll();
-        $return = array('days' => array(), 'faults' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
+
+        $return = array('days' => array(), 'no_school' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
 
 
 
@@ -498,11 +499,15 @@ class ClassesController extends Controller {
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom), $criteria);
         $return['students'] = array();
 
-        foreach ($enrollments as $key => $e) {
-            $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
-            $faults = Yii::app()->db->createCommand("select c.day , c.month, c.classtype, c.given_class, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
-            c.classroom_fk = $classroom and cf.student_fk = $e->student_fk;")->queryAll();
+        $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
+        $no_school = Yii::app()->db->createCommand("select c.day, c.classtype, c.schedule from class c  where $discipline_condition and	 
+            c.classroom_fk = $classroom  and c.month = $month and c.given_class != 1;")->queryAll();
+        $return['no_school'] = $no_school;
 
+        foreach ($enrollments as $key => $e) {
+
+            $faults = Yii::app()->db->createCommand("select c.day , c.classtype, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
+            c.classroom_fk = $classroom and cf.student_fk = $e->student_fk and c.month = $month and c.given_class = 1;")->queryAll();
             if(isset($e->student_fk)){
                 $return['students'][$key]['id'] = $e->student_fk;
                 $return['students'][$key]['name'] = $e->studentFk->name;
