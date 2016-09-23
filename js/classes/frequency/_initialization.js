@@ -1,5 +1,5 @@
 var students_array = new Array();
-var index = 0;
+var index_count = 0;
 var classdays = '';
 var weekly_schedule =  new Array();
 var special_days = new Array();
@@ -19,14 +19,15 @@ function checkSpecialDay(date, specialdays){
 }
 
 function checkSaturdaySchool(date, saturdays){
+    var count = 0;
     $(saturdays).each(function (i, period) {
         var start_date = new Date(period['start_date']);
         var end_date = new Date(period['end_date']);
         if(start_date.getTime() <= date.getTime() && end_date.getTime() >= date.getTime()){
-            return true;
+            count++;
         }
     });
-    return false;
+    return  count > 0;
 }
 
 function checkNoSchool(day, no_school_days) {
@@ -40,16 +41,24 @@ function checkNoSchool(day, no_school_days) {
     return count > 0;
 }
 
-function  adicionaProfessorFundamental(special_days, no_school) {
+
+function checkFault(day, faults){
+    var count = 0;
+    $(faults).each(function (i, days) {
+        var fault = days['day'];
+        if(day == fault){
+            count++;
+        }
+    });
+    return count > 0;
+}
+
+
+function  adicionaProfessorFundamental(special_days, no_school, saturdays) {
 
     var thead = '';
-
-    index = 0;
-    classdays = '';
     var month = $('#month').val();
-
     var year = new Date().getFullYear();
-
     var maxDays = new Date(year, month, 0).getDate();
     thead += "<th><span>Professor</span></th>";
     for (var day = 1; day <= maxDays; day++){
@@ -62,7 +71,7 @@ function  adicionaProfessorFundamental(special_days, no_school) {
             if(weekDay == 6 && checkSaturdaySchool(date, saturdays)){
                 thead += '<th><span>';
                 thead += day;
-                thead += '<input id="instructor_day['+day+']" name="instructor_day['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;">';
+                thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;">';
                 thead += '</span></th>';
             }
             if(weekDay < 6){
@@ -78,7 +87,7 @@ function  adicionaProfessorFundamental(special_days, no_school) {
                 }
                 thead += '<th><span>';
                 thead += day;
-                thead += '<input id="instructor_day['+day+']" name="instructor_day['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
             }
         }
@@ -88,62 +97,130 @@ function  adicionaProfessorFundamental(special_days, no_school) {
 
 }
 
-function adicionaNivelFundamental(special_days, no_school) {
+function adicionaEstudanteFundamental(students, special_days, no_school, saturdays){
 
-    var thead = adicionaProfessorFundamental(special_days, no_school);
 
-    $('#frequency > thead > tr').append(thead);
-    var tbody_td = '';
+    console.log(index_count);
+
+    var month = $('#month').val();
+    var year = new Date().getFullYear();
+    var maxDays = new Date(year, month, 0).getDate();
+
+    var tbody = "";
+    console.log(students[0]);
+    var name = students[index_count]['name'];
+    console.log(name);
+    var faults = students[index_count]['faults'];
+    var id = students[index_count]['id'];
+    tbody += '<tr>';
+    tbody += "<td><span>" + name + "</span></td>";
+
+    for (var day = 1; day <= maxDays; day++) {
+        var date = new Date(month + " " + day + " " + year);
+
+        var weekDay = date.getDay();
+
+        if (weekDay != 0) {
+            if(weekDay == 6 && checkSaturdaySchool(date, saturdays)){
+                tbody += '<td><span>';
+                tbody += day;
+                tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;">';
+                tbody += '</span></td>';
+            }
+            if(weekDay < 6){
+                var disabled = '';
+                var checked = '';
+                if ((checkSpecialDay(date, special_days))  ) {
+                    checked = ' checked ';
+                    disabled = ' disabled ';
+                }
+                if (checkNoSchool(day, no_school)) {
+                    checked = ' checked ';
+                }
+                if (checkFault(day, faults)) {
+                    checked = ' checked ';
+                }
+                tbody += '<td><span>';
+                tbody += day;
+                tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                tbody += '</span></td>';
+            }
+        }
+    }
+    tbody += '</tr>';
+
+    return tbody;
+}
+
+function adicionaNivelFundamental(special_days, no_school, saturdays, students, is_first_to_third_year) {
+
+    if(is_first_to_third_year == '1'){
+
+        var thead = adicionaProfessorFundamental(special_days, no_school);
+        var tbody = adicionaEstudanteFundamental(students, special_days, no_school, saturdays);
+
+        $('#frequency > thead > tr').append(thead);
+        $('#frequency > tbody').append(tbody);
+
+        var buttons_div = "<div id='buttons-frequency'></div>";
+        $(buttons_div).insertAfter('#widget-frequency');
+        if (index_count < students.length) {
+            var next_student_button = "<a id='next-student-button' class='btn btn-icon btn-small btn-primary glyphicons right_arrow'>Próximo aluno<i></i></a>";
+            $('#buttons-frequency').append(next_student_button);
+        }
+        $('#next-student-button').click(function() {
+            addStudentForward(special_days, no_school, saturdays, students, is_first_to_third_year);
+        });
+    }
+
+
 
 }
 
 
-function addStudentForward() {
-    index++;
-    if (index == students_array.length - 1) {
+function addStudentForward(special_days, no_school, saturdays, students, is_first_to_third_year) {
+    index_count++;
+    if (index_count == students.length - 1) {
 
         $('#next-student-button').remove();
     }
+
     $('#frequency > tbody').html('');
-    var tbody = "";
-    tbody += '<tr>';
-    tbody += "<td><span>" + students_array[index]['name'] + "</span></td>"
-    tbody += classdays
-    tbody += '</tr>';
+    var tbody = '';
+    if(is_first_to_third_year == '1'){
+        tbody += adicionaEstudanteFundamental(students, special_days, no_school, saturdays);
+    }
     $('#frequency > tbody').append(tbody);
 
-    if (index == 1 && index <= students_array.length) {
+    if (index_count == 1 && index_count <= students.length) {
         //var previous_student_button = "<a id='previous-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>";
         $("<a id='previous-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>").insertBefore('#next-student-button')
         $('#previous-student-button').click(function() {
-            addStudentBackward();
+            addStudentBackward(special_days, no_school, saturdays, students, is_first_to_third_year);
         });
     }
 }
 
-function  addStudentBackward() {
-    if (index == (students_array.length - 1) && index > 0) {
+function  addStudentBackward(special_days, no_school, saturdays, students, is_first_to_third_year) {
+    if (index_count == (students.length - 1) && index_count > 0) {
 
         //var previous_student_button = "<a id='previous-student-button' class='btn btn-icon btn-small btn-primary glyphicons left_arrow'>Aluno anteior<i></i></a>";
         $("<a id='next-student-button' class='btn btn-icon btn-small btn-primary glyphicons right_arrow'>Próximo aluno<i></i></a>").insertAfter('#previous-student-button')
         $('#next-student-button').click(function() {
-            addStudentForward();
+            addStudentForward(special_days, no_school, saturdays, students, is_first_to_third_year);
         });
     }
-    index--;
+    index_count--;
 
-    if (index == 0) {
+    if (index_count == 0) {
         $('#previous-student-button').remove();
     }
 
-
-
     $('#frequency > tbody').html('');
-    var tbody = "";
-    tbody += '<tr>';
-    tbody += "<td><span>" + students_array[index]['name'] + "</span></td>"
-    tbody += classdays
-    tbody += '</tr>';
+    var tbody = '';
+    if(is_first_to_third_year == '1'){
+        tbody += adicionaEstudanteFundamental(students, special_days, no_school, saturdays);
+    }
     $('#frequency > tbody').append(tbody);
 }
 
@@ -175,11 +252,12 @@ $('#classesSearch').on('click', function(){
 
                 var special_days = data['special_days'];
                 var no_school = data['no_school'];
+                var students = data['students'];
 
                 saturdays = data['saturday_school'];
                 $('#widget-frequency').show();
 
-                adicionaNivelFundamental(special_days, no_school);
+                adicionaNivelFundamental(special_days, no_school, saturdays, students, is_first_to_third_year);
 
                 // index = 0;
                 // classdays = '';
@@ -267,7 +345,7 @@ $('#classesSearch').on('click', function(){
                 //     addStudentForward();
                 // });
             }else{
-                index = 0;
+                //index = 0;
                 classdays = '';
                 var month = $('#month').val();
 
