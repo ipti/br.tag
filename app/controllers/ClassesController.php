@@ -134,7 +134,47 @@ class ClassesController extends Controller {
     /**
      * Save the frequency for each student and class.
      */
-    public function actionSaveFrequency() {
+    public function actionSaveFrequency($classroom = null, $discipline = null, $month = null) {
+        set_time_limit(0);
+        ignore_user_abort();
+        $everyThingIsOkay = true;
+
+        $classroom = $classroom == null ? $_POST['classroom'] : $classroom;
+        $discipline = $discipline == null ? $_POST['disciplines'] : $discipline;
+        $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
+        $month = $month == null ? $_POST['month'] : $month;
+        $instructor_faults = $_POST['instructor_faults'];
+        $instructor_days = $_POST['instructor_days'];
+        $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom and  (name like '1%' or name like '2%' or name like '3%');")->queryAll();
+
+
+        if($is_first_to_thrid_year[0]['status'] == '1'){
+            foreach ($instructor_days as $day => $value){
+                $class = Classes::model()->findByAttributes(array(
+                    'classroom_fk' => $classroom,
+                    'discipline_fk' => $discipline,
+                    'month' => $month,
+                    'day' => $day));
+
+                if(!isset($class)){
+                    $class = new Classes();
+                    $class->classroom_fk = $classroom;
+                    $class->discipline_fk = $discipline;
+                    $class->day = $day;
+                    $class->month = $month;
+                    $class->schedule = 1;
+                    $class->classtype = 'N';
+               
+                    $class->given_class = $instructor_faults[$day] == '1' ? 0 : 1 ;
+                    if($class->save()){
+
+                    }
+                }
+
+            }
+        }
+        set_time_limit(30);
+        $this->redirect(array('frequency'));
     }
 
     /**

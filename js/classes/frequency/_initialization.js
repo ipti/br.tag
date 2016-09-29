@@ -77,6 +77,7 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
             }
             if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
                 thead += '<th><span>';
+                thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
                 thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
@@ -109,6 +110,7 @@ function adicionaProfessorSecundario(schedule,special_days, no_school, saturdays
             }
             if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
                 thead += '<th><span>';
+                thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
                 thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
@@ -222,7 +224,7 @@ function adicionaEstudanteSecundario(schedule, students, special_days, no_school
 
 function adicionaHorarios(schedule, special_days, no_school, saturdays, students, is_first_to_third_year) {
 
-    if(is_first_to_third_year == '0'){
+    if(is_first_to_third_year == '1'){
 
         var thead = adicionaProfessorPrimario(special_days, no_school);
         var tbody = adicionaEstudantePrimario(students, special_days, no_school, saturdays);
