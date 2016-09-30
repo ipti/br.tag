@@ -68,18 +68,25 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
         if (weekDay != 0){
             var disabled = '';
             var checked = '';
+            var value = 1;
 
             if ((checkSpecialDay(date, special_days))  ) {
-                disabled = ' disabled ';
+                disabled = ' readonly ';
+                checked = " checked ";
+                value = 2;
             }
             if (checkNoSchool(day, no_school)) {
                 checked = ' checked ';
             }
             if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                var dayForClass = day;
+                if (parseInt(dayForClass) < 10) {
+                    dayForClass = '0' + dayForClass;
+                }
                 thead += '<th><span>';
                 thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
-                thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
             }
         }
@@ -101,18 +108,25 @@ function adicionaProfessorSecundario(schedule,special_days, no_school, saturdays
         if (isset(schedule[weekDay])){
             var disabled = '';
             var checked = '';
+            var value = 1
 
             if ((checkSpecialDay(date, special_days))  ) {
-                disabled = ' disabled ';
+                disabled =  ' readonly ';
+                checked = " checked ";
+                value = 2;
             }
             if (checkNoSchool(day, no_school)) {
                 checked = ' checked ';
             }
             if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                var dayForClass = day;
+                if (parseInt(dayForClass) < 10) {
+                    dayForClass = '0' + dayForClass;
+                }
                 thead += '<th><span>';
                 thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
-                thead += '<input id="instructor_faults['+day+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
             }
         }
@@ -145,20 +159,29 @@ function adicionaEstudantePrimario(students, special_days, no_school, saturdays)
 
                 var disabled = '';
                 var checked = '';
+                var value = 1
                 if ((checkSpecialDay(date, special_days))  ) {
-                    disabled = ' disabled ';
+                    checked = ' checked ';
+                    disabled = ' readonly ';
+                    value = 2
                 }
                 if (checkNoSchool(day, no_school)) {
                     checked = ' checked ';
+                    disabled = ' readonly '
+
                 }
                 if (checkFault(day, faults)) {
                     checked = ' checked ';
                 }
 
                 if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                    var dayForClass = day;
+                    if (parseInt(dayForClass) < 10) {
+                        dayForClass =  '0' + dayForClass;
+                    }
                     tbody += '<td><span>';
                     tbody += day;
-                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox student_check'+dayForClass+'" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                     tbody += '</span></td>';
                 }
 
@@ -197,20 +220,29 @@ function adicionaEstudanteSecundario(schedule, students, special_days, no_school
 
                 var disabled = '';
                 var checked = '';
+                var value = 1
                 if ((checkSpecialDay(date, special_days))  ) {
-                    disabled = ' disabled ';
+                    checked = ' checked ';
+                    disabled = 'readonly';
+                    value = 2
                 }
                 if (checkNoSchool(day, no_school)) {
                     checked = ' checked ';
+                    disabled = 'readonly'
+
                 }
                 if (checkFault(day, faults)) {
                     checked = ' checked ';
                 }
 
                 if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                    var dayForClass = day;
+                    if (parseInt(dayForClass) < 10) {
+                        dayForClass = '0' + dayForClass;
+                    }
                     tbody += '<td><span>';
                     tbody += day;
-                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox" type="checkbox" value="1" style="opacity: 100;"'+checked+disabled+'>';
+                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox  student_check'+dayForClass+'" " type="checkbox" value="+value+" style="opacity: 100;"'+checked+disabled+'>';
                     tbody += '</span></td>';
                 }
 
@@ -262,6 +294,15 @@ function adicionaHorarios(schedule, special_days, no_school, saturdays, students
             addStudentForward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
         });
     }
+    $('*[name^="instructor_faults"]').click(function () {
+        if (this.checked) {
+            $(".student_check" + this.id.substr(18,2)).prop('checked', true);
+            $(".student_check" + this.id.substr(18,2)).prop('readonly', true);
+        } else {
+            $(".student_check" + this.id.substr(18,2)).prop('checked', false);
+            $(".student_check" + this.id.substr(18,2)).prop('readonly', false);
+        }
+    })
 }
 
 function addStudentForward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year) {
@@ -301,12 +342,11 @@ function  addStudentBackward(schedule, special_days, no_school, saturdays, stude
 
 
 $('#classesSearch').on('click', function(){
-
     jQuery.ajax({
         'type':'GET',
         'url':getClassesURL,
         'cache':false,
-        'data':jQuery('#classroom').parents("form").serialize(),
+        'data':{classroom: $("#classroom").val(), month: $("#month").val(),disciplines: $("#disciplines").val()},
         'success':function(data){
             var data = jQuery.parseJSON(data);
             console.log(data);
