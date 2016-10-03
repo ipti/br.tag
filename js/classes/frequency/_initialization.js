@@ -362,7 +362,7 @@ $('#classesSearch').on('click', function(){
             $('#frequency > tbody').html('');
             $('#buttons-frequency').html('');
             index_count = 0;
-            console.log(index_count);
+
 
             $("#save").on('click', function () {
                 $("#classes-form").submit();
@@ -382,6 +382,8 @@ $('#classesSearch').on('click', function(){
 
                 adicionaHorarios(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
             }else{
+                $('#widget-frequency').show();
+
                 adicionaHorarios(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
             }
         }});

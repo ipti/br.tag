@@ -146,14 +146,12 @@ class ClassesController extends Controller {
         $instructor_faults = $_POST['instructor_faults'];
         $instructor_days = $_POST['instructor_days'];
         $student_faults = $_POST['student_faults'];
-//        var_dump($student_faults);
-
 
         $given_classes = Array();
         $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom and  (name like '1%' or name like '2%' or name like '3%');")->queryAll();
 
 
-        if($is_first_to_thrid_year[0]['status'] == '1'){
+//        if($is_first_to_thrid_year[0]['status'] == '1'){
             foreach ($instructor_days as $day => $value){
                 $class = Classes::model()->findByAttributes(array(
                     'classroom_fk' => $classroom,
@@ -162,11 +160,15 @@ class ClassesController extends Controller {
                     'day' => $day));
 
                 if(isset($class)){
-                    $class->given_class = array_key_exists($day, $instructor_faults) ?  ($instructor_faults[$day] == '1' ? 0 :  ($instructor_faults[$day] == '2' ? 0 : 1)) : 1 ;
+                    if(isset($instructor_faults)){
+                        $class->given_class = array_key_exists($day, $instructor_faults) ?  ($instructor_faults[$day] == '1' ? 0 :  ($instructor_faults[$day] == '2' ? 0 : 1)) : 1 ;
+                    } else {
+                        $class->given_class = 1;
+                    }
+                    if ($class->given_class == 1){
+                        $given_classes[$day] = $class->id;
+                    }
                     if($class->update()){
-                        if ($class->given_class == 1){
-                            $given_classes[$day] = $class->id;
-                        }
                     }
                 } else {
                     $class = new Classes();
@@ -176,8 +178,11 @@ class ClassesController extends Controller {
                     $class->month = $month;
                     $class->schedule = 1;
                     $class->classtype = 'N';
-
-                    $class->given_class = array_key_exists($day, $instructor_faults) ?  ($instructor_faults[$day] == '1' ? 0 : ($instructor_faults[$day] == '2' ? 0 : 1)) : 1 ;
+                    if(isset($instructor_faults)) {
+                        $class->given_class = array_key_exists($day, $instructor_faults) ? ($instructor_faults[$day] == '1' ? 0 : ($instructor_faults[$day] == '2' ? 0 : 1)) : 1;
+                    } else {
+                        $class->given_class = 1;
+                    }
                     if($class->save()){
 
                         $given_classes[$day] = $class->id;
@@ -185,20 +190,26 @@ class ClassesController extends Controller {
                 }
 
             }
-        }
-
-        foreach ($student_faults as $sid => $day) {
-            foreach ($given_classes as $day => $id){
-
-                Yii::app()->db->createCommand("CREATE TEMPORARY TABLE IF NOT EXISTS table2 AS (select cf.id from class as c inner join class_faults as cf on (c.id = cf.class_fk) where c.classroom_fk = '$classroom'  and c.discipline_fk is null and c.month = '$month');
+//        }
+        $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
+        Yii::app()->db->createCommand("CREATE TEMPORARY TABLE IF NOT EXISTS table2 AS (select cf.id from class as c inner join class_faults as cf on (c.id = cf.class_fk) where c.classroom_fk = '$classroom'  and $discipline_condition and c.month = '$month');
                                                 delete from class_faults  where  id in (select id from table2)")->query();
-//                var_dump($given_classes);
-                $classFaults = new ClassFaults();
-                $classFaults->class_fk = $id;
-                $classFaults->student_fk = $sid;
-                $classFaults->schedule = 1;
-                if ($classFaults->save()) {
 
+        if(isset($student_faults)){
+
+            foreach ($student_faults as $sid => $days) {
+                foreach ($given_classes as $day => $id){
+
+
+                    if  (array_key_exists($day, $days)) {
+                        $classFaults = new ClassFaults();
+                        $classFaults->class_fk = $id;
+                        $classFaults->student_fk = $sid;
+                        $classFaults->schedule = 1;
+                        if ($classFaults->save()) {
+
+                        }
+                    }
                 }
             }
         }
