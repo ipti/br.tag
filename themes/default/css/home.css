@@ -265,3 +265,11 @@ form {
 .amcharts-chart-div > a {
     opacity: 0.2 !important;
 }
+
+.no-show {
+    display: none;
+}
+
+.checkcolor {
+    font-weight: bold;
+}

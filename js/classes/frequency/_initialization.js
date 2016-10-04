@@ -60,7 +60,7 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
     var month = $('#month').val();
     var year = new Date().getFullYear();
     var maxDays = new Date(year, month, 0).getDate();
-    thead += "<th><span>Professor</span></th>";
+    thead += "<th><span'>Professor</span></th>";
     for (var day = 1; day <= maxDays; day++){
         var date = new Date(month+" "+day+" "+year);
 
@@ -71,7 +71,7 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
             var value = 1;
 
             if ((checkSpecialDay(date, special_days))  ) {
-                disabled = ' readonly ';
+                disabled = ' readonly onclick="return false" ';
                 checked = " checked ";
                 value = 2;
             }
@@ -83,10 +83,10 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
                 if (parseInt(dayForClass) < 10) {
                     dayForClass = '0' + dayForClass;
                 }
-                thead += '<th><span>';
+                thead += '<th><span class="checkcolor">';
                 thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
-                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
+                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox no-show" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
             }
         }
@@ -111,7 +111,7 @@ function adicionaProfessorSecundario(schedule,special_days, no_school, saturdays
             var value = 1
 
             if ((checkSpecialDay(date, special_days))  ) {
-                disabled =  ' readonly ';
+                disabled =  ' readonly onclick="return false"';
                 checked = " checked ";
                 value = 2;
             }
@@ -123,10 +123,10 @@ function adicionaProfessorSecundario(schedule,special_days, no_school, saturdays
                 if (parseInt(dayForClass) < 10) {
                     dayForClass = '0' + dayForClass;
                 }
-                thead += '<th><span>';
+                thead += '<th><span class="checkcolor">';
                 thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
-                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
+                thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox no-show" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                 thead += '</span></th>';
             }
         }
@@ -162,12 +162,12 @@ function adicionaEstudantePrimario(students, special_days, no_school, saturdays)
                 var value = 1
                 if ((checkSpecialDay(date, special_days))  ) {
                     checked = ' checked ';
-                    disabled = ' readonly ';
+                    disabled = ' readonly onclick="return false"';
                     value = 2
                 }
                 if (checkNoSchool(day, no_school)) {
                     checked = ' checked ';
-                    disabled = ' readonly '
+                    disabled = ' readonly onclick="return false"'
 
                 }
                 if (checkFault(day, faults)) {
@@ -179,9 +179,9 @@ function adicionaEstudantePrimario(students, special_days, no_school, saturdays)
                     if (parseInt(dayForClass) < 10) {
                         dayForClass =  '0' + dayForClass;
                     }
-                    tbody += '<td><span>';
+                    tbody += '<td><span class="checkcolor">';
                     tbody += day;
-                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox student_check'+dayForClass+'" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
+                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault no-show checkbox student_check'+dayForClass+'" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
                     tbody += '</span></td>';
                 }
 
@@ -223,12 +223,12 @@ function adicionaEstudanteSecundario(schedule, students, special_days, no_school
                 var value = 1
                 if ((checkSpecialDay(date, special_days))  ) {
                     checked = ' checked ';
-                    disabled = 'readonly';
+                    disabled = 'readonly onclick="return false"';
                     value = 2
                 }
                 if (checkNoSchool(day, no_school)) {
                     checked = ' checked ';
-                    disabled = 'readonly'
+                    disabled = 'readonly onclick="return false"'
 
                 }
                 if (checkFault(day, faults)) {
@@ -240,9 +240,9 @@ function adicionaEstudanteSecundario(schedule, students, special_days, no_school
                     if (parseInt(dayForClass) < 10) {
                         dayForClass = '0' + dayForClass;
                     }
-                    tbody += '<td><span>';
+                    tbody += '<td><span class="checkcolor">';
                     tbody += day;
-                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox  student_check'+dayForClass+'" " type="checkbox" value="+value+" style="opacity: 100;"'+checked+disabled+'>';
+                    tbody += '<input id="student_faults['+id+']['+day+']" name="student_faults['+id+']['+day+']" class="instructor-fault checkbox  no-show student_check'+dayForClass+'" " type="checkbox" value="+value+" style="opacity: 100;"'+checked+disabled+'>';
                     tbody += '</span></td>';
                 }
 
@@ -294,15 +294,37 @@ function adicionaHorarios(schedule, special_days, no_school, saturdays, students
             addStudentForward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
         });
     }
-    $('*[name^="instructor_faults"]').click(function () {
-        if (this.checked) {
-            $(".student_check" + this.id.substr(18,2)).prop('checked', true);
-            $(".student_check" + this.id.substr(18,2)).prop('readonly', true);
+    $(".checkcolor").each(function () {
+        if ($(this).find(".checkbox").prop("checked")){
+            $(this).css('color', 'red');
+
         } else {
-            $(".student_check" + this.id.substr(18,2)).prop('checked', false);
-            $(".student_check" + this.id.substr(18,2)).prop('readonly', false);
+            $(this).css('color', 'black');
         }
     })
+
+    $(".checkcolor").click(function(){
+
+        var checked = $(this).find(".checkbox")[0];
+        if ($(this).find(".checkbox").prop("checked")){
+            $(this).css('color', 'black');
+            $(this).find(".checkbox").prop("checked", false);
+            if(checked.id.match(/^instructor_faults.*$/)){
+                $(".student_check" + checked.id.substr(18,2)).parent().css('color', 'black');
+                $(".student_check" + checked.id.substr(18,2)).prop('checked', false);
+                $(".student_check" + checked.id.substr(18,2)).prop('readonly', false);}
+
+        } else {
+            $(this).css('color', 'red');
+            $(this).find(".checkbox").prop("checked", true);
+            if(checked.id.match(/^instructor_faults.*$/)){
+                $(".student_check" + checked.id.substr(18,2)).parent().css('color', 'red');
+                $(".student_check" + checked.id.substr(18,2)).prop('checked', true);
+                $(".student_check" + checked.id.substr(18,2)).prop('readonly', true);}
+
+        }
+    });
+
 }
 
 function addStudentForward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year) {
