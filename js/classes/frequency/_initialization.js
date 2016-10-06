@@ -68,11 +68,13 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
         if (weekDay != 0){
             var disabled = '';
             var checked = '';
+            var className = 'class = "checkcolor"';
             var value = 1;
 
             if ((checkSpecialDay(date, special_days))  ) {
                 disabled = ' readonly onclick="return false" ';
                 checked = " checked ";
+                className = 'style = "color:red"'
                 value = 2;
             }
             if (checkNoSchool(day, no_school)) {
@@ -83,7 +85,7 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
                 if (parseInt(dayForClass) < 10) {
                     dayForClass = '0' + dayForClass;
                 }
-                thead += '<th><span class="checkcolor">';
+                thead += '<th><span '+className+'>';
                 thead += '<input type="hidden" name=instructor_days['+day+'] value="'+day+'">';
                 thead += day;
                 thead += '<input id="instructor_faults['+dayForClass+']" name="instructor_faults['+day+']" class="instructor-fault checkbox no-show" type="checkbox" value="'+value+'" style="opacity: 100;"'+checked+disabled+'>';
@@ -342,6 +344,7 @@ function addStudentForward(schedule, special_days, no_school, saturdays, student
             addStudentBackward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
         });
     }
+    $('#frequency > tbody > tr > td:first-child').width('30em');
 }
 
 function  addStudentBackward(schedule, special_days, no_school, saturdays, students, is_first_to_third_year) {
@@ -360,6 +363,7 @@ function  addStudentBackward(schedule, special_days, no_school, saturdays, stude
     if (index_count == 0) {
         $('#previous-student-button').remove();
     }
+    $('#frequency > tbody > tr > td:first-child').width('30em');
 }
 
 
@@ -382,6 +386,9 @@ $('#classesSearch').on('click', function(){
 
             $('#frequency > thead').html('<tr></tr>');
             $('#frequency > tbody').html('');
+            $('#frequency > tbody').attr('id', 'frequency-body');
+            $('#frequency > tbody > tr > td:first-child').width('30em');
+
             $('#buttons-frequency').html('');
             index_count = 0;
 
@@ -408,5 +415,5 @@ $('#classesSearch').on('click', function(){
 
                 adicionaHorarios(schedule, special_days, no_school, saturdays, students, is_first_to_third_year);
             }
-        }});
+        }}); 
 });

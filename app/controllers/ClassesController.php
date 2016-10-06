@@ -251,14 +251,13 @@ class ClassesController extends Controller {
 
         if (!isset($_POST['classroom']) || empty($_POST['classroom']))
             return true;
+        $crid = $_POST['classroom'];
+        $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule where classroom_fk = $crid;")->queryAll();
 
-        $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $disciplines = ClassroomController::classroomDiscipline2array($classroom);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-
-        foreach ($disciplines as $i => $discipline) {
-            if ($discipline != 0) {
-                echo CHtml::tag('option', array('value' => $i), CHtml::encode($disciplinesLabels[$i]), true);
+        foreach ($classr as $i => $discipline) {
+            if ($discipline[discipline_fk] != 0) {
+                echo CHtml::tag('option', array('value' => $discipline[discipline_fk]), CHtml::encode($disciplinesLabels[$discipline[discipline_fk]]), true);
             }
         }
     }
