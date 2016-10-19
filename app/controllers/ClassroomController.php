@@ -395,10 +395,6 @@ class ClassroomController extends Controller {
                             $save = $save && $modelTeachingData[$key]->save();
                         }
                         if ($save) {
-                            foreach ($events as $e) {
-                                $e['classroom'] = $modelClassroom->id;
-                                $this->actionAddLesson($e);
-                            }
                             Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                             $this->redirect(array('index'));
