@@ -28,7 +28,7 @@ $this->pageTitle = Yii::app()->name . ' - Error';
             <div class="ui left aligned segment negative message">
                 <div class="header">  <?= "<?=" ?> yii::t('<?php echo $this->moduleID; ?>Module.error', 'Attention!') ?> Erro <?= "<?=" ?> $error['code'] ?>, <?= "<?=" ?> $error['message'] ?></div>
                 <p> <?= "<?=" ?> yii::t('<?php echo $this->moduleID; ?>Module.error', 'Contact us') ?></p>
-                <p>(79) 3255-1664 ou (79) 9944-2915</p>
+                <p>(79) 3255-1664 ou (79) 9680-3343</p>
             </div>
             <div class="ui left aligned segment" style="max-height: 300px; overflow-x:auto;overflow-y:auto;white-space:normal;">
                 <p><?= "<?=" ?> yii::t('<?php echo $this->moduleID; ?>Module.error>', 'Technical Information') ?>:<p>
