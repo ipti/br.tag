@@ -578,6 +578,7 @@ class EnrollmentController extends Controller {
                     where classroom_id = " . $cid)->queryAll();
 
 
+            error_reporting(0);
 
             foreach ($enrollments as $enrollment) {
                 $studentName = $enrollment->studentFk->name;
