@@ -32,7 +32,7 @@
 			<?php $error = Yii::app()->errorHandler->getError(); ?>
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			<strong>Atenção!</strong><br>
-			Entre em contato conosco no telefone: (79) 3255-1664 ou (79) 9944-2915 e informe o código de erro:
+			Entre em contato conosco no telefone: (79) 3255-1664 ou (79) 9680-3343 e informe o código de erro:
 			<strong><?php echo $error['code'] ?></strong>
 			<br/>
 

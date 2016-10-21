@@ -75,7 +75,7 @@ class ConfigurationController extends Controller {
             return true;
         }
         $this->render('classrooms', array(
-            'title' => Yii::t('default', 'Classroom Configuration')
+            'title' => Yii::t('default', 'Reaproveitamento das Turmas')
         ));
     }
 

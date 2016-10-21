@@ -91,7 +91,7 @@ $disciplinesCount = (count($disciplines['base'])+count($disciplines['diversified
 $disciplineBaseCount = count($disciplines['base']) + 1;
 $disciplineDiversifiedCount = count($disciplines['diversified']) + 1;
 
-$frequencyTotal = $frequencyTotal / $disciplinesCount;
+@$frequencyTotal = $frequencyTotal / $disciplinesCount;
 
 ?>
 
