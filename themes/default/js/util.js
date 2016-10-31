@@ -335,7 +335,6 @@ function removeRequired(id){
  * @returns {nothing}
  */
 function addRequiredSelect2(id){
-    alert(id);
     var newId = $(id).parent().parent().children("label");
     addRequired(newId);
 }

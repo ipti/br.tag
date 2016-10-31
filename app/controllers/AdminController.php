@@ -1217,6 +1217,7 @@
 
 			set_time_limit(0);
 			ignore_user_abort();
+			Yii::app()->db->createCommand("SET foreign_key_checks = 0;")->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['00']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['10']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['20']))->query();
@@ -1228,6 +1229,7 @@
 			Yii::app()->db->createCommand(utf8_encode($str_fields['60']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['80']))->query();
 			Yii::app()->db->createCommand(utf8_encode($str_fields['70']))->query();
+			Yii::app()->db->createCommand("SET foreign_key_checks = 1;")->query();
 			fclose($file);
 			set_time_limit(30);
 

@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="columntwo">
-            <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom"); ?>"><?php echo Yii::t('default', 'Classroom Configurarion') . ' ' . (Yii::app()->user->year - 1) ?></a>
+            <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom"); ?>"><?php echo Yii::t('default', 'Reaproveitamento de Turmas') . ' ' . (Yii::app()->user->year - 1) ?></a>
         </div>
     </div>
 

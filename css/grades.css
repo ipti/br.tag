@@ -10,12 +10,20 @@ and open the template in the editor.
 
 div.classroom {
     border: none;
+    overflow-x: auto;
+    white-space: nowrap;
+    
 }
 
 div.students {
     border: 1px solid #e5e5e5 !important;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.grades .tab-pane{
     padding-top: 0;
 }
+
