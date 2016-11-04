@@ -19,7 +19,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 </div>
 
 
-<div class="innerLR district">
+<div id="body-students-file-form" class="innerLR district">
     <div>
         <script type="text/javascript">
             /*<![CDATA[*/
@@ -600,5 +600,6 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                                     background-position:center center;
                                     background-size: 100% 100%, auto;
                                 }
+                                #body-students-file-form{zoom:170%;}
                             }
                         </style>
