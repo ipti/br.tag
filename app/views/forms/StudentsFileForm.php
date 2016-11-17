@@ -26,7 +26,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
                     'data': {'enrollment_id':<?php echo $enrollment_id; ?>},
-                    'url': '<?php echo Yii::app()->createUrl('reports/getStudentsFileInformation') ?>',
+                    'url': '<?php echo Yii::app()->createUrl('forms/getStudentsFileInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
                     }, 'error': function () {
