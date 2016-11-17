@@ -11,7 +11,7 @@ class FormsController extends Controller {
                 'actions' => array('index', 'EnrollmentGradesReport', 'StudentsFileReport','EnrollmentDeclarationReport',
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
-                    'GetStudentsFileInformation','AtaSchoolPerformance','StudentsFileForm',
+                    'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
                     'TransferForm','GetTransferFormInformation'),
                 'users' => array('@'),
             ),
@@ -124,9 +124,9 @@ class FormsController extends Controller {
         ));
     }
 
-    public function actionStudentsFileForm($enrollment_id) {
+    public function actionStudentFileForm($enrollment_id) {
         $this->layout = "reports";
-        $this->render('StudentsFileForm', array('enrollment_id'=>$enrollment_id));
+        $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id));
     }
 
     public function actionTransferForm($enrollment_id){
