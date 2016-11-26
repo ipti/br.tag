@@ -125,7 +125,7 @@ return array(
             'charset' => 'utf8',
         ),
         'db2' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tagmaster',
+            'connectionString' => 'mysql:host=localhost;dbname=br.tag.se',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',

@@ -437,10 +437,10 @@ $form = $this->beginWidget('CActiveForm', array(
     ////////////////////////////////////////////////
     // Variables and Initialization               //
     ////////////////////////////////////////////////
-    var teachingData = <?php echo json_encode($teachingDataArray); ?>;
-    var disciplines = <?php echo json_encode($disciplinesArray); ?>;
-    var disciplinesLabels = <?php echo json_encode($disciplinesLabels); ?>;
-    var teachingDataNames = <?php echo json_encode($teachingDataNames); ?>;
+    var teachingData = <?php echo @json_encode($teachingDataArray); ?>;
+    var disciplines = <?php echo @json_encode($disciplinesArray); ?>;
+    var disciplinesLabels = <?php echo @json_encode($disciplinesLabels); ?>;
+    var teachingDataNames = <?php echo @json_encode($teachingDataNames); ?>;
 
     var form = '#Classroom_';
     var formClassBoard = "#ClassBoard_";

@@ -36,13 +36,12 @@
                     'enablePagination' => true,
                     'filter' => $filter,
                     'selectableRows' => 1,
-                    'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => '$data->name',
+                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->hash)))',
                         ),
                         /*array(
                             'header' => '',

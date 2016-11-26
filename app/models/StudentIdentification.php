@@ -54,6 +54,7 @@
  * @property integer $bf_participator
  * @property string $food_restrictions
  * @property string $responsable_telephone
+ * @property string $tag_id
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -64,7 +65,7 @@
  * @property SchoolIdentification $schoolInepIdFk
  * @property StudentDocumentsAndAddress $documentsFk
  */
-class StudentIdentification extends CActiveRecord {
+class StudentIdentification extends AltActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.

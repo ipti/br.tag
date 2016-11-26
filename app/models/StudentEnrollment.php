@@ -44,7 +44,7 @@
  * @property ClassFaults[] $classFaults
  * @property Grade[] $grades
  */
-class StudentEnrollment extends CActiveRecord
+class StudentEnrollment extends AltActiveRecord
 {
 
     public $school_year;
@@ -58,8 +58,9 @@ class StudentEnrollment extends CActiveRecord
     {
         return parent::model($className);
     }
-
-    /**
+    
+    
+        /**
      * @return string the associated database table name
      */
     public function tableName()

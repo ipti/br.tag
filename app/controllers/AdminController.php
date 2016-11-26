@@ -1450,7 +1450,82 @@
 
 			return $str_fields;
 		}
+		public function actionLoadToMaster(){
+			$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+			$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+			$loads['school'] = $school->attributes;
+			foreach ($classrooms as $iclass => $classroom) {
+				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
+				$loads['classrooms'][$iclass] = $classroom->attributes;
+				$loads['classrooms'][$iclass]['fkid'] =  $classroom->id;
+				$loads['classrooms'][$iclass]['hash'] = $hash_classroom;
+				foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+					if(!isset($loads['students'][$enrollment->student_fk])){
+						$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
+						$loads['students'][$enrollment->student_fk] = $enrollment->studentFk->attributes;
+						$loads['students'][$enrollment->student_fk]['hash'] = $hash_student;
+					}
+					if(!isset($loads['documentsaddress'][$enrollment->student_fk])){
+						$loads['documentsaddress'][$enrollment->student_fk] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
+						$loads['documentsaddress'][$enrollment->student_fk]['hash'] = $hash_student;
+					}
+					$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
+					$loads['enrollments'][$ienrollment] = $enrollment->attributes;
+					$loads['enrollments'][$ienrollment]['hash'] = $hash_enrollment;
+					$loads['enrollments'][$ienrollment]['hash_classroom'] = $hash_classroom;
+					$loads['enrollments'][$ienrollment]['hash_student'] = $hash_student;
+				}
+				foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+					$loads['instructorsteachingdata'] = $teachingData->attributes;
+					if(!isset($loads['instructors'][$teachingData->instructor_fk])){
+						$loads['instructors'][$teachingData->instructor_fk] = $teachingData->instructorFk->attributes;
+					}
+					if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
+						$loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
+					}
+				}
 
+			}
+			$saveschool = new SchoolIdentification();
+			$saveschool->setDb2Connection(true);
+			$saveschool->attributes = $loads['school'];
+			$saveschool->save();
+			foreach ($loads['classrooms'] as $index => $class) {
+				$saveclass = new Classroom();
+				$saveclass->setDb2Connection(true);
+				$saveclass->refreshMetaData();
+				$saveclass->attributes = $class;
+				$saveclass->hash = $class['hash'];
+				$saveclass->save();
+			}
+			foreach ($loads['students'] as $i => $student) {
+				$savestudent = new StudentIdentification();
+				$savestudent->setDb2Connection(true);
+				$savestudent->refreshMetaData();
+				$savestudent->attributes = $student;
+				$savestudent->hash = $student['hash'];
+				$savestudent->save();
+			}
+			foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+				$savedocument = new StudentDocumentsAndAddress();
+				$savedocument->setDb2Connection(true);
+				$savedocument->refreshMetaData();
+				$savedocument->attributes = $documentsaddress;
+				$savedocument->hash = $documentsaddress['hash'];
+				$savedocument->save();
+			}
+			foreach ($loads['enrollments'] as $index => $enrollment) {
+				$saveenrollment = new StudentEnrollment();
+				$saveenrollment->setDb2Connection(true);
+				$saveenrollment->refreshMetaData();
+				$saveenrollment->attributes = $enrollment;
+				$saveenrollment->hash = $enrollment['hash'];
+				$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
+				$saveenrollment->hash_student = $enrollment['hash_student'];
+				$saveenrollment->save();
+			}
+
+		}
 		public function actionExportToMaster() {
 			$importToFile = FALSE;
 			try {
@@ -1469,8 +1544,25 @@
 				"student_identification", "student_documents_and_address", "student_enrollment"
 			];
 
-			$classroom_tagId = array();
-			$studentIndetification_tagId = array();
+			$classroom_tagId = $studentIndetification_tagId = array();
+
+
+
+			foreach ($tables as $index => $table) {
+				$objects = array();
+				switch ($table){
+					case "school_identification":
+						
+						break;
+					case "school_structure":
+						$objects = SchoolStructure::model()->findAllByPk(yii::app()->user->school);
+						break;
+					case "classroom":
+						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+						break;
+				}
+			}
+
 			for ($i = 0; $i < count($tables); $i++) {
 				$array = [];
 				$objects = "";
@@ -1479,7 +1571,7 @@
 						$objects = SchoolIdentification::model()->findAllByPk(yii::app()->user->school);
 						break;
 					case "1":
-						$objects = SchoolStructure::model()->findAllByAttributes(["school_inep_id_fk" => yii::app()->user->school]);
+						$objects = SchoolStructure::model()->findAllByPk(yii::app()->user->school);
 						break;
 					case "2":
 						$objects = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => date("Y")]);
