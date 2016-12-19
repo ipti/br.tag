@@ -117,16 +117,16 @@ class ReportsController extends Controller {
         ));          
     }
 
-    public function actionStudentPerClassroom($cid){
+    public function actionStudentPerClassroom($id){
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
-            . " AND classroom_id = $cid"
+            . " AND classroom_id = $id"
             . " ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $classroom = Classroom::model()->findByPk($cid);
+        $classroom = Classroom::model()->findByPk($id);
 
         $this->render('StudentPerClassroom', array(
             'report' => $result,

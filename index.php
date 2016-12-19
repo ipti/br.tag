@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('America/Los_Angeles');
+date_default_timezone_set('America/Maceio');
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';

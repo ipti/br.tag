@@ -453,16 +453,22 @@ class ClassroomController extends Controller {
             $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         }
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-
         if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
             $enrollments = $_POST['enrollments'];
             $count_students = count($_POST['enrollments']);
-            $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
-            foreach ($enrollments as $enrollment) {
-                $enro = StudentEnrollment::model()->findByPk($enrollment);
-                $enro->classroom_fk = $class_room->id;
-                $enro->classroom_inep_id = $class_room->inep_id;
-                $enro->update(array('classroom_fk','classroom_inep_id'));
+            if(!empty($_POST['toclassroom'])){
+                $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+                foreach ($enrollments as $enrollment) {
+                    $enro = StudentEnrollment::model()->findByPk($enrollment);
+                    $enro->classroom_fk = $class_room->id;
+                    $enro->classroom_inep_id = $class_room->inep_id;
+                    $enro->update(array('classroom_fk','classroom_inep_id'));
+                }
+            }else{
+                foreach ($enrollments as $enrollment) {
+                    $enro = StudentEnrollment::model()->findByPk($enrollment);
+                    $enro->delete();
+                }
             }
             $this->redirect(array('index'));
         }

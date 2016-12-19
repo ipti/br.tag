@@ -1,6 +1,7 @@
 ////////////////////////////////////////////////
 // Tabs and Pagination                        //
 ////////////////////////////////////////////////
+/*
 $('.tab-classroom li a').click(function(){
     var classActive = $('li[class="active"]');
     var divActive = $('div .active');
@@ -81,3 +82,4 @@ $('.prev').click(function(){
     $('html, body').animate({ scrollTop: 0 }, 'fast');
 });
 $('.heading-buttons').css('width', $('#content').width());
+    */
