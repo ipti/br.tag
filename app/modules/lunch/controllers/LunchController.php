@@ -22,6 +22,7 @@ class LunchController extends Controller {
         $menuPost = $request->getPost("Menu", false);
 
         $menu = new Menu();
+        $menu->date = date("Y-m-d h:i:s");
 
         if($menuPost){
             $menu->attributes = $menuPost;

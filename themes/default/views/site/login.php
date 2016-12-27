@@ -39,6 +39,21 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <label class="strong">Ano Letivo</label>
                             <?php
+                            $rightbrowser = FALSE;
+                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE){
+                                    $browser = 'Microsoft Internet Explorer';
+                                }elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE) {
+                                    $browser = 'Google Chrome';
+                                    $rightbrowser = TRUE;
+                                }elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== FALSE) {
+                                    $browser = 'Mozilla Firefox';
+                                }elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== FALSE) {
+                                    $browser = 'Opera';
+                                }elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') !== FALSE) {
+                                    $browser = 'Apple Safari';
+                                }else {
+                                    $browser = 'error'; //<-- Browser not found.
+                                }
                             $year = date('Y');
                             //botar condição do mês, a partir de novembro, mostrar o próximo ano.
                             $years = array();
@@ -56,10 +71,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
+            <?php if(!$rightbrowser){?>
+                <div style="text-align:right;color:red">Este site é melhor visualizado no Google Chrome. Você está utilizando o <?php echo $browser; ?></div>
+            <?php }?>
+
         </div>
         <span class="iptilogo">Uma tecnologia desenvolvida pelo</span>
         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" />

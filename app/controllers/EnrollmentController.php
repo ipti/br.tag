@@ -350,19 +350,19 @@ class EnrollmentController extends Controller {
                     ]);
 
                     if(!isset($frequency_and_mean)){
-                        $frequency_and_mean = new FrequencyAndMeanByDiscipline();
-                        $frequency_and_mean->enrollment_fk = $enrollment_id;
-                        $frequency_and_mean->discipline_fk = $id;
-                        $frequency_and_mean->annual_average = $values[0];
-                        $frequency_and_mean->final_average = $values[1];
-                        $frequency_and_mean->absences = $values[3];
-                        $frequency_and_mean->frequency = $values[4];
+                        @$frequency_and_mean = new FrequencyAndMeanByDiscipline();
+                        @$frequency_and_mean->enrollment_fk = $enrollment_id;
+                        @$frequency_and_mean->discipline_fk = $id;
+                        @$frequency_and_mean->annual_average = $values[0];
+                        @$frequency_and_mean->final_average = $values[1];
+                        @$frequency_and_mean->absences = $values[3];
+                        @$frequency_and_mean->frequency = $values[4];
                         $saved = $saved && $frequency_and_mean->save();
                     }else{
-                        $frequency_and_mean->annual_average = $values[0];
-                        $frequency_and_mean->final_average = $values[1];
-                        $frequency_and_mean->absences = $values[3];
-                        $frequency_and_mean->frequency = $values[4];
+                        @$frequency_and_mean->annual_average = $values[0];
+                        @$frequency_and_mean->final_average = $values[1];
+                        @$frequency_and_mean->absences = $values[3];
+                        @$frequency_and_mean->frequency = $values[4];
                         $saved = $saved && $frequency_and_mean->update();
                     }
 

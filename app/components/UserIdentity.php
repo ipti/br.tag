@@ -51,6 +51,7 @@ class UserIdentity extends CUserIdentity
                 $userSchools = $record->usersSchools;
                 $school = isset($record->usersSchools[0]->school_fk) ? $record->usersSchools[0]->school_fk : null;
             }
+            $this->setState('version','2.10.1');
             $this->setState('loginInfos', $record);
             $this->setState('usersSchools',$userSchools);
             $this->setState('school',$school);

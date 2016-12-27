@@ -27,7 +27,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             $html = "";
             foreach ($report as $name => $r) {
                 $html .= "<tr>"
-                        . "<td rowspan='4' colspan='3'>"
+                        . "<td rowspan='4' colspan='1'>"
                         . $name
                         . "<br> Nascimento: " . $r['Info']['birthday']
                         . "<br> NIS: " . $r['Info']['NIS']

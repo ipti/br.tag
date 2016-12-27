@@ -63,8 +63,9 @@ $year = Yii::app()->user->year;
                     <div class="col-md-8">
                         <?= $content ?>
                     </div>
+
                     <div class="col-md-4">
-                        <?php $this->widget('resultsmanagement.components.sideInfoWidget')?>
+                        <?php if(!Yii::app()->user->hardfoot){$this->widget('resultsmanagement.components.sideInfoWidget');}?>
                     </div>
                 </div>
             </div>

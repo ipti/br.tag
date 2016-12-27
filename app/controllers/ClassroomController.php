@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * 
+ */
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller {
 
@@ -448,10 +450,6 @@ class ClassroomController extends Controller {
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
-        if($dbname[1] != "br.org.ipti.tagmaster"){
-            $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-        }
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
             $enrollments = $_POST['enrollments'];
@@ -573,21 +571,15 @@ class ClassroomController extends Controller {
      */
     //@done s1 - excluir Matriculas, TeachingData e Turma
     public function actionDelete($id) {
-        $students = $this->loadModel($id, $this->MODEL_STUDENT_ENROLLMENT);
-        $instructors = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-        foreach ($students as $key => $value) {
-            $value->delete();
-        }
-        foreach ($instructors as $key => $value) {
-            $value->delete();
-        }
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        if ($classroom->delete()) {
-            Log::model()->saveAction("classroom", $id, "D", $classroom->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
-            $this->redirect(array('index'));
-        } else {
-            throw new CHttpException(404, 'A página requisitada não existe.');
+        try {
+            if ($classroom->delete()) {
+                Log::model()->saveAction("classroom", $id, "D", $classroom->name);
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
+                $this->redirect(array('index'));
+            }
+        } catch(Exception $e) {
+            throw new CHttpException(901, Yii::t('errors','Can not delete'));
         }
     }
 
@@ -635,11 +627,8 @@ class ClassroomController extends Controller {
             $return = Classroom::model()->findByPk($id);
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
-
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
-
-
         } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);

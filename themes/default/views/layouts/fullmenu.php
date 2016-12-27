@@ -87,11 +87,11 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <!--<li id="menu-dashboard" class="<?= isActive( "site" )?>">
-                                <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
-                            </li>-->
                             <li id="menu-logout">
                                 <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
+                            </li>
+                            <li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                                <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
                             </li>
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
@@ -111,9 +111,7 @@ function isActive($pages){
                             <li id="menu-student" class="<?= isActive("reports") ?>">
                                 <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
                             </li>
-                            <li id="menu-student" class="<?= isActive("reports") ?>">
-                                <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('forms') ?>"><i></i><span>Formulários</span></a>
-                            </li>
+
                             <!--<li id="menu-student" class="hasSubmenu <?=isActive("classroom") ?>">
                                 <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>
                                 <ul class="collapse" id="menu-classroom2">                                
@@ -164,9 +162,9 @@ function isActive($pages){
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <!--<div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Apoio:</div>
-                    </div>-->
+                    <div class="copy" style="width: 170px !IMPORTANT;">
+                        <div style="float: left" id="apoio">Versão TAG: <?php echo Yii::app()->user->version?></div>
+                    </div>
                 </div>
 
                 <!-- // Sidebar Menu END -->

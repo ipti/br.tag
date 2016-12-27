@@ -495,6 +495,7 @@ class ReportsController extends Controller {
         $command->order = "student, month";
         $query = $command->queryAll();
 
+
         //@done S3 - Organizar o resultado da query que estava ilegível.
         $report = array();
         foreach ($query as $v) {
@@ -526,6 +527,7 @@ class ReportsController extends Controller {
         //Se não houver aulas no mês, coloca 0 no lugar.
         foreach ($report as $name => $c){
             for ($i = $monthI; $i <= $monthF; $i++) {
+
                 $report[$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
             }
         }

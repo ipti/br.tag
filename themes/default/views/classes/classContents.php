@@ -68,7 +68,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
             <?php
-            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll('school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year, array('order' => 'name')), 'id', 'name'), array(
+            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(
                 'key' => 'id',
                 'class' => 'select-search-on',
                 'prompt' => 'Selecione a turma',

@@ -53,7 +53,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="span12">
                     <?= CHTML::activeLabel($menuModel, 'date', ['class' => "control-label"]) ?>
                     <div class="form-group ">
-                        <?php $date = 'date'; ?>
+                        <?php $date = 'date';
+                        ?>
                         <?= CHTML::textField("none", date("d/m/Y", strtotime($menuModel->date)), ['class' => "span8 form-control", "readonly" => "readonly"]) ?>
                         <?= CHTML::hiddenField(chtml::resolveName($menuModel, $date), $menuModel->date, ['class' => "span10 form-control", "readonly" => "readonly"]) ?>
                     </div>
