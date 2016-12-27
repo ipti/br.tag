@@ -143,7 +143,7 @@ class ClassesController extends Controller {
         $discipline = $discipline == null ? $_POST['disciplines'] : $discipline;
         $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
         $month = $month == null ? $_POST['month'] : $month;
-        $instructor_faults = $_POST['instructor_faults'];
+        @$instructor_faults = $_POST['instructor_faults'];
         $instructor_days = $_POST['instructor_days'];
         $student_faults = $_POST['student_faults'];
 
@@ -249,15 +249,14 @@ class ClassesController extends Controller {
     public function actionGetDisciplines() {
         echo CHtml::tag('option', array('value' => null), CHtml::encode('Todas as disciplinas'), true);
 
-        if (!isset($_POST['classroom']) || empty($_POST['classroom']))
+        if (empty($_POST['classroom']))
             return true;
         $crid = $_POST['classroom'];
         $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule where classroom_fk = $crid;")->queryAll();
-
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         foreach ($classr as $i => $discipline) {
-            if ($discipline[discipline_fk] != 0) {
-                echo CHtml::tag('option', array('value' => $discipline[discipline_fk]), CHtml::encode($disciplinesLabels[$discipline[discipline_fk]]), true);
+            if (isset($discipline['discipline_fk'])) {
+                echo CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true);
             }
         }
     }
@@ -327,12 +326,12 @@ class ClassesController extends Controller {
         if ($allDisciplines) {
             $schedules = Schedule::model()->findAllByAttributes(array(
                 'classroom_fk' => $classroom));
-        } else {
+        }
+        else {
             $schedules = Schedule::model()->findAllByAttributes(array(
                 'classroom_fk' => $classroom,
                 'discipline_fk' => $discipline));
         }
-
 /*        $calendars = Calendar::model()->findAllByAttributes(
            array(
                'school_year' => $_POST['year']

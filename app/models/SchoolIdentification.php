@@ -195,7 +195,9 @@ class SchoolIdentification extends AltActiveRecord {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
+        if(Yii::app()->user->hardfoot == true){
+            $criteria->compare('inep_id', Yii::app()->user->school);
+        }
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('situation', $this->situation);

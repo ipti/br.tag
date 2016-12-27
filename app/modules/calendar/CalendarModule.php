@@ -8,7 +8,7 @@ class CalendarModule extends CWebModule {
 	public function init() {
 		$this->baseUrl = Yii::app()->createUrl("calendar");
 		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.calendar.resources'));
-		$this->layoutPath = yii::getPathOfAlias("calendar.views.layouts");
+		//$this->layoutPath = yii::getPathOfAlias("calendar.views.layouts");
 
 		$this->setImport(array(
 			'calendar.models.*', 'calendar.components.*',

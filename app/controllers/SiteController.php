@@ -44,9 +44,9 @@
 				$this->redirect(yii::app()->createUrl('site/login'));
 			}
 
-			$this->redirect(yii::app()->createUrl('student'));
-			//$this->loadLogsHtml(5);
-			//$this->render('index', ["html" => $this->loadLogsHtml(8)]);
+			//$this->redirect(yii::app()->createUrl('student'));
+			$this->loadLogsHtml(5);
+			$this->render('index', ["html" => $this->loadLogsHtml(8)]);
 		}
 
 		/**

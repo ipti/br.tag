@@ -8,8 +8,7 @@ class ResultsManagementModule extends CWebModule{
 //		Yii::setPathOfAlias('RMResources', Yii::getPathOfAlias('application.modules.resultsmanagementModule.managementSchool.resources'));
 		$this->baseUrl = Yii::app()->createUrl("resultsmanagement");
 		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.resultsmanagement.resources'));
-		$this->layoutPath = yii::getPathOfAlias("resultsmanagement.views.layouts");
-		$this->layout = "resultsmanagement";
+		$this->layout = "webroot.themes.default.views.layouts.resultsmanagement";
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 

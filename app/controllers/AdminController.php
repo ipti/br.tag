@@ -1454,6 +1454,7 @@
 			$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 			$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 			$loads['school'] = $school->attributes;
+			$loads['school']['tag_id'] = hexdec(crc32($school->inep_id.$school->name));
 			foreach ($classrooms as $iclass => $classroom) {
 				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
 				$loads['classrooms'][$iclass] = $classroom->attributes;

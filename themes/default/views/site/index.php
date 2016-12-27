@@ -2,11 +2,11 @@
 	$baseUrl = Yii::app()->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/amcharts.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/serial.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/pie.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/lang/pt.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/themes/light.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
 	/* @var $this SiteController */
 
 	$cs->registerScript("vars",
@@ -225,23 +225,6 @@
 				</div>
 				<div class="widget-body in" style="height: auto;">
 					<div id="pieChart"></div>
-					<div class="container-fluid">
-						<div class="row text-center" style="overflow:hidden;">
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Ângulo:</label>
-								<input class="pie-chart-input" data-property="angle" type="range" min="0" max="60" value="30" step="1"/>
-							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Profundidade:</label>
-								<input class="pie-chart-input" data-property="depth3D" type="range" min="1" max="25" value="10" step="1"/>
-							</div>
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Raio interno:</label>
-								<input class="pie-chart-input" data-property="innerRadius" type="range" min="0" max="80" value="0" step="1"/>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -253,24 +236,6 @@
 				</div>
 				<div class="widget-body in" style="height: auto;">
 					<div id="cylinderChart"></div>
-					<div class="container-fluid">
-						<div class="row text-center" style="overflow:hidden;">
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Raio superior:</label>
-								<input class="cylinder-chart-input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01"/>
-							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Ângulo:</label>
-								<input class="cylinder-chart-input" data-property="angle" type="range" min="0" max="89" value="30" step="1"/>
-							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Profundidade:</label>
-								<input class="cylinder-chart-input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1"/>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
