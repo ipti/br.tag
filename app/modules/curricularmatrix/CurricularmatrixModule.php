@@ -8,7 +8,7 @@
 		public function init() {
 			$this->baseUrl = Yii::app()->createUrl("curricularmatrix");
 			$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.curricularmatrix.resources'));
-			$this->layoutPath = yii::getPathOfAlias("curricularmatrix.views.layouts");
+			//$this->layoutPath = yii::getPathOfAlias("curricularmatrix.views.layouts");
 
 			$this->setImport([
 				'curricularmatrix.models.*', 'curricularmatrix.components.*',

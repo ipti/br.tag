@@ -53,7 +53,7 @@
  * @property EdcensoUf $notaryOfficeUfFk
  * @property EdcensoCity $notaryOfficeCityFk
  */
-class StudentDocumentsAndAddress extends CActiveRecord
+class StudentDocumentsAndAddress extends AltActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.

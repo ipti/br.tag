@@ -117,16 +117,16 @@ class ReportsController extends Controller {
         ));          
     }
 
-    public function actionStudentPerClassroom($cid){
+    public function actionStudentPerClassroom($id){
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
                     where `year`  = ".$this->year.""
-            . " AND classroom_id = $cid"
+            . " AND classroom_id = $id"
             . " ORDER BY name;";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $classroom = Classroom::model()->findByPk($cid);
+        $classroom = Classroom::model()->findByPk($id);
 
         $this->render('StudentPerClassroom', array(
             'report' => $result,
@@ -495,6 +495,7 @@ class ReportsController extends Controller {
         $command->order = "student, month";
         $query = $command->queryAll();
 
+
         //@done S3 - Organizar o resultado da query que estava ilegível.
         $report = array();
         foreach ($query as $v) {
@@ -526,6 +527,7 @@ class ReportsController extends Controller {
         //Se não houver aulas no mês, coloca 0 no lugar.
         foreach ($report as $name => $c){
             for ($i = $monthI; $i <= $monthF; $i++) {
+
                 $report[$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
             }
         }

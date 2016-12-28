@@ -24,7 +24,7 @@ return array(
     'Previous' => 'Anterior',
     'Enroll'=> 'Matricular',
     'Add'=> 'Adicionar',
-    'Add (Simple)'=> 'Adicionar (Simplificado)',
+    'Add (Fast)'=> 'Adicionar (Rápido)',
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',
@@ -34,7 +34,7 @@ return array(
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
-    
+    'Incorrect username or password.'=>'Usuário ou senha incorretos',
     
     //Campos das tabelas
 
@@ -378,7 +378,7 @@ return array(
     'Enrollments' => 'Matrículas',
     'Students Enrollments'=>'Alunos Matriculados',
     'Unified Class' => 'Turma unificada',
-    'Edcenso Stage Vs Modality Fk' => 'Etapa do aluno',
+    'Edcenso Stage Vs Modality Fk' => 'Etapa de Ensino',
     'Another Scholarization Place' => 'Escolarização em outro espaço',
     'Public Transport' => 'Transporte escolar público',
     'Transport Responsable Government' => 'Poder público responsável pelo transporte escolar',

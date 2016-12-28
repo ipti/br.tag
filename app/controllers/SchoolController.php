@@ -205,6 +205,8 @@ class SchoolController extends Controller {
             $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_5"] = isset($sharedSchools[4]) ? $sharedSchools[4] : null;
             $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_6"] = isset($sharedSchools[5]) ? $sharedSchools[5] : null;
 
+            $file_content_tmp = $modelSchoolIdentification->logo_file_content;
+
             $modelSchoolIdentification->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
 
@@ -214,6 +216,8 @@ class SchoolController extends Controller {
                 $modelSchoolIdentification->logo_file_name = $file->name;
                 $modelSchoolIdentification->logo_file_type = $file->type;
                 $modelSchoolIdentification->logo_file_content = file_get_contents($file->tempName);
+            }else{
+                $modelSchoolIdentification->logo_file_content = $file_content_tmp;
             }
 
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;

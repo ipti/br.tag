@@ -9,8 +9,13 @@
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>
-
+            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
+            <div class="buttons span7">
+                <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
+                <a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Matrícula em Grupo</a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add') ?></a>
+                <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a>
+            </div>
 
         </div>
     </div>
@@ -36,12 +41,13 @@
                     'enablePagination' => true,
                     'filter' => $filter,
                     'selectableRows' => 1,
+                    'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
                     'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->hash)))',
+                            'value' => 'CHtml::link($data->name,yii::app()->createUrl("student/update",array("id"=>$data->id)))',
                         ),
                         /*array(
                             'header' => '',
@@ -68,17 +74,3 @@
 </div>
 
 </div>
-
-
-<script>
-
-    window.onload = function () {
-        $("input, textarea, select").attr('disabled', true);
-        $("#tab-student-identify, #tab-student-address, #tab-student-data, #tab-student-enrollment").click(function(){
-            $("input, textarea, select").attr('disabled', true);
-        });
-        $(".buttons").remove()
-    }
-
-</script>
-

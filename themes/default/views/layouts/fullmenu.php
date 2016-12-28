@@ -87,9 +87,12 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <!--<li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                            <li id="menu-logout">
+                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
+                            </li>
+                            <li id="menu-dashboard" class="<?= isActive( "site" )?>">
                                 <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
-                            </li>-->
+                            </li>
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
@@ -155,15 +158,13 @@ function isActive($pages){
                             <li id="menu-logout">
                                 <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
                             </li>
-                            <li id="menu-logout">
-                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
-                            </li>
+
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <!--<div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Apoio:</div>
-                    </div>-->
+                    <div class="copy" style="width: 170px !IMPORTANT;">
+                        <div style="float: left" id="apoio">Versão TAG: <?php echo Yii::app()->user->version?></div>
+                    </div>
                 </div>
 
                 <!-- // Sidebar Menu END -->
