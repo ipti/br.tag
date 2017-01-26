@@ -301,7 +301,7 @@ class StudentController extends Controller {
             $buttons .= "<br>";
 
             $buttons .= CHtml::tag('a',
-                    array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
+                    array('target'=>'_blank','href'=>yii::app()->createUrl('/forms/StudentFileForm', array('type'=>$type,'enrollment_id'=>$mer_id)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
