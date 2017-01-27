@@ -1087,6 +1087,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <td style="text-align: center">
                                                     <ul>
                                                         <li><a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha de Matrícula</a></li>
+                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentDeclarationReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></li>
+                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha de Notas</a></li>
                                                     </ul>
                                                 </td>
                                                 <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
