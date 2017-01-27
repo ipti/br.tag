@@ -821,8 +821,6 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                 </div>
-
-
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row-fluid">
@@ -1038,7 +1036,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Ficha Individual</td><td style="text-align: center">Cancelar Matrícula</td></tr></thead>
+                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Formulários</td><td style="text-align: center">Cancelar Matrícula</td></tr></thead>
                                         <tbody>
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
@@ -1086,7 +1084,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     }
                                                 }
                                                 ?>
-                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank"><i class="fa fa-file-text-o"></i></a></td>
+                                                <td style="text-align: center">
+                                                    <ul>
+                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha de Matrícula</a></li>
+                                                    </ul>
+                                                </td>
                                                 <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
                                             </tr>
                                             <?php
