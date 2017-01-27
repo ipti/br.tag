@@ -38,12 +38,17 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             /*]]>*/
         </script>
         <br>
-        <div id="report">
-            <div id="container-header" style="width: 100%; margin: 0 auto; text-align: center">
+        <div id="report" style="margin-top:-10px;">
+            <div id="container-header" style="width: 70%; margin:0 auto; text-align: center">
                 <?php if(isset($school->act_of_acknowledgement)){?>
-                    <span style="display:block;clear:both;width: 40px;margin:0 auto;">
-                </span>
-                    <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
+                    <span style="float:left; width: 40px;">
+                    <?php
+                    if(isset($school->logo_file_name)){
+                        echo '<img src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'" width="40px" height="20px" style="margin: 0 auto; display: block">';
+                    };
+                    ?>
+					</span>
+                    <p style="font-weight:bold;font-size:12px"><?php echo $school->name ?></p>
                     <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
                     <p style="font-size:8px;font-weight: bold">
                         <?php echo $school->address ?>,
@@ -53,8 +58,10 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     </p>
                     <span style="display: block; clear: both"></span>
                 <?php }else{?>
-                    <span style="text-align: center; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                        <?php echo $school->name ?><br/>
+                    <img src="/images/city-logo.png" width="40px" style="float: left; margin-right: 5px;">
+                    <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
+                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
+                        <?php echo $school->name ?>
                         CÓDIGO DO INEP: <?php echo $school->inep_id ?>
                         <?php //strtoupper($school->report_header)?></span>
                     <span style="clear:both;display:block"></span>
@@ -256,7 +263,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 
 
 
-            <table style ="margin-top: 5px;" id="report-table" class="table table-bordered">
+            <table style ="margin-top: 5px;display:block;overflow:hidden" id="report-table" class="table table-bordered">
                 <tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
                 <tr>
                     <td>
