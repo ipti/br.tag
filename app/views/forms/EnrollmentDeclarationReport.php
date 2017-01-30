@@ -72,11 +72,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
-                <br>
+                <br><br/><br/><br/>
                 <div id="report_type_container" style="text-align: center">
                     <span id="report_type_label" style="font-size: 16px">DECLARAÇÃO</span>
                 </div>
-                <br><br>
+                <br><br><br/>
                 <span style="clear:both;display:block"></span>
                 Declaramos para os devidos fins que 
                 <span class="name" style="font-weight: bold"></span>,
