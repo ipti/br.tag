@@ -88,18 +88,35 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         <?php
                         if ($_REQUEST['type'] == '0') {
                             echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                                . 'SITUAÇÃO DA MATRÍCULA: ☐ MPP ☐ MPC ☐ MPR'
+                            echo '<td colspan="3" style="border-bottom: 1px solid black; padding-top: 1%;">'
+                                . 'SITUAÇÃO DA MATRÍCULA:'
+                                ."<select id='selectSituacaoAluno'>
+                                    <option value=''>MPP</option>
+                                    <option value=''>MPC</option>
+                                    <option value=''>MPR</option>
+                                </select>"
                                 . '</td>';
                         } else if ($_REQUEST['type'] == '1' or $_REQUEST['type'] == '2') {
                             echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                                . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
+                            echo '<td colspan="3" style="border-bottom: 1px solid black; padding-top: 1%;">'
+                                . 'SITUAÇÃO DA MATRÍCULA:'
+                                ."<select id='selectSituacaoAluno'>
+                                    <option value=''>MI</option>
+                                    <option value=''>MC</option>
+                                    <option value=''>MR</option>
+                                    <option value=''>MT</option>
+                                </select>"
                                 . '</td>';
                         } else if ($_REQUEST['type'] == '3') {
                             echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
-                            echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                                . 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR'
+                            echo '<td colspan="3" style="border-bottom: 1px solid black; padding-top: 1%;">'
+                                . 'SITUAÇÃO DA MATRÍCULA:'
+                                ."<select id='selectSituacaoAluno'>
+                                    <option value=''>MP</option>
+                                    <option value=''>MPC</option>
+                                    <option value=''>MT</option>
+                                    <option value=''>MR</option>
+                                </select>"
                                 . '</td>';
                         }
                         ?>
@@ -137,7 +154,15 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <tr style="border-top: 1px solid black;">
                         <td>
                             USO EXCLUSIVO DA U.E.
-                            <br>☐ DEFERIDO ☐ INDEFERIDO</td>
+                            <br>
+                            <select id='selectUsoExclusivo'>
+                                <option value=''>DEFERIDO</option>
+                                <option value=''>INDEFERIDO</option>
+
+                            </select>
+
+                        </td>
+
                         <td colspan="2" style="font-size: 10px;line-height: 11px;padding-top: 12px;">
                             _______/_______/_________&nbsp;&nbsp;&nbsp;&nbsp;________________________________________________
                             <br><span style="display: table;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor(a)</span>
@@ -289,31 +314,27 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                                 if ($_REQUEST['type'] == '0'){
                                     echo ' <span class="current_stage_situation"></span>';
                                 }else{?>
-                                    <b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
-                                    <br/> <b>☐</b> Promovido na série/etapa anterior do mesmo curso(nível e/ou modalidade de ensino)
-                                    <br/> <b>☐</b> Repetente
+                                    <select style="width: auto">
+                                        <option value=""><b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</b></option>
+                                        <option value=""> <b>Promovido na série/etapa anterior do mesmo curso(nível e/ou modalidade de ensino)</b></option>
+                                        <option value=""><b>Repetente</b></option>
+                                    </select>
                                 <?php } ?>
-
                             </div>
-
                         </div>
-
 
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="span10"><b>17 - Situação do Aluno no ano Anterior: </b></div>
-                        <br><div class="span3" style="margin-right: -20px;">
-                            <b>☐</b> Não Frequentou
-                            <br><b>☐</b> Reprovado
-                        </div>
-                        <div class="span4" style="margin-right: -20px;">
-                            <b>☐</b> Afastado por transferência
-                            <br><b>☐</b> Matricula final em Educação Infantil
-                        </div>
-                        <div class="span3">
-                            <b>☐</b> Afastado por abandono
+                        <div class="span10"><b>17 - Situação do Aluno no ano Anterior: </b>
+                            <select style="width: auto%">
+                                <option value=""><b>  Não Frequentou</b></option>
+                                <option value=""> <b>Reprovado</b></option>
+                                <option value=""><b>Afastado por transferência</b></option>
+                                <option value=""><b>Matricula final em Educação Infantil</b></option>
+                                <option value=""><b>Afastado por abandono</b></option>
+                            </select>
                         </div>
                     </td>
                 </tr>
@@ -328,9 +349,15 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 </tr>-->
                 <tr><td>
                         <div class="span11"><b>18 - Portador de Necessidades Especiais? </b></div>
-                        <br><div class="span2"><b>☐</b> Sim</div>
-                        <div class="span2"><b>☐</b> Não</div>
-                        <div class="span7"><b>Tipo: </b>__________________________________________________________________________</div>
+
+                        <div class="span7">
+                            <select style="width: auto" >
+                                <option value=""> <b>Não</b></option>
+                                <option value=""><b>Sim</b></option>
+                            </select>
+                           <b>Tipo:</b>___________________________________________________________
+
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -573,10 +600,21 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 </div>
 
 <style>
+
+    #selectSituacaoAluno{
+        width: 6%;
+    }
+
+    #selectUsoExclusivo{
+        width: 66%;
+    }
+
     @media print {
         #container-header {
             width: 425px !important;
         }
+
+
         table, td, tr, th {
             border-color: black !important;
         }
@@ -600,6 +638,25 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             background-position:center center;
             background-size: 100% 100%, auto;
         }
-        #body-students-file-form{zoom:170%;}
+
+
+        select{
+            width: auto!important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+            border-color: transparent;
+            font-size: 0.9em;
+            /*text-transform: uppercase;*/
+            padding-top: -2%;
+
+        }
+
+        #selectSituacaoAluno{
+            width: 6%!important;
+        }
+
+        #body-students-file-form{zoom:160%;}
     }
 </style>
