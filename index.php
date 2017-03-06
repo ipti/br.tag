@@ -20,3 +20,7 @@ Yii::createWebApplication($config)->run();
 
 error_reporting(0);
 
+ini_set('display_errors','0');
+ini_set('always_populate_raw_post_data','-1');
+
+

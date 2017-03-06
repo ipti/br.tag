@@ -9,6 +9,7 @@ class FormsController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'EnrollmentGradesReport', 'StudentsFileReport','EnrollmentDeclarationReport',
+
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
                     'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
@@ -45,6 +46,9 @@ class FormsController extends Controller {
         $response = Yii::app()->db->createCommand($sql)->queryRow();
         $this->render('EnrollmentDeclarationReport', array('enrollment_id'=>$enrollment_id, 'gender'=>$response['gender'], 'stage'=>$response['stage'], 'class'=>$response['class']));
     }
+
+
+
 
     public function actionGetEnrollmentDeclarationInformation($enrollment_id){
         $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, sd.nis nis, ec.name city, c.school_year enrollment_date"
