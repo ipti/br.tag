@@ -8,19 +8,11 @@ $cs->registerScriptFile($baseUrl . '/js/reports/InstructorsPerClassroomReport/_i
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Professores por Turma'); ?></h3>  
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
-
-
-<div class="innerLR">
+<div class="pageA4H">
+    <?php $this->renderPartial('head'); ?>
+    <h3><?php echo Yii::t('default', 'Professores por Turma'); ?></h3>
     <div>
-        <?php $this->renderPartial('head'); ?>
+
         <table >
             <tr>
                 <?php

@@ -7,20 +7,10 @@ $cs->registerScriptFile($baseUrl . '/js/reports/NumberStudentsPerClassroomReport
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
-
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Alunos por Turma'); ?></h3>  
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
-
-
-<div class="innerLR">
+<div class="pageA4H">
+    <?php $this->renderPartial('head'); ?>
+    <h3><?php echo Yii::t('default', 'Alunos por Turma'); ?></h3>
     <div>
-        <?php $this->renderPartial('head'); ?>
         <table class="table table-bordered table-striped">
             <tr><th>Ordem</th><th>Cód.&nbsp;da Turma</th><th>Nome da Turma</th><th>Horário de Funcionamento</th><th>Tipo de Atendimento</th><th>Modalidade</th><th>Etapa</th><th>Nº&nbsp;de Alunos</th></tr>
             <?php
