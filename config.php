@@ -2,7 +2,7 @@
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 define("YII_ENBLE_ERROR_HANDLER",false);
 define("YII_ENBLE_EXCEPTION_HANDLER",false);
-define("TAG_VERSION",'2.10.3');
+define("TAG_VERSION",'2.10.2');
 $_FORMS = ['123'];
 
 if(YII_DEBUG){
