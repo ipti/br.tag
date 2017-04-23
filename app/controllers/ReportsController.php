@@ -2,7 +2,7 @@
 
 class ReportsController extends Controller {
 
-    public $layout = 'fullmenu';
+    public $layout = 'reportsclean';
     public $year = 0;
 
     public function accessRules() {
@@ -18,7 +18,7 @@ class ReportsController extends Controller {
                                     'EnrollmentComparativeAnalysisReport','SchoolProfessionalNumberByClassroomReport',
                                     'ComplementarActivityAssistantByClassroomReport','EducationalAssistantPerClassroomReport',
                                     'DisciplineAndInstructorRelationReport','ClassroomWithoutInstructorRelationReport',
-                                    'StudentInstructorNumbersRelationReport' ),
+                                    'StudentInstructorNumbersRelationReport','StudentPendingDocument', 'BFRStudentReport'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -106,17 +106,29 @@ class ReportsController extends Controller {
                     where `year`  = ".$this->year.""
             . " AND classroom_id = $id"
             . " ORDER BY name;";
-       
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-               
+
         $classroom = Classroom::model()->findByPk($id);
-        
+
         $this->render('EnrollmentPerClassroomReport', array(
             'report' => $result,
             'classroom' => $classroom
-        ));          
+        ));
     }
-
+    public function actionStudentPendingDocument()
+    {
+        $school_id = Yii::app()->user->school;
+        $school = SchoolIdentification::model()->findByPk($school_id);
+        $ano = Yii::app()->user->year;
+        $sql1 = "SELECT *, d.name as nome_aluno FROM student_enrollment a JOIN classroom b on(a.`classroom_fk`=b.id) JOIN student_documents_and_address c on(a.`student_fk`=c.`id`)
+        JOIN student_identification d on(c.`id`=d.`id`) WHERE
+        received_cc = 0 or received_address = 0 or received_photo = 0 or received_nis = 0 or received_responsable_rg = 0 or
+        received_responsable_cpf = 0 and   b.`school_inep_fk` =" . $school_id . " and b.school_year=" . $ano . ";";
+        $result = Yii::app()->db->createCommand($sql1)->queryAll();
+        $this->render('StudentPendingDocument', array(
+            'report' => $result,
+        ));
+    }
     public function actionStudentPerClassroom($id){
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment
@@ -161,6 +173,7 @@ class ReportsController extends Controller {
     }
 
     public function actionStudentsBetween5And14YearsOldReport(){
+        $this->layout = "reportsclean";
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
         $sql = "select c.*, q.modality,q.stage
@@ -426,6 +439,7 @@ class ReportsController extends Controller {
     }
 
     public function actionNumberStudentsPerClassroomReport() {
+        $this->layout = "reportsclean";
         $sql = "SELECT * FROM classroom_qtd_students
                     where school_year  = ".$this->year." and school_inep_fk=".Yii::app()->user->school." order by name;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -435,6 +449,7 @@ class ReportsController extends Controller {
     }
 
     public function actionInstructorsPerClassroomReport() {
+        $this->layout = "reportsclean";
         $sql = "SELECT * FROM classroom_instructors "
                 . "where school_year = ".$this->year." and school_inep_fk= ".Yii::app()->user->school." order by name;";
         $result = Yii::app()->db->createCommand($sql)->queryAll();
@@ -444,6 +459,7 @@ class ReportsController extends Controller {
     }
 
     public function actionBFReport() {
+        $this->layout = "reportsclean";
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
         //@done s3 - Pegar todos os alunos matriculados nas turmas atuais.
@@ -536,8 +552,28 @@ class ReportsController extends Controller {
             'report' => $report,
         ));
     }
-    
+
+
+    public function actionBFRStudentReport() {
+                $sql = "SELECT su.name, su.birthday, cl.name as turma  
+        FROM student_enrollment se
+        JOIN classroom cl ON(se.classroom_fk = cl.id)
+        JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
+        JOIN student_identification su ON(su.id= se.student_fk)
+        WHERE
+        bf_participator = 1 AND
+        si.`inep_id` =".Yii::app()->user->school." order by name;";
+
+                $result = Yii::app()->db->createCommand($sql)->queryAll();
+                $this->render('BFRStudentReport', array(
+                    'report' => $result,
+                ));
+    }
+
+
+
     public function actionIndex() {
+        $this->layout = "fullmenu";
         $this->render('index');
     }
 

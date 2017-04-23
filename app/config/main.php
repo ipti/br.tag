@@ -5,34 +5,6 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
-switch ($domain) {
-    case 'geminiano':
-        $db = 'io.escola.geminiano';
-        break;
-    case 'joaldo':
-        $db = 'io.escola.joaldo';
-        break;
-    case 'josegoes':
-        $db = 'io.escola.josegoes';
-        break;
-    case 'josejacomildes':
-        $db = 'io.escola.josejacomildes';
-        break;
-    case 'lourival':
-        $db = 'br.org.ipti.boquim';
-        break;
-    case 'mariadagloria':
-        $db = 'io.escola.mariadagloria';
-        break;
-    case 'vanda':
-        $db = 'io.escola.vanda';
-        break;
-    default:
-        $db = 'br.org.ipti.boquim.tag';
-        break;
-}
-
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
@@ -118,7 +90,7 @@ return array(
         ),
         // uncomment the following to use a MySQL database
         'db' => array(
-            'connectionString' => "mysql:host=localhost;dbname=$db",
+            'connectionString' => "mysql:host=localhost;dbname=".DATABASE_INSTANCE,
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',

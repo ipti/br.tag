@@ -30,6 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="offset5 span6 login-input">
                     <div class="inner">
                         <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
+                            <label class="strong">Instância: <?php echo DATABASE_INSTANCE ?></label>
                             <label class="strong">Usuário</label>
                             <?php echo $form->textField($model, 'username', array('class' => 'input-block-level')); ?>
                             <?php echo $form->error($model, 'username'); ?>

@@ -216,43 +216,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid cockadoodledoo">
-		<div class="span6">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons parents"><i></i>Alunos Matriculados</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="pieChart"></div>
-				</div>
-			</div>
-		</div>
-		<div class="span6">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons database_plus"><i></i>Base de Dados</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="cylinderChart"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row-fluid lineChart-container">
-		<div class="span12">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons list"><i></i>Cadastros anuais</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="lineChart"></div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 <script>
 

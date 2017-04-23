@@ -53,7 +53,7 @@ function isActive($pages){
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>Ano Atual: <?php echo Yii::app()->user->year; ?></span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a>
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">

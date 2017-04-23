@@ -25,10 +25,7 @@ $(document).ready(function () {
     if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
         $(".load-more").hide();
     }
-
-    loadLineChart(new Date().getFullYear());
-    loadCylinderChart(new Date().getFullYear());
-    loadPieChart(new Date().getFullYear());
+    
 });
 
 function loadPieChart(year) {
