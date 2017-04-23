@@ -203,6 +203,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         <b>ASSINATURA DO SECRETÁRIO(A)</b>
     </span>
 </div>
+    <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 
 <style>

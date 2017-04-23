@@ -290,5 +290,5 @@ if(count($classroom) == 0){
 }
 
 ?>
-
+<div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>

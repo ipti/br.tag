@@ -10,17 +10,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
 
 
-<div id="body-students-file-form" class="innerLR district">
-    <div>
+<div id="body-students-file-form" class="pageA4V">
+    <?php $this->renderPartial('head'); ?>
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
@@ -38,29 +31,6 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             /*]]>*/
         </script>
         <br>
-        <div id="report">
-            <div id="container-header" style="width: 100%; margin: 0 auto; text-align: center">
-                <?php if(isset($school->act_of_acknowledgement)){?>
-                    <span style="display:block;clear:both;width: 40px;margin:0 auto;">
-                </span>
-                    <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
-                    <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
-                    <p style="font-size:8px;font-weight: bold">
-                        <?php echo $school->address ?>,
-                        <?php echo $school->edcensoCityFk->name ?>/
-                        <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
-                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
-                    </p>
-                    <span style="display: block; clear: both"></span>
-                <?php }else{?>
-                    <span style="text-align: center; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                        <?php echo $school->name ?><br/>
-                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
-                        <?php //strtoupper($school->report_header)?></span>
-                    <span style="clear:both;display:block"></span>
-                <?php }?>
-            </div>
-            <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
                 <?php
                 /* if ($_REQUEST['type'] == '3') {
@@ -137,8 +107,12 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         </td>
                     </tr>
                 </table>
+                <style type="text/css">
+                    .subheader {margin:5px 0px}
+                    .subheader div{margin:0px !important;}
+                </style>
 
-                <div style="float: left; text-align: justify;margin: 5px 0 5px -20px;line-height: 14px;">
+                <div class="subheader" style="float: left; text-align: justify;line-height: 14px;">
                     <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
                     <div class="span2"><b>INEP: </b><?php echo $school->inep_id ?></div>
                     <br>
@@ -256,7 +230,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 
 
 
-            <table style ="margin-top: 5px;" id="report-table" class="table table-bordered">
+            <table style="margin-top:10px;" id="report-table" class="table table-bordered">
                 <tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
                 <tr>
                     <td>
@@ -320,7 +294,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     </td>
                 </tr>-->
                 <tr><td>
-                        <div class="span11"><b>18 - Portador de Necessidades Especiais? </b></div>
+                        <div class="span10"><b>18 - Portador de Necessidades Especiais? </b></div>
                         <br><div class="span2"><b>☐</b> Sim</div>
                         <div class="span2"><b>☐</b> Não</div>
                         <div class="span7"><b>Tipo: </b>__________________________________________________________________________</div>
@@ -347,223 +321,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         </div>
                     </td>
                 </tr>
-                <!--                                    <tr>-->
-                <!--                                        <td>-->
-                <!--                                            <div class="span10"><b>22 - Aluno com restrição na Justiça?</b>-->
-                <!--                                                <br><span class="justice_restriction"></span>-->
-                <!--                                            </div>-->
-                <!--                                        </td>-->
-                <!--                                    </tr>-->
             </table>
-            <!--
-            <div style="page-break-before: always;"></div>
-
-            <div style="margin: 50px 0 15px 0;text-align: center;line-height: 15px;";>_______________________<br>Ano Letivo</div>
-
-            <table style="margin: 0px 0 0 50px; font-size: 8px; width: calc(100% - 51px);" class="table table-bordered report-table-empty">
-                      <tr>
-                        <th colspan="18" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td style="text-align: center;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
-                        <td colspan="9" style="text-align: center; font-weight: bold">BASE NACIONAL COMUM</td>
-                        <td colspan="4" style="text-align: center; font-weight: bold">PARTE DIVERSIFICADA</td>
-                        <td rowspan="2" class="vertical-text"><div>DIAS&nbsp;LETIVOS</div></td>
-                        <td rowspan="2" class="vertical-text"><div>CARGA&nbsp;HORÁRIA</div></td>
-                        <td rowspan="2" class="vertical-text"><div>Nº&nbsp;DE&nbsp;FALTAS</div></td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 0;line-height: 53px;margin: 0px 10px 0px 0px;">BIMESTRES</div></td>
-                        <td class="vertical-text"><canvas width="100%" height="100%"></canvas></td>
-                        <td class="vertical-text"><div>LÍNGUA&nbsp;PORTUGUESA</div></td>
-                        <td class="vertical-text"><div>MATEMÁTICA</div></td>
-                        <td class="vertical-text"><div>HISTÓRIA</div></td>
-                        <td class="vertical-text"><div>GEOGRAFIA</div></td>
-                        <td class="vertical-text"><div>ARTES</div></td>
-                        <td class="vertical-text"><div>EDUCAÇÃO&nbsp;FÍSICA</div></td>
-                        <td class="vertical-text"><div>ENSINO&nbsp;RELIGIOSO</div></td>
-                        <td class="vertical-text"><div>CIÊNCIAS&nbsp;NATURAIS</div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div>REDAÇÃO</div></td>
-                        <td class="vertical-text"><div>SOCIEDADE&nbsp;BRASILEIRA</div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                      </tr>
-                      <tr>
-                        <td>1º</td>
-                        <td style="text-align: center;">AVALIAÇÃO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td>2º</td>
-                        <td style="text-align: center;">AVALIAÇÃO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td>3º</td>
-                        <td style="text-align: center;">AVALIAÇÃO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td>4º</td>
-                        <td style="text-align: center;">AVALIAÇÃO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">MÉDIA ANUAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">NOTA DA PROVA FINAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">MÉDIA FINAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">TOTAL DE AULAS DADAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">TOTAL DE FALTAS</td>
-                       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">FREQUÊNCIAS %</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                    </table>
-
-                    <div style="transform: rotate(-90deg);transform-origin: left top 0;text-align: center;width: 300px;font-size: 16px;line-height: 20px;">QUADRO APLICÁVEL AO ENSINO<br> FUNDAMENTAL (1º ao 5º ANO)</div>
-
-                    <table style="margin: -20px 0 0 50px; font-size: 8px; width: calc(100% - 53px);" class="table table-bordered report-table-empty">
-                      <tr>
-                        <th colspan="22" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
-                      </tr>
-                      <tr>
-                        <td></td>
-                        <td style="text-align: center;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
-                        <td colspan="11" style="text-align: center; font-weight: bold">BASE NACIONAL COMUM</td>
-                        <td colspan="9" style="text-align: center; font-weight: bold">PARTE DIVERSIFICADA</td>
-                      </tr>
-                      <tr>
-                        <td style="vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 0;line-height: 53px;margin: 0px 10px 0px 0px;">BIMESTRES</div></td>
-                        <td id="canvas-td" class="vertical-text"></td>
-                        <td class="vertical-text"><div>LÍNGUA&nbsp;PORTUGUESA</div></td>
-                        <td class="vertical-text"><div>MATEMÁTICA</div></td>
-                        <td class="vertical-text"><div>CIÊNCIAS&nbsp;NATURAIS</div></td>
-                        <td class="vertical-text"><div>GEOGRAFIA</div></td>
-                        <td class="vertical-text"><div>HISTÓRIA</div></td>
-                        <td class="vertical-text"><div>ARTES</div></td>
-                        <td class="vertical-text"><div>EDUCAÇÃO&nbsp;FÍSICA</div></td>
-                        <td class="vertical-text"><div>ENSINO&nbsp;RELIGIOSO</div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div style="margin-bottom: -7px; line-height: 9px;">LÍNGUA&nbsp;ESTRANGEIRA INGLÊS</div></td>
-                        <td class="vertical-text"><div>REDAÇÃO</div></td>
-                        <td class="vertical-text"><div>SOCIEDADE&nbsp;BRASILEIRA</div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                        <td class="vertical-text"><div></div></td>
-                      </tr>
-                      <tr>
-                        <td rowspan="3">1º</td>
-                        <td style="text-align: center;">APROVEITAMENTO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">FALTAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td rowspan="3">2º</td>
-                        <td style="text-align: center;">APROVEITAMENTO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">FALTAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td rowspan="3">3º</td>
-                        <td style="text-align: center;">APROVEITAMENTO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">FALTAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td rowspan="3">4º</td>
-                        <td style="text-align: center;">APROVEITAMENTO</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">CARGA&nbsp;HORÁRIA</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: center;">FALTAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-
-                      <tr>
-                        <td colspan="2">MÉDIA ANUAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">NOTA DA PROVA FINAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">MÉDIA FINAL</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">TOTAL DE AULAS DADAS</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">TOTAL DE FALTAS</td>
-                       <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">FREQUÊNCIAS %</td>
-                        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-                      </tr>
-                    </table>
-
-                    <div style="transform: rotate(-90deg);transform-origin: left top 0;text-align: center;width: 430px;font-size: 16px;line-height: 20px;">QUADRO APLICÁVEL AO ENSINO<br> FUNDAMENTAL (6º ao 9º ANO)</div>
-
-                    <div style="text-align:right; margin-top: -25px;">Resultado Final _____________________________</div>
-                    <div style="text-align:center">APTO PARA CURSAR O _____________ ANO DO ENSINO FUNDAMENTAL<div>
-                    <div style="text-align: center;line-height: 15px;">_________________________________________________________<br>Local e data<div>
-                    <div style="float: left;line-height: 15px; width:50%">_________________________________________________________<br>Assinatura do(a) Secretário (a)</div>
-                    <div style="float: right;line-height: 15px;width:50%">_________________________________________________________<br>Assinatura do(a) Diretor(a)</div>
-            -->
         </div>
-    </div>
-    <?php $this->renderPartial('footer'); ?>
-</div>
-</div>
 
 <style>
     @media print {
@@ -593,6 +352,5 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             background-position:center center;
             background-size: 100% 100%, auto;
         }
-        #body-students-file-form{zoom:170%;}
     }
 </style>

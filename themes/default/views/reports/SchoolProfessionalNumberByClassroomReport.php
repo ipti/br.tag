@@ -80,7 +80,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         ?>
 
     </table>
+    <?php $this->renderPartial('footer'); ?>
 
 </div>
 
-<p class="info-issued">Gerado pelo Sistema de Informa&ccedil;&atilde;o TAG em: <?php echo date('d/m/Y H:i'); ?></p>

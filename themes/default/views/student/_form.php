@@ -402,37 +402,38 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Pendentes</h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Entregues
+                                        <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i></h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group" id="received">
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_cc)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_address)); ?>
                                             </label>
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_photo)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_nis)); ?>
                                             </label>
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
                                             </label>
                                         </div>
                                     </div>
@@ -961,19 +962,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
                                 </div>
                             </div>
-                            <div class="control-group" id="transport_null">
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_van', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_microbus', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_bus', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_bike', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_animal_vehicle', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_other_vehicle', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_5', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_5_15', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_15_35', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_waterway_boat_35', array('value' => null, 'disabled' => 'disabled')); ?>
-                                <?php echo CHtml::activeHiddenField($modelEnrollment, 'vehicle_type_metro_or_train', array('value' => null, 'disabled' => 'disabled')); ?>
-                            </div>
                             <div class="control-group" id="transport_type">
                                 <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
                                 <div class="uniformjs margin-left">
@@ -1036,14 +1024,32 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <table class="table table-bordered table-striped">
-                                        <thead><tr><td>Escola</td><td>Turma</td><td style="text-align: center">Ano</td><td style="text-align: center">Formulários</td><td style="text-align: center">Cancelar Matrícula</td></tr></thead>
+                                        <thead>
+                                        <tr>
+                                            <td style="text-align: center !important;">Escola</td>
+                                            <td style="text-align: center">Atualizar Ficha de  Matrícula</td>
+                                            <td style="text-align: center">Ano</td>
+                                            <td style="text-align: center">Formulários</td>
+                                            <td style="text-align: center; width: 15%;">Cancelar Matrícula</td>
+                                        </tr>
+                                        </thead>
                                         <tbody>
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
-                                                <td><a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)) ?>'><?php echo $me->classroomFk->name ?></a></td>
+                                                <td style="text-align: center">
+                                                    <?php  if( $me->classroomFk->school_year == date(Y)){?>
+                                                        <a href='<?php  echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id));?>'>
+                                                            <i class="fa fa-pencil" style="color:#496cad; padding-right: 1%" ></i>
+                                                            <?php echo $me->classroomFk->name ?></a>
+                                                    <?php }else{ ?>
+                                                        <p  title="Não é possível atualizar a Matrícula do ano anterior">
+                                                            <?php echo $me->classroomFk->name ?>
+                                                        </p>
+                                                    <?php }  ?>
+                                                </td>
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                 $type;
@@ -1084,13 +1090,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     }
                                                 }
                                                 ?>
-                                                <td style="text-align: center">
-                                                    <ul>
-                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha de Matrícula</a></li>
+                                                <td style="text-align: center;">
+                                                    <ul style="list-style-type: none">
+                                                        <li>
+                                                            <a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)); ?>'
+                                                               target="_blank"   <i class="fa fa-eye" style="color:#496cad; "></i>
+                                                            Ficha de Matrícula
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </td>
-                                                <td style="text-align: center"><a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a></td>
-                                            </tr>
+                                                <td style="text-align: center">
+                                                    <?php  if( $me->classroomFk->school_year == date(Y)){?>
+                                                        <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
+                                                    <?php }else{ ?>
+                                                        <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
+                                                    <?php }  ?>
+                                                    </a>
+                                                </td>                                            </tr>
                                             <?php
                                         }
                                         ?>

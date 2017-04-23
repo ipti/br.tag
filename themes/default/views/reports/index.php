@@ -144,14 +144,14 @@ $this->breadcrumbs = array(
                 </a>
             </div>
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/bfrstudentReport')?>" class="widget-stats" target="_blank">
                     <span class="glyphicons justify"><i></i></span>
                     <span class="txt">Alunos participantes Bolsa Familia</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
-                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport')?>" class="widget-stats" target="_blank">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentpendingdocument')?>" class="widget-stats" target="_blank">
                     <span class="fa-list-ol fa fa-4x"><i></i></span>
                     <span class="txt">Alunos com Documentos Pendentes</span>
                     <div class="clearfix"></div>

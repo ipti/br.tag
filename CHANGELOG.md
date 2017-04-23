@@ -13,11 +13,15 @@
 - Adicionado Novo Relatório de Documentos Pendentes e Participantes do Bolsa Família.
 - Adicionado nova função mural de recados.
 - Corrigir quebra de linha após cabeçalho: Students In Alphabetical Order Relation
-- Relação de Alunos e Telefone.
+- Relação de Alunos e Telefone(Próxima atualização)
+- Código verificador em todos os relatórios gerados pelo sistema.
+- Tela de Login agora exibi o nome da instância para facilitar identificação.
+- Alteração nos formulários padrões com preenchimento dinâmico.
+- Correções em documentos pedentes.
 
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
 
-**Novas implantações:**
+
 
