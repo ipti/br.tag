@@ -241,7 +241,7 @@ class Classroom extends AltActiveRecord {
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
-        $criteria->with = array('edcensoStageVsModalityFk');
+        //$criteria->with = array('edcensoStageVsModalityFk');
         if($is_default_theme == true){
             $criteria->compare('school_inep_fk', Yii::app()->user->school);
         }
@@ -249,7 +249,7 @@ class Classroom extends AltActiveRecord {
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('school_year', Yii::app()->user->year);
-        $criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
+        //$criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

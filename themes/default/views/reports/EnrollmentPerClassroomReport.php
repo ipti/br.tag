@@ -5,27 +5,15 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js', CClientScript::POS_END);
-
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
 $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 ?>
-<style type="text/css">
-</style>
-<div id="container-header" style="text-align: center; width: 100%; margin: 0 auto;margin-top: -30px;">
-    <div>
-        <img src="<?php echo yii::app()->baseUrl; ?>/images/city-logo.png" width="40px" style="margin: 35px 0 5px 0">
-    </div>
-<span style="font-size: 10px">
-                    ESTADO DE SERGIPE<br>
-                    SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO
-                </span>
-    <br>
-    <span style="font-size: 14px;">RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></span>
-    <span style="clear:both;display:block"></span>
-</div>
+<div class="pageA4H">
+    <?php $this->renderPartial('head'); ?>
+    <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
+    
 <table class="table">
     <tr>
         <td colspan="3">ESCOLA: <?= $school->name?></td>
@@ -197,10 +185,6 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 <br>
 <p style="margin: 0 auto; text-align: right; width:600px">
     <?php
-    setlocale(LC_ALL, NULL);
-    setlocale(LC_ALL, 'portuguese', 'pt_BR.UTF8', 'pt_br.UTF8', 'ptb_BRA.UTF8',"ptb", 'ptb.UTF8');
-    date_default_timezone_set("America/Sao_Paulo");
-
     $time = time();
     $monthName = strftime("%B", $time);
     echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
@@ -218,6 +202,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         ________________________________________________________<br>
         <b>ASSINATURA DO SECRETÁRIO(A)</b>
     </span>
+</div>
+    <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 
 <style>

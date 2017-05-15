@@ -211,6 +211,7 @@ class StudentIdentification extends AltActiveRecord {
 //        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
 //        $criteria->compare('nis', $this->nis, true);
 //        $criteria->compare('birthday', $this->birthday, true);
 //        $criteria->compare('sex', $this->sex);
@@ -244,10 +245,9 @@ class StudentIdentification extends AltActiveRecord {
 //        $criteria->compare('resource_zoomed_test_16', $this->resource_zoomed_test_16);
 //        $criteria->compare('resource_zoomed_test_20', $this->resource_zoomed_test_20);
 //        $criteria->compare('resource_zoomed_test_24', $this->resource_zoomed_test_24);
-        $criteria->compare('resource_braille_test', $this->resource_braille_test);
-        $criteria->compare('resource_none', $this->resource_none);
+//        $criteria->compare('resource_braille_test', $this->resource_braille_test);
+//        $criteria->compare('resource_none', $this->resource_none);
 //        $criteria->compare('send_year', $this->send_year);
-        $criteria->addCondition("REGEXP_REPLACE(name, '[[:space:]]+', ' ') like '%$this->name%'");
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

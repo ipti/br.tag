@@ -168,9 +168,16 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 </div>
 
 <style>
+    .table-bordered th, .table-bordered td, .table-bordered {border:1px solid #000 !important}
+
     @media print{
         @page {
             size: landscape;
         }
+        table { page-break-after:auto; }
+        tr    { page-break-inside:avoid; page-break-after:auto;}
+        td    { page-break-inside:avoid; page-break-after:auto;}
+        thead { display:table-header-group }
+        tfoot { display:table-footer-group }
     }
 </style>

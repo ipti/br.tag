@@ -11,18 +11,10 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentComparativeAnalysisRep
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Enrollment Comparative Analysis'); ?></h3>
+<div class="pageA4H">
+    <?php $this->renderPartial('head'); ?>
+    <h3><?php echo Yii::t('default', 'Enrollment Comparative Analysis'); ?></h3>
 
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
-                <i></i></a>
-        </div>
-    </div>
-</div>
-
-<div class="innerLR">
     <p> <b>Escola:</b> <?php echo $school->inep_id ?>-<?php echo $school->name ?> </p>
     <p> <b>Estado:</b> <?php echo $school->edcensoUfFk->name; ?> </p>
     <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
@@ -306,4 +298,5 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         }
         ?>
     </table>
+    <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>

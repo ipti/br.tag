@@ -10,26 +10,11 @@ $cs->registerScriptFile($baseUrl . '/js/reports/StudentsUsingSchoolTransportatio
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Students Using School Transportation Relation'); ?></h3>
 
-            <div class="buttons">
-                <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
-                    <i></i></a>
-            </div>
-        </div>
-    </div>
+    <div class="pageA4H">
 
-    <div class="innerLR">
-    <p> <b>Escola: </b><?php echo $school->inep_id ?>-<?php echo $school->name ?></p>
-    <p> <b>Estado: </b><?php echo $school->edcensoUfFk->name; ?></p>
-    <p> <b>Munic&iacute;pio:</b> <?php echo $school->edcensoCityFk->name; ?> </p>
-    <p> <b>Localiza&ccedil;&atilde;o:</b> <?php echo $school->location == 0? "Rural" : "Urbana" ?> </p>
-    <p> <b>Depend&ecirc;ncia Administrativa:</b> <?php echo $school->administrative_dependence == 1 ? "Federal" :
-            $school->administrative_dependence == 2? "Estadual" :
-                $school->administrative_dependence == 3? "Municipal": "Estadual"
-        ?> </p>
+    <?php $this->renderPartial('head'); ?>
+    <h3><?php echo Yii::t('default', 'Students Using School Transportation Relation'); ?></h3>
 
 
 <?php
