@@ -1,5 +1,16 @@
 # Change Log
 
+## [Versão 2.10.5]
+
+**Melhorias:**
+-
+
+**Bugs Corrigidos:**
+-
+
+**Funcionalidades:**
+- Adicionado nova função validação do educacenso
+
 ## [Versão 2.10.4]
 
 **Melhorias:**
