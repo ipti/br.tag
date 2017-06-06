@@ -96,14 +96,6 @@ return array(
             'password' => '123456',
             'charset' => 'utf8',
         ),
-        'db2' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=br.tag.se',
-            'emulatePrepare' => true,
-            'username' => 'user.tag',
-            'password' => '123456',
-            'charset' => 'utf8',
-            'class'   => 'CDbConnection'
-        ),
         'authManager' => array(
             'class' => 'CDbAuthManager',
             'connectionID' => 'db',

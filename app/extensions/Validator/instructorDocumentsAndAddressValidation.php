@@ -31,12 +31,12 @@
         // retira espacos em branco
         $cep = trim($cep);
         // expressao regular para avaliar o cep
-        $avaliaCep = preg_match('/^[0-9]{5,5}([- ]?[0-9]{4,4})?$/', $cep);
+        $avaliaCep = preg_match('/^[0-9]{5}[0-9]{3}$/', $cep);
 
         if ($cep == null) {
             return array("status" => false,"erro" => "O campo CEP é uma informação obrigatória.");
         }
-        if (count($cep) != 8 || !$avaliaCep) {
+        if (strlen($cep) != 8 || !$avaliaCep) {
             return array("status" => false,"erro" => "O campo CEP está com tamanho diferente do especificado.");
         }
         if (!is_numeric($cep)) {

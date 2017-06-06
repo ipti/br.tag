@@ -46,24 +46,29 @@
                                 <div class="clearfix"></div>
                             </li>
                         <?php }?>
+
                         <?php foreach ($log['classroom']  as $index => $class) {?>
-                            <h5>Turma - <?php echo $class['info']['name']; ?></h5>
-                            <?php foreach ($class['validate']['identification']  as $eindex => $classerror) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">
-                                        <?php echo Classroom::model()->getAttributeLabel(key($classerror)) ?> -
-                                        <?php echo current($classerror) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('classroom/update',
-                                            'id'=>$class['info']['id'])); ?>
+                            <?php if(!empty($class['validate']['identification'])){ ?>
+                                <h5>Turma - <?php echo $class['info']['name']; ?></h5>
+                                <?php foreach ($class['validate']['identification']  as $eindex => $classerror) {?>
+                                    <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
                                     </span>
-                                    <div class="clearfix"></div>
-                                </li>
+                                        <span class="ellipsis">
+                                            <?php echo Classroom::model()->getAttributeLabel(key($classerror)) ?> -
+                                            <?php echo current($classerror) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('classroom/update',
+                                                'id'=>$class['info']['id'])); ?>
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                <?php }?>
                             <?php }?>
                         <?php }?>
+
                         <?php foreach ($log['instructor']  as $index => $instructor) {?>
+
                             <h5>Professor - <?php echo $instructor['info']['name']; ?></h5>
                             <?php foreach ($instructor['validate']['identification']  as $instructorerror) {?>
                                 <li>

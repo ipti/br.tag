@@ -409,7 +409,7 @@ class Register
 
 		}elseif ($hasdeficiency == "0"){
 			foreach ($deficiencies as $key => $value) {
-				if($value != null){
+				if($value != NULL){
 					return array("status"=>false,"erro"=>"Valor deveria ser nulo");
 				}
 			}

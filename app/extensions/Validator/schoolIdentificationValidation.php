@@ -339,7 +339,7 @@
 
     function isPhoneValid($phone_number, $low_limit, $high_limit){
 
-        if($phone_number != ""){
+        if(empty($phone_number)){
             return array("status" => false,"erro" =>"Telefone vazio");
         }
         if (preg_match('/^(.)\1*$/', $phone_number)) {
@@ -370,7 +370,8 @@
                     $valid_numbers++;
                 }
             }
-            if($valid_numbers < 1){
+            if($valid_numbers >= 1){
+                return $result;
                 return array("status" => false,"erro" =>"Um ou mais números de telefone são inválidos");
             }
         }
@@ -410,7 +411,7 @@
 
     //campo 29
     function isLocationValid($value) {
-        if ($value != 1 || $value != 2) {
+        if ($value != 1 && $value != 2) {
             return array("status" => false,"erro" =>"Lozalização inválida");
         }
 
@@ -447,17 +448,20 @@
     //campo 31
 
      function isPublicContractValid($value, $situation, $administrative_dependence){
-        $result = $this->isAllowed($value, array('1', '2', '3'));
-        if(!$result['status']){
-            return array("status"=>false,"erro"=>$result['erro']);
-        }
-        if(!($situation == '1' && $administrative_dependence == '4')){
-            if($value != null){
-                return array("status"=>false,"erro"=>"Valor $value deveria ser nulo");
-            }
-        }
+         if(!($situation == '1' && $administrative_dependence == '4')){
+             if($value != null){
+                 return array("status"=>false,"erro"=>"Valor $value deveria ser nulo");
+             }else{
+                 return array("status" => true,"erro" =>"");
+             }
+         }else{
+             $result = $this->isAllowed($value, array('1', '2', '3'));
+             if(!$result['status']){
+                 return array("status"=>false,"erro"=>$result['erro']);
+             }
+         }
+         return array("status" => true,"erro" =>"");
 
-        return array("status" => true,"erro" =>"");
     }
 
     //campos 32 a 36
@@ -486,6 +490,8 @@
         if(!($situation == '1' && $administrative_dependence == '4')){
             if($cnpj != null){
                 return array("status"=>false,"erro"=>"Valor $value deveria ser nulo");
+            }else{
+                return array("status" => true,"erro" =>"");
             }
         }
 
@@ -503,7 +509,7 @@
     function isRegulationValid($value, $schoolSituation) {
         //campo 7 deve ser igual a 1
         if ($schoolSituation == 1) {
-            if ($value != 0 || $value != 1 || $value != 2) {
+            if ($value != 0 && $value != 1 && $value != 2) {
                 return array("status" => false,"erro" =>"Regulamentação da escola errada");
             }
         }else{

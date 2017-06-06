@@ -20,7 +20,8 @@ class ClassroomValidation extends Register{
 
     //campo 5
     function isValidClassroomName($name){
-        $regex = "/^[ 0-9A-Z��-]+$/";
+        //$regex = "/^[ 0-9A-Zªº-]+$/";
+        $regex = "/[0-9A-Zªº-]+\s+[A-Za-z]+/";
         $length = $this->checkLength($name, 80);
         if (!$length['status']){
             return array('status' => false, 'erro' => $length['erro']);
@@ -33,8 +34,8 @@ class ClassroomValidation extends Register{
 
     //campo 6
     function isValidMediation($mediation){
-        if (strlen($mediation) != 1){
-            return array('status' => false, 'erro' => 'O campo deve possuir 1 caractere');
+        if (empty($mediation)){
+            return array('status' => false, 'erro' => 'O campo deve ser preenchido');
         }
         if (!in_array($mediation, array('1', '2', '3'))) {
             return array('status' => false, 'erro' => 'O campo "Tipo de mediacao didatico-pedagogica" foi preenchido com valor invalido.');
@@ -53,8 +54,11 @@ class ClassroomValidation extends Register{
             }
             return array('status' => true, 'erro' => '');
         }
-        if ($this->isEmpty($initialHour) || $this->isEmpty($initialMinute) || $this->isEmpty($finalHour) || $this->isEmpty($finalMinute)) {
+
+
+        if (empty($initialHour) || empty($initialMinute) || empty($finalHour) || empty($finalMinute)) {
             return array('status' => false, 'erro' => 'Horario da turma tem que ser preenchido se for presencial');
+
         }
         if (strlen($initialHour) != 2 || strlen($initialMinute) != 2 || strlen($finalHour) != 2 || strlen($finalMinute) != 2){
             return array('status' => false, 'erro' => 'Os campos devem possuir 2 caracteres');
@@ -118,15 +122,16 @@ class ClassroomValidation extends Register{
         $allowedValues = array('0', '1', '2', '3', '4', '5');
         $complementary_activities = $school_structure['complementary_activities'];
         $operation_locations = array($school_structure['operation_location_building'],
-                                     $school_structure['operation_location_temple'],
-                                     $school_structure['operation_location_businness_room'],
-                                     $school_structure['operation_location_instructor_house'],
-                                     $school_structure['operation_location_other_school_room'],
-                                     $school_structure['operation_location_barracks'],
-                                     $school_structure['operation_location_socioeducative_unity'],
-                                     $school_structure['operation_location_prison_unity'],
-                                     $school_structure['operation_location_other']);
+            $school_structure['operation_location_temple'],
+            $school_structure['operation_location_businness_room'],
+            $school_structure['operation_location_instructor_house'],
+            $school_structure['operation_location_other_school_room'],
+            $school_structure['operation_location_barracks'],
+            $school_structure['operation_location_socioeducative_unity'],
+            $school_structure['operation_location_prison_unity'],
+            $school_structure['operation_location_other']);
         $aee = $school_structure['aee'];
+
         $emptyAssistanceType = $this->isEmpty($assistance_type);
 
         if ($emptyAssistanceType['status']){
@@ -206,14 +211,14 @@ class ClassroomValidation extends Register{
     function isValidMaisEducacaoParticipator($participator, $mediation, $administrative_dependence, $assistance_type, $modality, $stage){
         $allowedValues = array('0', '1');
         $checkStages = array('4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
-                             '20', '21', '22', '23', '24', '41', '25', '26', '27', '28', '29', '30', '31', '32', '33',
-                             '34', '35', '36', '37', '38');
+            '20', '21', '22', '23', '24', '41', '25', '26', '27', '28', '29', '30', '31', '32', '33',
+            '34', '35', '36', '37', '38');
         $emptyParticipator = $this->isEmpty($participator);
 
         if (($mediation == 1 && ($administrative_dependence == 2 || $administrative_dependence == 3)
                 && $assistance_type != 1 && $assistance_type != 5
                 && ($assistance_type != 4 && $modality != 3 && in_array($stage, $checkStages)))
-                && $emptyParticipator['status']) {
+            && $emptyParticipator['status']) {
             return array('status' => false, 'erro' => 'O campo nao foi preenchido');
         }
 
@@ -235,7 +240,7 @@ class ClassroomValidation extends Register{
         if (($assistance_type == 1 || $assistance_type == 5) && !$emptyParticipator['status']) {
             return array('status' => false, 'erro' => 'Deve ser nulo se for hospitalar ou AEE');
         }
-        if (($modality == 3 || in_array($stage, $checkStages)) && !$emptyParticipator['status']) {
+        if (($modality == 3 || !(in_array($stage, $checkStages))) && !$emptyParticipator['status']) {
             return array('status' => false, 'erro' => 'Deve ser nulo se nao for fundamental ou medio da modalidade regular, especial ou profissional');
         }
         return array('status' => true, 'erro' => '');
@@ -312,19 +317,17 @@ class ClassroomValidation extends Register{
         if (!in_array($modality, $allowedValues)){
             return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
         }
-        foreach ($schoolStructureModalities as $ssm) {
-            if ($modality == 1 && $ssm[0] != 1) {
-                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 1 quando nao for educacao regular');
-            }
-            if ($modality == 2 && $ssm[1] != 1) {
-                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
-            }
-            if ($modality == 3 && $ssm[2] != 1) {
-                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 3 quando nao for EJA');
-            }
-            if ($modality == 4 && $ssm[3] != 1) {
-                return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 4 quando nao for educacao profissional');
-            }
+        if($modality == 1 && $schoolStructureModalities['modalities_regular'] != 1){
+            return array('status' => false, 'erro' => 'O campo não pode ser preenchido com 1 quando não for educacao regular');
+        }
+        if($modality == 2 && $schoolStructureModalities['modalities_especial'] != 1){
+            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
+        }
+        if($modality == 3 && $schoolStructureModalities['modalities_eja'] != 1){
+            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
+        }
+        if($modality == 4 && $schoolStructureModalities['modalities_professional'] != 1){
+            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
         }
         if (!($modality == 2 || $modality == 3) && $mediation == 2) {
             return array('status' => false, 'erro' => 'O campo modalidade deve ser 2 ou 3 quando a mediacao for semipresencial');
@@ -414,7 +417,7 @@ class ClassroomValidation extends Register{
 
         $atLeastOne = $this->atLeastOne($disciplineArray);
         if ($mustFillOne && !$atLeastOne['status']){
-            return array('status' => false, 'erro' => 'Pelo menos um dos campos deve ser preenchido com 1');
+            return array('status' => false, 'erro' => 'Pelo menos uma disciplina/professor deve ser inserida na turma');
         }
         return array('status' => true, 'erro' => '');
     }

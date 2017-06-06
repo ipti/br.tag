@@ -634,8 +634,11 @@
 			if (!$result['status']) array_push($log, array('aee' => $result['erro']));
 
 			//campo 37
-			$schoolStructureModalities = array($schoolstructure['modalities_regular'], $schoolstructure['modalities_especial'],
-				$schoolstructure['modalities_eja'], $schoolstructure['modalities_professional']);
+
+			$schoolStructureModalities['modalities_regular'] = $schoolstructure['modalities_regular'];
+			$schoolStructureModalities['modalities_especial'] = $schoolstructure['modalities_especial'];
+			$schoolStructureModalities['modalities_eja'] = $schoolstructure['modalities_eja'];
+			$schoolStructureModalities['modalities_professional'] = $schoolstructure['modalities_professional'];
 			$result = $crv->isValidModality($column['modality'], $column['assistance_type'], $schoolStructureModalities, $column['pedagogical_mediation_type']);
 			if (!$result['status']) array_push($log, array('modality' => $result['erro']));
 
@@ -681,8 +684,10 @@
 			if(!$result["status"]) array_push($log, array("school_inep_id_fk"=>$result["erro"]));
 
 			//campo 3
-			$result = $iiv->isNumericOfSize(12, $collumn['inep_id']);
-			if(!$result["status"]) array_push($log, array("inep_id"=>$result["erro"]));
+			if(!empty($collumn['inep_id'])){
+				$result = $iiv->isNumericOfSize(12, $collumn['inep_id']);
+				if(!$result["status"]) array_push($log, array("inep_id"=>$result["erro"]));
+			}
 
 			//campo 4
 			$result = $iiv->isNotGreaterThan($collumn['id'], 20);
@@ -720,7 +725,7 @@
 			if(!$result["status"]) array_push($log, array("filiation"=>$result["erro"]));
 
 			//campo 14, 15
-			$result = $iiv->checkNation($collumn['edcenso_nation_fk'], $collumn['nationality'], array("1", "2", "3") );
+			$result = $iiv->checkNation($collumn['nationality'],$collumn['edcenso_nation_fk'], array("1", "2", "3") );
 			if(!$result["status"]) array_push($log, array("nationality_nation"=>$result["erro"]));
 
 			//campo 16
@@ -756,8 +761,10 @@
 				$collumn['deficiency_type_disability_hearing'] =>
 					array($collumn['deficiency_type_deafblindness']));
 
-			$result = $iiv->checkDeficiencies($collumn['deficiency'], $deficiencies, $excludingdeficiencies);
-			if(!$result["status"]) array_push($log, array("deficiencies"=>$result["erro"]));
+			if(!empty($collumn['deficiency'])){
+				$result = $iiv->checkDeficiencies($collumn['deficiency'], $deficiencies, $excludingdeficiencies);
+				if(!$result["status"]) array_push($log, array("deficiencies"=>$result["erro"]));
+			}
 
 			//campo 26
 
@@ -788,50 +795,64 @@
 			if(!$result["status"]) array_push($log, array("school_inep_id_fk"=>$result["erro"]));
 
 			//campo 3
-			$sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructor_inep_id'";
-			$check = Yii::app()->db->createCommand($sql)->queryAll();
-			$result = $idav->isEqual($check[0]['status'],'1', 'Não há tal inep_id $instructor_inep_id');
-			if(!$result["status"]) array_push($log, array("inep_id"=>$result["erro"]));
+			if(!empty($instructor_inep_id)){
+				$sql = "SELECT COUNT(inep_id) AS status FROM instructor_documents_and_address WHERE inep_id =  '$instructor_inep_id'";
+				$check = Yii::app()->db->createCommand($sql)->queryAll();
+				$result = $idav->isEqual($check[0]['status'],'1', "Não há tal inep_id $instructor_inep_id");
+				if(!$result["status"]) array_push($log, array("inep_id"=>$result["erro"]));
+			}
 
 			//campo 4
 			$result = $idav->isNotGreaterThan($collumn['id'], 20);
 			if(!$result["status"]) array_push($log, array("id"=>$result["erro"]));
 
-			//campo 5
 			$result = $idav->isCPFValid($collumn['cpf']);
 			if(!$result["status"]) array_push($log, array("cpf"=>$result["erro"]));
 
-			//campo 6
-			$result = $idav->isAllowed($collumn['area_of_residence'], array("1", "2"));
-			if(!$result["status"]) array_push($log, array("area_of_residence"=>$result["erro"]));
+			//campo 5
+			if(!empty($collumn['area_of_residence'])){
+				//campo 6
+				$result = $idav->isAllowed($collumn['area_of_residence'], array("1", "2"));
+				if(!$result["status"]) array_push($log, array("area_of_residence"=>$result["erro"]));
 
-			//campo 7
-			$result = $idav->isCEPValid($collumn['cep']);
-			if(!$result["status"]) array_push($log, array("cep"=>$result["erro"]));
+				if(!empty($collumn['cep'])){
+					//campo 7
+					$result = $idav->isCEPValid($collumn['cep']);
+					if(!$result["status"]) array_push($log, array("cep"=>$result["erro"]));
 
-			//campo 8
-			$result = $idav->isAdressValid($collumn['address'], $collumn['cep'], 100);
-			if(!$result["status"]) array_push($log, array("address"=>$result["erro"]));
+					//campo 8
+					$result = $idav->isAdressValid($collumn['address'], $collumn['cep'], 100);
+					if(!$result["status"]) array_push($log, array("address"=>$result["erro"]));
 
-			//campo 9
-			$result = $idav->isAdressValid($collumn['address_number'], $collumn['cep'], 10);
-			if(!$result["status"]) array_push($log, array("address_number"=>$result["erro"]));
+					//campo 9
+					$result = $idav->isAdressValid($collumn['address_number'], $collumn['cep'], 10);
+					if(!$result["status"]) array_push($log, array("address_number"=>$result["erro"]));
 
-			//campo 10
-			$result = $idav->isAdressValid($collumn['complement'], $collumn['cep'], 20);
-			if(!$result["status"]) array_push($log, array("complement"=>$result["erro"]));
+					//campo 10
+					if(!empty($collumn['complement'])){
+						$result = $idav->isAdressValid($collumn['complement'], $collumn['cep'], 20);
+						if(!$result["status"]) array_push($log, array("complement"=>$result["erro"]));
+					}
+					//campo 11
+					if(!empty($collumn['neighborhood'])) {
+						$result = $idav->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
+						if (!$result["status"]) array_push($log, array("neighborhood" => $result["erro"]));
+					}
+					//campo 12
+					$result = $idav->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
+					if(!$result["status"]) array_push($log, array("edcenso_uf_fk"=>$result["erro"]));
 
-			//campo 11
-			$result = $idav->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
-			if(!$result["status"]) array_push($log, array("neighborhood"=>$result["erro"]));
+					//campo 13
+					$result = $idav->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
+					if(!$result["status"]) array_push($log, array("edcenso_city_fk"=>$result["erro"]));
+				}
 
-			//campo 12
-			$result = $idav->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
-			if(!$result["status"]) array_push($log, array("edcenso_uf_fk"=>$result["erro"]));
+			}
 
-			//campo 13
-			$result = $idav->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
-			if(!$result["status"]) array_push($log, array("edcenso_city_fk"=>$result["erro"]));
+
+
+
+
 
 			return $log;
 		}
@@ -859,11 +880,14 @@
 			if(!$result["status"]) array_push($log, array("school_inep_id_fk"=>$result["erro"]));
 
 			//campo 03
-			$sql = "SELECT COUNT(inep_id) AS status FROM instructor_identification WHERE inep_id =  '$instructor_inep_id'";
-			$check = Yii::app()->db->createCommand($sql)->queryAll();
+			if(!empty($instructor_inep_id)){
+				$sql = "SELECT COUNT(inep_id) AS status FROM instructor_identification WHERE inep_id =  '$instructor_inep_id'";
+				$check = Yii::app()->db->createCommand($sql)->queryAll();
+				$result = $itdv->isEqual($check[0]['status'],'1', 'Não há tal instructor_inep_id $instructor_inep_id');
+				if(!$result["status"]) array_push($log, array("instructor_inep_id"=>$result["erro"]));
+			}
 
-			$result = $itdv->isEqual($check[0]['status'],'1', 'Não há tal instructor_inep_id $instructor_inep_id');
-			if(!$result["status"]) array_push($log, array("instructor_inep_id"=>$result["erro"]));
+
 
 			//campo 4
 			$sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructor_fk'";
@@ -976,7 +1000,6 @@
 			$check = Yii::app()->db->createCommand($sql)->queryAll();
 
 			$disciplines = array_values($check[0]);
-
 			$result = $itdv->checkDisciplineCode($disciplines_codes, $collumn['role'], $assistance_type,
 				$edcenso_svm, $disciplines);
 			if(!$result["status"]) array_push($log, array("disciplines_codes"=>$result["erro"]));
@@ -1145,7 +1168,7 @@
 			if(!$result["status"]) array_push($log, array("resources"=>$result["erro"]));
 			return $log;
 		}
-		public function validateStudentDocumentsAddress($collumn){
+		public function validateStudentDocumentsAddress($collumn,$studentident){
 			$student_inep_id = $collumn['student_fk'];
 			$sql = "SELECT inep_id FROM school_identification;";
 			$inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
@@ -1163,24 +1186,18 @@
 			$student_inep_id_fk = $collumn["student_fk"];
 			$log = array();
 
-			$sqlTable6012 = "SELECT nationality AS field12 FROM student_identification;";
-			$checkSql6012 = Yii::app()->db->createCommand($sqlTable6012)->queryAll();
-			$field6012 = $checkSql6012[0]['field12'];
+			$field6012 = $studentident['nationality'];
 
 			$foreign = $sda->isAllowed($field6012, array("3"));
-
-			$sqlTable6006 = "SELECT birthday AS field06 FROM student_identification;";
-			$checkSql6006 = Yii::app()->db->createCommand($sqlTable6006)->queryAll();
-			$field6006 = $checkSql6006[0]['field06'];
-
-			$sqlTable7005 = "SELECT rg_number AS field5 FROM student_documents_and_address;";
-			$checkSql7005 = Yii::app()->db->createCommand($sqlTable7005)->queryAll();
-			$field7005 = $checkSql7005[0]['field5'];
+			$field6006 = $collumn['birthday'];
+			$field7005 = $collumn['rg_number'];
 
 			date_default_timezone_set('America/Bahia');
 			$date = date('d/m/Y');
 
-			$field7009 = $sda->isAllowed($collumn['civil_certification'], array("1", "2"));
+			//$sda->isAllowed($collumn['civil_certification'], array("1", "2"));
+			$field7009 = $collumn['civil_certification'];
+
 
 			//campo 1
 			$result = $sda->isRegister("70", $collumn['register_type']);
@@ -1199,24 +1216,27 @@
 			//campo 4
 			$sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id';";
 			$check = Yii::app()->db->createCommand($sql)->queryAll();
-			$result = $sda->isEqual($check[0]['status'],'1', 'Não há tal student_inep_id $student_inep_id');
+			$result = $sda->isEqual($check[0]['status'],'1', "Não há tal student_inep_id $student_inep_id");
 			if(!$result["status"]) array_push($log, array("student_fk"=>$result["erro"]));
 
 			//campo 5
-			$result = $sda->isRgNumberValid($collumn['rg_number'], $field6012);
-			if(!$result["status"]) array_push($log, array("rg_number"=>$result["erro"]));
+			if(!empty($collumn['rg_number'])){
+				$result = $sda->isRgNumberValid($collumn['rg_number'], $field6012);
+				if(!$result["status"]) array_push($log, array("rg_number"=>$result["erro"]));
 
-			//campo 6
-			$result = $sda->isRgEmissorOrganValid($collumn['rg_number_edcenso_organ_id_emitter_fk'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("rg_number_edcenso_organ_id_emitter_fk"=>$result["erro"]));
+				//campo 6
+				$result = $sda->isRgEmissorOrganValid($collumn['rg_number_edcenso_organ_id_emitter_fk'], $field6012, $field7005);
+				if(!$result["status"]) array_push($log, array("rg_number_edcenso_organ_id_emitter_fk"=>$result["erro"]));
 
-			//campo 7
-			$result = $sda->isRgUfValid($collumn['rg_number_edcenso_uf_fk'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("rg_number_edcenso_uf_fk"=>$result["erro"]));
+				//campo 7
+				$result = $sda->isRgUfValid($collumn['rg_number_edcenso_uf_fk'], $field6012, $field7005);
+				if(!$result["status"]) array_push($log, array("rg_number_edcenso_uf_fk"=>$result["erro"]));
+			}
 
 			//campo 8
-			$result = $sda->isDateValid($field6012, $collumn['rg_number_expediction_date'] ,$field6006, $date, 0, 8);
+			/*$result = $sda->isDateValid($field6012, $collumn['rg_number_expediction_date'] ,$field6006, $date, 0, 8);
 			if(!$result["status"]) array_push($log, array("rg_number_expediction_date"=>$result["erro"]));
+			*/
 
 			//campo 9
 			$result = $sda->isAllowed($collumn['civil_certification'], array("1", "2"));
@@ -1227,81 +1247,98 @@
 			if(!$result["status"]) array_push($log, array("civil_certification_type"=>$result["erro"]));
 
 			//campo 11
-			$result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("civil_certification_term_number"=>$result["erro"]));
+			$field7009 = $collumn['civil_certification'];
 
-			//campo 12
-			$result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("civil_certification_sheet"=>$result["erro"]));
+			if($field7009 == 1){
+				$result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("civil_certification_term_number"=>$result["erro"]));
 
-			//campo 13
-			$result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("civil_certification_book"=>$result["erro"]));
+				//campo 12
+				$result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("civil_certification_sheet"=>$result["erro"]));
 
-			//campo 14
-			$result = $sda->isDateValid($field6012, $collumn['civil_certification_date'] ,$field6006, $date, 1, 14);
-			if(!$result["status"]) array_push($log, array("civil_certification_date"=>$result["erro"]));
+				//campo 13
+				$result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("civil_certification_book"=>$result["erro"]));
 
-			//campo 15
-			$result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("notary_office_uf_fk"=>$result["erro"]));
+				//campo 14
+				$result = $sda->isDateValid($field6012, $collumn['civil_certification_date'] ,$field6006, $date, 1, 14);
+				if(!$result["status"]) array_push($log, array("civil_certification_date"=>$result["erro"]));
 
-			//campo 16
-			$result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("notary_office_city_fk"=>$result["erro"]));
+				//campo 15
+				$result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("notary_office_uf_fk"=>$result["erro"]));
 
-			//campo 17
-			$result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("edcenso_notary_office_fk"=>$result["erro"]));
+				//campo 16
+				$result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("notary_office_city_fk"=>$result["erro"]));
 
-			//campo 18
-			$result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $field6012, $field7005);
-			if(!$result["status"]) array_push($log, array("civil_register_enrollment_number"=>$result["erro"]));
+				//campo 17
+				$result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("edcenso_notary_office_fk"=>$result["erro"]));
 
+			}else{
+				//campo 18
+				$result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $field6012, $field7009);
+				if(!$result["status"]) array_push($log, array("civil_register_enrollment_number"=>$result["erro"]));
+			}
 			//campo 19
-			$result = $sda->isCPFValid($collumn['cpf']);
-			if(!$result["status"]) array_push($log, array("cpf"=>$result["erro"]));
-
+			if(!empty($collumn['cpf'])){
+				$result = $sda->isCPFValid($collumn['cpf']);
+				if(!$result["status"]) array_push($log, array("cpf"=>$result["erro"]));
+			}
 			//campo 20
 			$result = $sda->isPassportValid($collumn['foreign_document_or_passport'], $field6012);
 			if(!$result["status"]) array_push($log, array("foreign_document_or_passport"=>$result["erro"]));
 
 			//campo 21
-			$result = $sda->isNISValid($collumn['nis']);
-			if(!$result["status"]) array_push($log, array("nis"=>$result["erro"]));
+			if(!empty($collumn['nis'])){
+				$result = $sda->isNISValid($collumn['nis']);
+				if(!$result["status"]) array_push($log, array("nis"=>$result["erro"]));
+			}
 
 			//campo 22
 			$result = $sda->isAreaOfResidenceValid($collumn['residence_zone']);
 			if(!$result["status"]) array_push($log, array("residence_zone"=>$result["erro"]));
 
-			//campo 23
-			$result = $sda->isCEPValid($collumn['cep']);
-			if(!$result["status"]) array_push($log, array("cep"=>$result["erro"]));
+			if(!empty($collumn['area_of_residence'])) {
+				if(!empty($collumn['cep'])){
+					//campo 23
+					$result = $sda->isCEPValid($collumn['cep']);
+					if (!$result["status"]) array_push($log, array("cep" => $result["erro"]));
 
-			//campo 24
-			$result = $sda->isAdressValid($collumn['address'], $collumn['cep'], 100);
-			if(!$result["status"]) array_push($log, array("address"=>$result["erro"]));
+					//campo 24
+					$result = $sda->isAdressValid($collumn['address'], $collumn['cep'], 100);
+					if (!$result["status"]) array_push($log, array("address" => $result["erro"]));
 
-			//campo 25
-			$result = $sda->isAdressValid($collumn['number'], $collumn['cep'], 10);
-			if(!$result["status"]) array_push($log, array("number"=>$result["erro"]));
+					if(!empty($collumn['number'])){
+						//campo 25
+						$result = $sda->isAdressValid($collumn['number'], $collumn['cep'], 10);
+						if (!$result["status"]) array_push($log, array("number" => $result["erro"]));
+					}
 
-			//campo 26
-			$result = $sda->isAdressValid($collumn['complement'], $collumn['cep'], 20);
-			if(!$result["status"]) array_push($log, array("complement"=>$result["erro"]));
+					if(!empty($collumn['complement'])){
+						//campo 26
+						$result = $sda->isAdressValid($collumn['complement'], $collumn['cep'], 20);
+						if (!$result["status"]) array_push($log, array("complement" => $result["erro"]));
+					}
 
-			//campo 27
-			$result = $sda->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
-			if(!$result["status"]) array_push($log, array("neighborhood"=>$result["erro"]));
+					if(!empty($collumn['neighborhood'])){
+						//campo 27
+						$result = $sda->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
+						if (!$result["status"]) array_push($log, array("neighborhood" => $result["erro"]));
+					}
 
-			//campo 28
-			$result = $sda->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
-			if(!$result["status"]) array_push($log, array("edcenso_uf_fk"=>$result["erro"]));
+					//campo 28
+					$result = $sda->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
+					if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
 
-			//campo 29
-			$result = $sda->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
-			if(!$result["status"]) array_push($log, array("edcenso_city_fk"=>$result["erro"]));
+					//campo 29
+					$result = $sda->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
+					if (!$result["status"]) array_push($log, array("edcenso_city_fk" => $result["erro"]));
+				}
 
+			}
 			return $log;
 		}
 		public function validateEnrollment($collumn){
@@ -1340,8 +1377,10 @@
 			$sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id_fk';";
 			$check = Yii::app()->db->createCommand($sql)->queryAll();
 
-			$result = $sev->isEqual($check[0]['status'],'1', 'Não há tal student_inep_id $student_inep_id');
-			if(!$result["status"]) array_push($log, array("student_fk"=>$result["erro"]));
+			if(!empty($student_inep_id)){
+				$result = $sev->isEqual($check[0]['status'],'1', "Não há tal student_inep_id $student_inep_id");
+				if(!$result["status"]) array_push($log, array("student_fk"=>$result["erro"]));
+			}
 
 			//campo 05
 			$result = $sev->isNull($collumn['classroom_inep_id']);
@@ -1387,28 +1426,38 @@
 			if(!$result["status"]) array_push($log, array("another_scholarization_place"=>$result["erro"]));
 
 			//campo 11
-			$result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
-			if(!$result["status"]) array_push($log, array("public_transport"=>$result["erro"]));
+			//@todo setar nulo na exportação
+			if(!empty($collumn['public_transport'])){
+				$result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
+				if(!$result["status"]) array_push($log, array("public_transport"=>$result["erro"]));
 
-			//campo 12
-			$result = $sev->ifDemandsCheckValues($collumn['public_transport'], $collumn['transport_responsable_government'], array('1', '2'));
-			if(!$result["status"]) array_push($log, array("transport_responsable_government"=>$result["erro"]));
+				$result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
+				if(!$result["status"]) array_push($log, array("public_transport"=>$result["erro"]));
 
-			//campo 13 à 23
+				//campo 12
+				$result = $sev->ifDemandsCheckValues($collumn['public_transport'], $collumn['transport_responsable_government'], array('1', '2'));
+				if(!$result["status"]) array_push($log, array("transport_responsable_government"=>$result["erro"]));
 
-			$vehicules_types = array($collumn['vehicle_type_van'],
-				$collumn['vehicle_type_microbus'],
-				$collumn['vehicle_type_bus'],
-				$collumn['vehicle_type_bike'],
-				$collumn['vehicle_type_other_vehicle'],
-				$collumn['vehicle_type_waterway_boat_5'],
-				$collumn['vehicle_type_waterway_boat_5_15'],
-				$collumn['vehicle_type_waterway_boat_15_35'],
-				$collumn['vehicle_type_waterway_boat_35'],
-				$collumn['vehicle_type_metro_or_train']);
+				//campo 13 à 23
 
-			$result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
-			if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+				$vehicules_types = array($collumn['vehicle_type_van'],
+					$collumn['vehicle_type_microbus'],
+					$collumn['vehicle_type_bus'],
+					$collumn['vehicle_type_bike'],
+					$collumn['vehicle_type_other_vehicle'],
+					$collumn['vehicle_type_waterway_boat_5'],
+					$collumn['vehicle_type_waterway_boat_5_15'],
+					$collumn['vehicle_type_waterway_boat_15_35'],
+					$collumn['vehicle_type_waterway_boat_35'],
+					$collumn['vehicle_type_metro_or_train']);
+
+				$result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
+				if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+			}
+
+
+
+
 
 
 			//24
@@ -1454,7 +1503,7 @@
 					if(!isset($log['student'][$enrollment->student_fk]['info'])){
 						$log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
 						$log['student'][$enrollment->student_fk]['validate']['identification'] = $this->validateStudentIdentification($enrollment->studentFk->attributes,$enrollment->studentFk->documentsFk->attributes);
-						$log['student'][$enrollment->student_fk]['validate']['documents'] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes);
+						$log['student'][$enrollment->student_fk]['validate']['documents'] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes,$enrollment->studentFk->attributes);
 					}
 					$log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
 					$log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;

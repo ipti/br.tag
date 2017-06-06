@@ -9,13 +9,13 @@
 
         //campo 5
         function isRgNumberValid($rg, $Reg60Field12) {
-            if ($Reg60Field12 != 1 || $Reg60Field12 != 2) {
+            if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
                 if (strlen($rg) > 20) {
                   return array("status" => false,"erro" => "Numero da Identidade não está com tamanho correto");
                 } else if (!preg_match('/^[0-9]{7}([- ]?[0-9]{1})?$/', $rg)) {
                   return array("status" => false,"erro" => "Numero da Identidade está com padrão incorreto");
                 } else {
-                  return array("status" => false,"erro" => "Campo 12 do registro 60 deve ser igual a 1 ou 2");
+                  return array("status" => true,"erro" => "Campo 12 do registro 60 deve ser igual a 1 ou 2");
                 }
             } else if (preg_match('/^[0-9]{7}([- ]?[0-9]{1})?$/', $rg)) {
               return array("status" => true,"erro" =>"");
@@ -39,11 +39,13 @@
                         return array("status" => true,"erro" =>"");
                     }
                 } else {
+                    var_dump($Reg60Field12);exit;
                     return array("status" => false,"erro" => " Campo 12 do registro 60 deve ser igual a 1 ou 2");
                 }
             } //deve ser nulo quando campo 5 for nulo
             else {
                 if (strlen($EmissorOrgan) != 0) {
+                    var_dump($EmissorOrgan);
                     return array("status" => false,"erro" =>" Orgao emissor deve ser nulo");
                 }
             }
@@ -188,7 +190,6 @@
         //campo 10
         function isCivilCertificationTypeValid($type, $Reg70Field5, $Reg60Field12, $birthday, $currentDate) {
             if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
-                if ($Reg70Field5 == 1) {
                     if ($type == 1) {
                         return array("status" => true,"erro" =>"");
                     } else if ($type == 2) {
@@ -211,7 +212,7 @@
                             $idade--;
                         }
 
-                        if ($idade < 10) {
+                        if ($idade <= 10) {
                             return array("status" => false,"erro" => "Aluno com menos de 10 anos não pode ter certidão de casamento.");
                         }
 
@@ -219,9 +220,7 @@
                     } else {
                         return array("status" => false,"erro" => "O Tipo de Certificacao Civil deve ser igual a 1");
                     }
-                } else {
-                    return array("status" => false,"erro" => "Campo 9 do registro 70 deve ser igual a 1");
-                }
+
             } else {
                 return array("status" => false,"erro" => "Campo 12 do registro 60 deve ser igual a 1 ou 2");
             }
@@ -252,7 +251,6 @@
                         return array("status" => false,"erro" => "Com tamanho invalido");
                     }
                 }
-                return array("status" => false,"erro" => "Campo 5 do registro 70 deve ser igual a 2");
             } else {
                 return array("status" => false,"erro" => "Campo 12 do registro 60 deve ser igual a 1 ou 2");
             }
@@ -283,8 +281,6 @@
                 if (strlen($passport) > 20) {
                     return array("status" => false,"erro" => "Passaporte com tamanho incorreto");
                 }
-            } else {
-                return array("status" => false,"erro" => "Campo 12 do registro 60 para estrangeiros deve ter valor 3");
             }
 
             return array("status" => true,"erro" =>"");
@@ -296,7 +292,8 @@
                 return array("status" => false,"erro" => "NIS tem tamanho inválido");
             } else if ($nis == 00000000000) {
 								return array("status" => false,"erro" => "O NIS foi preenchido com valor inválido.");
-						} else if (!preg_match('/^[0-9]$/', $nis)) {
+						} else if (!preg_match('/^[0-9]{11}$/', $nis)) {
+                                var_dump($nis);exit;
 								return array("status" => false,"erro" => "O NIS foi preenchido com valor inválido.");
 						}
 
@@ -305,9 +302,7 @@
 
         //campo 22
         function isAreaOfResidenceValid($area_of_residence) {
-            if (strlen($area_of_residence) != 1) {
-                return array("status" => false,"erro" => "O campo Localizacao/Area de Residencia foi preenchido com tamanho invalido");
-            } else if ($area_of_residence != 1 || $area_of_residence != 2) {
+           if ($area_of_residence != 1 && $area_of_residence != 2) {
                 return array("status" => false,"erro" => "O campo Localizacao/Area de Residencia  foi preenchido com valor inválido.");
             }
 

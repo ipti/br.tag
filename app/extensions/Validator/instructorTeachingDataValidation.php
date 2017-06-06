@@ -13,7 +13,7 @@ class instructorTeachingDataValidation extends Register{
 			return array("status"=>false,"erro"=>$result['erro']);
 		}
 
-		if($pedagogical_mediation_type != '1' || $pedagogical_mediation_type != '2'){
+		if($pedagogical_mediation_type != '1' && $pedagogical_mediation_type != '2'){
 			if(!($value == '5' || $value == '6')){
 				return array("status"=>false,"erro"=>"Valor $value indisponível devido à pedagogical_mediation_type");
 			}
@@ -83,13 +83,14 @@ class instructorTeachingDataValidation extends Register{
 
 		if(!empty($disciplines_codes)){
 			$result = $this->exclusive($disciplines_codes);
+
 			if(!$result['status']){
 					return array("status"=>false,"erro"=>$result['erro']);
-			}			
+			}
 		}
 
-		if(	!(in_array($role, array('1', '5', '6')) && 
-				in_array($assistance_type, array('4', '5')) &&
+		if(	!(in_array($role, array('1', '5')) ||
+				in_array($assistance_type, array('4', '5')) ||
 				in_array($edcenso_svm, array('1', '2', '3', '65'))) ) {
 
 			foreach ($disciplines_codes as $key => $value) {
@@ -99,10 +100,10 @@ class instructorTeachingDataValidation extends Register{
 			}
 		}
 
-		$result = $this->checkRangeOfArray($disciplines_codes, $disciplines);
+		/*$result = $this->checkRangeOfArray($disciplines_codes, $disciplines);
 		if(!$result['status']){
 				return array("status"=>false,"erro"=>$result['erro']);
-		}
+		}*/
 
 		return array("status"=>true,"erro"=>"");
 

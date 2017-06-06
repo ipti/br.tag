@@ -157,16 +157,17 @@ function isActive($pages){
                                 <li id="menu-admin" class="<?= isActive("admin") ?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
+                                <li id="menu-logout">
+                                    <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
+                                </li>
                             <?php } ?>
-                            <li id="menu-logout">
-                                <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
-                            </li>
+
 
                         </ul>
                     </div>
                     <!-- // Scrollable Menu wrapper with Maximum Height END -->
                     <div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Versão TAG: <?php echo Yii::app()->user->version?></div>
+                        <div style="float: left" id="apoio">Versão TAG: <?php echo TAG_VERSION?></div>
                     </div>
                 </div>
 

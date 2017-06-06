@@ -60,7 +60,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 echo $html;
                 ?>
         </table><br>
-        <?php $this->renderPartial('footer'); ?>
     </div>
-    <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
+    <?php $this->renderPartial('footer'); ?>
 </div>
