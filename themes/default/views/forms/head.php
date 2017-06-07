@@ -1,10 +1,14 @@
 <?php
 /* @var $this ReportsController
-    @var $school SchoolIdentification
+@var $school SchoolIdentification
  */
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 //$school = new SchoolIdentification;
 ?>
+<style>
+    #info li {text-align:center;}
+    #addinfo li{text-align: center}
+</style>
 <h3 class="heading visible-print"><?php echo @$title ?></h3>
 <div id="header-report">
     <?php
@@ -13,12 +17,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     };
     ?>
     <ul id="info">
-            <?php if(isset($school->act_of_acknowledgement)&&(!empty($school->act_of_acknowledgement))){?>
-                <li><?php echo $school->name ?></li>
-            <?php }else{?>
-                <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
-                <li><?php echo $school->name ?></li>
-            <?php }?>
+        <?php if(isset($school->act_of_acknowledgement)&&(!empty($school->act_of_acknowledgement))){?>
+            <li><?php echo $school->name ?></li>
+        <?php }else{?>
+            <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
+            <li><?php echo $school->name ?></li>
+        <?php }?>
     </ul>
     <ul id="addinfo">
         <li><?php echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood; ?>, <?php echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym ?> </li>

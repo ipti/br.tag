@@ -398,6 +398,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolIdentification, 'ies_code'); ?>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'latitude', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolIdentification, 'latitude'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'latitude'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'longitude', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelSchoolIdentification, 'longitude'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'longitude'); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

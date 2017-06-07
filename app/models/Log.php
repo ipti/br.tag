@@ -122,7 +122,6 @@ class Log extends CActiveRecord
 	}
 
 	public static function saveAction($reference, $referenceIds, $crud, $additionalInfo = null) {
-		date_default_timezone_set("America/Recife");
 		$date = new DateTime();
 		$log = new Log();
 		$log->reference = $reference;

@@ -1,5 +1,24 @@
 # Change Log
 
+## [Próximas Versões]
+
+**Melhorias:**
+- Melhorar o relatório de análise comparativa de matrículas.
+
+## [Versão 2.10.5]
+
+**Melhorias:**
+- Remoção da função de centralizador/admin mesclada com a versão atual.
+- Melhoria no sistema de multiplas instâncias.
+- Remoção da função gestão de resultados.
+- Reaproveitamento de turmas ordenando em ordem alfabetica.
+
+**Bugs Corrigidos:**
+- Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;
+
+**Funcionalidades:**
+- Adicionado nova função validação do educacenso
+
 ## [Versão 2.10.4]
 
 **Melhorias:**
