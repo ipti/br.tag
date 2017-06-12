@@ -4,6 +4,7 @@
 
 **Melhorias:**
 - Melhorar o relatório de análise comparativa de matrículas.
+- Inclusão de todos os relatórios e formulários existentes do TAG.
 
 ## [Versão 2.10.5]
 

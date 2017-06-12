@@ -12,16 +12,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
  */
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
-
-<br/>
-<div class="innerLR district">
+<div class="pageA4V">
+    <?php $this->renderPartial('head'); ?>
     <div>
         <script type="text/javascript">
             /*<![CDATA[*/
@@ -42,35 +34,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <div id="report" style="font-size: 14px">
 
-            <div id="container-header" style="width: 100%; margin: -25px auto auto auto; text-align: center">
-                <?php if(isset($school->act_of_acknowledgement)){?>
-                    <span style="display:block;clear:both;width: 40px;margin:0 auto;">
-                    <?php
-                    if(isset($school->logo_file_name)){
-                        echo '<img src="data:'.$school->logo_file_type.';base64,'.base64_encode($school->logo_file_content).'" width="40px" style="margin: 0 auto; display: block">';
-                    };
-                    ?>
-                </span>
-                    <p style="font-weight:bold;font-size:15px"><?php echo $school->name ?></p>
-                    <p style="font-size:10px;font-weight: bold"><?php echo $school->act_of_acknowledgement ?></p>
-                    <p style="font-size:8px;font-weight: bold">
-                        <?php echo $school->address ?>,
-                        <?php echo $school->edcensoCityFk->name ?>/
-                        <?php echo $school->edcensoUfFk->name ?> - CEP: <?php echo $school->cep ?>
-                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
-                    </p>
-                    <span style="display: block; clear: both"></span>
-                <?php }else{?>
-                    <img src="/images/boquim.png" width="40px" style="float: left; margin-right: 5px;">
-                    <span style="text-align: center; float: left; margin-top: 5px;">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                        SECRETARIA MUNICIPAL DE EDUCAÇÃO, CULTURA, ESPORTE, LAZER E TURISMO<br>
-                        <?php echo $school->name ?>
-                        CÓDIGO DO INEP: <?php echo $school->inep_id ?>
-                        <?php //strtoupper($school->report_header)?></span>
-                    <span style="clear:both;display:block"></span>
-                <?php }?>
-            </div>
-            <br/><br/>
             <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
                 <br><br/><br/><br/>
                 <div id="report_type_container" style="text-align: center">
@@ -201,7 +164,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         }
                         break;
                     case '6':
-                        echo "na _____ série da Educação de Jovens e Adultos, onde ";
+                        echo "no _____ ano da Educação de Jovens e Adultos, onde ";
                         if ($gender == '1'){
                             echo "o mesmo:";
                         } else {
@@ -426,7 +389,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </span>
                     </div>-->
                 <?php } ?>
-            </div>
         </div>
         <?php $this->renderPartial('footer'); ?>
     </div>
