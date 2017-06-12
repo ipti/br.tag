@@ -4,7 +4,6 @@
 
 **Melhorias:**
 - Melhorar o relatório de análise comparativa de matrículas.
-- Inclusão de todos os relatórios e formulários existentes do TAG.
 
 ## [Versão 2.10.5]
 
@@ -13,6 +12,8 @@
 - Melhoria no sistema de multiplas instâncias.
 - Remoção da função gestão de resultados.
 - Reaproveitamento de turmas ordenando em ordem alfabetica.
+- Inclusão de todos os relatórios e formulários existentes do TAG.
+
 
 **Bugs Corrigidos:**
 - Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;
