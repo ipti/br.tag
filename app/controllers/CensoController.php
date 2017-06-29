@@ -14,6 +14,8 @@ class CensoController extends Controller {
 
 	public $layout = 'fullmenu';
 
+	public $export = '';
+
 	public function accessRules() {
 		return [
 			[
@@ -28,10 +30,6 @@ class CensoController extends Controller {
 			],
 		];
 	}
-
-	/**
-	 * Show the Index Page.
-	 */
 	public function actionIndex() {
 		$this->render('index');
 	}
@@ -1512,7 +1510,587 @@ class CensoController extends Controller {
 		}
 		$this->render('validate', ['log' => $log]);
 	}
+	public function actionExportStudentWithoutInepid()
+	{
+		$year = Yii::app()->user->year;
+		$id = Yii::app()->user->school;
 
+		$sql = "SELECT DISTINCT si.id,si.school_inep_id_fk , si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
+			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
+			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
+
+		$students = Yii::app()->db->createCommand($sql)->queryAll();
+
+		if(count($students) == 0){
+			echo "N&atilde;o h&aacute; alunos cadastrados nesta escola no ano de " . $year;
+		}else {
+			$fileName = date("Y-i-d") . "_" . $id . "_students_without_inep_id.txt";
+			$fileDir = "./app/export/" . $fileName;
+			$file = fopen($fileDir, 'w');
+
+			foreach ($students as $s) {
+				$linha = "";
+				if ($s['id'] == null) {
+					$linha .= "||";
+				} else {
+					$linha .= $s['id'] . "|";
+				}
+				$s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
+				$s['filiation_1'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_1']));
+				$s['filiation_2'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_2']));
+
+				if ($s['name'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $s['name'] . "|";
+				}
+				if ($s['birthday'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $s['birthday'] . "|";
+				}
+
+				if ($s['filiation_1'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $s['filiation_1'] . "|";
+				}
+
+				if ($s['filiation_2'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $s['filiation_2'] . "|";
+				}
+
+				if ($s['edcenso_city_fk'] == null) {
+					$linha .= "2802106|";
+				} else {
+					$linha .= $s['edcenso_city_fk'] . "|";
+				}
+
+				$linha .= "\n";
+
+				fwrite($file, $linha);
+			}
+
+			fclose($file);
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="' . $fileName . '"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($fileDir));
+			readfile($fileDir);
+		}
+	}
+	public function actionExportInstructorWithoutInepid(){
+		$year = Yii::app()->user->year;
+		$id = Yii::app()->user->school;
+
+		$sql = "SELECT DISTINCT id.school_inep_id_fk , id.inep_id , id.name , id.email, id.birthday_date , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
+                FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
+                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
+
+		$instructors = Yii::app()->db->createCommand($sql)->queryAll();
+
+		if(count($instructors) == 0){
+			echo "N&atilde;o h&aacute; professores cadastrados nesta escola no ano de " . $year;
+		}
+		else {
+			$fileName = date("Y-i-d") . "_" . $id . "_instructors_without_inep_id.txt";
+			$fileDir = "./app/export/" . $fileName;
+			$file = fopen($fileDir, 'w');
+
+
+			foreach ($instructors as $i) {
+				$linha = "";
+
+				if ($i['school_inep_id_fk'] == null) {
+					$linha .= "||";
+				} else {
+					$linha .= $i['school_inep_id_fk'] . "|";
+				}
+
+				if ($i['name'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['name'] . "|";
+				}
+
+				if ($i['email'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['email'] . "|";
+				}
+
+				if ($i['birthday_date'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['birthday_date'] . "|";
+				}
+
+				if ($i['filiation_1'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['filiation_1'] . "|";
+				}
+
+				if ($i['filiation_2'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['filiation_2'] . "|";
+				}
+
+				if ($i['edcenso_uf_fk'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['edcenso_uf_fk'] . "|";
+				}
+
+				if ($i['edcenso_city_fk'] == null) {
+					$linha .= "|";
+				} else {
+					$linha .= $i['edcenso_city_fk'] . "|";
+				}
+
+				if ($i['inep_id'] == null) {
+					$linha .= "|" . "\n";
+				} else {
+					$linha .= $i['inep_id'] . "\n";
+				}
+
+				fwrite($file, $linha);
+			}
+
+			fclose($file);
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="' . $fileName . '"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($fileDir));
+			readfile($fileDir);
+		}
+	}
+	public function normalizeFields($register,$attributes){
+		$FIELDS = array(
+			'00'=>array(
+				'COLUMNS'=>42,
+			),
+			'10'=>array(
+				'COLUMNS'=>107,
+			),
+			'20'=>array(
+				'COLUMNS'=>65,
+			),
+			'20'=>array(
+				'COLUMNS'=>65,
+			),
+			'30'=>array(
+				'COLUMNS'=>26,
+			),
+			'40'=>array(
+				'COLUMNS'=>13,
+			),
+			'50'=>array(
+				'COLUMNS'=>43,
+			),
+			'51'=>array(
+				'COLUMNS'=>21,
+			),
+			'60'=>array(
+				'COLUMNS'=>39,
+			),
+			'70'=>array(
+				'COLUMNS'=>29,
+			),
+			'80'=>array(
+				'COLUMNS'=>24,
+			),
+		);
+		$attributes = $this->fixMistakesExport($register,$attributes);
+		$qtdcolumns = $FIELDS[$register]['COLUMNS'];
+		$qtdattrs = count($attributes);
+		$total = $qtdattrs - $qtdcolumns;
+		for ($i = 1; $i <= $total; $i++) {
+			array_pop($attributes);
+		}
+		$this->export .= implode('|', $attributes);
+		$this->export .= "\n";
+	}
+	public function fixMistakesExport($register,$attributes){
+			switch ($register){
+				case '80':
+						if($attributes['public_transport'] == 0){
+							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
+							//@todo subtituir todos os valores -1 para String Vazia.
+							$attributes['vehicle_type_van'] = '';
+							$attributes['vehicle_type_microbus'] = '';
+							$attributes['vehicle_type_bus'] = '';
+							$attributes['vehicle_type_bike'] = '';
+							$attributes['vehicle_type_animal_vehicle'] = '';
+							$attributes['vehicle_type_other_vehicle'] = '';
+							$attributes['vehicle_type_waterway_boat_5'] = '';
+							$attributes['vehicle_type_waterway_boat_5_15'] = '';
+							$attributes['vehicle_type_waterway_boat_15_35'] = '';
+							$attributes['vehicle_type_waterway_boat_35'] = '';
+							$attributes['vehicle_type_metro_or_train'] = '';
+							$attributes['transport_responsable_government'] = '';
+						}
+					;
+				case '60':
+						if($attributes['deficiency'] == 0){
+							$attributes['deficiency_type_blindness'] = '';
+							$attributes['deficiency_type_low_vision'] = '';
+							$attributes['deficiency_type_deafness'] = '';
+							$attributes['deficiency_type_disability_hearing'] = '';
+							$attributes['deficiency_type_deafblindness'] = '';
+							$attributes['deficiency_type_phisical_disability'] = '';
+							$attributes['deficiency_type_intelectual_disability'] = '';
+							$attributes['deficiency_type_multiple_disabilities'] = '';
+							$attributes['deficiency_type_autism'] = '';
+							$attributes['deficiency_type_aspenger_syndrome'] = '';
+							$attributes['deficiency_type_rett_syndrome'] = '';
+							$attributes['deficiency_type_childhood_disintegrative_disorder'] = '';
+							$attributes['deficiency_type_gifted'] = '';
+							$attributes['resource_none'] = '';
+						}
+					;
+			}
+		return $attributes;
+
+	}
+	public function actionExport() {
+		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+		$this->normalizeFields($school->register_type,$school->attributes);
+		$schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
+		$this->normalizeFields($schoolStructure->register_type,$schoolStructure->attributes);
+		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+		foreach ($classrooms as $iclass => $classroom) {
+			$log['classrooms'][$iclass] = $classroom->attributes;
+			foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+				if(!isset($log['instructors'][$teachingData->instructor_fk])){
+					$log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+					$log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+					$log['instructors'][$teachingData->instructor_fk]['variable'] =  $teachingData->instructorFk->instructorVariableData->attributes;
+				}
+				$log['instructors'][$teachingData->instructor_fk]['teaching'][$iteaching] = $teachingData->attributes;
+			}
+			foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+				if(!isset($log['students'][$enrollment->student_fk])){
+					$log['students'][$enrollment->student_fk]['identification'] =  $enrollment->studentFk->attributes;
+					$log['students'][$enrollment->student_fk]['documents'] =  $enrollment->studentFk->documentsFk->attributes;
+				}
+				$log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+			}
+		}
+		foreach ($log['classrooms'] as $classroom) {
+			$this->normalizeFields($classroom['register_type'],$classroom);
+		}
+		foreach ($log['instructors'] as $instructor){
+			$this->normalizeFields($instructor['identification']['register_type'],$instructor['identification']);
+			$this->normalizeFields($instructor['documents']['register_type'],$instructor['documents']);
+			$this->normalizeFields($instructor['variable']['register_type'],$instructor['variable']);
+			foreach ($instructor['teaching'] as $teaching) {
+				$this->normalizeFields($teaching['register_type'],$teaching);
+			}
+		}
+		foreach ($log['students'] as $student){
+			$this->normalizeFields($student['identification']['register_type'],$student['identification']);
+			$this->normalizeFields($student['documents']['register_type'],$student['documents']);
+			foreach ($student['enrollments'] as $enrollment) {
+				$this->normalizeFields($enrollment['register_type'],$enrollment);
+			}
+		}
+		$this->export .= '99|';
+		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
+		Yii::import('ext.FileManager.fileManager');
+		$fm = new fileManager();
+		$result = $fm->write($fileDir, $this->export);
+
+		if ($result) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="/admin/downloadexportfile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+		} else {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+		}
+
+		$this->render('index');
+	}
+	public function readFileImport(){
+		set_time_limit(0);
+		ignore_user_abort();
+		$path = Yii::app()->basePath;
+		//Se não passar parametro, o valor será predefinido
+		if (empty($_FILES['file']['name'])) {
+			$fileDir = $path . '/import/2017_28026136.TXT';
+		} else {
+			$myfile = $_FILES['file'];
+			$uploadfile = $path . '/import/' . basename($myfile['name']);
+			move_uploaded_file($myfile['tmp_name'], $uploadfile);
+			$fileDir = $uploadfile;
+		}
+
+
+		$mode = 'r';
+
+		//Abre o arquivo
+		$file = fopen($fileDir, $mode);
+		if ($file == FALSE) {
+			die('O arquivo não existe.');
+		}
+
+		$registerLines = [];
+
+		//Inicializa o contador de linhas
+		$lineCount = [];
+		$lineCount['00'] = 0;
+		$lineCount['10'] = 0;
+		$lineCount['20'] = 0;
+		$lineCount['30'] = 0;
+		$lineCount['40'] = 0;
+		$lineCount['50'] = 0;
+		$lineCount['51'] = 0;
+		$lineCount['60'] = 0;
+		$lineCount['70'] = 0;
+		$lineCount['80'] = 0;
+
+		//Pega campos do arquivo
+		while (TRUE) {
+			//Próxima linha do arquivo
+			$fileLine = fgets($file);
+			if ($fileLine == NULL) {
+				break;
+			}
+
+			//Tipo do registro são os 2 primeiros caracteres
+			$regType = $fileLine[0] . $fileLine[1];
+			//Querba a linha nos caracteres |
+			$lineFields_Aux = explode("|", $fileLine);
+			$lineFields = [];
+
+			//Troca os campos vazios por 'null'
+			foreach ($lineFields_Aux as $key => $field) {
+				$value = !(isset($field)) ? '' : trim($field);
+				$lineFields[$key] = $value;
+			}
+
+			//passa os campos do arquivo para a matriz [tipo][linha][coluna]
+			$registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+		}
+		return $registerLines;
+	}
+	public function readFileImportIneps(){
+		set_time_limit(0);
+		ignore_user_abort();
+		$path = Yii::app()->basePath;
+		$fileDir = $path . '/import/RESULTADO_CERTO.txt';
+		$mode = 'r';
+
+		//Abre o arquivo
+		$file = fopen($fileDir, $mode);
+		if ($file == FALSE) {
+			die('O arquivo não existe.');
+		}
+
+		$registerLines = [];
+
+		//Inicializa o contador de linhas
+		$lineCount = [];
+		$lineCount['00'] = 0;
+		$lineCount['10'] = 0;
+		$lineCount['20'] = 0;
+		$lineCount['30'] = 0;
+		$lineCount['40'] = 0;
+		$lineCount['50'] = 0;
+		$lineCount['51'] = 0;
+		$lineCount['60'] = 0;
+		$lineCount['70'] = 0;
+		$lineCount['80'] = 0;
+
+		//Pega campos do arquivo
+		while (TRUE) {
+			//Próxima linha do arquivo
+			$fileLine = fgets($file);
+			if ($fileLine == NULL) {
+				break;
+			}
+			//Tipo do registro são os 2 primeiros caracteres
+			$regType = $fileLine[0] . $fileLine[1];
+			$lineFields_Aux = explode("|", $fileLine);
+			$lineFields = [];
+			//Troca os campos vazios por 'null'
+			foreach ($lineFields_Aux as $key => $field) {
+				$value = !(isset($field)) ? '' : trim($field);
+				$lineFields[$key] = $value;
+			}
+
+			//passa os campos do arquivo para a matriz [tipo][linha][coluna]
+			$registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+		}
+		return $registerLines;
+	}
+	public function actionImport(){
+		$lines = $this->readFileImport();
+		$sql = "";
+		$component=Yii::createComponent(array(
+			'class'=>'CDbConnection',
+			'connectionString' => 'mysql:host=localhost;dbname=information_schema',
+			'emulatePrepare' => true,
+			'username' => Yii::app()->db->username,
+			'password' => Yii::app()->db->password,
+			'charset' => 'utf8',
+			'enableParamLogging'=>true,
+			'schemaCachingDuration'=>3600,
+		));
+		Yii::app()->setComponent('db3',$component);
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['00'] as $iline => $line) {
+			$school = new SchoolIdentification();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$school->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$school->save();
+		}
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['10'] as $iline => $line) {
+			 $structure = new SchoolStructure();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$structure->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$structure->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'classroom' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['20'] as $iline => $line) {
+			$classroom = new Classroom();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$classroom->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			$classroom->school_year = Yii::app()->user->year;
+			//$classroom->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_identification' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['30'] as $iline => $line) {
+			$instructor = new InstructorIdentification();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$instructor->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$instructor->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_documents_and_address' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['40'] as $iline => $line) {
+			$idocuments = new InstructorDocumentsAndAddress();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$idocuments->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$idocuments->save();
+		}
+
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['50'] as $iline => $line) {
+			$ivariable = new InstructorVariableData();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				if(isset($line[$order])&&$line[$order] != ''){
+					$code = '$ivariable->'.$column_name.'=$line[$order];';
+					eval($code);
+				}
+			}
+			$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
+			$exist = InstructorVariableData::model()->findByPk($id->id);
+			if(!isset($exist)){
+				$ivariable->id = $id->id;
+				$ivariable->save();
+			}
+
+		}
+		exit;
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['51'] as $iline => $line) {
+			$teachingdata = new InstructorTeachingData();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$teachingdata->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//AQUI TEM QUE FAZER UMA LOGICA PRA SETAR O ATRIBUTO DA TURMA COM O ID FINAL.
+			//$teachingdata->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_identification' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['60'] as $iline => $line) {
+			$student = new StudentIdentification();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$student->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$student->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_documents_and_address' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['70'] as $iline => $line) {
+			$sdocuments = new StudentDocumentsAndAddress();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$sdocuments->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			//$sdocuments->save();
+		}
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_enrollment' and table_schema = 'io.escola.se.santaluzia'";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['80'] as $iline => $line) {
+			$senrollment = new StudentEnrollment();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				$code = '$senrollment->'.$column_name.'=$line[$order];';
+				eval($code);
+			}
+			var_dump($senrollment->attributes);exit;
+			//$senrollment->save();
+		}
+
+
+		var_dump($lines['00']);exit;
+	}
 
 }
 
