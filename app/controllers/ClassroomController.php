@@ -34,7 +34,7 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime','move','batchupdate'
+                    'updateTime','move','batchupdate','batchupdatetotal'
                 ),
                 'users' => array('@'),
             ),
@@ -444,6 +444,33 @@ class ClassroomController extends Controller {
         ));
     }
 
+    public function actionBatchupdatetotal($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $fields) {
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->admission_type = $fields['admission_type'];
+                $enro->current_stage_situation = $fields['current_stage_situation'];
+                $enro->update(array('admission_type','current_stage_situation'));
+            }
+        }
+
+        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21,41)";
+        $stages = Yii::app()->db->createCommand($sql1)->queryAll();
+        foreach ($stages as $index => $stage) {
+            $options_stage[$stage['id']] = $stage['name'];
+        }
+        $this->render('batchupdatetotal', array(
+            'modelClassroom' => $modelClassroom,
+            'options_stage'=>$options_stage
+        ));
+    }
     public function actionUpdate($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas

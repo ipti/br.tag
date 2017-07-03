@@ -1722,6 +1722,53 @@ class CensoController extends Controller {
 	}
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
+
+				case '10':
+					foreach ($attributes as $i => $attr){
+						if(empty($attr)){
+							$attributes[$i] = 0;
+						}
+					}
+					if($attributes['equipments_vcr'] == 0){
+						$attributes['equipments_vcr'] = '';
+					}
+					if($attributes['equipments_satellite_dish'] == 0){
+						$attributes['equipments_satellite_dish'] = '';
+					}
+					if($attributes['equipments_copier'] == 0){
+						$attributes['equipments_copier'] = '';
+					}
+					if($attributes['equipments_overhead_projector'] == 0){
+						$attributes['equipments_overhead_projector'] = '';
+					}
+					if($attributes['equipments_data_show'] == 0){
+						$attributes['equipments_data_show'] = '';
+					}
+					if($attributes['equipments_fax'] == 0){
+						$attributes['equipments_fax'] = '';
+					}
+					if($attributes['student_computers_count'] == 0){
+						$attributes['student_computers_count'] = '';
+					}
+					if($attributes['internet_access'] == 0){
+						$attributes['bandwidth'] = '';
+					}
+					if($attributes['native_education'] != 1){
+						$attributes['native_education_language_native'] = '';
+						$attributes['native_education_language_portuguese'] = '';
+						$attributes['edcenso_native_languages_fk'] = '';
+					}
+					if($attributes['shared_building_with_school'] != 1){
+						$attributes['shared_school_inep_id_1'] = '';
+						$attributes['shared_school_inep_id_2'] = '';
+						$attributes['shared_school_inep_id_3'] = '';
+						$attributes['shared_school_inep_id_4'] = '';
+						$attributes['shared_school_inep_id_5'] = '';
+						$attributes['shared_school_inep_id_6'] = '';
+					}
+
+				break;
+
 				case '80':
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
@@ -1739,7 +1786,8 @@ class CensoController extends Controller {
 							$attributes['vehicle_type_metro_or_train'] = '';
 							$attributes['transport_responsable_government'] = '';
 						}
-					;
+				break;
+
 				case '60':
 						if($attributes['deficiency'] == 0){
 							$attributes['deficiency_type_blindness'] = '';
@@ -1757,7 +1805,47 @@ class CensoController extends Controller {
 							$attributes['deficiency_type_gifted'] = '';
 							$attributes['resource_none'] = '';
 						}
-					;
+				break;
+
+				case '30':
+					if($attributes['deficiency'] == 0){
+						$attributes['deficiency_type_blindness'] = '';
+						$attributes['deficiency_type_low_vision'] = '';
+						$attributes['deficiency_type_deafness'] = '';
+						$attributes['deficiency_type_disability_hearing'] = '';
+						$attributes['deficiency_type_deafblindness'] = '';
+						$attributes['deficiency_type_phisical_disability'] = '';
+						$attributes['deficiency_type_intelectual_disability'] = '';
+						$attributes['deficiency_type_multiple_disabilities'] = '';
+					}
+				break;
+
+				case '71':
+						if($attributes['scholarity'] != 6){
+							$attributes['post_graduation_specialization'] = '';
+							$attributes['post_graduation_master'] = '';
+							$attributes['post_graduation_doctorate'] = '';
+							$attributes['post_graduation_none'] = '';
+						}
+						if($attributes['high_education_situation_1'] == 1||empty($attributes['high_education_situation_1'])){
+							$attributes['post_graduation_specialization'] = '';
+							$attributes['post_graduation_master'] = '';
+							$attributes['post_graduation_doctorate'] = '';
+							$attributes['post_graduation_none'] = '';
+						}
+				break;
+
+				case '20':
+					foreach ($attributes as $i => $attr){
+						$pos = strstr($i, 'discipline');
+						if ($pos) {
+							if(empty($attributes[$i])){
+								$attributes[$i] = 0;
+							}
+						}
+					}
+				break;
+
 			}
 		return $attributes;
 
@@ -1772,17 +1860,26 @@ class CensoController extends Controller {
 			$log['classrooms'][$iclass] = $classroom->attributes;
 			foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
 				if(!isset($log['instructors'][$teachingData->instructor_fk])){
+					//@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+					$teachingData->instructorFk->documents->school_inep_id_fk =  $school->inep_id;
+					$teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
+					$teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
 					$log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
 					$log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
 					$log['instructors'][$teachingData->instructor_fk]['variable'] =  $teachingData->instructorFk->instructorVariableData->attributes;
 				}
+				$teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
+				$teachingData->school_inep_id_fk = $school->inep_id;
 				$log['instructors'][$teachingData->instructor_fk]['teaching'][$iteaching] = $teachingData->attributes;
 			}
 			foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
 				if(!isset($log['students'][$enrollment->student_fk])){
+					$enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+					$enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
 					$log['students'][$enrollment->student_fk]['identification'] =  $enrollment->studentFk->attributes;
 					$log['students'][$enrollment->student_fk]['documents'] =  $enrollment->studentFk->documentsFk->attributes;
 				}
+				$enrollment->school_inep_id_fk = $school->inep_id;
 				$log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
 			}
 		}
@@ -1934,7 +2031,6 @@ class CensoController extends Controller {
 	}
 	public function actionImport(){
 		$lines = $this->readFileImport();
-		$sql = "";
 		$component=Yii::createComponent(array(
 			'class'=>'CDbConnection',
 			'connectionString' => 'mysql:host=localhost;dbname=information_schema',
@@ -1953,10 +2049,18 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$school->'.$column_name.'=$line[$order];';
-				eval($code);
+				if(isset($line[$order])&&$line[$order] != ''){
+					$code = '$school->'.$column_name.'=$line[$order];';
+					eval($code);
+				}
 			}
-			//$school->save();
+			$exist = SchoolIdentification::model()->findByPk($school->inep_id);
+			if(!isset($exist)){
+				$school->edcenso_district_fk = substr($school->edcenso_district_fk, 0, 7);
+				$district = EdcensoDistrict::model()->findByAttributes(array('edcenso_city_fk'=>$school->edcenso_district_fk));
+				$school->edcenso_district_fk = $district->id;
+				$school->save();
+			}
 		}
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = 'io.escola.se.santaluzia'";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
@@ -1968,9 +2072,9 @@ class CensoController extends Controller {
 				$code = '$structure->'.$column_name.'=$line[$order];';
 				eval($code);
 			}
-			//$structure->save();
+			$structure->save();
 		}
-
+		exit;
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'classroom' and table_schema = 'io.escola.se.santaluzia'";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['20'] as $iline => $line) {

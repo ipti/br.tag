@@ -13,30 +13,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <div class="row-fluid">
 	<div class="span12">
         <div class="buttons span9">
-            	<a id="save" class='btn btn-icon btn-primary last glyphicons circle_ok'><?php echo Yii::t('default', 'Save') ?><i></i></a>
+            	<span id="save" class='btn btn-icon btn-primary last glyphicons circle_ok'><?php echo Yii::t('default', 'Save') ?><i></i></span>
  		</div>
  	</div> 
 </div> 			
 
 
 <div class="innerLR">
-    <p><b>Escola: </b><?= $school->inep_id ?>-<?= $school->name ?></p>
-
-    <p><b>Estado: </b><? echo $school->edcensoUfFk->name; ?></p>
-
-    <p><b>Munic&iacute;pio:</b> <? echo $school->edcensoCityFk->name; ?> </p>
-
-    <p><b>Localiza&ccedil;&atilde;o:</b> <? echo $school->location == 0 ? "Rural" : "Urbana" ?> </p>
-
-    <p><b>Depend&ecirc;ncia Administrativa:</b> <? echo $school->administrative_dependence == 1 ? "Federal" :
-            $school->administrative_dependence == 2 ? "Estadual" :
-                $school->administrative_dependence == 3 ? "Municipal" : "Estadual"
-        ?> <br> </p>
-
-<?
+<form>
 
 
 
+
+</form>
+<?php
 if(count($student) == 0){
 	echo "<br><span class='alert alert-primary'> Todos os alunos tiveram a etapa individual configurada para uma turma multi-etapa </span>";
 }else{
@@ -62,7 +52,7 @@ if(count($student) == 0){
                . "<td>" . $s['studentName'] . "</td>"
                . "<td>" . $s['className'] . "</td>"
                . "<td>" . $s['stage'] . "</td>";
-         $html .= "<td>" . "<select data-student-id = '".$s['studentId']."' id = 'stage-value". $ordem. "' class = 'stage-value'>" . "<option value='null'>Selecione...</option> ";
+         $html .= "<td>" . "<select name='data[]' data-student-id = '".$s['studentId']."' id = 'stage-value". $ordem. "' class = 'stage-value'>" . "<option value='null'>Selecione...</option> ";
 		    foreach ($stage as $st) {
 		        $html .=  "<option value = " . $st['id'] . ">" . $st['name'] . "</option>";
 		    }
@@ -75,5 +65,4 @@ if(count($student) == 0){
 }
 
 ?>
-
 </div>

@@ -39,18 +39,19 @@
 		public function actionMultiStageClassroomVerify($id){
 				$year = Yii::app()->user->year;
 
-				$sql = "SELECT si.name as studentName, si.id as studentId , cq.name as className, cq.stage 
-						from classroom_qtd_students as cq
-						join student_enrollment as se on se.classroom_fk = cq.id
-						join student_identification as si on se.student_fk = si.id 
-						where cq.school_inep_fk = $id  AND cq.school_year = $year AND se.edcenso_stage_vs_modality_fk is null
-						AND(cq.name LIKE '%multi%' or cq.name LIKE '%MULTI%' or cq.name LIKE '%MULTIETAPA%' or cq.name LIKE '%multietapa%') order by studentName";					
+				$sql = "SELECT b.name AS studentName, b.id AS studentId , c.name AS className, d.`name` as stage FROM student_enrollment a
+							JOIN student_identification b ON(a.student_fk=b.`id`)
+							JOIN classroom c ON(c.`id`=a.`classroom_fk`)
+							JOIN edcenso_stage_vs_modality d ON(c.`edcenso_stage_vs_modality_fk`=d.`id`)
+							WHERE
+							c.school_inep_fk = $id AND
+							c.school_year = $year AND
+							(c.edcenso_stage_vs_modality_fk IN('22','24','12') OR c.edcenso_stage_vs_modality_fk > 43)";
 				$student = Yii::app()->db->createCommand($sql)->queryAll();
-
 				$school = SchoolIdentification::model()->findByPk($_GET['id']);
 
 
-				$sql1 = "SELECT * FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21)";
+				$sql1 = "SELECT * FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21,41)";
 
 				$stage = Yii::app()->db->createCommand($sql1)->queryAll();
 
@@ -63,7 +64,7 @@
 
 		public function actionSaveMultiStage() {
 			$student = json_decode($_POST["data"]);
-
+			var_dump($student);exit;
 			foreach($student as $st) {
 				$sql = "UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = $st->val  where student_fk = $st->idx ";
 				Yii::app()->db->createCommand($sql)->query();
