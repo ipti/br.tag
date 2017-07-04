@@ -1720,9 +1720,61 @@ class CensoController extends Controller {
 		$this->export .= implode('|', $attributes);
 		$this->export .= "\n";
 	}
+	public function certVerify($codigo){
+		$result = str_split($codigo);
+		$result = array_reverse($result);
+		$cont = 9;
+		foreach ($result as $r){
+			while($cont >= 0){
+				$calculo = "$cont * $r";
+				$calc = ($cont * $r);
+				$total = $total + $calc;
+				$cont--;
+				if ($cont < 0){
+					$cont = 10;
+					break;
+				}
+				break;
+			}
+		}
+		$cont = 9;
+		$valor = 0;
+		$digUm = $total % 11;
+		if($digUm == 10){
+			$digUm = 1;
+		}
+		foreach ($result as $r){
+			while($cont >= 0){
+				if($valor ==0){
+					$valor = 1;
+					$calc = ($cont * $digUm);
+					$total2 = $total2 + $calc;
+					$cont--;
+					if ($cont < 0){
+						$cont = 10;
+						break;
+					}
+				}
+				$calc = ($cont * $r);
+				$total2 = $total2 + $calc;
+				$cont--;
+				if ($cont < 0){
+					$cont = 10;
+					break;
+				}
+				break;
+			}
+		}
+		$digDois = $total2 % 11;
+		if($digDois == 10){
+			$digDois = 1;
+		}
+		$return = $digUm.$digDois;
+		return $return;
+
+	}
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
-
 				case '10':
 					foreach ($attributes as $i => $attr){
 						if(empty($attr)){
@@ -1819,6 +1871,16 @@ class CensoController extends Controller {
 						$attributes['deficiency_type_multiple_disabilities'] = '';
 					}
 				break;
+				
+				case '70':
+					if($attributes['civil_certification'] == '2'){
+						echo $attributes['civil_register_enrollment_number'].'<br>';
+						$cert = substr($attributes['civil_register_enrollment_number'],0, 30);
+						$certDv = $this->certVerify($cert);
+						$attributes['civil_register_enrollment_number'] = $cert.''.$certDv;
+						echo $attributes['civil_register_enrollment_number'].'<br><br>';
+					}
+				break;
 
 				case '71':
 						if($attributes['scholarity'] != 6){
@@ -1836,14 +1898,29 @@ class CensoController extends Controller {
 				break;
 
 				case '20':
-					foreach ($attributes as $i => $attr){
-						$pos = strstr($i, 'discipline');
-						if ($pos) {
-							if(empty($attributes[$i])){
-								$attributes[$i] = 0;
+					if($attributes['edcenso_stage_vs_modality_fk'] == 1 ||
+						$attributes['edcenso_stage_vs_modality_fk'] == 2 ||
+						$attributes['edcenso_stage_vs_modality_fk'] == 3 ||
+						$attributes['edcenso_stage_vs_modality_fk'] == 65){
+						foreach ($attributes as $i => $attr){
+							$pos = strstr($i, 'discipline');
+							if ($pos) {
+								if(empty($attributes[$i])){
+									$attributes[$i] = '';
+								}
+							}
+						}
+					}else{
+						foreach ($attributes as $i => $attr){
+							$pos = strstr($i, 'discipline');
+							if ($pos) {
+								if(empty($attributes[$i])){
+									$attributes[$i] = 0;
+								}
 							}
 						}
 					}
+
 				break;
 
 			}
@@ -1913,7 +1990,7 @@ class CensoController extends Controller {
 		} else {
 			Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
 		}
-
+		exit;
 		$this->render('index');
 	}
 	public function readFileImport(){
