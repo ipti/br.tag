@@ -1510,6 +1510,10 @@ class CensoController extends Controller {
 		}
 		$this->render('validate', ['log' => $log]);
 	}
+	public function fixName($name){
+		$name = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
+		return $name;
+	}
 	public function actionExportStudentWithoutInepid()
 	{
 		$year = Yii::app()->user->year;
@@ -1773,9 +1777,29 @@ class CensoController extends Controller {
 		return $return;
 
 	}
+	public function sanitizeString($string) {
+    	$what = array( 'ä','ã','à','á','â','ê','ë','è','é','ï','ì','í','ö','õ','ò','ó','ô','ü','ù','ú','û','À','Á','É','Í','Ó','Ú','ñ','Ñ','ç','Ç',' ','-','(',')',',',';',':','|','!','"','#','$','%','&','/','=','?','~','^','>','<','ª','º' );
+    	$by   = array( 'a','a','a','a','a','e','e','e','e','i','i','i','o','o','o','o','o','u','u','u','u','A','A','E','I','O','U','n','n','c','C','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','','' );
+    	return str_replace($what, $by, $string);
+	}
+	public function findDisc($id){
+		$modelTeachingData = Classroom::model()->findByPk($id)->instructorTeachingDatas;
+		$teachingDataDisciplines = array();
+		foreach ($modelTeachingData as $key => $model) {
+			$disciplines = ClassroomController::teachingDataDiscipline2array($model);
+			foreach ($disciplines as $discipline) {
+				$teachingDataDisciplines[$discipline->id] = $discipline->id;
+			}
+		}
+		return $teachingDataDisciplines;
+	}
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
+				case '00':
+						$attributes['manager_email'] = '1';
+					break;
 				case '10':
+
 					foreach ($attributes as $i => $attr){
 						if(empty($attr)){
 							$attributes[$i] = 0;
@@ -1820,7 +1844,6 @@ class CensoController extends Controller {
 					}
 
 				break;
-
 				case '80':
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
@@ -1839,8 +1862,10 @@ class CensoController extends Controller {
 							$attributes['transport_responsable_government'] = '';
 						}
 				break;
-
 				case '60':
+						$attributes['name'] = $this->fixName($attributes['name']);
+						$attributes['filiation_1'] = $this->fixName($attributes['filiation_1']);
+						$attributes['filiation_2'] = $this->fixName($attributes['filiation_2']);
 						if($attributes['deficiency'] == 0){
 							$attributes['deficiency_type_blindness'] = '';
 							$attributes['deficiency_type_low_vision'] = '';
@@ -1858,7 +1883,6 @@ class CensoController extends Controller {
 							$attributes['resource_none'] = '';
 						}
 				break;
-
 				case '30':
 					if($attributes['deficiency'] == 0){
 						$attributes['deficiency_type_blindness'] = '';
@@ -1870,34 +1894,77 @@ class CensoController extends Controller {
 						$attributes['deficiency_type_intelectual_disability'] = '';
 						$attributes['deficiency_type_multiple_disabilities'] = '';
 					}
+					$attributes['email'] = '';
 				break;
-				
 				case '70':
+					if(!empty($attributes['cep'])&&!isset($attributes['edcenso_city_fk'])){
+						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+						$attributes['edcenso_city_fk'] = $school->edcenso_city_fk;
+					}
+					if(!empty($attributes['cep'])&&!isset($attributes['edcenso_uf_fk'])){
+						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+						$attributes['edcenso_uf_fk'] = $school->edcenso_uf_fk;
+					}
 					if($attributes['civil_certification'] == '2'){
 						echo $attributes['civil_register_enrollment_number'].'<br>';
 						$cert = substr($attributes['civil_register_enrollment_number'],0, 30);
+						$testX = str_split($attributes['civil_register_enrollment_number']);
+						if($testX[29] == 'x'){
+							$cert = substr($attributes['civil_register_enrollment_number'],0, 29);
+							$cert = $cert.'0';
+						}
 						$certDv = $this->certVerify($cert);
 						$attributes['civil_register_enrollment_number'] = $cert.''.$certDv;
 						echo $attributes['civil_register_enrollment_number'].'<br><br>';
 					}
-				break;
 
-				case '71':
+
+				break;
+				case '50':
 						if($attributes['scholarity'] != 6){
 							$attributes['post_graduation_specialization'] = '';
 							$attributes['post_graduation_master'] = '';
 							$attributes['post_graduation_doctorate'] = '';
 							$attributes['post_graduation_none'] = '';
 						}
-						if($attributes['high_education_situation_1'] == 1||empty($attributes['high_education_situation_1'])){
+						if($attributes['high_education_situation_1'] == 2||empty($attributes['high_education_situation_1'])){
 							$attributes['post_graduation_specialization'] = '';
 							$attributes['post_graduation_master'] = '';
 							$attributes['post_graduation_doctorate'] = '';
 							$attributes['post_graduation_none'] = '';
 						}
 				break;
+				case '51':
+					$countdisc = 1;
+					foreach ($attributes as $i => $attr){
+						$pos = strstr($i, 'discipline');
+						if ($pos) {
+							if(($attributes[$i] > 99)){
+								if($countdisc == 1){
+									$attributes[$i] = 99;
+								}else{
+									$attributes[$i] = '';
+								}
+								$countdisc++;
+							}
+						}
+					}
 
+				break;
 				case '20':
+					$attributes['name'] = $this->sanitizeString($attributes['name']);
+					$dteacher = $this->findDisc($attributes['id']);
+					$dclass = ClassroomController::classroomDiscipline2array2();
+					foreach ($attributes as $i => $attr){
+						$pos = strstr($i, 'discipline');
+						if ($pos) {
+							$attributes[$i] = '';
+							if(isset($dteacher[$dclass[$i]])){
+								$attributes[$i] = '1';
+							}
+
+						}
+					}
 					if($attributes['edcenso_stage_vs_modality_fk'] == 1 ||
 						$attributes['edcenso_stage_vs_modality_fk'] == 2 ||
 						$attributes['edcenso_stage_vs_modality_fk'] == 3 ||
@@ -1910,17 +1977,20 @@ class CensoController extends Controller {
 								}
 							}
 						}
+						$attributes['mais_educacao_participator'] = '';
 					}else{
+						if(!isset($attributes['mais_educacao_participator'])){
+							$attributes['mais_educacao_participator'] = 0;
+						}
 						foreach ($attributes as $i => $attr){
 							$pos = strstr($i, 'discipline');
 							if ($pos) {
 								if(empty($attributes[$i])){
-									$attributes[$i] = 0;
+									$attributes[$i] = '0';
 								}
 							}
 						}
 					}
-
 				break;
 
 			}
@@ -2119,7 +2189,7 @@ class CensoController extends Controller {
 			'schemaCachingDuration'=>3600,
 		));
 		Yii::app()->setComponent('db3',$component);
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = 'io.escola.se.santaluzia'";
+		/*$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = 'io.escola.se.santaluzia'";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['00'] as $iline => $line) {
 			$school = new SchoolIdentification();
@@ -2191,7 +2261,7 @@ class CensoController extends Controller {
 			}
 			//$idocuments->save();
 		}
-
+		*/
 
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = 'io.escola.se.santaluzia'";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();

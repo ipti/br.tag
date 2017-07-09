@@ -53,7 +53,7 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'io.escola.se.santaluzia';
+        $db = 'io.escola.se.japoata';
         break;
 }
 define('INSTANCE',$instance);

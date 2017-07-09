@@ -45,19 +45,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <sumary>Turma <?php echo $modelClassroom->name ?></sumary>
                                 <thead>
-                                    <tr><th>Nome</th><th>Tipo de Matrícula</th><th>Situação na Série</th></tr>
+                                    <tr><th>Nome</th><th>Etapa Individual</th></tr>
                                 </thead>
                                 <tbody>
                                      <?php
                                      if(isset($enrollments)){
                                         foreach ($enrollments as $enr) {
-                                            $options_adt = array('0' => 'MI', '1' => 'MC','4'=>'MR','3'=>'MT');
-                                            $options_css = array('0' => 'N', '1' => 'P','2'=>'R');
-                                            $namecss = $enr->id.'[current_stage_situation]';
-                                            $nameadt = $enr->id.'[admission_type]';
                                             $namestg = $enr->id.'[edcenso_stage_vs_modality_fk]';
-                                            echo "<tr><td>".$enr->studentFk->name."</a></td><td>".CHtml::dropDownList($nameadt, $enr->admission_type, $options_adt)."</td>";
-                                            echo "<td>".CHtml::dropDownList($namecss, $enr->current_stage_situation, $options_css)."</td></tr>";
+                                            echo "<tr><td>".$enr->studentFk->name."</a></td>";
                                             echo "<td>".CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage)."</td></tr>";
                                         }
                                         echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
