@@ -254,6 +254,7 @@
             } else {
                 return array("status" => false,"erro" => "Campo 12 do registro 60 deve ser igual a 1 ou 2");
             }
+            return array("status" => true,"erro" =>"");
         }
 
         //campo 19
