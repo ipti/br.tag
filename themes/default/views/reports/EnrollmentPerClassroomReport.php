@@ -2,14 +2,15 @@
 /* @var $this ReportsController */
 /* @var $report mixed */
 /* @var $classroom Classroom*/
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js', CClientScript::POS_END);
+Yii::app()->clientScript->registerCoreScript('jquery');
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
 $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 ?>
+<br>
+<br>
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
     <h3>RELATÓRIO DE MATRÍCULA / <?= $classroom->school_year?></h3>
@@ -137,62 +138,166 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 </table>
 
 <br>
-<table class="table table-bordered table-striped" style="font-size: 11px;">
-    <tr>
-        <th rowspan="2" style="text-align: center;">Nº</th>
-        <th rowspan="2">ALUNO</th>
-        <th colspan="2" style="text-align: center;">GÊNERO</th>
-        <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
-        <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
-        <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
-        <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
-        <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
-    </tr>
-    <tr>
-        <th style="text-align: center;">M</th>
-        <th style="text-align: center;">F</th>
-        <th style="text-align: center;">MI</th>
-        <th style="text-align: center;">MC</th>
-        <th style="text-align: center;">MR</th>
-        <th style="text-align: center;">MT</th>
-        <th style="text-align: center;">N</th>
-        <th style="text-align: center;">P</th>
-        <th style="text-align: center;">R</th>
-    </tr>
     <?php
     $rows = "";
     foreach ($report as $key=>$r){
-        $rows .= "<tr>"
-            . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-            . "<td>" . $r['name'] . "</td>"
-            . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
-            . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
-            . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
-            . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
-            . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+        if($key <= 20){
+            $r20 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
+                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+                . "</tr>";
+        }else if($key >20 && $key <40){
+            $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
+                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+                . "</tr>";
+        }else{
+            $r60 .= "<tr>"."<td style='text-align: center;'>" . ($key + 1) . "</td>"
+                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+                . "</tr>";
+        }
+    }
+    for ($i = 1; $i <= 5; $i++) {
+        $rF .= "<tr>"."<td style='text-align: center;'>______</td>"
+            . "<td></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td style='text-align: center;'></td>"
+            . "<td></td>"
             . "</tr>";
     }
-    echo $rows;
     ?>
-</table>
-<br>
-<p style="margin: 0 auto; text-align: right; width:600px">
-    <?php
-    $time = time();
-    $monthName = strftime("%B", $time);
-    echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
-    ?>.
-</p>
+    <table class="table table-bordered table-striped" style="font-size: 11px;">
+        <tr>
+            <th rowspan="2" style="text-align: center;">Nº</th>
+            <th rowspan="2">ALUNO</th>
+            <th colspan="2" style="text-align: center;">GÊNERO</th>
+            <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+            <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+            <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+            <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+            <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
+        </tr>
+        <tr>
+            <th style="text-align: center;">M</th>
+            <th style="text-align: center;">F</th>
+            <th style="text-align: center;">MI</th>
+            <th style="text-align: center;">MC</th>
+            <th style="text-align: center;">MR</th>
+            <th style="text-align: center;">MT</th>
+            <th style="text-align: center;">N</th>
+            <th style="text-align: center;">P</th>
+            <th style="text-align: center;">R</th>
+        </tr>
+        <?php echo $r20;?>
+    </table>
+    <br>
+    <br>
+    <?php if(isset($r40)){ ?>
+        <table class="table table-bordered table-striped" style="font-size: 11px;">
+            <tr>
+                <th rowspan="2" style="text-align: center;">Nº</th>
+                <th rowspan="2">ALUNO</th>
+                <th colspan="2" style="text-align: center;">GÊNERO</th>
+                <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+                <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+                <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+                <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+                <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
+            </tr>
+            <tr>
+                <th style="text-align: center;">M</th>
+                <th style="text-align: center;">F</th>
+                <th style="text-align: center;">MI</th>
+                <th style="text-align: center;">MC</th>
+                <th style="text-align: center;">MR</th>
+                <th style="text-align: center;">MT</th>
+                <th style="text-align: center;">N</th>
+                <th style="text-align: center;">P</th>
+                <th style="text-align: center;">R</th>
+            </tr>
+            <?php echo $r40;?>
+        </table>
+    <?php } ?>
 
 <br>
+
+    <table class="table table-bordered table-striped" style="font-size: 11px;">
+        <tr>
+            <th rowspan="2" style="text-align: center;">Nº</th>
+            <th rowspan="2">ALUNO</th>
+            <th colspan="2" style="text-align: center;">GÊNERO</th>
+            <th rowspan="2" style="text-align: center;">DATA DE NASCIMENTO</th>
+            <th rowspan="2" style="text-align: center;">NATURALIDADE</th>
+            <th colspan="4" style="text-align: center;">TIPO DE MATRÍCULA</th>
+            <th colspan="3" style="text-align: center;">SITUAÇÃO NA SÉRIE</th>
+            <th rowspan="2" style="text-align: center;">ENDEREÇO</th>
+        </tr>
+        <tr>
+            <th style="text-align: center;">M</th>
+            <th style="text-align: center;">F</th>
+            <th style="text-align: center;">MI</th>
+            <th style="text-align: center;">MC</th>
+            <th style="text-align: center;">MR</th>
+            <th style="text-align: center;">MT</th>
+            <th style="text-align: center;">N</th>
+            <th style="text-align: center;">P</th>
+            <th style="text-align: center;">R</th>
+        </tr>
+        <?php echo $rF;?>
+
+    </table>
 <br>
+<br>
+    <p style="margin: 0 auto; text-align: right; width:600px">
+        <?php
+        $time = time();
+        $monthName = strftime("%B", $time);
+        echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
+        ?>.
+    </p>
 <div style="margin: 20px auto 0; text-align:center; width: 1000px">
     <span style="float: left; margin: 0 100px 0 100px">
         ________________________________________________________<br>
@@ -206,16 +311,16 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 
+<script type="text/javascript">
+    $(function() {
+
+    });
+</script>
 <style>
-    @media print
-    {
-        .table-striped td, .table-striped tr, .table-striped th,.table-striped{border-color:#000 !important;font-size:9px !important; }
-        table { page-break-after:auto; }
-        tr    { page-break-inside:avoid; page-break-after:auto;}
-        td    { page-break-inside:avoid; page-break-after:auto;}
-        thead { display:table-header-group }
-        tfoot { display:table-footer-group }
-    }
+    .table-striped td, .table-striped tr, .table-striped th,.table-striped{border-color:#000 !important;font-size:9px !important; }
+    table { page-break-after:auto; }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
 </style>
 
 

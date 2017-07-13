@@ -7,7 +7,6 @@ $cs->scriptMap = array(
 $baseUrl = Yii::app()->theme->baseUrl;
 $cs->registerScriptFile($baseUrl . '/js/jquery.min.js', CClientScript::POS_HEAD);
 $cs->registerScriptFile($baseUrl . '/js/jquery-ba-bbq.js', CClientScript::POS_HEAD);
-
 /*
 $result = Yii::app()->db->createCommand("SELECT `year`,
 	se_total/@x * 100 as se_percent,

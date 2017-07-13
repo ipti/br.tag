@@ -12,12 +12,15 @@
 - Melhoria no sistema de multiplas instâncias.
 - Remoção da função gestão de resultados.
 - Reaproveitamento de turmas ordenando em ordem alfabetica.
+- Inclusão de todos os relatórios e formulários existentes do TAG.
+- Adicionada função de download do arquivo do educacenso..
+- Separação do arquivo de configuração do banco de dados
 
 **Bugs Corrigidos:**
 - Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;
 
 **Funcionalidades:**
-- Adicionado nova função validação do educacenso
+- Adicionado nova funções para o educacenso
 
 ## [Versão 2.10.4]
 

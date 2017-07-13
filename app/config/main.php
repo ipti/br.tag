@@ -4,7 +4,6 @@
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
-
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
@@ -89,20 +88,14 @@ return array(
             ),
         ),
         // uncomment the following to use a MySQL database
-        'db' => array(
-            'connectionString' => "mysql:host=localhost;dbname=".DATABASE_INSTANCE,
-            'emulatePrepare' => true,
-            'username' => 'user.tag',
-            'password' => '123456',
-            'charset' => 'utf8',
-        ),
+        'db' => unserialize(DBCONFIG),
         'authManager' => array(
             'class' => 'CDbAuthManager',
             'connectionID' => 'db',
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),
+        ),   
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',

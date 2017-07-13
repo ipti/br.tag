@@ -34,7 +34,7 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime','move','batchupdate'
+                    'updateTime','move','batchupdate','batchupdatetotal'
                 ),
                 'users' => array('@'),
             ),
@@ -251,6 +251,37 @@ class ClassroomController extends Controller {
         return $labels;
     }
 
+
+
+    public static function classroomDiscipline2array2(){
+        $disciplines['discipline_chemistry'] = 1;
+        $disciplines['discipline_physics'] = 2;
+        $disciplines['discipline_mathematics'] = 3;
+        $disciplines['discipline_biology'] = 4;
+        $disciplines['discipline_science'] = 5;
+        $disciplines['discipline_language_portuguese_literature'] = 6;
+        $disciplines['discipline_foreign_language_english'] = 7;
+        $disciplines['discipline_foreign_language_spanish'] = 8;
+        $disciplines['discipline_foreign_language_other'] = 9;
+        $disciplines['discipline_arts'] = 10;
+        $disciplines['discipline_physical_education'] = 11;
+        $disciplines['discipline_history'] = 12;
+        $disciplines['discipline_geography'] = 13;
+        $disciplines['discipline_philosophy'] = 14;
+        $disciplines['discipline_informatics'] = 16;
+        $disciplines['discipline_professional_disciplines'] = 17;
+        $disciplines['discipline_special_education_and_inclusive_practices'] = 20;
+        $disciplines[ 'discipline_sociocultural_diversity'] = 21;
+        $disciplines['discipline_libras'] = 23;
+        $disciplines['discipline_religious'] = 26;
+        $disciplines['discipline_native_language'] = 27;
+        $disciplines['discipline_pedagogical'] =  25;
+        $disciplines['discipline_social_study'] = 28;
+        $disciplines['discipline_sociology'] = 29;
+        $disciplines['discipline_foreign_language_franch'] = 30;
+        $disciplines['discipline_others'] = 99;
+        return $disciplines;
+    }
     //@done s1 - criar função para transformar as disciplinas do Classroom em Array
 
     public static function classroomDiscipline2array($classroom) {
@@ -444,6 +475,32 @@ class ClassroomController extends Controller {
         ));
     }
 
+    public function actionBatchupdatetotal($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $fields) {
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->edcenso_stage_vs_modality_fk = $fields['edcenso_stage_vs_modality_fk'];
+                $enro->update(array('edcenso_stage_vs_modality_fk'));
+            }
+        }
+
+        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21,41)";
+        $stages = Yii::app()->db->createCommand($sql1)->queryAll();
+        foreach ($stages as $index => $stage) {
+            $options_stage[$stage['id']] = $stage['name'];
+        }
+        $this->render('batchupdatetotal', array(
+            'modelClassroom' => $modelClassroom,
+            'options_stage'=>$options_stage
+        ));
+    }
     public function actionUpdate($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
@@ -471,8 +528,10 @@ class ClassroomController extends Controller {
             $this->redirect(array('index'));
         }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
+
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
+
 
             foreach ($modelTeachingData as $key => $td) {
                 $td->delete();

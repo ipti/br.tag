@@ -23,6 +23,21 @@
             </div>
         </div>
 
+        <?php if (Yii::app()->user->hasFlash('success')){?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php }else if(Yii::app()->user->hasFlash('error')){?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php }else{?>
+            <div>
+                <a href="<?= CHtml::normalizeUrl(array('censo/export'))?>" class="btn btn-primary btn-icon glyphicons refresh"><i></i> <?= Yii::t('default', 'Export Now') ?></a>
+            </div>
+        <?php }?>
+
+
         <!-- Widget Heading END -->
 
         <div class="widget-body">
