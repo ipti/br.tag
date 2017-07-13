@@ -13,7 +13,7 @@
 - Remoção da função gestão de resultados.
 - Reaproveitamento de turmas ordenando em ordem alfabetica.
 - Inclusão de todos os relatórios e formulários existentes do TAG.
-- Adicionada função de download do arquivo do educacenso.
+- Adicionada função de download do arquivo do educacenso..
 - Separação do arquivo de configuração do banco de dados
 
 **Bugs Corrigidos:**
