@@ -25,7 +25,7 @@ class CensoController extends Controller {
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions' => [
 					'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster','downloadexportfile'
 				], 'users' => ['@'],
 			],
 		];
@@ -1949,7 +1949,6 @@ class CensoController extends Controller {
 						$attributes['edcenso_uf_fk'] = $school->edcenso_uf_fk;
 					}
 					if($attributes['civil_certification'] == '2'){
-						echo $attributes['civil_register_enrollment_number'].'<br>';
 						$cert = substr($attributes['civil_register_enrollment_number'],0, 30);
 						$testX = str_split($attributes['civil_register_enrollment_number']);
 						if($testX[29] == 'x'){
@@ -1958,7 +1957,6 @@ class CensoController extends Controller {
 						}
 						$certDv = $this->certVerify($cert);
 						$attributes['civil_register_enrollment_number'] = $cert.''.$certDv;
-						echo $attributes['civil_register_enrollment_number'].'<br><br>';
 					}
 
 
@@ -2136,84 +2134,6 @@ class CensoController extends Controller {
 			}
 		return $attributes;
 
-	}
-	public function actionExport() {
-		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-		$this->normalizeFields($school->register_type,$school->attributes);
-		$schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
-		$this->normalizeFields($schoolStructure->register_type,$schoolStructure->attributes);
-		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
-		foreach ($classrooms as $iclass => $classroom) {
-			$log['classrooms'][$iclass] = $classroom->attributes;
-			foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-				if(!isset($log['instructors'][$teachingData->instructor_fk])){
-					//@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
-					$teachingData->instructorFk->documents->school_inep_id_fk =  $school->inep_id;
-					$teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
-					$teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
-					$log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-					$log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-					$instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
-					if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-						$variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-					} else {
-						$variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-					}
-					$variabledata->id = $teachingData->instructorFk->id;
-					$variabledata->inep_id = $teachingData->instructorFk->inep_id;
-					$variabledata->school_inep_id_fk = $school->inep_id;
-					$log['instructors'][$teachingData->instructor_fk]['variable'] =  $variabledata->attributes;
-				}else{
-
-				}
-				$teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
-				$teachingData->school_inep_id_fk = $school->inep_id;
-				$log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
-			}
-			foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-				if(!isset($log['students'][$enrollment->student_fk])){
-					$enrollment->studentFk->school_inep_id_fk = $school->inep_id;
-					$enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
-					$log['students'][$enrollment->student_fk]['identification'] =  $enrollment->studentFk->attributes;
-					$log['students'][$enrollment->student_fk]['documents'] =  $enrollment->studentFk->documentsFk->attributes;
-				}
-				$enrollment->school_inep_id_fk = $school->inep_id;
-				$log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
-			}
-		}
-		foreach ($log['classrooms'] as $classroom) {
-			$this->normalizeFields($classroom['register_type'],$classroom);
-		}
-		foreach ($log['instructors'] as $instructor){
-			$this->normalizeFields($instructor['identification']['register_type'],$instructor['identification']);
-			$this->normalizeFields($instructor['documents']['register_type'],$instructor['documents']);
-			$this->normalizeFields($instructor['variable']['register_type'],$instructor['variable']);
-			foreach ($instructor['teaching'] as $teaching) {
-				$this->normalizeFields($teaching['register_type'],$teaching);
-			}
-		}
-		foreach ($log['students'] as $student){
-			$this->normalizeFields($student['identification']['register_type'],$student['identification']);
-			$this->normalizeFields($student['documents']['register_type'],$student['documents']);
-			foreach ($student['enrollments'] as $enrollment) {
-				$this->normalizeFields($enrollment['register_type'],$enrollment);
-			}
-		}
-
-		$this->export .= '99|';
-		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-
-		Yii::import('ext.FileManager.fileManager');
-		$fm = new fileManager();
-		$result = $fm->write($fileDir, $this->export);
-
-		if ($result) {
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="/admin/downloadexportfile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
-		} else {
-			Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
-		}
-		exit;
-		$this->render('index');
 	}
 	public function readFileImport(){
 		set_time_limit(0);
@@ -2493,7 +2413,100 @@ class CensoController extends Controller {
 
 		var_dump($lines['00']);exit;
 	}
+	public function actionExport() {
+		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+		$this->normalizeFields($school->register_type,$school->attributes);
+		$schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
+		$this->normalizeFields($schoolStructure->register_type,$schoolStructure->attributes);
+		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+		foreach ($classrooms as $iclass => $classroom) {
+			$log['classrooms'][$iclass] = $classroom->attributes;
+			foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+				if(!isset($log['instructors'][$teachingData->instructor_fk])){
+					//@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+					$teachingData->instructorFk->documents->school_inep_id_fk =  $school->inep_id;
+					$teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
+					$teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
+					$log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+					$log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+					$instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+					if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
+						$variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+					} else {
+						$variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+					}
+					$variabledata->id = $teachingData->instructorFk->id;
+					$variabledata->inep_id = $teachingData->instructorFk->inep_id;
+					$variabledata->school_inep_id_fk = $school->inep_id;
+					$log['instructors'][$teachingData->instructor_fk]['variable'] =  $variabledata->attributes;
+				}else{
 
+				}
+				$teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
+				$teachingData->school_inep_id_fk = $school->inep_id;
+				$log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
+			}
+			foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+				if(!isset($log['students'][$enrollment->student_fk])){
+					$enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+					$enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
+					$log['students'][$enrollment->student_fk]['identification'] =  $enrollment->studentFk->attributes;
+					$log['students'][$enrollment->student_fk]['documents'] =  $enrollment->studentFk->documentsFk->attributes;
+				}
+				$enrollment->school_inep_id_fk = $school->inep_id;
+				$log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+			}
+		}
+		foreach ($log['classrooms'] as $classroom) {
+			$this->normalizeFields($classroom['register_type'],$classroom);
+		}
+		foreach ($log['instructors'] as $instructor){
+			$this->normalizeFields($instructor['identification']['register_type'],$instructor['identification']);
+			$this->normalizeFields($instructor['documents']['register_type'],$instructor['documents']);
+			$this->normalizeFields($instructor['variable']['register_type'],$instructor['variable']);
+			foreach ($instructor['teaching'] as $teaching) {
+				$this->normalizeFields($teaching['register_type'],$teaching);
+			}
+		}
+		foreach ($log['students'] as $student){
+			$this->normalizeFields($student['identification']['register_type'],$student['identification']);
+			$this->normalizeFields($student['documents']['register_type'],$student['documents']);
+			foreach ($student['enrollments'] as $enrollment) {
+				$this->normalizeFields($enrollment['register_type'],$enrollment);
+			}
+		}
+
+		$this->export .= '99|';
+		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
+		Yii::import('ext.FileManager.fileManager');
+		$fm = new fileManager();
+		$result = $fm->write($fileDir, $this->export);
+
+		if ($result) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+		} else {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+		}
+		$this->redirect(array('validate'));
+	}
+	public function actionDownloadExportFile() {
+		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+		if (file_exists($fileDir)) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($fileDir));
+			readfile($fileDir);
+		} else {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+			$this->render('index');
+		}
+
+	}
 }
 
 ?>
