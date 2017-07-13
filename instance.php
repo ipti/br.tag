@@ -43,6 +43,7 @@ switch ($domain) {
         $db = 'adelsonsilveira';
         break;
 }
+define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=localhost;dbname=$db",
     'emulatePrepare' => true,

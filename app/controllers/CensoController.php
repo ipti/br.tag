@@ -2414,8 +2414,7 @@ class CensoController extends Controller {
 			//$idocuments->save();
 		}
 		*/
-
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = 'adelsonsilveira'";
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['50'] as $iline => $line) {
 			$ivariable = new InstructorVariableData();
