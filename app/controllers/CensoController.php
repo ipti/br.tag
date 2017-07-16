@@ -1988,6 +1988,8 @@ class CensoController extends Controller {
 							}else{
 								if($i != 'other_courses_none'){
 									$setothers = true;
+								}else{
+									$setothers = false;
 								}
 
 							}
