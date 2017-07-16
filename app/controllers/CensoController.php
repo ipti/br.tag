@@ -1994,6 +1994,8 @@ class CensoController extends Controller {
 						}
 						if($setothers){
 							$attributes['other_courses_none'] = '0';
+						}else{
+							$attributes['other_courses_none'] = '1';
 						}
 						/**
 						 * $setothers = false;
