@@ -1876,6 +1876,20 @@ class CensoController extends Controller {
 							$attributes['vehicle_type_waterway_boat_35'] = '';
 							$attributes['vehicle_type_metro_or_train'] = '';
 							$attributes['transport_responsable_government'] = '';
+						}else{
+							$isset = 0;
+							foreach ($attributes as $i => $attr){
+								$pos = strstr($i, 'vehicle_type_');
+								if ($pos) {
+									if(!empty($attributes[$i])){
+										$isset = 1;
+									}
+								}
+							}
+							if(empty($isset)){
+								$attributes['vehicle_type_bus'] = '1';
+								$attributes['transport_responsable_government'] = '2';
+							}
 						}
 				break;
 				case '60':

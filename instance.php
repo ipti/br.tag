@@ -40,7 +40,7 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'adelsonsilveira';
+        $db = 'io.escola.se.santaluzia';
         break;
 }
 define("DBNAME",$db);
