@@ -1861,10 +1861,10 @@ class CensoController extends Controller {
 
 				break;
 				case '80':
-						$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
+						/*$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
 						if($classroom->edcensoStageVsModalityFk->stage == 6){
 							$attributes['edcenso_stage_vs_modality_fk'] = $classroom->edcenso_stage_vs_modality_fk;
-						}
+						}*/
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
 							//@todo subtituir todos os valores -1 para String Vazia.
