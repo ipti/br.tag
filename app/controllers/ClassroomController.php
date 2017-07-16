@@ -491,7 +491,7 @@ class ClassroomController extends Controller {
             }
         }
 
-        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1,2,14,15,16,17,18,19,20,21,41)";
+        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,41,39,40,69,70)";
         $stages = Yii::app()->db->createCommand($sql1)->queryAll();
         foreach ($stages as $index => $stage) {
             $options_stage[$stage['id']] = $stage['name'];
