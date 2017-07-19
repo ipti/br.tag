@@ -271,7 +271,7 @@ class ClassroomController extends Controller {
         $disciplines['discipline_informatics'] = 16;
         $disciplines['discipline_professional_disciplines'] = 17;
         $disciplines['discipline_special_education_and_inclusive_practices'] = 20;
-        $disciplines[ 'discipline_sociocultural_diversity'] = 21;
+        $disciplines['discipline_sociocultural_diversity'] = 21;
         $disciplines['discipline_libras'] = 23;
         $disciplines['discipline_religious'] = 26;
         $disciplines['discipline_native_language'] = 27;

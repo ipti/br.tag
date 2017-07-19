@@ -1788,6 +1788,9 @@ class CensoController extends Controller {
 		foreach ($modelTeachingData as $key => $model) {
 			$disciplines = ClassroomController::teachingDataDiscipline2array($model);
 			foreach ($disciplines as $discipline) {
+				if($discipline->id > 99){
+					$teachingDataDisciplines[99] = 99;
+				}
 				$teachingDataDisciplines[$discipline->id] = $discipline->id;
 			}
 		}
@@ -1865,6 +1868,20 @@ class CensoController extends Controller {
 						if($classroom->edcensoStageVsModalityFk->stage == 6){
 							$attributes['edcenso_stage_vs_modality_fk'] = $classroom->edcenso_stage_vs_modality_fk;
 						}*/
+						$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
+						if($classroom->edcensoStageVsModalityFk->id != 12 &&
+							$classroom->edcensoStageVsModalityFk->id != 13 &&
+							$classroom->edcensoStageVsModalityFk->id != 22 &&
+							$classroom->edcensoStageVsModalityFk->id != 23 &&
+							$classroom->edcensoStageVsModalityFk->id != 24 &&
+							$classroom->edcensoStageVsModalityFk->id != 72 &&
+							$classroom->edcensoStageVsModalityFk->id != 56 &&
+							$classroom->edcensoStageVsModalityFk->id != 64){
+							$attributes['edcenso_stage_vs_modality_fk'] = '';
+						}
+						if($classroom->edcensoStageVsModalityFk->id != 3){
+							$attributes['unified_class'] = '';
+						}
 						//se a turma já tiver etapa não enviar a etapa do aluno.
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
