@@ -1865,6 +1865,7 @@ class CensoController extends Controller {
 						if($classroom->edcensoStageVsModalityFk->stage == 6){
 							$attributes['edcenso_stage_vs_modality_fk'] = $classroom->edcenso_stage_vs_modality_fk;
 						}*/
+						//se a turma já tiver etapa não enviar a etapa do aluno.
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
 							//@todo subtituir todos os valores -1 para String Vazia.
@@ -1966,6 +1967,9 @@ class CensoController extends Controller {
 						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 						$attributes['edcenso_uf_fk'] = $school->edcenso_uf_fk;
 					}
+					if($attributes['civil_certification'] == 1){
+						$attributes['civil_register_enrollment_number'] = '';
+					}
 					if($attributes['civil_certification'] == '2'){
 						$cert = substr($attributes['civil_register_enrollment_number'],0, 30);
 						$testX = str_split($attributes['civil_register_enrollment_number']);
@@ -1980,18 +1984,28 @@ class CensoController extends Controller {
 
 				break;
 				case '50':
+						$course1 = EdcensoCourseOfHigherEducation::model()->findByPk($attributes['high_education_course_code_1_fk']);
+						if($course1->degree == 'Licenciatura'){
+							$attributes['high_education_formation_1'] = '';
+						}
+						$course2 = EdcensoCourseOfHigherEducation::model()->findByPk($attributes['high_education_course_code_2_fk']);
+						if($course2->degree == 'Licenciatura'){
+							$attributes['high_education_formation_2'] = '';
+						}
 						$setothers = false;
 						foreach ($attributes as $i => $attr){
 							$pos = strstr($i, 'other_courses_');
-							if (($pos) && empty($attributes[$i])) {
-								$attributes[$i] = '0';
-							}else{
-								if($i != 'other_courses_none'){
-									$setothers = true;
+							if($pos){
+								//echo $i.'---'.$attributes[$i].'<br>';
+								if(empty($attributes[$i])){
+									$attributes[$i] = '0';
 								}else{
-									$setothers = false;
+									//echo $i.'---'.$attributes[$i].'<br>';
+									if($i != 'other_courses_none'){
+										//echo $i.'---'.$attributes[$i].'<br>';
+										$setothers = true;
+									}
 								}
-
 							}
 						}
 						if($setothers){
@@ -2506,7 +2520,6 @@ class CensoController extends Controller {
 				$this->normalizeFields($enrollment['register_type'],$enrollment);
 			}
 		}
-
 		$this->export .= '99|';
 		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
