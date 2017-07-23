@@ -25,7 +25,7 @@ class CensoController extends Controller {
 				'allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions' => [
 					'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster','downloadexportfile'
+					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster','downloadexportfile','ExportWithoutInepid'
 				], 'users' => ['@'],
 			],
 		];
@@ -1514,69 +1514,74 @@ class CensoController extends Controller {
 		$name = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
 		return $name;
 	}
-	public function actionExportStudentWithoutInepid()
+	public function mountItemExport($itens){
+		$linha = "";
+		foreach ($itens as $s) {
+			if ($s['id'] == null) {
+				$linha .= "||";
+			} else {
+				$linha .= $s['id'] . "|";
+			}
+			$s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
+			$s['filiation_1'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_1']));
+			$s['filiation_2'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_2']));
+
+			if ($s['name'] == null) {
+				$linha .= "|";
+			} else {
+				$linha .= $s['name'] . "|";
+			}
+			if ($s['birthday'] == null) {
+				$linha .= "|";
+			} else {
+				$linha .= $s['birthday'] . "|";
+			}
+
+			if ($s['filiation_1'] == null) {
+				$linha .= "|";
+			} else {
+				$linha .= $s['filiation_1'] . "|";
+			}
+
+			if ($s['filiation_2'] == null) {
+				$linha .= "|";
+			} else {
+				$linha .= $s['filiation_2'] . "|";
+			}
+
+			if ($s['edcenso_city_fk'] == null) {
+				$linha .= "2802106|";
+			} else {
+				$linha .= $s['edcenso_city_fk'] . "|";
+			}
+
+			$linha .= "\n";
+		}
+		return $linha;
+	}
+	public function actionExportWithoutInepid()
 	{
 		$year = Yii::app()->user->year;
 		$id = Yii::app()->user->school;
-
 		$sql = "SELECT DISTINCT si.id,si.school_inep_id_fk , si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
 			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
 			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
-
+		$sql2 = "SELECT DISTINCT id.id, id.school_inep_id_fk , id.inep_id , id.name , id.birthday_date as birthday , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
+                FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
+                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
+		$instructors = Yii::app()->db->createCommand($sql2)->queryAll();
 		$students = Yii::app()->db->createCommand($sql)->queryAll();
 
 		if(count($students) == 0){
 			echo "N&atilde;o h&aacute; alunos cadastrados nesta escola no ano de " . $year;
 		}else {
-			$fileName = date("Y-i-d") . "_" . $id . "_students_without_inep_id.txt";
+			$fileName = $id . "inepid.txt";
 			$fileDir = "./app/export/" . $fileName;
 			$file = fopen($fileDir, 'w');
-
-			foreach ($students as $s) {
-				$linha = "";
-				if ($s['id'] == null) {
-					$linha .= "||";
-				} else {
-					$linha .= $s['id'] . "|";
-				}
-				$s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
-				$s['filiation_1'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_1']));
-				$s['filiation_2'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_2']));
-
-				if ($s['name'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $s['name'] . "|";
-				}
-				if ($s['birthday'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $s['birthday'] . "|";
-				}
-
-				if ($s['filiation_1'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $s['filiation_1'] . "|";
-				}
-
-				if ($s['filiation_2'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $s['filiation_2'] . "|";
-				}
-
-				if ($s['edcenso_city_fk'] == null) {
-					$linha .= "2802106|";
-				} else {
-					$linha .= $s['edcenso_city_fk'] . "|";
-				}
-
-				$linha .= "\n";
-
-				fwrite($file, $linha);
-			}
-
+			$linha = $this->mountItemExport($students);
+			fwrite($file, $linha);
+			$linha = $this->mountItemExport($instructors);
+			fwrite($file, $linha);
 			fclose($file);
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');
@@ -1587,16 +1592,7 @@ class CensoController extends Controller {
 			header('Content-Length: ' . filesize($fileDir));
 			readfile($fileDir);
 		}
-	}
-	public function actionExportInstructorWithoutInepid(){
-		$year = Yii::app()->user->year;
-		$id = Yii::app()->user->school;
 
-		$sql = "SELECT DISTINCT id.school_inep_id_fk , id.inep_id , id.name , id.email, id.birthday_date , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
-                FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
-                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
-
-		$instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
 		if(count($instructors) == 0){
 			echo "N&atilde;o h&aacute; professores cadastrados nesta escola no ano de " . $year;
@@ -1607,65 +1603,7 @@ class CensoController extends Controller {
 			$file = fopen($fileDir, 'w');
 
 
-			foreach ($instructors as $i) {
-				$linha = "";
 
-				if ($i['school_inep_id_fk'] == null) {
-					$linha .= "||";
-				} else {
-					$linha .= $i['school_inep_id_fk'] . "|";
-				}
-
-				if ($i['name'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['name'] . "|";
-				}
-
-				if ($i['email'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['email'] . "|";
-				}
-
-				if ($i['birthday_date'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['birthday_date'] . "|";
-				}
-
-				if ($i['filiation_1'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['filiation_1'] . "|";
-				}
-
-				if ($i['filiation_2'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['filiation_2'] . "|";
-				}
-
-				if ($i['edcenso_uf_fk'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['edcenso_uf_fk'] . "|";
-				}
-
-				if ($i['edcenso_city_fk'] == null) {
-					$linha .= "|";
-				} else {
-					$linha .= $i['edcenso_city_fk'] . "|";
-				}
-
-				if ($i['inep_id'] == null) {
-					$linha .= "|" . "\n";
-				} else {
-					$linha .= $i['inep_id'] . "\n";
-				}
-
-				fwrite($file, $linha);
-			}
 
 			fclose($file);
 			header('Content-Description: File Transfer');
@@ -1933,8 +1871,17 @@ class CensoController extends Controller {
 							$attributes['deficiency_type_childhood_disintegrative_disorder'] = '';
 							$attributes['deficiency_type_gifted'] = '';
 							$attributes['resource_none'] = '';
-
+							$attributes['resource_aid_lector'] = '';
+							$attributes['resource_aid_transcription'] = '';
+							$attributes['resource_interpreter_guide'] = '';
+							$attributes['resource_interpreter_libras'] = '';
+							$attributes['resource_lip_reading'] = '';
+							$attributes['resource_zoomed_test_16'] = '';
+							$attributes['resource_zoomed_test_20'] = '';
+							$attributes['resource_zoomed_test_24'] = '';
+							$attributes['resource_braille_test'] = '';
 						}else{
+							$existone = false;
 							foreach ($attributes as $i => $attr){
 								$pos = strstr($i, 'deficiency_');
 								if ($pos) {
@@ -1946,11 +1893,19 @@ class CensoController extends Controller {
 								if ($pos2) {
 									if(empty($attributes[$i])){
 										$attributes[$i] = '0';
+										if(!$existone){
+											$attributes['resource_none'] = '1';
+										}
+									}else{
+										if($i != 'resource_none'){
+											$existone = true;
+											$attributes['resource_none'] = '0';
+										}
 									}
 								}
 
 							}
-							$attributes['resource_none'] = '0';
+
 						}
 				break;
 				case '30':
@@ -1987,6 +1942,15 @@ class CensoController extends Controller {
 					if($attributes['civil_certification'] == 1){
 						$attributes['civil_register_enrollment_number'] = '';
 					}
+					if(empty($attributes['civil_certification'])){
+						$attributes['civil_certification_type'] = '';
+
+					}
+					if(empty($attributes['rg_number'])){
+						$attributes['rg_number_edcenso_organ_id_emitter_fk'] = '';
+						$attributes['rg_number_edcenso_uf_fk'] = '';
+						$attributes['rg_number_expediction_date'] = '';
+					}
 					if($attributes['civil_certification'] == '2'){
 						$cert = substr($attributes['civil_register_enrollment_number'],0, 30);
 						$testX = str_split($attributes['civil_register_enrollment_number']);
@@ -2009,6 +1973,10 @@ class CensoController extends Controller {
 						if($course2->degree == 'Licenciatura'){
 							$attributes['high_education_formation_2'] = '';
 						}
+						if(isset($attributes['high_education_course_code_1_fk']) && empty($attributes['high_education_institution_code_1_fk'])){
+							$attributes['high_education_institution_code_1_fk'] = '9999999';
+						}
+
 						$setothers = false;
 						foreach ($attributes as $i => $attr){
 							$pos = strstr($i, 'other_courses_');
@@ -2122,6 +2090,9 @@ class CensoController extends Controller {
 							}
 						}
 					}
+					if($attributes['role'] != '1' && $attributes['role'] != '5'&& $attributes['role'] != '6') {
+						$attributes['contract_type'] = '';
+					}
 
 				break;
 				case '20':
@@ -2150,6 +2121,11 @@ class CensoController extends Controller {
 					}
 					$stage = EdcensoStageVsModality::model()->findByPk($attributes['edcenso_stage_vs_modality_fk']);
 					if($stage->stage == '6'){
+						$attributes['mais_educacao_participator'] = '';
+					}
+					if($attributes['edcenso_stage_vs_modality_fk'] <= 4 &&
+						$attributes['edcenso_stage_vs_modality_fk'] >= 38 &&
+						$attributes['edcenso_stage_vs_modality_fk'] != 41){
 						$attributes['mais_educacao_participator'] = '';
 					}
 					if($attributes['edcenso_stage_vs_modality_fk'] == 1 ||
@@ -2260,7 +2236,7 @@ class CensoController extends Controller {
 		}
 		return $registerLines;
 	}
-	public function readFileImportIneps(){
+	public function actionReadFileImportIneps(){
 		set_time_limit(0);
 		ignore_user_abort();
 		$path = Yii::app()->basePath;
@@ -2272,43 +2248,29 @@ class CensoController extends Controller {
 		if ($file == FALSE) {
 			die('O arquivo não existe.');
 		}
-
-		$registerLines = [];
-
-		//Inicializa o contador de linhas
-		$lineCount = [];
-		$lineCount['00'] = 0;
-		$lineCount['10'] = 0;
-		$lineCount['20'] = 0;
-		$lineCount['30'] = 0;
-		$lineCount['40'] = 0;
-		$lineCount['50'] = 0;
-		$lineCount['51'] = 0;
-		$lineCount['60'] = 0;
-		$lineCount['70'] = 0;
-		$lineCount['80'] = 0;
-
 		//Pega campos do arquivo
 		while (TRUE) {
-			//Próxima linha do arquivo
 			$fileLine = fgets($file);
 			if ($fileLine == NULL) {
 				break;
 			}
-			//Tipo do registro são os 2 primeiros caracteres
-			$regType = $fileLine[0] . $fileLine[1];
 			$lineFields_Aux = explode("|", $fileLine);
-			$lineFields = [];
-			//Troca os campos vazios por 'null'
-			foreach ($lineFields_Aux as $key => $field) {
-				$value = !(isset($field)) ? '' : trim($field);
-				$lineFields[$key] = $value;
-			}
-
-			//passa os campos do arquivo para a matriz [tipo][linha][coluna]
-			$registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+			$lineFields[] = $lineFields_Aux;
 		}
-		return $registerLines;
+		foreach ($lineFields as $index => $line) {
+			$student = StudentIdentification::model()->findByPk($line[0]);
+			$student->documentsFk->student_fk = $line[6];
+			$student->documentsFk->update(array('student_fk'));
+			$student->inep_id = $line[6];
+			$student->update(array('inep_id'));
+			if(!isset($student)){
+				$instructor = InstructorIdentification::model()->findByPk($line[0]);
+				$instructor->documents->inep_id = $line[6];
+				$instructor->documents->update(array('inep_id'));
+				$instructor->inep_id = $line[6];
+				$instructor->update(array('inep_id'));
+			}
+		}
 	}
 	public function actionImport(){
 		$lines = $this->readFileImport();
@@ -2416,9 +2378,8 @@ class CensoController extends Controller {
 			}
 
 		}
-		exit;
 
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = 'io.escola.se.santaluzia'";
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['51'] as $iline => $line) {
 			$teachingdata = new InstructorTeachingData();
@@ -2432,7 +2393,7 @@ class CensoController extends Controller {
 			//$teachingdata->save();
 		}
 
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_identification' and table_schema = 'io.escola.se.santaluzia'";
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_identification' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['60'] as $iline => $line) {
 			$student = new StudentIdentification();
@@ -2445,7 +2406,7 @@ class CensoController extends Controller {
 			//$student->save();
 		}
 
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_documents_and_address' and table_schema = 'io.escola.se.santaluzia'";
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_documents_and_address' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['70'] as $iline => $line) {
 			$sdocuments = new StudentDocumentsAndAddress();
@@ -2458,7 +2419,7 @@ class CensoController extends Controller {
 			//$sdocuments->save();
 		}
 
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_enrollment' and table_schema = 'io.escola.se.santaluzia'";
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_enrollment' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['80'] as $iline => $line) {
 			$senrollment = new StudentEnrollment();
@@ -2468,7 +2429,7 @@ class CensoController extends Controller {
 				$code = '$senrollment->'.$column_name.'=$line[$order];';
 				eval($code);
 			}
-			var_dump($senrollment->attributes);exit;
+			var_dump($senrollment->attributes);
 			//$senrollment->save();
 		}
 
