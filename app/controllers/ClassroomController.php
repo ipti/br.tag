@@ -34,7 +34,7 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime','move','batchupdate','batchupdatetotal'
+                    'updateTime','move','batchupdate','batchupdatetotal','batchupdatetransport'
                 ),
                 'users' => array('@'),
             ),
@@ -499,6 +499,36 @@ class ClassroomController extends Controller {
         $this->render('batchupdatetotal', array(
             'modelClassroom' => $modelClassroom,
             'options_stage'=>$options_stage
+        ));
+    }
+    public function actionBatchupdatetransport($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $field) {
+                if(!empty($field['public_transport'])){
+                    $enro = StudentEnrollment::model()->findByPk($id);
+                    $enro->public_transport = '1';
+                    $enro->transport_responsable_government = '2';
+                    $enro->vehicle_type_bus = '1';
+                    $enro->update(array('public_transport','transport_responsable_government','vehicle_type_bus'));
+                }else{
+                    $enro = StudentEnrollment::model()->findByPk($id);
+                    $enro->public_transport = '0';
+                    $enro->transport_responsable_government = '';
+                    $enro->vehicle_type_bus = '';
+                    $enro->update(array('public_transport','transport_responsable_government','vehicle_type_bus'));
+                }
+            }
+        }
+
+        $this->render('batchupdatetransport', array(
+            'modelClassroom' => $modelClassroom,
         ));
     }
     public function actionUpdate($id) {

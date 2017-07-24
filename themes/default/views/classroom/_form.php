@@ -213,7 +213,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group" id="aee">
+                            <div class="control-group" id="aee2">
                                 <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -369,6 +369,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
+                        <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary roundabout glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualizar transporte') ?></a>
                         <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary roundabout glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualização em Lote') ?></a>
                         <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Relatório de Matrícula') ?></a>
                         <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Lista de Alunos') ?></a>

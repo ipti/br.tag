@@ -2379,6 +2379,28 @@ class CensoController extends Controller {
 
 		}
 
+
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['50'] as $iline => $line) {
+			$ivariable = new InstructorVariableData();
+			foreach ($fields as $field) {
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				if(isset($line[$order])&&$line[$order] != ''){
+					$code = '$ivariable->'.$column_name.'=$line[$order];';
+					eval($code);
+				}
+			}
+			$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
+			$exist = InstructorVariableData::model()->findByPk($id->id);
+			if(!isset($exist)){
+				$ivariable->id = $id->id;
+				$ivariable->save();
+			}
+
+		}
+
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['51'] as $iline => $line) {
@@ -2389,6 +2411,7 @@ class CensoController extends Controller {
 				$code = '$teachingdata->'.$column_name.'=$line[$order];';
 				eval($code);
 			}
+
 			//AQUI TEM QUE FAZER UMA LOGICA PRA SETAR O ATRIBUTO DA TURMA COM O ID FINAL.
 			//$teachingdata->save();
 		}
