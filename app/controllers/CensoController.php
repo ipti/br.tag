@@ -1941,6 +1941,12 @@ class CensoController extends Controller {
 					}
 					if($attributes['civil_certification'] == 1){
 						$attributes['civil_register_enrollment_number'] = '';
+					}else{
+						$attributes['civil_certification_type'] = '';
+						$attributes['civil_certification_term_number'] = '';
+						$attributes['civil_certification_sheet'] = '';
+						$attributes['civil_certification_book'] = '';
+						$attributes['civil_certification_date'] = '';
 					}
 					if(empty($attributes['civil_certification'])){
 						$attributes['civil_certification_type'] = '';
