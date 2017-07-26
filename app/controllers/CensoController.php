@@ -1809,6 +1809,7 @@ class CensoController extends Controller {
 						$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
 						if($classroom->assistance_type == '5'){
 							$attributes['another_scholarization_place'] = '';
+							$attributes['edcenso_stage_vs_modality_fk'] = '';
 						}
 						if($classroom->edcensoStageVsModalityFk->id != 12 &&
 							$classroom->edcensoStageVsModalityFk->id != 13 &&
@@ -2187,6 +2188,7 @@ class CensoController extends Controller {
 							}
 						}
 					}
+
 				break;
 				case '40':
 					if(empty($attributes['cep'])){
