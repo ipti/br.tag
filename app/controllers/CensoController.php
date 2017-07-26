@@ -2142,16 +2142,6 @@ class CensoController extends Controller {
 								$attributes[$i] = '';
 							}
 						}
-					}else{
-						$attributes['mais_educacao_participator'] = '';
-						$attributes['edcenso_stage_vs_modality_fk'] = '';
-						$attributes['modality'] = '';
-						foreach ($attributes as $i => $attr){
-							$pos = strstr($i, 'discipline');
-							if ($pos) {
-								$attributes[$i] = '';
-							}
-						}
 					}
 					$stage = EdcensoStageVsModality::model()->findByPk($attributes['edcenso_stage_vs_modality_fk']);
 					if($stage->stage == '6'){
@@ -2183,6 +2173,17 @@ class CensoController extends Controller {
 								if(empty($attributes[$i])){
 									$attributes[$i] = '0';
 								}
+							}
+						}
+					}
+					if($attributes['assistance_type'] == '5'){
+						$attributes['mais_educacao_participator'] = '';
+						$attributes['edcenso_stage_vs_modality_fk'] = '';
+						$attributes['modality'] = '';
+						foreach ($attributes as $i => $attr){
+							$pos = strstr($i, 'discipline');
+							if ($pos) {
+								$attributes[$i] = '';
 							}
 						}
 					}
