@@ -45,10 +45,10 @@ switch ($domain) {
 }
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=localhost;dbname=$db",
+    'connectionString' => "mysql:host=localhost;dbname=br.org.ipti.boquim.tag",
     'emulatePrepare' => true,
-    'username' => 'root',
-    'password' => '',
+    'username' => 'tag',
+    'password' => 'p@s4root',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
