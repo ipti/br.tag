@@ -1313,11 +1313,18 @@
 
 			return $str_fields;
 		}
+		public function mres($value)
+		{
+			$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+			$replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+
+			return str_replace($search, $replace, $value);
+		}
 		public function actionLoadToMaster(){
 			$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 			$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 			$loads['school'] = $school->attributes;
-			$loads['school']['tag_id'] = hexdec(crc32($school->inep_id.$school->name));
+			$loads['school']['hash'] = hexdec(crc32($school->inep_id.$school->name));
 			foreach ($classrooms as $iclass => $classroom) {
 				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
 				$loads['classrooms'][$iclass] = $classroom->attributes;
@@ -1340,23 +1347,42 @@
 					$loads['enrollments'][$ienrollment]['hash_student'] = $hash_student;
 				}
 				foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-					$loads['instructorsteachingdata'] = $teachingData->attributes;
+					//CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+					$hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
+					$hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
+					$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
+					$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
+
+					//CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
 					if(!isset($loads['instructors'][$teachingData->instructor_fk])){
 						$loads['instructors'][$teachingData->instructor_fk] = $teachingData->instructorFk->attributes;
+						$loads['instructors'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+						$loads['idocuments'][$teachingData->instructor_fk] = $teachingData->instructorFk->attributes;
+						$loads['idocuments'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+
 					}
 					if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
 						$loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
+						$loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
 					}
 				}
 
 			}
-			$saveschool = new SchoolIdentification();
-			$saveschool->setDb2Connection(true);
-			$saveschool->attributes = $loads['school'];
-			$saveschool->save();
+			echo '<pre>';
+			//var_dump($loads);
+			//exit;
+			//$saveschool = new SchoolIdentification();
+			//$saveschool->setDb2Connection(true);
+			//$saveschool->attributes = $loads['school'];
+			//$saveschool->save();
+			$sql = "INSERT INTO classroom (`" . implode("`, `", array_keys($loads['classrooms'][0])) . "`) VALUES " ;
 			foreach ($loads['classrooms'] as $index => $class) {
+				$escaped_values = array_map('addslashes', array_values($class));
+				$sql .= " ('" . str_replace("''", "NULL", implode("', '", $class)) . "'),";
+				var_dump($sql);exit;
+
 				$saveclass = new Classroom();
-				$saveclass->setDb2Connection(true);
+				//$saveclass->setDb2Connection(true);
 				$saveclass->refreshMetaData();
 				$saveclass->attributes = $class;
 				$saveclass->hash = $class['hash'];

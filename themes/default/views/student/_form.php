@@ -392,6 +392,51 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_16']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_16', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_20']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_20', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

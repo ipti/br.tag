@@ -456,9 +456,9 @@ $(deficiency).change(function () {
     } else {
         countDeficiency = 0;
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
-        $(allResource).attr('disabled', "disabled");
+        //$(allResource).attr('disabled', "disabled");
         $("#StudentIdentification_deficiencies").parent(".control-group").hide();
-        $("#resource_type").hide();
+        //$("#resource_type").hide();
     }
 });
 
