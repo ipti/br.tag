@@ -2200,7 +2200,7 @@ class CensoController extends Controller {
 		$path = Yii::app()->basePath;
 		//Se não passar parametro, o valor será predefinido
 		if (empty($_FILES['file']['name'])) {
-			$fileDir = $path . '/import/2017_28026136.TXT';
+			$fileDir = $path . '/import/2017_28026039.TXT';
 		} else {
 			$myfile = $_FILES['file'];
 			$uploadfile = $path . '/import/' . basename($myfile['name']);
@@ -2306,100 +2306,45 @@ class CensoController extends Controller {
 			'schemaCachingDuration'=>3600,
 		));
 		Yii::app()->setComponent('db3',$component);
-		/*$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = 'io.escola.se.santaluzia'";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['00'] as $iline => $line) {
-			$school = new SchoolIdentification();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					$code = '$school->'.$column_name.'=$line[$order];';
-					eval($code);
-				}
-			}
-			$exist = SchoolIdentification::model()->findByPk($school->inep_id);
-			if(!isset($exist)){
-				$school->edcenso_district_fk = substr($school->edcenso_district_fk, 0, 7);
-				$district = EdcensoDistrict::model()->findByAttributes(array('edcenso_city_fk'=>$school->edcenso_district_fk));
-				$school->edcenso_district_fk = $district->id;
-				$school->save();
-			}
-		}
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = 'io.escola.se.santaluzia'";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['10'] as $iline => $line) {
-			 $structure = new SchoolStructure();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$structure->'.$column_name.'=$line[$order];';
-				eval($code);
-			}
-			$structure->save();
-		}
-		exit;
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'classroom' and table_schema = 'io.escola.se.santaluzia'";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['20'] as $iline => $line) {
-			$classroom = new Classroom();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$classroom->'.$column_name.'=$line[$order];';
-				eval($code);
-			}
-			$classroom->school_year = Yii::app()->user->year;
-			//$classroom->save();
-		}
-
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_identification' and table_schema = 'io.escola.se.santaluzia'";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['30'] as $iline => $line) {
-			$instructor = new InstructorIdentification();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$instructor->'.$column_name.'=$line[$order];';
-				eval($code);
-			}
-			//$instructor->save();
-		}
-
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_documents_and_address' and table_schema = 'io.escola.se.santaluzia'";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['40'] as $iline => $line) {
-			$idocuments = new InstructorDocumentsAndAddress();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$idocuments->'.$column_name.'=$line[$order];';
-				eval($code);
-			}
-			//$idocuments->save();
-		}
-		*/
+		
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['50'] as $iline => $line) {
-			$ivariable = new InstructorVariableData();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
-					eval($code);
-				}
-			}
-			$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			$exist = InstructorVariableData::model()->findByPk($id->id);
-			if(!isset($exist)){
-				$ivariable->id = $id->id;
-				$ivariable->save();
-			}
+	
+			// retorna as colunas da tabela instructor_varaible_data
+			$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+				// echo "<pre>";
+				// var_dump($fields);
+				// echo "</pre>";
+				// exit;
+		
+				foreach ($lines['50'] as $iline => $line) {
+					$ivariable = new InstructorVariableData();
+					foreach ($fields as $field) {
+						$column_name = $field['COLUMN_NAME'];
+						$order = $field['ORDINAL_POSITION']-1;
 
+						echo "<pre>";
+						var_dump($order);
+						echo "</pre>";
+							exit;
+
+
+						if(isset($line[$order])&&$line[$order] != ''){
+							$code = '$ivariable->'.$column_name.'=$line[$order];';
+							eval($code);
+						}
+					}
+
+				$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
+				// echo "<pre>";
+				// var_dump($id);
+				// echo "</pre>";
+				// exit;
+				$exist = InstructorVariableData::model()->findByPk($id->id);
+				if(!isset($exist)){
+					$ivariable->id = $id->id;
+					$ivariable->save();
+			}
 		}
-
 
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();

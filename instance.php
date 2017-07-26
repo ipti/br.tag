@@ -40,12 +40,12 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'io.escola.se.santaluzia';
+        $db = 'br.org.ipti.boquim.tag';
         break;
 }
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=localhost;dbname=br.org.ipti.boquim.tag",
+    'connectionString' => "mysql:host=localhost;dbname=$db",
     'emulatePrepare' => true,
     'username' => 'tag',
     'password' => 'p@s4root',
