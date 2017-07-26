@@ -1807,6 +1807,9 @@ class CensoController extends Controller {
 							$attributes['edcenso_stage_vs_modality_fk'] = $classroom->edcenso_stage_vs_modality_fk;
 						}*/
 						$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
+						if($classroom->assistance_type == '5'){
+							$attributes['another_scholarization_place'] = '';
+						}
 						if($classroom->edcensoStageVsModalityFk->id != 12 &&
 							$classroom->edcensoStageVsModalityFk->id != 13 &&
 							$classroom->edcensoStageVsModalityFk->id != 22 &&
@@ -2135,6 +2138,16 @@ class CensoController extends Controller {
 					if($attributes['assistance_type'] != '5'){
 						foreach ($attributes as $i => $attr){
 							$pos = strstr($i, 'aee_');
+							if ($pos) {
+								$attributes[$i] = '';
+							}
+						}
+					}else{
+						$attributes['mais_educacao_participator'] = '';
+						$attributes['edcenso_stage_vs_modality_fk'] = '';
+						$attributes['modality'] = '';
+						foreach ($attributes as $i => $attr){
+							$pos = strstr($i, 'discipline');
 							if ($pos) {
 								$attributes[$i] = '';
 							}
