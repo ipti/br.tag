@@ -1844,24 +1844,24 @@ class CensoController extends Controller {
 								if ($pos) {
 									if(!empty($attributes[$i])){
 										$isset = 1;
+										$attributes['vehicle_type_van'] = '0';
+										$attributes['vehicle_type_microbus'] = '0';
+										$attributes['vehicle_type_bus'] = '0';
+										$attributes['vehicle_type_bike'] = '0';
+										$attributes['vehicle_type_animal_vehicle'] = '0';
+										$attributes['vehicle_type_other_vehicle'] = '0';
+										$attributes['vehicle_type_waterway_boat_5'] = '0';
+										$attributes['vehicle_type_waterway_boat_5_15'] = '0';
+										$attributes['vehicle_type_waterway_boat_15_35'] = '0';
+										$attributes['vehicle_type_waterway_boat_35'] = '0';
+										$attributes['vehicle_type_metro_or_train'] = '0';
+										$attributes['transport_responsable_government'] = '0';
 									}
 								}
 							}
 							if(empty($isset)){
 								$attributes['vehicle_type_bus'] = '1';
 								$attributes['transport_responsable_government'] = '2';
-								$attributes['vehicle_type_van'] = '0';
-								$attributes['vehicle_type_microbus'] = '0';
-								$attributes['vehicle_type_bus'] = '0';
-								$attributes['vehicle_type_bike'] = '0';
-								$attributes['vehicle_type_animal_vehicle'] = '0';
-								$attributes['vehicle_type_other_vehicle'] = '0';
-								$attributes['vehicle_type_waterway_boat_5'] = '0';
-								$attributes['vehicle_type_waterway_boat_5_15'] = '0';
-								$attributes['vehicle_type_waterway_boat_15_35'] = '0';
-								$attributes['vehicle_type_waterway_boat_35'] = '0';
-								$attributes['vehicle_type_metro_or_train'] = '0';
-								$attributes['transport_responsable_government'] = '0';
 							}
 						}
 				break;
