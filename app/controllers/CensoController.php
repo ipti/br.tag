@@ -1837,6 +1837,7 @@ class CensoController extends Controller {
 							$attributes['vehicle_type_metro_or_train'] = '';
 							$attributes['transport_responsable_government'] = '';
 						}else{
+
 							$isset = 0;
 							foreach ($attributes as $i => $attr){
 								$pos = strstr($i, 'vehicle_type_');
@@ -1849,6 +1850,18 @@ class CensoController extends Controller {
 							if(empty($isset)){
 								$attributes['vehicle_type_bus'] = '1';
 								$attributes['transport_responsable_government'] = '2';
+								$attributes['vehicle_type_van'] = '0';
+								$attributes['vehicle_type_microbus'] = '0';
+								$attributes['vehicle_type_bus'] = '0';
+								$attributes['vehicle_type_bike'] = '0';
+								$attributes['vehicle_type_animal_vehicle'] = '0';
+								$attributes['vehicle_type_other_vehicle'] = '0';
+								$attributes['vehicle_type_waterway_boat_5'] = '0';
+								$attributes['vehicle_type_waterway_boat_5_15'] = '0';
+								$attributes['vehicle_type_waterway_boat_15_35'] = '0';
+								$attributes['vehicle_type_waterway_boat_35'] = '0';
+								$attributes['vehicle_type_metro_or_train'] = '0';
+								$attributes['transport_responsable_government'] = '0';
 							}
 						}
 				break;
@@ -1940,6 +1953,9 @@ class CensoController extends Controller {
 						$attributes['edcenso_uf_fk'] = $school->edcenso_uf_fk;
 					}
 					if($attributes['civil_certification'] == 1){
+						if(empty($attributes['civil_certification_type'])){
+							$attributes['civil_certification_type'] = '1';
+						}
 						$attributes['civil_register_enrollment_number'] = '';
 					}else{
 						$attributes['civil_certification_type'] = '';
