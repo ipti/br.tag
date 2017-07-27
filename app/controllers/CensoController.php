@@ -1961,11 +1961,18 @@ class CensoController extends Controller {
 						$attributes['cep'] = '';
 						$attributes['edcenso_city_fk'] = '';
 						$attributes['edcenso_uf_fk'] = '';
+						$attributes['number'] = '';
+						$attributes['complement'] = '';
+						$attributes['neighborhood'] = '';
 					}
-					if(empty($attributes['cep'])){
-						$attributes['address'] = '';
-						$attributes['edcenso_city_fk'] = '';
-						$attributes['edcenso_uf_fk'] = '';
+						if(empty($attributes['cep'])){
+							$attributes['address'] = '';
+							$attributes['edcenso_city_fk'] = '';
+							$attributes['edcenso_uf_fk'] = '';
+							$attributes['number'] = '';
+							$attributes['complement'] = '';
+							$attributes['neighborhood'] = '';
+
 					}
 					if(!empty($attributes['cep'])&&!isset($attributes['edcenso_city_fk'])){
 						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
