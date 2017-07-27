@@ -1921,6 +1921,21 @@ class CensoController extends Controller {
 								}
 
 							}
+							if(!empty($attributes['deficiency_type_gifted'])){
+								$attributes['resource_none'] = '';
+								$attributes['resource_aid_lector'] = '';
+								$attributes['resource_aid_transcription'] = '';
+								$attributes['resource_interpreter_guide'] = '';
+								$attributes['resource_interpreter_libras'] = '';
+								$attributes['resource_lip_reading'] = '';
+								$attributes['resource_zoomed_test_16'] = '';
+								$attributes['resource_zoomed_test_20'] = '';
+								$attributes['resource_zoomed_test_24'] = '';
+								$attributes['resource_braille_test'] = '';
+							}
+
+
+
 
 						}
 				break;
