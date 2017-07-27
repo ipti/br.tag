@@ -1957,6 +1957,11 @@ class CensoController extends Controller {
 					$attributes['email'] = '';
 				break;
 				case '70':
+					if(empty($attributes['address'])){
+						$attributes['cep'] = '';
+						$attributes['edcenso_city_fk'] = '';
+						$attributes['edcenso_uf_fk'] = '';
+					}
 					if(empty($attributes['cep'])){
 						$attributes['address'] = '';
 						$attributes['edcenso_city_fk'] = '';
