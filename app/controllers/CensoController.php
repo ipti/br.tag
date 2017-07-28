@@ -1809,6 +1809,7 @@ class CensoController extends Controller {
 						$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
 						if($classroom->assistance_type == '5'){
 							$attributes['another_scholarization_place'] = '';
+							$attributes['edcenso_stage_vs_modality_fk'] = '';
 						}
 						if($classroom->edcensoStageVsModalityFk->id != 12 &&
 							$classroom->edcensoStageVsModalityFk->id != 13 &&
@@ -1920,6 +1921,21 @@ class CensoController extends Controller {
 								}
 
 							}
+							if(!empty($attributes['deficiency_type_gifted'])){
+								$attributes['resource_none'] = '';
+								$attributes['resource_aid_lector'] = '';
+								$attributes['resource_aid_transcription'] = '';
+								$attributes['resource_interpreter_guide'] = '';
+								$attributes['resource_interpreter_libras'] = '';
+								$attributes['resource_lip_reading'] = '';
+								$attributes['resource_zoomed_test_16'] = '';
+								$attributes['resource_zoomed_test_20'] = '';
+								$attributes['resource_zoomed_test_24'] = '';
+								$attributes['resource_braille_test'] = '';
+							}
+
+
+
 
 						}
 				break;
@@ -1941,10 +1957,22 @@ class CensoController extends Controller {
 					$attributes['email'] = '';
 				break;
 				case '70':
-					if(empty($attributes['cep'])){
-						$attributes['address'] = '';
+					if(empty($attributes['address'])){
+						$attributes['cep'] = '';
 						$attributes['edcenso_city_fk'] = '';
 						$attributes['edcenso_uf_fk'] = '';
+						$attributes['number'] = '';
+						$attributes['complement'] = '';
+						$attributes['neighborhood'] = '';
+					}
+						if(empty($attributes['cep'])){
+							$attributes['address'] = '';
+							$attributes['edcenso_city_fk'] = '';
+							$attributes['edcenso_uf_fk'] = '';
+							$attributes['number'] = '';
+							$attributes['complement'] = '';
+							$attributes['neighborhood'] = '';
+
 					}
 					if(!empty($attributes['cep'])&&!isset($attributes['edcenso_city_fk'])){
 						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -2142,16 +2170,6 @@ class CensoController extends Controller {
 								$attributes[$i] = '';
 							}
 						}
-					}else{
-						$attributes['mais_educacao_participator'] = '';
-						$attributes['edcenso_stage_vs_modality_fk'] = '';
-						$attributes['modality'] = '';
-						foreach ($attributes as $i => $attr){
-							$pos = strstr($i, 'discipline');
-							if ($pos) {
-								$attributes[$i] = '';
-							}
-						}
 					}
 					$stage = EdcensoStageVsModality::model()->findByPk($attributes['edcenso_stage_vs_modality_fk']);
 					if($stage->stage == '6'){
@@ -2186,6 +2204,18 @@ class CensoController extends Controller {
 							}
 						}
 					}
+					if($attributes['assistance_type'] == '5'){
+						$attributes['mais_educacao_participator'] = '';
+						$attributes['edcenso_stage_vs_modality_fk'] = '';
+						$attributes['modality'] = '';
+						foreach ($attributes as $i => $attr){
+							$pos = strstr($i, 'discipline');
+							if ($pos) {
+								$attributes[$i] = '';
+							}
+						}
+					}
+
 				break;
 				case '40':
 					if(empty($attributes['cep'])){
