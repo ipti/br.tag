@@ -1328,7 +1328,6 @@
 			foreach ($classrooms as $iclass => $classroom) {
 				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
 				$loads['classrooms'][$iclass] = $classroom->attributes;
-				$loads['classrooms'][$iclass]['fkid'] =  $classroom->id;
 				$loads['classrooms'][$iclass]['hash'] = $hash_classroom;
 				foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
 					if(!isset($loads['students'][$enrollment->student_fk])){
@@ -1368,52 +1367,78 @@
 				}
 
 			}
-			echo '<pre>';
-			//var_dump($loads);
-			//exit;
-			//$saveschool = new SchoolIdentification();
-			//$saveschool->setDb2Connection(true);
-			//$saveschool->attributes = $loads['school'];
-			//$saveschool->save();
-			$sql = "INSERT INTO classroom (`" . implode("`, `", array_keys($loads['classrooms'][0])) . "`) VALUES " ;
-			foreach ($loads['classrooms'] as $index => $class) {
-				$escaped_values = array_map('addslashes', array_values($class));
-				$sql .= " ('" . str_replace("''", "NULL", implode("', '", $class)) . "'),";
-				var_dump($sql);exit;
+			$sql = json_encode($loads);
+			$importToFile = FALSE;
+			try {
+				Yii::app()->db2;
+			} catch (Exception $e) {
+				$importToFile = TRUE;
+			}
+			if ($importToFile) {
+				ini_set('memory_limit', '128M');
+				$fileName = "./app/export/exportSQL " . date("Y-m-d") . ".sql";
+				$file = fopen($fileName, "w");
+				fwrite($file, $sql);
+				fclose($file);
+				header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+				header("Content-Type: application/force-download");
+				header("Content-Length: " . filesize($fileName));
+				header("Connection: close");
 
-				$saveclass = new Classroom();
-				//$saveclass->setDb2Connection(true);
-				$saveclass->refreshMetaData();
-				$saveclass->attributes = $class;
-				$saveclass->hash = $class['hash'];
-				$saveclass->save();
+				$file = fopen($fileName, "r");
+				fpassthru($file);
+				fclose($file);
+				unlink($fileName);
+
+				return;
+			} else {
+				$saveschool = new SchoolIdentification();
+				$saveschool->setDb2Connection(true);
+				$saveschool->attributes = $loads['school'];
+				$saveschool->save();
+
+
+				foreach ($loads['classrooms'] as $index => $class) {
+					$saveclass = new Classroom();
+					$saveclass->setDb2Connection(true);
+					$saveclass->refreshMetaData();
+					$saveclass->attributes = $class;
+					$saveclass->hash = $class['hash'];
+					$saveclass->save();
+				}
+				foreach ($loads['students'] as $i => $student) {
+					$savestudent = new StudentIdentification();
+					$savestudent->setDb2Connection(true);
+					$savestudent->refreshMetaData();
+					$savestudent->attributes = $student;
+					$savestudent->hash = $student['hash'];
+					$savestudent->save();
+				}
+				foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+					$savedocument = new StudentDocumentsAndAddress();
+					$savedocument->setDb2Connection(true);
+					$savedocument->refreshMetaData();
+					$savedocument->attributes = $documentsaddress;
+					$savedocument->hash = $documentsaddress['hash'];
+					$savedocument->save();
+				}
+				foreach ($loads['enrollments'] as $index => $enrollment) {
+					$saveenrollment = new StudentEnrollment();
+					$saveenrollment->setDb2Connection(true);
+					$saveenrollment->refreshMetaData();
+					$saveenrollment->attributes = $enrollment;
+					$saveenrollment->hash = $enrollment['hash'];
+					$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
+					$saveenrollment->hash_student = $enrollment['hash_student'];
+					$saveenrollment->save();
+				}
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+				$this->redirect(['index']);
 			}
-			foreach ($loads['students'] as $i => $student) {
-				$savestudent = new StudentIdentification();
-				$savestudent->setDb2Connection(true);
-				$savestudent->refreshMetaData();
-				$savestudent->attributes = $student;
-				$savestudent->hash = $student['hash'];
-				$savestudent->save();
-			}
-			foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
-				$savedocument = new StudentDocumentsAndAddress();
-				$savedocument->setDb2Connection(true);
-				$savedocument->refreshMetaData();
-				$savedocument->attributes = $documentsaddress;
-				$savedocument->hash = $documentsaddress['hash'];
-				$savedocument->save();
-			}
-			foreach ($loads['enrollments'] as $index => $enrollment) {
-				$saveenrollment = new StudentEnrollment();
-				$saveenrollment->setDb2Connection(true);
-				$saveenrollment->refreshMetaData();
-				$saveenrollment->attributes = $enrollment;
-				$saveenrollment->hash = $enrollment['hash'];
-				$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
-				$saveenrollment->hash_student = $enrollment['hash_student'];
-				$saveenrollment->save();
-			}
+
+
+
+
 
 		}
 		public function actionExportToMaster() {
