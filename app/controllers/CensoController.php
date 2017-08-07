@@ -2349,36 +2349,74 @@ class CensoController extends Controller {
 			'schemaCachingDuration'=>3600,
 		));
 		Yii::app()->setComponent('db3',$component);
-		
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
-	
-			// retorna as colunas da tabela instructor_varaible_data
-			$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-				// echo "<pre>";
-				// var_dump($fields);
-				// echo "</pre>";
-				// exit;
-		
-		// verifica se ja tem nome do professor
-				foreach ($lines['50'] as $iline => $line) {
-					$ivariable = new InstructorVariableData();
-					foreach ($fields as $field) {
-						$column_name = $field['COLUMN_NAME'];
-						$order = $field['ORDINAL_POSITION']-1;
-						if(isset($line[$order])&&$line[$order] != ''){
-							$code = '$ivariable->'.$column_name.'=$line[$order];';
-							eval($code);
-						}
-					}
 
-					$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-					$exist = InstructorVariableData::model()->findByPk($id->id);
-					if(!isset($exist)){
-						$ivariable->id = $id->id;
-						$ivariable->save();
-					}
+		//registro 10
+		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = '".DBNAME."';";
+		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+		foreach ($lines['10'] as $iline => $line) {
+			$ivariable = new SchoolIdentification();
+			foreach ($fields as $field) {
+				// echo "<pre>";
+				// var_dump($field);
+				// echo "</pre>";
+				
+				$column_name = $field['COLUMN_NAME'];
+				$order = $field['ORDINAL_POSITION']-1;
+				if(isset($line[$order])&&$line[$order] != ''){
+					$code = '$ivariable->'.$column_name.'=$line[$order];';
+					eval($code);
 				}
+			}	
+			// echo "<pre>";
+			// var_dump($fields);
+			// echo "</pre>";
+			// exit;
+			$id    = SchoolIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
+			$exist = SchoolIdentification::model()->findByPk($id->id);
 			
+			if(!isset($exist)){
+				$ivariable->inep_id = $id->inep_id;
+				echo "<pre>";
+				var_dump($ivariable);
+				echo "</pre>";
+				exit;
+				$ivariable->save();
+			}
+		}
+
+
+		// registro 10
+
+
+
+		// registro 40
+	// 	$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_documents_and_address' and table_schema = '".DBNAME."';";
+	// 	$fields = Yii::app()->db3->createCommand($sql)->queryAll();
+	// 	foreach ($lines['40'] as $iline => $line) {
+	// 	  $ivariable = new InstructorDocumentsAndAddress();
+
+	// 	  foreach ($fields as $field) {
+	// 			$column_name = $field['COLUMN_NAME'];
+	// 			$order = $field['ORDINAL_POSITION']-1;
+	// 			if(isset($line[$order])&&$line[$order] != ''){
+	// 				$code = '$ivariable->'.$column_name.'=$line[$order];';
+	// 				eval($code);
+	// 			}
+	// 		}
+	// $id = InstructorDocumentsAndAddress::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
+	// 			// echo "<pre>";
+	// 			// var_dump($ivariable);
+	// 			// echo "</pre>";
+	// 			// exit;
+	// $exist = InstructorDocumentsAndAddress::model()->findByPk($id->id);
+	// 	if(!isset($exist)){
+	// 		$ivariable->id = $id->id;
+	// 		$ivariable->save();
+	// 		}
+	// 	}
+    	//Fim registro 40
+
+		// Registro 50
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['50'] as $iline => $line) {
@@ -2398,7 +2436,10 @@ class CensoController extends Controller {
 				$ivariable->save();
 			}
 		}
+			// FIM Registro 50
 
+
+		// registro 51
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['51'] as $iline => $line) {
@@ -2413,7 +2454,9 @@ class CensoController extends Controller {
 			//AQUI TEM QUE FAZER UMA LOGICA PRA SETAR O ATRIBUTO DA TURMA COM O ID FINAL.
 			//$teachingdata->save();
 		}
+		//FIM registro 51
 
+		// registro 60
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_identification' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['60'] as $iline => $line) {
@@ -2426,7 +2469,10 @@ class CensoController extends Controller {
 			}
 			//$student->save();
 		}
+ 		//FIM registro 60
 
+
+		// registro 70
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_documents_and_address' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['70'] as $iline => $line) {
@@ -2439,7 +2485,11 @@ class CensoController extends Controller {
 			}
 			//$sdocuments->save();
 		}
+		//Fim registro 70
 
+
+
+		// registro 80
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_enrollment' and table_schema = '".DBNAME."';";
 		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
 		foreach ($lines['80'] as $iline => $line) {
@@ -2453,6 +2503,8 @@ class CensoController extends Controller {
 			// var_dump($senrollment->attributes);
 			//$senrollment->save();
 		}
+     	// registro 80
+
 
 
 		// var_dump($lines['00']);exit;
