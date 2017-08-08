@@ -2368,6 +2368,7 @@ class CensoController extends Controller {
 			$code = substr($ivariable->edcenso_district_fk, -2);
 			$district = EdcensoDistrict::model()->findByAttributes(array('edcenso_city_fk'=>$edcenso_city_fk,'code'=>$code));
 			if(!isset($exist)){
+				$ivariable->name = utf8_encode($ivariable->name);
 				$ivariable->edcenso_district_fk=$district->id;
 				$ivariable->save();
 			}
@@ -2557,7 +2558,6 @@ class CensoController extends Controller {
 				$ivariable->student_fk = $student_id->id;
 				$ivariable->classroom_fk = $classroom_id->id;
 				$ivariable->save();
-				var_dump($ivariable->errors);exit;
 			}
 		}
 	}
