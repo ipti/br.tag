@@ -88,6 +88,14 @@ return array(
             ),
         ),
         // uncomment the following to use a MySQL database
+        'db2' => array(
+            'connectionString' => 'mysql:host=localhost;dbname=com.escola10',
+            'emulatePrepare' => true,
+            'username' => 'user.tag',
+            'password' => '123456',
+            'charset' => 'utf8',
+            'class'   => 'CDbConnection'
+        ),
         'db' => unserialize(DBCONFIG),
         'authManager' => array(
             'class' => 'CDbAuthManager',

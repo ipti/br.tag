@@ -114,7 +114,7 @@ class StudentIdentification extends AltActiveRecord {
             array('responsable_name', 'length', 'max'=>90),
             array('responsable_rg, responsable_job', 'length', 'max'=>45),
             array('responsable_cpf, responsable_telephone', 'length', 'max'=>11),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

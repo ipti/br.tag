@@ -108,7 +108,7 @@ class StudentEnrollment extends AltActiveRecord
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             array('school_admission_date', 'length', 'max'=>10),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.

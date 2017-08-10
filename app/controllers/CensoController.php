@@ -15,7 +15,6 @@ class CensoController extends Controller {
 	public $layout = 'fullmenu';
 
 	public $export = '';
-
 	public function accessRules() {
 		return [
 			[
