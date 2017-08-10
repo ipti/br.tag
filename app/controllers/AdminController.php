@@ -270,6 +270,7 @@
 
 				foreach ($loads['classrooms'] as $index => $class) {
 					$saveclass = new Classroom();
+					$saveclass->setScenario('search');
 					$saveclass->setDb2Connection(true);
 					$saveclass->refreshMetaData();
 					$saveclass->attributes = $class;
@@ -278,6 +279,7 @@
 				}
 				foreach ($loads['students'] as $i => $student) {
 					$savestudent = new StudentIdentification();
+					$saveclass->setScenario('search');
 					$savestudent->setDb2Connection(true);
 					$savestudent->refreshMetaData();
 					$savestudent->attributes = $student;
@@ -287,6 +289,7 @@
 
 				foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
 					$savedocument = new StudentDocumentsAndAddress();
+					$savedocument->setScenario('search');
 					$savedocument->setDb2Connection(true);
 					$savedocument->refreshMetaData();
 					$savedocument->attributes = $documentsaddress;
@@ -295,6 +298,7 @@
 				}
 				foreach ($loads['enrollments'] as $index => $enrollment) {
 					$saveenrollment = new StudentEnrollment();
+					$saveenrollment->setScenario('search');
 					$saveenrollment->setDb2Connection(true);
 					$saveenrollment->refreshMetaData();
 					$saveenrollment->attributes = $enrollment;
