@@ -47,8 +47,8 @@ define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=localhost;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'tag',
-    'password' => 'p@s4root',
+    'username' => 'user.tag',
+    'password' => '123456',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
