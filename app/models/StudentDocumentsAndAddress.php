@@ -103,7 +103,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             array('cpf, nis', 'length', 'max'=>11),
             array('address', 'length', 'max'=>100),
             array('neighborhood', 'length', 'max'=>50),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, cns, fkid, justice_restriction', 'safe', 'on'=>'search'),

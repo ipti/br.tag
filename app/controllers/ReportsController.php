@@ -38,7 +38,7 @@ class ReportsController extends Controller {
         $sql = "SELECT DISTINCT si.inep_id,si.name,si.birthday,sd.residence_zone, se.*
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk)
                 join classroom as c on se.classroom_fk = c.id
-                join student_documents_and_address as sd on si.inep_id = sd.student_fk
+                join student_documents_and_address as sd on si.id = sd.id
                 where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = ".$_GET['id']." AND se.school_inep_id_fk =  ".$_GET['id']."
                 AND c.school_year = ".$this->year." order by si.name";
 

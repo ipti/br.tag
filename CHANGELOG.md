@@ -5,6 +5,18 @@
 **Melhorias:**
 - Melhorar o relatório de análise comparativa de matrículas.
 
+## [Versão 2.10.6]
+**Melhorias:**
+-
+
+**Bugs Corrigidos:**
+- Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;
+- Correção na função Educacenso.
+
+**Funcionalidades:**
++ Inclusão função importer de IDS do CENSO
+
+
 ## [Versão 2.10.5]
 
 **Melhorias:**
