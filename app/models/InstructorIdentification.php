@@ -88,10 +88,10 @@ class InstructorIdentification extends CActiveRecord {
             array('name, email, filiation_1, filiation_2', 'length', 'max'=>100),
             array('nis', 'length', 'max'=>11),
             array('birthday_date', 'length', 'max'=>10),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, fkid', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash', 'safe', 'on'=>'search'),
         );
     }
 
