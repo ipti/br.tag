@@ -153,7 +153,7 @@
 				$savestudent->setScenario('search');
 				$savestudent->setDb2Connection(true);
 				$savestudent->refreshMetaData();
-				$exist = $savestudent->findByAttributes(array('hash'=>$class['hash']));
+				$exist = $savestudent->findByAttributes(array('hash'=>$student['hash']));
 				if (!isset($exist)){
 					$savestudent->attributes = $student;
 					$savestudent->hash = $student['hash'];
@@ -166,7 +166,7 @@
 				$savedocument->setScenario('search');
 				$savedocument->setDb2Connection(true);
 				$savedocument->refreshMetaData();
-				$exist = $savedocument->findByAttributes(array('hash'=>$class['hash']));
+				$exist = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
 				if (!isset($exist)){
 					$savedocument->attributes = $documentsaddress;
 					$savedocument->hash = $documentsaddress['hash'];
@@ -174,38 +174,14 @@
 				}
 			}
 
-			foreach ($loads['studentsall'] as $i => $student) {
-				$savestudent = new StudentIdentification();
-				$savestudent->setScenario('search');
-				$savestudent->setDb2Connection(true);
-				$savestudent->refreshMetaData();
-				$exist = $savestudent->findByAttributes(array('hash'=>$class['hash']));
-				if (!isset($exist)){
-					$savestudent->attributes = $student;
-					$savestudent->hash = $student['hash'];
-					$savestudent->save();
-				}
-			}
 
-			foreach ($loads['documentsaddressall'] as $i => $documentsaddress) {
-				$savedocument = new StudentDocumentsAndAddress();
-				$savedocument->setScenario('search');
-				$savedocument->setDb2Connection(true);
-				$savedocument->refreshMetaData();
-				$exist = $savedocument->findByAttributes(array('hash'=>$class['hash']));
-				if (!isset($exist)){
-					$savedocument->attributes = $documentsaddress;
-					$savedocument->hash = $documentsaddress['hash'];
-					$savedocument->save();
-				}
-			}
 
 			foreach ($loads['enrollments'] as $index => $enrollment) {
 				$saveenrollment = new StudentEnrollment();
 				$saveenrollment->setScenario('search');
 				$saveenrollment->setDb2Connection(true);
 				$saveenrollment->refreshMetaData();
-				$exist = $saveenrollment->findByAttributes(array('hash'=>$class['hash']));
+				$exist = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
 				if (!isset($exist)){
 					$saveenrollment->attributes = $enrollment;
 					$saveenrollment->hash = $enrollment['hash'];
@@ -231,13 +207,13 @@
 
 			foreach ($studentAll as $index => $student) {
 				$hash_student = hexdec(crc32($student->name.$student->birthday));
-				if(!isset($loads['studentsall'][$hash_student])){
-					$loads['studentsall'][$hash_student] = $student->attributes;
-					$loads['studentsall'][$hash_student]['hash'] = $hash_student;
+				if(!isset($loads['students'][$hash_student])){
+					$loads['students'][$hash_student] = $student->attributes;
+					$loads['students'][$hash_student]['hash'] = $hash_student;
 				}
-				if(!isset($loads['documentsaddressall'][$hash_student])){
-					$loads['documentsaddressall'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($student->id)->attributes;
-					$loads['documentsaddressall'][$hash_student]['hash'] = $hash_student;
+				if(!isset($loads['documentsaddress'][$hash_student])){
+					$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($student->id)->attributes;
+					$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 				}
 			}
 
@@ -251,14 +227,14 @@
 					$loads['classrooms'][$hash_classroom] = $classroom->attributes;
 					$loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
 					foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-						if(!isset($loads['students'][$enrollment->student_fk])){
-							$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
-							$loads['students'][$enrollment->student_fk] = $enrollment->studentFk->attributes;
-							$loads['students'][$enrollment->student_fk]['hash'] = $hash_student;
+						$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
+						if(!isset($loads['students'][$hash_student])){
+							$loads['students'][$hash_student] = $enrollment->studentFk->attributes;
+							$loads['students'][$hash_student]['hash'] = $hash_student;
 						}
-						if(!isset($loads['documentsaddress'][$enrollment->student_fk])){
-							$loads['documentsaddress'][$enrollment->student_fk] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
-							$loads['documentsaddress'][$enrollment->student_fk]['hash'] = $hash_student;
+						if(!isset($loads['documentsaddress'][$hash_student])){
+							$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
+							$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 						}
 						$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
 						$loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
