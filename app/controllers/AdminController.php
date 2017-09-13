@@ -197,11 +197,11 @@
 			ini_set('max_execution_time', 0);
 			ini_set('memory_limit', '500M');
 			$year = Yii::app()->user->year;
-			$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
+			/*$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
 					JOIN classroom b ON(a.`classroom_fk`=b.id)
 					WHERE
-					b.`school_year`=$year";
-
+					b.`school_year`=$year";*/
+			$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
 			$schools = Yii::app()->db->createCommand($sql)->queryAll();
 			$studentAll = StudentIdentification::model()->findAll();
 
