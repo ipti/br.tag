@@ -174,6 +174,32 @@
 				}
 			}
 
+			foreach ($loads['studentsall'] as $i => $student) {
+				$savestudent = new StudentIdentification();
+				$savestudent->setScenario('search');
+				$savestudent->setDb2Connection(true);
+				$savestudent->refreshMetaData();
+				$exist = $savestudent->findByAttributes(array('hash'=>$class['hash']));
+				if (!isset($exist)){
+					$savestudent->attributes = $student;
+					$savestudent->hash = $student['hash'];
+					$savestudent->save();
+				}
+			}
+
+			foreach ($loads['documentsaddressall'] as $i => $documentsaddress) {
+				$savedocument = new StudentDocumentsAndAddress();
+				$savedocument->setScenario('search');
+				$savedocument->setDb2Connection(true);
+				$savedocument->refreshMetaData();
+				$exist = $savedocument->findByAttributes(array('hash'=>$class['hash']));
+				if (!isset($exist)){
+					$savedocument->attributes = $documentsaddress;
+					$savedocument->hash = $documentsaddress['hash'];
+					$savedocument->save();
+				}
+			}
+
 			foreach ($loads['enrollments'] as $index => $enrollment) {
 				$saveenrollment = new StudentEnrollment();
 				$saveenrollment->setScenario('search');
@@ -193,6 +219,7 @@
 		}
 		public function actionExportMaster(){
 			ini_set('max_execution_time', 0);
+			ini_set('memory_limit', '500M');
 			$year = Yii::app()->user->year;
 			$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
 					JOIN classroom b ON(a.`classroom_fk`=b.id)
@@ -200,7 +227,19 @@
 					b.`school_year`=$year";
 
 			$schools = Yii::app()->db->createCommand($sql)->queryAll();
+			$studentAll = StudentIdentification::model()->findAll();
 
+			foreach ($studentAll as $index => $student) {
+				$hash_student = hexdec(crc32($student->name.$student->birthday));
+				if(!isset($loads['studentsall'][$hash_student])){
+					$loads['studentsall'][$hash_student] = $student->attributes;
+					$loads['studentsall'][$hash_student]['hash'] = $hash_student;
+				}
+				if(!isset($loads['documentsaddressall'][$hash_student])){
+					$loads['documentsaddressall'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($student->id)->attributes;
+					$loads['documentsaddressall'][$hash_student]['hash'] = $hash_student;
+				}
+			}
 
 			foreach ($schools as $index => $schll) {
 				$school = SchoolIdentification::model()->findByPk($schll['school_inep_id_fk']);
@@ -260,7 +299,7 @@
 				$importToFile = TRUE;
 			}
 			if ($importToFile) {
-				ini_set('memory_limit', '128M');
+				ini_set('memory_limit', '288M');
 				$fileName = "./app/export/" . Yii::app()->user->school . ".json";
 				$file = fopen($fileName, "w");
 				fwrite($file, $datajson);
