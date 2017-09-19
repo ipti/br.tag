@@ -126,6 +126,7 @@
 
 		}
 		public function loadMaster($loads){
+
 			foreach ($loads['schools'] as $index => $scholl) {
 				$saveschool = new SchoolIdentification();
 				$saveschool->setDb2Connection(true);
@@ -173,9 +174,7 @@
 					$savedocument->save();
 				}
 			}
-
-
-
+			
 			foreach ($loads['enrollments'] as $index => $enrollment) {
 				$saveenrollment = new StudentEnrollment();
 				$saveenrollment->setScenario('search');
@@ -193,9 +192,9 @@
 			//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
 
 		}
-		public function actionExportMaster(){
+		public function prepareExport(){
 			ini_set('max_execution_time', 0);
-			ini_set('memory_limit', '500M');
+			ini_set('memory_limit', '10240M');
 			$year = Yii::app()->user->year;
 			/*$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
 					JOIN classroom b ON(a.`classroom_fk`=b.id)
@@ -203,7 +202,10 @@
 					b.`school_year`=$year";*/
 			$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
 			$schools = Yii::app()->db->createCommand($sql)->queryAll();
-			$studentAll = StudentIdentification::model()->findAll();
+			$istudent = new StudentIdentification();
+			$istudent->setDb2Connection(false);
+			$istudent->refreshMetaData();
+			$studentAll = $istudent->findAll();
 
 			foreach ($studentAll as $index => $student) {
 				$hash_student = hexdec(crc32($student->name.$student->birthday));
@@ -212,16 +214,27 @@
 					$loads['students'][$hash_student]['hash'] = $hash_student;
 				}
 				if(!isset($loads['documentsaddress'][$hash_student])){
-					$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($student->id)->attributes;
+					$idocs = new StudentDocumentsAndAddress();
+					$idocs->setDb2Connection(false);
+					$idocs->refreshMetaData();
+					$loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
 					$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 				}
 			}
 
 			foreach ($schools as $index => $schll) {
-				$school = SchoolIdentification::model()->findByPk($schll['school_inep_id_fk']);
-				$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
-				$loads['schools'][$index] = $school->attributes;
-				$loads['schools'][$index]['hash'] = hexdec(crc32($school->inep_id.$school->name));
+				$ischool = new SchoolIdentification();
+				$ischool->setDb2Connection(false);
+				$ischool->refreshMetaData();
+				$school = $ischool->findByPk($schll['school_inep_id_fk']);
+
+				$iclass = new Classroom();
+				$iclass->setDb2Connection(false);
+				$iclass->refreshMetaData();
+				$classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
+				$hash_school = hexdec(crc32($school->inep_id.$school->name));
+				$loads['schools'][$hash_school] = $school->attributes;
+				$loads['schools'][$hash_school]['hash'] = $hash_school;
 				foreach ($classrooms as $iclass => $classroom) {
 					$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
 					$loads['classrooms'][$hash_classroom] = $classroom->attributes;
@@ -233,7 +246,7 @@
 							$loads['students'][$hash_student]['hash'] = $hash_student;
 						}
 						if(!isset($loads['documentsaddress'][$hash_student])){
-							$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
+							$loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
 							$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 						}
 						$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
@@ -242,6 +255,7 @@
 						$loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
 						$loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
 					}
+					/*
 					foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
 						//CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
 						$hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
@@ -263,16 +277,35 @@
 							$loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
 							$loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
 						}
-					}
+					}*/
 
 				}
 			}
-			$datajson = json_encode($loads);
-			$importToFile = FALSE;
+			return $loads;
+
+
+
+		}
+		public function actionExportMaster(){
 			try {
 				Yii::app()->db2;
+				$sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
+				$dbs = Yii::app()->db2->createCommand($sql)->queryAll();
+				$loads = array();
+				foreach ($dbs as $db) {
+					$dbname = $db['TABLE_SCHEMA'];
+					Yii::app()->db->setActive(false);
+					Yii::app()->db->connectionString = "mysql:host=localhost;dbname=$dbname";
+					Yii::app()->db->setActive(true);
+					$add = $this->prepareExport();
+					$this->loadMaster($add);
+				}
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+				$this->redirect(['index']);
 			} catch (Exception $e) {
 				$importToFile = TRUE;
+				$loads = $this->prepareExport($loads);
+				$datajson = json_encode($loads);
 			}
 			if ($importToFile) {
 				ini_set('memory_limit', '288M');
@@ -284,24 +317,12 @@
 				header("Content-Type: application/force-download");
 				header("Content-Length: " . filesize($fileName));
 				header("Connection: close");
-
 				$file = fopen($fileName, "r");
 				fpassthru($file);
 				fclose($file);
 				unlink($fileName);
-
 				return;
-
-			} else {
-				$this->loadMaster($loads);
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-				$this->redirect(['index']);
 			}
-
-
-
-
-
 		}
 	}
 
