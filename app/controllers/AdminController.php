@@ -187,6 +187,9 @@
 					$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
 					$saveenrollment->hash_student = $enrollment['hash_student'];
 					$saveenrollment->save();
+					if(!empty($saveenrollment->errors)){
+						var_dump($saveenrollment->errors);exit;
+					}
 				}
 			}
 			//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
@@ -240,6 +243,8 @@
 					$loads['classrooms'][$hash_classroom] = $classroom->attributes;
 					$loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
 					foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+						$enrollment->setDb2Connection(false);
+						$enrollment->refreshMetaData();
 						$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
 						if(!isset($loads['students'][$hash_student])){
 							$loads['students'][$hash_student] = $enrollment->studentFk->attributes;
