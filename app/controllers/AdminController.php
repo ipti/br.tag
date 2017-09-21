@@ -121,7 +121,7 @@
 				$jsonSyncTag .= $linha;
 			}
 			fclose($fileImport);
-			$json = json_decode($jsonSyncTag, TRUE);
+			$json = unserialize($jsonSyncTag, TRUE);
 			$this->loadMaster($json);
 
 		}
@@ -209,22 +209,29 @@
 			$istudent->setDb2Connection(false);
 			$istudent->refreshMetaData();
 			$studentAll = $istudent->findAll();
-
-			foreach ($studentAll as $index => $student) {
-				$hash_student = hexdec(crc32($student->name.$student->birthday));
-				if(!isset($loads['students'][$hash_student])){
-					$loads['students'][$hash_student] = $student->attributes;
-					$loads['students'][$hash_student]['hash'] = $hash_student;
-				}
-				if(!isset($loads['documentsaddress'][$hash_student])){
-					$idocs = new StudentDocumentsAndAddress();
-					$idocs->setDb2Connection(false);
-					$idocs->refreshMetaData();
-					$loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
-					$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
+			try {
+				Yii::app()->db2;
+				$conn = true;
+			}
+			catch(Exception $ex) {
+				$conn = false;
+			}
+			if($conn){
+				foreach ($studentAll as $index => $student) {
+					$hash_student = hexdec(crc32($student->name.$student->birthday));
+					if(!isset($loads['students'][$hash_student])){
+						$loads['students'][$hash_student] = $student->attributes;
+						$loads['students'][$hash_student]['hash'] = $hash_student;
+					}
+					if(!isset($loads['documentsaddress'][$hash_student])){
+						$idocs = new StudentDocumentsAndAddress();
+						$idocs->setDb2Connection(false);
+						$idocs->refreshMetaData();
+						$loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
+						$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
+					}
 				}
 			}
-
 			foreach ($schools as $index => $schll) {
 				$ischool = new SchoolIdentification();
 				$ischool->setDb2Connection(false);
@@ -308,11 +315,8 @@
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 				$this->redirect(['index']);
 			} catch (Exception $e) {
-				$importToFile = TRUE;
-				$loads = $this->prepareExport($loads);
-				$datajson = json_encode($loads);
-			}
-			if ($importToFile) {
+				$loads = $this->prepareExport();
+				$datajson = serialize($loads);
 				ini_set('memory_limit', '288M');
 				$fileName = "./app/export/" . Yii::app()->user->school . ".json";
 				$file = fopen($fileName, "w");
@@ -326,7 +330,6 @@
 				fpassthru($file);
 				fclose($file);
 				unlink($fileName);
-				return;
 			}
 		}
 	}
