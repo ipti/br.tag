@@ -1,13 +1,17 @@
 # Change Log
 
 ## [Próximas Versões]
-
-**Melhorias:**
 - Melhorar o relatório de análise comparativa de matrículas.
 
-## [Versão 2.10.6]
+## [Versão 2.10.7]
 **Melhorias:**
--
+- Ampliar o acesso a funcionalidade de frequencia para os demais anos.
+
+**Bugs Corrigidos:**
+
+**Funcionalidades:**
+
+## [Versão 2.10.6]
 
 **Bugs Corrigidos:**
 - Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;
