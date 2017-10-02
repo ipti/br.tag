@@ -121,7 +121,7 @@
 				$jsonSyncTag .= $linha;
 			}
 			fclose($fileImport);
-			$json = unserialize($jsonSyncTag, TRUE);
+			$json = unserialize($jsonSyncTag);
 			$this->loadMaster($json);
 
 		}
