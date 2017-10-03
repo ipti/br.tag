@@ -40,7 +40,7 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'br.org.ipti.boquim.tag';
+        $db = 'br.org.ipti.tag';
         break;
 }
 define("DBNAME",$db);
