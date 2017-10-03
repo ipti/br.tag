@@ -80,7 +80,7 @@ function  adicionaProfessorPrimario(special_days, no_school, saturdays) {
             if (checkNoSchool(day, no_school)) {
                 checked = ' checked ';
             }
-            if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+            if (weekDay <= 6){
                 var dayForClass = day;
                 if (parseInt(dayForClass) < 10) {
                     dayForClass = '0' + dayForClass;
@@ -120,7 +120,7 @@ function adicionaProfessorSecundario(schedule,special_days, no_school, saturdays
             if (checkNoSchool(day, no_school)) {
                 checked = ' checked ';
             }
-            if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+            if (weekDay <= 6){
                 var dayForClass = day;
                 if (parseInt(dayForClass) < 10) {
                     dayForClass = '0' + dayForClass;
@@ -176,7 +176,7 @@ function adicionaEstudantePrimario(students, special_days, no_school, saturdays)
                     checked = ' checked ';
                 }
 
-                if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                if (weekDay <= 6){
                     var dayForClass = day;
                     if (parseInt(dayForClass) < 10) {
                         dayForClass =  '0' + dayForClass;
@@ -237,7 +237,7 @@ function adicionaEstudanteSecundario(schedule, students, special_days, no_school
                     checked = ' checked ';
                 }
 
-                if ((weekDay < 6) || (weekDay == 6 && checkSaturdaySchool(date, saturdays))){
+                if (weekDay <= 6){
                     var dayForClass = day;
                     if (parseInt(dayForClass) < 10) {
                         dayForClass = '0' + dayForClass;
