@@ -284,6 +284,7 @@ return array(
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     'Writing' => 'Redação',
     'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
+    'New Discipline' => 'Nova Disciplina',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',

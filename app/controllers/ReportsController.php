@@ -468,6 +468,7 @@ class ReportsController extends Controller {
         $monthI = $month <= 3 ? 1 : $month-3;
         $monthF = $month <= 1 ? 1 : $month-1;
         $year = date('Y');
+
         /*
         select c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults
         from class t
@@ -505,12 +506,12 @@ class ReportsController extends Controller {
         $command->where('c.school_year = :year '
                 . 'AND t.month >= :monthI '
                 . 'AND t.month <= :monthF '
-                . 'AND t.given_class = 1 ',//0 não, 1 sim
-                array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF));
+                . 'AND t.given_class = 1 '//0 não, 1 sim
+                . 'AND c.school_inep_fk = :school ',
+                array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school));
         $command->group = "c.id, t.month, si.id";
         $command->order = "student, month";
         $query = $command->queryAll();
-
 
         //@done S3 - Organizar o resultado da query que estava ilegível.
         $report = array();
