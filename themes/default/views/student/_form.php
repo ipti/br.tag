@@ -1061,6 +1061,15 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid">
                         <div class="span11">
+                            <?php
+                                $error = $modelEnrollment->getErrors('enrollment_id');
+                                if(count($error) > 0){
+
+                             ?>
+                                <div class="alert alert-error">
+                                    <?php echo $error[0]; ?>
+                                </div>
+                            <?php }  ?>
                             <div id="enrollment" class="widget widget-scroll margin-bottom-none">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons book_open">
