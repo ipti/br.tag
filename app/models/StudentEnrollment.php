@@ -99,7 +99,7 @@ class StudentEnrollment extends AltActiveRecord
         $enrollment_qty = $this->classroomFk()->count('school_year=:school_year ', array(':school_year'=>Yii::app()->user->year));
         if($enrollment_qty > 0){
             if(strtolower($this->scenario) == 'insert'){
-                $this->addError('enrollment_id','O aluno já está matriculado no corrente ano!');
+                $this->addError('enrollment_id', Yii::t('default', 'The student is already enrolled this year'));
             }
             
         }

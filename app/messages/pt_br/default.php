@@ -400,6 +400,7 @@ return array(
     'Previous stage situation' => 'Situação no ano anterior',
     'School admission date' => 'Data de ingresso na escola',
     'Admission type' => 'Tipo de ingresso',
+    'The student is already enrolled this year' => 'O aluno já está matrículado no corrente ano',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
