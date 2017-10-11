@@ -349,3 +349,21 @@ function removeRequiredSelect2(id){
     var newId = $(id).parent().parent().children("label");
     removeRequired(newId);
 }
+
+jQuery('a.novaTab').live('click', function(event) {
+    event.preventDefault();
+    window.open($(this).attr("href")); 
+});
+
+/**
+ * Abre uma nova aba ao clicar.
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function registerAndOpenTab(id){
+    $(id).live('click', function(event) {
+        event.preventDefault();
+        window.open($(this).attr("url")); 
+    });
+}

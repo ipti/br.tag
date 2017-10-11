@@ -669,7 +669,8 @@ return array(
     'Students Using School Transportation Relation' => 'Relação de Estudantes que utilizam Transporte Escolar',
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',
-    'Export Now'=>'Exportar agora'
+    'Export Now'=>'Exportar agora',
+    'Student By Classroom' => 'Alunos por Turma'
 
         )
 ?>
