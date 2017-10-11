@@ -350,11 +350,6 @@ function removeRequiredSelect2(id){
     removeRequired(newId);
 }
 
-jQuery('a.novaTab').live('click', function(event) {
-    event.preventDefault();
-    window.open($(this).attr("href")); 
-});
-
 /**
  * Abre uma nova aba ao clicar.
  * 
