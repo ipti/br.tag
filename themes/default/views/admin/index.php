@@ -59,6 +59,13 @@
                     </a>
                 </div>
                 <div class="span3">
+                    <a href="<?php echo Yii::app()->createUrl('admin/editPassword',array("id"=>Yii::app()->user->loginInfos->id)) ?>" class="widget-stats">
+                        <span class="glyphicons keys"><i></i></span>
+                        <span class="txt">Alterar Senha</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+                <div class="span3">
                     <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>" class="widget-stats">
                         <span class="glyphicons file_export"><i></i></span>
                         <span class="txt">Exportar</span>
@@ -70,7 +77,6 @@
     </div>
 
 </div>
-
 
 <script>
     var btnImport = "<?php echo Yii::t('default', 'Import'); ?>";

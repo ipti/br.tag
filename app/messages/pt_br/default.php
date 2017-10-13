@@ -628,6 +628,7 @@ return array(
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'admin' => 'Administrador',
+    'Edit Password' => 'Alterar Senha',
     
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',

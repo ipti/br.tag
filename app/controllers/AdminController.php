@@ -54,6 +54,27 @@
 			}
 			$this->render('createUser', ['model' => $model]);
 		}
+
+		public function actionEditPassword($id) {
+			$model = Users::model()->findByPk($id);
+
+			if (isset($_POST['Users'], $_POST['Confirm'])) {
+				$password = md5($_POST['Users']['password']);
+				$confirm = md5($_POST['Confirm']);
+				if ($password == $confirm) {
+					$model->password = $password;
+					if ($model->save()) {
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
+						$this->redirect(['index']);
+					}
+				} else {
+					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+				}
+			}
+			$this->render('editPassword', ['model' => $model]);
+		}
+
+
 		public function actionClearDB() {
 			//delete from users_school;
 			//delete from users;
