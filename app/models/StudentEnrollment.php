@@ -114,7 +114,7 @@ class StudentEnrollment extends AltActiveRecord
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
-            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly'=>true),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
@@ -123,7 +123,7 @@ class StudentEnrollment extends AltActiveRecord
             array('enrollment_id', 'validateMultiply'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status', 'safe', 'on'=>'search'),
         );
     }
 
@@ -182,7 +182,8 @@ class StudentEnrollment extends AltActiveRecord
             'current_stage_situation' => Yii::t('default', 'Current stage situation'),
             'previous_stage_situation' => Yii::t('default', 'Previous stage situation'),
             'school_admission_date' => Yii::t('default', 'School admission date'),
-            'admission_type' => Yii::t('default', 'Admission type')
+            'admission_type' => Yii::t('default', 'Admission type'),
+            'status' => Yii::t('default', 'Status')
 
         );
     }

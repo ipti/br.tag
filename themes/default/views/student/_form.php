@@ -947,6 +947,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1'=>array('selected'=>true))), array("prompt" => "Selecione", 'class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelEnrollment, 'status'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("3" => "Não recebe", "1" => "Em hospital", "2" => "Em domicílio"), array('class' => 'select-search-off')); ?>
