@@ -125,11 +125,11 @@ $r = $imob = 0;
                 });
             })(jQuery);
             
-            $(function() {
-                $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function() {
+            $(function () {
+                $("[id2='school']").change(function () {
                     $(".school").submit();
                 });
-              });     
+            });     
               
             var bagaca = true;
             $(document).on('click','#button-menu', function(){

@@ -64,14 +64,14 @@ function isActive($pages){
                 <ul class="topnav pull-right">
                     <li>
                         <div id="change-school" >
-                            <form class="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
+                            <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                                     echo CHtml::activeDropDownList(
-                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2'=>'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                                 } else {
                                     echo CHtml::activeDropDownList(
-                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2'=>'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                                 }
                                 ?>
                             </form>
