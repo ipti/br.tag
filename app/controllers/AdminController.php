@@ -147,6 +147,9 @@
 					$saveclass->attributes = $class;
 					$saveclass->hash = $class['hash'];
 					$saveclass->save();
+				}else{
+					$saveclass->attributes = $class;
+					$saveclass->update();
 				}
 			}
 			foreach ($loads['students'] as $i => $student) {
