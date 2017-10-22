@@ -1,13 +1,21 @@
 # Change Log
 
 ## [Próximas Versões]
-
-**Melhorias:**
 - Melhorar o relatório de análise comparativa de matrículas.
 
-## [Versão 2.10.6]
+## [Versão 2.10.7]
 **Melhorias:**
--
+- Ampliar o acesso a funcionalidade de frequencia para os demais anos.
+- Sabado letivo habilitado por padrão na frequência.
+
+**Bugs Corrigidos:**
+- Correção no relatório do Bolsa Familia restrição por escola
+- Tradução do termo em inglês na tela de adicionar professor a turma de New Discipline e Data 1 e Data2
+
+
+**Funcionalidades:**
+
+## [Versão 2.10.6]
 
 **Bugs Corrigidos:**
 - Buscar por documentos dos alunos leva em consideração apenas o ID e não mais o INEP_ID;

@@ -159,7 +159,64 @@ $this->breadcrumbs = array(
             </div>
         </div>
         <div class="span12" style="margin: 10px 0 0 0">
+            <div class="span2">
+                <a href="#" data-toggle="modal" data-target="#report" class="widget-stats" target="_blank">
+                    <span class="glyphicons signal"><i></i></span>
+                    <span class="txt">Alunos por turma</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div>
+        <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Escolha a Turma</h4>
+                    </div>
+                    <form class="form-vertical" id="createCalendar" action="/br.tag/?r=calendar" method="post">            
+                    <div class="modal-body">
+                        <div class="row-fluid">
+                            <div class=" span12" style="margin: 10px 0 10px 0;">
+                                <div class="span4">
+                                    <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="span8">
+                                     <?php
+                                        echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(
+                                            'key' => 'id',
+                                            'class' => 'select-search-on',
+                                            'prompt' => 'Selecione a turma',
+                                            'ajax' => array(
+                                                'type' => 'POST',
+                                                'url' => CController::createUrl('classes/getDisciplines'),
+                                                'update' => '#disciplines',
+                                        )));
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="modal-footer" style="background-color:#FFF;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <a class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/studentbyclassroomreport'); ?>" type="button" value="Gerar" id="buildReport"> Gerar </a>         
+                        </div>
+                    </form>        
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<?php
+
+$cs = Yii::app()->getClientScript();
+$cs->registerScript('buildReport',"  
+    $('#buildReport').live('click', function(event) {
+        var url = $(this).attr('url');
+        var id = $('#classroom').val();
+        $(this).attr('url', url + '&id='+ id);
+    });
+    registerAndOpenTab('#buildReport');", CClientScript::POS_END);
+
+ ?>

@@ -392,6 +392,37 @@ class ReportsController extends Controller {
         ));
     }
 
+    public function actionStudentByClassroomReport(){
+        $school_year = Yii::app()->user->school;
+        $year = Yii::app()->user->year;
+        $condition = '';
+
+        if(isset($_GET['id']) and $_GET['id'] != ''){
+            $condition = " AND c.id = $_GET[id] ";
+        }
+
+        $sql = "SELECT 
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns, s.*
+                FROM 
+                    classroom as c 
+                    INNER JOIN student_identification as s on c.school_inep_fk = s.school_inep_id_fk
+                    INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
+                    LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
+
+                WHERE 
+                    c.school_year = $year AND 
+                    c.school_inep_fk = $school_year
+                    $condition
+                GROUP BY c.id, s.register_type, s.inep_id, s.id, d.cns
+                ORDER BY c.id";
+
+        $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->render('StudentByClassroomReport', array(
+            "classroom" => $classrooms
+        ));
+    }
+
     public function actionEnrollmentComparativeAnalysisReport(){
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
@@ -468,6 +499,7 @@ class ReportsController extends Controller {
         $monthI = $month <= 3 ? 1 : $month-3;
         $monthF = $month <= 1 ? 1 : $month-1;
         $year = date('Y');
+
         /*
         select c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults
         from class t
@@ -505,12 +537,12 @@ class ReportsController extends Controller {
         $command->where('c.school_year = :year '
                 . 'AND t.month >= :monthI '
                 . 'AND t.month <= :monthF '
-                . 'AND t.given_class = 1 ',//0 não, 1 sim
-                array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF));
+                . 'AND t.given_class = 1 '//0 não, 1 sim
+                . 'AND c.school_inep_fk = :school ',
+                array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school));
         $command->group = "c.id, t.month, si.id";
         $command->order = "student, month";
         $query = $command->queryAll();
-
 
         //@done S3 - Organizar o resultado da query que estava ilegível.
         $report = array();

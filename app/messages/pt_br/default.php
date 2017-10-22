@@ -284,6 +284,7 @@ return array(
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     'Writing' => 'Redação',
     'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
+    'New Discipline' => 'Nova Disciplina',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -399,6 +400,8 @@ return array(
     'Previous stage situation' => 'Situação no ano anterior',
     'School admission date' => 'Data de ingresso na escola',
     'Admission type' => 'Tipo de ingresso',
+    'Status' => 'Situação da matrícula',
+    'The student is already enrolled this year' => 'O aluno já está matrículado no corrente ano',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
@@ -625,6 +628,7 @@ return array(
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'admin' => 'Administrador',
+    'Edit Password' => 'Alterar Senha',
     
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',
@@ -667,7 +671,8 @@ return array(
     'Students Using School Transportation Relation' => 'Relação de Estudantes que utilizam Transporte Escolar',
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',
-    'Export Now'=>'Exportar agora'
+    'Export Now'=>'Exportar agora',
+    'Student By Classroom' => 'Alunos por Turma'
 
         )
 ?>
