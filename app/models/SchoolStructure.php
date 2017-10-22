@@ -112,7 +112,7 @@
  * @property integer $open_weekend
  * @property integer $pedagogical_formation_by_alternance
  */
-class SchoolStructure extends CActiveRecord
+class SchoolStructure extends AltActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.

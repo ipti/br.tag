@@ -80,7 +80,7 @@
 			//delete from users;
 			// delete from auth_assignment;
 
-			$command = "
+		$command = "
 			SET FOREIGN_KEY_CHECKS=0;
 			
 			delete from auth_assignment;
@@ -136,96 +136,128 @@
 				die('O arquivo não existe.');
 			}
 
-			$jsonSyncTag = "";
-			while (!feof($fileImport)) {
-				$linha = fgets($fileImport, filesize($uploadfile));
-				$jsonSyncTag .= $linha;
-			}
-			fclose($fileImport);
-			$json = json_decode($jsonSyncTag, TRUE);
-			$this->loadMaster($json);
-
+		$jsonSyncTag = "";
+		while (!feof($fileImport)) {
+			$linha = fgets($fileImport, filesize($uploadfile));
+			$jsonSyncTag .= $linha;
 		}
-		public function loadMaster($loads){
-			foreach ($loads['schools'] as $index => $scholl) {
-				$saveschool = new SchoolIdentification();
-				$saveschool->setDb2Connection(true);
-				$saveschool->refreshMetaData();
-				$exist = $saveschool->findByAttributes(array('inep_id'=>$scholl['inep_id']));
-				if(!isset($exist)){
-					$saveschool->attributes = $scholl;
-					$saveschool->save();
-				}
-			}
-			foreach ($loads['classrooms'] as $index => $class) {
-				$saveclass = new Classroom();
-				$saveclass->setScenario('search');
-				$saveclass->setDb2Connection(true);
-				$saveclass->refreshMetaData();
-				$exist = $saveclass->findByAttributes(array('hash'=>$class['hash']));
-				if (!isset($exist)){
-					$saveclass->attributes = $class;
-					$saveclass->hash = $class['hash'];
-					$saveclass->save();
-				}
-			}
-			foreach ($loads['students'] as $i => $student) {
-				$savestudent = new StudentIdentification();
-				$savestudent->setScenario('search');
-				$savestudent->setDb2Connection(true);
-				$savestudent->refreshMetaData();
-				$exist = $savestudent->findByAttributes(array('hash'=>$student['hash']));
-				if (!isset($exist)){
-					$savestudent->attributes = $student;
-					$savestudent->hash = $student['hash'];
-					$savestudent->save();
-				}
-			}
+		fclose($fileImport);
+		$json = unserialize($jsonSyncTag);
+		$this->loadMaster($json);
 
-			foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
-				$savedocument = new StudentDocumentsAndAddress();
-				$savedocument->setScenario('search');
-				$savedocument->setDb2Connection(true);
-				$savedocument->refreshMetaData();
-				$exist = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
-				if (!isset($exist)){
-					$savedocument->attributes = $documentsaddress;
-					$savedocument->hash = $documentsaddress['hash'];
-					$savedocument->save();
-				}
+	}
+	public function loadMaster($loads){
+		ini_set('max_execution_time', 0);
+		ini_set('memory_limit', '-1');
+		set_time_limit(0);
+		ignore_user_abort();
+		foreach ($loads['schools'] as $index => $scholl) {
+			$saveschool = new SchoolIdentification();
+			$saveschool->setDb2Connection(true);
+			$saveschool->refreshMetaData();
+			$exist = $saveschool->findByAttributes(array('inep_id'=>$scholl['inep_id']));
+			if(!isset($exist)){
+				$saveschool->attributes = $scholl;
+				$saveschool->save();
 			}
-
-
-
-			foreach ($loads['enrollments'] as $index => $enrollment) {
-				$saveenrollment = new StudentEnrollment();
-				$saveenrollment->setScenario('search');
-				$saveenrollment->setDb2Connection(true);
-				$saveenrollment->refreshMetaData();
-				$exist = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
-				if (!isset($exist)){
-					$saveenrollment->attributes = $enrollment;
-					$saveenrollment->hash = $enrollment['hash'];
-					$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
-					$saveenrollment->hash_student = $enrollment['hash_student'];
-					$saveenrollment->save();
-				}
-			}
-			//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
-
 		}
-		public function actionExportMaster(){
-			ini_set('max_execution_time', 0);
-			ini_set('memory_limit', '500M');
-			$year = Yii::app()->user->year;
-			/*$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
-					JOIN classroom b ON(a.`classroom_fk`=b.id)
-					WHERE
-					b.`school_year`=$year";*/
-			$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
-			$schools = Yii::app()->db->createCommand($sql)->queryAll();
-			$studentAll = StudentIdentification::model()->findAll();
+		foreach ($loads['schools_structure'] as $index => $structure) {
+			$saveschool = new SchoolStructure();
+			$saveschool->setDb2Connection(true);
+			$saveschool->refreshMetaData();
+			$exist = $saveschool->findByAttributes(array('school_inep_id_fk'=>$structure['school_inep_id_fk']));
+			if(!isset($exist)){
+				$saveschool->attributes = $structure;
+				$saveschool->save();
+			}
+		}
+		foreach ($loads['classrooms'] as $index => $class) {
+			$saveclass = new Classroom();
+			$saveclass->setScenario('search');
+			$saveclass->setDb2Connection(true);
+			$saveclass->refreshMetaData();
+			$exist = $saveclass->findByAttributes(array('hash'=>$class['hash']));
+			if (!isset($exist)){
+				$saveclass->attributes = $class;
+				$saveclass->hash = $class['hash'];
+				$saveclass->save();
+			}
 
+			//else{
+			//$exist->attributes = $class;
+			//$exist->save()
+			//}
+		}
+		foreach ($loads['students'] as $i => $student) {
+			$savestudent = new StudentIdentification();
+			$savestudent->setScenario('search');
+			$savestudent->setDb2Connection(true);
+			$savestudent->refreshMetaData();
+			$exist = $savestudent->findByAttributes(array('hash'=>$student['hash']));
+			if (!isset($exist)){
+				$savestudent->attributes = $student;
+				$savestudent->hash = $student['hash'];
+				$savestudent->save();
+			}
+		}
+
+		foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+			$savedocument = new StudentDocumentsAndAddress();
+			$savedocument->setScenario('search');
+			$savedocument->setDb2Connection(true);
+			$savedocument->refreshMetaData();
+			$exist = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
+			if (!isset($exist)){
+				$savedocument->attributes = $documentsaddress;
+				$savedocument->hash = $documentsaddress['hash'];
+				$savedocument->save();
+			}
+		}
+
+		foreach ($loads['enrollments'] as $index => $enrollment) {
+			$saveenrollment = new StudentEnrollment();
+			$saveenrollment->setScenario('search');
+			$saveenrollment->setDb2Connection(true);
+			$saveenrollment->refreshMetaData();
+			$exist = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
+			if (!isset($exist)){
+				$saveenrollment->attributes = $enrollment;
+				$saveenrollment->hash = $enrollment['hash'];
+				$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
+				$saveenrollment->hash_student = $enrollment['hash_student'];
+				$saveenrollment->save();
+				if(!empty($saveenrollment->errors)){
+					var_dump($saveenrollment->errors);exit;
+				}
+			}
+		}
+		//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
+
+	}
+	public function prepareExport(){
+		ini_set('max_execution_time', 0);
+		ini_set('memory_limit', '-1');
+		set_time_limit(0);
+		ignore_user_abort();
+		$year = Yii::app()->user->year;
+		/*$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
+                JOIN classroom b ON(a.`classroom_fk`=b.id)
+                WHERE
+                b.`school_year`=$year";*/
+		$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
+		$schools = Yii::app()->db->createCommand($sql)->queryAll();
+		$istudent = new StudentIdentification();
+		$istudent->setDb2Connection(false);
+		$istudent->refreshMetaData();
+		$studentAll = $istudent->findAll();
+		try {
+			Yii::app()->db2;
+			$conn = true;
+		}
+		catch(Exception $ex) {
+			$conn = false;
+		}
+		if($conn){
 			foreach ($studentAll as $index => $student) {
 				$hash_student = hexdec(crc32($student->name.$student->birthday));
 				if(!isset($loads['students'][$hash_student])){
@@ -233,97 +265,122 @@
 					$loads['students'][$hash_student]['hash'] = $hash_student;
 				}
 				if(!isset($loads['documentsaddress'][$hash_student])){
-					$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($student->id)->attributes;
+					$idocs = new StudentDocumentsAndAddress();
+					$idocs->setDb2Connection(false);
+					$idocs->refreshMetaData();
+					$loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
 					$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 				}
 			}
+		}
+		foreach ($schools as $index => $schll) {
+			$ischool = new SchoolIdentification();
+			$ischool->setDb2Connection(false);
+			$ischool->refreshMetaData();
+			$school = $ischool->findByPk($schll['school_inep_id_fk']);
 
-			foreach ($schools as $index => $schll) {
-				$school = SchoolIdentification::model()->findByPk($schll['school_inep_id_fk']);
-				$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
-				$loads['schools'][$index] = $school->attributes;
-				$loads['schools'][$index]['hash'] = hexdec(crc32($school->inep_id.$school->name));
-				foreach ($classrooms as $iclass => $classroom) {
-					$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
-					$loads['classrooms'][$hash_classroom] = $classroom->attributes;
-					$loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
-					foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-						$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
-						if(!isset($loads['students'][$hash_student])){
-							$loads['students'][$hash_student] = $enrollment->studentFk->attributes;
-							$loads['students'][$hash_student]['hash'] = $hash_student;
-						}
-						if(!isset($loads['documentsaddress'][$hash_student])){
-							$loads['documentsaddress'][$hash_student] = StudentDocumentsAndAddress::model()->findByPk($enrollment->student_fk)->attributes;
-							$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
-						}
-						$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
-						$loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
-						$loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
-						$loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
-						$loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
+			$iclass = new Classroom();
+			$iclass->setDb2Connection(false);
+			$iclass->refreshMetaData();
+			$classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
+			$hash_school = hexdec(crc32($school->inep_id.$school->name));
+			$loads['schools'][$hash_school] = $school->attributes;
+			$loads['schools'][$hash_school]['hash'] = $hash_school;
+			//@todo adicionado load na tabela de schoolstructure
+			$loads['schools_structure'][$hash_school] = $school->structure->attributes;
+			$loads['schools_structure'][$hash_school]['hash'] = $hash_school;
+			foreach ($classrooms as $iclass => $classroom) {
+				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
+				$loads['classrooms'][$hash_classroom] = $classroom->attributes;
+				$loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
+				foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+					$enrollment->setDb2Connection(false);
+					$enrollment->refreshMetaData();
+					$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
+					if(!isset($loads['students'][$hash_student])){
+						$loads['students'][$hash_student] = $enrollment->studentFk->attributes;
+						$loads['students'][$hash_student]['hash'] = $hash_student;
 					}
-					foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-						//CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
-						$hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
-						$hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
-						$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
-						$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hash_instructor;
-						$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hash_classroom;
-						$loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
-
-						//CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
-						if(!isset($loads['instructors'][$teachingData->instructor_fk])){
-							$loads['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-							$loads['instructors'][$teachingData->instructor_fk]['identification']['hash'] = $hash_instructor;
-							$loads['idocuments'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-							$loads['idocuments'][$teachingData->instructor_fk]['documents']['hash'] = $hash_instructor;
-
-						}
-						if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
-							$loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
-							$loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
-						}
+					if(!isset($loads['documentsaddress'][$hash_student])){
+						$loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
+						$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 					}
-
+					$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
+					$loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
+					$loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
+					$loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
+					$loads['enrollments'][$hash_enrollment]['hash_student'] = $hash_student;
 				}
+				/*
+                foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    $hash_instructor = hexdec(crc32($teachingData->instructorFk->name.$teachingData->instructorFk->birthday_date));
+                    $hash_teachingdata = hexdec(crc32($hash_classroom.$hash_instructor));
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id] = $teachingData->attributes;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_instructor'] = $hash_instructor;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash_classroom'] = $hash_classroom;
+                    $loads['instructorsteachingdata'][$teachingData->instructor_fk][$classroom->id]['hash'] = $hash_teachingdata;
+
+                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    if(!isset($loads['instructors'][$teachingData->instructor_fk])){
+                        $loads['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+                        $loads['instructors'][$teachingData->instructor_fk]['identification']['hash'] = $hash_instructor;
+                        $loads['idocuments'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+                        $loads['idocuments'][$teachingData->instructor_fk]['documents']['hash'] = $hash_instructor;
+
+                    }
+                    if(!isset($loads['instructorsvariabledata'][$teachingData->instructor_fk])) {
+                        $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
+                        $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
+                    }
+                }*/
+
 			}
-			$datajson = json_encode($loads);
-			$importToFile = FALSE;
-			try {
-				Yii::app()->db2;
-			} catch (Exception $e) {
-				$importToFile = TRUE;
+		}
+		return $loads;
+
+
+
+	}
+	public function actionExportMaster(){
+		try {
+			ini_set('max_execution_time', 0);
+			ini_set('memory_limit', '-1');
+			set_time_limit(0);
+			ignore_user_abort();
+			Yii::app()->db2;
+			$sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
+			$dbs = Yii::app()->db2->createCommand($sql)->queryAll();
+			$loads = array();
+			foreach ($dbs as $db) {
+				$dbname = $db['TABLE_SCHEMA'];
+				Yii::app()->db->setActive(false);
+				Yii::app()->db->connectionString = "mysql:host=localhost;dbname=$dbname";
+				Yii::app()->db->setActive(true);
+				$add = $this->prepareExport();
+				$this->loadMaster($add);
 			}
-			if ($importToFile) {
-				ini_set('memory_limit', '288M');
-				$fileName = "./app/export/" . Yii::app()->user->school . ".json";
-				$file = fopen($fileName, "w");
-				fwrite($file, $datajson);
-				fclose($file);
-				header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-				header("Content-Type: application/force-download");
-				header("Content-Length: " . filesize($fileName));
-				header("Connection: close");
-
-				$file = fopen($fileName, "r");
-				fpassthru($file);
-				fclose($file);
-				unlink($fileName);
-
-				return;
-
-			} else {
-				$this->loadMaster($loads);
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-				$this->redirect(['index']);
-			}
-
-
-
-
-
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
+			$this->redirect(['index']);
+		} catch (Exception $e) {
+			var_dump($e);exit;
+			$loads = $this->prepareExport();
+			$datajson = serialize($loads);
+			ini_set('memory_limit', '288M');
+			$fileName = "./app/export/" . Yii::app()->user->school . ".json";
+			$file = fopen($fileName, "w");
+			fwrite($file, $datajson);
+			fclose($file);
+			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+			header("Content-Type: application/force-download");
+			header("Content-Length: " . filesize($fileName));
+			header("Connection: close");
+			$file = fopen($fileName, "r");
+			fpassthru($file);
+			fclose($file);
+			unlink($fileName);
 		}
 	}
+}
 
 ?>
