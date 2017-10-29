@@ -363,7 +363,7 @@
 			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 			$this->redirect(['index']);
 		} catch (Exception $e) {
-			var_dump($e);exit;
+			//var_dump($e);exit;
 			$loads = $this->prepareExport();
 			$datajson = serialize($loads);
 			ini_set('memory_limit', '288M');

@@ -165,10 +165,7 @@ function isActive($pages){
 
                         </ul>
                     </div>
-                    <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Versão TAG: <?php echo TAG_VERSION?></div>
-                    </div>
+                  
                 </div>
 
                 <!-- // Sidebar Menu END -->

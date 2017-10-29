@@ -1151,15 +1151,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     }
                                                 }
                                                 ?>
-                                                <td style="text-align: center">
+                                                <td>
                                                     <ul>
-                                                        <li>
-                                                            <a href='<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $me->id)); ?>'
-                                                               target="_blank"   <i class="fa fa-eye" style="color:#496cad; "></i>
-                                                            Ficha de Matrícula
-                                                            </a>
-                                                        </li>                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentDeclarationReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Declaração</a></li>
-                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('type'=>$type, 'enrollment_id' => $me->id)) ?>' target="_blank">Ficha de Notas</a></li>
+                                                        <?php
+                                                        $forms = unserialize(FORMS);
+                                                        foreach ($forms as $form) {
+                                                            $link = Yii::app()->createUrl('forms/'.$form['action'], array('type'=>$type, 'enrollment_id' => $me->id));
+                                                            echo "<li><a target='_blank' href=".$link.">".$form['name']."</a></li>";
+                                                        }
+                                                        ?>
                                                 </td>
                                                 <td style="text-align: center">
                                                     <?php  if( $me->classroomFk->school_year == date(Y)){?>

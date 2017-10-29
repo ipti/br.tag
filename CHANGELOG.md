@@ -3,10 +3,20 @@
 ## [Próximas Versões]
 - Melhorar o relatório de análise comparativa de matrículas.
 
+## [Versão 2.10.8]
+**Melhorias:**
+- Habilitar action de Update automático ao efetuar login em nova versão.
+
+**Bugs Corrigidos:**
+-
+
 ## [Versão 2.10.7]
 **Melhorias:**
 - Ampliar o acesso a funcionalidade de frequencia para os demais anos.
 - Sabado letivo habilitado por padrão na frequência.
+- Exibir a versão do TAG na tela de Login
+- Habilitar o conceito de FORMS do TAG
+
 
 **Bugs Corrigidos:**
 - Correção no relatório do Bolsa Familia restrição por escola

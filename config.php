@@ -1,6 +1,6 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.5');
+define("TAG_VERSION",'2.10.7');
 if(YII_DEBUG){
     defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
     error_reporting(E_ALL);

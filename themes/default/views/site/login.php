@@ -78,11 +78,11 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php if(!$rightbrowser){?>
             <div style="text-align:right;color:red">Este site é melhor visualizado no Google Chrome. Você está utilizando o <?php echo $browser; ?></div>
         <?php }?>
-
     </div>
-    <span class="iptilogo">Uma tecnologia desenvolvida pelo</span>
+    <span class="iptilogo"> V<?php echo TAG_VERSION?><br>
+        Uma tecnologia desenvolvida pelo</span>
     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/logo_ipti.png" style="padding: 20px 20px;height: 60px;position: absolute;bottom: 0;right: 0;" />
+
 </div>
-</body>
 </body>
 <?php $this->endWidget(); ?>
