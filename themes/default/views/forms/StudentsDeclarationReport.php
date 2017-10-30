@@ -10,19 +10,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Student Declaration'); ?></h3>  
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
-
-
-<div class="innerLR">
-    <div>
-        <?php $this->renderPartial('head'); ?>
+<div class="pageA4V">
+    <?php $this->renderPartial('head'); ?>
         <p style="margin: 0 auto; text-align: justify; width:600px; font-size: 14px">Declaro para os devidos fins de direito, que o(a) aluno(a): <b><?php echo $report['name'] ?></b>,
             nascido(a) em:  <b><?php echo $report['birthday'] ?></b>, na cidade de: <b><?php echo $report['birth_city'] ?></b>, UF: <b><?php echo $report['birth_uf'] ?></b>,
             Registro Civil nº: 
@@ -82,5 +71,4 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <b>ASSINATURA DO DIRETOR(A)/SECRETÁRIO(A)</b>
         </p>
         <?php $this->renderPartial('footer'); ?>
-    </div>
 </div>

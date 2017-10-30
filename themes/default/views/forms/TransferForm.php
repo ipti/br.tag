@@ -9,17 +9,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
 
-<br/>
-<div class="innerLR district">
-    <div>
+<div class="pageA4H">
+    <?php $this->renderPartial('head'); ?>
         
         <script type="text/javascript">
             /*<![CDATA[*/
@@ -37,25 +29,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             );
             /*]]>*/
         </script>
-        
-        <br>
-        <div id="report" style="font-size: 10px">
 
-            <div id="container-header" style="display:table; margin: 0 auto;margin-top: -30px;text-align: center;">                
-                <img src="data:<?=$school->logo_file_type?>;base64,<?=base64_encode($school->logo_file_content)?>" width="40px" style="margin: 0 auto; display: block">
-                <span style="margin-top: 5px; font-size: 12px">PREFEITURA MUNICIPAL DE <?=strtoupper($school->edcensoCityFk->name)?><br>
-                    SECRETARIA MUNICIPAL DE EDUCAÇÃO<!--, CULTURA, ESPORTE, LAZER E TURISMO--><br>
-                    BASE LEGAL: LEI FEDERAL - 9394/96 - LEI MUNICIPAL: 523/2006<br>
-                    PARECER: 10/2007/CMEB, RESOLUÇÕES: 45/2010/CMEB, 44/2010/CMEB, 35/2009/CMEB, 23/2008/CMEB
-                </span>
-                <span style="clear:both;display:block"></span>
-            </div>
-            <br/>
-
-            <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
-                <div style="text-align: center; margin-bottom: 5px; font-size: 12px">GUIA DE TRANSFERÊNCIA</div>
-            </div>            
-            
             <table>
                 <tr>
                     <td colspan="8">
