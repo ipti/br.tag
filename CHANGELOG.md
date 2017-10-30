@@ -2,11 +2,12 @@
 
 ## [Próximas Versões]
 - Melhorar o relatório de análise comparativa de matrículas.
+- Habilitar action de Update automático ao efetuar login em nova versão.
 
 ## [Versão 2.10.8]
 **Melhorias:**
-- Habilitar action de Update automático ao efetuar login em nova versão.
-
+- Adicionar formulário de ata de notas
+-
 **Bugs Corrigidos:**
 -
 

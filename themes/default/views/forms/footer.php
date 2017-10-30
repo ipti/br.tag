@@ -19,8 +19,8 @@ $div1 = substr($cod,-1)*2+9;
 echo "<div id=rodape>";
 $cod= $cod."-".$div1;
 echo "<br>";
-echo "Documento autenticado pelo sistema de informação TAG em: ". date('d/m/Y - H:i')."h e deve ser conferido na Internet no 
- endereço http://verificador.escola.io<br/>Código de Verificação: $cod";
+echo "Documento autenticado digitalmente pelo sistema de informação TAG em: ". date('d/m/Y - H:i')."h e deve ser conferido na Internet no 
+ endereço http://verificador.escola10.com<br/>Código de Verificação: $cod";
 echo "</div>";
 
 ?>

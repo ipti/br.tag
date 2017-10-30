@@ -27,7 +27,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             jQuery(function ($) {
                 jQuery.ajax({'type': 'GET',
                     'data': {'enrollment_id':<?php echo $enrollment_id;?>},
-                    'url': '<?php echo Yii::app()->createUrl('reports/getEnrollmentNotificationInformation') ?>',
+                    'url': '<?php echo Yii::app()->createUrl('forms/getEnrollmentNotificationInformation') ?>',
                     'success': function (data) {
                         gerarRelatorio(data);
                     }, 'error': function () {
