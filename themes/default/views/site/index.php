@@ -215,10 +215,43 @@
 				</div>
 				<!---->
 			</div>
+			<div>
+				<div class="next-events widget widget-scroll widget-gray margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+					<div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
+						<div class="widget-body events in" style="height: auto;">
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Reaproveitamento das turmas</strong></span>
+							</div>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Pré-matrícula dos alunos</strong></span>
+							</div>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Impressão das fichas</strong></span>
+							</div>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Confirmação de matrícula</strong></span>
+							</div>
+						</div>
+					</div>
+				</div>
 		</div>
 	</div>
 </div>
 <script>
-
+$(".pre-enrollment-icon").on('click', function () {
+        var str = $(this).attr('class');
+		if(str.match(/circle-o/g) != null){
+			$(this).removeClass('fa-circle-o');
+			$(this).addClass('fa-circle');
+		}
+		else{
+			$(this).removeClass('fa-circle');
+			$(this).addClass('fa-circle-o');
+		}
+    });
 
 </script>

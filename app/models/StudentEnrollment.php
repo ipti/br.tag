@@ -96,7 +96,8 @@ class StudentEnrollment extends AltActiveRecord
     }
 
     public function validateMultiply(){
-        $enrollment_qty = $this->classroomFk()->count('school_year=:school_year ', array(':school_year'=>Yii::app()->user->year));
+        $enrollment_qty = $this->classroomFk()->with('studentEnrollments')
+        ->count('school_year=:school_year AND student_fk=:student_fk', array(':school_year'=>Yii::app()->user->year,':student_fk'=>$this->student_fk));
         if($enrollment_qty > 0){
             if(strtolower($this->scenario) == 'insert'){
                 $this->addError('enrollment_id', Yii::t('default', 'The student is already enrolled this year'));
@@ -296,5 +297,10 @@ class StudentEnrollment extends AltActiveRecord
             }
         }
         return $faults;
+    }
+
+    public function getFileInformation($enrollment_id){
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
+        return Yii::app()->db->createCommand($sql)->queryRow();
     }
 }

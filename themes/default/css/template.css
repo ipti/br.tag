@@ -6865,8 +6865,8 @@ li.active a{
   margin-bottom: 10px;
 }
 /*** VERSION 2.10.2 ***/
-.pageA4V{width:794px; height:1122px; margin:0 auto;}
-.pageA4H{width:1122px; height:794px; margin:0 auto;}
+.pageA4V{width:810px; height:1122px; margin:0 auto;}
+.pageA4H{width:1122px; height:810px; margin:0 auto;}
 .clear{display:block;clear: both;}
 .pageA4H h3{text-align:center;}
 .pageA4H #header-report ul#info,.pageA4H #header-report ul#addinfo{width:1012px;}
@@ -6875,3 +6875,12 @@ li.active a{
 #header-report ul#info,#header-report ul#addinfo{float:right; width:684px; margin:0;overflow: hidden}
 #header-report ul#info li{font-size:16px; line-height: 19px; font-weight: bold;}
 #header-report ul#addinfo li{font-size:12px; line-height: 14px;}
+
+/*** VERSION 2.10.7 ***/
+.left{float:left;}
+.right{float:right;}
+.pre-enrollment-icon{
+  cursor: pointer;
+  margin-top: 5px;
+  padding-right: 5px;
+}

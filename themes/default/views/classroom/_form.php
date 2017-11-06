@@ -373,6 +373,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary roundabout glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualização em Lote') ?></a>
                         <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Relatório de Matrícula') ?></a>
                         <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Lista de Alunos') ?></a>
+                        <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Fichas de Matrícula') ?></a>
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
@@ -385,21 +386,36 @@ $form = $this->beginWidget('CActiveForm', array(
                             </style>
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
-                                    <tr><th class='span1'><?php echo Yii::t('default', 'Move/Cancel') ?></th><th><?php echo Yii::t('default', 'Enrollment') ?></th><th><?php echo Yii::t('default', 'Name') ?></th><th><?php echo Yii::t('default', 'Etapa Anterior') ?></th></tr>
+                                    <tr>
+                                        <th class='span1'><?php echo Yii::t('default', 'Move/Cancel') ?></th>
+                                        <th><?php echo Yii::t('default', 'Order') ?></th>
+                                        <th><?php echo Yii::t('default', 'Name') ?></th>
+                                        <th><?php echo Yii::t('default', 'Print') ?></th>
+                                    </tr>
 
                                 </thead>
                                 <tbody>
                                      <?php
                                      if(isset($enrollments)){
-                                        foreach ($enrollments as $enr) {
-                                            echo "<tr><td><input value='".$enr->id."' name='enrollments[]' type='checkbox'/></td><td>" . $enr->id . "</td><td><a href='" . Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) . "'>" . $enr->studentFk->name . "</a></td><td>".@$enr->EnrollmentPastYear->classroomFk->edcensoStageVsModalityFk->name."</td>" .
-                                                "</tr>";
+                                         $i = 1;
+                                        foreach ($enrollments as $enr) { ?>
+                                            <tr>
+                                                <td align="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox'/></td>
+                                                <td width="30"><?= $i ?></td><td><a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id))?>"> <?= $enr->studentFk->name ?></a></td>
+                                                <td width="140">
+                                                    <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type'=>$type, 'enrollment_id' => $enr->id)); ?>"
+                                                       target="_blank">   <i class="fa fa-eye" style="color:#496cad; "></i>
+                                                            Ficha de Matrícula
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php  $i++; 
                                         }
-                                        echo "<tr><th>Total:</th><td>" . count($enrollments) . "</td></tr>";
-                                    } else {
-                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
-                                    }
-                                    ?>
+                                        ?>
+                                        <tr><th>Total:</th><td colspan="3"><?= count($enrollments) ?></td></tr>
+                                    <?php  } else { ?>
+                                        <tr><th colspan="4">Não há alunos matriculados.</th></tr>
+                                    <?php } ?>
                                 </tbody>
                                 <tfooter>
                                     <?php

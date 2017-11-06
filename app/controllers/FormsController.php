@@ -133,6 +133,11 @@ class FormsController extends Controller {
         $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id));
     }
 
+    public function actionStudentsFileForm($classroom_id) {
+        $this->layout = "reports";
+        $this->render('StudentsFileForm', array('classroom_id'=>$classroom_id));
+    }
+
     public function actionTransferForm($enrollment_id){
         $this->layout = 'reports';
         $sql = "SELECT si.nationality FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id WHERE se.id = " . $enrollment_id . ";";
