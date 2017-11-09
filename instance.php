@@ -1,7 +1,11 @@
 <?php
 $_FORMS[0] = array('name'=>'Ficha de Matrícula','action'=>'StudentFileForm');
-$_FORMS[1] = array('name'=>'Declaração','action'=>'EnrollmentDeclarationReport');
+$_FORMS[1] = array('name'=>'Declaração de Matrícula','action'=>'EnrollmentDeclarationReport');
 $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
+$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
+$_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclarationReport');
+$_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
+$_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 switch ($domain) {
     case 'propria':
@@ -93,7 +97,7 @@ switch ($domain) {
         $db = 'io.escola.vanda';
         break;
     default:
-        $instance = 'SERGIPE';
+        $instance = 'BOQUIM';
         $db = 'io.escola.se.boquim';
         break;
 }
@@ -102,8 +106,8 @@ define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=localhost;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'root',
-    'password' => '',
+    'username' => 'user.tag',
+    'password' => '123456',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);

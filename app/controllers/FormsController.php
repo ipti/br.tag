@@ -93,8 +93,9 @@ class FormsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionStudentsDeclarationReport($id) {
-        $sql = "SELECT * FROM StudentsDeclaration WHERE student_id = ".$id." AND `year`  = ".$this->year.";";
+    public function actionStudentsDeclarationReport($enrollment_id) {
+        $this->layout = "reports";
+        $sql = "SELECT * FROM studentsdeclaration WHERE student_id = ".$enrollment_id." AND `year`  = ".$this->year.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         $this->render('StudentsDeclarationReport', array(
             'report' => $result
@@ -108,10 +109,10 @@ class FormsController extends Controller {
     }
 
     public function actionAtaSchoolPerformance($id) {
-        $sql = "SELECT * FROM ataPerformance
+        $this->layout = "reports";
+        $sql = "SELECT * FROM ata_performance
                     where `year`  = " . $this->year . ""
             . " AND classroom_id = $id;";
-
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
@@ -119,7 +120,7 @@ class FormsController extends Controller {
         $result['month'] = strftime("%B", $time);
 
         $classroom = Classroom::model()->findByPk($id);
-        $students = StudentEnrollment::model()->findAll('classroom_fk = '.$classroom->id);
+        $students = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
 
         $this->render('AtaSchoolPerformance', array(
             'report' => $result,

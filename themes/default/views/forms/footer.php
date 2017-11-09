@@ -16,11 +16,11 @@ $div1 = 0;
 $div2 = 0;
 $cont = 30;
 $div1 = substr($cod,-1)*2+9;
-echo "<div id=rodape>";
+echo "<div style='font-size:9px;line-height: 9px;text-align: center;' id='rodape'>";
 $cod= $cod."-".$div1;
 echo "<br>";
-echo "Documento autenticado pelo sistema de informação TAG em: ". date('d/m/Y - H:i')."h e deve ser conferido na Internet no 
- endereço http://verificador.escola.io<br/>Código de Verificação: $cod";
+echo "<p>Documento autenticado digitalmente pelo sistema de informação TAG em: ". date('d/m/Y - H:i')."h e deve ser conferido na Internet no 
+ endereço http://verificador.escola10.com</p>Código de Verificação: $cod";
 echo "</div>";
 
 ?>
