@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-
- $("#save").on('click' , function() {
+$("#save").on('click' , function(event) {
+	event.preventDefault();
  	var result = new Array(); 
  	var idx = 0;
  	$(".stage-value").each(function() {

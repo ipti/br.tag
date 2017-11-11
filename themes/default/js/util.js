@@ -15,20 +15,20 @@ dateRules.time = /^([01][0-9]|2[0-3]):[0-5][0-9]:?([0-5][0-9])?$/;
 dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9]{2})$/;
 
 var stringRules = new Object();
-stringRules.schoolName = /^SZ]{4,100}$/;
-stringRules.classroomName = /^[A-Z0-9°ºª\-À-ú ?]{4,80}$/;
-stringRules.personName = /^[A-ZÀ-ú]{1,100}$/;
+stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
+stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
+stringRules.personName = /^[A-Z]{1,100}$/;
 stringRules.email = /^([A-Z0-9_.\-])+@[A-Z0-9_]+\.([A-Z]{2,4})$/;
-stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]*$/;
+stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
 stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
-stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,100}$/;
+stringRules.instructorAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
 stringRules.instructorAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
-stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,20}$/;
-stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,50}$/;
-stringRules.studentAddress = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,100}$/;
+stringRules.instructorAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
+stringRules.instructorAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
+stringRules.studentAddress = /^[A-Z0-9°ºª\-\/\., ]{1,100}$/;
 stringRules.studentAddressNumber = /^[A-Z0-9°ºª\-\/\., ]{1,10}$/;
-stringRules.studentAddressComplement = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,20}$/;
-stringRules.studentAddressNeighborhood = /^[A-Z0-9°ºª\-\/\.,À-ú ]{1,50}$/;
+stringRules.studentAddressComplement = /^[A-Z0-9°ºª\-\/\., ]{1,20}$/;
+stringRules.studentAddressNeighborhood = /^[A-Z0-9°ºª\-\/\., ]{1,50}$/;
 
 var numberRules = new Object();
 numberRules.cep = /^[0-9]{8}$/;
@@ -37,7 +37,7 @@ numberRules.nis = /^[0-9]{11}$/;
 numberRules.cns = /^[0-9]{15}$/;
 numberRules.ddd = /^[0-9]{2}$/;
 //numberRules.phone = /^([9]?)+([0-9]{8})$/;
-numberRules.phone = /^\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}$/;
+numberRules.phone = /^([0-9]{8,9})$/;
 numberRules.count = /^[0-9]{0,4}$/;
 numberRules.num = /^[0-9]*$/;
 
@@ -335,7 +335,6 @@ function removeRequired(id){
  * @returns {nothing}
  */
 function addRequiredSelect2(id){
-    alert(id);
     var newId = $(id).parent().parent().children("label");
     addRequired(newId);
 }
@@ -349,4 +348,17 @@ function addRequiredSelect2(id){
 function removeRequiredSelect2(id){
     var newId = $(id).parent().parent().children("label");
     removeRequired(newId);
+}
+
+/**
+ * Abre uma nova aba ao clicar.
+ * 
+ * @param {element} id
+ * @returns {nothing}
+ */
+function registerAndOpenTab(id){
+    $(id).live('click', function(event) {
+        event.preventDefault();
+        window.open($(this).attr("url")); 
+    });
 }

@@ -54,6 +54,7 @@
  * @property integer $bf_participator
  * @property string $food_restrictions
  * @property string $responsable_telephone
+ * @property string $tag_id
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -64,7 +65,7 @@
  * @property SchoolIdentification $schoolInepIdFk
  * @property StudentDocumentsAndAddress $documentsFk
  */
-class StudentIdentification extends CActiveRecord {
+class StudentIdentification extends AltActiveRecord {
 
     /**
      * Returns the static model of the specified AR class.
@@ -113,7 +114,7 @@ class StudentIdentification extends CActiveRecord {
             array('responsable_name', 'length', 'max'=>90),
             array('responsable_rg, responsable_job', 'length', 'max'=>45),
             array('responsable_cpf, responsable_telephone', 'length', 'max'=>11),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -210,6 +211,7 @@ class StudentIdentification extends CActiveRecord {
 //        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
+        $criteria->compare('name', $this->name, true);
 //        $criteria->compare('nis', $this->nis, true);
 //        $criteria->compare('birthday', $this->birthday, true);
 //        $criteria->compare('sex', $this->sex);
@@ -243,10 +245,9 @@ class StudentIdentification extends CActiveRecord {
 //        $criteria->compare('resource_zoomed_test_16', $this->resource_zoomed_test_16);
 //        $criteria->compare('resource_zoomed_test_20', $this->resource_zoomed_test_20);
 //        $criteria->compare('resource_zoomed_test_24', $this->resource_zoomed_test_24);
-        $criteria->compare('resource_braille_test', $this->resource_braille_test);
-        $criteria->compare('resource_none', $this->resource_none);
+//        $criteria->compare('resource_braille_test', $this->resource_braille_test);
+//        $criteria->compare('resource_none', $this->resource_none);
 //        $criteria->compare('send_year', $this->send_year);
-        $criteria->addCondition("REGEXP_REPLACE(name, '[[:space:]]+', ' ') like '%$this->name%'");
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

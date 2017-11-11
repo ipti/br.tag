@@ -44,7 +44,7 @@
  * @property ClassFaults[] $classFaults
  * @property Grade[] $grades
  */
-class StudentEnrollment extends CActiveRecord
+class StudentEnrollment extends AltActiveRecord
 {
 
     public $school_year;
@@ -58,8 +58,9 @@ class StudentEnrollment extends CActiveRecord
     {
         return parent::model($className);
     }
-
-    /**
+    
+    
+        /**
      * @return string the associated database table name
      */
     public function tableName()
@@ -94,6 +95,17 @@ class StudentEnrollment extends CActiveRecord
             'vehicle_type_metro_or_train' => Yii::t('default', 'Vehicle Type Metro Or Train'));
     }
 
+    public function validateMultiply(){
+        $enrollment_qty = $this->classroomFk()->with('studentEnrollments')
+        ->count('school_year=:school_year AND student_fk=:student_fk', array(':school_year'=>Yii::app()->user->year,':student_fk'=>$this->student_fk));
+        if($enrollment_qty > 0){
+            if(strtolower($this->scenario) == 'insert'){
+                $this->addError('enrollment_id', Yii::t('default', 'The student is already enrolled this year'));
+            }
+            
+        }
+    }
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -103,15 +115,16 @@ class StudentEnrollment extends CActiveRecord
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
-            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type', 'numerical', 'integerOnly'=>true),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
-            array('fkid', 'length', 'max'=>40),
+            array('hash', 'length', 'max'=>40),
             array('school_admission_date', 'length', 'max'=>10),
+            array('enrollment_id', 'validateMultiply'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status', 'safe', 'on'=>'search'),
         );
     }
 
@@ -124,21 +137,7 @@ class StudentEnrollment extends CActiveRecord
         // class name for the relations automatically generated below.
 
 
-        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
-        if($dbname[1] == "br.org.ipti.tagmaster"){
-            return array(
-                'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
-                'studentTagIdFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_identification_tag_id'),
-                'classroomTagIdFk' => array(self::BELONGS_TO, 'Classroom', 'fk_classroom_tag_id'),
-                'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
-                'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-                'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
-                'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'student_fk'),
-                'grades' => array(self::HAS_MANY, 'Grade', 'enrollment_fk'),
-
-            );
-        }
-        return array(
+         return array(
             'studentFk' => array(self::BELONGS_TO, 'StudentIdentification', 'student_fk'),
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
@@ -184,7 +183,8 @@ class StudentEnrollment extends CActiveRecord
             'current_stage_situation' => Yii::t('default', 'Current stage situation'),
             'previous_stage_situation' => Yii::t('default', 'Previous stage situation'),
             'school_admission_date' => Yii::t('default', 'School admission date'),
-            'admission_type' => Yii::t('default', 'Admission type')
+            'admission_type' => Yii::t('default', 'Admission type'),
+            'status' => Yii::t('default', 'Status')
 
         );
     }
@@ -297,5 +297,10 @@ class StudentEnrollment extends CActiveRecord
             }
         }
         return $faults;
+    }
+
+    public function getFileInformation($enrollment_id){
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
+        return Yii::app()->db->createCommand($sql)->queryRow();
     }
 }

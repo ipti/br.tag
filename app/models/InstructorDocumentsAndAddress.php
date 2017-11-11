@@ -71,10 +71,10 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 			array('address_number', 'length', 'max'=>10),
 			array('complement', 'length', 'max'=>20),
 			array('neighborhood', 'length', 'max'=>50),
-			array('fkid', 'length', 'max'=>40),
+			array('hash', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, inep_id, id, cpf, area_of_residence, cep, address, address_number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, fkid', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, inep_id, id, cpf, area_of_residence, cep, address, address_number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, hash', 'safe', 'on'=>'search'),
 		);
 	}
 

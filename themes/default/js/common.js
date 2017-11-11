@@ -164,7 +164,7 @@ $(document).bind("ajaxComplete", function () {
 });
 
 $(function () {
-    $("#UsersSchool_school_fk, #SchoolIdentification_inep_id").change(function () {
+    $("[id2='school']").change(function () {
         $(".school").submit();
     });
 });

@@ -53,7 +53,7 @@ function isActive($pages){
             <div class="navbar main hidden-print">
 
                 <!-- Brand -->
-                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span><span>Ano Atual: <?php echo Yii::app()->user->year; ?></span></span></a>
+                <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a>
 
                 <!-- Menu Toggle Button -->
                 <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
@@ -64,14 +64,14 @@ function isActive($pages){
                 <ul class="topnav pull-right">
                     <li>
                         <div id="change-school" >
-                            <form class="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
+                            <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php
                                 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                                     echo CHtml::activeDropDownList(
-                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                            SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2'=>'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                                 } else {
                                     echo CHtml::activeDropDownList(
-                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                            UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2'=>'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                                 }
                                 ?>
                             </form>
@@ -87,9 +87,12 @@ function isActive($pages){
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul>
-                            <!--<li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                            <li id="menu-logout">
+                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
+                            </li>
+                            <li id="menu-dashboard" class="<?= isActive( "site" )?>">
                                 <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
-                            </li>-->
+                            </li>
                             <li id="menu-school" class="<?= isActive("school") ?>">
                                 <?php
                                 $schoolurl = yii::app()->createUrl('school');
@@ -105,7 +108,7 @@ function isActive($pages){
                             <li id="menu-student" class="<?= isActive("student") ?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
-                            <li id="menu-student" class="<?= isActive("student") ?>">
+                            <li id="menu-student" class="<?= isActive("reports") ?>">
                                 <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
                             </li>
 
@@ -138,6 +141,9 @@ function isActive($pages){
                             <li id="menu-lunch" class="<?= isActive("lunch") ?>">
                                 <a class="glyphicons cutlery" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
                             </li>
+                            <li id="menu-censo" class="<?= isActive("validate") ?>">
+                                <a class="glyphicons refresh" href="<?php echo yii::app()->createUrl('censo/validate') ?> "><i></i><span>Educacenso</span></a>
+                            </li>
                             <li id="menu-calendar" class="<?= isActive("calendar") ?>">
                                 <a class="glyphicons calendar" href="<?php echo yii::app()->createUrl('calendar') ?> "><i></i><span>Calendário Escolar</span></a>
                             </li>
@@ -151,19 +157,15 @@ function isActive($pages){
                                 <li id="menu-admin" class="<?= isActive("admin") ?>">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
+                                <li id="menu-logout">
+                                    <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
+                                </li>
                             <?php } ?>
-                            <li id="menu-logout">
-                                <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
-                            </li>
-                            <li id="menu-logout">
-                                <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
-                            </li>
+
+
                         </ul>
                     </div>
-                    <!-- // Scrollable Menu wrapper with Maximum Height END -->
-                    <!--<div class="copy" style="width: 170px !IMPORTANT;">
-                        <div style="float: left" id="apoio">Apoio:</div>
-                    </div>-->
+                  
                 </div>
 
                 <!-- // Sidebar Menu END -->

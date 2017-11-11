@@ -26,7 +26,7 @@
  * @property integer $discipline_12_fk
  * @property integer $discipline_13_fk
  * @property integer $id
- * @property string $fkid
+ * @property string $hash
  *
  * The followings are the available model relations:
  * @property InstructorIdentification $instructorFk
@@ -88,10 +88,10 @@ class InstructorTeachingData extends CActiveRecord
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, classroom_inep_id', 'length', 'max'=>8),
 			array('instructor_inep_id', 'length', 'max'=>12),
-			array('fkid', 'length', 'max'=>40),
+			array('hash', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('register_type, school_inep_id_fk, instructor_inep_id, instructor_fk, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, id, fkid', 'safe', 'on'=>'search'),
+			array('register_type, school_inep_id_fk, instructor_inep_id, instructor_fk, classroom_inep_id, classroom_id_fk, role, contract_type, discipline_1_fk, discipline_2_fk, discipline_3_fk, discipline_4_fk, discipline_5_fk, discipline_6_fk, discipline_7_fk, discipline_8_fk, discipline_9_fk, discipline_10_fk, discipline_11_fk, discipline_12_fk, discipline_13_fk, id, hash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -100,32 +100,6 @@ class InstructorTeachingData extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
-        if($dbname[1] == "br.org.ipti.tagmaster"){
-            return array(
-                'classroomTagIdFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_tag_id'),
-                'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
-                'classroomIdFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_id_fk'),
-                'discipline1Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_1_fk'),
-                'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-                'discipline10Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_10_fk'),
-                'discipline11Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_11_fk'),
-                'discipline12Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_12_fk'),
-                'discipline13Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_13_fk'),
-                'discipline2Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_2_fk'),
-                'discipline3Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_3_fk'),
-                'discipline4Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_4_fk'),
-                'discipline5Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_5_fk'),
-                'discipline6Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_6_fk'),
-                'discipline7Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_7_fk'),
-                'discipline8Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_8_fk'),
-                'discipline9Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_9_fk'),
-            );
-
-        }
-
 		return array(
 			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
 			'classroomIdFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_id_fk'),

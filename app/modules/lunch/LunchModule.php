@@ -8,7 +8,6 @@ class LunchModule extends CWebModule {
 	public function init() {
         $this->baseUrl = Yii::app()->createUrl("lunch");
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.lunch.resources'));
-        $this->layoutPath = yii::getPathOfAlias("lunch.views.layouts");
 
         Yii::app()->setComponents([
             'errorHandler' => [

@@ -301,7 +301,7 @@ class StudentController extends Controller {
             $buttons .= "<br>";
 
             $buttons .= CHtml::tag('a',
-                    array('target'=>'_blank','href'=>yii::app()->createUrl('/reports/StudentsFileReport', array('type'=>$type,'enrollment_id'=>$mer_id)),
+                    array('target'=>'_blank','href'=>yii::app()->createUrl('/forms/StudentFileForm', array('type'=>$type,'enrollment_id'=>$mer_id)),
                         'class'=>"btn btn-primary btn-icon glyphicons notes_2",
                         'style'=>'margin-top: 5px; width: 110px'),'<i></i>Ficha individual');
             $buttons .= "<br>";
@@ -336,15 +336,17 @@ class StudentController extends Controller {
             $return = StudentIdentification::model()->findByPk($id);
         } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
-            $return = ($student_inep_id === null || empty($student_inep_id))
-                    ? StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id)) 
-                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));
-        } else if ($model == $this->STUDENT_ENROLLMENT){            
+            $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
+            //mudança agora só busca pelo pk, não mais pelo inep_id
+            /*$return = ($student_inep_id === 'null' || empty($student_inep_id))
+                    ? StudentDocumentsAndAddress::model()->findByPk($id)
+                    : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));*/
+        } else if ($model == $this->STUDENT_ENROLLMENT){
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);            
         }
         if ($return === null){
-            throw new CHttpException(404, 'The requested page does not exist.');
+            //throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $return;
     }

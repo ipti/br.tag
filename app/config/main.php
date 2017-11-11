@@ -1,38 +1,9 @@
 <?php
-// testando
+
 // unomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
-
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
-switch ($domain) {
-    case 'geminiano':
-        $db = 'io.escola.geminiano';
-        break;
-    case 'joaldo':
-        $db = 'io.escola.joaldo';
-        break;
-    case 'josegoes':
-        $db = 'io.escola.josegoes';
-        break;
-    case 'josejacomildes':
-        $db = 'io.escola.josejacomildes';
-        break;
-    case 'lourival':
-        $db = 'io.escola.lourival';
-        break;
-    case 'mariadagloria':
-        $db = 'io.escola.mariadagloria';
-        break;
-    case 'vanda':
-        $db = 'io.escola.vanda';
-        break;
-    default:
-        $db = 'br.org.ipti.boquim.tag';
-        break;
-}
-
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
@@ -85,7 +56,7 @@ return array(
 
                 'quadro-de-horario/'                        => 'timesheet/',
                 'quadro-de-horario/<action:\w+>'            => 'timesheet/timesheet/<action>',
-	            'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
+                'quadro-de-horario/<action:\w+>/<id:\d+>'   => 'timesheet/timesheet/<action>',
 
                 'calendario/'                               => 'calendar/',
                 'calendario/<action:\w+>'                   => 'calendar/default/<action>',
@@ -109,36 +80,30 @@ return array(
                 '<controller:\w+>/<action:\w+>/<id:\d+>'    => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'             => '<controller>/<action>',
 
-				'gestao-resultados/'                      		=> 'resultsmanagement/',
-				'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
+                'gestao-resultados/'                      		=> 'resultsmanagement/',
+                'gestao-resultados/escola'                      => 'resultsmanagement/managementschool/',
 
                 'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
             ),
         ),
         // uncomment the following to use a MySQL database
-        'db' => array(
-            'connectionString' => "mysql:host=localhost;dbname=$db",
-            'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-        ),
         'db2' => array(
-            'connectionString' => 'mysql:host=db.ipti.org.br;dbname=br.org.ipti.tagmaster',
+            'connectionString' => 'mysql:host=localhost;dbname=com.escola10',
             'emulatePrepare' => true,
             'username' => 'user.tag',
             'password' => '123456',
             'charset' => 'utf8',
             'class'   => 'CDbConnection'
         ),
+        'db' => unserialize(DBCONFIG),
         'authManager' => array(
             'class' => 'CDbAuthManager',
             'connectionID' => 'db',
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),
+        ),   
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
@@ -150,12 +115,12 @@ return array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-            // uncomment the following to show log messages on web pages
-            /*
-              array(
-              'class'=>'CWebLogRoute',
-              ),
-             */
+                // uncomment the following to show log messages on web pages
+                /*
+                  array(
+                  'class'=>'CWebLogRoute',
+                  ),
+                 */
             ),
         ),
     ),

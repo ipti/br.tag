@@ -641,9 +641,9 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li,
 #menu > ul > li {
   display: block;
-  height: 39px;
-  line-height: 39px;
-  border-bottom: 1px solid #e1e1e1;
+  height: 35px;
+  line-height: 35px;
+  border-bottom: 1px solid #ccc;
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -690,8 +690,8 @@ body > .container-fluid.documentation {
   left: 15px;
 }
 #menu .slim-scroll > ul > li a:hover,
-#menu > ul > li a:hover {
-  background: #ffffff;
+#menu > ul > li a:hover, #menu > ul > li:hover {
+  background: #ccc;
 }
 #menu .slim-scroll > ul > li.active,
 #menu > ul > li.active {
@@ -700,7 +700,7 @@ body > .container-fluid.documentation {
 }
 #menu .slim-scroll > ul > li.active > a,
 #menu > ul > li.active > a {
-  background: #ffffff;
+  background: #ccc;
 }
 #menu .slim-scroll > ul > li.glyphicons a,
 #menu > ul > li.glyphicons a {
@@ -936,9 +936,9 @@ width: 100%;
   line-height: 46px;
   font-size: 19px;
 }
-.navbar.main .appbrand > span span {
-  font-size: 10px;
-  font-weight: 400;
+.navbar.main .appbrand > span#schoolyear {
+  font-size: 26px;
+  font-weight: bold;
 }
 .navbar.main .btn-navbar {
   height: 32px;
@@ -6699,31 +6699,31 @@ tr.filters td{
     padding: 4px 25px 4px 1px;
 }
 
-#frequency td.frequency-list {
-    border-left: 0;
-}
+/*#frequency td.frequency-list {*/
+    /*border-left: 0;*/
+/*}*/
 
-#frequency {
-    border: 0;
-}
-#frequency tbody{
-    overflow: auto;
-    height: 300px;
-   border-top: 1px solid #e5e5e5;
-}
-#frequency thead, #frequency tbody{
-   display: block;
-}
-#frequency thead tr th:first-of-type {
-    width: 42%;
-   border-left: 0;
-}
-#frequency tbody tr:first-of-type td{
-   border-top: 0;
-}
-#frequency tbody tr td:first-of-type {
-    width: 42%;
-}
+/*#frequency {*/
+    /*border: 0;*/
+/*}*/
+/*#frequency tbody{*/
+    /*overflow: auto;*/
+    /*height: 300px;*/
+   /*border-top: 1px solid #e5e5e5;*/
+/*}*/
+/*#frequency thead, #frequency tbody{*/
+   /*display: block;*/
+/*}*/
+/*#frequency thead tr th:first-of-type {*/
+    /*width: 42%;*/
+   /*border-left: 0;*/
+/*}*/
+/*#frequency tbody tr:first-of-type td{*/
+   /*border-top: 0;*/
+/*}*/
+/*#frequency tbody tr td:first-of-type {*/
+    /*width: 42%;*/
+/*}*/
 
 input[type=checkbox] {
     background: white !important;
@@ -6777,10 +6777,18 @@ li.active a{
     font-size:12px;
 }
 
-.grade{
-    width:50px;
+.grade, [class^="school-days-group"], [class^="dias-letivos"], [class^="carga-horaria"], .frequency-fields, .average-fields, .frequency-percentage{
+    width:25px;
     text-align:center;
 }
+
+
+
+.popover  {
+  background: #575655!important;
+  color: white!important
+}
+
 
 .grade-dropdown{
     width:120px;
@@ -6855,4 +6863,24 @@ li.active a{
 
 .report-button {
   margin-bottom: 10px;
+}
+/*** VERSION 2.10.2 ***/
+.pageA4V{width:810px; height:1122px; margin:0 auto;}
+.pageA4H{width:1122px; height:810px; margin:0 auto;}
+.clear{display:block;clear: both;}
+.pageA4H h3{text-align:center;}
+.pageA4H #header-report ul#info,.pageA4H #header-report ul#addinfo{width:1012px;}
+#header-report{border-bottom:1px solid #000;}
+#header-report #logo{float:left; height:100px; width:100px; margin-right: 10px; background-position: left; background-size: 100px 100px;}
+#header-report ul#info,#header-report ul#addinfo{float:right; width:684px; margin:0;overflow: hidden}
+#header-report ul#info li{font-size:16px; line-height: 19px; font-weight: bold;}
+#header-report ul#addinfo li{font-size:12px; line-height: 14px;}
+
+/*** VERSION 2.10.7 ***/
+.left{float:left;}
+.right{float:right;}
+.pre-enrollment-icon{
+  cursor: pointer;
+  margin-top: 5px;
+  padding-right: 5px;
 }

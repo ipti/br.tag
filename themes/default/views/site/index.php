@@ -2,11 +2,11 @@
 	$baseUrl = Yii::app()->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/amcharts.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/serial.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/pie.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/lang/pt.js', CClientScript::POS_END);
-	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts/themes/light.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
+	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
 	/* @var $this SiteController */
 
 	$cs->registerScript("vars",
@@ -85,6 +85,18 @@
 	</div>
 </div>
 <div class="innerLR eggs">
+	<!--<div class="alert alert-success">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<strong>Mural de Avisos:</strong>
+		<br>
+		- Novos formulários incluídos: Guia de Transferência, Declaração, Ata de Rendimento
+	</div>-->
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<strong>Mural de Avisos:</strong>
+		<br>
+		No momento estamos atualizando nossos sistemas...
+	</div>
 	<div class="row-fluid">
 		<div class="span9">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
@@ -213,83 +225,45 @@
 						?>
 					</div>
 				</div>
+				<!---->
 			</div>
-		</div>
-	</div>
-	<div class="row-fluid cockadoodledoo">
-		<div class="span6">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons parents"><i></i>Alunos Matriculados</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="pieChart"></div>
-					<div class="container-fluid">
-						<div class="row text-center" style="overflow:hidden;">
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Ângulo:</label>
-								<input class="pie-chart-input" data-property="angle" type="range" min="0" max="60" value="30" step="1"/>
+			<div>
+				<div class="next-events widget widget-scroll widget-gray margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+					<div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
+						<div class="widget-body events in" style="height: auto;">
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Reaproveitamento das turmas</strong></span>
 							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Profundidade:</label>
-								<input class="pie-chart-input" data-property="depth3D" type="range" min="1" max="25" value="10" step="1"/>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Pré-matrícula dos alunos</strong></span>
 							</div>
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Raio interno:</label>
-								<input class="pie-chart-input" data-property="innerRadius" type="range" min="0" max="80" value="0" step="1"/>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Impressão das fichas</strong></span>
+							</div>
+							<div>
+								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+								<span class="actual-date"><strong> Confirmação de matrícula</strong></span>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="span6">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons database_plus"><i></i>Base de Dados</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="cylinderChart"></div>
-					<div class="container-fluid">
-						<div class="row text-center" style="overflow:hidden;">
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Raio superior:</label>
-								<input class="cylinder-chart-input" data-property="topRadius" type="range" min="0" max="1.5" value="1" step="0.01"/>
-							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Ângulo:</label>
-								<input class="cylinder-chart-input" data-property="angle" type="range" min="0" max="89" value="30" step="1"/>
-							</div>
-
-							<div class="col-sm-3" style="float: none !important;display: inline-block;">
-								<label class="text-left">Profundidade:</label>
-								<input class="cylinder-chart-input" data-property="depth3D" type="range" min="1" max="120" value="40" step="1"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row-fluid lineChart-container">
-		<div class="span12">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
-			     data-toggle="collapse-widget" data-scroll-height="223px"
-			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons list"><i></i>Cadastros anuais</h5>
-				</div>
-				<div class="widget-body in" style="height: auto;">
-					<div id="lineChart"></div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
 <script>
-
+$(".pre-enrollment-icon").on('click', function () {
+        var str = $(this).attr('class');
+		if(str.match(/circle-o/g) != null){
+			$(this).removeClass('fa-circle-o');
+			$(this).addClass('fa-circle');
+		}
+		else{
+			$(this).removeClass('fa-circle');
+			$(this).addClass('fa-circle-o');
+		}
+    });
 
 </script>

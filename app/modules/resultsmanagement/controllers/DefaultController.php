@@ -5,7 +5,15 @@ class DefaultController extends CController
 	public $headerDescription = "";
 
 	public function actionIndex(){
-		$this->render('index');
+		if(Yii::app()->user->hardfoot){
+			//$this->redirect('');
+			//echo 'hardfoot';exit;
+			$this->redirect(array('ManagementSchool/index','sid'=>Yii::app()->user->school));
+
+		}else{
+			$this->render('index');
+		}
+
 	}
 	public function actionGetGMapInfo($lat, $lng){
 		$year = Yii::app()->user->year;

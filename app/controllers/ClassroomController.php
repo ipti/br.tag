@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * 
+ */
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller {
 
@@ -32,7 +34,7 @@ class ClassroomController extends Controller {
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime','move','batchupdate'
+                    'updateTime','move','batchupdate','batchupdatetotal','batchupdatetransport'
                 ),
                 'users' => array('@'),
             ),
@@ -249,6 +251,37 @@ class ClassroomController extends Controller {
         return $labels;
     }
 
+
+
+    public static function classroomDiscipline2array2(){
+        $disciplines['discipline_chemistry'] = 1;
+        $disciplines['discipline_physics'] = 2;
+        $disciplines['discipline_mathematics'] = 3;
+        $disciplines['discipline_biology'] = 4;
+        $disciplines['discipline_science'] = 5;
+        $disciplines['discipline_language_portuguese_literature'] = 6;
+        $disciplines['discipline_foreign_language_english'] = 7;
+        $disciplines['discipline_foreign_language_spanish'] = 8;
+        $disciplines['discipline_foreign_language_other'] = 9;
+        $disciplines['discipline_arts'] = 10;
+        $disciplines['discipline_physical_education'] = 11;
+        $disciplines['discipline_history'] = 12;
+        $disciplines['discipline_geography'] = 13;
+        $disciplines['discipline_philosophy'] = 14;
+        $disciplines['discipline_informatics'] = 16;
+        $disciplines['discipline_professional_disciplines'] = 17;
+        $disciplines['discipline_special_education_and_inclusive_practices'] = 20;
+        $disciplines['discipline_sociocultural_diversity'] = 21;
+        $disciplines['discipline_libras'] = 23;
+        $disciplines['discipline_religious'] = 26;
+        $disciplines['discipline_native_language'] = 27;
+        $disciplines['discipline_pedagogical'] =  25;
+        $disciplines['discipline_social_study'] = 28;
+        $disciplines['discipline_sociology'] = 29;
+        $disciplines['discipline_foreign_language_franch'] = 30;
+        $disciplines['discipline_others'] = 99;
+        return $disciplines;
+    }
     //@done s1 - criar função para transformar as disciplinas do Classroom em Array
 
     public static function classroomDiscipline2array($classroom) {
@@ -395,10 +428,6 @@ class ClassroomController extends Controller {
                             $save = $save && $modelTeachingData[$key]->save();
                         }
                         if ($save) {
-                            foreach ($events as $e) {
-                                $e['classroom'] = $modelClassroom->id;
-                                $this->actionAddLesson($e);
-                            }
                             Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
                             $this->redirect(array('index'));
@@ -446,33 +475,93 @@ class ClassroomController extends Controller {
         ));
     }
 
+    public function actionBatchupdatetotal($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $fields) {
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->edcenso_stage_vs_modality_fk = $fields['edcenso_stage_vs_modality_fk'];
+                $enro->update(array('edcenso_stage_vs_modality_fk'));
+            }
+        }
+
+        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,41,39,40,69,70)";
+        $stages = Yii::app()->db->createCommand($sql1)->queryAll();
+        foreach ($stages as $index => $stage) {
+            $options_stage[$stage['id']] = $stage['name'];
+        }
+        $this->render('batchupdatetotal', array(
+            'modelClassroom' => $modelClassroom,
+            'options_stage'=>$options_stage
+        ));
+    }
+    public function actionBatchupdatetransport($id) {
+
+        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+
+        if(!empty($_POST)){
+            $enrollments = $_POST;
+            foreach ($enrollments as $id => $field) {
+                if(!empty($field['public_transport'])){
+                    $enro = StudentEnrollment::model()->findByPk($id);
+                    $enro->public_transport = '1';
+                    $enro->transport_responsable_government = '2';
+                    $enro->vehicle_type_bus = '1';
+                    $enro->update(array('public_transport','transport_responsable_government','vehicle_type_bus'));
+                }else{
+                    $enro = StudentEnrollment::model()->findByPk($id);
+                    $enro->public_transport = '0';
+                    $enro->transport_responsable_government = '';
+                    $enro->vehicle_type_bus = '';
+                    $enro->update(array('public_transport','transport_responsable_government','vehicle_type_bus'));
+                }
+            }
+        }
+
+        $this->render('batchupdatetransport', array(
+            'modelClassroom' => $modelClassroom,
+        ));
+    }
     public function actionUpdate($id) {
 
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        preg_match("/dbname=([^;]*)/", Yii::app()->db->connectionString, $dbname);
-        if($dbname[1] != "br.org.ipti.tagmaster"){
-            $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-        }
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-
         if(isset($_POST['enrollments'])&&isset($_POST['toclassroom'])){
             $enrollments = $_POST['enrollments'];
             $count_students = count($_POST['enrollments']);
-            $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
-            foreach ($enrollments as $enrollment) {
-                $enro = StudentEnrollment::model()->findByPk($enrollment);
-                $enro->classroom_fk = $class_room->id;
-                $enro->classroom_inep_id = $class_room->inep_id;
-                $enro->update(array('classroom_fk','classroom_inep_id'));
+            if(!empty($_POST['toclassroom'])){
+                $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+                foreach ($enrollments as $enrollment) {
+                    $enro = StudentEnrollment::model()->findByPk($enrollment);
+                    $enro->classroom_fk = $class_room->id;
+                    $enro->classroom_inep_id = $class_room->inep_id;
+                    $enro->update(array('classroom_fk','classroom_inep_id'));
+                }
+            }else{
+                foreach ($enrollments as $enrollment) {
+                    $enro = StudentEnrollment::model()->findByPk($enrollment);
+                    $enro->delete();
+                }
             }
             $this->redirect(array('index'));
         }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
+
             $teachingData = json_decode($_POST['teachingData']);
             $disciplines = json_decode($_POST['disciplines'], true);
+
 
             foreach ($modelTeachingData as $key => $td) {
                 $td->delete();
@@ -571,21 +660,15 @@ class ClassroomController extends Controller {
      */
     //@done s1 - excluir Matriculas, TeachingData e Turma
     public function actionDelete($id) {
-        $students = $this->loadModel($id, $this->MODEL_STUDENT_ENROLLMENT);
-        $instructors = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-        foreach ($students as $key => $value) {
-            $value->delete();
-        }
-        foreach ($instructors as $key => $value) {
-            $value->delete();
-        }
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        if ($classroom->delete()) {
-            Log::model()->saveAction("classroom", $id, "D", $classroom->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
-            $this->redirect(array('index'));
-        } else {
-            throw new CHttpException(404, 'A página requisitada não existe.');
+        try {
+            if ($classroom->delete()) {
+                Log::model()->saveAction("classroom", $id, "D", $classroom->name);
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
+                $this->redirect(array('index'));
+            }
+        } catch(Exception $e) {
+            throw new CHttpException(901, Yii::t('errors','Can not delete'));
         }
     }
 
@@ -633,11 +716,8 @@ class ClassroomController extends Controller {
             $return = Classroom::model()->findByPk($id);
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
-
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
-
-
         } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);

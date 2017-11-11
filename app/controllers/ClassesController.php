@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(0);
+
 class ClassesController extends Controller {
 
     /**
@@ -132,174 +134,85 @@ class ClassesController extends Controller {
     /**
      * Save the frequency for each student and class.
      */
-    public function actionSaveFrequency() {
-        //@done s2 - modificar banco para adicionar schedule às faltas
-        //@done s2 - regerar os modelos
-
+    public function actionSaveFrequency($classroom = null, $discipline = null, $month = null) {
         set_time_limit(0);
         ignore_user_abort();
-        $everyThingIsOkay = true; //tudo sempre começa bem...
-        $classroomID = $_POST['classroom'];
-        $disciplineID = $_POST['disciplines'];
-        $month = $_POST['month'];
-        $instructorFaults = isset($_POST['day']) ? $_POST['day'] : array();
+        $everyThingIsOkay = true;
 
-        $infos = $this->actionGetClassesForFrequency($classroomID, $disciplineID, $month);
-        $classDays = $infos['days'];
+        $classroom = $classroom == null ? $_POST['classroom'] : $classroom;
+        $discipline = $discipline == null ? $_POST['disciplines'] : $discipline;
+        $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
+        $month = $month == null ? $_POST['month'] : $month;
+        @$instructor_faults = $_POST['instructor_faults'];
+        $instructor_days = $_POST['instructor_days'];
+        $student_faults = $_POST['student_faults'];
 
-        $disciplineID = ($disciplineID == "Todas as disciplinas") ? null : $disciplineID;
-        $allDisciolines = ($disciplineID == null);
+        $given_classes = Array();
+        $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom and  (name like '1%' or name like '2%' or name like '3%');")->queryAll();
 
-        $classes = null;
-        $classes = Classes::model()->findAllByAttributes(array(
-            'classroom_fk' => $classroomID,
-            'discipline_fk' => $disciplineID,
-            'month' => $month));
 
-        //cadastra novas aulas
-        if ($classes == null) {
-            $year = date('Y');
-            $time = mktime(0, 0, 0, $month, 1, $year);
+//        if($is_first_to_thrid_year[0]['status'] == '1'){
+            foreach ($instructor_days as $day => $value){
+                $class = Classes::model()->findByAttributes(array(
+                    'classroom_fk' => $classroom,
+                    'discipline_fk' => $discipline,
+                    'month' => $month,
+                    'day' => $day));
 
-            $monthDays = date('t', $time);
-            for ($day = 1; $day <= $monthDays; $day++) {
-                $time = mktime(0, 0, 0, $month, $day, $year);
-                $weekDay = date('w', $time);
-                $days = $classDays[$weekDay];
-                sort($days);
-                $classDays[$weekDay] = $days;
-
-                foreach ($days as $schedule) {
-                    if ($schedule != 0) {
-                        $class = new Classes();
-                        $class->classroom_fk = $classroomID;
-                        $class->discipline_fk = $disciplineID;
-                        $class->day = $day;
-                        $class->month = $month;
-                        $class->classtype = 'N';
-                        $class->given_class = isset($instructorFaults[$day][$schedule]) ? 0 : 1;
-                        $class->schedule = $schedule;
-
-                        if ($class->validate() && $class->save()) {
-                            array_push($classes, $class);
-                            $everyThingIsOkay &= true;
-                        } else {
-                            $everyThingIsOkay &= false;
-                        }
-                    }
-                    if (!$everyThingIsOkay)
-                        break;
-                }
-            }
-            //atualiza aulas
-        }else {
-            foreach ($instructorFaults as $day => $schedules) {
-                foreach ($schedules as $schedule) {
-                    $class = Classes::model()->findByAttributes(array(
-                        'classroom_fk' => $classroomID,
-                        'discipline_fk' => $disciplineID,
-                        'month' => $month,
-                        'day' => $day,
-                        'schedule' => $schedule));
-
-                    //Adicionar novas se não existir
-                    if ($class == null) {
-                        $class = new Classes();
-                        $class->classroom_fk = $classroomID;
-                        $class->discipline_fk = $disciplineID;
-                        $class->day = $day;
-                        $class->month = $month;
-                        $class->classtype = 'N';
-                        $class->given_class = isset($instructorFaults[$day][$schedule]) ? 0 : 1;
-                        $class->schedule = $schedule;
-                        if ($class->validate() && $class->save()) {
-                            array_push($classes, $class);
-                            $everyThingIsOkay &= true;
-                        } else {
-                            $everyThingIsOkay &= false;
-                        }
-                        //Atualizar existentes
+                if(isset($class)){
+                    if(isset($instructor_faults)){
+                        $class->given_class = array_key_exists($day, $instructor_faults) ?  ($instructor_faults[$day] == '1' ? 0 :  ($instructor_faults[$day] == '2' ? 0 : 1)) : 1 ;
                     } else {
-                        $class->given_class = isset($instructorFaults[$day][$schedule]) ? 0 : 1;
-                        $everyThingIsOkay &= $class->save();
+                        $class->given_class = 1;
                     }
-                    if (!$everyThingIsOkay)
-                        break;
+                    if ($class->given_class == 1){
+                        $given_classes[$day] = $class->id;
+                    }
+                    if($class->update()){
+                    }
+                } else {
+                    $class = new Classes();
+                    $class->classroom_fk = $classroom;
+                    $class->discipline_fk = $discipline;
+                    $class->day = $day;
+                    $class->month = $month;
+                    $class->schedule = 1;
+                    $class->classtype = 'N';
+                    if(isset($instructor_faults)) {
+                        $class->given_class = array_key_exists($day, $instructor_faults) ? ($instructor_faults[$day] == '1' ? 0 : ($instructor_faults[$day] == '2' ? 0 : 1)) : 1;
+                    } else {
+                        $class->given_class = 1;
+                    }
+                    if($class->save()){
+
+                        $given_classes[$day] = $class->id;
+                    }
+                }
+
+            }
+//        }
+        $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
+        Yii::app()->db->createCommand("CREATE TEMPORARY TABLE IF NOT EXISTS table2 AS (select cf.id from class as c inner join class_faults as cf on (c.id = cf.class_fk) where c.classroom_fk = '$classroom'  and $discipline_condition and c.month = '$month');
+                                                delete from class_faults  where  id in (select id from table2)")->query();
+
+        if(isset($student_faults)){
+
+            foreach ($student_faults as $sid => $days) {
+                foreach ($given_classes as $day => $id){
+
+
+                    if  (array_key_exists($day, $days)) {
+                        $classFaults = new ClassFaults();
+                        $classFaults->class_fk = $id;
+                        $classFaults->student_fk = $sid;
+                        $classFaults->schedule = 1;
+                        if ($classFaults->save()) {
+
+                        }
+                    }
                 }
             }
         }
-
-        $faults = array();
-        //cadastrar faltas
-        if (isset($_POST['student'])) {
-            $studentsFaults = $_POST['student'];
-            foreach ($studentsFaults as $studentID => $fault) {
-                foreach ($fault as $d => $day) {
-                    foreach ($day as $schedule => $s) {
-                        $classID = null;
-                        //Procure a Aula
-                        foreach ($classes as $class) {
-                            if ($class->day == $d && $class->schedule == $schedule) {
-                                $classID = $class->id;
-                                //Para quando achar
-                                break;
-                            }
-                        }
-                        //Caso a aula não exista, adicione-a
-                        if ($classID == null) {
-                            $newClass = new Classes();
-                            $newClass->classroom_fk = $classroomID;
-                            $newClass->discipline_fk = $disciplineID;
-                            $newClass->day = $d;
-                            $newClass->month = $month;
-                            $newClass->classtype = 'N';
-                            $newClass->given_class = 1;
-                            $newClass->schedule = $schedule;
-                            if ($newClass->validate() && $newClass->save()) {
-                                array_push($classes, $newClass);
-                                $classID = $newClass->id;
-                                $everyThingIsOkay &= true;
-                            } else {
-                                $everyThingIsOkay &= false;
-                            }
-                        }
-
-                        //Cadastre a falta na aula correta
-                        $fault = new ClassFaults;
-                        $fault->class_fk = $classID;
-                        $fault->student_fk = $studentID;
-                        $fault->schedule = $schedule;
-                        if ($fault->validate() && $fault->save()) {
-                            array_push($faults, $fault);
-                            $everyThingIsOkay &= true;
-                        } else {
-                            $everyThingIsOkay &= false;
-                        }
-
-                        if (!$everyThingIsOkay)
-                            break;
-                    }
-                    if (!$everyThingIsOkay)
-                        break;
-                }
-                if (!$everyThingIsOkay)
-                    break;
-            }
-        }
-
-        if ($everyThingIsOkay) {
-            $classroomName = Classroom::model()->findByPk($classroomID)->name;
-            if ($disciplineID == null) {
-                $disciplineName = "Todas as Disciplinas";
-            } else {
-                $disciplineName = EdcensoDiscipline::model()->findByPk($disciplineID)->name;
-            }
-            Log::model()->saveAction("frequency", $classroomID . "|" . $disciplineID . "|" . $month, "U", $classroomName . "|" . $disciplineName . "|" . Yii::t("default", date('F', mktime(0, 0, 0, $month, 10))));
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Frequência Atualizada com Sucesso!'));
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve um erro inesperado!'));
-        }
-
 
         set_time_limit(30);
         $this->redirect(array('frequency'));
@@ -336,16 +249,14 @@ class ClassesController extends Controller {
     public function actionGetDisciplines() {
         echo CHtml::tag('option', array('value' => null), CHtml::encode('Todas as disciplinas'), true);
 
-        if (!isset($_POST['classroom']) || empty($_POST['classroom']))
+        if (empty($_POST['classroom']))
             return true;
-
-        $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        $disciplines = ClassroomController::classroomDiscipline2array($classroom);
+        $crid = $_POST['classroom'];
+        $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule where classroom_fk = $crid;")->queryAll();
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-
-        foreach ($disciplines as $i => $discipline) {
-            if ($discipline != 0) {
-                echo CHtml::tag('option', array('value' => $i), CHtml::encode($disciplinesLabels[$i]), true);
+        foreach ($classr as $i => $discipline) {
+            if (isset($discipline['discipline_fk'])) {
+                echo CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true);
             }
         }
     }
@@ -398,9 +309,9 @@ class ClassesController extends Controller {
      * Get all classes by classroom, disciplene and month
      */
     public function actionGetClassesForFrequency($classroom = null, $discipline = null, $month = null) {
-        $classroom = $classroom == null ? $_POST['classroom'] : $classroom;
-        $discipline = $discipline == null ? $_POST['disciplines'] : $discipline;
-        $month = $month == null ? $_POST['month'] : $month;
+        $classroom = $classroom == null ? $_GET['classroom'] : $classroom;
+        $discipline = $discipline == null ? $_GET['disciplines'] : $discipline;
+        $month = $month == null ? $_GET['month'] : $month;
 
         $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
         $allDisciplines = ($discipline == null);
@@ -411,61 +322,48 @@ class ClassesController extends Controller {
             'classroom_fk' => $classroom,
             'discipline_fk' => $discipline,
             'month' => $month));
+
         if ($allDisciplines) {
-            $classboards = ClassBoard::model()->findAllByAttributes(array(
+            $schedules = Schedule::model()->findAllByAttributes(array(
                 'classroom_fk' => $classroom));
-        } else {
-            $classboards = ClassBoard::model()->findAllByAttributes(array(
+        }
+        else {
+            $schedules = Schedule::model()->findAllByAttributes(array(
                 'classroom_fk' => $classroom,
                 'discipline_fk' => $discipline));
         }
+/*        $calendars = Calendar::model()->findAllByAttributes(
+           array(
+               'school_year' => $_POST['year']
+           )
+        );
 
+        $match =
+        $match = addcslashes($match, '%_');*/
 
-        $return = array('days' => array(), 'faults' => array(), 'students' => array());
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('calenda', array('1','2'), 'OR');
+        $curyear =  Yii::app()->user->year;
+        $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
+        $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  = 301;")->queryAll();
+        $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom;")->queryAll();
 
-        $classDays = array();
-        for ($i = 0; $i <= 6; $i++) {
-            $classDays[$i] = array();
-        }
+        
+        $return = array('days' => array(), 'no_school' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
 
-        foreach ($classboards as $cb) {
+        $classes_days = array();
 
-            $schedulesStringArray = array();
+       foreach ($schedules as $key => $schedule){
 
-            $schedulesStringArray[0] = $cb->week_day_sunday;
-            $schedulesStringArray[1] = $cb->week_day_monday;
-            $schedulesStringArray[2] = $cb->week_day_tuesday;
-            $schedulesStringArray[3] = $cb->week_day_wednesday;
-            $schedulesStringArray[4] = $cb->week_day_thursday;
-            $schedulesStringArray[5] = $cb->week_day_friday;
-            //$schedulesStringArray[6] = $cb->week_day_saturday;
-            $schedulesStringArray[6] = 1;
-            for ($i = 0; $i <= 6; $i++) {
-                $temp = $schedulesStringArray[$i];
-                if ($temp == "") {
-                    $temp = array();
-                } else {
-                    $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
-                    $temp = $temp[0] == '0' ? substr($temp, 1) : $temp;
-                    $temp = $temp[0] == ';' ? substr($temp, 1) : $temp;
+           $classes_days[$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
 
-                    $temp = $temp == "" ? array() : explode(';', $temp);
-                }
-                if (count($temp) >= 1) {
-                    if ($allDisciplines) {
-                        $classDays[$i] = array(1);
-                    } else {
-                        $classDays[$i] = array_merge($classDays[$i], $temp);
-                        $classDays[$i] = array_unique($classDays[$i]);
-                    }
-                } else {
-                    $classDays[$i] = ($classDays[$i] == array() || $classDays[$i] == array(0)) ? array(0) : $classDays[$i];
-                };
-            }
-        }
+       }
 
-        $return['days'] = $classboards == null ? null : $classDays;
+        $return['weekly_schedule'] = $classes_days;
+        $return['special_days'] = $special_days;
+        $return['saturday_school'] = $saturday_school;
 
+       /*
         if ($classes == null) {
 
             $cr = Classroom::model()->findByPk($classroom);
@@ -500,7 +398,7 @@ class ClassesController extends Controller {
                     $return['instructorFaults'][$c->day] = array_merge($return['instructorFaults'][$c->day], array($schedule));
                 }
             }
-        }
+        }*/
 
         $criteria = new CDbCriteria();
         $criteria->with = array('studentFk');
@@ -508,14 +406,34 @@ class ClassesController extends Controller {
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom), $criteria);
         $return['students'] = array();
-        foreach ($enrollments as $e) {
-            $return['students']['name'] = isset($return['students']['name']) ? $return['students']['name'] : array();
-            $return['students']['id'] = isset($return['students']['id']) ? $return['students']['id'] : array();
-            $return['students']['name'] = array_merge($return['students']['name'], array($e->studentFk->name));
+
+        $discipline_condition = ($discipline == null)? " c.discipline_fk is null" : " c.discipline_fk	= $discipline ";
+        $no_school = Yii::app()->db->createCommand("select c.day, c.classtype, c.schedule from class c  where $discipline_condition and	 
+            c.classroom_fk = $classroom  and c.month = $month and c.given_class != 1;")->queryAll();
+        $return['no_school'] = $no_school;
+
+        foreach ($enrollments as $key => $e) {
+
+            $faults = Yii::app()->db->createCommand("select c.day , c.classtype, c.schedule from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
+            c.classroom_fk = $classroom and cf.student_fk = $e->student_fk and c.month = $month and c.given_class = 1;")->queryAll();
+            if(isset($e->student_fk)){
+                $return['students'][$key]['id'] = $e->student_fk;
+                $return['students'][$key]['name'] = $e->studentFk->name;
+                $return['students'][$key]['faults'] = $faults;
+            }
+
+
+/*            $return['students']['id'] = isset($return['students']['id']) ? $return['students']['id'] : array();
             $return['students']['id'] = array_merge($return['students']['id'], array($e->student_fk));
+
+
+            $return['students']['name'] = isset($return['students']['name']) ? $return['students']['name'] : array();
+            $return['students']['name'] = array_merge($return['students']['name'], array($e->studentFk->name));*/
+
         }
         echo json_encode($return);
-        return $return;
+
+        return array();
     }
 
     /**
