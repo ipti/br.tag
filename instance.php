@@ -96,9 +96,13 @@ switch ($domain) {
         $instance = 'VANDA';
         $db = 'io.escola.vanda';
         break;
-    default:
+    case 'boquim':
         $instance = 'BOQUIM';
         $db = 'io.escola.se.boquim';
+        break;
+    default:
+        $instance = 'SERGIPE';
+        $db = 'io.escola.se';
         break;
 }
 define("FORMS",serialize($_FORMS));
