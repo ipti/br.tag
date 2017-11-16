@@ -91,12 +91,8 @@
 		<br>
 		- Novos formulários incluídos: Guia de Transferência, Declaração, Ata de Rendimento
 	</div>-->
-	<div class="alert alert-error">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Mural de Avisos:</strong>
-		<br>
-		No momento estamos atualizando nossos sistemas...
-	</div>
+	<?php echo BOARD_MSG; ?>
+	
 	<div class="row-fluid">
 		<div class="span9">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
@@ -192,6 +188,29 @@
 				?>
 			</div>
 			<div>
+				<div class="next-events widget widget-scroll widget-gray margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+					<div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
+					<div class="widget-body events in" style="height: auto;">
+						<div>
+							<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+							<span class="actual-date"><strong> Reaproveitamento das turmas</strong></span>
+						</div>
+						<div>
+							<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+							<span class="actual-date"><strong> Pré-matrícula dos alunos</strong></span>
+						</div>
+						<div>
+							<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+							<span class="actual-date"><strong> Impressão das fichas</strong></span>
+						</div>
+						<div>
+							<i class="fa fa-circle-o left pre-enrollment-icon"></i>
+							<span class="actual-date"><strong> Confirmação de matrícula</strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
 				<div class="next-events widget widget-scroll widget-gray margin-bottom-none"
 				     data-toggle="collapse-widget" data-scroll-height="223px"
 				     data-collapse-closed="false">
@@ -227,29 +246,7 @@
 				</div>
 				<!---->
 			</div>
-			<div>
-				<div class="next-events widget widget-scroll widget-gray margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-					<div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
-						<div class="widget-body events in" style="height: auto;">
-							<div>
-								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
-								<span class="actual-date"><strong> Reaproveitamento das turmas</strong></span>
-							</div>
-							<div>
-								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
-								<span class="actual-date"><strong> Pré-matrícula dos alunos</strong></span>
-							</div>
-							<div>
-								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
-								<span class="actual-date"><strong> Impressão das fichas</strong></span>
-							</div>
-							<div>
-								<i class="fa fa-circle-o left pre-enrollment-icon"></i>
-								<span class="actual-date"><strong> Confirmação de matrícula</strong></span>
-							</div>
-						</div>
-					</div>
-				</div>
+
 		</div>
 	</div>
 </div>

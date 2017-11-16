@@ -4,27 +4,17 @@
 - Melhorar o relatório de análise comparativa de matrículas.
 - Habilitar action de Update automático ao efetuar login em nova versão.
 
-## [Versão 2.10.8]
-**Melhorias:**
-- Adicionar formulário de ata de notas
--
-**Bugs Corrigidos:**
--
-
 ## [Versão 2.10.7]
 **Melhorias:**
 - Ampliar o acesso a funcionalidade de frequencia para os demais anos.
 - Sabado letivo habilitado por padrão na frequência.
 - Exibir a versão do TAG na tela de Login
 - Habilitar o conceito de FORMS do TAG
-
+- Habilitado novos formulários
 
 **Bugs Corrigidos:**
 - Correção no relatório do Bolsa Familia restrição por escola
 - Tradução do termo em inglês na tela de adicionar professor a turma de New Discipline e Data 1 e Data2
-
-
-**Funcionalidades:**
 
 ## [Versão 2.10.6]
 

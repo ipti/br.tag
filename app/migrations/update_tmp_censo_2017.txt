@@ -1,0 +1,22 @@
+ALTER TABLE `instructor_variable_data` 
+	CHANGE `id` `id` INT(11) NOT NULL;
+ALTER TABLE `instructor_documents_and_address`   
+  CHANGE `id` `id` INT(11) NOT NULL;
+ALTER TABLE `student_documents_and_address` 
+	CHANGE `id` `id` INT(11) NOT NULL;
+UPDATE classroom 
+SET `pedagogical_mediation_type` = 1
+WHERE `pedagogical_mediation_type` IS NULL AND school_year = 2017;
+
+UPDATE student_enrollment a
+JOIN classroom b ON(a.`classroom_fk`= b.id)
+SET `vehicle_type_bus` = 1
+WHERE 
+public_transport=1 AND
+school_year=2017;
+
+
+SELECT * FROM classroom 
+WHERE 
+school_year=2017;
+

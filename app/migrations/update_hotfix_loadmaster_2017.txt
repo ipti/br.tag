@@ -1,0 +1,12 @@
+ALTER TABLE `classroom` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `instructor_documents_and_address` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `instructor_identification` CHANGE `fkid` `hash` BIGINT NULL; 
+ALTER TABLE `instructor_teaching_data` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `instructor_variable_data` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `student_documents_and_address` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `student_enrollment` CHANGE `fkid` `hash` BIGINT NULL;
+ALTER TABLE `student_identification` CHANGE `fkid` `hash` BIGINT NULL; 
+ALTER TABLE `student_enrollment` ADD COLUMN `hash_classroom` BIGINT NULL AFTER `admission_type`, ADD COLUMN `hash_student` BIGINT NULL AFTER `hash_classroom`;
+ALTER TABLE `instructor_teaching_data` ADD COLUMN `hash_instructor` BIGINT NULL AFTER `hash`, ADD COLUMN `hash_classroom` BIGINT NULL AFTER `hash_instructor`; 
+ALTER TABLE `student_enrollment` 
+ADD COLUMN `status` TINYINT(1) NULL DEFAULT NULL;
