@@ -2,3 +2,5 @@
 /app/backup/
 /assets/
 .idea/
+instance.php
+.vscode/launch.json

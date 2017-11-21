@@ -81,7 +81,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         ?>
                     </tr>
                     <tr>
-                        <td style="">DATA: <?php echo date('d/m/y',strtotime($enrollment->create_date));?></td>
+                        <td style="">DATA: _______/_______/_________</td>
                         <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                             <br>Pai, Mãe ou Responsável
                         </td>
@@ -92,7 +92,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                             <br>☐ DEFERIDO ☐ INDEFERIDO</td>
                         <td colspan="2" style="font-size: 10px;line-height: 11px;padding-top: 12px;">
                             _______/_______/_________&nbsp;&nbsp;&nbsp;&nbsp;________________________________________________
-                            <br><span style="display: table;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor(a)</span>
+                            <br><span style="display: table;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor(a)</span>
                         </td>
                     </tr>
                 </table>
@@ -101,15 +101,15 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     .subheader div{margin:0px !important;}
                 </style>
 
-                <div class="subheader" style="float: left; text-align: justify;line-height: 14px;">
+                <div class="subheader" style="float: left; text-align: justify;line-height: 16px;">
                     <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
-                    <div class="span2"><b>INEP: </b><?php echo $school->inep_id ?></div>
+                    <div class="span3"><b>INEP: </b><?php echo $school->inep_id ?></div>
                     <br>
                     <div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
                     <br>
-                    <div class="span4"><b>CIDADE: </b><?php echo $school->edcensoCityFk->name ?></div>
+                    <div class="span6"><b>CIDADE: </b><?php echo $school->edcensoCityFk->name ?></div>
                     <div class="span3"><b>ESTADO: </b><?php echo $school->edcensoUfFk->name ?></div>
-                    <div class="span2"><b>CEP: </b><?php echo $school->cep ?></div>
+                    <div class="span3"><b>CEP: </b><?php echo $school->cep ?></div>
                 </div>
             </div>
             <br>
@@ -122,20 +122,19 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <tr><th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th></tr>
                 <tr>
                     <td>
-                        <div class="span6"><b>01 - Nome do(a) aluno(a):</b>&nbsp;<span class="name"><?= $data['name'] ?></span></div>
-                        <div class="span2"><b>ID:</b><span class="inep_id"><?= $data['inep_id'] ?></span></div>
-                        <div class="span2"><b>NIS:</b><span class="nis"><?= $data['nis'] ?></span></div>
+                        <div class="span12"><b>01 - Nome do(a) aluno(a):</b>&nbsp;<span class="name"><?= $data['name'] ?></span></div>
+                        <br>
+                        <div class="span4"><b>Data&nbsp;de&nbsp;nascimento:</b>&nbsp;<span class="birthday"><?= $data['birthday'] ?></span></div>
+                        <div class="span4"><b>ID:</b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
+                        <div class="span4"><b>NIS:</b><span class="nis"><?= $data['nis'] ?> </span></div>
 
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="span2"><b>03 - Naturalidade:</b></div>
-                        <div class="span3"><b>Município:</b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span> </div>
-                        <div class="span1"><b>UF:</b>&nbsp;<span class="birth_uf"><?= $data['birth_uf'] ?></span></div>
-                        <div class="span3"><b>Data&nbsp;de&nbsp;nascimento:</b>&nbsp;<span class="birthday"><?= $data['birthday'] ?></span></div>
-
-                        <div class="span10">
+                        <div class="span4"><b>03 - Naturalidade:</b></div>
+                        <div class="span8"><b>Município:</b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span> </div>
+                        <div class="span12">
                             <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <b>Cidade: </b><span class="adddress_city"><?= $data['address_city'] ?></span>&nbsp;&nbsp;&nbsp;
                             <b>UF: </b><span class="address_uf"><?= $data['address_uf'] ?></span>&nbsp;&nbsp;&nbsp;
@@ -244,8 +243,9 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <tr>
                     <td>
                         <div class="span12"><b>14 - Matrícula do aluno: </b></div>
-                        <div class="span2"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                        <div class="span2"><b>Série: </b><span><?= $enrollment->classroomFk->name ?></span></div>
+                        <br>
+                        <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
+                        <div class="span4"><b>Série: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                         <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                         <div class="span3"><b>Turno: </b><span></span></div>
                     </td>
@@ -255,7 +255,9 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         <div class="span10"><b>15 - Documentos(s) que habilita(m) matrícula no segmento: </b>
                             <!--CORRIGIR AQUI--->
                             <!--<div class="received_documents"></div>-->
-                            <br><b>OBS.</b>: Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.
+                            <br>
+                            <br>
+                            <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
                         </div>
                     </td>
                 </tr>
@@ -275,9 +277,9 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                                     <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>';
                                 <?php
                                 }else{?>
-                                    <b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)
-                                    <br/> <b>☐</b> Promovido na série/etapa anterior do mesmo curso(nível e/ou modalidade de ensino)
-                                    <br/> <b>☐</b> Repetente
+                                    <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>
+                                    <div class="padding-5"><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)</div>
+                                    <div class="padding-5"> <b>☐</b> Repetente</div>
                                 <?php } ?>
 
                             </div>
@@ -287,15 +289,15 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <tr>
                     <td>
                         <div class="span10"><b>18 - Situação do Aluno no ano Anterior: </b></div>
-                        <br><div class="span3" style="margin-right: -20px;">
+                        <br><div class="span3 padding-5" style="margin-right: -20px;">
                             <b>☐</b> Não Frequentou
                             <br><b>☐</b> Reprovado
                         </div>
-                        <div class="span4" style="margin-right: -20px;">
+                        <div class="span4 padding-5" style="margin-right: -20px;">
                             <b>☐</b> Afastado por transferência
                             <br><b>☐</b> Matricula final em Educação Infantil
                         </div>
-                        <div class="span3">
+                        <div class="span3 padding-5">
                             <b>☐</b> Afastado por abandono
                         </div>
                     </td>
@@ -310,20 +312,22 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     </td>
                 </tr>-->
                 <tr><td>
-                        <div class="span10"><b>19 - Portador de Necessidades Especiais? </b></div>
-                        <br><div class="span2"><b>☐</b> Sim</div>
+                        <div class="span12"><b>19 - Portador de Necessidades Especiais? </b></div>
+                        <br>
+                        <div class="span2"><b>☐</b> Sim</div>
                         <div class="span2"><b>☐</b> Não</div>
-                        <div class="span7"><b>Tipo: </b>__________________________________________________________________________</div>
+                        <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span>__________________________________________________________</span></div>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div class="span12"><b>20 - Participa do Programa Bolsa Família? </b></div>
                         <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
-                        <div class="span2"><b>☐</b> Bolsa Família</div>
-                        <div class="span2"><b>☐</b> PETI</div>
-                        <div class="span2"><b>☐</b> Pro Jovem</div>
-                        <div class="span6"><b>Outro: </b>____________________________________________________________</div>
+                        <div class="span4"><b>☐</b> Bolsa Família</div>
+                        <div class="span4"><b>☐</b> PETI</div>
+                        <div class="span4"><b>☐</b> Pro Jovem</div>
+                        <br>
+                        <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
                         
                     </td>
                 </tr>
@@ -356,8 +360,21 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         }
     }
     @media print {
-        .pageA4V{width:810px; height:1122px; margin:0 auto;}
-        .pageA4H{width:1122px; height:810px; margin:0 auto;}
+        .pageA4V{width:960px; height:1200px; margin:0 auto; font-size: 15px; }
+        .pageA4H{width:1122px; height:810px; margin:0 auto; font-size: 15px;}
+
+        .padding-5{
+            padding: 5px 0 0 0;
+        }
+
+        .margin-15{
+            margin-top: 8px;
+            margin-bottom: 7px;
+        }
+
+        #header-report{
+            width:820px;
+        }
 
         #container-header {
             width: 425px !important;
@@ -376,7 +393,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         .vertical-text div {
             transform: translate(5px, 0px) rotate(270deg);
             width: 5px;
-            line-height: 13px;
+            line-height: 16px;
             margin: 0px 10px 0px 0px;
         }
         #canvas-td {
