@@ -1,9 +1,9 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.7.2');
+define("TAG_VERSION",'2.10.7c');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>TAG VERSÃO 2.10.7.3:</strong>
+		<strong>TAG VERSÃO 2.10.7c:</strong>
 		<br>
 		<ul>
 		    <li>Correções em relatórios.</li>
