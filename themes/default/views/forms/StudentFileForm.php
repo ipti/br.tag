@@ -240,6 +240,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 
             <table style="margin-top:10px;" id="report-table" class="table table-bordered">
                 <tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
+                <?php if(GLOGALGROUP != 1){?>
                 <tr>
                     <td>
                         <div class="span12"><b>14 - Matrícula do aluno: </b></div>
@@ -250,6 +251,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                         <div class="span3"><b>Turno: </b><span></span></div>
                     </td>
                 </tr>
+                <?php }?>
                 <tr>
                     <td>
                         <div class="span10"><b>15 - Documentos(s) que habilita(m) matrícula no segmento: </b>
