@@ -159,8 +159,9 @@ class ReportsController extends Controller {
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
         $sql1 = "SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
-                FROM ((student_identification as si join student_enrollment as se on si.id = se.student_fk )
-                join classroom as c on se.classroom_fk = c.id)
+                FROM student_identification as si 
+                join student_enrollment as se on si.id = se.student_fk 
+                join classroom as c on se.classroom_fk = c.id
                 where se.school_inep_id_fk = ".$_GET['id']." and c.school_year = ".$this->year." order by si.name" ;
 
         $students = Yii::app()->db->createCommand($sql1)->queryAll();
@@ -404,8 +405,9 @@ class ReportsController extends Controller {
         $sql = "SELECT 
                     e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns, s.*
                 FROM 
-                    classroom as c 
-                    INNER JOIN student_identification as s on c.school_inep_fk = s.school_inep_id_fk
+                    student_enrollment as se
+                    INNER JOIN classroom as c on se.classroom_fk=c.id
+                    INNER JOIN student_identification as s on s.id=se.student_fk
                     INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                     LEFT JOIN student_documents_and_address as d on s.id = d.student_fk
 
