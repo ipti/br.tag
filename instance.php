@@ -125,6 +125,13 @@ switch ($domain) {
         $instance = 'BOQUIM';
         $db = 'io.escola.se.boquim';
         break;
+    case 'demo':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'DEMONSTRAÇÃO';
+        $db = 'io.escola.demo';
+        break;
     default:
         $instance = 'SERGIPE';
         $db = 'io.escola.se';
