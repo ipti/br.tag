@@ -7,6 +7,7 @@ $_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclaratio
 $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+$_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
         $instance = 'PROPRIÁ';
@@ -69,42 +70,74 @@ switch ($domain) {
         $db = 'io.escola.se.malhada';
         break;
     case 'geminiano':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'GEMINIANO';
         $db = 'io.escola.geminiano';
         break;
     case 'joaldo':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'JOALDO';
         $db = 'io.escola.joaldo';
         break;
     case 'josegoes':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'JOSE GOES';
         $db = 'io.escola.josegoes';
         break;
     case 'josejacomildes':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'JOSE JACOMILDES';
         $db = 'io.escola.josejacomildes';
         break;
     case 'lourival':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'LOURIVAL';
         $db = 'io.escola.lourival';
         break;
     case 'mariadagloria':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'MARIA DA GLORIA';
         $db = 'io.escola.mariadagloria';
         break;
     case 'vanda':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'VANDA';
         $db = 'io.escola.vanda';
         break;
     case 'boquim':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'BOQUIM';
         $db = 'io.escola.se.boquim';
+        break;
+    case 'demo':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'DEMONSTRAÇÃO';
+        $db = 'io.escola.demo';
         break;
     default:
         $instance = 'SERGIPE';
         $db = 'io.escola.se';
         break;
 }
+define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(

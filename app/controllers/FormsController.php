@@ -9,7 +9,7 @@ class FormsController extends Controller {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'EnrollmentGradesReport', 'StudentsFileReport','EnrollmentDeclarationReport',
-
+                    'EnrollmentGradesReportBoquim','EnrollmentGradesReportBoquimCiclo',
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
                     'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
@@ -31,6 +31,16 @@ class FormsController extends Controller {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         $this->render('EnrollmentGradesReport', array('enrollment'=>$enrollment));
+    }
+    public function actionEnrollmentGradesReportBoquim($enrollment_id) {
+        $this->layout = "reports";
+        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+        $this->render('EnrollmentGradesReportBoquim', array('enrollment'=>$enrollment));
+    }
+    public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id) {
+        $this->layout = "reports";
+        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+        $this->render('EnrollmentGradesReportBoquimCiclo', array('enrollment'=>$enrollment));
     }
 
     public function actionStudentsFileReport($enrollment_id) {
@@ -94,8 +104,9 @@ class FormsController extends Controller {
     }
 
     public function actionStudentsDeclarationReport($enrollment_id) {
+
         $this->layout = "reports";
-        $sql = "SELECT * FROM studentsdeclaration WHERE student_id = ".$enrollment_id." AND `year`  = ".$this->year.";";
+        $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = ".$enrollment_id;
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         $this->render('StudentsDeclarationReport', array(
             'report' => $result

@@ -30,6 +30,7 @@ function age($date){
             <th> <b>Idade </b></th>
             <th> <b>Mãe </b></th>
             <th> <b>Pai</b> </th>
+            <th> <b>Responsável</b> </th>
         </tr>
         <?php
         $oldClassroom = "";
@@ -47,6 +48,7 @@ function age($date){
                 <td><?= age($c['birthday']) ?></td>
                 <td><?= $c['filiation_1'] ?></td>
                 <td><?= $c['filiation_2'] ?></td>
+                <td><?= $c['responsable_name'] ?></td>
             </tr>
     <?php 
             $oldClassroom = $c['classroom_id'];

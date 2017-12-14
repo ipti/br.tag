@@ -1101,7 +1101,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
                                                 <td style="text-align: center">
-                                                    <?php  if( $me->classroomFk->school_year == date(Y)){?>
+                                                    <?php  if( $me->classroomFk->school_year >= date(Y)){?>
                                                         <a href='<?php  echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id));?>'>
                                                             <i class="fa fa-pencil" style="color:#496cad; padding-right: 1%" ></i>
                                                             <?php echo $me->classroomFk->name ?></a>
@@ -1162,7 +1162,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         ?>
                                                 </td>
                                                 <td style="text-align: center">
-                                                    <?php  if( $me->classroomFk->school_year == date(Y)){?>
+                                                    <?php  if( $me->classroomFk->school_year >= date(Y)){?>
                                                         <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
                                                     <?php }else{ ?>
                                                         <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
