@@ -53,6 +53,8 @@ $('.heading-buttons').css('width', $('#content').width());
 $(document).on("submit", "#student", function(){
     $(formIdentification + "responsable_telephone").unmask();
     $(formIdentification + "responsable_cpf").unmask();
+    $(formIdentification + "filiation_1_cpf").unmask();
+    $(formIdentification + "filiation_2_cpf").unmask();
     $(formDocumentsAndAddress + "cpf").unmask();
     $(formDocumentsAndAddress + "cep").unmask();
 });

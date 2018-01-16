@@ -154,6 +154,41 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_rg', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array('size' => 60, 'maxlength' => 45)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_cpf', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_1_cpf'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                        3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off'));
+                                    ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_1_job', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_1_job', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_1_job'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
@@ -162,6 +197,41 @@ $form = $this->beginWidget('CActiveForm', array(
                                         data-toggle="tooltip" data-placement="top"
                                         data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
                                         <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_rg', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_rg', array('size' => 60, 'maxlength' => 45)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_2_rg'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_cpf', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_2_cpf'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
+                                        3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
+                                        6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'), array('class' => 'select-search-off'));
+                                    ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentIdentification, 'filiation_2_job', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelStudentIdentification, 'filiation_2_job', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_2_job'); ?>
                                 </div>
                             </div>
 

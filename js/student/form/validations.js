@@ -53,6 +53,28 @@ $(formIdentification + 'responsable_cpf').focusout(function () {
     }
 });
 
+$(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
+$(formIdentification + 'filiation_1_cpf').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    if (!validateCpf($(id).cleanVal())) {
+        //$(id).attr('value', '');
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+    } else {
+        removeError(id);
+    }
+});
+
+$(formIdentification + 'filiation_2_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
+$(formIdentification + 'filiation_2_cpf').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    if (!validateCpf($(id).cleanVal())) {
+        //$(id).attr('value', '');
+        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
+    } else {
+        removeError(id);
+    }
+});
+
 $(formDocumentsAndAddress + 'cns').focusout(function () {
     var id = '#' + $(this).attr("id");
     if (!validateCns($(id).val())) {
@@ -80,15 +102,39 @@ $(formIdentification + 'birthday').focusout(function () {
 
 $(formIdentification + 'filiation').change(function () {
     $(formIdentification + 'filiation_1').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_1_rg').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_1_cpf').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_1_scholarity').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_1_job').attr("disabled", "disabled");
     $(formIdentification + 'filiation_2').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_2_rg').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_2_cpf').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_2_scholarity').attr("disabled", "disabled");
+    $(formIdentification + 'filiation_2_job').attr("disabled", "disabled");
 
     if ($(formIdentification + 'filiation').val() == 1) {
         $(formIdentification + 'filiation_1').removeAttr("disabled");
+        $(formIdentification + 'filiation_1_rg').removeAttr("disabled");
+        $(formIdentification + 'filiation_1_cpf').removeAttr("disabled");
+        $(formIdentification + 'filiation_1_scholarity').removeAttr("disabled");
+        $(formIdentification + 'filiation_1_job').removeAttr("disabled");
         $(formIdentification + 'filiation_2').removeAttr("disabled");
+        $(formIdentification + 'filiation_2_rg').removeAttr("disabled");
+        $(formIdentification + 'filiation_2_cpf').removeAttr("disabled");
+        $(formIdentification + 'filiation_2_scholarity').removeAttr("disabled");
+        $(formIdentification + 'filiation_2_job').removeAttr("disabled");
     }
     else {
         $(formIdentification + 'filiation_1').val("");
+        $(formIdentification + 'filiation_1_rg').val("");
+        $(formIdentification + 'filiation_1_cpf').val("");
+        $(formIdentification + 'filiation_1_scholarity').val("");
+        $(formIdentification + 'filiation_1_job').val("");
         $(formIdentification + 'filiation_2').val("");
+        $(formIdentification + 'filiation_2_rg').val("");
+        $(formIdentification + 'filiation_2_cpf').val("");
+        $(formIdentification + 'filiation_2_scholarity').val("");
+        $(formIdentification + 'filiation_2_job').val("");
     }
 });
 

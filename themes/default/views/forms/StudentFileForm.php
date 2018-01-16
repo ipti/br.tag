@@ -153,22 +153,22 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             <td>
                 <div class="span12"><b>06 - Mãe</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
-                <div class="span4"><b>RG:</b></div>
-                <div class="span8"><b>CPF: </b><span class="father"></span></div>
+                <div class="span4"><b>RG:</b><span class="cc_number"><?= $data['mother_rg'] ?></div>
+                <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
                 <br/>
-                <div class="span4"><b>Profissão: </b><span ></span></div>
-                <div class="span6"><b>Grau de instrução: </b><span ></span></div>
+                <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['mother_job'] ?></span></div>
+                <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['mother_scholarity'] ?></span></div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12"><b>07 - Pai</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['father'] ?></span></div>
-                <div class="span4"><b>RG:</b></div>
-                <div class="span8"><b>CPF: </b><span class="father"></span></div>
+                <div class="span4"><b>RG:</b><span class="cc_number"><?= $data['father_rg'] ?></span></div>
+                <div class="span8"><b>CPF: </b><span class="father"><span class="cc_number"><?= $data['father_cpf'] ?></span></div>
                 <br/>
-                <div class="span4"><b>Profissão: </b><span ></span></div>
-                <div class="span6"><b>Grau de instrução: </b><span ></span></div>
+                <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['father_job'] ?></span></div>
+                <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['father_scholarity'] ?></span></div>
             </td>
         </tr>
         <tr>

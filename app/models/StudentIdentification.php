@@ -105,15 +105,15 @@ class StudentIdentification extends AltActiveRecord {
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
-            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_braille_test, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
             array('name, filiation_1, filiation_2', 'length', 'max'=>100),
             array('birthday', 'length', 'max'=>10),
             array('responsable_name', 'length', 'max'=>90),
-            array('responsable_rg, responsable_job', 'length', 'max'=>45),
-            array('responsable_cpf, responsable_telephone', 'length', 'max'=>11),
+            array('responsable_rg, responsable_job, filiation_1_rg, filiation_2_rg, filiation_1_job, filiation_2_job', 'length', 'max'=>45),
+            array('responsable_cpf, responsable_telephone, filiation_1_cpf, filiation_2_cpf', 'length', 'max'=>11),
             array('hash', 'length', 'max'=>40),
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
@@ -193,6 +193,15 @@ class StudentIdentification extends AltActiveRecord {
             'responsable_job' => Yii::t('default', 'Responsable`s Job'),
             'bf_participator' => Yii::t('default', 'BF Participator'),
             'food_restrictions' => Yii::t('default', 'Food Restrictions'),
+            'filiation_1_rg' => Yii::t('default', 'Mother RG'),
+            'filiation_1_cpf' => Yii::t('default', 'Mother CPF'),
+            'filiation_1_scholarity' => Yii::t('default', 'Mother Scholarity'),
+            'filiation_1_job' => Yii::t('default', 'Mother Job'),
+            'filiation_2_rg' => Yii::t('default', 'Father RG'),
+            'filiation_2_cpf' => Yii::t('default', 'Father CPF'),
+            'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
+            'filiation_2_job' => Yii::t('default', 'Father Job')
+            
         );
     }
 
