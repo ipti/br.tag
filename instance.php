@@ -130,7 +130,7 @@ switch ($domain) {
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
         $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'DEMONSTRAÇÃO';
-        $db = 'io.escola.demo';
+        $db = 'io.escola.se.demo';
         break;
     default:
         $instance = 'SERGIPE';
