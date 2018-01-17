@@ -142,7 +142,7 @@ class FormsController extends Controller {
 
     public function actionStudentFileForm($enrollment_id) {
         $this->layout = "reports";
-        $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id));
+        $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id,'studentinfo'=>$result));
     }
 
     public function actionStudentsFileForm($classroom_id) {
