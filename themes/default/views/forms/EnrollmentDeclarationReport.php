@@ -255,11 +255,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         if ($class == '56'){
                             $ano =  " para o _____ Ano do __________________________________________<br>"
                                 . "(&nbsp;&nbsp;&nbsp;&nbsp;) foi ";
-                        }
-                        else if ($class == '41'){
-                            $ano =  " para o _____ Ano do Ensino Médio<br>";
-                        }
-                         else {
+                        } else {
                             $ano =  " para o ______Ano do Ensino Fundamental<br>"
                                 //echo " para o " . $c . " Ano do Ensino Fundamental<br>"
                             ;
