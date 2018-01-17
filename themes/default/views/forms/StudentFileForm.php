@@ -32,7 +32,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
             <?php //echo $namereport ?>
             <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
-            <span class="stage"></span>
+            <span class="stage"><?php echo $data['stage']?></span>
         </div>
         <span style="clear:both;display:block"></span>
         <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
@@ -103,7 +103,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </style>
 
         <div class="subheader" style="float: left; text-align: justify;line-height: 16px;">
-            <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
+            <div class="span11"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
+            <div class="span1"><b>INEP: </b><?php echo $school->inep_id ?></div>
             <div class="span3"><b>INEP: </b><?php echo $school->inep_id ?></div>
             <br>
             <div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
