@@ -1,12 +1,12 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.7c');
+define("TAG_VERSION",'2.10.7d');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>TAG VERSÃO 2.10.7c:</strong>
+		<strong>TAG VERSÃO 2.10.7d:</strong>
 		<br>
 		<ul>
-		    <li>Correções em relatórios.</li>
+		    <li>Inclusão dos campos de informações (RG, CPF e Profissão) do Pai e Mãe, para serem impressos na Ficha de Matrícula.</li>
         </ul>
 	</div>');
 if(YII_DEBUG){
