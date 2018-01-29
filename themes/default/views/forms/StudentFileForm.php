@@ -52,7 +52,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 } else if ($_REQUEST['type'] == '3') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR'
+                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
                         . '</td>';
                 }
                 ?>
@@ -278,7 +278,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <div style="margin-right: -20px;">
                         <?php
                         if ($_REQUEST['type'] == '0'){ ?>
-                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>';
+                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
                             <?php
                         }else{?>
                             <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>

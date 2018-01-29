@@ -207,13 +207,14 @@ class ClassroomController extends Controller {
         $modelClassroom->discipline_special_education_and_inclusive_practices = $putNull ? null : (isset($discipline[20]) ? $discipline[20] : 0);
         $modelClassroom->discipline_sociocultural_diversity = $putNull ? null : (isset($discipline[21]) ? $discipline[21] : 0);
         $modelClassroom->discipline_libras = $putNull ? null : (isset($discipline[23]) ? $discipline[23] : 0);
-        $modelClassroom->discipline_religious = $putNull ? null : (isset($discipline[25]) ? $discipline[25] : 0);
-        $modelClassroom->discipline_native_language = $putNull ? null : (isset($discipline[26]) ? $discipline[26] : 0);
-        $modelClassroom->discipline_pedagogical = $putNull ? null : (isset($discipline[27]) ? $discipline[27] : 0);
+        $modelClassroom->discipline_pedagogical = $putNull ? null : (isset($discipline[25]) ? $discipline[25] : 0);
+        $modelClassroom->discipline_religious = $putNull ? null : (isset($discipline[26]) ? $discipline[26] : 0);
+        $modelClassroom->discipline_native_language = $putNull ? null : (isset($discipline[27]) ? $discipline[27] : 0);
         $modelClassroom->discipline_social_study = $putNull ? null : (isset($discipline[28]) ? $discipline[28] : 0);
         $modelClassroom->discipline_sociology = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
         $modelClassroom->discipline_foreign_language_franch = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
         $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
+        
     }
 
     //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
@@ -246,6 +247,39 @@ class ClassroomController extends Controller {
         $labels[29] = Classroom::model()->attributeLabels()['discipline_sociology'];
         $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
         $labels[99] = Classroom::model()->attributeLabels()['discipline_others'];
+        $labels[10001] = yii::t('default', 'Writing');
+
+        return $labels;
+    }
+
+    static function classroomDisciplineLabelResumeArray() {
+        $labels = array();
+        $labels[1] = "Química";
+        $labels[2] = "Física";
+        $labels[3] = "Matemática";
+        $labels[4] = "Biologia";
+        $labels[5] = "Ciências";
+        $labels[6] = "Português";
+        $labels[7] = "Inglês";
+        $labels[8] = "Espanhol";
+        $labels[9] = "Outro Idioma";
+        $labels[10] = "Artes";
+        $labels[11] = "Edicação Física";
+        $labels[12] = "História";
+        $labels[13] = "Geografia";
+        $labels[14] = "Filosofia";
+        $labels[16] = "Informática";
+        $labels[17] = "Disc. Profissionalizante";
+        $labels[20] = "Educação Especial";
+        $labels[21] = "Sociedade&nbsp;e Cultura";
+        $labels[23] = "Libras";
+        $labels[25] = "Pedogogia";
+        $labels[26] = "Ensino Religioso";
+        $labels[27] = "Língua Nativa";
+        $labels[28] = "Estudo Social";
+        $labels[29] = "Sociologia";
+        $labels[30] = "Francês";
+        $labels[99] = "Outras";
         $labels[10001] = yii::t('default', 'Writing');
 
         return $labels;
@@ -306,9 +340,9 @@ class ClassroomController extends Controller {
         $disciplines[20] = $classroom->discipline_special_education_and_inclusive_practices;
         $disciplines[21] = $classroom->discipline_sociocultural_diversity;
         $disciplines[23] = $classroom->discipline_libras;
-        $disciplines[25] = $classroom->discipline_religious;
-        $disciplines[26] = $classroom->discipline_native_language;
-        $disciplines[27] = $classroom->discipline_pedagogical;
+        $disciplines[25] = $classroom->discipline_pedagogical;
+        $disciplines[26] = $classroom->discipline_religious;
+        $disciplines[27] = $classroom->discipline_native_language;
         $disciplines[28] = $classroom->discipline_social_study;
         $disciplines[29] = $classroom->discipline_sociology;
         $disciplines[30] = $classroom->discipline_foreign_language_franch;

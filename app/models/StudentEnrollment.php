@@ -303,4 +303,21 @@ class StudentEnrollment extends AltActiveRecord
         $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
         return Yii::app()->db->createCommand($sql)->queryRow();
     }
+
+    public function getResultGrade($disciplines){
+        $result = [];
+        $grades = $this->grades;
+        foreach ($grades as $grade) {
+            if(isset($disciplines[$grade->discipline_fk])){
+                $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
+                    "enrollment_fk" => $grade->enrollment_fk,
+                    "discipline_fk" => $grade->discipline_fk
+                ]);
+
+                $result[$grade->discipline_fk] = ['final_average' => $frequency_and_mean->final_average, 'frequency' => $frequency_and_mean->frequency];
+            }
+        }
+        ksort($result);
+        return $result;
+    }
 }
