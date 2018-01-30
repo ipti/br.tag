@@ -65,6 +65,17 @@ function valorPorExtenso( $valor = 0){
     .text-center{
         text-align: center;
     }
+    
+    @media print{
+        @page {
+            size: landscape;
+        }
+        table { page-break-inside:auto;}
+        tr    { page-break-inside:avoid; page-break-after:auto;}
+        td    { page-break-inside:avoid; page-break-after:auto;}
+        thead { display:table-header-group }
+        tfoot { display:table-footer-group }
+    }
 </style>
 
 
