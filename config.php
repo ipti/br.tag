@@ -3,10 +3,12 @@ defined('YII_DEBUG') or define('YII_DEBUG',false);
 define("TAG_VERSION",'2.10.7d');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>TAG VERSÃO 2.10.7d:</strong>
+		<strong>TAG VERSÃO 2.10.7e:</strong>
 		<br>
 		<ul>
-		    <li>Inclusão dos campos de informações (RG, CPF e Profissão) do Pai e Mãe, para serem impressos na Ficha de Matrícula.</li>
+		    <li>Correção na quebra de página do relatório da lista de alunos.</li>
+		    <li>Correção na ficha de matrícula para EJA</li>
+		    <li>Atualização no formulário de Ata de Notas</li>
         </ul>
 	</div>');
 if(YII_DEBUG){
