@@ -309,15 +309,191 @@ class StudentEnrollment extends AltActiveRecord
         $grades = $this->grades;
         foreach ($grades as $grade) {
             if(isset($disciplines[$grade->discipline_fk])){
-                $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
+                $frequencyAndMean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
                     "enrollment_fk" => $grade->enrollment_fk,
                     "discipline_fk" => $grade->discipline_fk
                 ]);
 
-                $result[$grade->discipline_fk] = ['final_average' => $frequency_and_mean->final_average, 'frequency' => $frequency_and_mean->frequency];
+                $result[$grade->discipline_fk] = ['final_average' => $frequencyAndMean->final_average, 'frequency' => $frequencyAndMean->frequency];
             }
         }
         ksort($result);
         return $result;
     }
+
+    public function getSheetGrade(){
+        $disciplineCategory = [
+            'base' => [
+                3 => "Matemática",
+                6 => "Português",
+                5 => "Ciências",
+                13 => "Geografia",
+                12 => "História",
+                10 => "Artes",
+                11 => "Educação Física",
+                26 => "Ensino Religioso",
+            ]
+        ];
+
+        $disciplines = ClassroomController::classroomDisciplineLabelResumeArray();
+        
+        $disciplineCategory['diversified'] = array_diff_assoc($disciplines, $disciplineCategory['base']);
+        
+        $evaluations = [1 => [], 2 => [], 3 => [], 4 => []];
+
+        $recovery =[1 => [], 2 => [], 3 => [], 4 => [], 'final' => []];
+
+        $average =[1 => [], 2 => [], 'final' => [], 'year' => []];
+
+        $workHours = [1 => null, 2 => null, 3 => null, 4 => null, 'final' => null];
+
+        $workDays = [1 => null, 2 => null, 3 => null, 4 => null, 'final' => null];
+
+        $frequency = [];
+
+        $absences = [1 => null, 2 => null, 3 => null, 4 => null, 'base' => [], 'diversified' => [], 'percent' => null];
+
+        $workDaysByDiscipline = ['base' => [], 'diversified' => []];
+        
+        $result = [];
+        $grades = $this->grades;
+        foreach ($grades as $grade) {
+            if(isset($disciplines[$grade->discipline_fk])){
+                $frequencyAndMean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
+                    "enrollment_fk" => $grade->enrollment_fk,
+                    "discipline_fk" => $grade->discipline_fk
+                ]);
+
+                $disciplineType = '';
+                if(isset($disciplineCategory['base'][$grade->discipline_fk])){
+                    $disciplineType = "base";
+                }
+                else{
+                    $disciplineType = "diversified";
+                }
+
+                $evaluations[1][$disciplineType][$grade->discipline_fk] = is_null($grade->grade1) ? '' : number_format($grade->grade1, 2, ',', '');
+                $evaluations[2][$disciplineType][$grade->discipline_fk] = is_null($grade->grade2) ? '' : number_format($grade->grade2, 2, ',', '');
+                $evaluations[3][$disciplineType][$grade->discipline_fk] = is_null($grade->grade3) ? '' : number_format($grade->grade3, 2, ',', '');
+                $evaluations[4][$disciplineType][$grade->discipline_fk] = is_null($grade->grade4) ? '' : number_format($grade->grade4, 2, ',', '');
+
+                $recovery[1][$disciplineType][$grade->discipline_fk] = is_null($grade->recovery_grade1) ? '' : number_format($grade->recovery_grade1, 2, ',', '');
+                $recovery[2][$disciplineType][$grade->discipline_fk] = is_null($grade->recovery_grade2) ? '' : number_format($grade->recovery_grade2, 2, ',', '');
+                $recovery[3][$disciplineType][$grade->discipline_fk] = is_null($grade->recovery_grade3) ? '' : number_format($grade->recovery_grade3, 2, ',', '');
+                $recovery[4][$disciplineType][$grade->discipline_fk] = is_null($grade->recovery_grade4) ? '' : number_format($grade->recovery_grade4, 2, ',', '');
+                $recovery['final'][$disciplineType][$grade->discipline_fk] = number_format($grade->recovery_final_grade, 2, ',', '');
+
+                $frequency[$disciplineType][$grade->discipline_fk] = number_format($frequencyAndMean->frequency, 2, ',', '');
+                $absences['percent'][$disciplineType][$grade->discipline_fk] = $frequencyAndMean->absences;
+                
+                $absences[$disciplineType][$grade->discipline_fk] = count($this->getFaultsByDiscipline($grade->discipline_fk));
+
+                $average[1][$disciplineType][$grade->discipline_fk] = number_format(($grade->grade1 + $grade->grade2) / 2, 2, ',', '');
+                $average[2][$disciplineType][$grade->discipline_fk] = number_format(($grade->grade3 + $grade->grade4) / 2, 2, ',', '');
+
+                $average['final'][$disciplineType][$grade->discipline_fk] = number_format($frequencyAndMean->final_average, 2, ',', '');
+                $average['year'][$disciplineType][$grade->discipline_fk] = number_format($frequencyAndMean->annual_average, 2, ',', '');
+                $classroom = $this->classroomFk;
+
+                $workDaysByDiscipline[$disciplineType][$grade->discipline_fk] = $classroom->getWorkingDaysByDiscipline($grade->discipline_fk);
+
+                if(is_null($workDays[1])){
+                    
+                    $workDays[1] = $classroom->getSchoolDaysByExam(1);
+                    $workDays[2] = $classroom->getSchoolDaysByExam(2);
+                    $workDays[3] = $classroom->getSchoolDaysByExam(3);
+                    $workDays[4] = $classroom->getSchoolDaysByExam(4);
+
+                    $workHours[1] = $classroom->getWorkingHoursByExam(1);
+                    $workHours[2] = $classroom->getWorkingHoursByExam(2);
+                    $workHours[3] = $classroom->getWorkingHoursByExam(3);
+                    $workHours[4] = $classroom->getWorkingHoursByExam(4);
+                }
+
+                if(is_null($absences[1])){
+                    $absences[1] = count($this->getFaultsByExam(1));
+                    $absences[2] = count($this->getFaultsByExam(2));
+                    $absences[3] = count($this->getFaultsByExam(3));
+                    $absences[4] = count($this->getFaultsByExam(4));
+
+                }
+                
+            }
+        }
+
+        $sort = function(&$array){
+            foreach ($array as $key => $value) {
+                if(isset($array[$key]['base'])){
+                    ksort($array[$key]['base']);
+                }
+                if(isset($array[$key]['diversified'])){
+                    ksort($array[$key]['diversified']);
+                }
+            }
+        };
+
+        $fill = function(&$evaluations, &$recovery, &$frequency, &$absences, &$average, &$workDaysByDiscipline, $disciplineType){
+            $evaluations[1][$disciplineType][] = null;
+            $evaluations[2][$disciplineType][] = null;
+            $evaluations[3][$disciplineType][] = null;
+            $evaluations[4][$disciplineType][] = null;
+
+            $recovery[1][$disciplineType][] = null;
+            $recovery[2][$disciplineType][] = null;
+            $recovery[3][$disciplineType][] = null;
+            $recovery[4][$disciplineType][] = null;
+            $recovery['final'][$disciplineType][] = null;
+
+            $frequency[$disciplineType][] = null;
+
+            $absences['percent'][$disciplineType] = null;
+            $absences[$disciplineType][] = null;
+
+            $average[1][$disciplineType][] = null;
+            $average[2][$disciplineType][] = null;
+            $average['final'][$disciplineType][] = null;
+            $average['year'][$disciplineType][] = null;
+
+            $workDaysByDiscipline[$disciplineType][] = null;
+        };
+
+        $sort($evaluations);
+        $sort($recovery);
+        $sort($average);
+        $sort($frequency);
+        $sort($absences);
+        $disciplineFilter['base'] = array_intersect_key($disciplineCategory['base'], $evaluations[1]['base']);
+        $disciplineFilter['diversified'] = array_intersect_key($disciplineCategory['diversified'], $evaluations[1]['diversified']);
+        ksort($disciplineFilter['base']);
+        ksort($disciplineFilter['diversified']);
+
+        // condição adicionada para manter a quantidade de disciplinas padronizada
+        if(count($disciplineFilter['base']) + count($disciplineFilter['diversified']) < 13){
+            while (count($disciplineFilter['base']) < 8) {
+                $fill($evaluations, $recovery, $frequency, $absences, $average, $workDaysByDiscipline, 'base');
+                $disciplineFilter['base'][] = null;
+            }
+            while (count($disciplineFilter['diversified']) < 4) {
+                $fill($evaluations, $recovery, $frequency, $absences, $average, $workDaysByDiscipline, 'diversified');
+                $disciplineFilter['diversified'][] = null;
+            }
+
+        }
+
+        $result = [
+            'disciplines' => $disciplineFilter,
+            'evaluations' => $evaluations,
+            'recovery' => $recovery,
+            'average' => $average,
+            'work_hours' => $workHours,
+            'work_days' => $workDays,
+            'work_days_discipline' => $workDaysByDiscipline,
+            'frequency' => $frequency,
+            'absences' => $absences
+        ];
+
+        return $result;
+    }
+
+
 }

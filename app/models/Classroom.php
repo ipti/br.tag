@@ -354,6 +354,13 @@ class Classroom extends AltActiveRecord {
         return $workingHours;
     }
 
+
+    public function getWorkingDaysByDiscipline($discipline){
+        /* @var $schoolConfiguration SchoolConfiguration */
+        $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', array(':classroom_fk' => $this->id, ':discipline_fk' => $discipline));
+        return $model->school_days;
+    }
+
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
