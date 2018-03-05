@@ -1,14 +1,13 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.7d');
+define("TAG_VERSION",'2.10.7f');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>TAG VERSÃO 2.10.7e:</strong>
+		<strong>TAG VERSÃO 2.10.7f:</strong>
 		<br>
 		<ul>
-		    <li>Correção na quebra de página do relatório da lista de alunos.</li>
-		    <li>Correção na ficha de matrícula para EJA</li>
-		    <li>Atualização no formulário de Ata de Notas</li>
+		    <li>Novo Formulário -  Quadro de Notas.</li>
+		     <li>Novo Formulário - Atas de Notas.</li>
         </ul>
 	</div>');
 if(YII_DEBUG){
