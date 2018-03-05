@@ -546,7 +546,7 @@ class ReportsController extends Controller {
                 . 'AND t.given_class = 1 '//0 não, 1 sim
                 . 'AND c.school_inep_fk = :school ',
                 array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school));
-        $command->group = "c.id, t.month, si.id";
+        $command->group = "c.id, t.month, si.id, cf.faults";
         $command->order = "student, month";
         $query = $command->queryAll();
 

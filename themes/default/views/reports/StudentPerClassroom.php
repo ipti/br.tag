@@ -134,7 +134,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <td>MÊS: </td>
             </tr>
         </table>
-
+    </div>
+    <div>
         <br>
 
         <table class="table table-bordered table-striped" style="font-size: 11px">
@@ -168,13 +169,13 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 </div>
 
 <style>
-    .table-bordered th, .table-bordered td, .table-bordered {border:1px solid #000 !important}
+    .table-bordered th, .table-bordered td, .table-bordered {border-color: #6d6c6c !important; border-collapse: collapse;}
 
     @media print{
         @page {
             size: landscape;
         }
-        table { page-break-after:auto; }
+        table { page-break-inside:auto;}
         tr    { page-break-inside:avoid; page-break-after:auto;}
         td    { page-break-inside:avoid; page-break-after:auto;}
         thead { display:table-header-group }

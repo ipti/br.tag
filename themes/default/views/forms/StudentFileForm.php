@@ -32,7 +32,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
             <?php //echo $namereport ?>
             <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
-            <span class="stage"></span>
+            <span class="stage"><?php echo $data['stage']?></span>
         </div>
         <span style="clear:both;display:block"></span>
         <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
@@ -52,7 +52,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 } else if ($_REQUEST['type'] == '3') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
                     echo '<td colspan="3" style="border-bottom: 1px solid black;">'
-                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MP ☐ MPC ☐ MT ☐ MR'
+                        . 'SITUAÇÃO DA MATRÍCULA: ☐ MI ☐ MC ☐ MR ☐ MT'
                         . '</td>';
                 }
                 ?>
@@ -103,7 +103,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </style>
 
         <div class="subheader" style="float: left; text-align: justify;line-height: 16px;">
-            <div class="span9"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
+            <div class="span11"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
+            <div class="span1"><b>INEP: </b><?php echo $school->inep_id ?></div>
             <div class="span3"><b>INEP: </b><?php echo $school->inep_id ?></div>
             <br>
             <div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
@@ -153,22 +154,22 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             <td>
                 <div class="span12"><b>06 - Mãe</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
-                <div class="span4"><b>RG:</b></div>
-                <div class="span8"><b>CPF: </b><span class="father"></span></div>
+                <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
+                <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
                 <br/>
-                <div class="span4"><b>Profissão: </b><span ></span></div>
-                <div class="span6"><b>Grau de instrução: </b><span ></span></div>
+                <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['mother_job'] ?></span></div>
+                <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['mother_scholarity'] ?></span></div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12"><b>07 - Pai</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['father'] ?></span></div>
-                <div class="span4"><b>RG:</b></div>
-                <div class="span8"><b>CPF: </b><span class="father"></span></div>
+                <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['father_rg'] ?></span></div>
+                <div class="span8"><b>CPF: </b><span class="father"><span class="cc_number"><?= $data['father_cpf'] ?></span></div>
                 <br/>
-                <div class="span4"><b>Profissão: </b><span ></span></div>
-                <div class="span6"><b>Grau de instrução: </b><span ></span></div>
+                <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['father_job'] ?></span></div>
+                <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['father_scholarity'] ?></span></div>
             </td>
         </tr>
         <tr>
@@ -277,7 +278,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <div style="margin-right: -20px;">
                         <?php
                         if ($_REQUEST['type'] == '0'){ ?>
-                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>';
+                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
                             <?php
                         }else{?>
                             <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>

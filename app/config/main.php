@@ -37,6 +37,7 @@ return array(
         'calendar',
         'timesheet',
         'curricularmatrix',
+        'quiz'
     ),
     // application components
     'components' => array(
@@ -85,6 +86,10 @@ return array(
 
                 'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
+
+                'quiz/'                               => 'quiz/default/index',
+                'quiz/<action:\w+>'                   => 'quiz/default/<action>',
+                'quiz/<action:\w+>/<id:\d+>'          => 'quiz/default/<action>',
             ),
         ),
         // uncomment the following to use a MySQL database
