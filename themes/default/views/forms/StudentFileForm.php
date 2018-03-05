@@ -105,7 +105,6 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <div class="subheader" style="float: left; text-align: justify;line-height: 16px;">
             <div class="span11"><b>DENOMINAÇÃO DO ESTABELECIMENTO: </b><?php echo $school->name ?></div>
             <div class="span1"><b>INEP: </b><?php echo $school->inep_id ?></div>
-            <div class="span3"><b>INEP: </b><?php echo $school->inep_id ?></div>
             <br>
             <div class="span10"><b>ENDEREÇO: </b><?php echo $school->address ?></div>
             <br>
