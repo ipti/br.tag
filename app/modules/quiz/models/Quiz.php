@@ -34,9 +34,10 @@ class Quiz extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name, status, init_date, final_date, create_date', 'required'),
+			array('name, status, init_date, final_date', 'required'),
 			array('id, status', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
+			array('init_date, final_date', 'length', 'max'=>10),
 			array('description', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

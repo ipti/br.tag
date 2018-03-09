@@ -680,7 +680,11 @@ return array(
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',
     'Export Now'=>'Exportar agora',
-    'Student By Classroom' => 'Alunos por Turma'
+    'Student By Classroom' => 'Alunos por Turma',
 
-        )
+    //Quiz Module
+
+    'Quiz' => 'Questionário'
+
+    )   
 ?>
