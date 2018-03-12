@@ -1,34 +1,53 @@
-<?php
-/* @var $this calendar.defaultController
- * @var $modelCalendar Calendar
- * @var $modelEvent CalendarEvent
- * @var $cs CClientScript
- */
+<div id="mainPage" class="main">
+    <?php
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
+    $this->menu = array(
+        array('label' => Yii::t('default', 'Create Quiz'), 'url' => array('quizCreate'), 'description' => Yii::t('default', 'This action create a new Quiz')),
+    );
+    ?>
 
-$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-
-$cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
-$this->setPageTitle('TAG - ' . Yii::t('Quiz', 'Default'));
-
-
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'classroom-form',
-    'enableAjaxValidation' => false,
-        ));
-?>
-
-<div class="row-fluid  hidden-print">
-    <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
-        <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
-            ?>
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Quiz') ?></h3>  
+            <div class="buttons">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuiz') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Novo Questionário</a>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="innerLR home">
-	
+    <div class="innerLR">
+        <div class="columnone" style="padding-right: 1em">
+            <?php if (Yii::app()->user->hasFlash('success')): ?>
+                <div class="alert alert-success">
+                    <?php echo Yii::app()->user->getFlash('success') ?>
+                </div>
+                <br/>
+            <?php endif ?>
+            <div class="widget">
+                <div class="widget-body">
+                    <?php
+                    $this->widget('zii.widgets.grid.CGridView', array(
+                        'dataProvider' => $filter->search(),
+                        'filter' => $filter,
+                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'enablePagination' => true,
+                        'columns' => array(
+                            array(
+                                'name' => 'id',
+                                'htmlOptions' => array('width' => '150px')
+                            ),
+                            array(
+                                'name' => 'name',
+                                'type' => 'raw',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("quiz/default/updateQuiz", array("id"=>$data->id)))',
+                            ),),
+                    ));
+                    ?>
+                </div>   
+            </div>
+        </div>
+        <div class="columntwo">
+        </div>
+
+    </div>
 </div>
