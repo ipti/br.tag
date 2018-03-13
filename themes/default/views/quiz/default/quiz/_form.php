@@ -23,7 +23,12 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'quiz_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            <?php echo CHtml::htmlButton('<i></i>' . ($quiz->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            ?>
+            <?php 
+                if(!$quiz->isNewRecord){
+                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+                }
             ?>
         </div>
     </div>
@@ -33,6 +38,12 @@ $form = $this->beginWidget('CActiveForm', array(
     <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
+
+    <?php if (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
         </div>
     <?php endif ?>
     

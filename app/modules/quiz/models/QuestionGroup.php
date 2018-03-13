@@ -30,7 +30,7 @@ class QuestionGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, name, quiz_id', 'required'),
+			array('name, quiz_id', 'required'),
 			array('id, quiz_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
 			// The following rule is used by search().
