@@ -18,11 +18,11 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($group->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            <?php echo CHtml::htmlButton('<i></i>' . ($questionGroup->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'save_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
             ?>
             <?php 
-                if(!$group->isNewRecord){
-                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
+                if(!$questionGroup->isNewRecord){
+                    echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Delete'), array('id' => 'delete_question_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons delete', 'type' => 'button'));
                 }
             ?>
         </div>
@@ -30,13 +30,13 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="innerLR">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$group->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('success') && (!$questionGroup->isNewRecord)): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
 
-    <?php if (Yii::app()->user->hasFlash('error') && (!$group->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('error') && (!$questionGroup->isNewRecord)): ?>
         <div class="alert alert-error">
             <?php echo Yii::app()->user->getFlash('error') ?>
         </div>
@@ -56,31 +56,30 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row-fluid">
                             <div class=" span5">
                                 <div class="control-group">                
-                                    <?php echo $form->labelEx($group, 'name', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx($questionGroup, 'question_group_id', array('class' => 'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo $form->textField($group, 'name', array('size' => 60, 'maxlength' => 150)); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Group Name'); ?>"><i></i></span>
-                                        <?php echo $form->error($group, 'name'); ?>
+                                    <?php
+                                        $questionGroups = QuestionGroup::model()->findAll();
+
+                                        echo $form->dropDownList($questionGroup, 'question_group_id',
+                                            CHtml::listData(
+                                                $questionGroups, 'id', 'name'),
+                                            array("prompt" => "Selecione um Grupo", 'class' => 'select-search-on')); ?>
+                                        <?php echo $form->error($questionGroup, 'question_group_id'); ?>
                                     </div>
                                 </div> 
                                 <!-- .control-group -->
                                 <div class="control-group">
-                                    <?php echo $form->labelEx($group, 'quiz_id', array('class' => 'control-label required')); ?>
+                                    <?php echo $form->labelEx($questionGroup, 'question_id', array('class' => 'control-label required')); ?>
                                     <div class="controls">
                                     <?php
-                                        $quizs = Quiz::model()->findAll(
-                                            "status = :status AND final_date >= :final_date",
-                                            [
-                                                ':status' => 1,
-                                                ':final_date' => date('Y-m-d'),
-                                            ]
-                                        );
+                                        $questions = Question::model()->findAll();
 
-                                        echo $form->dropDownList($group, 'quiz_id',
+                                        echo $form->dropDownList($questionGroup, 'question_id',
                                             CHtml::listData(
                                                 $quizs, 'id', 'name'),
-                                            array("prompt" => "Selecione um Questionário", 'class' => 'select-search-on')); ?>
-                                        <?php echo $form->error($group, 'quiz_id'); ?>
+                                            array("prompt" => "Selecione uma Questão", 'class' => 'select-search-on')); ?>
+                                        <?php echo $form->error($questionGroup, 'question_id'); ?>
                                     </div>
                                 </div>
                             </div>

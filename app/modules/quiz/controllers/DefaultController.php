@@ -141,4 +141,75 @@ class DefaultController extends Controller
 
 		$this->actionGroup();
 	}
+
+		// ================== Question Group action ==================
+
+		public function actionQuestionGroup() {
+			$filter = new QuestionGroupQuestion('search');
+			$filter->unsetAttributes();
+			
+			if (isset($_GET['QuestionGroupQuestion'])) {
+				$filter->attributes = $_GET['QuestionGroupQuestion'];
+			}
+			
+			$dataProvider = new CActiveDataProvider('QuestionGroupQuestion', array('pagination' => array(
+					'pageSize' => 12,
+			)));
+			
+			$this->render('questiongroup/index', array(
+				'dataProvider' => $dataProvider,
+				'filter' => $filter
+			));
+		}
+
+		public function actionCreateQuestionGroup()
+		{
+			$questionGroup = new QuestionGroupQuestion;
+	
+			if(isset($_POST['QuestionGroupQuestion'])){
+				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
+				if($questionGroup->validate()){
+					if($questionGroup->save()){
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Questão adicionada ao grupo'));
+					}
+				}
+			}
+			$this->render('questiongroup/create', ['questionGroup' => $questionGroup]);
+		}
+
+		public function actionUpdateQuestionGroup($questionId, $questionGroupId)
+		{
+			$questionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId]);
+	
+			if(isset($_POST['QuestionGroupQuestion'])){
+				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
+				if($questionGroup->validate()){
+					if($questionGroup->save()){
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo de questões atualizado com sucesso'));
+					}
+					else{
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao atualizar grupo de questões'));
+					}
+				}
+			}
+			$this->render('questiongroup/update', ['questionGroup' => $questionGroup]);
+		}
+
+		public function actionDeleteQuestionGroup($questionId, $questionGroupId)
+		{
+			$questionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId]);
+	
+			if(isset($_POST['QuestionGroupQuestion'])){
+				if($group->save()){
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo de questões excluído'));
+				}
+				else{
+					$group->attributes = $_POST['QuestionGroupQuestion'];
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao excluir grupo de questões'));
+					return $this->render('questiongroup/update', ['questionGroup' => $questionGroup]);
+				}
+			}
+
+			$this->actionQuestionGroup();
+		}
 }
