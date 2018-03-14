@@ -9,7 +9,7 @@ $this->setPageTitle('TAG - ' . Yii::t('Group', 'default'));
 
 
 $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'group-form',
+    'id' => 'questiongroup-form',
     'enableAjaxValidation' => false,
 ));
 ?>
@@ -77,7 +77,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                         echo $form->dropDownList($questionGroup, 'question_id',
                                             CHtml::listData(
-                                                $quizs, 'id', 'name'),
+                                                $questions, 'id', 'description'),
                                             array("prompt" => "Selecione uma Questão", 'class' => 'select-search-on')); ?>
                                         <?php echo $form->error($questionGroup, 'question_id'); ?>
                                     </div>

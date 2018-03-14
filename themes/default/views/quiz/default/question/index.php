@@ -1,16 +1,16 @@
 <div id="mainPage" class="main">
     <?php
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Question Group'));
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Question'));
     $this->menu = array(
-        array('label' => Yii::t('default', 'Create Question Group'), 'url' => array('createQuestionGroup'), 'description' => Yii::t('default', 'This action create a new Question Group')),
+        array('label' => Yii::t('default', 'Create Question'), 'url' => array('createQuestion'), 'description' => Yii::t('default', 'This action create a new Question')),
     );
     ?>
 
     <div class="row-fluid">
         <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Question Group') ?></h3>  
+            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Question') ?></h3>  
             <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestionGroup') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'New Question Group') ?> </a>
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuestion') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'New Question') ?> </a>
             </div>
         </div>
     </div>
@@ -33,13 +33,13 @@
                         'enablePagination' => true,
                         'columns' => array(
                             array(
-                                'name' => 'question_group_id',
+                                'name' => 'id',
                                 'htmlOptions' => array('width' => '150px')
                             ),
                             array(
-                                'name' => 'question_id',
+                                'name' => 'description',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->question->description,Yii::app()->createUrl("quiz/default/updateQuestionGroup", array("questionGroupId"=>$data->question_group_id, "questionId"=>$data->question_id)))',
+                                'value' => 'CHtml::link($data->description ,Yii::app()->createUrl("quiz/default/updateQuestion", array("id"=>$data->id)))',
                             ))
                     ));
                     ?>

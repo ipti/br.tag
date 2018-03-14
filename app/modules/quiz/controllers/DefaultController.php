@@ -184,7 +184,7 @@ class DefaultController extends Controller
 			if(isset($_POST['QuestionGroupQuestion'])){
 				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
 				if($questionGroup->validate()){
-					if($questionGroup->save()){
+					if($questionGroup->updateByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId], ['question_group_id' => $questionGroup->question_group_id, 'question_id' => $questionGroup->question_id])){
 						Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo de questões atualizado com sucesso'));
 					}
 					else{
@@ -200,11 +200,11 @@ class DefaultController extends Controller
 			$questionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId]);
 	
 			if(isset($_POST['QuestionGroupQuestion'])){
-				if($group->save()){
+				if($questionGroup->delete()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo de questões excluído'));
 				}
 				else{
-					$group->attributes = $_POST['QuestionGroupQuestion'];
+					$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao excluir grupo de questões'));
 					return $this->render('questiongroup/update', ['questionGroup' => $questionGroup]);
 				}
@@ -212,4 +212,75 @@ class DefaultController extends Controller
 
 			$this->actionQuestionGroup();
 		}
+
+	// ================== Question action ==================
+
+	public function actionQuestion() {
+		$filter = new Question('search');
+		$filter->unsetAttributes();
+		
+		if (isset($_GET['Question'])) {
+			$filter->attributes = $_GET['Question'];
+		}
+		
+		$dataProvider = new CActiveDataProvider('Question', array('pagination' => array(
+				'pageSize' => 12,
+		)));
+		
+		$this->render('question/index', array(
+			'dataProvider' => $dataProvider,
+			'filter' => $filter
+		));
+	}
+
+	public function actionCreateQuestion()
+	{
+		$question = new Question;
+
+		if(isset($_POST['Question'])){
+			$question->attributes = $_POST['Question'];
+			if($question->validate()){
+				if($question->save()){
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Questão cadastrada com sucesso'));
+				}
+			}
+		}
+		$this->render('question/create', ['question' => $question]);
+	}
+
+	public function actionUpdateQuestion($id)
+	{
+		$question = Question::model()->findByPk($id);
+
+		if(isset($_POST['Question'])){
+			$question->attributes = $_POST['Question'];
+			if($question->validate()){
+				if($question->save()){
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Questão atualizada com sucesso'));
+				}
+				else{
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao atualizar questões'));
+				}
+			}
+		}
+		$this->render('question/update', ['question' => $question]);
+	}
+
+	public function actionDeleteQuestion($id)
+	{
+		$question = Question::model()->findByPk($id);
+
+		if(isset($_POST['Question'])){
+			if($question->delete()){
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Questão excluído com sucesso'));
+			}
+			else{
+				$question->attributes = $_POST['QuestionGroup'];
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questão'));
+				return $this->render('question/update', ['group' => $question]);
+			}
+		}
+
+		$this->actionQuestion();
+	}
 }

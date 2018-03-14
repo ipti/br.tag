@@ -10,7 +10,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
-$this->setPageTitle('TAG - ' . Yii::t('Quiz', 'Default'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
 
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -76,7 +76,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         echo $form->DropDownList($quiz, 'status', array(
                                             null => 'Selecione o status',
                                             '1' => 'Ativo',
-                                            '2' => 'Inativo'), array('class' => 'select-search-off'));
+                                            '0' => 'Inativo'), array('class' => 'select-search-off'));
                                         ?>
                                         <?php echo $form->error($quiz, 'status'); ?>
                                     </div>
