@@ -39,7 +39,7 @@
                             array(
                                 'name' => 'question_id',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->question->description,Yii::app()->createUrl("quiz/default/updateQuestionGroup", array("questionGroupId"=>$data->question_group_id, "questionId"=>$data->question_id)))',
+                                'value' => 'CHtml::link(Question::model()->findByPk($data->question_id)->description,Yii::app()->createUrl("quiz/default/updateQuestionGroup", array("questionGroupId"=>$data->question_group_id, "questionId"=>$data->question_id)))',
                             ))
                     ));
                     ?>
