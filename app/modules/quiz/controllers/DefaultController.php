@@ -236,6 +236,7 @@ class DefaultController extends Controller
 	public function actionCreateQuestion()
 	{
 		$question = new Question;
+		$option = new QuestionOption;
 
 		if(isset($_POST['Question'])){
 			$question->attributes = $_POST['Question'];
@@ -245,12 +246,13 @@ class DefaultController extends Controller
 				}
 			}
 		}
-		$this->render('question/create', ['question' => $question]);
+		$this->render('question/create', ['question' => $question, 'option' => $option]);
 	}
 
 	public function actionUpdateQuestion($id)
 	{
 		$question = Question::model()->findByPk($id);
+		$option = new QuestionOption;
 
 		if(isset($_POST['Question'])){
 			$question->attributes = $_POST['Question'];
@@ -263,12 +265,13 @@ class DefaultController extends Controller
 				}
 			}
 		}
-		$this->render('question/update', ['question' => $question]);
+		$this->render('question/update', ['question' => $question, 'option' => $option]);
 	}
 
 	public function actionDeleteQuestion($id)
 	{
 		$question = Question::model()->findByPk($id);
+		$option = new QuestionOption;
 
 		if(isset($_POST['Question'])){
 			if($question->delete()){
@@ -277,7 +280,7 @@ class DefaultController extends Controller
 			else{
 				$question->attributes = $_POST['QuestionGroup'];
 				Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questão'));
-				return $this->render('question/update', ['group' => $question]);
+				return $this->render('question/update', ['group' => $question, 'option' => $option]);
 			}
 		}
 

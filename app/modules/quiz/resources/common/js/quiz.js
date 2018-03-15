@@ -54,3 +54,54 @@ $('#delete_question_button').click(function() {
         $('#question-form').submit();
     } 
 });
+
+var Option = function(){
+    var description = $('#QuestionOption_description');
+    var answer = $('#QuestionOption_answer');
+    var questionId = $('#QuestionOption_question_id');
+    var id = $('#QuestionOption_id');
+    var container = $('#container_option');
+
+    return{
+        save: function(){
+            if(validate()){
+                var data = {description: description, question_id: questionId, answer: answer}
+                $.ajax({
+                    method: "POST",
+                    url: "index.php?r=quiz/default/createOption",
+                    data: JSON.stringify({QuestionOption: data}),
+                    dataType: 'json'
+                  })
+                .done(function(data){
+                    if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
+                        var element = $('tr')
+                            .attr('option-id', data.id)
+                            .append($('td').text(1))
+                            .append($('td').text(description))
+                            .append($('td')
+                                .append($('button').attr({'class': 'btn btn-primary'}).text('Editar').click(Option.update))
+                                .append($('button').attr({'class': 'btn btn-primary'}).text('Excluir').click(Option.delete))
+                            );
+                        container.append(element);
+                        Option.clear();
+                    }
+                })
+                .fail(function(data){
+                    alert('Erro ao salvar item');
+                });
+            }
+        },
+        validate: function(){
+            if(description.val() == '' || answer.val() == '' || questionId.val() == '' ){
+                alert('Preencha todos os campos!');
+                return false;
+            }
+            return true;
+        },
+        clear: function(){
+            description.val('');
+            answer.val('');
+            id.val('');
+        }
+    }
+}();
