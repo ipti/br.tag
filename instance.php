@@ -65,6 +65,10 @@ switch ($domain) {
         $instance = 'AMPARO DO SÃO FRANCISCO';
         $db = 'io.escola.se.amparo';
         break;
+    case 'aquidaba':
+        $instance = 'AQUIDABÃ';
+        $db = 'io.escola.se.aquidaba';
+        break;
     case 'malhada':
         $instance = 'MALHADA DOS BOIS';
         $db = 'io.escola.se.malhada';
