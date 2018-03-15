@@ -114,6 +114,30 @@
         Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
         $this->redirect(array('index'));
     }
+        public function addTestUsers() {
+            set_time_limit(0);
+            ignore_user_abort();
+            $admin_login = 'admin';
+            $admin_password = md5('p@s4ipti');
+
+            $command = "INSERT INTO `users`VALUES
+                        (1, 'Administrador', '$admin_login', '$admin_password', 1);";
+            Yii::app()->db->createCommand($command)->query();
+
+            $auth = Yii::app()->authManager;
+            $auth->assign('admin', 1);
+
+//        //Criar usuário de teste, remover depois.
+//        /*         * ************************************************************************************************ */
+//        /**/$command = "INSERT INTO `users`VALUES"
+//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
+//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
+//        /**/Yii::app()->db->createCommand($command)->query();
+//        /*         * ************************************************************************************************ */
+        }
 		public function mres($value)
 		{
 			$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
