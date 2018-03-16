@@ -61,26 +61,27 @@ var Option = function(){
     var questionId = $('#QuestionOption_question_id');
     var id = $('#QuestionOption_id');
     var container = $('#container_option');
+    var button = $('#save_option_button');
 
     return{
-        save: function(){
-            if(validate()){
-                var data = {description: description, question_id: questionId, answer: answer}
+        insert: function(){
+            if(Option.validate()){
+                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val()};
                 $.ajax({
-                    method: "POST",
-                    url: "index.php?r=quiz/default/createOption",
-                    data: JSON.stringify({QuestionOption: data}),
+                    type: "POST",
+                    url: "index.php",
+                    data: { r: 'quiz/default/createOption', QuestionOption: data},
                     dataType: 'json'
                   })
                 .done(function(data){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
-                        var element = $('tr')
+                        var element = $('<tr></tr>')
                             .attr('option-id', data.id)
-                            .append($('td').text(1))
-                            .append($('td').text(description))
-                            .append($('td')
-                                .append($('button').attr({'class': 'btn btn-primary'}).text('Editar').click(Option.update))
-                                .append($('button').attr({'class': 'btn btn-primary'}).text('Excluir').click(Option.delete))
+                            .append($('<td></td>').text(1))
+                            .append($('<td></td>').text(data.description))
+                            .append($('<td></td>')
+                                .append($('<button></button>').attr({'class': 'btn btn-primary'}).text('Editar').click(Option.initUpdate))
+                                .append($('<button></button>').attr({'class': 'btn btn-primary'}).text('Excluir').click(Option.initDelete))
                             );
                         container.append(element);
                         Option.clear();
@@ -90,6 +91,21 @@ var Option = function(){
                     alert('Erro ao salvar item');
                 });
             }
+        },
+        initUpdate: function(){
+            id.val($(this).closest('tr').attr('option-id'));
+            button.unbind('click');
+            button.bind('click', Option.update);
+        },
+        initDelete: function(){
+            id.val($(this).closest('tr').attr('option-id'));
+            button.unbind('click');
+            button.bind('click', Option.update);
+        },
+        init: function(){
+            id.val('');
+            button.unbind('click');
+            button.bind('click', Option.insert);
         },
         validate: function(){
             if(description.val() == '' || answer.val() == '' || questionId.val() == '' ){
@@ -105,3 +121,5 @@ var Option = function(){
         }
     }
 }();
+
+Option.init();

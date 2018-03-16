@@ -100,7 +100,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-
+                    <?php if(!$question->isNewRecord && $question->type != 0): ?>
                     <div class="tab-pane" id="option">
                         <div class="row-fluid">
                             <div class="span5">
@@ -118,7 +118,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->textField($option, 'answer', array('size' => 60, 'maxlength' => 45)); ?>
                                         <?php echo $form->error($option, 'answer'); ?>
                                     </div>
-                                    <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45)); ?>
+                                    <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
                                 </div> <!-- .control-group -->
 								<div class="control-group">
 									<div class="controls">
@@ -131,23 +131,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <table class="grade-table table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th>Nº</th>
-												<th>Opção</th>
-												<th>Ação</th>
+												<th width="25%">Nº</th>
+												<th width="45%">Opção</th>
+												<th width="30%">Ação</th>
 											</tr>
 										</thead>
-										<tbody id="container_option">
-											<tr>
-												<td>1</td>
-												<td>1</td>
-												<td>1</td>
-											</tr>
-										</tbody>
+										<tbody id="container_option"></tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
