@@ -7,6 +7,11 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('Group', 'default'));
 
+Yii::app()->clientScript->registerMetaTag('unsafe-url', 'referrer');
+Yii::app()->clientScript->registerMetaTag('origin', 'referrer');
+Yii::app()->clientScript->registerMetaTag('origin-when-cross-origin', 'referrer');
+Yii::app()->clientScript->registerMetaTag('no-referrer-when-downgrade', 'referrer');
+
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'questiongroup-form',

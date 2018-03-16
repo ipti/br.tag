@@ -76,8 +76,8 @@ var Option = function(){
                 .done(function(data){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
-                            .attr('option-id', data.id)
-                            .append($('<td></td>').text(1))
+                            .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer})
+                            .append($('<td></td>').text(container.find('tr').lenght + 1))
                             .append($('<td></td>').text(data.description))
                             .append($('<td></td>')
                                 .append($('<button></button>').attr({'class': 'btn btn-primary'}).text('Editar').click(Option.initUpdate))
@@ -92,20 +92,76 @@ var Option = function(){
                 });
             }
         },
-        initUpdate: function(){
-            id.val($(this).closest('tr').attr('option-id'));
+        update: function(){
+            if(Option.validate()){
+                var data = {id: id.val(), description: description.val(), question_id: questionId.val(), answer: answer.val()};
+                $.ajax({
+                    type: "POST",
+                    url: "index.php",
+                    data: { r: 'quiz/default/updateOption', QuestionOption: data},
+                    dataType: 'json'
+                  })
+                .done(function(data){
+                    if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
+                       var elementActive = conteiner.find('tr[option-id="'+data.id+'"]');
+                        var element = $('<tr></tr>')
+                            .attr('option-id', data.id)
+                            .append($('<td></td>').text(elementActive.children('td:eq(0)').text()))
+                            .append($('<td></td>').text(data.description))
+                            .append($('<td></td>')
+                                .append($('<button></button>').attr({'class': 'btn btn-primary'}).text('Editar').click(Option.initUpdate))
+                                .append($('<button></button>').attr({'class': 'btn btn-primary'}).text('Excluir').click(Option.initDelete))
+                            );
+                        elementActive.replaceWith(element);
+                        Option.clear();
+                    }
+                })
+                .fail(function(data){
+                    alert('Erro ao alterar item');
+                });
+            }
+        },
+        delete: function(){
+            var data = {id: id.val(), question_id: questionId.val()};
+            $.ajax({
+                type: "POST",
+                url: "index.php",
+                data: { r: 'quiz/default/deleteOption', QuestionOption: data},
+                dataType: 'json'
+                })
+            .done(function(data){
+                if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
+                    var elementActive = conteiner.find('tr[option-id="'+data.id+'"]');
+                    elementActive.remove();
+                    Option.clear();
+                }
+            })
+            .fail(function(data){
+                alert('Erro ao alterar item');
+            });
+        },
+        initUpdate: function(e){
+            e.preventDefault();
+            var element = $(this).closest('tr');
+            id.val(element.attr('option-id'));
+            description.val(element.attr('option-description'));
+            answer.val(element.attr('option-answer'));
             button.unbind('click');
             button.bind('click', Option.update);
         },
-        initDelete: function(){
-            id.val($(this).closest('tr').attr('option-id'));
-            button.unbind('click');
-            button.bind('click', Option.update);
+        initDelete: function(e){
+            e.preventDefault();
+            var element = $(this).closest('tr');
+            id.val(element.attr('option-id'));
+            if(confirm('Deseja excluir o item?')){
+                Option.delete();
+            }
         },
         init: function(){
             id.val('');
             button.unbind('click');
             button.bind('click', Option.insert);
+            Option.buildTable(dataOption);
         },
         validate: function(){
             if(description.val() == '' || answer.val() == '' || questionId.val() == '' ){
@@ -118,6 +174,19 @@ var Option = function(){
             description.val('');
             answer.val('');
             id.val('');
+        },
+        buildTable: function(data){
+            $.each(data, function(K, v){
+                var element = $('<tr></tr>')
+                            .attr({'option-id': v.id, 'option-description': v.description, 'option-answer': v.answer})
+                            .append($('<td></td>').text(container.find('tr').length + 1))
+                            .append($('<td></td>').text(v.description))
+                            .append($('<td></td>').attr({'class': 'center-button'})
+                                .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
+                                .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(Option.initDelete))
+                            );
+                container.append(element);
+            });
         }
     }
 }();

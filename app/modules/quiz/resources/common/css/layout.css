@@ -1,0 +1,12 @@
+.center-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-button{
+    margin: 2px;
+}
+.font-button{
+    font-size: 10px !important;
+}

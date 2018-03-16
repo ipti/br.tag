@@ -313,4 +313,31 @@ class DefaultController extends Controller
 		echo json_encode($data);
 		Yii::app()->end();
 	}
+
+	public function actionUpdateOption($id)
+	{
+		$option = QuestionOption::model()->findByPk($id);
+		$data = null;
+
+		if(isset($_POST['QuestionOption'])){
+			$option->attributes = $_POST['QuestionOption'];
+			if($option->validate()){
+				if($option->save()){
+					$data = array('errorCode' => 0);
+					$data = array_merge($data, $option->getAttributes());
+				}
+			}
+			else{
+				$data = array('errorCode' => 1);
+				$data = array_merge($data, $option->getErrors());
+			}
+		}
+		else{
+			$data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+		}
+
+		header('Content-Type: application/json; charset="UTF-8"');
+		echo json_encode($data);
+		Yii::app()->end();
+	}
 }

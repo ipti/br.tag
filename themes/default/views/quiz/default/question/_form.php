@@ -131,8 +131,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <table class="grade-table table table-bordered table-striped">
 										<thead>
 											<tr>
-												<th width="25%">Nº</th>
-												<th width="45%">Opção</th>
+												<th width="15%">Nº</th>
+												<th width="55%">Opção</th>
 												<th width="30%">Ação</th>
 											</tr>
 										</thead>
@@ -150,4 +150,19 @@ $form = $this->beginWidget('CActiveForm', array(
 	
 </div>
 
-<?php $form = $this->endWidget(); ?>
+<?php 
+
+$form = $this->endWidget(); 
+
+$dataOption = [];
+
+foreach ($question->questionOptions as $value) {
+    $dataOption[] = $value->getAttributes();
+}
+
+
+?>
+
+<script>
+    var dataOption = <?= json_encode($dataOption) ?>;
+</script>

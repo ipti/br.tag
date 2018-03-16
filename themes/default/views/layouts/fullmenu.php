@@ -29,6 +29,11 @@ function isActive($pages){
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
         <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="referrer" content="unsafe-url" />
+        <meta name="referrer" content="origin" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+        <meta name="referrer" content="origin-when-cross-origin" />
+        <meta name="referrer" content="no-referrer" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 
