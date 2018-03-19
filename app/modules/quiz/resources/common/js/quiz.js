@@ -151,7 +151,7 @@ var Option = function(){
                 Option.initInsert();
             })
             .fail(function(data){
-                alert('Erro ao alterar item');
+                alert('Erro ao excluir item');
                 Option.clear();
                 Option.initInsert();
             });
@@ -212,4 +212,108 @@ var Option = function(){
     }
 }();
 
-Option.init();
+
+var QuizQuestion = function(){
+    var quizId = $('#QuizQuestion_quiz_id');
+    var questionId = $('#QuizQuestion_question_id');
+    var container = $('#container_quiz_question');
+    var button = $('#save_quiz_question_button');
+
+    return{
+        insert: function(){
+            if(QuizQuestion.validate()){
+                var data = {quiz_id: quizId.val(), question_id: questionId.val()};
+                $.ajax({
+                    type: "GET",
+                    url: "index.php",
+                    data: { r: 'quiz/default/setQuizQuestion', QuizQuestion: data},
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8"
+                  })
+                .done(function(data){
+                    if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
+                        var element = $('<tr></tr>')
+                            .attr({'key': data.quizId + '' + data.questionId, 'quiz-id': data.quizId, 'question-id': data.questionId, 'question-description': data.description})
+                            .append($('<td></td>').text(container.find('tr').lenght + 1))
+                            .append($('<td></td>').text(data.description))
+                            .append($('<td></td>').attr({'class': 'center-button'})
+                                .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
+                            );
+                        container.append(element);
+                        QuizQuestion.clear();
+                    }
+                })
+                .fail(function(data){
+                    alert('Erro ao salvar item');
+                });
+            }
+        },
+        delete: function(){
+            var data = {quiz_id: quizId.val(), question_id: questionId.val()};
+            $.ajax({
+                type: "GET",
+                url: "index.php",
+                data: { r: 'quiz/default/unsetQuizQuestion', QuizQuestion: data},
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8"
+                })
+            .done(function(data){
+                if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
+                    var elementActive = container.find('tr[key="'+data.quizId+ '' + data.questionid +'"]');
+                    elementActive.remove();
+                }
+                else if(typeof data.errorCode != 'undefined' && data.errorCode == '1'){
+                    alert(data.msg);
+                }
+
+                QuizQuestion.clear();
+            })
+            .fail(function(data){
+                alert('Erro ao excluir item');
+                QuizQuestion.clear();
+            });
+        },
+        initInsert: function(){
+            id.val('');
+            button.unbind('click');
+            button.bind('click', Option.insert);
+        },
+        initDelete: function(e){
+            e.preventDefault();
+            var element = $(this).closest('tr');
+            quizId.val(element.attr('quiz-id'));
+            questionId.val(element.attr('question-id'));
+            if(confirm('Deseja excluir o item?')){
+                QuizQuestion.delete();
+            }
+        },
+        init: function(){
+            questionId.val('');
+            button.unbind('click');
+            button.bind('click', QuizQuestion.insert);
+            QuizQuestion.buildTable(dataOption);
+        },
+        validate: function(){
+            if(questionId.val() == '' || quizId.val() == ''){
+                alert('Preencha todos os campos!');
+                return false;
+            }
+            return true;
+        },
+        clear: function(){
+            questionId.val('');
+        },
+        buildTable: function(data){
+            $.each(data, function(K, v){
+                var element = $('<tr></tr>')
+                            .attr({'key': data.quizId + '' + data.questionId, 'quiz-id': data.quizId, 'question-id': data.questionId, 'question-description': data.description})
+                            .append($('<td></td>').text(container.find('tr').lenght + 1))
+                            .append($('<td></td>').text(data.description))
+                            .append($('<td></td>').attr({'class': 'center-button'})
+                                .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
+                            );
+                container.append(element);
+            });
+        }
+    }
+}();

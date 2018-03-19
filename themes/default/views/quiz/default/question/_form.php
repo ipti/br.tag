@@ -168,4 +168,5 @@ foreach ($question->questionOptions as $value) {
 
 <script>
     var dataOption = <?= json_encode($dataOption) ?>;
+    Option.init();
 </script>

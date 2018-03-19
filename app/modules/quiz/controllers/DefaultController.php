@@ -24,6 +24,7 @@ class DefaultController extends Controller
 	public function actionCreateQuiz()
 	{
 		$quiz = new Quiz;
+		$quizQuestion = new QuizQuestion;
 
 		if(isset($_POST['Quiz'])){
 			$quiz->attributes = $_POST['Quiz'];
@@ -34,12 +35,13 @@ class DefaultController extends Controller
 				}
 			}
 		}
-		$this->render('quiz/create', ['quiz' => $quiz]);
+		$this->render('quiz/create', ['quiz' => $quiz, 'question' => $quizQuestion]);
 	}
 
 	public function actionUpdateQuiz($id)
 	{
 		$quiz = Quiz::model()->findByPk($id);
+		$quizQuestion = new QuizQuestion;
 
 		if(isset($_POST['Quiz'])){
 			$quiz->attributes = $_POST['Quiz'];
@@ -50,12 +52,13 @@ class DefaultController extends Controller
 				}
 			}
 		}
-		$this->render('quiz/update', ['quiz' => $quiz]);
+		$this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
 	}
 
 	public function actionDeleteQuiz($id)
 	{
 		$quiz = Quiz::model()->findByPk($id);
+		$quizQuestion = new QuizQuestion;
 
 		if(isset($_POST['Quiz'])){
 			if($quiz->delete()){
@@ -64,7 +67,7 @@ class DefaultController extends Controller
 			else{
 				$quiz->attributes = $_POST['Quiz'];
 				Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
-				return $this->render('quiz/update', ['quiz' => $quiz]);
+				return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
 			}
 		}
 
@@ -370,9 +373,10 @@ class DefaultController extends Controller
 
 		if(is_null($quizQuestion)){
 			$quizQuestion = new QuizQuestion();
+			$question = Question::model()->findByPk($questionId);
 			$quizQuestion->attributes = $_GET['QuizQuestion'];
 			if($quizQuestion->save()){
-				$data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Questão adicionada');
+				$data = array('errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão adicionada');
 			}
 			else{
 				$data = array('errorCode' => 1, 'msg' => 'Erro ao adicionar questão');
@@ -393,8 +397,9 @@ class DefaultController extends Controller
 		$quizQuestion = QuizQuestion::model()->findByPk(array('quiz_id' => $quizId, 'question_id' => $questionId));
 
 		if(!is_null($quizQuestion)){
+			$question = Question::model()->findByPk($questionId);
 			if($quizQuestion->delete()){
-				$data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Questão excluída');
+				$data = array('errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão excluída');
 			}
 			else{
 				$data = array('errorCode' => 1, 'msg' => 'Erro ao excluir questão');

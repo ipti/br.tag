@@ -117,20 +117,20 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <?php if(!$quiz->isNewRecord): ?>
-                    <div class="tab-pane" id="option">
+                    <div class="tab-pane" id="question">
                         <div class="row-fluid">
                             <div class="span5">
                                 <div class="control-group">                
-                                    <?php echo $form->labelEx($question, 'id', array('class' => 'control-label')); ?>
+                                    <?php echo CHtml::label('Questão', 'id', array('class' => 'control-label')); ?>
                                     <div class="controls">
                                     <?php
                                         $questions = Question::model()->findAll();
-                                        echo $form->dropDownList($question, 'id',
+                                        echo $form->dropDownList($quizQuestion, 'question_id',
                                             CHtml::listData(
                                                 $questions, 'id', 'description'),
                                             array("prompt" => "Selecione uma questão", 'class' => 'select-search-on')); ?>
                                     </div>
-                                    <?php echo $form->hiddenField($quiz, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
+                                    <?php echo $form->hiddenField($quizQuestion, 'quiz_id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
                                 </div> <!-- .control-group -->
 								<div class="control-group">
 									<div class="controls">
@@ -161,4 +161,27 @@ $form = $this->beginWidget('CActiveForm', array(
 	
 </div>
 
-<?php $form = $this->endWidget(); ?>
+<?php $form = $this->endWidget(); 
+
+
+
+$dataQuizQuestion = [];
+
+$query = Yii::app()->db->createCommand()
+    ->select('qq.quiz_id, qq.question_id, description')
+    ->from('quiz_question qq')
+    ->join('question qu', 'qq.question_id=qu.id')
+    ->where('qq.quiz_id=:quizId', array(':quizId'=>$quiz->id))
+    ->queryAll();
+
+foreach ($query as $value) {
+    $dataQuizQuestion[] = $value;
+}
+
+
+?>
+
+<script>
+    var dataQuizQuestion = <?= json_encode($dataQuizQuestion) ?>;
+    QuizQuestion.init();
+</script>
