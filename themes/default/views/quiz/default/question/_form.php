@@ -46,7 +46,9 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-question" class="active" ><a class="glyphicons adress_book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
-                <li id="tab-option"><a class="glyphicons book" href="#option" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Option') ?></a></li>
+                <?php if(!$question->isNewRecord && $question->type != 1): ?>
+                    <li id="tab-option"><a class="glyphicons book" href="#option" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Option') ?></a></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -100,7 +102,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <?php if(!$question->isNewRecord && $question->type != 0): ?>
+                    <?php if(!$question->isNewRecord && $question->type != 1): ?>
                     <div class="tab-pane" id="option">
                         <div class="row-fluid">
                             <div class="span5">
@@ -119,6 +121,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->error($option, 'answer'); ?>
                                     </div>
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
+                                    <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
                                 </div> <!-- .control-group -->
 								<div class="control-group">
 									<div class="controls">

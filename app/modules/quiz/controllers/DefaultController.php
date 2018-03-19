@@ -292,8 +292,8 @@ class DefaultController extends Controller
 		$option = new QuestionOption;
 		$data = null;
 
-		if(isset($_POST['QuestionOption'])){
-			$option->attributes = $_POST['QuestionOption'];
+		if(isset($_GET['QuestionOption'])){
+			$option->attributes = $_GET['QuestionOption'];
 			if($option->validate()){
 				if($option->save()){
 					$data = array('errorCode' => 0);
@@ -316,11 +316,11 @@ class DefaultController extends Controller
 
 	public function actionUpdateOption($id)
 	{
-		$option = QuestionOption::model()->findByPk($id);
 		$data = null;
+		$option = QuestionOption::model()->findByPk($id);
 
-		if(isset($_POST['QuestionOption'])){
-			$option->attributes = $_POST['QuestionOption'];
+		if(isset($_GET['QuestionOption'])){
+			$option->attributes = $_GET['QuestionOption'];
 			if($option->validate()){
 				if($option->save()){
 					$data = array('errorCode' => 0);
@@ -340,4 +340,74 @@ class DefaultController extends Controller
 		echo json_encode($data);
 		Yii::app()->end();
 	}
+
+	public function actionDeleteOption($id)
+	{
+		$data = null;
+		$option = QuestionOption::model()->findByPk($id);
+
+		if(isset($_GET['QuestionOption'])){
+			if($option->delete()){
+				$data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Erro ao excluir item');
+			}
+			else{
+				$data = array('errorCode' => 1, 'msg' => 'Erro ao excluir item');
+			}
+		}
+		else{
+			$data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+		}
+
+		header('Content-Type: application/json; charset="UTF-8"');
+		echo json_encode($data);
+		Yii::app()->end();
+	}
+
+	public function actionSetQuizQuestion($quizId, $questionId)
+	{
+		$data = null;
+		$quizQuestion = QuizQuestion::model()->findByPk(array('quiz_id' => $quizId, 'question_id' => $questionId));
+
+		if(is_null($quizQuestion)){
+			$quizQuestion = new QuizQuestion();
+			$quizQuestion->attributes = $_GET['QuizQuestion'];
+			if($quizQuestion->save()){
+				$data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Questão adicionada');
+			}
+			else{
+				$data = array('errorCode' => 1, 'msg' => 'Erro ao adicionar questão');
+			}
+		}
+		else{
+			$data = array('errorCode' => 2, 'msg' => 'Questão já adicionada');
+		}
+
+		header('Content-Type: application/json; charset="UTF-8"');
+		echo json_encode($data);
+		Yii::app()->end();
+	}
+
+	public function actionUnsetQuizQuestion($quizId, $questionId)
+	{
+		$data = null;
+		$quizQuestion = QuizQuestion::model()->findByPk(array('quiz_id' => $quizId, 'question_id' => $questionId));
+
+		if(!is_null($quizQuestion)){
+			if($quizQuestion->delete()){
+				$data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Questão excluída');
+			}
+			else{
+				$data = array('errorCode' => 1, 'msg' => 'Erro ao excluir questão');
+			}
+		}
+		else{
+			$data = array('errorCode' => 2, 'msg' => 'Questão não encontrada');
+		}
+
+		header('Content-Type: application/json; charset="UTF-8"');
+		echo json_encode($data);
+		Yii::app()->end();
+	}
+
+
 }

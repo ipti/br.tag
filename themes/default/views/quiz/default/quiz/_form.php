@@ -51,6 +51,9 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-quiz" class="active" ><a class="glyphicons adress_book" href="#quiz" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Quiz') ?></a></li>
+                <?php if(!$quiz->isNewRecord): ?>
+                    <li id="tab-question"><a class="glyphicons book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -113,6 +116,44 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
+                    <?php if(!$quiz->isNewRecord): ?>
+                    <div class="tab-pane" id="option">
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <div class="control-group">                
+                                    <?php echo $form->labelEx($question, 'id', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                    <?php
+                                        $questions = Question::model()->findAll();
+                                        echo $form->dropDownList($question, 'id',
+                                            CHtml::listData(
+                                                $questions, 'id', 'description'),
+                                            array("prompt" => "Selecione uma questão", 'class' => 'select-search-on')); ?>
+                                    </div>
+                                    <?php echo $form->hiddenField($quiz, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $quiz->id)); ?>
+                                </div> <!-- .control-group -->
+								<div class="control-group">
+									<div class="controls">
+										<button id="save_quiz_question_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>
+									</div>
+								</div>
+                            </div>
+
+                            <div class="span6">
+                                <table class="grade-table table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th width="15%">Nº</th>
+												<th width="55%">Opção</th>
+												<th width="30%">Ação</th>
+											</tr>
+										</thead>
+										<tbody id="container_quiz_question"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
