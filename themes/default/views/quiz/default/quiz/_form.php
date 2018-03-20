@@ -179,9 +179,11 @@ foreach ($query as $value) {
 }
 
 
-?>
 
-<script>
-    var dataQuizQuestion = <?= json_encode($dataQuizQuestion) ?>;
-    QuizQuestion.init();
-</script>
+$script = "
+    var dataQuizQuestion = ".json_encode($dataQuizQuestion).";
+    QuizQuestion.init();";
+
+$cs->registerScript('quizQuestion' ,$script, CClientScript::POS_END);
+
+?>

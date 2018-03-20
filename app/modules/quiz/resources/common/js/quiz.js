@@ -78,7 +78,7 @@ var Option = function(){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
                             .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer})
-                            .append($('<td></td>').text(container.find('tr').lenght + 1))
+                            .append($('<td></td>').text(container.find('tr').length + 1))
                             .append($('<td></td>').text(data.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
@@ -226,7 +226,7 @@ var QuizQuestion = function(){
                 $.ajax({
                     type: "GET",
                     url: "index.php",
-                    data: { r: 'quiz/default/setQuizQuestion', QuizQuestion: data},
+                    data: { r: 'quiz/default/setQuizQuestion', quizId: quizId.val(), questionId: questionId.val(),  QuizQuestion: data},
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8"
                   })
@@ -234,7 +234,7 @@ var QuizQuestion = function(){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
                             .attr({'key': data.quizId + '' + data.questionId, 'quiz-id': data.quizId, 'question-id': data.questionId, 'question-description': data.description})
-                            .append($('<td></td>').text(container.find('tr').lenght + 1))
+                            .append($('<td></td>').text(container.find('tr').length + 1))
                             .append($('<td></td>').text(data.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
@@ -253,13 +253,13 @@ var QuizQuestion = function(){
             $.ajax({
                 type: "GET",
                 url: "index.php",
-                data: { r: 'quiz/default/unsetQuizQuestion', QuizQuestion: data},
+                data: { r: 'quiz/default/unsetQuizQuestion', quizId: quizId.val(), questionId: questionId.val(), QuizQuestion: data},
                 dataType: 'json',
                 contentType: "application/json; charset=utf-8"
                 })
             .done(function(data){
                 if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
-                    var elementActive = container.find('tr[key="'+data.quizId+ '' + data.questionid +'"]');
+                    var elementActive = container.find('tr[key="'+data.quizId+ '' + data.questionId +'"]');
                     elementActive.remove();
                 }
                 else if(typeof data.errorCode != 'undefined' && data.errorCode == '1'){
@@ -291,7 +291,7 @@ var QuizQuestion = function(){
             questionId.val('');
             button.unbind('click');
             button.bind('click', QuizQuestion.insert);
-            QuizQuestion.buildTable(dataOption);
+            QuizQuestion.buildTable(dataQuizQuestion);
         },
         validate: function(){
             if(questionId.val() == '' || quizId.val() == ''){
@@ -304,11 +304,11 @@ var QuizQuestion = function(){
             questionId.val('');
         },
         buildTable: function(data){
-            $.each(data, function(K, v){
+            $.each(data, function(k, v){
                 var element = $('<tr></tr>')
-                            .attr({'key': data.quizId + '' + data.questionId, 'quiz-id': data.quizId, 'question-id': data.questionId, 'question-description': data.description})
-                            .append($('<td></td>').text(container.find('tr').lenght + 1))
-                            .append($('<td></td>').text(data.description))
+                            .attr({'key': v.quizId + '' + v.questionId, 'quiz-id': v.quizId, 'question-id': v.questionId, 'question-description': v.description})
+                            .append($('<td></td>').text(container.find('tr').length + 1))
+                            .append($('<td></td>').text(v.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
                             );

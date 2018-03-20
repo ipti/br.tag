@@ -164,9 +164,10 @@ foreach ($question->questionOptions as $value) {
 }
 
 
-?>
+$script = "
+var dataOption = ".json_encode($dataOption).";
+Option.init();";
 
-<script>
-    var dataOption = <?= json_encode($dataOption) ?>;
-    Option.init();
-</script>
+$cs->registerScript('option' ,$script, CClientScript::POS_END);
+
+?>
