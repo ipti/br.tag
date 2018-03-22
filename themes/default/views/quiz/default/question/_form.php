@@ -123,6 +123,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
                                     <?php echo $form->hiddenField($option, 'id', array('size' => 60, 'maxlength' => 45, 'value' => $option->id)); ?>
                                 </div> <!-- .control-group -->
+                                <div class="control-group">                
+                                    <?php echo $form->labelEx($option, 'complement', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->checkBox($option, 'complement', array('size' => 60, 'maxlength' => 150)); ?>
+                                        <?php echo $form->error($option, 'complement'); ?>
+                                    </div>
+                                </div> <!-- .control-group -->
 								<div class="control-group">
 									<div class="controls">
 										<button id="save_option_button" class="btn btn-icon btn-primary last glyphicons circle_ok" type="button" name="yt0"><i></i>Salvar</button>

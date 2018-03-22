@@ -31,7 +31,7 @@ class QuestionOption extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('description, answer, question_id', 'required'),
-			array('question_id', 'numerical', 'integerOnly'=>true),
+			array('question_id, complement', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>150),
 			array('answer', 'length', 'max'=>45),
 			// The following rule is used by search().
@@ -62,6 +62,7 @@ class QuestionOption extends CActiveRecord
 			'description' => 'Description',
 			'answer' => 'Answer',
 			'question_id' => 'Question',
+			'complement' => 'Complement',
 		);
 	}
 
@@ -87,6 +88,7 @@ class QuestionOption extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('answer',$this->answer,true);
 		$criteria->compare('question_id',$this->question_id);
+		$criteria->compare('complement',$this->complement);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

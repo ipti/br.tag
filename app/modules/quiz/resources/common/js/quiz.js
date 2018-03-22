@@ -60,13 +60,14 @@ var Option = function(){
     var answer = $('#QuestionOption_answer');
     var questionId = $('#QuestionOption_question_id');
     var id = $('#QuestionOption_id');
+    var complement = $('#QuestionOption_complement');
     var container = $('#container_option');
     var button = $('#save_option_button');
 
     return{
         insert: function(){
             if(Option.validate()){
-                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val()};
+                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.val()};
                 $.ajax({
                     type: "GET",
                     url: "index.php",
@@ -77,7 +78,7 @@ var Option = function(){
                 .done(function(data){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
-                            .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer})
+                            .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer, 'option-complement': data.complement})
                             .append($('<td></td>').text(container.find('tr').length + 1))
                             .append($('<td></td>').text(data.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
@@ -95,7 +96,7 @@ var Option = function(){
         },
         update: function(){
             if(Option.validate()){
-                var data = {id: id.val(), description: description.val(), question_id: questionId.val(), answer: answer.val()};
+                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.val()};
                 $.ajax({
                     type: "GET",
                     url: "index.php",
@@ -107,7 +108,7 @@ var Option = function(){
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                        var elementActive = container.find('tr[option-id="'+data.id+'"]');
                         var element = $('<tr></tr>')
-                            .attr('option-id', data.id)
+                            .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer, 'option-complement': data.complement})
                             .append($('<td></td>').text(elementActive.children('td:eq(0)').text()))
                             .append($('<td></td>').text(data.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
@@ -167,6 +168,7 @@ var Option = function(){
             id.val(element.attr('option-id'));
             description.val(element.attr('option-description'));
             answer.val(element.attr('option-answer'));
+            complement.prop('checked', Boolean(parseInt(element.attr('option-complement'))));
             button.unbind('click');
             button.bind('click', Option.update);
         },
@@ -195,11 +197,12 @@ var Option = function(){
             description.val('');
             answer.val('');
             id.val('');
+            complement.prop('checked',false);
         },
         buildTable: function(data){
             $.each(data, function(K, v){
                 var element = $('<tr></tr>')
-                            .attr({'option-id': v.id, 'option-description': v.description, 'option-answer': v.answer})
+                            .attr({'option-id': v.id, 'option-description': v.description, 'option-answer': v.answer, 'option-complement': v.complement})
                             .append($('<td></td>').text(container.find('tr').length + 1))
                             .append($('<td></td>').text(v.description))
                             .append($('<td></td>').attr({'class': 'center-button'})
