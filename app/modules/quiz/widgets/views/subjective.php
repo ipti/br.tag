@@ -1,6 +1,19 @@
-<div class="control-group">                
-    <?php echo CHtml::label($model->question->description, $model->getIdentifier(), array('class' => 'control-label')); ?>
-    <div class="controls">
-        <?php echo CHtml::textField($model->getIdentifier(), $model->answer->value, array('size' => 60, 'maxlength' => 150)); ?>
-    </div>
-</div> <!-- .control-group -->
+<div class="row-fluid">
+    <div class="span12">
+        <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+            <div class="widget-head">
+                <h4 class="heading glyphicons nameplate">
+                    <i></i> <?= $model->question->description ?>
+                </h4>
+            </div> <!-- .widget-head -->
+            <div class="widget-body in" style="height: auto;">
+                <div class="control-group">                
+                    <?php echo CHtml::label($model->question->description, $model->getIdentifier(), array('class' => 'control-label')); ?>
+                    <div class="controls">
+                        <?php echo CHtml::textField($model->getIdentifier(), $model->answer->value, array('size' => 60, 'maxlength' => 150)); ?>
+                    </div>
+                </div> <!-- .control-group -->
+            </div> <!-- .widget-body --> 
+        </div> <!-- .widget -->
+    </div> <!-- .span12 -->
+</div> <!-- .row-fluid -->

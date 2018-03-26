@@ -9,7 +9,7 @@ class FormQuestion extends CModel
     public $student;
 
     public function __construct($quiz, $question, $student, $answer = null){
-        parent::__construct();
+        // parent::__construct();
         $this->quiz = $quiz;
         $this->question = $question;
         $this->student = $student;
@@ -37,7 +37,7 @@ class FormQuestion extends CModel
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
+	public function attributeNames()
 	{
 		return array(
 			'quiz' => 'Quiz',

@@ -4,31 +4,38 @@
 class QuizWidget extends CWidget{
 
     public $type;
-    public $questions;
+    public $quizId;
+    public $studentId;
+    protected $groups;
+    protected $groupedQuestions;
 
     public function init(){
 
-        $quiz = Quiz::model()->findByPk($this->quiz);
+        $quiz = Quiz::model()->findByPk($this->quizId);
         $questions = $quiz->questions;
-        $groups = $quiz->questionsGroups;
-        $groupedQuestions = [];
-        $query = Yii::app()->db->createCommand()
-                    ->select()
-                    ->from('question q')
-                    ->join('quiz_question qq', 'q.id=qq.question_id')
-                    ->join('quiz qz', 'qz.id=qq.quiz_id')
-                    ->leftJoin('question_group qg', 'qz.id=qg.quiz_id')
-                    ->leftJoin('question_group_question qgq', 'qg.id=qgq.question_group_id AND q.id=qgq.question_id');
+        $this->groups = $quiz->questionGroups;
+        $student = StudentIdentification::model()->findByPk($this->studentId);
+
+        $this->groupedQuestions = [];
 
         foreach ($questions as $question) {
-            foreach ($question->questionGroups as $group) {
-                $groupedQuestions[$group->id][] = $question;
+            if(is_array($this->groups)){
+                foreach ($this->groups as $group) {
+                    foreach ($question->questionGroups as $questionGroup) {
+                        if($group->id == $questionGroup->id){
+                            $this->groupedQuestions[$group->id][] = new FormQuestion($quiz, $question, $student);
+                        }
+                    }
+                }
+            }
+            else{
+                $this->groupedQuestions[0][] = new FormQuestion($quiz, $question, $student);
             }
         }
     }
 
     public function run(){
-        $this->render('form', ['questions' => $this->questions]);
+        $this->render('form', ['groups' => $this->groups, 'questions' => $this->groupedQuestions]);
     }
 }
 ?>

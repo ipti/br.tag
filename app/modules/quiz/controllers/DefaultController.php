@@ -414,5 +414,14 @@ class DefaultController extends Controller
 		Yii::app()->end();
 	}
 
+	// ===================== Answer action =======================
+
+	public function actionAnswer($quizId, $studentId) {
+        $this->render('answer/view', array(
+            'quizId' => $quizId,
+            'studentId' => $studentId
+        ));
+    }
+
 
 }
