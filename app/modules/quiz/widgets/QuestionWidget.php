@@ -15,7 +15,7 @@ class QuestionWidget extends CWidget{
                 $this->view = 'ojective';
                 break;
             case '3':
-                $this->view = 'ojectiveMultiple';
+                $this->view = 'objectiveMultiple';
                 break;
         }
     }

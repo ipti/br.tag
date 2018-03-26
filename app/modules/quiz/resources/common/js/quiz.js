@@ -211,9 +211,27 @@ var Option = function(){
                             );
                 container.append(element);
             });
+        },
+        showComplement: function(){
+            var id = $(this).attr('uid');
+            if($(this).is(':checked')){
+                $('#'+id).show();
+            }
+            else{
+                $('#'+id).hide();
+            }
+        },
+        initComplement: function(){
+            $('input[type="checkbox"]').each(
+                function(k, v){
+                    $(this).bind('click', Option.showComplement);
+                }
+            );
         }
     }
 }();
+
+Option.initComplement();
 
 
 var QuizQuestion = function(){

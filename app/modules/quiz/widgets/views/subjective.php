@@ -1,14 +1,14 @@
 <div class="row-fluid">
     <div class="span12">
         <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-            <div class="widget-head">
+            <div class="widget-head white-background">
                 <h4 class="heading glyphicons nameplate">
                     <i></i> <?= $model->question->description ?>
                 </h4>
             </div> <!-- .widget-head -->
             <div class="widget-body in" style="height: auto;">
                 <div class="control-group">                
-                    <?php echo CHtml::label($model->question->description, $model->getIdentifier(), array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label('Resposta:', $model->getIdentifier(), array('class' => 'control-label')); ?>
                     <div class="controls">
                         <?php echo CHtml::textField($model->getIdentifier(), $model->answer->value, array('size' => 60, 'maxlength' => 150)); ?>
                     </div>
