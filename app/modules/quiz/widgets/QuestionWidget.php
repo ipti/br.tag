@@ -12,10 +12,13 @@ class QuestionWidget extends CWidget{
                 $this->view = 'subjective';
                 break;
             case '2':
-                $this->view = 'ojective';
+                $this->view = 'objective';
                 break;
             case '3':
                 $this->view = 'objectiveMultiple';
+                break;
+            case '4':
+                $this->view = 'subjectiveText';
                 break;
         }
     }

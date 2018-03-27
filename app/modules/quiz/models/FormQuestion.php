@@ -59,6 +59,6 @@ class FormQuestion extends CModel
     }
     
     public function getIdentifier(){
-        return $this->quiz->id . $this->question->id . $this->student->id;
+        return 'FormQuestion['. $this->quiz->id .']['. $this->question->id .']';
     }
 }

@@ -105,4 +105,18 @@ class Question extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function getTypes(){
+		return array(
+			'1' => 'Subjetiva',
+			'2' => 'Objetiva',
+			'3' => 'Múltipla Escolha',
+			'4' => 'Subjetiva Longa'
+		);
+	}
+
+	public function getEnableOption(){
+		$types = array_keys($this->getTypes());
+		return array_diff($types, array(1,4));
+	}
 }

@@ -25,8 +25,8 @@
                                 foreach ($column1 as $option) {
                                     $parsedId = str_replace(['[',']'],['_',''],$model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
-                                        array('class' => 'checkbox')
+                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier(). '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
+                                        array('class' => 'radio')
                                     );
 
                                     if($option->complement == '1'){
@@ -42,8 +42,8 @@
                                 foreach ($column2 as $option) {
                                     $parsedId = str_replace(['[',']'],['_',''],$model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
-                                        array('class' => 'checkbox')
+                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier() . '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
+                                        array('class' => 'radio')
                                     );
 
                                     if($option->complement == '1'){

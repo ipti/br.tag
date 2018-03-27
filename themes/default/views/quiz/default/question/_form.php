@@ -46,7 +46,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-question" class="active" ><a class="glyphicons adress_book" href="#question" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Question') ?></a></li>
-                <?php if(!$question->isNewRecord && $question->type != 1): ?>
+                <?php if(!$question->isNewRecord &&  in_array($question->type, $question->getEnableOption())): ?>
                     <li id="tab-option"><a class="glyphicons book" href="#option" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Option') ?></a></li>
                 <?php endif; ?>
             </ul>
@@ -78,11 +78,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ]
                                         );
 
-                                        echo $form->dropDownList($question, 'type',array(
-                                                '1' => 'Subjetiva',
-                                                '2' => 'Objetiva',
-                                                '3' => 'Múltipla Escolha'
-                                            ),
+                                        echo $form->dropDownList($question, 'type',$question->getTypes(),
                                             array("prompt" => "Selecione o Tipo", 'class' => 'select-search-on')); ?>
                                         <?php echo $form->error($question, 'type'); ?>
                                     </div>
@@ -102,7 +98,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <?php if(!$question->isNewRecord && $question->type != 1): ?>
+                    <?php if(!$question->isNewRecord && in_array($question->type, $question->getEnableOption())): ?>
                     <div class="tab-pane" id="option">
                         <div class="row-fluid">
                             <div class="span5">

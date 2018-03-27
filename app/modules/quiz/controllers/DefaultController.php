@@ -417,6 +417,36 @@ class DefaultController extends Controller
 	// ===================== Answer action =======================
 
 	public function actionAnswer($quizId, $studentId) {
+		if(isset($_POST['FormQuestion'])){
+			$data = $_POST['FormQuestion'][$quizId];
+			foreach ($data as $questionId => $response) {
+
+				if(is_array($response)){
+					$seq = 1;
+					foreach ($response as $value) {
+						$answer = new Answer();
+						$answer->quiz_id = $quizId;
+						$answer->student_id = $studentId;
+						$answer->question_id = $questionId;
+						$answer->seq = $seq;
+						$answer->value = $value['response'];
+						if(isset($value['complement'])){
+							$answer->complement = $value['complement'];
+						}
+						++$seq;
+					}
+				}
+				else{
+					$answer = new Answer();
+					$answer->quiz_id = $quizId;
+					$answer->student_id = $studentId;
+					$answer->question_id = $questionId;
+					$answer->seq = 1;
+					$answer->value = $response;
+				}
+			}
+		}
+
         $this->render('answer/view', array(
             'quizId' => $quizId,
             'studentId' => $studentId

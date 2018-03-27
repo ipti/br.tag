@@ -67,7 +67,7 @@ var Option = function(){
     return{
         insert: function(){
             if(Option.validate()){
-                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.val()};
+                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.is(':checked') ? 1 : 0};
                 $.ajax({
                     type: "GET",
                     url: "index.php",
@@ -96,7 +96,7 @@ var Option = function(){
         },
         update: function(){
             if(Option.validate()){
-                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.val()};
+                var data = {description: description.val(), question_id: questionId.val(), answer: answer.val(), complement: complement.is(':checked') ? 1 : 0};
                 $.ajax({
                     type: "GET",
                     url: "index.php",
@@ -213,16 +213,39 @@ var Option = function(){
             });
         },
         showComplement: function(){
-            var id = $(this).attr('uid');
-            if($(this).is(':checked')){
-                $('#'+id).show();
+            var uid = $(this).attr('uid');
+            var id = $(this).attr('id');
+            var type = $(this).attr('type');
+            var complement = id.replace("response","complement");
+            if(type == 'checkbox'){
+                if($(this).is(':checked')){
+                    $('#'+uid).show();
+                    $('#'+complement).prop('disabled',false);
+                }
+                else{
+                    $('#'+uid).hide();
+                    $('#'+complement).prop('disabled',true);
+                }
             }
-            else{
-                $('#'+id).hide();
+            else if(type == 'radio'){
+                var partialUid = uid.substring(0,(uid.length -1));
+                $('div[id^="'+partialUid+'"]').each(function(){
+                    $(this).hide();
+                });
+
+                $('input[id^="'+partialUid+'"]').each(function(){
+                    if($(this).attr('type') == 'text')
+                        $(this).prop('disabled',true);
+                    else if($(this).attr('type') == 'radio')
+                        $(this).prop('checked',false);
+                });
+                $(this).prop('checked',true);
+                $('#'+uid).show();
+                $('#'+complement).prop('disabled',false);
             }
         },
         initComplement: function(){
-            $('input[type="checkbox"]').each(
+            $('input[type="checkbox"],input[type="radio"]').each(
                 function(k, v){
                     $(this).bind('click', Option.showComplement);
                 }
