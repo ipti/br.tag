@@ -1,16 +1,27 @@
-<?php echo CHtml::beginForm(); ?>
+<?php echo CHtml::beginForm(null, 'post', array('id'=> 'answer-form')); ?>
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo 'title'; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), array('id' => 'save_group_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), array('id' => 'save_answer_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
             ?>
         </div>
     </div>
 </div>
 
 <div class="innerLR">
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+    <?php endif ?>
+
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+    <?php endif ?>
     <div class="widget widget-tabs border-bottom-none">
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">

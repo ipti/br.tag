@@ -6,7 +6,7 @@ $('#delete_button').click(function() {
     if(confirm('Deseja excluir o questionário')){
         var host = window.location.href;
         var url = host.split('?')[1];
-        var action = 'index.php?' + url.replace('update','delete');
+        var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#quiz-form').attr('action', action);
         $('#quiz-form').submit();
     } 
@@ -20,7 +20,7 @@ $('#delete_group_button').click(function() {
     if(confirm('Deseja excluir o grupo')){
         var host = window.location.href;
         var url = host.split('?')[1];
-        var action = 'index.php?' + url.replace('update','delete');
+        var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#group-form').attr('action', action);
         $('#group-form').submit();
     } 
@@ -34,7 +34,7 @@ $('#delete_question_group_button').click(function() {
     if(confirm('Deseja excluir o grupo')){
         var host = window.location.href;
         var url = host.split('?')[1];
-        var action = 'index.php?' + url.replace('update','delete');
+        var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#questiongroup-form').attr('action', action);
         $('#questiongroup-form').submit();
     } 
@@ -49,10 +49,14 @@ $('#delete_question_button').click(function() {
     if(confirm('Deseja excluir a questão')){
         var host = window.location.href;
         var url = host.split('?')[1];
-        var action = 'index.php?' + url.replace('update','delete');
+        var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#question-form').attr('action', action);
         $('#question-form').submit();
     } 
+});
+
+$('#save_answer_button').click(function() { 
+    $('#answer-form').submit();
 });
 
 var Option = function(){
@@ -350,7 +354,7 @@ var QuizQuestion = function(){
         buildTable: function(data){
             $.each(data, function(k, v){
                 var element = $('<tr></tr>')
-                            .attr({'key': v.quizId + '' + v.questionId, 'quiz-id': v.quizId, 'question-id': v.questionId, 'question-description': v.description})
+                            .attr({'key': v.quiz_id + '' + v.question_id, 'quiz-id': v.quiz_id, 'question-id': v.question_id, 'question-description': v.description})
                             .append($('<td></td>').text(container.find('tr').length + 1))
                             .append($('<td></td>').text(v.description))
                             .append($('<td></td>').attr({'class': 'center-button'})

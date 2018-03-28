@@ -32,6 +32,7 @@ class DefaultController extends Controller
 				$quiz->create_date = date('Y-m-d');
 				if($quiz->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário cadastrado com sucesso'));
+					return $this->actionQuiz();
 				}
 			}
 		}
@@ -58,15 +59,32 @@ class DefaultController extends Controller
 	public function actionDeleteQuiz($id)
 	{
 		$quiz = Quiz::model()->findByPk($id);
+		$questions = $quiz->questions;
+		$questionGroups = $quiz->questionGroups;
 		$quizQuestion = new QuizQuestion;
 
 		if(isset($_POST['Quiz'])){
-			if($quiz->delete()){
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário excluído com sucesso'));
+			if(count($questions) == 0){
+				if(count($questionGroups) == 0){
+
+					if($quiz->delete()){
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário excluído com sucesso'));
+					}
+					else{
+						$quiz->attributes = $_POST['Quiz'];
+						Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
+						return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
+					}
+				}
+				else{
+					$quiz->attributes = $_POST['Quiz'];
+					Yii::app()->user->setFlash('error', Yii::t('default', 'Existe grupo vinculado ao questionário'));
+					return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
+				}
 			}
 			else{
 				$quiz->attributes = $_POST['Quiz'];
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Existe questão vinculada ao questionário'));
 				return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
 			}
 		}
@@ -134,7 +152,7 @@ class DefaultController extends Controller
 		$questions = $group->questions;
 
 		if(isset($_POST['QuestionGroup'])){
-			if(is_null($questions)){
+			if(count($questions) == 0){
 				if($group->delete()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo excluído com sucesso'));
 				}
@@ -183,6 +201,7 @@ class DefaultController extends Controller
 				if($questionGroup->validate()){
 					if($questionGroup->save()){
 						Yii::app()->user->setFlash('success', Yii::t('default', 'Questão adicionada ao grupo'));
+						return $this->actionQuestionGroup();
 					}
 				}
 			}
@@ -255,6 +274,7 @@ class DefaultController extends Controller
 			if($question->validate()){
 				if($question->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Questão cadastrada com sucesso'));
+					return $this->actionQuestion();
 				}
 			}
 		}
@@ -428,31 +448,56 @@ class DefaultController extends Controller
 	public function actionAnswer($quizId, $studentId) {
 		if(isset($_POST['FormQuestion'])){
 			$data = $_POST['FormQuestion'][$quizId];
-			foreach ($data as $questionId => $response) {
+			$connection = Yii::app()->db;
+			$transaction = $connection->beginTransaction();
+			$answered = Answer::model()->find('quiz_id=:quiz_id AND student_id=:student_id', [':quiz_id' => $quizId, ':student_id' => $studentId]);
 
-				if(is_array($response)){
-					$seq = 1;
-					foreach ($response as $value) {
-						$answer = new Answer();
-						$answer->quiz_id = $quizId;
-						$answer->student_id = $studentId;
-						$answer->question_id = $questionId;
-						$answer->seq = $seq;
-						$answer->value = $value['response'];
-						if(isset($value['complement'])){
-							$answer->complement = $value['complement'];
+			if(is_null($answered)){
+				try{
+	
+					foreach ($data as $questionId => $response) {
+						$sql="INSERT INTO answer (quiz_id, question_id, student_id, seq, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :value, :complement)";
+						$seq = 1;
+						$complementNull = NULL;
+						if(is_array($response)){
+							foreach ($response as $value) {
+								$command = $connection->createCommand($sql);
+								$command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
+								$command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
+								$command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
+								$command->bindParam(":seq", $seq, PDO::PARAM_INT);
+								$command->bindParam(":value", $value['response'], PDO::PARAM_STR);
+								if(isset($value['complement'])){
+									$command->bindParam(":complement", $value['complement'], PDO::PARAM_STR);
+								}
+								else{
+									$command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+								}
+								$command->execute();
+								++$seq;
+							}
 						}
-						++$seq;
+						else{
+							$command = $connection->createCommand($sql);
+							$command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
+							$command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
+							$command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
+							$command->bindParam(":seq", $seq, PDO::PARAM_INT);
+							$command->bindParam(":value", $response, PDO::PARAM_STR);
+							$command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+							$command->execute();
+						}
 					}
+					$transaction->commit();
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário salvo com sucesso'));
 				}
-				else{
-					$answer = new Answer();
-					$answer->quiz_id = $quizId;
-					$answer->student_id = $studentId;
-					$answer->question_id = $questionId;
-					$answer->seq = 1;
-					$answer->value = $response;
+				catch(Exception $e){
+					$transaction->rollback();
+					Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao salvar questionário'));
 				}
+			}
+			else{
+				Yii::app()->user->setFlash('error', Yii::t('default', 'O aluno já respondeu este questionário'));
 			}
 		}
 
