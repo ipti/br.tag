@@ -35,13 +35,13 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <div class="innerLR">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('success') && (!$quiz->isNewRecord)): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
 
-    <?php if (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('error') && (!$quiz->isNewRecord)): ?>
         <div class="alert alert-error">
             <?php echo Yii::app()->user->getFlash('error') ?>
         </div>

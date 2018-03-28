@@ -40,7 +40,8 @@
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name ." [" . $data->quiz->name . "]",Yii::app()->createUrl("quiz/default/updateGroup", array("id"=>$data->id)))',
-                            ))
+                            )
+                        )
                     ));
                     ?>
                 </div>   

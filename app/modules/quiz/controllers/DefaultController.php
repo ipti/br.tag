@@ -35,7 +35,7 @@ class DefaultController extends Controller
 				}
 			}
 		}
-		$this->render('quiz/create', ['quiz' => $quiz, 'question' => $quizQuestion]);
+		$this->render('quiz/create', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
 	}
 
 	public function actionUpdateQuiz($id)
@@ -103,6 +103,7 @@ class DefaultController extends Controller
 			if($group->validate()){
 				if($group->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo cadastrado com sucesso'));
+					return $this->actionGroup();
 				}
 			}
 		}
@@ -130,14 +131,22 @@ class DefaultController extends Controller
 	public function actionDeleteGroup($id)
 	{
 		$group = QuestionGroup::model()->findByPk($id);
+		$questions = $group->questions;
 
 		if(isset($_POST['QuestionGroup'])){
-			if($group->delete()){
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo excluído com sucesso'));
+			if(is_null($questions)){
+				if($group->delete()){
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo excluído com sucesso'));
+				}
+				else{
+					$group->attributes = $_POST['QuestionGroup'];
+					Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir grupo'));
+					return $this->render('group/update', ['group' => $group]);
+				}
 			}
 			else{
 				$group->attributes = $_POST['QuestionGroup'];
-				Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir grupo'));
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Existe questão vinculada ao grupo'));
 				return $this->render('group/update', ['group' => $group]);
 			}
 		}
