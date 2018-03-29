@@ -3,6 +3,10 @@
 class DefaultController extends Controller
 {
 
+	public function actionIndex() {
+        $this->render('index');
+	}
+	
 	public function actionQuiz() {
         $filter = new Quiz('search');
 		$filter->unsetAttributes();
@@ -15,7 +19,7 @@ class DefaultController extends Controller
                 'pageSize' => 12,
 		)));
 		
-        $this->render('index', array(
+        $this->render('quiz/quiz', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
         ));

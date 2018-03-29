@@ -51,8 +51,8 @@ class QuestionGroupQuestion extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'question_group_id' => 'Question Group',
-			'question_id' => 'Question',
+			'question_group_id' => 'Grupo',
+			'question_id' => 'Questão',
 		);
 	}
 

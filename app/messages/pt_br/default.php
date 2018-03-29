@@ -684,7 +684,21 @@ return array(
 
     //Quiz Module
 
-    'Quiz' => 'Questionário'
+    'Quiz' => 'Questionário',
+    'Create a new Quiz' => 'Criar novo questionário',
+    'New Quiz' => 'Novo questionário',
+    'Update Quiz' => 'Atualizar questionário',
+    'Question' => 'Questão',
+    'New Question' => 'Nova questão',
+    'Update Question' => 'Atualizar questão',
+    'Create a new Question' => 'Criar nova questão',
+    'Option' => 'Opção',
+    'Group' => 'Grupo',
+    'New Group' => 'Novo Grupo',
+    'Update Group' => 'Atualizar Grupo',
+    'Question Group' => 'Grupo de perguntas',
+    'New Question Group' => 'Novo Grupo de perguntas',
+    'Update Question Group' => 'Atualizar Grupo de perguntas',
 
     )   
 ?>

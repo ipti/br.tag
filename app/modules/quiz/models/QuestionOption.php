@@ -59,10 +59,10 @@ class QuestionOption extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'description' => 'Description',
-			'answer' => 'Answer',
-			'question_id' => 'Question',
-			'complement' => 'Complement',
+			'description' => 'Descrição',
+			'answer' => 'Resposta',
+			'question_id' => 'Questão',
+			'complement' => 'Complemento',
 		);
 	}
 

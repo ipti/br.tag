@@ -1,53 +1,57 @@
-<div id="mainPage" class="main">
-    <?php
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Quiz'));
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create Quiz'), 'url' => array('quizCreate'), 'description' => Yii::t('default', 'This action create a new Quiz')),
-    );
-    ?>
+<?php
+/* @var $this DefaultController */
 
-    <div class="row-fluid">
-        <div class="span12">
-            <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Quiz') ?></h3>  
-            <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('quiz/default/createQuiz') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Novo Questionário</a>
-            </div>
-        </div>
-    </div>
+$baseUrl = Yii::app()->baseUrl;
 
-    <div class="innerLR">
-        <div class="columnone" style="padding-right: 1em">
-            <?php if (Yii::app()->user->hasFlash('success')): ?>
-                <div class="alert alert-success">
-                    <?php echo Yii::app()->user->getFlash('success') ?>
-                </div>
-                <br/>
-            <?php endif ?>
-            <div class="widget">
-                <div class="widget-body">
-                    <?php
-                    $this->widget('zii.widgets.grid.CGridView', array(
-                        'dataProvider' => $filter->search(),
-                        'filter' => $filter,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                        'enablePagination' => true,
-                        'columns' => array(
-                            array(
-                                'name' => 'id',
-                                'htmlOptions' => array('width' => '150px')
-                            ),
-                            array(
-                                'name' => 'name',
-                                'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("quiz/default/updateQuiz", array("id"=>$data->id)))',
-                            ))
-                    ));
-                    ?>
-                </div>   
-            </div>
-        </div>
-        <div class="columntwo">
-        </div>
+$this->pageTitle = 'TAG - ' . Yii::t('default', 'Quiz');
+$this->breadcrumbs = array(
+    Yii::t('default', 'Quiz'),
+);
+?>
 
+<style>
+.block{
+    display: block !important;
+}
+</style>
+
+<div class="row-fluid">
+    <div class="span12">
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Quiz'); ?></h3>  
     </div>
 </div>
+
+<div class="innerLR home">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/quiz')?>" class="widget-stats">
+                    <span class="fa-list-ol fa fa-4x block"><i></i></span>
+                    <span class="txt">Questionários</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/question')?>" class="widget-stats">
+                    <span class="fa fa-edit fa-4x block"></span>
+                    <span class="txt">Perguntas</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/group')?>" class="widget-stats">
+                    <span class="fa fa-archive fa-4x block"><i></i></span>
+                    <span class="txt">Grupos de Perguntas</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('quiz/default/questionGroup')?>" class="widget-stats">
+                    <span class="fa fa-list fa-4x block"><i></i></span>
+                    <span class="txt">Agrupar Perguntas</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
+        </div> <!-- .span12 -->
+    </div> <!-- .row-fluid -->
+</div> <!-- .innerLr -->
