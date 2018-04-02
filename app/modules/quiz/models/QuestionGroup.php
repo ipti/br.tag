@@ -59,8 +59,8 @@ class QuestionGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'quiz_id' => 'Quiz',
+			'name' => 'Nome',
+			'quiz_id' => 'Questionário',
 		);
 	}
 

@@ -65,12 +65,12 @@ class Quiz extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'description' => 'Description',
+			'name' => 'Nome',
+			'description' => 'Descrição',
 			'status' => 'Status',
-			'init_date' => 'Init Date',
-			'final_date' => 'Final Date',
-			'create_date' => 'Create Date',
+			'init_date' => 'Data Inicial',
+			'final_date' => 'Data Final',
+			'create_date' => 'Data de Criação',
 		);
 	}
 

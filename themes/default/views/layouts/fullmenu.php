@@ -166,7 +166,9 @@ function isActive($pages){
                                     <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
                                 </li>
                             <?php } ?>
-
+                            <li id="menu-quiz" class="<?= isActive("quiz") ?>">
+                                <a class="glyphicons list" href="<?php echo yii::app()->createUrl('quiz') ?> "><i></i><span>Questionário</span></a>
+                            </li>
 
                         </ul>
                     </div>
