@@ -695,9 +695,11 @@ return array(
     'Option' => 'Opção',
     'Group' => 'Grupo',
     'New Group' => 'Novo Grupo',
+    'Create a new Group' => 'Criar novo grupo',
     'Update Group' => 'Atualizar Grupo',
     'Question Group' => 'Grupo de perguntas',
     'New Question Group' => 'Novo Grupo de perguntas',
+    'Create a new Question Group' => 'Criar novo grupo de questões',
     'Update Question Group' => 'Atualizar Grupo de perguntas',
 
     )   

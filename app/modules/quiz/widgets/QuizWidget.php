@@ -8,12 +8,13 @@ class QuizWidget extends CWidget{
     public $studentId;
     protected $groups;
     protected $groupedQuestions;
+    protected $quiz;
 
     public function init(){
 
-        $quiz = Quiz::model()->findByPk($this->quizId);
-        $questions = $quiz->questions;
-        $this->groups = $quiz->questionGroups;
+        $this->quiz = Quiz::model()->findByPk($this->quizId);
+        $questions = $this->quiz->questions;
+        $this->groups = $this->quiz->questionGroups;
         $student = StudentIdentification::model()->findByPk($this->studentId);
 
         $this->groupedQuestions = [];
@@ -23,19 +24,19 @@ class QuizWidget extends CWidget{
                 foreach ($this->groups as $group) {
                     foreach ($question->questionGroups as $questionGroup) {
                         if($group->id == $questionGroup->id){
-                            $this->groupedQuestions[$group->id][] = new FormQuestion($quiz, $question, $student);
+                            $this->groupedQuestions[$group->id][] = new FormQuestion($this->quiz, $question, $student);
                         }
                     }
                 }
             }
             else{
-                $this->groupedQuestions[0][] = new FormQuestion($quiz, $question, $student);
+                $this->groupedQuestions[0][] = new FormQuestion($this->quiz, $question, $student);
             }
         }
     }
 
     public function run(){
-        $this->render('form', ['groups' => $this->groups, 'questions' => $this->groupedQuestions]);
+        $this->render('form', ['groups' => $this->groups, 'questions' => $this->groupedQuestions, 'quiz' => $this->quiz]);
     }
 }
 ?>
