@@ -32,8 +32,8 @@ class QuestionOption extends CActiveRecord
 		return array(
 			array('description, answer, question_id', 'required'),
 			array('question_id, complement', 'numerical', 'integerOnly'=>true),
-			array('description', 'length', 'max'=>150),
-			array('answer', 'length', 'max'=>45),
+			array('description', 'length', 'max'=>255),
+			array('answer', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, description, answer, question_id', 'safe', 'on'=>'search'),

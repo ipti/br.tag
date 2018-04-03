@@ -36,7 +36,8 @@ class DefaultController extends Controller
 				$quiz->create_date = date('Y-m-d');
 				if($quiz->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário cadastrado com sucesso'));
-					return $this->actionQuiz();
+					$url = Yii::app()->createUrl('quiz/default/quiz');
+					return $this->redirect($url);
 				}
 			}
 		}
@@ -93,7 +94,8 @@ class DefaultController extends Controller
 			}
 		}
 
-		$this->actionQuiz();
+		$url = Yii::app()->createUrl('quiz/default/quiz');
+		return $this->redirect($url);
 	}
 
 	// ================== Group action ==================
@@ -125,7 +127,8 @@ class DefaultController extends Controller
 			if($group->validate()){
 				if($group->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo cadastrado com sucesso'));
-					return $this->actionGroup();
+					$url = Yii::app()->createUrl('quiz/default/group');
+					return $this->redirect($url);
 				}
 			}
 		}
@@ -173,7 +176,8 @@ class DefaultController extends Controller
 			}
 		}
 
-		$this->actionGroup();
+		$url = Yii::app()->createUrl('quiz/default/group');
+		return $this->redirect($url);
 	}
 
 		// ================== Question Group action ==================
@@ -245,7 +249,8 @@ class DefaultController extends Controller
 				}
 			}
 
-			$this->actionQuestionGroup();
+			$url = Yii::app()->createUrl('quiz/default/questionGroup');
+			return $this->redirect($url);
 		}
 
 	// ================== Question action ==================
@@ -278,7 +283,8 @@ class DefaultController extends Controller
 			if($question->validate()){
 				if($question->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Questão cadastrada com sucesso'));
-					return $this->actionQuestion();
+					$url = Yii::app()->createUrl('quiz/default/question');
+					return $this->redirect($url);
 				}
 			}
 		}
@@ -320,7 +326,8 @@ class DefaultController extends Controller
 			}
 		}
 
-		$this->actionQuestion();
+		$url = Yii::app()->createUrl('quiz/default/question');
+		return $this->redirect($url);
 	}
 
 	public function actionCreateOption()

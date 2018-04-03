@@ -105,7 +105,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="control-group">                
                                     <?php echo $form->labelEx($option, 'description', array('class' => 'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo $form->textField($option, 'description', array('size' => 60, 'maxlength' => 150)); ?>
+                                        <?php echo $form->textField($option, 'description', array('size' => 60, 'maxlength' => 255)); ?>
                                         <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('default', 'Option Description'); ?>"><i></i></span>
                                         <?php echo $form->error($option, 'description'); ?>
                                     </div>
@@ -113,7 +113,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="control-group">                
                                     <?php echo $form->labelEx($option, 'answer', array('class' => 'control-label')); ?>
                                     <div class="controls">
-                                        <?php echo $form->textField($option, 'answer', array('size' => 60, 'maxlength' => 45)); ?>
+                                        <?php echo $form->textField($option, 'answer', array('size' => 60, 'maxlength' => 255)); ?>
                                         <?php echo $form->error($option, 'answer'); ?>
                                     </div>
                                     <?php echo $form->hiddenField($option, 'question_id', array('size' => 60, 'maxlength' => 45, 'value' => $question->id)); ?>
