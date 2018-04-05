@@ -122,6 +122,14 @@ switch ($domain) {
         $instance = 'VANDA';
         $db = 'io.escola.vanda';
         break;
+   case 'adefib':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'ADEFIB';
+        $db = 'io.escola.adefib';
+        break;
+       
     case 'boquim':
         $_GLOBALGROUP = 1;
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
