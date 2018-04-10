@@ -252,6 +252,7 @@ var Option = function(){
             $('input[type="checkbox"],input[type="radio"]').each(
                 function(k, v){
                     $(this).bind('click', Option.showComplement);
+                    $(this).bind('change', Option.showComplement);
                 }
             );
         }
@@ -289,6 +290,9 @@ var QuizQuestion = function(){
                             );
                         container.append(element);
                         QuizQuestion.clear();
+                    }
+                    else if(typeof data.errorCode != 'undefined' && parseInt(data.errorCode) > 0){
+                        alert(data.msg);
                     }
                 })
                 .fail(function(data){

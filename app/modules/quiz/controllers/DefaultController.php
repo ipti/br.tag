@@ -206,11 +206,18 @@ class DefaultController extends Controller
 	
 			if(isset($_POST['QuestionGroupQuestion'])){
 				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
-				if($questionGroup->validate()){
-					if($questionGroup->save()){
-						Yii::app()->user->setFlash('success', Yii::t('default', 'Questão adicionada ao grupo'));
-						return $this->actionQuestionGroup();
+				$existsQuestionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $_POST['QuestionGroupQuestion']['question_group_id'], 'question_id' => $_POST['QuestionGroupQuestion']['question_id']]);
+				
+				if(is_null($existsQuestionGroup)){
+					if($questionGroup->validate()){
+						if($questionGroup->save()){
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Questão adicionada ao grupo'));
+							return $this->actionQuestionGroup();
+						}
 					}
+				}
+				else{
+					Yii::app()->user->setFlash('error', Yii::t('default', 'A questão já está presente no grupo'));
 				}
 			}
 			$this->render('questiongroup/create', ['questionGroup' => $questionGroup]);
@@ -467,16 +474,18 @@ class DefaultController extends Controller
 				try{
 	
 					foreach ($data as $questionId => $response) {
-						$sql="INSERT INTO answer (quiz_id, question_id, student_id, seq, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :value, :complement)";
+						$sql="INSERT INTO answer (quiz_id, question_id, student_id, seq, option_id, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :option_id, :value, :complement)";
 						$seq = 1;
 						$complementNull = NULL;
 						if(is_array($response)){
-							foreach ($response as $value) {
+							$optionId = key($response);
+							foreach ($response as $key => $value) {
 								$command = $connection->createCommand($sql);
 								$command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
 								$command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
 								$command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
 								$command->bindParam(":seq", $seq, PDO::PARAM_INT);
+								$command->bindParam(":option_id", $key, PDO::PARAM_INT);
 								$command->bindParam(":value", $value['response'], PDO::PARAM_STR);
 								if(isset($value['complement'])){
 									$command->bindParam(":complement", $value['complement'], PDO::PARAM_STR);
@@ -494,6 +503,7 @@ class DefaultController extends Controller
 							$command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
 							$command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
 							$command->bindParam(":seq", $seq, PDO::PARAM_INT);
+							$command->bindParam(":option_id", $seq, PDO::PARAM_INT);
 							$command->bindParam(":value", $response, PDO::PARAM_STR);
 							$command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
 							$command->execute();

@@ -41,7 +41,7 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     <?php endif ?>
 
-    <?php if (Yii::app()->user->hasFlash('error') && (!$questionGroup->isNewRecord)): ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
         <div class="alert alert-error">
             <?php echo Yii::app()->user->getFlash('error') ?>
         </div>
