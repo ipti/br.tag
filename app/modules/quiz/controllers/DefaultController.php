@@ -478,7 +478,6 @@ class DefaultController extends Controller
 						$seq = 1;
 						$complementNull = NULL;
 						if(is_array($response)){
-							$optionId = key($response);
 							foreach ($response as $key => $value) {
 								$command = $connection->createCommand($sql);
 								$command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);

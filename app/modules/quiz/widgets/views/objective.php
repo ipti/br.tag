@@ -23,14 +23,20 @@
                         <div class="span6">
                             <?php 
                                 foreach ($column1 as $option) {
+                                    $answer = Answer::model()->findByAttributes(['quiz_id' => $model->quiz->id, 'question_id' => $model->question->id, 'student_id' => $model->student->id, 'option_id' => $option->id]);
+
+                                    if(is_null($answer)){
+                                        $answer = new Answer;
+                                    }
+
                                     $parsedId = str_replace(['[',']'],['_',''],$model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier(). '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
+                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier(). '['.$option->id.'][response]', boolval($answer->value), array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
                                         array('class' => 'radio')
                                     );
 
                                     if($option->complement == '1'){
-                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $model->answer->value, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
+                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $answer->complement, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
                                     }
                                     next($letterIndex);
                                 }
@@ -40,14 +46,20 @@
                         <div class="span6">
                             <?php 
                                 foreach ($column2 as $option) {
+                                    $answer = Answer::model()->findByAttributes(['quiz_id' => $model->quiz->id, 'question_id' => $model->question->id, 'student_id' => $model->student->id, 'option_id' => $option->id]);
+
+                                    if(is_null($answer)){
+                                        $answer = new Answer;
+                                    }
+                                    
                                     $parsedId = str_replace(['[',']'],['_',''],$model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier() . '['.$option->id.'][response]', false, array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
+                                        current($letterIndex) . ') ' . $option->description . CHtml::radioButton($model->getIdentifier(). '['.$option->id.'][response]', boolval($answer->value), array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)), $model->getIdentifier() . current($letterIndex), 
                                         array('class' => 'radio')
                                     );
 
                                     if($option->complement == '1'){
-                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $model->answer->value, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
+                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $answer->complement, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
                                     }
                                     next($letterIndex);
                                 }

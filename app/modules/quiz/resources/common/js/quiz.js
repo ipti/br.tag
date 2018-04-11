@@ -221,8 +221,9 @@ var Option = function(){
             var id = $(this).attr('id');
             var type = $(this).attr('type');
             var complement = id.replace("response","complement");
+            var isChecked = $(this).is(':checked');
             if(type == 'checkbox'){
-                if($(this).is(':checked')){
+                if(isChecked){
                     $('#'+uid).show();
                     $('#'+complement).prop('disabled',false);
                 }
@@ -233,19 +234,23 @@ var Option = function(){
             }
             else if(type == 'radio'){
                 var partialUid = uid.substring(0,(uid.length -1));
-                $('div[id^="'+partialUid+'"]').each(function(){
-                    $(this).hide();
-                });
-
-                $('input[id^="'+partialUid+'"]').each(function(){
-                    if($(this).attr('type') == 'text')
-                        $(this).prop('disabled',true);
-                    else if($(this).attr('type') == 'radio')
-                        $(this).prop('checked',false);
-                });
-                $(this).prop('checked',true);
-                $('#'+uid).show();
-                $('#'+complement).prop('disabled',false);
+                var elementChecked = $('input[id^="'+partialUid+'"]:checked');
+                
+                if(isChecked){
+                    $('div[id^="'+partialUid+'"]').each(function(){
+                        $(this).hide();
+                    });
+    
+                    $('input[id^="'+partialUid+'"]').each(function(){
+                        if($(this).attr('type') == 'text')
+                            $(this).prop('disabled',true);
+                        else if($(this).attr('type') == 'radio')
+                            $(this).prop('checked',false);
+                    });
+                    $(this).prop('checked',true);
+                    $('#'+uid).show();
+                    $('#'+complement).prop('disabled',false);
+                }
             }
         },
         initComplement: function(){
@@ -253,6 +258,7 @@ var Option = function(){
                 function(k, v){
                     $(this).bind('click', Option.showComplement);
                     $(this).bind('change', Option.showComplement);
+                    $(this).trigger('change');
                 }
             );
         }
