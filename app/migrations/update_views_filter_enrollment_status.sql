@@ -506,3 +506,45 @@ VIEW `studentsfile` AS
         LEFT JOIN `edcenso_city` `ecn` ON ((`sd`.`notary_office_city_fk` = `ecn`.`id`)))
         LEFT JOIN `edcenso_notary_office` `eno` ON ((`sd`.`edcenso_notary_office_fk` = `eno`.`cod`)))
     ORDER BY `s`.`name`
+
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `classroom_qtd_students` AS
+    SELECT 
+        `c`.`school_inep_fk` AS `school_inep_fk`,
+        `c`.`id` AS `id`,
+        `c`.`name` AS `name`,
+        CONCAT_WS(' - ',
+                CONCAT_WS(':',
+                        `c`.`initial_hour`,
+                        `c`.`initial_minute`),
+                CONCAT_WS(':',
+                        `c`.`final_hour`,
+                        `c`.`final_minute`)) AS `time`,
+        (CASE `c`.`assistance_type`
+            WHEN 0 THEN 'NÃO SE APLICA'
+            WHEN 1 THEN 'CLASSE HOSPITALAR'
+            WHEN 2 THEN 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO'
+            WHEN 3 THEN 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR'
+            ELSE 'ATENDIMENTO EDUCACIONALESPECIALIZADO (AEE)'
+        END) AS `assistance_type`,
+        (CASE `c`.`modality`
+            WHEN 1 THEN 'REGULAR'
+            WHEN 2 THEN 'ESPECIAL'
+            ELSE 'EJA'
+        END) AS `modality`,
+        `esm`.`name` AS `stage`,
+        COUNT(`c`.`id`) AS `students`,
+        `c`.`school_year` AS `school_year`,
+        `se`.`status` AS `status`
+    FROM
+        ((`classroom` `c`
+        JOIN `student_enrollment` `se` ON ((`c`.`id` = `se`.`classroom_fk`)))
+        JOIN `edcenso_stage_vs_modality` `esm` ON ((`c`.`edcenso_stage_vs_modality_fk` = `esm`.`id`)))
+    WHERE
+        ((`se`.`status` = 1)
+            OR ISNULL(`se`.`status`))
+    GROUP BY `c`.`id`
