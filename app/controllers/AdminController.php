@@ -205,12 +205,10 @@
 				$saveclass->attributes = $class;
 				$saveclass->hash = $class['hash'];
 				$saveclass->save();
+			} else{
+				$exist->attributes = $class;
+				$exist->save()
 			}
-
-			//else{
-			//$exist->attributes = $class;
-			//$exist->save()
-			//}
 		}
 		foreach ($loads['students'] as $i => $student) {
 			$savestudent = new StudentIdentification();
