@@ -1,8 +1,6 @@
-ALTER 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `classroom_enrollment` AS
+DELIMITER $$
+
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classroom_enrollment` AS
     SELECT 
         `s`.`id` AS `enrollment`,
         `s`.`name` AS `name`,
@@ -36,15 +34,11 @@ VIEW `classroom_enrollment` AS
         LEFT JOIN `edcenso_uf` `euf` ON ((`s`.`edcenso_uf_fk` = `euf`.`id`)))
         LEFT JOIN `edcenso_city` `ec` ON ((`s`.`edcenso_city_fk` = `ec`.`id`)))
         JOIN `student_enrollment` `se` ON ((`s`.`id` = `se`.`student_fk`)))
-        JOIN `classroom` `c` ON ((`se`.`classroom_fk` = `c`.`id`)))
+        JOIN `classroom` `c` ON ((`se`.`classroom_fk` = `c`.`id`)))$$
+DELIMITER ;
 
-
-
-ALTER 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `ata_performance` AS
+DELIMITER $$
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ata_performance` AS
     SELECT 
         `s`.`name` AS `school`,
         `se`.`status` AS `status`,
@@ -141,15 +135,11 @@ VIEW `ata_performance` AS
         JOIN `student_enrollment` `se` ON ((`s`.`inep_id` = `se`.`school_inep_id_fk`)))
         LEFT JOIN `edcenso_city` `ec` ON ((`s`.`edcenso_city_fk` = `ec`.`id`)))
         LEFT JOIN `edcenso_uf` `eu` ON ((`s`.`edcenso_uf_fk` = `eu`.`id`)))
-        LEFT JOIN `edcenso_stage_vs_modality` `svm` ON ((`c`.`edcenso_stage_vs_modality_fk` = `svm`.`id`)))
+        LEFT JOIN `edcenso_stage_vs_modality` `svm` ON ((`c`.`edcenso_stage_vs_modality_fk` = `svm`.`id`)))$$
+DELIMITER ;
 
-
-
-ALTER 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `studentsfile` AS
+DELIMITER $$
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `studentsfile` AS
     SELECT 
         `s`.`id` AS `id`,
         `se`.`id` AS `enrollment_id`,
@@ -505,14 +495,11 @@ VIEW `studentsfile` AS
         LEFT JOIN `edcenso_uf` `eun` ON ((`sd`.`notary_office_uf_fk` = `eun`.`id`)))
         LEFT JOIN `edcenso_city` `ecn` ON ((`sd`.`notary_office_city_fk` = `ecn`.`id`)))
         LEFT JOIN `edcenso_notary_office` `eno` ON ((`sd`.`edcenso_notary_office_fk` = `eno`.`cod`)))
-    ORDER BY `s`.`name`
+    ORDER BY `s`.`name`$$
+DELIMITER ;
 
-
-ALTER 
-    ALGORITHM = UNDEFINED 
-    DEFINER = `root`@`localhost` 
-    SQL SECURITY DEFINER
-VIEW `classroom_qtd_students` AS
+DELIMITER $$
+ALTER ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `classroom_qtd_students` AS
     SELECT 
         `c`.`school_inep_fk` AS `school_inep_fk`,
         `c`.`id` AS `id`,
@@ -547,4 +534,5 @@ VIEW `classroom_qtd_students` AS
     WHERE
         ((`se`.`status` = 1)
             OR ISNULL(`se`.`status`))
-    GROUP BY `c`.`id`
+    GROUP BY `c`.`id`$$
+ 
