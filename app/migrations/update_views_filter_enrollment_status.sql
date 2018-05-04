@@ -1,4 +1,4 @@
-CREATE 
+ALTER 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
@@ -40,7 +40,7 @@ VIEW `classroom_enrollment` AS
 
 
 
-CREATE 
+ALTER 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
@@ -145,7 +145,7 @@ VIEW `ata_performance` AS
 
 
 
-CREATE 
+ALTER 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
@@ -508,7 +508,7 @@ VIEW `studentsfile` AS
     ORDER BY `s`.`name`
 
 
-CREATE 
+ALTER 
     ALGORITHM = UNDEFINED 
     DEFINER = `root`@`localhost` 
     SQL SECURITY DEFINER
