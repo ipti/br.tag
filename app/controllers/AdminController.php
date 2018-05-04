@@ -207,7 +207,7 @@
 				$saveclass->save();
 			} else{
 				$exist->attributes = $class;
-				$exist->save()
+				$exist->save();
 			}
 		}
 		foreach ($loads['students'] as $i => $student) {
