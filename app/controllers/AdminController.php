@@ -205,10 +205,12 @@
 				$saveclass->attributes = $class;
 				$saveclass->hash = $class['hash'];
 				$saveclass->save();
-			} else{
-				$exist->attributes = $class;
-				$exist->save();
 			}
+
+			//else{
+			//$exist->attributes = $class;
+			//$exist->save()
+			//}
 		}
 		foreach ($loads['students'] as $i => $student) {
 			$savestudent = new StudentIdentification();
@@ -247,9 +249,9 @@
 				$saveenrollment->hash = $enrollment['hash'];
 				$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
 				$saveenrollment->hash_student = $enrollment['hash_student'];
+				$saveenrollment->validate();
 				$saveenrollment->save();
 				if(!empty($saveenrollment->errors)){
-					var_dump($saveenrollment->errors);exit;
 				}
 			}
 		}
@@ -374,18 +376,22 @@
 			$sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
 			$dbs = Yii::app()->db2->createCommand($sql)->queryAll();
 			$loads = array();
+			$priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
+			array_unshift($dbs, $priority);
 			foreach ($dbs as $db) {
-				$dbname = $db['TABLE_SCHEMA'];
-				Yii::app()->db->setActive(false);
-				Yii::app()->db->connectionString = "mysql:host=localhost;dbname=$dbname";
-				Yii::app()->db->setActive(true);
-				$add = $this->prepareExport();
-				$this->loadMaster($add);
+				if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
+					$dbname = $db['TABLE_SCHEMA'];
+					Yii::app()->db->setActive(false);
+					Yii::app()->db->connectionString = "mysql:host=localhost;dbname=$dbname";
+					Yii::app()->db->setActive(true);
+					$add = $this->prepareExport();
+					$this->loadMaster($add);
+				}
+				
 			}
 			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 			$this->redirect(['index']);
 		} catch (Exception $e) {
-			//var_dump($e);exit;
 			$loads = $this->prepareExport();
 			$datajson = serialize($loads);
 			ini_set('memory_limit', '288M');
