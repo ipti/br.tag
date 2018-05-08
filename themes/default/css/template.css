@@ -6884,3 +6884,83 @@ li.active a{
   margin-top: 5px;
   padding-right: 5px;
 }
+
+.no-margin{
+  margin: 0 !important;
+}
+.no-margin-left{
+  margin-left: 0 !important;
+}
+
+.container-censo {
+  position: fixed;
+  top: 39px;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  z-index: 1040;
+}
+
+.modal-censo {
+  position: fixed;
+  top: 39px;
+  right: -420px;
+  bottom: 0;
+  width: 400px;
+  z-index: 1041;
+  background-color: #fbfbfb;
+  border: solid 1px #bdbcbc;
+  box-shadow: 10px 10px 40px 10px #888888;
+}
+.modal-censo-container {
+  z-index: 10001;
+  border-color: #e5e5e5;
+  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0), inset -1px -1px 1px rgba(0, 0, 0, 0);
+  -moz-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0), inset -1px -1px 1px rgba(0, 0, 0, 0);
+  -webkit-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0), inset -1px -1px 1px rgba(0, 0, 0, 0);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  margin: 20px;
+}
+
+.side-censo {
+  display: inline-block;
+  cursor: pointer;
+  position: fixed;
+  bottom: 8px;
+  right: 5px;
+  background-color: #eae2e2;
+  z-index: 1042;
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  padding: 9px 10px;
+  border: solid 1px #d05d5d;
+  box-shadow: -1px 0px 10px 0px #888888;
+}
+
+.bar1, .bar2, .bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #d05d5d;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
+  transform: rotate(-45deg) translate(-9px, 6px) ;
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
+  transform: rotate(45deg) translate(-8px, -8px) ;
+}

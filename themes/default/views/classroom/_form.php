@@ -488,8 +488,11 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-
-
+<?php
+    if(isset($_GET['censo']) && isset($_GET['id'])){
+       $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'classroom', 'dataId' => $_GET['id']));
+    }
+?>
 
 <script type="text/javascript">
 

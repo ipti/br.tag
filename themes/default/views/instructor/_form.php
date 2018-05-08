@@ -695,6 +695,12 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
     </div>
 </div>
 
+<?php
+    if(isset($_GET['censo']) && isset($_GET['id'])){
+       $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'instructor', 'dataId' => $_GET['id']));
+    }
+?>
+
 <script type="text/javascript">
     var formInstructorIdentification = '#InstructorIdentification_';
     var formInstructorvariableData = "#InstructorVariableData_";

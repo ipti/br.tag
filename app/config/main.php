@@ -46,6 +46,9 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
+        'cache'=>array( 
+            'class'=>'system.caching.CDbCache'
+        ),
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
             'urlFormat' => 'get',
