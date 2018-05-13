@@ -3,7 +3,7 @@ defined('YII_DEBUG') or define('YII_DEBUG',false);
 define("TAG_VERSION",'2.10.7E');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>TAG VERSÃO 2.10.7E:</strong>
+		<strong>13/05/2018 - TAG VERSÃO 2.10.7E:</strong>
 		<br>
 		<ul>
 		    <li>Educacenso 2018</li>
