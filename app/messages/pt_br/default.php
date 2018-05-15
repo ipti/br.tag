@@ -285,6 +285,7 @@ return array(
     'Writing' => 'Redação',
     'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
     'New Discipline' => 'Nova Disciplina',
+    'Classroom Days' => 'Dias de Aula',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',

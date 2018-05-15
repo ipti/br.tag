@@ -9,25 +9,26 @@ class instructorTeachingDataValidation extends Register{
 	function checkRole($value, $pedagogical_mediation_type, $assistance_type, $status_instructor, $status_student){
 
 		$result = $this->isAllowed($value, array('1', '2', '3', '4', '5', '6'));
+		$translate = array('1' => 'Professor', '2' => 'Auxiliar', '3' => 'Monitor', '4' => 'Intérprete', '5' => 'Valor', '6' => 'Valor'); 
 		if(!$result['status']){
 			return array("status"=>false,"erro"=>$result['erro']);
 		}
 
 		if($pedagogical_mediation_type != '1' && $pedagogical_mediation_type != '2'){
 			if(!($value == '5' || $value == '6')){
-				return array("status"=>false,"erro"=>"Valor $value indisponível devido à pedagogical_mediation_type");
+				return array("status"=>false,"erro"=>"$translate[$value] indisponível devido ao tipo de mediação Didático-Pedagógica");
 			}
 		}
 
 		if($assistance_type == '4' || $assistance_type == '5'){
 			if ($value == '2'){
-				return array("status"=>false,"erro"=>"Valor $value indisponível devido à assistance_type");
+				return array("status"=>false,"erro"=>"$translate[$value] indisponível devido ao tipo de atendimento");
 			}
 		}
 
 		if($pedagogical_mediation_type != '3'){
 			if ($value == '5' || $value == '6'){
-				return array("status"=>false,"erro"=>"Valor $value indisponível devido à assistance_type");
+				return array("status"=>false,"erro"=>"$translate[$value] indisponível devido ao tipo de atendimento");
 			}
 		}
 

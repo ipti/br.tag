@@ -281,13 +281,14 @@ class ClassroomValidation extends Register{
 
         foreach ($aeeArray as $aee) {
             $emptyAee = $this->isEmpty($aee);
-            if ($emptyAee['status'] && $assistance_type == 5){
+            $result = boolval($aee);
+            if ($result && $assistance_type == 5){
                 return array('status' => false, 'erro' => 'Deve ser preenchido quando tipo de atendimento for AEE');
             }
-            if (!$emptyAee['status'] && $assistance_type != 5){
+            if (!$result && $assistance_type != 5){
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido se o tipo de atendimento for diferente de AEE');
             }
-            if (!$emptyAee['status'] && !in_array($aee, $allowedValues)){
+            if (!$result && !in_array($aee, $allowedValues)){
                 return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
             }
         }
