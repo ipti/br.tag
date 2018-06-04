@@ -218,7 +218,7 @@
 
                         return array("status" => true,"erro" =>"");
                     } else {
-                        return array("status" => false,"erro" => "O Tipo de Certificacao Civil deve ser igual a 1");
+                        return array("status" => false,"erro" => "O Tipo de Certificacao Civil deve ser igual ao modelo antigo");
                     }
 
             } else {

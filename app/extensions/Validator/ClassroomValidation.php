@@ -4,6 +4,73 @@ $DS = DIRECTORY_SEPARATOR;
 require_once(dirname(__FILE__) . $DS . "register.php");
 
 class ClassroomValidation extends Register{
+
+    public $modalities = [ 
+        73 => ' Curso FIC integrado na modalidade EJA – Nível Fundamental (EJA integrada à Educação Profissional)',
+        39 => ' Curso Técnico  - Concomitante',
+        40 => ' Curso Técnico  - Subsequente',
+        30 => ' Curso Técnico Integrado (Ensino Médio Integrado) 1ª Série',
+        31 => ' Curso Técnico Integrado (Ensino Médio Integrado) 2ª Série',
+        32 => ' Curso Técnico Integrado (Ensino Médio Integrado) 3ª Série',
+        33 => ' Curso Técnico Integrado (Ensino Médio Integrado) 4ª Série',
+        34 => ' Curso Técnico Integrado (Ensino Médio Integrado) Não Seriada',
+        74 => ' Curso Técnico Integrado na Modalidade EJA (EJA integrada à Educação Profissional de Nível Médio)',
+        1 => ' Educação Infantil - Creche (0 a 3 anos)',
+        2 => ' Educação Infantil - Pré-escola (4 e 5 anos)',
+        3 => ' Educação Infantil - Unificada (0 a 5 anos)',
+        56 => ' Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa',
+        64 => ' Educação Profissional Mista - Concomitante e Subsequente ',
+        72 => ' EJA - Ensino Fundamental  - Anos iniciais e Anos finais',
+        70 => ' EJA - Ensino Fundamental -  Anos finais',
+        69 => ' EJA - Ensino Fundamental -  Anos iniciais',
+        71 => ' EJA - Ensino Médio',
+        44 => ' EJA Presencial - Anos finais',
+        43 => ' EJA Presencial - Anos iniciais',
+        51 => ' EJA Presencial - Anos iniciais e Anos finais',
+        65 => ' EJA Presencial - Ensino Fundamental - Projovem Urbano',
+        45 => ' EJA Presencial - Ensino Médio',
+        62 => ' EJA Presencial - integrada à Educação Profissional de Nível Médio',
+        60 => ' EJA Presencial - integrado à Educação Profissional de Nível Fundamental - FIC',
+        47 => ' EJA Semi Presencial - Anos finais',
+        46 => ' EJA Semi Presencial - Anos iniciais',
+        58 => ' EJA Semi Presencial - Anos iniciais e Anos finais',
+        48 => ' EJA Semi Presencial - Ensino Médio',
+        63 => ' EJA Semi Presencial - integrada à Educação Profissional de Nível Médio',
+        61 => ' EJA Semi Presencial - integrado à Educação Profissional de Nível Fundamental - FIC',
+        4 => ' Ensino Fundamental de 8 anos - 1ª Série',
+        5 => ' Ensino Fundamental de 8 anos - 2ª Série',
+        6 => ' Ensino Fundamental de 8 anos - 3ª Série',
+        7 => ' Ensino Fundamental de 8 anos - 4ª Série',
+        8 => ' Ensino Fundamental de 8 anos - 5ª Série',
+        9 => ' Ensino Fundamental de 8 anos - 6ª Série',
+        10 => ' Ensino Fundamental de 8 anos - 7ª Série',
+        11 => ' Ensino Fundamental de 8 anos - 8ª Série',
+        13 => ' Ensino Fundamental de 8 anos - Correção de Fluxo',
+        12 => ' Ensino Fundamental de 8 anos - Multi',
+        24 => ' Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos',
+        14 => ' Ensino Fundamental de 9 anos - 1º Ano',
+        15 => ' Ensino Fundamental de 9 anos - 2º Ano',
+        16 => ' Ensino Fundamental de 9 anos - 3º Ano',
+        17 => ' Ensino Fundamental de 9 anos - 4º Ano',
+        18 => ' Ensino Fundamental de 9 anos - 5º Ano',
+        19 => ' Ensino Fundamental de 9 anos - 6º Ano',
+        20 => ' Ensino Fundamental de 9 anos - 7º Ano',
+        21 => ' Ensino Fundamental de 9 anos - 8º Ano',
+        41 => ' Ensino Fundamental de 9 anos - 9º Ano',
+        23 => ' Ensino Fundamental de 9 anos - Correção de Fluxo',
+        22 => ' Ensino Fundamental de 9 anos - Multi',
+        25 => ' Ensino Médio - 1ª Série',
+        26 => ' Ensino Médio - 2ª Série',
+        27 => ' Ensino Médio - 3ª Série',
+        28 => ' Ensino Médio - 4ª Série',
+        29 => ' Ensino Médio - Não Seriada',
+        35 => ' Ensino Médio - Normal/Magistério 1ª Série',
+        36 => ' Ensino Médio - Normal/Magistério 2ª Série',
+        37 => ' Ensino Médio - Normal/Magistério 3ª Série',
+        38 => ' Ensino Médio - Normal/Magistério 4ª Série',
+        66 => ' Segmento Técnico da EJA integrada'
+    ];
+    
     function __construct() {
     }
 
@@ -234,7 +301,7 @@ class ClassroomValidation extends Register{
         }
 
         if (($administrative_dependence != 2 && $administrative_dependence != 3) && !$emptyParticipator['status']) {
-            return array('status' => false, 'erro' => 'Deve ser nulo se dependencia administrativa nao for 2 nem 3');
+            return array('status' => false, 'erro' => 'Deve ser nulo se dependencia administrativa nao for Estadual nem Municipal');
         }
 
         if (($assistance_type == 1 || $assistance_type == 5) && !$emptyParticipator['status']) {
@@ -319,22 +386,22 @@ class ClassroomValidation extends Register{
             return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
         }
         if($modality == 1 && $schoolStructureModalities['modalities_regular'] != 1){
-            return array('status' => false, 'erro' => 'O campo não pode ser preenchido com 1 quando não for educacao regular');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo não pode ser preenchido com 1 quando não for educacao regular'));
         }
         if($modality == 2 && $schoolStructureModalities['modalities_especial'] != 1){
-            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
         if($modality == 3 && $schoolStructureModalities['modalities_eja'] != 1){
-            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
         if($modality == 4 && $schoolStructureModalities['modalities_professional'] != 1){
-            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido com 2 quando nao for educacao especial');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
         if (!($modality == 2 || $modality == 3) && $mediation == 2) {
-            return array('status' => false, 'erro' => 'O campo modalidade deve ser 2 ou 3 quando a mediacao for semipresencial');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo modalidade deve ser 2 ou 3 quando a mediacao for semipresencial'));
         }
         if (!($modality == 1 || $modality == 3 || $modality == 4) && $mediation == 3) {
-            return array('status' => false, 'erro' => 'O campo modalidade deve ser 1, 3 ou 4 quando a mediacao for educacao a distancia');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo modalidade deve ser 1, 3 ou 4 quando a mediacao for educacao a distancia'));
         }
         return array('status' => true, 'erro' => '');
     }
@@ -355,10 +422,10 @@ class ClassroomValidation extends Register{
             return array('status' => false, 'erro' => 'Nao pode ser educacao infantil quando o tipo de atendimento for unidade de internacao socioeducativa ou unidade prisional');
         }
         if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
-            return array('status' => false, 'erro' => 'Deve ser preenchido com 69, 70, 71, 72 quando a mediacacao for semipresencial');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('Deve ser preenchido com 69, 70, 71, 72 quando a mediacacao for semipresencial'));
         }
         if ($mediation == 3 && !in_array($stage, array(30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68))) {
-            return array('status' => false, 'erro' => 'Deve ser preenchido com 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67 ou 68 quando a mediacao for educacao a distancia');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('Deve ser preenchido com 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67 ou 68 quando a mediacao for educacao a distancia'));
         }
 
         //fazer regras 9 e 10, que envolvem docentes do registro 51
@@ -375,10 +442,10 @@ class ClassroomValidation extends Register{
         }
 
         if ($emptyProfessionalEducation['status'] && in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 64, 74))) {
-            return array('status' => false, 'erro' => 'O campo deve ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo deve ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74'));
         }
         if (!$emptyProfessionalEducation['status'] && !in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 64, 74))) {
-            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74');
+            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74'));
         }
 
         //falta fazer regra 3
@@ -421,6 +488,13 @@ class ClassroomValidation extends Register{
             return array('status' => false, 'erro' => 'Pelo menos uma disciplina/professor deve ser inserida na turma');
         }
         return array('status' => true, 'erro' => '');
+    }
+
+    public function replaceCodeModalities($msg){
+        foreach ($this->modalities as $key => $value) {
+            $msg = str_replace($key, trim($value), $msg);
+        }
+        return $msg;
     }
 }
 ?>
