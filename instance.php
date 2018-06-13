@@ -21,6 +21,10 @@ switch ($domain) {
         $instance = 'EDEZIO SOUZA - SANTA LUZIA';
         $db = 'io.escola.se.edeziosouza';
         break;
+    case 'edmarjose':
+        $instance = 'EDMAR JOSÉ - SANTA LUZIA';
+        $db = 'io.escola.se.santaluzia.edmarjose';
+        break;
     case 'ilhadasflores':
         $instance = 'ILHA DAS FLORES';
         $db = 'io.escola.se.ilhadasflores';
