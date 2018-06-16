@@ -1,0 +1,11 @@
+ALTER TABLE student_identification
+	ADD COLUMN filiation_1_rg VARCHAR (45),
+    ADD COLUMN filiation_1_cpf VARCHAR (11),
+    ADD COLUMN filiation_1_scholarity SMALLINT (6),
+    ADD COLUMN filiation_1_job VARCHAR (45),
+    ADD COLUMN filiation_2_rg VARCHAR (45),
+    ADD COLUMN filiation_2_cpf VARCHAR (11),
+    ADD COLUMN filiation_2_scholarity SMALLINT (6),
+    ADD COLUMN filiation_2_job VARCHAR (45);
+ALTER TABLE `student_enrollment` 
+ADD COLUMN `status` TINYINT(1) NULL DEFAULT NULL;

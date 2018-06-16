@@ -1401,6 +1401,7 @@ class CensoController extends Controller {
 		$check = Yii::app()->db->createCommand($sql)->queryAll();
 
 		$result = $sev->ifDemandsCheckValues($check[0]['status'], $collumn['unified_class'], array('1', '2'));
+		$result['erro'] = str_replace(['value 2', 'value 1'], ['',''], $result['erro']);
 		if(!$result["status"]) array_push($log, array("unified_class"=>$result["erro"]));
 
 		//campo 9

@@ -39,7 +39,10 @@
 
 
         <!-- Widget Heading END -->
-
+        <?php 
+            $dataValidation = []; 
+            $timeExpiration = 60*60*12;
+        ?>
         <div class="widget-body">
             <div class="tab-content">
 
@@ -55,12 +58,12 @@
                                 <span class="ellipsis">
                                     <?php echo SchoolIdentification::model()->getAttributeLabel(key($identification)) ?> -
                                     <?php echo current($identification) ?>
-                                    <?php echo CHtml::link('- Corrigir',array('school/update',
-                                        'id'=>$log['school']['info']['inep_id'])); ?>
+                                    <?php echo CHtml::link('- Corrigir',array('school/update', 'id'=>$log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                 </span>
+                                    <?php $dataValidation['scholl'.$log['school']['info']['inep_id']][] = current($identification); ?>
                                 <div class="clearfix"></div>
                             </li>
-                        <?php }?>
+                        <?php } ?>
 
                         <?php foreach ($log['classroom']  as $index => $class) {?>
                             <?php if(!empty($class['validate']['identification'])){ ?>
@@ -74,8 +77,9 @@
                                             <?php echo Classroom::model()->getAttributeLabel(key($classerror)) ?> -
                                             <?php echo current($classerror) ?>
                                             <?php echo CHtml::link('- Corrigir',array('classroom/update',
-                                                'id'=>$class['info']['id'])); ?>
+                                                'id'=>$class['info']['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php $dataValidation['classroom'.$class['info']['id']][] = current($classerror); ?>
                                         <div class="clearfix"></div>
                                     </li>
                                 <?php }?>
@@ -93,8 +97,9 @@
                                     <span class="ellipsis">
                                         <?php echo InstructorIdentification::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
                                         <?php echo CHtml::link('- Corrigir',array('instructor/update',
-                                            'id'=>$instructor['info']['id'])); ?>
+                                            'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
                                     </span>
+                                    <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
                                     <div class="clearfix"></div>
                                 </li>
                             <?php }?>
@@ -106,8 +111,9 @@
                                     <span class="ellipsis">
                                         <?php echo InstructorDocumentsAndAddress::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
                                         <?php echo CHtml::link('- Corrigir',array('instructor/update',
-                                            'id'=>$instructor['info']['id'])); ?>
+                                            'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
                                     </span>
+                                    <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
                                     <div class="clearfix"></div>
                                 </li>
                             <?php }?>
@@ -120,8 +126,9 @@
                                     <span class="ellipsis">Na turma <?php echo $variabledata['turma'] ?> |
                                         <?php echo InstructorVariableData::model()->getAttributeLabel(key($vberros)) ?> - <?php echo current($vberros) ?>
                                         <?php echo CHtml::link('- Corrigir',array('classroom/update',
-                                            'id'=>$variabledata['id'])); ?>
+                                            'id'=>$variabledata['id'], 'censo' => 1)); ?>
                                     </span>
+                                    <?php $dataValidation['classroom'.$variabledata['id']][] = current($vberros); ?>
                                     <div class="clearfix"></div>
                                 </li>
                                 <?php }?>
@@ -138,8 +145,9 @@
                                         <?php echo StudentIdentification::model()->getAttributeLabel(key($studenterror)) ?> -
                                         <?php echo current($studenterror) ?>
                                         <?php echo CHtml::link('- Corrigir',array('student/update',
-                                            'id'=>$student['info']['id'])); ?>
+                                            'id'=>$student['info']['id'], 'censo' => 1)); ?>
                                     </span>
+                                    <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
                                     <div class="clearfix"></div>
                                 </li>
                             <?php }?>
@@ -151,8 +159,9 @@
                                     <span class="ellipsis">
                                         <?php echo StudentDocumentsAndAddress::model()->getAttributeLabel(key($studenterror)) ?> - <?php echo current($studenterror) ?>
                                         <?php echo CHtml::link('- Corrigir',array('student/update',
-                                            'id'=>$student['info']['id'])); ?>
+                                            'id'=>$student['info']['id'], 'censo' => 1)); ?>
                                     </span>
+                                    <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
                                     <div class="clearfix"></div>
                                 </li>
                             <?php }?>
@@ -165,8 +174,9 @@
                                         <span class="ellipsis">Na turma <?php echo $enrollment['turma'] ?> |
                                             <?php echo StudentEnrollment::model()->getAttributeLabel(key($eberros)) ?> - <?php echo current($eberros) ?>
                                             <?php echo CHtml::link('- Corrigir',array('enrollment/update',
-                                                'id'=>$enrollment['id'])); ?>
+                                                'id'=>$enrollment['id'], 'censo' => 1)); ?>
                                         </span>
+                                        <?php $dataValidation['enrollment'.$enrollment['id']][] = current($eberros); ?>
                                         <div class="clearfix"></div>
                                     </li>
                                 <?php }?>
@@ -176,7 +186,11 @@
                     </ul>
                 </div>
                 <!-- // Filter Users Tab END -->
-
+                <?php
+                    foreach ($dataValidation as $key => $value) {
+                        Yii::app()->cache->set($key, $value, $timeExpiration);
+                    }
+                ?>
 
 
             </div>

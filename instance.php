@@ -13,10 +13,30 @@ switch ($domain) {
         $instance = 'PROPRIÁ';
         $db = 'io.escola.se.propria';
         break;
+    case 'afonsomedeiros':
+        $instance = 'AFONSO DE MEDEIROS';
+        $db = 'io.escola.se.propria.afonsomedeiros';
+        break;
     case 'santaluzia':
         $instance = 'SANTA LUZIA DO ITANHY';
         $db = 'io.escola.se.santaluzia';
         break;
+    case 'edeziosouza':
+        $instance = 'EDEZIO SOUZA - SANTA LUZIA';
+        $db = 'io.escola.se.santaluzia.edeziosouza';
+        break;
+    case 'adelsonsilveira':
+        $instance = 'ADELSON SILVEIRA - SANTA LUZIA';
+        $db = 'io.escola.se.santaluzia.adelsonsilveira';
+        break;
+     case 'edmarjose':
+        $instance = 'EDMAR JOSÉ - SANTA LUZIA';
+        $db = 'io.escola.se.santaluzia.edmarjose';
+        break;
+     case 'josevicente':
+        $instance = 'JOSÉ VICENTE - SANTA LUZIA';
+        $db = 'io.escola.se.santaluzia.josevicente';
+        break;  
     case 'ilhadasflores':
         $instance = 'ILHA DAS FLORES';
         $db = 'io.escola.se.ilhadasflores';
@@ -65,9 +85,17 @@ switch ($domain) {
         $instance = 'AMPARO DO SÃO FRANCISCO';
         $db = 'io.escola.se.amparo';
         break;
+    case 'aquidaba':
+        $instance = 'AQUIDABÃ';
+        $db = 'io.escola.se.aquidaba';
+        break;
     case 'malhada':
         $instance = 'MALHADA DOS BOIS';
         $db = 'io.escola.se.malhada';
+        break;
+    case 'romeuaguiar':
+        $instance = 'ROMEU DE AGUIAR';
+        $db = 'io.escola.se.malhada.romeuaguiar';
         break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
@@ -118,6 +146,14 @@ switch ($domain) {
         $instance = 'VANDA';
         $db = 'io.escola.vanda';
         break;
+   case 'adefib':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'ADEFIB';
+        $db = 'io.escola.adefib';
+        break;
+       
     case 'boquim':
         $_GLOBALGROUP = 1;
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');

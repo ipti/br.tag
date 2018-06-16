@@ -285,6 +285,7 @@ return array(
     'Writing' => 'Redação',
     'Pedagogical Mediation Type' => 'Tipo de Mediação Didático-Pedagógica',
     'New Discipline' => 'Nova Disciplina',
+    'Classroom Days' => 'Dias de Aula',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
@@ -680,7 +681,27 @@ return array(
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',
     'Export Now'=>'Exportar agora',
-    'Student By Classroom' => 'Alunos por Turma'
+    'Student By Classroom' => 'Alunos por Turma',
 
-        )
+    //Quiz Module
+
+    'Quiz' => 'Questionário',
+    'Create a new Quiz' => 'Criar novo questionário',
+    'New Quiz' => 'Novo questionário',
+    'Update Quiz' => 'Atualizar questionário',
+    'Question' => 'Questão',
+    'New Question' => 'Nova questão',
+    'Update Question' => 'Atualizar questão',
+    'Create a new Question' => 'Criar nova questão',
+    'Option' => 'Opção',
+    'Group' => 'Grupo',
+    'New Group' => 'Novo Grupo',
+    'Create a new Group' => 'Criar novo grupo',
+    'Update Group' => 'Atualizar Grupo',
+    'Question Group' => 'Grupo de perguntas',
+    'New Question Group' => 'Novo Grupo de perguntas',
+    'Create a new Question Group' => 'Criar novo grupo de questões',
+    'Update Question Group' => 'Atualizar Grupo de perguntas',
+
+    )   
 ?>

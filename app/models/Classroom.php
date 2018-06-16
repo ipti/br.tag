@@ -219,7 +219,11 @@ class Classroom extends AltActiveRecord {
             'discipline_others' => Yii::t('default', 'Discipline Others'),
             'school_year' => Yii::t('default', 'School Year'),
             'turn' => Yii::t('default', 'Turn'),
-            'create_date' => Yii::t('default', 'Create Time')
+            'create_date' => Yii::t('default', 'Create Time'),
+            // Support Labels 
+            'disciplines' => Yii::t('default', 'Disciplines'),
+            'classroom_days' => Yii::t('default', 'Classsrom Days'),
+            'stage' => Yii::t('default', 'Stage')
         );
     }
 

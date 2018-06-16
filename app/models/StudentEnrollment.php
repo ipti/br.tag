@@ -300,7 +300,7 @@ class StudentEnrollment extends AltActiveRecord
     }
 
     public function getFileInformation($enrollment_id){
-        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
+        $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id." AND (status = 1 OR status IS NULL);";
         return Yii::app()->db->createCommand($sql)->queryRow();
     }
 

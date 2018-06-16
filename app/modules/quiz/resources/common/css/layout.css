@@ -1,0 +1,25 @@
+.center-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.space-button{
+    margin: 2px;
+}
+.font-button{
+    font-size: 10px !important;
+}
+
+.white-background{
+    background: #ffffff !important;
+}
+
+.margin-multiple{
+    margin-left: 10px !important;
+}
+
+.option-complement{
+    margin-bottom: 8px;
+    display: none;
+}

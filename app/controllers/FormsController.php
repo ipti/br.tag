@@ -125,7 +125,7 @@ class FormsController extends Controller {
         $this->layout = "reports";
         $sql = "SELECT * FROM ata_performance
                     where `school_year` = " . $this->year . ""
-            . " AND classroom_id = $id;";
+            . " AND classroom_id = $id  AND (status = 1 OR status IS NULL);";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");

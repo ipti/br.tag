@@ -1,0 +1,2 @@
+ALTER TABLE `class_faults` DROP FOREIGN KEY `fk_class_faults_2`;
+ALTER TABLE `class_faults` DROP FOREIGN KEY `fk_class_faults_1`; 

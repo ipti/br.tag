@@ -142,6 +142,7 @@ class InstructorIdentification extends CActiveRecord {
             'deficiency_type_phisical_disability' => Yii::t('default', 'Deficiency Type Phisical Disability'),
             'deficiency_type_intelectual_disability' => Yii::t('default', 'Deficiency Type Intelectual Disability'),
             'deficiency_type_multiple_disabilities' => Yii::t('default', 'Deficiency Type Multiple Disabilities'),
+            'role' => Yii::t('default', 'Role')
         );
     }
 

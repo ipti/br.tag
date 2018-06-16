@@ -2,7 +2,6 @@
 /**
  * @var $form CActiveForm
  */
-
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js', CClientScript::POS_END);
@@ -1131,6 +1130,13 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 </div>
+
+<?php
+    if(isset($_GET['censo']) && isset($_GET['id'])){
+       $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'scholl', 'dataId' => $_GET['id']));
+    }
+?>
+
 <script type="text/javascript">
     var formIdentification = '#SchoolIdentification_';
     var formStructure = '#SchoolStructure_';

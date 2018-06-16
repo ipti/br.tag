@@ -128,8 +128,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr>
                     <td colspan="8">
                         <span style="font-weight: bold">NOME DE PAI/MÃE: </span>
-                        <span class="father"></span> / 
-                        <span class="mother"></span></td>
+                        <span class="filiation_2"></span> / 
+                        <span class="filiation_1"></span></td>
                 </tr>
             
             
