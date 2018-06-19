@@ -2300,6 +2300,7 @@ class CensoController extends Controller {
 		}
 		return $registerLines;
 	}
+
 	public function actionReadFileImportIneps(){
 		set_time_limit(0);
 		ignore_user_abort();
@@ -2323,19 +2324,69 @@ class CensoController extends Controller {
 		}
 		foreach ($lineFields as $index => $line) {
 			$student = StudentIdentification::model()->findByPk($line[0]);
-			$student->documentsFk->student_fk = $line[6];
-			$student->documentsFk->update(array('student_fk'));
-			$student->inep_id = $line[6];
-			$student->update(array('inep_id'));
-			if(!isset($student)){
+			if(isset($student)){
+				$student->documentsFk->student_fk = $line[6];
+				$student->documentsFk->update(array('student_fk'));
+				$student->inep_id = $line[6];
+				$student->update(array('inep_id'));
+			}
+			else{
 				$instructor = InstructorIdentification::model()->findByPk($line[0]);
-				$instructor->documents->inep_id = $line[6];
-				$instructor->documents->update(array('inep_id'));
-				$instructor->inep_id = $line[6];
-				$instructor->update(array('inep_id'));
+				if(isset($instructor)){
+					$instructor->documents->inep_id = $line[6];
+					$instructor->documents->update(array('inep_id'));
+					$instructor->inep_id = $line[6];
+					$instructor->update(array('inep_id'));
+				}
 			}
 		}
+		$this->fileImportProbableIneps();
 	}
+
+	public function fileImportProbableIneps(){
+		$path = Yii::app()->basePath;
+		$fileDir = $path . '/import/RESULTADO_PROVAVEIS.txt';
+		$mode = 'r';
+
+		//Abre o arquivo
+		$file = fopen($fileDir, $mode);
+		if ($file == FALSE) {
+			return false;
+		}
+		//Pega campos do arquivo
+		while (TRUE) {
+			$fileLine = fgets($file);
+			if ($fileLine == NULL) {
+				break;
+			}
+			$lineFields_Aux = explode("|", $fileLine);
+			$lineFields[] = $lineFields_Aux;
+		}
+
+		foreach ($lineFields as $index => $line) {
+			$student = StudentIdentification::model()->findByPk($line[0]);
+
+			if(isset($student) && trim($student->birthday) == trim($line[2]) && trim($student->filiation_1) == trim($line[3])){
+				$student->documentsFk->student_fk = $line[6];
+				$student->documentsFk->update(array('student_fk'));
+				$student->inep_id = $line[6];
+				$student->update(array('inep_id'));
+			}
+			
+			if(!isset($student)){
+				$instructor = InstructorIdentification::model()->findByPk($line[0]);
+
+				if(isset($instructor) && trim($instructor->birthday_date )== trim($line[2]) && trim($instructor->filiation_1) == trim($line[3])){
+					$instructor->documents->inep_id = $line[6];
+					$instructor->documents->update(array('inep_id'));
+					$instructor->inep_id = $line[6];
+					$instructor->update(array('inep_id'));
+				}
+			}
+		}
+		return true;
+	}
+
 	public function actionImport(){
 		$lines = $this->readFileImport();
 		$component=Yii::createComponent(array(
@@ -2486,7 +2537,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = InstructorTeachingData::model()->findByAttributes(array('instructor_inep_id'=>$ivariable->instructor_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){
@@ -2507,7 +2558,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
 			if(!isset($exist)){
@@ -2527,7 +2578,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk'=>$ivariable->student_fk));
 			if(!isset($exist)){
@@ -2549,7 +2600,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentEnrollment::model()->findByAttributes(array('student_inep_id'=>$ivariable->student_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){
