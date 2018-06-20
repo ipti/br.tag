@@ -2329,6 +2329,7 @@ class CensoController extends Controller {
 				$student->documentsFk->update(array('student_fk'));
 				$student->inep_id = $line[6];
 				$student->update(array('inep_id'));
+				$this->printImported('Student',$line);
 			}
 			else{
 				$instructor = InstructorIdentification::model()->findByPk($line[0]);
@@ -2337,10 +2338,15 @@ class CensoController extends Controller {
 					$instructor->documents->update(array('inep_id'));
 					$instructor->inep_id = $line[6];
 					$instructor->update(array('inep_id'));
+					$this->printImported('Instructor',$line);
 				}
 			}
 		}
 		$this->fileImportProbableIneps();
+	}
+
+	public function printImported($type, $register){
+		echo "{$type}: ". implode(' | ', $register) . "<br>";
 	}
 
 	public function fileImportProbableIneps(){
@@ -2365,22 +2371,36 @@ class CensoController extends Controller {
 
 		foreach ($lineFields as $index => $line) {
 			$student = StudentIdentification::model()->findByPk($line[0]);
+			$score = 0;
+			if(isset($student)){
+				trim($student->birthday) == trim($line[2]) ? ++$score : '';
+				trim($student->filiation_1) == trim($line[3]) ? ++$score : '';
+				trim($student->filiation_2) == trim($line[4]) ? ++$score : '';
 
-			if(isset($student) && trim($student->birthday) == trim($line[2]) && trim($student->filiation_1) == trim($line[3])){
-				$student->documentsFk->student_fk = $line[6];
-				$student->documentsFk->update(array('student_fk'));
-				$student->inep_id = $line[6];
-				$student->update(array('inep_id'));
+				if($score > 1){
+					$student->documentsFk->student_fk = $line[6];
+					$student->documentsFk->update(array('student_fk'));
+					$student->inep_id = $line[6];
+					$student->update(array('inep_id'));
+					$this->printImported("Student ({$score}) :",$line);
+				}
 			}
 			
 			if(!isset($student)){
 				$instructor = InstructorIdentification::model()->findByPk($line[0]);
-
+				
 				if(isset($instructor) && trim($instructor->birthday_date )== trim($line[2]) && trim($instructor->filiation_1) == trim($line[3])){
-					$instructor->documents->inep_id = $line[6];
-					$instructor->documents->update(array('inep_id'));
-					$instructor->inep_id = $line[6];
-					$instructor->update(array('inep_id'));
+					trim($instructor->birthday_date) == trim($line[2]) ? ++$score : '';
+					trim($instructor->filiation_1) == trim($line[3]) ? ++$score : '';
+					trim($instructor->filiation_2) == trim($line[4]) ? ++$score : '';
+
+					if($score > 1){
+						$instructor->documents->inep_id = $line[6];
+						$instructor->documents->update(array('inep_id'));
+						$instructor->inep_id = $line[6];
+						$instructor->update(array('inep_id'));
+						$this->printImported("Instructor ({$score}) :",$line);
+					}
 				}
 			}
 		}
