@@ -138,7 +138,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
     <div>
         <br>
 
-        <table class="table table-bordered table-striped" style="font-size: 11px">
+        <!--<table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
                 <th rowspan="" style="text-align: center;">Nº</th>
                 <th rowspan="">ALUNO</th>
@@ -163,7 +163,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 }
                 echo $rows;
             ?>
-        </table>
+        </table>-->
         <?php $this->renderPartial('footer'); ?>
     </div>
 </div>
