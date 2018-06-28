@@ -1660,8 +1660,11 @@ class CensoController extends Controller {
 		for ($i = 1; $i <= $total; $i++) {
 			array_pop($attributes);
 		}
-		$this->export .= implode('|', $attributes);
-		$this->export .= "\n";
+		
+		if(count($attributes)){
+			$this->export .= implode('|', $attributes);
+			$this->export .= "\n";
+		}
 	}
 	public function certVerify($codigo){
 		$result = str_split($codigo);
@@ -2184,6 +2187,7 @@ class CensoController extends Controller {
 					$attributes['filiation_2'] = strtoupper($this->fixName($attributes['filiation_2']));
 					$dteacher = $this->findDisc($attributes['id']);
 					$dclass = ClassroomController::classroomDiscipline2array2();
+					$classroom = Classroom::model()->findByPk($attributes['id']);
 					foreach ($attributes as $i => $attr){
 						$pos = strstr($i, 'discipline');
 						if ($pos) {
@@ -2245,6 +2249,15 @@ class CensoController extends Controller {
 								$attributes[$i] = '';
 							}
 						}
+					}
+
+					/*
+						Verifica se a turma possui proffisional e alunos vinculado
+						Deve permanecer no final das validações do registro 20
+					*/
+
+					if(isset($classroom) && (count($classroom->instructorTeachingDatas) < 1 && count($classroom->studentEnrollments) < 1)){
+						$attributes = [];
 					}
 
 				break;
