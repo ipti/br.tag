@@ -279,10 +279,13 @@ class Register
 		}
 
 
-		$result = $this->onlyAlphabet($parent);
-		if (!$result['status']){
-			return array("status"=>false,"erro"=>$result['erro']);
-		}
+		/*
+		*	Ocultando validação pois a mesma já está sendo tratada
+		*	$result = $this->onlyAlphabet($parent);
+		*	if (!$result['status']){
+		*		return array("status"=>false,"erro"=>$result['erro']);
+		*	}
+		*/
 
 
 		$result = $this->ifCPFNull($cpf, $parent);

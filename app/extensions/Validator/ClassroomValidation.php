@@ -307,9 +307,14 @@ class ClassroomValidation extends Register{
         if (($assistance_type == 1 || $assistance_type == 5) && !$emptyParticipator['status']) {
             return array('status' => false, 'erro' => 'Deve ser nulo se for hospitalar ou AEE');
         }
-        if (($modality == 3 || !(in_array($stage, $checkStages))) && !$emptyParticipator['status']) {
-            return array('status' => false, 'erro' => 'Deve ser nulo se nao for fundamental ou medio da modalidade regular, especial ou profissional');
-        }
+        
+        /*
+        *   Ocultando validação pois amesma já está sendo tratada
+        *   if (($modality == 3 || !(in_array($stage, $checkStages))) && !$emptyParticipator['status']) {
+        *        return array('status' => false, 'erro' => 'Deve ser nulo se nao for fundamental ou medio da modalidade regular, especial ou profissional');
+        *   }
+        */
+
         return array('status' => true, 'erro' => '');
     }
 
