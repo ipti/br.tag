@@ -961,8 +961,11 @@ class CensoController extends Controller {
 
 		$administrative_dependence = $check[0]['administrative_dependence'];
 
-		$result = $itdv->checkContactType($collumn['contract_type'], $collumn['role'], $administrative_dependence);
-		if(!$result["status"]) array_push($log, array("contract_type"=>$result["erro"]));
+		/*
+		* Ocultando validação pois a mesma já está sendo tratada
+		* $result = $itdv->checkContactType($collumn['contract_type'], $collumn['role'], $administrative_dependence);
+		* if(!$result["status"]) array_push($log, array("contract_type"=>$result["erro"]));
+		*/
 
 		//campo 09
 		$result = $itdv->disciplineOne($collumn['discipline_1_fk'], $collumn['role'], $assistance_type, $edcenso_svm);
