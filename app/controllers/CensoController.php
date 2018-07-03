@@ -1455,8 +1455,11 @@ class CensoController extends Controller {
 				$collumn['vehicle_type_waterway_boat_35'],
 				$collumn['vehicle_type_metro_or_train']);
 
-			$result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
-			if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+			/*
+			 * Ocultando validação pois a mesm já está sendo tratada
+			 * $result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
+			 * if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+			 */
 		}
 
 
