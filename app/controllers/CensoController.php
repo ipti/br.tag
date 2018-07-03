@@ -629,8 +629,8 @@ class CensoController extends Controller {
 			$column['aee_teaching_of_Portuguese_language_written_modality'], $column['aee_strategy_for_school_environment_autonomy']);
 			$result = $crv->isValidAEE($aeeArray, $column['assistance_type']);
 		/*
-			Ocultando a vilidação do AEE pois já está sendo tratada
-			if (!$result['status']) array_push($log, array('aee' => $result['erro']));
+		*	Ocultando a vilidação do AEE pois já está sendo tratada
+		*	if (!$result['status']) array_push($log, array('aee' => $result['erro']));
 		*/
 
 		//campo 37

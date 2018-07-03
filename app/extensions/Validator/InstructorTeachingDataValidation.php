@@ -67,10 +67,7 @@ class instructorTeachingDataValidation extends Register{
 
 	function disciplineOne($discipline_code_one, $role, $assistance_type, $edcenso_svm){
 
-		if(	!(in_array($role, array('1', '5', '6')) && 
-			in_array($assistance_type, array('4', '5')) &&
-			in_array($edcenso_svm, array('1', '2', '3', '65'))) ) {
-
+		if( in_array($role, array('1', '5',)) && !in_array($assistance_type, array('4', '5')) && !in_array($edcenso_svm, array('1', '2', '3', '65')) ){
 			if($discipline_code_one == null){
 				return array("status"=>false,"erro"=>"value não deveria ser nulo");
 			}
