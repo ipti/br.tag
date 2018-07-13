@@ -1750,8 +1750,6 @@ class CensoController extends Controller {
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
 				case '00':
-						$attributes['manager_email'] = '1';
-
 						$attributes['initial_date'] = '01/03/2018';
 						$attributes['final_date'] = '09/12/2018';
 						if($attributes['situation'] == '1'){
@@ -1763,6 +1761,28 @@ class CensoController extends Controller {
 						if(empty($attributes['inep_head_school'])){
 							$attributes['offer_or_linked_unity'] = '0';
 						}
+
+						// Validação da latitude e longitude
+						if(!empty($attributes['latitude']) && !empty($attributes['longitude'])){
+							$attributes['latitude'] = str_replace(',','.',$attributes['latitude']);
+							$attributes['longitude'] = str_replace(',','.',$attributes['longitude']);
+
+							if(!($attributes['latitude'] >= -33.75208 && $attributes['latitude'] <= 5.271841 && $attributes['longitude'] >= -73.99045 && $attributes['longitude'] <= -32.39091)){
+								$attributes['latitude'] = $attributes['longitude'] = '';
+							}
+
+						}
+						else{
+							$attributes['latitude'] = $attributes['longitude'] = '';
+						}
+
+						// Validação do distrito
+						if(!empty($attributes['edcenso_district_fk']) ){
+							$scholl = SchoolIdentification::model()->findByPk($attributes['inep_id']);
+							$attributes['edcenso_district_fk'] = $scholl->edcensoDistrictFk->code;
+						}
+						
+						
 					break;
 				case '10':
 					foreach ($attributes as $i => $attr){
@@ -1770,39 +1790,14 @@ class CensoController extends Controller {
 							$attributes[$i] = 0;
 						}
 					}
-					if($attributes['equipments_camera'] == 0){
-						$attributes['equipments_camera'] = '';
+					$itens = ['equipments_tv', 'equipments_vcr', 'equipments_dvd', 'equipments_satellite_dish', 'equipments_copier', 'equipments_overhead_projector', 'equipments_printer', 'equipments_stereo_system', 'equipments_data_show', 'equipments_fax', 'equipments_camera', 'equipments_computer', 'equipments_multifunctional_printer', 'administrative_computers_count', 'student_computers_count', 'internet_access', 'bandwidth'];
+
+					foreach ($itens as $item) {
+						if($attributes[$item] == 0){
+							$attributes[$item] = '';
+						}
 					}
-					if($attributes['equipments_multifunctional_printer'] == 0){
-						$attributes['equipments_multifunctional_printer'] = '';
-					}
-					if($attributes['equipments_printer'] == 0){
-						$attributes['equipments_printer'] = '';
-					}
-					if($attributes['equipments_vcr'] == 0){
-						$attributes['equipments_vcr'] = '';
-					}
-					if($attributes['equipments_satellite_dish'] == 0){
-						$attributes['equipments_satellite_dish'] = '';
-					}
-					if($attributes['equipments_copier'] == 0){
-						$attributes['equipments_copier'] = '';
-					}
-					if($attributes['equipments_overhead_projector'] == 0){
-						$attributes['equipments_overhead_projector'] = '';
-					}
-					if($attributes['equipments_data_show'] == 0){
-						$attributes['equipments_data_show'] = '';
-					}
-					if($attributes['equipments_fax'] == 0){
-						$attributes['equipments_fax'] = '';
-					}
-					if($attributes['student_computers_count'] == 0){
-						$attributes['student_computers_count'] = '';
-					}
-					if($attributes['internet_access'] == 0){
-						$attributes['bandwidth'] = '';
-					}
+
 					if($attributes['native_education'] != 1){
 						$attributes['native_education_language_native'] = '';
 						$attributes['native_education_language_portuguese'] = '';
@@ -1817,6 +1812,19 @@ class CensoController extends Controller {
 						$attributes['shared_school_inep_id_6'] = '';
 					}
 
+					// Validação do ensino fundamental em ciclos
+					$classrooms = Classroom::model()->with(array(
+						'edcensoStageVsModalityFk'=>array(
+							'select'=>false,
+							'joinType'=>'INNER JOIN',
+							'condition'=>'edcensoStageVsModalityFk.stage IN (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41, 56)',
+						)
+					))->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+
+					if(count($classrooms) == 0){
+						$attributes['basic_education_cycle_organized'] ='';
+					}
+				
 				break;
 				case '80':
 						/*$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
