@@ -1,14 +1,14 @@
 ---
 layout: home
 hero:
-    title: How Can We Help?
-    subtitle: Search or browse in depth articles and videos on everything Jekyll, from basic theme setup and hosting to customisation and development
+    title: Em que podemos ajudar?
+    subtitle: Aprenda por tutoriais ou vídeos, desde a instalação até a customização e desenvolvimento do TAG
     image: imac.svg
     search: true
 categories:
     columns: 3
-    title: Browse Topics
-    subtitle: Get your answers fast, jump to most popular documentation content
+    title: Navegue por tópicos
+    subtitle: Consiga respostas rápidas, navegue direto para a documentação
 featured:
     title: Popular Articles
     tag: featured
