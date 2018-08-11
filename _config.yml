@@ -15,7 +15,7 @@ baseurl:            "/br.tag"
 permalink:          /:title/
 
 # Site base hostname & protocol, e.g. http://example.com
-url:                "https://docs.jekyll.plus"
+url:                "http://ipti.github.io/br.tag/"
 
 # Site logo, image or text
 brand:
