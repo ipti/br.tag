@@ -9,8 +9,8 @@
 @import "theme/variables";
 
 // Import default variables and available mixins.
-//@import "uikit/variables-theme";
-//@import "uikit/mixins-theme";
+@import "uikit/variables-theme";
+@import "uikit/mixins-theme";
 
 // Custom mixin overwrites.
 @import "theme/mixins";
