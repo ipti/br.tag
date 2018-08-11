@@ -20,18 +20,18 @@ url:                "https://docs.jekyll.plus"
 # Site logo, image or text
 brand:
     image:          logo.svg  # e.g. logo.png, upload logo image file to /assets/img/ folder
-    text:           Docs      # if the above "logo:" image variable  is not set, this text logo is displayed instead
+    text:           Doc TAG      # if the above "logo:" image variable  is not set, this text logo is displayed instead
 
 # Default author settings
 author:
-    name:       John Smith
-    github:     PressApps    # Github username for avatar
+    name:      ipti
+    github:     ipti    # Github username for avatar
 
 # Author settings, displayed on post and doc pages if front matter references author name e.g. author: peter
 authors:
     peter:
-        name:       Peter Brown
-        github:     PressApps    # Github username for avatar
+        name:       Ruanceli
+        github:     ruancelisantos    # Github username for avatar
 
 # Social icons displayed in footer
 social:
@@ -54,7 +54,7 @@ twitter_username:
 
 # Default footer image settings
 footer:
-    copyright:      Made by a <a href="https://ivanchromjak.com/">human</a> somewhere on the planet earth.
+    copyright:      2018 - IPTI.
 
 # Disqus comments shortname, requires Disqus account https://disqus.com/
 disqus:
