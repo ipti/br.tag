@@ -264,7 +264,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 <br>
 
-    <table class="table table-bordered table-striped" style="font-size: 11px;">
+    <!--<table class="table table-bordered table-striped" style="font-size: 11px;">
         <tr>
             <th rowspan="2" style="text-align: center;">Nº</th>
             <th rowspan="2">ALUNO</th>
@@ -288,7 +288,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         </tr>
         <?php echo $rF;?>
 
-    </table>
+    </table>-->
 <br>
 <br>
     <p style="margin: 0 auto; text-align: right; width:600px">

@@ -627,8 +627,11 @@ class CensoController extends Controller {
 			$column['aee_libras'], $column['aee_caa_use_education'], $column['aee_curriculum_enrichment_strategy'],
 			$column['aee_soroban_use_education'], $column['aee_usability_and_functionality_of_computer_accessible_education'],
 			$column['aee_teaching_of_Portuguese_language_written_modality'], $column['aee_strategy_for_school_environment_autonomy']);
-		$result = $crv->isValidAEE($aeeArray, $column['assistance_type']);
-		if (!$result['status']) array_push($log, array('aee' => $result['erro']));
+			$result = $crv->isValidAEE($aeeArray, $column['assistance_type']);
+		/*
+		*	Ocultando a vilidação do AEE pois já está sendo tratada
+		*	if (!$result['status']) array_push($log, array('aee' => $result['erro']));
+		*/
 
 		//campo 37
 
@@ -958,8 +961,11 @@ class CensoController extends Controller {
 
 		$administrative_dependence = $check[0]['administrative_dependence'];
 
-		$result = $itdv->checkContactType($collumn['contract_type'], $collumn['role'], $administrative_dependence);
-		if(!$result["status"]) array_push($log, array("contract_type"=>$result["erro"]));
+		/*
+		* Ocultando validação pois a mesma já está sendo tratada
+		* $result = $itdv->checkContactType($collumn['contract_type'], $collumn['role'], $administrative_dependence);
+		* if(!$result["status"]) array_push($log, array("contract_type"=>$result["erro"]));
+		*/
 
 		//campo 09
 		$result = $itdv->disciplineOne($collumn['discipline_1_fk'], $collumn['role'], $assistance_type, $edcenso_svm);
@@ -1400,9 +1406,9 @@ class CensoController extends Controller {
 		$sql = "SELECT COUNT(id) AS status FROM classroom WHERE id = '$classroom_fk' AND edcenso_stage_vs_modality_fk = '3';";
 		$check = Yii::app()->db->createCommand($sql)->queryAll();
 
-		$result = $sev->ifDemandsCheckValues($check[0]['status'], $collumn['unified_class'], array('1', '2'));
-		$result['erro'] = str_replace(['value 2', 'value 1'], ['',''], $result['erro']);
-		if(!$result["status"]) array_push($log, array("unified_class"=>$result["erro"]));
+		//$result = $sev->ifDemandsCheckValues($check[0]['status'], $collumn['unified_class'], array('1', '2'));
+		//$result['erro'] = str_replace(['value 2', 'value 1'], ['',''], $result['erro']);
+		//if(!$result["status"]) array_push($log, array("unified_class"=>$result["erro"]));
 
 		//campo 9
 
@@ -1411,8 +1417,8 @@ class CensoController extends Controller {
 
 		$edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
 
-		$result = $sev->multiLevel($collumn['edcenso_stage_vs_modality_fk'], $edcenso_svm);
-		if(!$result["status"]) array_push($log, array("edcenso_stage_vs_modality_fk"=>$result["erro"]));
+		//$result = $sev->multiLevel($collumn['edcenso_stage_vs_modality_fk'], $edcenso_svm);
+		//if(!$result["status"]) array_push($log, array("edcenso_stage_vs_modality_fk"=>$result["erro"]));
 
 		//campo 10
 		$sql = "SELECT assistance_type, pedagogical_mediation_type FROM classroom WHERE id = '$classroom_fk';";
@@ -1449,8 +1455,11 @@ class CensoController extends Controller {
 				$collumn['vehicle_type_waterway_boat_35'],
 				$collumn['vehicle_type_metro_or_train']);
 
-			$result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
-			if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+			/*
+			 * Ocultando validação pois a mesm já está sendo tratada
+			 * $result = $sev->vehiculesTypes($collumn['public_transport'], $vehicules_types);
+			 * if(!$result["status"]) array_push($log, array("vehicules_types"=>$result["erro"]));
+			 */
 		}
 
 
@@ -1482,6 +1491,7 @@ class CensoController extends Controller {
 		$schoolstructurecolumn = $schoolstructure->attributes;
 		$log['school']['info'] = $school->attributes;
 		$log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn);
+		$log['school']['validate']['identification'] = array_map('trim', $log['school']['validate']['identification']);
 		$log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn,$schoolcolumn);
 		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 		foreach ($classrooms as $iclass => $classroom) {
@@ -1659,8 +1669,11 @@ class CensoController extends Controller {
 		for ($i = 1; $i <= $total; $i++) {
 			array_pop($attributes);
 		}
-		$this->export .= implode('|', $attributes);
-		$this->export .= "\n";
+		
+		if(count($attributes)){
+			$this->export .= implode('|', $attributes);
+			$this->export .= "\n";
+		}
 	}
 	public function certVerify($codigo){
 		$result = str_split($codigo);
@@ -1737,15 +1750,39 @@ class CensoController extends Controller {
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
 				case '00':
-						$attributes['manager_email'] = '1';
-						$attributes['initial_date'] = '01/03/2017';
-						$attributes['final_date'] = '09/12/2017';
+						$attributes['initial_date'] = '01/03/2018';
+						$attributes['final_date'] = '09/12/2018';
 						if($attributes['situation'] == '1'){
 							$attributes['regulation'] = '2';
 						}
+
+
+
 						if(empty($attributes['inep_head_school'])){
 							$attributes['offer_or_linked_unity'] = '0';
 						}
+
+						// Validação da latitude e longitude
+						if(!empty($attributes['latitude']) && !empty($attributes['longitude'])){
+							$attributes['latitude'] = str_replace(',','.',$attributes['latitude']);
+							$attributes['longitude'] = str_replace(',','.',$attributes['longitude']);
+
+							if(!($attributes['latitude'] >= -33.75208 && $attributes['latitude'] <= 5.271841 && $attributes['longitude'] >= -73.99045 && $attributes['longitude'] <= -32.39091)){
+								$attributes['latitude'] = $attributes['longitude'] = '';
+							}
+
+						}
+						else{
+							$attributes['latitude'] = $attributes['longitude'] = '';
+						}
+
+						// Validação do distrito
+						if(!empty($attributes['edcenso_district_fk']) ){
+							$scholl = SchoolIdentification::model()->findByPk($attributes['inep_id']);
+							$attributes['edcenso_district_fk'] = $scholl->edcensoDistrictFk->code;
+						}
+						
+						
 					break;
 				case '10':
 					foreach ($attributes as $i => $attr){
@@ -1753,39 +1790,14 @@ class CensoController extends Controller {
 							$attributes[$i] = 0;
 						}
 					}
-					if($attributes['equipments_camera'] == 0){
-						$attributes['equipments_camera'] = '';
+					$itens = ['equipments_tv', 'equipments_vcr', 'equipments_dvd', 'equipments_satellite_dish', 'equipments_copier', 'equipments_overhead_projector', 'equipments_printer', 'equipments_stereo_system', 'equipments_data_show', 'equipments_fax', 'equipments_camera', 'equipments_computer', 'equipments_multifunctional_printer', 'administrative_computers_count', 'student_computers_count', 'internet_access', 'bandwidth'];
+
+					foreach ($itens as $item) {
+						if($attributes[$item] == 0){
+							$attributes[$item] = '';
+						}
 					}
-					if($attributes['equipments_multifunctional_printer'] == 0){
-						$attributes['equipments_multifunctional_printer'] = '';
-					}
-					if($attributes['equipments_printer'] == 0){
-						$attributes['equipments_printer'] = '';
-					}
-					if($attributes['equipments_vcr'] == 0){
-						$attributes['equipments_vcr'] = '';
-					}
-					if($attributes['equipments_satellite_dish'] == 0){
-						$attributes['equipments_satellite_dish'] = '';
-					}
-					if($attributes['equipments_copier'] == 0){
-						$attributes['equipments_copier'] = '';
-					}
-					if($attributes['equipments_overhead_projector'] == 0){
-						$attributes['equipments_overhead_projector'] = '';
-					}
-					if($attributes['equipments_data_show'] == 0){
-						$attributes['equipments_data_show'] = '';
-					}
-					if($attributes['equipments_fax'] == 0){
-						$attributes['equipments_fax'] = '';
-					}
-					if($attributes['student_computers_count'] == 0){
-						$attributes['student_computers_count'] = '';
-					}
-					if($attributes['internet_access'] == 0){
-						$attributes['bandwidth'] = '';
-					}
+
 					if($attributes['native_education'] != 1){
 						$attributes['native_education_language_native'] = '';
 						$attributes['native_education_language_portuguese'] = '';
@@ -1800,6 +1812,19 @@ class CensoController extends Controller {
 						$attributes['shared_school_inep_id_6'] = '';
 					}
 
+					// Validação do ensino fundamental em ciclos
+					$classrooms = Classroom::model()->with(array(
+						'edcensoStageVsModalityFk'=>array(
+							'select'=>false,
+							'joinType'=>'INNER JOIN',
+							'condition'=>'edcensoStageVsModalityFk.stage IN (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41, 56)',
+						)
+					))->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+
+					if(count($classrooms) == 0){
+						$attributes['basic_education_cycle_organized'] ='';
+					}
+				
 				break;
 				case '80':
 						/*$classroom = Classroom::model()->findByPk($attributes['classroom_fk']);
@@ -1825,6 +1850,7 @@ class CensoController extends Controller {
 							$attributes['unified_class'] = '';
 						}
 						//se a turma já tiver etapa não enviar a etapa do aluno.
+
 						if($attributes['public_transport'] == 0){
 							//@todo fazer codigo que mudar a flag de 1 e 0 para 1 ou -1 se transporte foi setado
 							//@todo subtituir todos os valores -1 para String Vazia.
@@ -1865,6 +1891,13 @@ class CensoController extends Controller {
 							if(empty($isset)){
 								$attributes['vehicle_type_bus'] = '1';
 								$attributes['transport_responsable_government'] = '2';
+							}
+						}
+
+						if(empty($attributes['student_inep_id'])){
+							$student = StudentIdentification::model()->findByPk($attributes['student_fk']);
+							if(!is_null($student)){
+								$attributes['student_inep_id'] = $student->inep_id;
 							}
 						}
 				break;
@@ -1943,6 +1976,15 @@ class CensoController extends Controller {
 					$attributes['name'] = strtoupper($this->fixName($attributes['name']));
 					$attributes['filiation_1'] = strtoupper($this->fixName($attributes['filiation_1']));
 					$attributes['filiation_2'] = strtoupper($this->fixName($attributes['filiation_2']));
+
+					if(!empty($attributes['filiation_1']) && $attributes['filiation'] == 0){
+						$attributes['filiation'] = 1;
+					}
+					else if($attributes['filiation'] == 0){
+						$attributes['filiation_1'] = '';
+						$attributes['filiation_2'] = '';
+					}
+					
 					if($attributes['deficiency'] == 0){
 						$attributes['deficiency_type_blindness'] = '';
 						$attributes['deficiency_type_low_vision'] = '';
@@ -1982,12 +2024,20 @@ class CensoController extends Controller {
 						$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 						$attributes['edcenso_uf_fk'] = $school->edcenso_uf_fk;
 					}
+
 					if($attributes['civil_certification'] == 1){
 						if(empty($attributes['civil_certification_type'])){
 							$attributes['civil_certification_type'] = '1';
 						}
 						$attributes['civil_register_enrollment_number'] = '';
+					}else if($attributes['civil_certification'] == 2){
+						$attributes['civil_certification_type'] = '';
+						$attributes['civil_certification_term_number'] = '';
+						$attributes['civil_certification_sheet'] = '';
+						$attributes['civil_certification_book'] = '';
+						$attributes['civil_certification_date'] = '';
 					}else{
+						$attributes['civil_register_enrollment_number'] = '';
 						$attributes['civil_certification_type'] = '';
 						$attributes['civil_certification_term_number'] = '';
 						$attributes['civil_certification_sheet'] = '';
@@ -1998,6 +2048,7 @@ class CensoController extends Controller {
 						$attributes['civil_certification_type'] = '';
 
 					}
+
 					if(empty($attributes['rg_number'])){
 						$attributes['rg_number_edcenso_organ_id_emitter_fk'] = '';
 						$attributes['rg_number_edcenso_uf_fk'] = '';
@@ -2153,6 +2204,7 @@ class CensoController extends Controller {
 					$attributes['filiation_2'] = strtoupper($this->fixName($attributes['filiation_2']));
 					$dteacher = $this->findDisc($attributes['id']);
 					$dclass = ClassroomController::classroomDiscipline2array2();
+					$classroom = Classroom::model()->findByPk($attributes['id']);
 					foreach ($attributes as $i => $attr){
 						$pos = strstr($i, 'discipline');
 						if ($pos) {
@@ -2214,6 +2266,15 @@ class CensoController extends Controller {
 								$attributes[$i] = '';
 							}
 						}
+					}
+
+					/*
+						Verifica se a turma possui proffisional e alunos vinculado
+						Deve permanecer no final das validações do registro 20
+					*/
+
+					if(isset($classroom) && (count($classroom->instructorTeachingDatas) < 1 && count($classroom->studentEnrollments) < 1)){
+						$attributes = [];
 					}
 
 				break;
@@ -2300,6 +2361,7 @@ class CensoController extends Controller {
 		}
 		return $registerLines;
 	}
+
 	public function actionReadFileImportIneps(){
 		set_time_limit(0);
 		ignore_user_abort();
@@ -2323,19 +2385,113 @@ class CensoController extends Controller {
 		}
 		foreach ($lineFields as $index => $line) {
 			$student = StudentIdentification::model()->findByPk($line[0]);
-			$student->documentsFk->student_fk = $line[6];
-			$student->documentsFk->update(array('student_fk'));
-			$student->inep_id = $line[6];
-			$student->update(array('inep_id'));
-			if(!isset($student)){
+			if(isset($student)){
+				//@todo adicionar update em enrollment
+				//@todo adicionar update em variable_data - Instrutor
+				$student->documentsFk->student_fk = $line[6];
+				$student->documentsFk->update(array('student_fk'));
+				$student->inep_id = $line[6];
+				$enrollments = $student->studentEnrollments;
+
+				if(count($enrollments) > 0){
+					foreach ($enrollments as $enrollment) {
+						$enrollment->student_inep_id = $line[6];
+						$enrollment->update(array('student_inep_id'));
+					}
+				}
+
+				$student->update(array('inep_id'));
+				$this->printImported('Student',$line);
+			}
+			else{
 				$instructor = InstructorIdentification::model()->findByPk($line[0]);
-				$instructor->documents->inep_id = $line[6];
-				$instructor->documents->update(array('inep_id'));
-				$instructor->inep_id = $line[6];
-				$instructor->update(array('inep_id'));
+				if(isset($instructor)){
+					$instructor->documents->inep_id = $line[6];
+					$instructor->documents->update(array('inep_id'));
+					$instructor->inep_id = $line[6];
+					$instructor->update(array('inep_id'));
+					$instructor->instructorVariableData->inep_id = $line[6];
+					$instructor->instructorVariableData->update(array('inep_id'));
+					$this->printImported('Instructor',$line);
+				}
 			}
 		}
+		$this->fileImportProbableIneps();
 	}
+
+	public function printImported($type, $register){
+		echo "{$type}: ". implode(' | ', $register) . "<br>";
+	}
+
+	public function fileImportProbableIneps(){
+		$path = Yii::app()->basePath;
+		$fileDir = $path . '/import/RESULTADO_PROVAVEIS.txt';
+		$mode = 'r';
+
+		//Abre o arquivo
+		$file = fopen($fileDir, $mode);
+		if ($file == FALSE) {
+			return false;
+		}
+		//Pega campos do arquivo
+		while (TRUE) {
+			$fileLine = fgets($file);
+			if ($fileLine == NULL) {
+				break;
+			}
+			$lineFields_Aux = explode("|", $fileLine);
+			$lineFields[] = $lineFields_Aux;
+		}
+
+		foreach ($lineFields as $index => $line) {
+			$student = StudentIdentification::model()->findByPk($line[0]);
+			$score = 0;
+			if(isset($student)){
+				trim($student->birthday) == trim($line[2]) ? ++$score : '';
+				trim($student->filiation_1) == trim($line[3]) ? ++$score : '';
+				trim($student->filiation_2) == trim($line[4]) ? ++$score : '';
+
+				if($score > 1){
+					$student->documentsFk->student_fk = $line[6];
+					$student->documentsFk->update(array('student_fk'));
+					$student->inep_id = $line[6];
+					$enrollments = $student->studentEnrollments;
+
+					if(count($enrollments) > 0){
+						foreach ($enrollments as $enrollment) {
+							$enrollment->student_inep_id = $line[6];
+							$enrollment->update(array('student_inep_id'));
+						}
+					}
+
+					$student->update(array('inep_id'));
+					$this->printImported("Student ({$score}) :",$line);
+				}
+			}
+			
+			if(!isset($student)){
+				$instructor = InstructorIdentification::model()->findByPk($line[0]);
+				
+				if(isset($instructor) && trim($instructor->birthday_date )== trim($line[2]) && trim($instructor->filiation_1) == trim($line[3])){
+					trim($instructor->birthday_date) == trim($line[2]) ? ++$score : '';
+					trim($instructor->filiation_1) == trim($line[3]) ? ++$score : '';
+					trim($instructor->filiation_2) == trim($line[4]) ? ++$score : '';
+
+					if($score > 1){
+						$instructor->documents->inep_id = $line[6];
+						$instructor->documents->update(array('inep_id'));
+						$instructor->inep_id = $line[6];
+						$instructor->update(array('inep_id'));
+						$instructor->instructorVariableData->inep_id = $line[6];
+						$instructor->instructorVariableData->update(array('inep_id'));
+						$this->printImported("Instructor ({$score}) :",$line);
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	public function actionImport(){
 		$lines = $this->readFileImport();
 		$component=Yii::createComponent(array(
@@ -2486,7 +2642,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = InstructorTeachingData::model()->findByAttributes(array('instructor_inep_id'=>$ivariable->instructor_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){
@@ -2507,7 +2663,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
 			if(!isset($exist)){
@@ -2527,7 +2683,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk'=>$ivariable->student_fk));
 			if(!isset($exist)){
@@ -2549,7 +2705,7 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				eval($code);
+				@eval($code);
 			}
 			$exist = StudentEnrollment::model()->findByAttributes(array('student_inep_id'=>$ivariable->student_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){

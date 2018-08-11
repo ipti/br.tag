@@ -218,7 +218,7 @@
 
                         return array("status" => true,"erro" =>"");
                     } else {
-                        return array("status" => false,"erro" => "O Tipo de Certificacao Civil deve ser igual ao modelo antigo");
+                        return array("status" => false,"erro" => "O campo certidão civil deve ser preenchido");
                     }
 
             } else {
