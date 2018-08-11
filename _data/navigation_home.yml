@@ -1,16 +1,32 @@
 # Categories home page navigation
 
-- title: Getting Started
-  desc: Get your account up and running in just few easy steps
+- title: Instalação
+  desc: Configure e execute em alguns passos
   icon: settings
   doc: home
 
-- title: Account and Billing
-  desc: Managing your account, creating new users and exporting data
+- title: Cadastro de Alunos
+  desc: ---
+  icon: credit-card
+  doc: studentcreate
+
+- title: Turmas
+  desc: ---
+  icon: credit-card
+  doc: classroom
+
+- title: Matrícula
+  desc: ---
   icon: credit-card
   doc: frontmatter
+  
 
-- title: Troubleshooting
-  desc: Answers to most common configuration issues
+- title: Dúvidas gerais
+  desc: Repostas para questões comuns
+  icon: cog
+  doc: variables
+  
+- title: Educacenso/Sincronização
+  desc: Importação e exportação de arquivos do educacenso
   icon: cog
   doc: variables
