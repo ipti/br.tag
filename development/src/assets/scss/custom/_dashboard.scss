@@ -1,0 +1,458 @@
+/*========== Dashboard Scss ========*/
+.dash-cards, .dash-cards-lg {
+  .card-top-action {
+    border-radius: 100%;
+    color: $white;
+    box-shadow: 0 5px 9px 0 rgba(0,0,0,0.21);
+    position: absolute;
+    top: -10px;
+    z-index: 9;
+    left: 25px;
+  }
+  [class*="col-"] {
+    padding: 0 0.625rem;
+  }
+  .card {
+    background-color: $block-bg;
+    box-shadow: $block-shadow;
+    border: $block-border;
+    border-radius: $block-border-radius;
+    margin: 0.125rem 0.125rem $block-margin-bottom 0.125rem;
+    transition: $block-transition;
+    padding: $block-spacing;
+    position: relative;
+    min-height: 190px;
+    &:hover {
+			box-shadow: $block-hover-shadow;
+		}
+    .card-title {
+      color: $block-title-color;
+      margin-bottom: 1.25rem; //20px;
+    }
+    > span {
+      color: $block-title-color;
+    }
+  }
+}
+.rct-weather-widget {
+  min-height: 190px;
+  .weather-content {
+    text-align: justify;
+  }
+  .dayTime {
+    line-height: 30px;
+  }
+  i {
+    line-height: 110px;
+  }
+  h2 {
+    font-size: 2rem; //36px;
+    font-weight: 500;
+  }
+  .black-overlay {
+    border-radius: 5px;
+  }
+}
+.black-overlay {
+  background-color: rgba(0,0,0,0.4);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.default-btn-group {
+  .btn-secondary {
+    background: $block-bg;
+    color: $gray-900;
+    border-color: $gray-300;
+    &:hover, &.active, &:focus {
+      background-color: $gray-200 !important;
+      color: $gray-900 !important;
+      border-color: $gray-300 !important;
+    }
+  }
+}
+.ladgend {
+  width: 12px;
+  display: inline-block;
+  height: 12px;
+  border-radius: 30px;
+  margin-right: 0.625rem; //10px;
+  vertical-align: middle;
+}
+.import-report {
+  font-size: 1.375rem; //22px;
+  color: $gray-500;
+  &:hover {
+    color: $blue;
+  }
+}
+.card-action a {
+  color: $gray-600;
+  font-size: 0.75rem; //12px;
+  margin-right:  0.9375rem; //15px;
+  &:last-child {
+    margin-right: 0;
+  }
+  i {
+    font-size: 0.875rem;
+    vertical-align: middle;
+    margin-right: 0.625rem; //10px;
+  }
+}
+.card-gradient-primary {
+  .card-heading {
+    color: $white;
+    padding: 3.125rem; //50px;
+    line-height: 40px;
+  }
+}
+.top-selling {
+  .product-img {
+    img {
+      width: 275px !important;
+      margin: 0 auto;
+    }
+  }
+}
+.editor {
+  label {
+    padding: 0.375rem !important;
+  }
+  input {
+    border: none;
+    box-shadow: none;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+  .form-wrap {
+    @include border(1px solid, $border-color, bottom);
+  }
+}
+.counter-point {
+  font-size: 1.5rem; //24px;
+  color: $gray-600;
+}
+.featured-section-icon {
+  color: $gray-500;
+  font-size: 3.75rem; //60px
+}
+.responsive-div {
+  overflow-x: scroll;
+}
+.current-widget {
+	padding: 1.875rem; //30px;
+	border-radius: 10px;
+  color: $white;
+  margin-bottom: $block-margin-bottom;
+  box-shadow: $block-shadow;
+  transition: $block-transition;
+  &:hover {
+    box-shadow: $block-hover-shadow;
+  }
+  h3 {
+    font-size: 1.875rem; //30px
+  }
+  h2 {
+    font-size: 2.6rem; //50px;
+    font-weight: 500;
+  }
+  i {
+    font-size: 3.125rem; //50px;
+  }
+}
+.speedometer {
+  width: 100% !important;
+}
+
+.pt-xl{
+  padding-top:8rem;
+}
+/*======== Responsive =======*/
+@media (max-width: 1669px) and (min-width: 320px) {
+  .dash-cards {
+    .media {
+      .mr-25 {
+        margin-right: 0.625rem; //10px !important;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}
+@media (max-width: 1425px) and (min-width: 941px) {
+  .rct-weather-widget {
+    .weather-content {
+      text-align: center;
+    }
+    h2, h3, h4 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    i {
+      line-height: 70px;
+      font-size: 2.5rem !important; //40px;
+    }
+  }
+}
+@media (max-width: 1560px) and (min-width: 320px) {
+  .hover-action button, .hover-action a {
+  	min-height: 28px;
+  	max-width: 28px;
+    height: 28px !important;
+  	font-size: 1rem !important;
+  }
+  .weather-top img {
+  	height: 220px;
+  }
+}
+@media (max-width: 1460px) and (min-width: 320px) {
+  .product-img {
+    img {
+      width: 300px !important;
+      margin: 0 auto;
+    }
+  }
+  .current-widget {
+    h2 {
+      font-size: 1.6rem;
+    }
+  }
+}
+@media (max-width: 1430px) {
+  .rct-header > div {
+    padding: 0 0.625rem;
+  }
+}
+@media (max-width: 1400px) {
+  .counter-point ~ p {
+    display: none;
+  }
+}
+@media (max-width: 1366px) and (min-width: 992px) {
+  .current-widget {
+    padding: 0.9375rem; //15px;
+    i {
+      font-size: 2.125rem;
+    }
+    h2, h3 {
+      font-size: 1.8rem;
+    }
+    h3 {
+      margin-bottom: 0.625rem !important; //10px;
+    }
+  }
+}
+@media (max-width: 1300px) and (min-width: 992px) {
+  .card-heading {
+    padding: 1.125rem !important;
+  }
+  .rct-weather-widget {
+    .d-flex {
+      display: inline-block !important;
+    }
+  }
+}
+@media (max-width: 1269px) {
+  .new-customer-list li a {
+  	font-size: 1rem !important;
+  	height: 20px !important;
+  	width: 20px !important;
+  	line-height: 20px !important;
+  }
+  .featured-section-icon {
+  	font-size: 2.75rem;
+  }
+  .counter-point {
+  	font-size: 1.2rem;
+  }
+}
+@media (max-width: 1199px) and (min-width: 320px) {
+  .fixed-plugin {
+    .app-settings {
+      > li {
+        &:nth-of-type(2), &:nth-of-type(3) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) and (min-width: 320px) {
+  .navbar-right {
+    li {
+      a button, button {
+        width: 30px;
+        height: 30px;
+        .badge-top-right {
+          top: -6px;
+          right: 0;
+        }
+      }
+    }
+  }
+  .rct-dropdown, .notification-icon, .cart-icon  {
+    &.show .dropdown-menu {
+      transform: translate3d(0, 40px, 0) !important;
+    }
+  }
+  .notification-icon, .cart-icon {
+    .dropdown-menu {
+      right: -32px !important;
+    }
+  }
+  .rct-footer.d-flex {
+    display: block !important;
+    text-align: center;
+    padding: 0.625rem; //10px;
+    .footer-menus {
+      margin-bottom: 0.625rem !important;
+      li {
+        a {
+          padding: 5px !important;
+          min-width: 20px;
+          min-height: 30px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 900px) and (min-width: 576px) {
+  .w-xs-full {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+  }
+  .w-xs-half-block {
+    max-width: 50% !important;
+    flex-basis: 50% !important;
+  }
+}
+@media (max-width: 835px) {
+  .navbar-left >li:nth-of-type(2), .navbar-right >li:last-child  {
+    display: none;
+  }
+}
+@media (max-width: 800px) and (min-width: 320px) {
+  .dropdown-group-link {
+    img {
+      margin-right: 0  !important;
+    }
+    span {
+      display: none;
+    }
+  }
+}
+@media (max-width: 800px) and (min-width: 576px) {
+  .w-8-full {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+  }
+  .w-8-half-block {
+    max-width: 50% !important;
+    flex-basis: 50% !important;
+  }
+}
+@media (max-width: 767px) and (min-width: 320px) {
+  .rct-page-content {
+    padding: 1.25rem;
+  }
+}
+@media (max-width: 650px) {
+  .search-icon {
+    width: auto;
+    &::before {
+      left: 5px;
+      top: -25px;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+    > div {
+      display: none;
+    }
+  }
+}
+@media (max-width: 599px) {
+  .to-do-list {
+    label {
+      margin: 0;
+      width: 30px;
+      > span {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+  .new-customer-list {
+    .media {
+      .mr-15 {
+        margin-right: 5px !important;
+      }
+    }
+  }
+  .dashboard-overlay {
+    top: 57px;
+  }
+}
+@media (max-width: 575px) {
+  .page-title-wrap, .breadcrumb {
+    display: inline-block;
+  }
+  .breadcrumb {
+    float: right;
+    padding: 0 0.625rem;
+  }
+  .page-title  {
+    h2 {
+      font-size: 1.2rem;
+    }
+    .page-title-wrap {
+      i {
+        vertical-align: -1px;
+        margin-right: 5px;
+      }
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+      padding: 0 0.3rem;
+    }
+    .rct-creadcrumb {
+      font-size: 11px;
+    }
+  }
+  .all-mails-list {
+    .w-90 {
+      width: 100% !important;
+    }
+  }
+}
+@media (max-width: 472px) {
+  .navbar-right {
+    > li {
+      &:nth-of-type(2) {
+        display: none;
+      }
+      .dropdown-group-link {
+        padding: 5px;
+        &.dropdown-toggle::after {
+          display: none;
+        }
+      }
+    }
+  }
+  .chat-box-main img {
+  	width: 80px;
+  }
+  .page-title {
+    h2 {
+      width: 50px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+  }
+}

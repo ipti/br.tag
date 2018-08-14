@@ -1,0 +1,64 @@
+/*========= App Boxed Layout ========*/
+.boxed-layout {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+  width: 1280px !important;
+  background-image: $boxed-bg;
+  .search-icon {
+    width: 16rem;
+  }
+  .b-50 {
+    max-width: 50% !important;
+    flex-basis: 50% !important;
+  }
+  .b-100 {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+  }
+  .card-heading {
+    padding: 0.625rem; //10px;
+  }
+  .about-detail {
+    .p-70 {
+      padding: 10px !important;
+    }
+    .title {
+      margin-bottom: 10px !important;
+      font-size: 1.5rem;
+      line-height: 1.5;
+    }
+  }
+  .dash-cards {
+    .media {
+      .mr-25 {
+        margin-right: 10px !important;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+  .rct-weather-widget {
+    .d-flex {
+      display: inline-block !important;
+    }
+    .weather-content {
+      text-align: center;
+    }
+    h2, h3, h4 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    i {
+      line-height: 70px;
+      font-size: 2.5rem !important; //40px;
+    }
+  }
+  .current-widget h2 {
+  	font-size: 2.1rem;
+  }
+  .featured-section-icon {
+  	font-size: 2rem;
+  }
+}

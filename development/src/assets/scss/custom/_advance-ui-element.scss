@@ -1,0 +1,23 @@
+/*============ Advance Ui Elements ===========*/
+// Tabs Scss
+.custom-tabs {
+  border: none;
+  .nav-item {
+    .nav-link {
+      border: none;
+      border-radius: 50px;
+      &:hover, &:focus, &.active {
+        border: none;
+        color: $gray-900;
+        background: rgba(0,0,0,0.2);
+      }
+    }
+  }
+}
+// Sweet Alerts
+.sweet-alert  {
+  .btn {
+    padding: 0.3rem 2rem;
+    font-size: 1rem;
+  }
+}

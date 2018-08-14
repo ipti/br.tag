@@ -1,0 +1,65 @@
+//--- For used square box ---//
+@each $size in $square-box {
+    .square-#{$size} {
+        $size: $size * 1px;
+        $font-size: floor( $size * $square-font-size);
+        display: inline-block;
+        font-size: $font-size;
+        height: $size !important;
+        line-height: $size;
+        text-align: center;
+        width: $size !important;
+        @extend .p-0;
+        vertical-align: middle;
+    }
+}
+//--- background image varient ---//
+
+@mixin background($imgpath,$position:0 0,$repeat: no-repeat, $size:0 0) {
+    background: {
+        image: url($imgpath);
+        position: $position;
+        repeat: $repeat;
+        size: $size;
+    }
+}
+//--- For color opacity ---//
+@mixin background-opacity($color, $opacity) {
+    background: $color;
+    background: rgba($color, $opacity);
+}
+
+//--- Border mixins ---//
+@mixin border($style, $color, $sides) {
+    @if ($style != "") {
+        @if ($sides == "") {
+            border: $style $color;
+        } @else {
+            @each $side in $sides {
+               @if ($side == 'top' or
+                    $side == 'right' or
+                    $side == 'bottom' or
+                    $side == 'left') {
+                    border-#{$side}: $style $color;
+                }
+            }
+        }
+
+    }
+}
+/*======= Chip outline ========*/
+@mixin chip-outline-variant($color, $active-border: $color) {
+  color: $color !important;
+  background-color: transparent !important;
+  background-image: none;
+  border: 1px solid $color !important;
+}
+@each $color, $value in $theme-colors {
+  .chip-outline-#{$color} {
+    @if $color == "light" {
+      @include chip-outline-variant($value, $gray-900);
+    } @else {
+      @include chip-outline-variant($value, $white);
+    }
+  }
+}

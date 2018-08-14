@@ -1,0 +1,73 @@
+/*====== Danger Theme ======*/
+
+body.theme-danger {
+   .text-primary,
+   .breadcrumb a,
+   .dropdown-foot a,
+   .faq-page-wrapper .panel-heading h4,
+   .agency-menu .nav>.nav-item.nav-item-active>.nav-link,
+   .agency-menu .nav .nav-item:hover>.nav-link {
+      color: $danger !important;
+   }
+   .rct-dropdown .dropdown-menu .rct-scroll ul li a:hover,
+   .humburger,
+   .search-icon::before,
+   .Select-placeholder,
+   .Select-arrow-zone,
+   .header-icon:not(.language-icon),
+   .navbar-right>li>a>button,
+   .navbar-right>li>button,
+   .dropdown-group-link,
+   .search-icon-btn {
+      color: $white !important;
+   }
+   .badge-primary,
+   .bg-primary,
+   .btn-primary,
+      {
+      * {
+         color: $white !important;
+      }
+   }
+   .badge-primary,
+   .bg-primary,
+   .btn-primary,
+   .app-header .rct-header,
+   .chat-body .chat-bubble.odd,
+   .rct-dropdown .dropdown-menu ul li a:hover,
+   .fixed-plugin,
+   header .dropdown-group-link,
+   figure.img-wrapper::after,
+   .rct-sidebar .sidebar-overlay-light .site-logo,
+   .rbc-event {
+      background: $danger !important;
+   }
+   .btn-primary,
+   .rct-dropdown .dropdown-group-link,
+   .feed-content,
+   .rbc-event,
+   .agency-menu .nav>.nav-item .sub-menu>.nav-item:after {
+      border-color: $danger !important;
+   }
+   .quicklink-wrapper .dropdown-menu:after,
+   .quicklink-wrapper .dropdown-menu:before,
+   .sidebar-user-block .rct-dropdown.show .dropdown-menu:before,
+   .sidebar-user-block .rct-dropdown.show .dropdown-menu:after {
+      border-bottom-color: $danger !important;
+   }
+   .header-icon:hover,
+   .header-icon:focus {
+      border-color: $white !important;
+   } //Color Switching
+   .text-danger {
+      color: $primary !important;
+   }
+   .badge-danger,
+   .bg-danger,
+   .btn-danger {
+      background: $primary !important;
+   }
+   .btn-danger {
+      border-color: $primary !important;
+   }
+}

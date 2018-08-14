@@ -1,0 +1,210 @@
+/*====== Dark Layout Style Here ======*/
+
+body.dark-mode,
+body.dark-mode .app-boxed .rct-page {
+   color: $dark-bg-color;
+   background-image: $dark-layout-bg;
+}
+
+.dark-mode {
+   .sidebar-color,
+   .fixed-plugin .sidebar-overlay {
+      display: none;
+   }
+   .loader-overlay {
+      background-color: rgba(0, 0, 0, 0.8);
+   }
+   .sidebar-overlay-light {
+      background-color: rgba(0, 0, 0, 0.8);
+   } //main section
+   .rct-header,
+   .rct-footer,
+   .rct-block-footer,
+   .card-footer,
+   .list-group-item,
+   .report-title,
+   .modal-content,
+   input:not(.input-search),
+   select,
+   .rct-filter,
+   .report-status,
+   .button-nav-wrapper button,
+   [role="document"],
+   textarea,
+   .listSection,
+   .sweet-alert,
+   .rct-wysiwyg-editor,
+   .bg-light,
+   .bg-light-yellow,
+   .timeline-Widget,
+   .horizontal-menu,
+   .horizontal-menu .sub-menu,
+   .horizontal-menu .sub-menu-child,
+   .horizontal-menu .sub-menu-sub-child,
+   table thead,
+   .total-earn-chart .default-btn-group button,
+   .dropdown-foot,
+   .fixed-plugin .dropdown .dropdown-menu,
+   .rct-mail-wrapper .list-wrap ul .list-item,
+   .todo-wrapper .list-wrap ul .list-item,
+   .rct-mail-wrapper .list-wrap .top-head,
+   .todo-wrapper .list-wrap .top-head,
+   .user-list-wrap>div>div,
+   .chat-head,
+   .mail-list-wrap>div>div,
+   .todo-list-wrap>div>div,
+   .rct-sidebar .sidebar-user-block .rct-dropdown .dropdown-menu ul li:not(.user-profile-top) a {
+      background-color: $dark-bg !important;
+   }
+   .quciklink-dropdown,
+   .notification-dropdown,
+   .language-dropdown,
+   .cart-dropdown {
+      .dropdown-menu .dropdown-list li {
+         background-color: $dark-bg !important;
+         &:hover {
+            background-color: $dark-bg !important;
+         }
+      }
+   }
+   .horizontal-menu li:hover>a,
+   .horizontal-menu .sub-menu li:hover>a,
+   .horizontal-menu .sub-menu li .sub-menu-child li:hover>a,
+   .table-hover tbody tr:hover,
+   .quicklink-list,
+   .sidebar-user-block .rct-dropdown .dropdown-menu ul,
+   .aqua-ripple>div:hover,
+   .social-card .social-icon,
+   .chat-sidebar .chat-list ul .user-list-item.item-active {
+      background-color: rgba(0, 0, 0, 0.2) !important;
+   }
+   .drawer-wrapper div,
+   .comment-box,
+   .dropdown-menu,
+   .card-base,
+   .rct-session-wrapper .session-inner-wrapper .session-body,
+   .todo-wrapper .task-box,
+   figure.img-wrapper::after,
+   .plan-info,
+   .btn-light,
+   .rct-mail-wrapper header,
+   .todo-wrapper header{
+      background: $dark-bg-container;
+   }
+   .rct-mail-wrapper .list-wrap ul .list-item:hover,
+   .todo-wrapper .list-wrap ul .list-item:hover,
+   .chat-sidebar .chat-list ul .user-list-item:hover,
+   .task-detail-top {
+      background: $dark-secondary-bg !important;
+   }
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6,
+   p,
+   span,
+   a,
+   table,
+   th,
+   td,
+   select,
+   input,
+   .menu-icon,
+   .side-arrow,
+   .top-news-wrap .slider-btn-wrap .slick-arrow:before,
+   input::placeholder,
+   textarea::placeholder,
+   .form-control,
+   .rct-block *,
+   .header-title,
+   .humburger,
+   .header-icon,
+   .notification-icon a button,
+   .cart-icon a button,
+   .text-muted,
+   .page-title h2,
+   .active.breadcrumb-item,
+   .text-dark,
+   textarea,
+   .total-earn-chart .default-btn-group button,
+   .ais-Panel-header {
+      color: $dark-bg-color !important;
+   }
+   .pricing-wrapper,
+   .about-wrapper,
+   .panel-wrapper,
+   .list-wrapper,
+   .menu-paper-wrapper,
+   .popover-wrapper,
+   .date-time-wrapper,
+   .stepper-wrapper,
+   .tabs-wrapper,
+   .textfields-wrapper,
+   .select-wrapper,
+   .re-chart-wrapper,
+   .icons-wrapper,
+   .data-table-wrapper,
+   .redux-table-wrapper,
+   .divider-wrapper,
+   .drawer-wrapper,
+   .feedback-wrapper,
+   .userProfile-wrapper,
+   .avatar-wrapper,
+   .rct-block {
+      * {
+         color: $dark-bg-color !important;
+      }
+   }
+   .rct-block,
+   .social-card,
+   .card,
+   .panel,
+   .rct-tabs header,
+   .pricing-box,
+   .chat-bubble.even,
+   .btn-light i {
+      background-color: $dark-bg;
+      color: $dark-bg-color;
+      border-color: $dark-border-color;
+   }
+   .quicklink-wrapper .header-icon,
+   .search-icon .search-wrapper .search-input-lg {
+      border-color: $white !important;
+   }
+   .rct-block *,
+   input:not(.input-search),
+   textarea,
+   .modal-header,
+   .modal-footer,
+   .report-status *,
+   .report-status,
+   .rct-mail-wrapper *,
+   .todo-wrapper *,
+   .chat-wrapper *,
+   .dropdown *,
+   .chat-head,
+      {
+      border-color: $dark-border-color !important;
+   }
+   .app-boxed .agency-menu {
+      box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.5);
+      .nav-item-active,
+      .sub-menu,
+      .sub-menu-child,
+      .sub-menu-sub-child {
+         &:after {
+            border-color: transparent transparent #2c3644 #2c3644 !important;
+            box-shadow: -3px 3.5px 7px rgba(5, 0, 0, 0.25) !important;
+         }
+      }
+   }
+   .language-icon,
+   .upgrade-btn {
+      background-color: $primary !important;
+   }
+   .rct-sidebar .sidebar-user-block .rct-dropdown .dropdown-menu{
+      background: $dark-bg-container !important;
+   }
+}

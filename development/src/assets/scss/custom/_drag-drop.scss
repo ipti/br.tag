@@ -1,0 +1,27 @@
+/*========== Drag And Drop Scss =======*/
+.table-dragula {
+  tbody {
+    tr {
+      cursor: move;
+      cursor: grab;
+      cursor: -moz-grab;
+      cursor: -webkit-grab;
+      td.w-5 {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.drag-list-wrapper {
+  li {
+    @include background-opacity($primary, .2);
+    border: none;
+    .drag-list {
+      @include background-opacity($primary, .9);
+      padding: 0.9375rem 0.625rem;
+      color: $light;
+    }
+  }
+
+}
