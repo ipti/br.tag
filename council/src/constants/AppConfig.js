@@ -20,7 +20,7 @@ const AppConfig = {
         icon: 'pt',
     },
     enableUserTour: process.env.NODE_ENV === 'production' ? true : false,  // Enable / Disable User Tour
-    copyRightText: 'Reactify © 2018 All Rights Reserved.',      // Copy Right Text
+    copyRightText: 'TAG © 2018 All Rights Reserved.',      // Copy Right Text
     // light theme colors
     themeColors: {
         'primary': '#5D92F4',
