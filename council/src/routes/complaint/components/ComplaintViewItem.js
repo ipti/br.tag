@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Badge } from 'reactstrap';
+import EmailDetail from 'Routes/mail/components/EmailDetail';
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
@@ -83,23 +84,9 @@ class ComplaintViewItem extends Component {
 	render() {
 		const { activities } = this.state;
 		return (
+            
             <div className="row">
-                <RctCollapsibleCard colClasses="col-md-12">
-                    <div className="row">
-                        <div className="col-sm-12 col-md-4 d-inline-flex align-items-center mb-xs-3">
-                            <span className="mr-2"><i className="zmdi zmdi-collection-text zmdi-hc-lg text-primary"></i></span>
-                            <h3 className="mb-0"> Processo nº: {this.state.pid}</h3>
-                        </div>
-                        <div className="col-sm-12 col-md-4 d-inline-flex align-items-center  mb-xs-3">
-                            <span className="mr-2"><i className="zmdi zmdi-calendar-note zmdi-hc-lg text-primary"></i></span>
-                            <h3 className="mb-0"> Abertura: {this.state.initialDate} </h3>
-                        </div>
-                        <div className="col-sm-12 col-md-4 d-inline-flex align-items-center  mb-xs-3">
-                            <span className="mr-2"><i className="zmdi zmdi-label zmdi-hc-lg text-primary"></i></span>
-                            <h3 className="mb-0">Tipo: {this.state.type} </h3>
-                        </div>
-                    </div>
-                 </RctCollapsibleCard >
+                 <EmailDetail/>
                 <RctCollapsibleCard colClasses="col-md-12">
                 <div className="activity-widget">
                     <Scrollbars className="rct-scroll" autoHeight autoHeightMin={120} autoHeightMax={2440} autoHide>
@@ -115,6 +102,12 @@ class ComplaintViewItem extends Component {
                     </Scrollbars>
                 </div>
             </RctCollapsibleCard >
+            <div className="media p-20">
+							<img src={require('Assets/avatars/user-15.jpg')} alt="user profile" className="img-fluid rounded-circle mr-15" width="50" height="50" />
+							<div className="media-body card p-20">
+								<span>Clique aqui para <a href="javascript:void(0)">Responder</a> ou <a href="javascript:void(0)">Encaminhar a denúnica</a></span>
+							</div>
+						</div>
             </div>
 		);
 	}

@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import { Scrollbars } from 'react-custom-scrollbars';
+import EmailDetail from 'Routes/mail/components/EmailDetail';
 
 // intl messages
 import IntlMessages from 'Util/IntlMessages';

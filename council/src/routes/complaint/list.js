@@ -11,38 +11,38 @@ import ComplaintListItem from './components/ComplaintListItem';
 
 const listItems = [
     {
-        title: 'Maria dos Santos',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        title: 'Processo nº: 201808161-94',
+        description: 'Maus Tratos - Notificado em 22/12/2018 no Conselho Tutelar por José Carlos em favor de Carla Beatriz',
         status: false,
-        statusColor: 'yellow',
+        statusColor: 'red',
         icon: 'zmdi zmdi-eye zmdi-hc-md'
     },
     {
-        title: 'João da Silva',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        title: 'Processo nº: 201808162-51',
+        description: 'Violência Psicológica - Notificado em 16/08/2018 no Conselho Tutelar por Anônimo em favor de Bill Gates',
         status: true,
-        statusColor: 'green',
+        statusColor: 'yellow',
         icon: 'zmdi zmdi-eye zmdi-hc-md'
     },
     {
-        title: 'Larissa de Oliveira',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        status: false,
-        statusColor: 'blue',
-        icon: 'zmdi zmdi-eye zmdi-hc-md'
-    },
-    {
-        title: 'Marcela dos Santos',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        status: false,
-        statusColor: 'grey',
-        icon: 'zmdi zmdi-eye zmdi-hc-md'
-    },
-    {
-        title: 'Pedro da Costa',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        title: 'Processo nº: 201808163-72',
+        description: 'Trabalho Infantil - Notificado em 12/08/2018 no Conselho Tutelar por Anônimo em favor de Steve Jobs',
         status: false,
         statusColor: 'yellow',
+        icon: 'zmdi zmdi-eye zmdi-hc-md'
+    },
+    {
+        title: 'Processo nº: 201808164-32',
+        description: 'Negligência- Notificado em 10/08/2018 no Conselho Tutelar por Anônimo em favor de Miguel Falabela',
+        status: false,
+        statusColor: 'yellow',
+        icon: 'zmdi zmdi-eye zmdi-hc-md'
+    },
+    {
+        title: 'Processo nº: 201808166-32',
+        description: 'Bullying - Notificado em 09/08/2018 no Conselho Tutelar por Diretor Escolar em favor de Carla Beatriz',
+        status: false,
+        statusColor: 'green',
         icon: 'zmdi zmdi-eye zmdi-hc-md'
     }
 ]

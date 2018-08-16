@@ -41,7 +41,7 @@ const AppConfig = {
     darkThemeColors: {
         darkBgColor: '#424242'
     },
-    baseUrl : 'http://localhost/tomcom/development/public/'
+    baseUrl : ''
 }
 
 export default AppConfig;

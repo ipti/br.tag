@@ -1,32 +1,32 @@
 export default [
     {
         'id': 0,
-        'handle': 'inbox',
-        'title': 'module.inbox',
+        'handle': 'insert',
+        'title': 'complaint.insert',
+        'icon': 'plus-circle'
+    },
+    {
+        'id': 0,
+        'handle': 'list',
+        'title': 'complaint.inbox',
         'icon': 'inbox'
     },
     {
         'id': 1,
         'handle': 'sent',
-        'title': 'module.sent',
+        'title': 'complaint.foward',
         'icon': 'mail-send'
     },
     {
         'id': 2,
         'handle': 'drafts',
-        'title': 'module.drafts',
+        'title': 'complaint.analysis',
         'icon': 'email-open'
-    },
-    {
-        'id': 3,
-        'handle': 'spam',
-        'title': 'module.spam',
-        'icon': 'info'
     },
     {
         'id': 4,
         'handle': 'trash',
-        'title': 'module.trash',
-        'icon': 'delete'
+        'title': 'complaint.done',
+        'icon': 'star'
     }
 ];

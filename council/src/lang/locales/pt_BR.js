@@ -13,4 +13,10 @@ module.exports = {
     "sidebar.faq(s)": "FAQ",
     "sidebar.terms&Conditions": "Termos e condições",
     "sidebar.feedback": "Feedback",
+    "widgets.composeMail":"Nova Denúnica",
+    "complaint.inbox":"Recebidas",
+    "complaint.foward":"Encaminhadas",
+    "complaint.analysis":"Em Análise",
+    "complaint.done":"Concluídas",
+    "complaint.insert": "Nova Denúncia"
 }

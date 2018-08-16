@@ -41,7 +41,7 @@ class App extends Component {
 	render() {
 		const { location, match, user } = this.props;
 		if (location.pathname === '/') {
-				return <Redirect to={'/app/home'} />;
+				return <Redirect to={'/app/complaint/list'} />;
 		}
 		return (
 			<RctThemeProvider>

@@ -11,7 +11,7 @@ import classnames from 'classnames';
 
 // Components
 import Header from 'Components/Header/Header';
-import SidebarContent from 'Components/Sidebar';
+import SidebarComplaint from 'Components/Sidebar';
 import Footer from 'Components/Footer/Footer';
 import Tour from 'Components/Tour';
 import ThemeOptions from 'Components/ThemeOptions/ThemeOptions';
@@ -114,7 +114,7 @@ class MainApp extends Component {
         if (loadingSidebar) {
             return <PreloadSidebar />;
         }
-        return <SidebarContent />
+        return <SidebarComplaint />
     }
 
     //Scrollbar height

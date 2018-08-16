@@ -1,6 +1,7 @@
 // routes
 import Dashboard from 'Routes/dashboard';
 import Complaint from 'Routes/complaint';
+import Mail from 'Routes/mail';
 
 export default [
 	{
@@ -10,5 +11,9 @@ export default [
 	{
 		path: 'complaint',
 		component: Complaint
+	},
+	{
+		path: 'mail',
+		component: Mail
 	}
 ]

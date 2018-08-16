@@ -62,12 +62,11 @@ class Signin extends Component {
                 <div className="d-flex justify-content-between">
                   <div className="session-logo">
                     <Link to="/">
-                      <img src={AppConfig.appLogo} alt="session-logo" className="img-fluid" width="110" height="35" />
+                      <img src={require('Assets/img/appLogoText.png')} alt="session-logo" className="img-fluid" width="110" height="35" />
                     </Link>
                   </div>
                   <div>
-                    <a className="mr-15" onClick={() => this.onUserSignUp()}>Não possui conta?</a>
-                    <Button variant="raised" className="btn-light" onClick={() => this.onUserSignUp()}>criar</Button>
+                    <Button variant="raised" className="btn-light" onClick={() => this.onUserSignUp()}>Denunciar ao Conselho</Button>
                   </div>
                 </div>
               </div>
