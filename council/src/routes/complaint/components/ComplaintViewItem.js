@@ -5,6 +5,14 @@ import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Badge } from 'reactstrap';
 import EmailDetail from 'Routes/mail/components/EmailDetail';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { FormGroup, Label, Input } from 'reactstrap';
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
@@ -17,7 +25,25 @@ class ComplaintViewItem extends Component {
         initialDate: null,
         finalDate: null,
         type: null,
-	}
+        open: false,
+        openSend: false,
+    };
+
+	handleClickOpen = () => {
+		this.setState({ open: true });
+	};
+
+	handleClose = () => {
+		this.setState({ open: false });
+    };
+    
+	handleClickOpenSend = () => {
+		this.setState({ openSend: true });
+	};
+
+	handleCloseSend = () => {
+		this.setState({ openSend: false });
+	};
 
 	componentDidMount() {
 
@@ -102,13 +128,57 @@ class ComplaintViewItem extends Component {
                     </Scrollbars>
                 </div>
             </RctCollapsibleCard >
-            <div className="media p-20">
-							<img src={require('Assets/avatars/user-15.jpg')} alt="user profile" className="img-fluid rounded-circle mr-15" width="50" height="50" />
-							<div className="media-body card p-20">
-								<span>Clique aqui para <a href="javascript:void(0)">Responder</a> ou <a href="javascript:void(0)">Encaminhar a denúnica</a></span>
-							</div>
-						</div>
+                <div className="media p-20">
+                    <img src={require('Assets/avatars/user-15.jpg')} alt="user profile" className="img-fluid rounded-circle mr-15" width="50" height="50" />
+                    <div className="media-body card p-20">
+                        <span>Clique aqui para <a href="javascript:void(0)" onClick={this.handleClickOpen}>Responder</a> ou <a href="javascript:void(0)" onClick={this.handleClickOpenSend}>Encaminhar a denúnica</a></span>
+                    </div>
+                </div>
+                    <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Responder</DialogTitle>
+                        <DialogContent className="w-600">
+                            <FormGroup>
+                                <Label for="descricao">Descrição dos fatos</Label>
+                                <textarea className="form-control" name="descricao" rows="5"></textarea>
+                            </FormGroup>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="raised" onClick={this.handleClose} color="primary" className="text-white">
+                                Fechar
+                            </Button>
+                            <Button variant="raised" onClick={this.handleClose} className="btn-info text-white">
+                                Enviar
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+
+                    <Dialog open={this.state.openSend} onClose={this.handleCloseSend} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Encaminhar</DialogTitle>
+                        <DialogContent className="w-600">
+                            <FormGroup>
+                                <Label for="sexo">Orgão</Label>
+                                <Input type="select" name="orgao" id="orgao" bsSize="lg">
+                                    <option value="conselho">Conselho Tutelar</option>
+                                    <option value="creas">CREAS</option>
+                                    <option value="mp">Ministério Público</option>
+                                </Input>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="descricao">Descrição dos fatos</Label>
+                                <textarea className="form-control" name="descricao" rows="5"></textarea>
+                            </FormGroup>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="raised" onClick={this.handleCloseSend} color="primary" className="text-white">
+                                Fechar
+                            </Button>
+                            <Button variant="raised" onClick={this.handleCloseSend} className="btn-info text-white">
+                                Enviar
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
             </div>
+
 		);
 	}
 }

@@ -8,7 +8,7 @@ import {
 	FormGroup,
 	Label,
 	Input,
-	FormText,
+	TextArea,
 	Col
 } from 'reactstrap';
 
@@ -174,6 +174,15 @@ export default class ComplaintForm extends Component {
                             </div>
 
                             <div className="row mt-40">
+                                <div className="col-sm-12">
+                                    <FormGroup>
+                                        <Label for="descricao">Descrição dos fatos</Label>
+                                        <textarea className="form-control" name="descricao" rows="5"></textarea>
+                                    </FormGroup>
+                                </div>
+                            </div>
+
+                            <div className="row">
                                 <div className="col-sm-12 col-md-6">
                                     <FormGroup>
                                         <Label for="encaminhado">Encaminhado em</Label>
