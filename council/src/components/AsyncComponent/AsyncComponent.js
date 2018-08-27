@@ -63,6 +63,28 @@ const AsyncComplaintViewComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- Citizen ------------------*/
+
+const AsyncCitizenComponent = Loadable({
+	loader: () => import("Routes/citizen/index.js"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncCitizenFollowComponent = Loadable({
+	loader: () => import("Routes/citizen/follow"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncCitizenViewerComponent = Loadable({
+	loader: () => import("Routes/citizen/viewer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncCitizenFormComponent = Loadable({
+	loader: () => import("Routes/citizen/form"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -72,5 +94,9 @@ export {
 	AsyncHomeComponent,
 	AsyncComplaintListComponent,
 	AsyncComplaintInsertComponent,
-	AsyncComplaintViewComponent
+	AsyncComplaintViewComponent,
+	AsyncCitizenFollowComponent,
+	AsyncCitizenViewerComponent,
+	AsyncCitizenFormComponent,
+	AsyncCitizenComponent
 };

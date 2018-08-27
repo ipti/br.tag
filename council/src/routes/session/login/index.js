@@ -66,7 +66,9 @@ class Signin extends Component {
                     </Link>
                   </div>
                   <div>
-                    <Button variant="raised" className="btn-light" onClick={() => this.onUserSignUp()}>Denunciar ao Conselho</Button>
+                    <Link to="../citizen/form">
+                      <Button variant="raised" className="btn-light" onClick={() => this.onUserSignUp()}>Denunciar ao Conselho</Button>
+                    </Link>
                   </div>
                 </div>
               </div>

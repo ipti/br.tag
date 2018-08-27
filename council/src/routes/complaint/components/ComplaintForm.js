@@ -211,6 +211,15 @@ export default class ComplaintForm extends Component {
                                     </FormGroup>
                                 </div>
                             </div>
+
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <FormGroup>
+                                        <Label for="arquivos">Arquivos</Label>
+                                        <Input  style={{paddingLeft: 0}} type="file" multiple="true" name="arquivos" id="arquivos" bsSize="lg" />
+                                    </FormGroup>
+                                </div>
+                            </div>
                             <Button color="primary">Cadastrar</Button>
                         </Form>
                     </RctCollapsibleCard>

@@ -24,7 +24,8 @@ import RctBoxedLayout from './RctBoxedLayout';
 
 // async components
 import {
-	AsyncSessionLoginComponent
+	AsyncSessionLoginComponent,
+	AsyncCitizenComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 
@@ -55,6 +56,7 @@ class App extends Component {
 				<Route path="/agency" component={AgencyLayout} />
 				<Route path="/boxed" component={RctBoxedLayout} />
 				<Route path="/session/login" component={AsyncSessionLoginComponent} />
+				<Route path="/citizen" component={AsyncCitizenComponent} />
 			</RctThemeProvider>
 		);
 	}
