@@ -91,7 +91,7 @@
     "react-quill": "1.2.7",
     "react-redux": "5.0.7",
     "react-router-dom": "^4.2.2",
-    "react-select": "^1.2.1",
+    "react-select": "^2.0.0-beta.7",
     "react-sidebar": "^2.3.2",
     "react-slick": "^0.23.1",
     "react-star-rating-component": "^1.4.1",

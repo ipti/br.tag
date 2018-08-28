@@ -17,6 +17,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Select from 'react-select'
 
 // rct card box
 
@@ -26,15 +27,25 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 export default class ComplaintForm extends Component {
 
     state = {
-        tipoViolencia: 'maus_tratos'
+        tipoViolencia: 'maus_tratos',
+        motivo: null
     }
 
     handleChangeRadio = (e, key) => {
 		this.setState({ [key]: e.target.value });
 	}
 
+    handleChange = (e, key) => {
+        this.setState({ [key]: e.value });
+	}
+
     render(){
-        const { classes } = this.props;
+
+        const motivos = [
+            { label: "Trabalho infantil - Caracteriza-se pela exploração laboral de um indivíduo menor de 14 anos de idade. O exercício de atividades laborais para os menores de 18 anos no Brasil está regulamentado em legislação específica9. Dos 14 aos 16 anos é permitido o trabalho aos adolescentes desde que na condição de aprendiz. Dos 16 aos 18 anos, o trabalho é liberado, mas não pode comprometer a frequência e aprendizado escolar, ocorrer em condições insalubres ou com jornada noturna, tão pouco impedir que o adolescente desenvolva atividades de lazer", value: 'trabalho_infantil' },
+            { label: "Bullying - É um termo utilizado para definir maus-tratos ou violência interpessoal entre iguais. Sem tradução para a língua portuguesa, a expressão bullying define um fenômeno identificado a partir de três características: a intencionalidade, o prolongamento temporal e o alvo único, gerando desequilíbrio de poder físico, psicológico e social entre o violador e o violado", value: 'bullying' },
+          ];
+        
         return (
             <div className="row justify-content-md-center">
                 <div className="col-md-12">
@@ -172,6 +183,14 @@ export default class ComplaintForm extends Component {
                                     </FormControl>
                                 </div>
                             </div>
+
+                            {this.state.tipoViolencia == 'outros' && <div className="row mt-40">
+                                <div className="col-sm-12 col-md-6">
+                                    <FormGroup>
+                                        <Select placeholder="Selecione o motivo" name="motivo"  defaultValue={this.state.motivo} onChange={(e) => this.handleChange(e, 'motivo')} options={motivos} />
+                                    </FormGroup>
+                                </div>
+                            </div>}
 
                             <div className="row mt-40">
                                 <div className="col-sm-12">
