@@ -44,13 +44,10 @@ class ComplaintListItem extends Component {
                 <Scrollbars className="rct-scroll" autoHeight autoHeightMin={100} autoHeightMax={2260} autoHide>
                     <List>
                         {this.state.listItems.map((data, key) => (
-                            <ListItem button onClick={() => this.handleToggleClickItem(key)} key={key}>
+                            <ListItem className="px-0" button onClick={() => this.handleToggleClickItem(key)} key={key}>
                                 <IconButton><i className={`zmdi zmdi-label-alt zmdi-hc-md label-${data.statusColor}`}></i></IconButton>
                                 <Checkbox onClick={() => this.handleToggleCheckItem(key)} key={key} color="primary" checked={data.status} />
                                 <ListItemText primary={data.title} secondary={data.description} />
-                                <ListItemSecondaryAction>
-                                    <IconButton><i className={data.icon}></i></IconButton>
-                                </ListItemSecondaryAction>
                             </ListItem>
                         ))}
                     </List>

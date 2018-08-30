@@ -17,9 +17,9 @@ export default class Follow extends Component {
 		};
 	}
 
-	consultar(){
-
-	}
+	handleConsultar(e) {
+        this.props.history.push('/citizen/view/' + this.state.processId);
+    }
 
 	render() {
 		return (
@@ -45,7 +45,7 @@ export default class Follow extends Component {
 									className="btn-block text-white w-100"
 									variant="raised"
 									size="large"
-									onClick={() => this.consultar()}>
+									onClick={(e) => this.handleConsultar(e)}>
 									Consultar
 									</Button>
 								</FormGroup>
