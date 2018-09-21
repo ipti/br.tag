@@ -11,6 +11,16 @@ use Yii;
 
 class CitizenController extends AuthController
 {
+
+    public function actionIndex()
+    {
+        return new ActiveDataProvider([
+            'query' => Complaint::find(),
+            'pagination' => [
+                'pageSize' => 10,
+            ]
+        ]);
+    }
     
     public function actionView($id)
     {
@@ -38,6 +48,10 @@ class CitizenController extends AuthController
             'error' => $complaint->getErrors(),
             'message' => 'Erro ao cadastrar denúncia'
         ];
+    }
+
+    public function actionOptions(){
+        return[];
     }
 
 }

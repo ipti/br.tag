@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\mongodb\ActiveRecord;
 use MongoDB\BSON\ObjectId;
+use Yii;
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
@@ -39,7 +40,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::findOne(['credential.accessToken' => $token]);
+        return static::findOne(['credential.access_token' => $token]);
     }
 
     /**
@@ -85,6 +86,35 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        $credential = $this->credential;
+        return $credential['password'] === $password;
+    }
+
+    public function generateAccessToken($expireInSeconds = 21600)
+    {
+        $credential = $this->credential;
+        $credential['access_token'] = Yii::$app->security->generateRandomString() . '_' . (time() + $expireInSeconds);
+        $this->credential = $credential;
+        $this->save();
+        return $credential['access_token'];
+    }
+
+    public function destroyAccessToken()
+    {
+        $credential = $this->credential;
+        $credential['access_token'] = '';
+        $this->credential = $credential;
+        return $this->save();
+    }
+
+    public function isAccessTokenValid()
+    {
+        $credential = $this->credential;
+
+        if (!empty($credential['access_token'])) {
+            $timestamp = (int) substr($credential['access_token'], strrpos($credential['access_token'], '_') + 1);
+            return $timestamp > time();
+        }
+        return false;
     }
 }

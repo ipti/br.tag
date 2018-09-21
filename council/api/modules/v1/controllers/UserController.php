@@ -11,6 +11,34 @@ use Yii;
 class UserController extends AuthController
 {
 
+    public static function allowedDomains() {
+        return [
+            '*'
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() {
+        return array_merge(parent::behaviors(), [
+    
+            // For cross-domain AJAX request
+            'corsFilter'  => [
+                'class' => \yii\filters\Cors::className(),
+                'cors'  => [
+                    // restrict access to domains:
+                    'Origin'                           => static::allowedDomains(),
+                    'Access-Control-Request-Method'    => ['POST','OPTIONS','GET','PUT','HEAD','DELETE','PATCH'],
+                    'Access-Control-Request-Headers'    => ['*'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
+                ],
+            ],
+    
+        ]);
+    }
+
     public function actionIndex()
     {
         return new ActiveDataProvider([

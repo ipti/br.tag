@@ -3,6 +3,6 @@ import config from '../constants/AppConfig';
 
 export default
    axios.create({
-      baseURL: config.baseUrl,
-      timeout: 2000
+      baseURL: config.baseUrlApi,
+      timeout: 100000
    });

@@ -41,7 +41,18 @@ const AppConfig = {
     darkThemeColors: {
         darkBgColor: '#424242'
     },
-    baseUrl : ''
+    baseUrl : '',
+    //baseUrlApi : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/api/` : `http://${window.location.host}/api/`,
+    baseUrlApi : 'http://api.tag.com/',
+
+    citizen: {
+        access_token: "4ovQBzFHaw1h3j4mQgDYzwLOYcfnYhed_1537467423"
+    },
+
+    user: {
+        id: sessionStorage.getItem('user'),
+        access_token: sessionStorage.getItem('token'),
+    }
 }
 
 export default AppConfig;

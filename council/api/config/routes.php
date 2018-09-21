@@ -14,6 +14,7 @@ return [
     'GET,HEAD v1/user/<id>' => 'v1/user/view',
     'POST v1/user' => 'v1/user/create',
     'GET,HEAD v1/user' => 'v1/user/index',
+    'POST user/login' => 'user/login',
 
     // =========== Complaint ============
     'POST v1/complaint/forward/<id>' => 'v1/complaint/forward',
@@ -29,4 +30,5 @@ return [
     // =========== Citizen ============
     'POST v1/citizen' => 'v1/citizen/create',
     'GET,HEAD v1/citizen/<id>' => 'v1/citizen/view',
+    'GET,HEAD v1/citizen' => 'v1/citizen/index',
 ];

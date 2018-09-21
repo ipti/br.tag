@@ -32,10 +32,18 @@ import {
 /**
  * Initial Path To Check Whether User Is Logged In Or Not
  */
-const InitialPath = ({ component: Component, ...rest }) =>
+const InitialPath = ({ component: Component, ...rest, authUser }) =>
 	<Route
 		{...rest}
-		render={props => <Component {...props} />}
+		render={props =>
+			authUser
+				? <Component {...props} />
+				: <Redirect
+					to={{
+						pathname: '/session/login',
+						state: { from: props.location }
+					}}
+				/>}
 	/>;
 
 class App extends Component {
@@ -49,7 +57,7 @@ class App extends Component {
 				<NotificationContainer />
 				<InitialPath
 					path={`${match.url}app`}
-					authUser={user}
+					authUser={sessionStorage.getItem('user')}
 					component={RctDefaultLayout}
 				/>
 				<Route path="/horizontal" component={HorizontalLayout} />
@@ -64,8 +72,8 @@ class App extends Component {
 
 // map state to props
 const mapStateToProps = ({ authUser }) => {
-	const { user } = authUser;
-	return { user };
+	const user = sessionStorage.getItem('user');
+	return user;
 };
 
 export default connect(mapStateToProps)(App);

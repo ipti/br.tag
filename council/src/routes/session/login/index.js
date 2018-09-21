@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input } from 'reactstrap';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import QueueAnim from 'rc-queue-anim';
+import api from 'Api';
 
 // app config
 import AppConfig from 'Constants/AppConfig';
@@ -27,16 +28,26 @@ import {
 class Signin extends Component {
 
   state = {
-    email: 'demo@example.com',
-    password: 'test#123'
+    username: '',
+    password: ''
   }
 
   /**
    * On User Login
    */
   onUserLogin() {
-    if (this.state.email !== '' && this.state.password !== '') {
-      this.props.signinUserInFirebase(this.state, this.props.history);
+    if (this.state.username !== '' && this.state.password !== '') {
+      api.post('/user/login', this.state)
+        .then(function(response){
+          if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
+            sessionStorage.setItem('user', response.data.data._id);
+            sessionStorage.setItem('token', response.data.data.access_token);
+            this.props.history.push('/app/complaint/list');
+          }
+        }.bind(this))
+        .catch(function(error){
+          console.log(error);
+        });
     }
   }
 
@@ -44,11 +55,11 @@ class Signin extends Component {
    * On User Sign Up
    */
   onUserSignUp() {
-    this.props.history.push('/session/signup');
+    this.props.history.push('/citizen/form');
   }
 
   render() {
-    const { email, password } = this.state;
+    const { username, password } = this.state;
     const { loading } = this.props;
     return (
       <QueueAnim type="bottom" duration={2000}>
@@ -85,7 +96,7 @@ class Signin extends Component {
                     </div>
                     <Form>
                       <FormGroup className="has-wrapper">
-                        <Input type="mail" value={email} name="user-mail" id="user-mail" className="has-input input-lg" placeholder="E-mail" onChange={(event) => this.setState({ email: event.target.value })} />
+                        <Input type="mail" value={username} name="user-mail" id="user-mail" autoComplete="off" className="has-input input-lg" placeholder="E-mail" onChange={(event) => this.setState({ username: event.target.value })} />
                         <span className="has-icon"><i className="ti-email"></i></span>
                       </FormGroup>
                       <FormGroup className="has-wrapper">
