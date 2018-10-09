@@ -14,30 +14,83 @@ class ComplaintController extends AuthController
 
     public function actionIndex()
     {
-        return new ActiveDataProvider([
-            'query' => Complaint::find(),
+
+        $data = Yii::$app->request->get();
+        $query = Complaint::find();
+        if(isset($data['filter'])){
+            switch($data['filter']){
+                case "receive":
+                    $query->where(['status' => 1, 'place' =>  $data['institution']]);
+                break;
+                case "forward":
+                    $query->where(['status' => 2, 'place' => ['$ne' => $data['institution']]]);
+                    $query->andWhere(['$in', 'was', [$data['institution']]]);
+                break;
+                case "analysis":
+                    $query->where(['status' => 2, 'place' =>  $data['institution']]);
+                break;
+                case "completed":
+                    $query->where(['status' => 9]);
+                break;
+            }
+        }
+
+        $complaints = [];
+        $provider = new ActiveDataProvider([
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 10,
             ]
         ]);
+
+        $pagination = $provider->getPagination();
+        $paginationParam = [];
+        if($pagination){
+            $paginationParam['currentPage'] = $pagination->page;
+            $paginationParam['perPage'] = $pagination->pageSize;
+            $paginationParam['totalPages'] = $pagination->pageCount;
+            $paginationParam['totalItens'] = $provider->getCount();
+        }
+        else{
+            $paginationParam['currentPage'] = 0;
+            $paginationParam['perPage'] = 10;
+            $paginationParam['totalPages'] = 0;
+            $paginationParam['totalItens'] = $provider->getCount();
+        }
+
+        $models = $provider->getModels();
+
+        foreach($models as $model){
+            $complaints[] = $model->formatData();
+        }
+        return array_merge(['complaints' => $complaints], ['pagination' =>$paginationParam]);
     }
     
     public function actionView($id)
     {
-        return Complaint::findOne(new ObjectId($id));
+        $complaint = Complaint::findOne(new ObjectId($id));
+
+        if(!is_null($complaint)){
+            return [
+                'status' => '1',
+                'data' => $complaint->formatData(),
+                'message' => 'Denúncia carregada com sucesso'
+            ];
+        }
+
+        return [
+            'status' => '0',
+            'error' => ['complaint' => 'Denúncia não encontrada'],
+            'message' => 'Denúncia não encontrada'
+        ];
     }
     
     public function actionCreate()
     {
         $complaint = new Complaint(['scenario' => Complaint::SCENARIO_CREATE]);
         $data['Complaint'] = Yii::$app->request->post();
-        $files = $_FILES;
 
         if(isset($data['Complaint']['forwards'])){
-            if(isset($files['files']) && count($files['files'])){
-                $data['Complaint']['forwards'][0]['files'] = $files['files'];
-            }
-
             if ($complaint->create($data)) {
                 return [
                     'status' => '1',
@@ -58,13 +111,8 @@ class ComplaintController extends AuthController
         $complaint = Complaint::findOne(new ObjectId($id));
         $complaint->scenario = Complaint::SCENARIO_FORMALIZE;
         $data = ['Complaint' => Yii::$app->request->post()];
-        $files = $_FILES;
 
         if(isset($data['Complaint']['forwards'])){
-            if(isset($files['files']) && count($files['files'])){
-                $data['Complaint']['forwards'][0]['files'] = $files['files'];
-            }
-
             if ($complaint->formalize($data)) {
                 return [
                     'status' => '1',
@@ -86,13 +134,8 @@ class ComplaintController extends AuthController
         $complaint = Complaint::findOne(new ObjectId($id));
         $complaint->scenario = Complaint::SCENARIO_FORWARD;
         $data = ['Complaint' => Yii::$app->request->post()];
-        $files = $_FILES;
 
         if(isset($data['Complaint']['forwards'])){
-            if(isset($files['files']) && count($files['files'])){
-                $data['Complaint']['forwards'][0]['files'] = $files['files'];
-            }
-
             if ($complaint->forward($data)) {
                 return [
                     'status' => '1',
@@ -114,13 +157,8 @@ class ComplaintController extends AuthController
         $complaint = Complaint::findOne(new ObjectId($id));
         $complaint->scenario = Complaint::SCENARIO_RESPONSE;
         $data = ['Complaint' => Yii::$app->request->post()];
-        $files = $_FILES;
 
         if(isset($data['Complaint']['forwards'])){
-            if(isset($files['files']) && count($files['files'])){
-                $data['Complaint']['forwards'][0]['files'] = $files['files'];
-            }
-
             if ($complaint->response($data)) {
                 return [
                     'status' => '1',
@@ -145,7 +183,7 @@ class ComplaintController extends AuthController
         $complaint->scenario = Complaint::SCENARIO_UPDATE;
         $data = ['Complaint' => Yii::$app->request->post()];
 
-        if ($complaint->load($data) && $complaint->save()) {
+        if ($complaint->_update($data)) {
             return [
                 'status' => '1',
                 'data' => ['_id' => (string) $complaint->_id],
@@ -185,7 +223,7 @@ class ComplaintController extends AuthController
         $complaint = Complaint::findOne(new ObjectId($id));
         $data = ['Complaint' => Yii::$app->request->post()];
 
-        if ($complaint->load($data) && $complaint->save()) {
+        if ($complaint->finalize()) {
             return [
                 'status' => '1',
                 'data' => ['_id' => $id],
@@ -198,6 +236,10 @@ class ComplaintController extends AuthController
             'error' => $complaint->getErrors(),
             'message' => 'Erro ao concluir denúncia'
         ];
+    }
+
+    public function actionOption(){
+        return [];
     }
 }
 

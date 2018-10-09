@@ -38,6 +38,19 @@ class User extends ActiveRecord
         }
         return true;
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $credential = $this->credential;
+                $credential['password'] = password_hash($credential['password'], PASSWORD_BCRYPT, ['cost'=>12]);
+                $this->credential = $credential;
+            }
+            return true;
+        }
+        return false;
+    }
 }
 
 

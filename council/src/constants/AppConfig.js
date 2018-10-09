@@ -46,12 +46,9 @@ const AppConfig = {
     baseUrlApi : 'http://api.tag.com/',
 
     citizen: {
-        access_token: "4ovQBzFHaw1h3j4mQgDYzwLOYcfnYhed_1537467423"
-    },
-
-    user: {
-        id: sessionStorage.getItem('user'),
-        access_token: sessionStorage.getItem('token'),
+        id: '5ba4cca943269e4124001685',
+        access_token: "4ovQBzFHaw1h3j4mQgDYzwLOYcfnYhed_1537467423",
+        institution: "5b956c3843269e6258003bf3"
     }
 }
 

@@ -2,17 +2,10 @@
  * Sidebar Content
  */
 import React, { Component } from 'react';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import EmailAppSidebar from 'Routes/mail/components/EmailAppSidebar';
-import { Redirect, Route, Switch, NavLink } from 'react-router-dom';
-
-import IntlMessages from 'Util/IntlMessages';
-
-import NavMenuItem from './NavMenuItem';
+import user from '../../constants/User';
 
 // redux actions
 import { onToggleMenu } from 'Actions';
@@ -26,10 +19,9 @@ class SidebarContent extends Component {
         }
         this.props.onToggleMenu(data);
     }
-
     render() {
-        const { sidebarMenus } = this.props.sidebar;
-        const { classes, theme, match, sendingEmail } = this.props;
+        const username = typeof user.name === 'undefined' ? sessionStorage.getItem('user_name'): user.name;
+        const email = typeof user.email === 'undefined' ? sessionStorage.getItem('user_email'): user.email;
         return (
             <div className="rct-mail-wrapper">
             <div className="mail-sidebar-wrap">
@@ -43,8 +35,8 @@ class SidebarContent extends Component {
 							height="40"
 						/>
 						<div className="media-body mt-1">
-							<h4 className="mb-0">Carlos Alberto</h4>
-							<p className="text-muted mb-0">calberto@conselho</p>
+							<h4 className="mb-0">{username}</h4>
+							<p className="text-muted mb-0">{email}</p>
 						</div>
 					</div>
 				</div>

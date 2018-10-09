@@ -93,22 +93,6 @@ class EmailDetail extends Component {
 
 					<ExpansionPanelDetails>
 						<div className="email-detail-page-warrper col-md-12">
-							<div className="top-head border-bottom-0 d-flex justify-content-between">
-								<IconButton onClick={() => this.onBackPress()}>
-								</IconButton>
-								<div className="mail-action">
-									<IconButton>
-										<i className="zmdi zmdi-mail-reply"></i>
-									</IconButton>
-									<IconButton>
-										<i className="zmdi zmdi-print"></i>
-									</IconButton>
-									<IconButton onClick={() => this.onDeleteEmail()}>
-										<i className="zmdi zmdi-delete"></i>
-									</IconButton>
-								</div>
-							</div>
-							
 								<div>
 									<div className="top-head d-flex justify-content-between align-items-center">
 										<h4 className="mb-20 text-capitalize w-75 d-flex align-items-center">

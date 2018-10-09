@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\mongodb\ActiveRecord;
 use MongoDB\BSON\ObjectId;
+use app\modules\v1\models\Institution;
 use Yii;
 
 class User extends ActiveRecord implements \yii\web\IdentityInterface
@@ -24,7 +25,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function attributes()
     {
-        return ['_id', 'name', 'email', 'status', 'address', 'credential'];
+        return ['_id', 'name', 'email', 'status', 'address', 'credential', 'institution_id'];
     }
 
     /**
@@ -33,6 +34,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public static function findIdentity($id)
     {
         return static::findOne(['_id' => new ObjectId($id)]);
+    }
+
+    public function getInstitution()
+    {
+        return $this->hasOne(Institution::className(), ['_id' => 'institution_id']);
     }
 
     /**
@@ -87,7 +93,7 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function validatePassword($password)
     {
         $credential = $this->credential;
-        return $credential['password'] === $password;
+        return password_verify($password, $credential['password']);
     }
 
     public function generateAccessToken($expireInSeconds = 21600)

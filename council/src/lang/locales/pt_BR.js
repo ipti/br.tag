@@ -15,6 +15,7 @@ module.exports = {
     "sidebar.feedback": "Feedback",
     "widgets.composeMail":"Nova Denúnica",
     "complaint.inbox":"Recebidas",
+    "complaint.list":"Todas",
     "complaint.foward":"Encaminhadas",
     "complaint.analysis":"Em Análise",
     "complaint.done":"Concluídas",

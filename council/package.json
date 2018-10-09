@@ -88,6 +88,7 @@
     "react-loadable": "5.4.0",
     "react-notifications": "^1.4.3",
     "react-number-format": "^3.3.0",
+    "react-paginating": "^1.0.3-react16.0",
     "react-quill": "1.2.7",
     "react-redux": "5.0.7",
     "react-router-dom": "^4.2.2",

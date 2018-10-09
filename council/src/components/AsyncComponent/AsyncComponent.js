@@ -53,8 +53,38 @@ const AsyncComplaintListComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+const AsyncComplaintListReceiveComponent = Loadable({
+	loader: () => import("Routes/complaint/list"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncComplaintListAnalisysComponent = Loadable({
+	loader: () => import("Routes/complaint/list"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncComplaintListForwardComponent = Loadable({
+	loader: () => import("Routes/complaint/list"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncComplaintListCompletedComponent = Loadable({
+	loader: () => import("Routes/complaint/list"),
+	loading: () => <RctPageLoader />,
+});
+
 const AsyncComplaintInsertComponent = Loadable({
 	loader: () => import("Routes/complaint/insert"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncComplaintFormalizeComponent = Loadable({
+	loader: () => import("Routes/complaint/formalize"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncComplaintUpdateComponent = Loadable({
+	loader: () => import("Routes/complaint/update"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -93,7 +123,13 @@ export {
 	AsyncSessionLoginComponent,
 	AsyncHomeComponent,
 	AsyncComplaintListComponent,
+	AsyncComplaintListReceiveComponent,
+	AsyncComplaintListAnalisysComponent,
+    AsyncComplaintListForwardComponent,
+    AsyncComplaintListCompletedComponent,
 	AsyncComplaintInsertComponent,
+	AsyncComplaintFormalizeComponent,
+	AsyncComplaintUpdateComponent,
 	AsyncComplaintViewComponent,
 	AsyncCitizenFollowComponent,
 	AsyncCitizenViewerComponent,

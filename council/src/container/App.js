@@ -64,6 +64,7 @@ class App extends Component {
 				<Route path="/agency" component={AgencyLayout} />
 				<Route path="/boxed" component={RctBoxedLayout} />
 				<Route path="/session/login" component={AsyncSessionLoginComponent} />
+				<Route path="/session/logout" component={AsyncSessionLoginComponent} />
 				<Route path="/citizen" component={AsyncCitizenComponent} />
 			</RctThemeProvider>
 		);

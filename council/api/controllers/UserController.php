@@ -48,12 +48,20 @@ class UserController extends Controller
 
         if (isset($data['username']) && isset($data['password'])) {
             $user = User::findByUsername($data['username']);
-
+            
             if($user !== null && $user->validatePassword($data['password'])){
+                $institution = $user->institution;
                 $token = $user->generateAccessToken();
                 return [
                     'status' => '1',
-                    'data' => ['_id' => (string) $user->_id, 'access_token' => $token],
+                    'data' => [
+                        '_id' => (string) $user->_id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'access_token' => $token,
+                        'institution' => (string) $user->institution_id,
+                        'institution_type' => strtoupper($institution->type),
+                    ],
                     'message' => 'Login efetuado com sucesso'
                 ];
             }
@@ -70,9 +78,9 @@ class UserController extends Controller
     public function actionLogout()
     {
         $data = Yii::$app->request->post();
-
-        if (isset($data['id'])) {
-            $user = User::findIdentity($data['id']);
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (isset($data['token'])) {
+            $user = User::findIdentityByAccessToken($data['token']);
             if($user !== null){
                 $user->destroyAccessToken();
                 return [

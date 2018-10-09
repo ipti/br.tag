@@ -6,27 +6,33 @@ export default [
         'icon': 'plus-circle'
     },
     {
-        'id': 0,
+        'id': 1,
         'handle': 'list',
+        'title': 'complaint.list',
+        'icon': 'menu'
+    },
+    {
+        'id': 2,
+        'handle': 'receive',
         'title': 'complaint.inbox',
         'icon': 'inbox'
     },
     {
-        'id': 1,
-        'handle': 'sent',
+        'id': 3,
+        'handle': 'forward',
         'title': 'complaint.foward',
-        'icon': 'mail-send'
-    },
-    {
-        'id': 2,
-        'handle': 'drafts',
-        'title': 'complaint.analysis',
-        'icon': 'email-open'
+        'icon': 'mail-reply-all'
     },
     {
         'id': 4,
-        'handle': 'trash',
+        'handle': 'analysis',
+        'title': 'complaint.analysis',
+        'icon': 'search'
+    },
+    {
+        'id': 5,
+        'handle': 'completed',
         'title': 'complaint.done',
-        'icon': 'star'
+        'icon': 'tab'
     }
 ];

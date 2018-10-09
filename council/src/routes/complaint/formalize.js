@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ComplaintForm from './components/ComplaintForm';
 
 
-export default class ComplaintInsert extends Component {
+export default class ComplaintFormalize extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -11,7 +11,7 @@ export default class ComplaintInsert extends Component {
 	render() {
 		return (
 			<div className="complaint-wrapper">
-                <ComplaintForm action="create"/>
+                <ComplaintForm {...this.props} id={this.props.match.params.id} action="formalize"/>
 			</div>
 		);
 	}

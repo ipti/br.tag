@@ -69,6 +69,10 @@ class Header extends Component {
 		this.setState({ isMobileSearchFormVisible: true });
 	}
 
+	logout(){
+		this.props.history.push(`/session/logout`);
+	}
+
 	render() {
 		const { isMobileSearchFormVisible } = this.state;
 		$('body').click(function () {
@@ -117,6 +121,11 @@ class Header extends Component {
 							<Tooltip title="Full Screen" placement="bottom">
 								<IconButton aria-label="settings" onClick={() => this.toggleScreenFull()}>
 									<i className="zmdi zmdi-crop-free"></i>
+								</IconButton>
+							</Tooltip>
+							<Tooltip title="Sair" placement="bottom">
+								<IconButton aria-label="settings" onClick={() => this.logout()}>
+									<i className="zmdi zmdi-lock"></i>
 								</IconButton>
 							</Tooltip>
 						</li>

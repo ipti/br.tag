@@ -18,7 +18,7 @@ const Citizen = ({match}) => (
     <Switch>
         <Redirect exact from={`${match.url}/`} to={`${match.url}/follow`} />
         <Route path={`${match.url}/follow`} component={AsyncCitizenFollowComponent} />
-        <Route path={`${match.url}/view`} component={AsyncCitizenViewerComponent} />
+        <Route path={`${match.url}/view/:id`} component={AsyncCitizenViewerComponent} />
         <Route path={`${match.url}/form`} component={AsyncCitizenFormComponent} />
     </Switch>
     </div>

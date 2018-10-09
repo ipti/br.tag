@@ -24,7 +24,21 @@ class CitizenController extends AuthController
     
     public function actionView($id)
     {
-        return Complaint::findOne(new ObjectId($id));
+        $complaint = Complaint::findOne(new ObjectId($id));
+
+        if(!is_null($complaint)){
+            return [
+                'status' => '1',
+                'data' => $complaint->getAttributes(),
+                'message' => 'Denúncia carregada com sucesso'
+            ];
+        }
+
+        return [
+            'status' => '0',
+            'error' => ['complaint' => 'Denúncia não encontrada'],
+            'message' => 'Denúncia não encontrada'
+        ];
     }
     
     public function actionCreate()

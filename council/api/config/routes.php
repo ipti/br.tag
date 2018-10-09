@@ -15,17 +15,24 @@ return [
     'POST v1/user' => 'v1/user/create',
     'GET,HEAD v1/user' => 'v1/user/index',
     'POST user/login' => 'user/login',
+    'POST user/logout' => 'user/logout',
 
     // =========== Complaint ============
     'POST v1/complaint/forward/<id>' => 'v1/complaint/forward',
     'POST v1/complaint/formalize/<id>' => 'v1/complaint/formalize',
     'POST v1/complaint/finalize/<id>' => 'v1/complaint/finalize',
     'POST v1/complaint/response/<id>' => 'v1/complaint/response',
-    'PUT,PATCH v1/complaint/<id>' => 'v1/complaint/update',
+    'POST v1/complaint/update/<id>' => 'v1/complaint/update',
     'DELETE v1/complaint/<id>' => 'v1/complaint/delete',
     'GET,HEAD v1/complaint/<id>' => 'v1/complaint/view',
     'POST v1/complaint' => 'v1/complaint/create',
     'GET,HEAD v1/complaint' => 'v1/complaint/index',
+    'v1/complaint' => 'v1/complaint/option',
+    'v1/complaint/forward/<id>' => 'v1/complaint/option',
+    'v1/complaint/formalize/<id>' => 'v1/complaint/option',
+    'v1/complaint/finalize/<id>' => 'v1/complaint/option',
+    'v1/complaint/response/<id>' => 'v1/complaint/option',
+    'v1/complaint/update/<id>' => 'v1/complaint/option',
 
     // =========== Citizen ============
     'POST v1/citizen' => 'v1/citizen/create',

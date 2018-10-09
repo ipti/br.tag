@@ -106,6 +106,7 @@
 		color: $breadcrumb-font-color;
 		display:  inline-block;
 		margin: 0;
+		width: 150px !important;
 	}
 	.rct-creadcrumb {
 		color: $breadcrumb-font-color;
@@ -141,6 +142,27 @@
 
 .form-header-primary{
 	border-bottom: solid 2px #5d92f4;
+}
+
+#anexos > li{
+	border-left: none;
+    padding: 0;
+}
+
+.button-pagination{
+	background-color: #FFFFFF;
+    border: solid 1px #4875b4;
+	cursor: pointer;
+	margin-left: 2px;
+	color: #4875b4;
+}
+.button-pagination:hover{
+	background-color: rgb(79, 97, 230);
+	color: #FFFFFF;
+}
+
+.b-bottom{
+	border-bottom: 1px solid #f1f1f1 !important;
 }
 
 @media (min-width:992px){

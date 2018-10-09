@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Form, FormGroup, Input } from 'reactstrap';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import QueueAnim from 'rc-queue-anim';
+import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import api from 'Api';
 
 // app config
@@ -29,7 +30,8 @@ class Signin extends Component {
 
   state = {
     username: '',
-    password: ''
+    password: '',
+    loader: false
   }
 
   /**
@@ -37,17 +39,50 @@ class Signin extends Component {
    */
   onUserLogin() {
     if (this.state.username !== '' && this.state.password !== '') {
+      sessionStorage.clear();
+      this.setState({loader: true});
       api.post('/user/login', this.state)
         .then(function(response){
           if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
-            sessionStorage.setItem('user', response.data.data._id);
-            sessionStorage.setItem('token', response.data.data.access_token);
+            let data = response.data.data;
+            sessionStorage.setItem('user', data._id);
+            sessionStorage.setItem('user_name', data.name);
+            sessionStorage.setItem('user_email', data.email);
+            sessionStorage.setItem('token', data.access_token);
+            sessionStorage.setItem('institution', data.institution);
+            sessionStorage.setItem('institution_type', data.institution_type);
             this.props.history.push('/app/complaint/list');
+          }
+          else{
+            this.setState({loader: false});
+            alert(response.data.message);
           }
         }.bind(this))
         .catch(function(error){
+          this.setState({loader: false});
           console.log(error);
         });
+    }
+  }
+
+  onUserLogout(){
+    this.setState({loader: true});
+    api.post(`/user/logout`, {token: sessionStorage.getItem('token')})
+        .then(function(response){
+          if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
+            sessionStorage.clear();
+            this.setState({loader: false});
+          }
+        }.bind(this))
+        .catch(function(error){
+          sessionStorage.clear();
+          this.setState({loader: false});
+        });
+  }
+
+  componentDidMount(){
+    if(this.props.location.pathname.indexOf('logout') >= 0){
+      this.onUserLogout();
     }
   }
 
@@ -58,9 +93,20 @@ class Signin extends Component {
     this.props.history.push('/citizen/form');
   }
 
+  onUserFollow() {
+    this.props.history.push('/citizen/follow');
+  }
+
   render() {
     const { username, password } = this.state;
     const { loading } = this.props;
+
+    if (this.state.loader) {
+			return (
+				<RctSectionLoader />
+			)
+    }
+    
     return (
       <QueueAnim type="bottom" duration={2000}>
         <div className="rct-session-wrapper">
@@ -79,6 +125,9 @@ class Signin extends Component {
                   <div>
                     <Link to="../citizen/form">
                       <Button variant="raised" className="btn-light" onClick={() => this.onUserSignUp()}>Denunciar ao Conselho</Button>
+                    </Link>
+                    <Link to="../citizen/follow">
+                      <Button variant="raised" className="btn-light ml-10" onClick={() => this.onUserFollow()}>Acompanhar Denúncia</Button>
                     </Link>
                   </div>
                 </div>

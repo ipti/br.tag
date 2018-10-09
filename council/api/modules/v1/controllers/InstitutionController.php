@@ -10,15 +10,23 @@ use Yii;
 
 class InstitutionController extends AuthController
 {
-
     public function actionIndex()
     {
-        return new ActiveDataProvider([
+        $institutions = [];
+        $provider = new ActiveDataProvider([
             'query' => Institution::find(),
             'pagination' => [
                 'pageSize' => 10,
             ]
         ]);
+
+        $models = $provider->getModels();
+        foreach ($models as $model) {
+            $attributes = $model->getAttributes();
+            $attributes['_id'] = (string) $attributes['_id'];
+            $institutions[] = $attributes;
+        }
+        return $institutions;
     }
     
     public function actionView($id)
@@ -86,6 +94,10 @@ class InstitutionController extends AuthController
             'error' => $institution->getErrors(),
             'message' => 'Erro ao excluir instituição'
         ];
+    }
+
+    public function actionOption(){
+        return [];
     }
 }
 

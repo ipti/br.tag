@@ -40,6 +40,7 @@ class AuthController extends Controller{
                     'Access-Control-Request-Method'    => ['POST','OPTIONS','GET','PUT','HEAD','DELETE','PATCH'],
                     'Access-Control-Request-Headers'    => ['*'],
                     'Access-Control-Allow-Headers' => ['*'],
+                    'Access-Control-Expose-Headers' => ['*'],
                     'Access-Control-Allow-Credentials' => true,
                     'Access-Control-Max-Age'           => 3600,
                 ],
