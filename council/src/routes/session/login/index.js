@@ -72,11 +72,13 @@ class Signin extends Component {
           if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
             sessionStorage.clear();
             this.setState({loader: false});
+            this.props.history.push('/session/login');
           }
         }.bind(this))
         .catch(function(error){
           sessionStorage.clear();
           this.setState({loader: false});
+          this.props.history.push('/session/login');
         });
   }
 

@@ -70,9 +70,9 @@ export default class ComplaintList extends Component {
         var param = {
             page : this.state.currentPage,
             filter: this.state.filter,
-            institution: user.institution
+            institution: sessionStorage.getItem('institution')
         }
-        const token = user.access_token;
+        const token = sessionStorage.getItem('token');
         api.get(`/v1/complaint?access-token=${token}&${buildParam(param)}`)
             .then(function(response){
                 let data = response.data;

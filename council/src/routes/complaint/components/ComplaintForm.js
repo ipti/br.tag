@@ -21,18 +21,6 @@ import Select from 'react-select'
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import api from 'Api';
-
-
-const user = {
-        id: sessionStorage.getItem('user'),
-        name: sessionStorage.getItem('user_name'),
-        email: sessionStorage.getItem('user_email'),
-        access_token: sessionStorage.getItem('token'),
-        institution: sessionStorage.getItem('institution'),
-        institutionType: sessionStorage.getItem('institution_type')
-}
-
-
 export default class ComplaintForm extends Component {
 
     constructor(props){
@@ -122,18 +110,18 @@ export default class ComplaintForm extends Component {
                 neighborhood: this.state.neighborhood,
                 complement: this.state.complement,
             },
-            receive_user: user.id,
+            receive_user: sessionStorage.getItem('user'),
             type: this.state.type,
             complement_type: this.state.complement_type,
             informer: this.state.informer,
-            place: user.institution,
+            place: sessionStorage.getItem('institution'),
             forwards: [
                 {
                     description: this.state.description,
                     date: actualDate,
                     files: this.state.files,
-                    user: user.id,
-                    institution: user.institution
+                    user: sessionStorage.getItem('user'),
+                    institution: sessionStorage.getItem('institution')
                 }
             ]
     
@@ -155,7 +143,7 @@ export default class ComplaintForm extends Component {
                     neighborhood: this.state.neighborhood,
                     complement: this.state.complement,
                 },
-                receive_user: user.id,
+                receive_user: sessionStorage.getItem('user'),
                 type: this.state.type,
                 complement_type: this.state.complement_type,
                 informer: this.state.informer,
@@ -229,7 +217,7 @@ export default class ComplaintForm extends Component {
 
     loadComplaint(){ console.log(user);
         this.setState({complaintLoaded: false});
-        api.get(`/v1/complaint/${this.props.id}?access-token=${user.access_token}`)
+        api.get(`/v1/complaint/${this.props.id}?access-token=${sessionStorage.getItem('token')}`)
             .then(function(response){
                 let data = response.data.data;
                 this.setState({
@@ -282,7 +270,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint?access-token=${user.access_token}`, data, header)
+        api.post(`/v1/complaint?access-token=${sessionStorage.getItem('token')}`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
@@ -327,7 +315,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint/update/${this.props.id}?access-token=${user.access_token}`, data, header)
+        api.post(`/v1/complaint/update/${this.props.id}?access-token=${sessionStorage.getItem('token')}`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
@@ -373,7 +361,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint/formalize/${this.props.id}?access-token=${user.access_token}`, data, header)
+        api.post(`/v1/complaint/formalize/${this.props.id}?access-token=${sessionStorage.getItem('token')}`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
