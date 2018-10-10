@@ -4,7 +4,15 @@
 import React, { Component } from 'react';
 
 import ComplaintViewItem from './components/ComplaintViewItem';
-import user from '../../constants/User';
+
+const user = {
+	id: sessionStorage.getItem('user'),
+	name: sessionStorage.getItem('user_name'),
+	email: sessionStorage.getItem('user_email'),
+	access_token: sessionStorage.getItem('token'),
+	institution: sessionStorage.getItem('institution'),
+	institutionType: sessionStorage.getItem('institution_type')
+}
 
 export default class ComplaintView extends Component {
 	

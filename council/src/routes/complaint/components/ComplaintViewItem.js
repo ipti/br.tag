@@ -182,6 +182,18 @@ class ComplaintViewItem extends Component {
                 }.bind(this))
                 .catch(function(error){
                     this.setState({ ['disableButtonResponse']: false });
+                    switch (error.response.status) {
+                        case 401:
+                            alert('Sessão expirada');
+                            this.props.history.push('/session/login');
+                        break;
+                        case 500:
+                            alert('Erro ao processar a solicitação');
+                        break;
+                        default:
+                            console.log(error);
+                        break;
+                    }
             }.bind(this));
         }
     }
@@ -218,6 +230,18 @@ class ComplaintViewItem extends Component {
                 }.bind(this))
                 .catch(function(error){
                     this.setState({ ['disableButtonForward']: false });
+                    switch (error.response.status) {
+                        case 401:
+                            alert('Sessão expirada');
+                            this.props.history.push('/session/login');
+                        break;
+                        case 500:
+                            alert('Erro ao processar a solicitação');
+                        break;
+                        default:
+                            console.log(error);
+                        break;
+                    }
             }.bind(this));
         }
     }
@@ -236,6 +260,18 @@ class ComplaintViewItem extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({institutions: []});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 
@@ -298,7 +334,19 @@ class ComplaintViewItem extends Component {
                 }
             }.bind(this))
             .catch(function(error){
-                console.log(error);
+                this.setState({institutions: []});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 
@@ -311,6 +359,18 @@ class ComplaintViewItem extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({institutions: []});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 

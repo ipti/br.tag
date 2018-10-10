@@ -8,11 +8,19 @@ import Hidden from '@material-ui/core/Hidden';
 import { NavLink } from 'react-router-dom';
 import Pagination from 'react-paginating';
 import api from 'Api';
-import user from '../../constants/User';
 import buildParam from '../../util/Param';
 
 import ComplaintListItem from './components/ComplaintListItem';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+
+const user = {
+    id: sessionStorage.getItem('user'),
+    name: sessionStorage.getItem('user_name'),
+    email: sessionStorage.getItem('user_email'),
+    access_token: sessionStorage.getItem('token'),
+    institution: sessionStorage.getItem('institution'),
+    institutionType: sessionStorage.getItem('institution_type')
+}
 
 export default class ComplaintList extends Component {
 	
@@ -64,7 +72,7 @@ export default class ComplaintList extends Component {
             filter: this.state.filter,
             institution: user.institution
         }
-        const token = user.access_token != sessionStorage.getItem('token') ? sessionStorage.getItem('token'): user.access_token;
+        const token = user.access_token;
         api.get(`/v1/complaint?access-token=${token}&${buildParam(param)}`)
             .then(function(response){
                 let data = response.data;
@@ -119,7 +127,15 @@ export default class ComplaintList extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({loader: false});
-                console.log(error);
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
     

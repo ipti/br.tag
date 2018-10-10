@@ -157,6 +157,17 @@ export default class CitizenForm extends Component {
                 }.bind(this))
                 .catch(function(error){
                     this.setState({ ['disableButton']: false });
+                    switch (error.response.status) {
+                        case 401:
+                            alert('Token inválido');
+                        break;
+                        case 500:
+                            alert('Erro ao processar a solicitação');
+                        break;
+                        default:
+                            console.log(error);
+                        break;
+                    }
             }.bind(this));
         }
       }

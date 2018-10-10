@@ -18,12 +18,19 @@ import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Select from 'react-select'
-
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
-import user from '../../../constants/User';
-import param from '../../../util/Param';
 import api from 'Api';
+
+
+const user = {
+        id: sessionStorage.getItem('user'),
+        name: sessionStorage.getItem('user_name'),
+        email: sessionStorage.getItem('user_email'),
+        access_token: sessionStorage.getItem('token'),
+        institution: sessionStorage.getItem('institution'),
+        institutionType: sessionStorage.getItem('institution_type')
+}
 
 
 export default class ComplaintForm extends Component {
@@ -220,7 +227,7 @@ export default class ComplaintForm extends Component {
          }
     }
 
-    loadComplaint(){
+    loadComplaint(){ console.log(user);
         this.setState({complaintLoaded: false});
         api.get(`/v1/complaint/${this.props.id}?access-token=${user.access_token}`)
             .then(function(response){
@@ -242,7 +249,18 @@ export default class ComplaintForm extends Component {
                 });
             }.bind(this))
             .catch(function(error){
-                console.log(error);
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 
@@ -284,6 +302,18 @@ export default class ComplaintForm extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({complaintLoaded: !this.state.complaintLoaded});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 
@@ -318,6 +348,18 @@ export default class ComplaintForm extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({complaintLoaded: !this.state.complaintLoaded});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                            alert('Erro ao processar a solicitação');
+                        break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 
@@ -351,6 +393,18 @@ export default class ComplaintForm extends Component {
             }.bind(this))
             .catch(function(error){
                 this.setState({complaintLoaded: !this.state.complaintLoaded});
+                switch (error.response.status) {
+                    case 401:
+                        alert('Sessão expirada');
+                        this.props.history.push('/session/login');
+                    break;
+                    case 500:
+                        alert('Erro ao processar a solicitação');
+                    break;
+                    default:
+                        console.log(error);
+                    break;
+                }
         }.bind(this));
     }
 

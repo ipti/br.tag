@@ -83,6 +83,8 @@ class Signin extends Component {
   componentDidMount(){
     if(this.props.location.pathname.indexOf('logout') >= 0){
       this.onUserLogout();
+    }else{
+      sessionStorage.clear();
     }
   }
 

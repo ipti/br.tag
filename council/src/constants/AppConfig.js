@@ -42,8 +42,8 @@ const AppConfig = {
         darkBgColor: '#424242'
     },
     baseUrl : '',
-    //baseUrlApi : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/api/` : `http://${window.location.host}/api/`,
-    baseUrlApi : 'http://api.tag.com/',
+    baseUrl : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/` : `http://${window.location.host}/`,
+    baseUrlApi : process.env.NODE_ENV === 'production' ? 'http://apitag.azurewebsites.net':'http://api.tag.com/',
 
     citizen: {
         id: '5ba4cca943269e4124001685',
@@ -51,5 +51,4 @@ const AppConfig = {
         institution: "5b956c3843269e6258003bf3"
     }
 }
-
 export default AppConfig;

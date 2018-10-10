@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import EmailAppSidebar from 'Routes/mail/components/EmailAppSidebar';
-import user from '../../constants/User';
 
 // redux actions
 import { onToggleMenu } from 'Actions';
@@ -20,8 +19,8 @@ class SidebarContent extends Component {
         this.props.onToggleMenu(data);
     }
     render() {
-        const username = typeof user.name === 'undefined' ? sessionStorage.getItem('user_name'): user.name;
-        const email = typeof user.email === 'undefined' ? sessionStorage.getItem('user_email'): user.email;
+        const username = sessionStorage.getItem('user_name');
+        const email = sessionStorage.getItem('user_email');
         return (
             <div className="rct-mail-wrapper">
             <div className="mail-sidebar-wrap">
