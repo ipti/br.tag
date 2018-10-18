@@ -2529,7 +2529,7 @@ class CensoController extends Controller {
 				$ivariable->save();
 			}
 		}
-		DEFINE('SCHOOL_YEAR',date("Y",strtotime($ivariable->initial_date)));
+		DEFINE('SCHOOL_YEAR',date("Y",strtotime(str_replace('/', '-', $ivariable->initial_date))));
 
 		// registro 10
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = '".DBNAME."';";
