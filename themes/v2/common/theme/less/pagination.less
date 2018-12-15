@@ -1,0 +1,38 @@
+//
+// Pagination
+// --------------------------------------------------
+
+// Pagination
+// ------------------------- //
+
+.pagination ul {
+	background: #fff;
+}
+.pagination ul > li > a:hover,
+.pagination ul > li.primary > a {
+	border-color: lighten(@primaryColor,10%);
+	background: @primaryColor;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0,0,0,.5);
+	box-shadow: 0 0 6px 1px rgba(0,0,0,.2) inset;
+	-webkit-box-shadow: 0 0 6px 1px rgba(0,0,0,.2) inset;
+	-moz-box-shadow: 0 0 6px 1px rgba(0,0,0,.2) inset;
+} 
+
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 2;
+  color: #ffffff;
+  cursor: default;
+  background-color: @primaryColor;
+  border-color: darken(@primaryColor,10%);
+}
+
+
+.pagination-right  { float:right;}
+.pagination-centered { text-align: center;}

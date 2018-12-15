@@ -7,7 +7,7 @@
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
-    'theme' => 'default',
+    'theme' => 'v2',
     'sourceLanguage' => 'pt-br',
     'language' => 'pt_br',
     // preloading 'log' component
@@ -27,7 +27,7 @@ return array(
             'class' => 'system.gii.GiiModule',
             'password' => 'p@s4tag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => array('127.0.0.1', '::1'),
+            'ipFilters' => array('127.0.0.1', '::1','170.83.206.201'),
             'generatorPaths' => array(
             ),
         ),
@@ -38,7 +38,8 @@ return array(
         'calendar',
         'timesheet',
         'curricularmatrix',
-        'quiz'
+        'quiz',
+        'dashform'
     ),
     // application components
     'components' => array(
@@ -52,7 +53,7 @@ return array(
         // uncomment the following to enable URLs in path-format
         'urlManager' => array(
             'urlFormat' => 'get',
-            'showScriptName' => false,
+            'showScriptName' => true,
             'caseSensitive' => false,
             'rules' => array(
                 'matriz-curricular/'                        => 'curricularmatrix/',

@@ -82,6 +82,11 @@
 			$this->render('contact', ['model' => $model]);
 		}
 
+		public function actionDashboard(){
+				$this->layout = "dashboard";
+				$this->render('dashenrollment');
+		}
+
 		/**
 		 * Displays the login page
 		 */

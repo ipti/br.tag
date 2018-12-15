@@ -1,0 +1,140 @@
+//
+// Accordions
+// --------------------------------------------------
+
+// Accordion
+// ------------------------- //
+
+#accordion {
+	margin: 0 0 10px;
+	position: relative;
+}
+	
+
+	.panel-group { border-color: #e5e5e5; .rounded(); }
+	.panel-body { font-size: 13px; background: #fff; .rounded(); border-color: #e5e5e5;  }
+	.panel-heading {
+		
+		
+		.panel-title {line-height:20px;} 
+
+		.accordion-toggle {
+			background: #f5f5f5;
+			color: #444;
+			text-decoration: none;
+			font-weight: 600;
+			.rounded();
+			
+			font-size: 13px;
+			line-height: 13px;
+
+			&.glyphicons {
+				line-height: 29px;
+				padding-left: 0; 
+				margin:0;
+					i:before {
+						display: block;
+						float: left;
+						font-size: 20px;
+						color: #797979;
+						top: auto;
+						left: 0;
+						width: 30px;
+						line-height: 29px;
+						height: 29px;
+						position: relative;
+						text-align: center;
+					}
+	
+			}
+	
+		}
+
+	&.glyphicons {
+				line-height: 29px;
+
+				
+					i:before {
+						display: block;
+						float: left;
+						font-size: 20px;
+						color: #797979;
+						top: auto;
+						left: auto;
+						width: 30px;
+						line-height: 29px;
+						height: 29px;
+						position: relative;
+						text-align: center;
+					}
+	
+			}
+	}
+
+	.accordion2 {
+			
+		.panel-default > .panel-heading {
+			  color: #333333;
+			  background-color: #fff;
+			
+		}
+
+		 .accordion-toggle {
+		
+			background: #fff;
+			height: 30px;
+			line-height: 29px;
+			&.glyphicons {
+				
+				
+					&:before {
+						display: block;
+						float: left;
+						font-size: 20px;
+						color: #797979;
+						top: auto;
+						left: auto;
+						width: 30px;
+						line-height: 29px;
+						height: 29px;
+						position: relative;
+						text-align: center;
+					}
+				
+			}
+		}
+		.accordion-body.in {
+			border-bottom: 1px solid #e5e5e5;
+		}
+		.accordion-group {
+			border: none;
+			margin: 0;
+			&:last-child {
+				.accordion-body.in { border-top: 1px solid #e5e5e5; }
+			}
+		}
+		.accordion-inner { 
+			border: none;
+		}
+	}
+
+
+.widget .widget-body {
+	.panel-heading .accordion-toggle {
+		background: #fff;
+		line-height: 30px;
+		display: block;
+		&.glyphicons i {
+			width: 30px;
+			line-height: 30px;
+			display: block;
+			height: 30px;
+			float: left;
+		}
+	}
+	.panel-heading { background-color: #fff}
+	.panel-default  { padding: 0; margin: 0; border-top:none;} 
+	.glyphicons {
+					&:before {  color:#ccc}
+	}
+}

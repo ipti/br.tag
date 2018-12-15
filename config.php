@@ -1,6 +1,6 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.7F');
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+define("TAG_VERSION",'2019.T1A');
 define("BOARD_MSG",'<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<strong>07/06/2018 - TAG VERSÃO 2.10.7F:</strong>

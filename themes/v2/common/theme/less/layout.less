@@ -1,0 +1,163 @@
+//
+// Layout
+// --------------------------------------------------
+
+// General
+// -------------------------
+
+.innerLR { padding: 0 10px; position: relative; }
+.innerAll { padding: 10px; position: relative; }
+.innerL { padding-left: 10px; position: relative; }
+.innerR { padding-right: 10px; position: relative; }
+.innerT { padding-top: 10px; position: relative; }
+.innerB { padding-bottom: 10px; position: relative; }
+
+// Grid
+// -------------------------
+
+.row-merge {
+	position: relative;
+	> [class*="col-md-"] ~ [class*="col-md-"] {
+		margin-left: 0;
+		&:after { position: absolute; top: 0; bottom: 0; width: 1px; content: ""; }
+	}
+	> [class*="col-md-"] ~ [class*="col-md-3"] { width: 25%; }
+	> [class*="col-md-"] ~ [class*="col-md-4"] { width: 33.33333333333333%; }
+	> [class*="col-md-"] ~ [class*="col-md-5"] { width: 41.66666666666667%; }
+	> [class*="col-md-"] ~ [class*="col-md-6"] { width: 50%; }
+	> [class*="col-md-"] ~ [class*="col-md-8"] { width: 66.66666666666666%; }
+	> [class*="col-md-"] ~ [class*="col-md-9"] { width: 75%; }
+	&.border-top, & ~ & { border-top: 1px solid #e5e5e5; }
+	&.border-bottom { border-bottom: 1px solid #e5e5e5; }
+}
+
+// Main Wrapper
+// -------------------------
+
+#wrapper {
+	position: relative;
+	overflow: hidden;
+	float: left;
+	width: 100%;
+}
+
+// Content
+// -------------------------
+
+body > .container-fluid { 
+	padding: 0;
+	background: #ffffff;
+	&.fixed { width: 960px; margin: 30px auto; }
+	&.fluid-boxed { width: 91%; margin: 30px auto; }
+	&.documentation {
+		background: #fff;
+	}
+}
+
+body > .container {
+	&.fluid {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		max-width: 100%;
+	}
+}
+
+#content { 
+	position: relative;
+	overflow: hidden;
+	margin: 0 0 0 204px;
+	background: #ffffff;
+	min-width: 320px;
+	min-height: 700px;
+	padding: 0 0 10px;
+	&.padding-none { padding: 0; }
+	> .menubar { border-left: none; border-right: none; }
+	> p { padding: 0 10px 5px; }
+	> h1, > h2, > h3, > h4, > h5, > h6 { margin: 0 10px 10px; }
+	
+	.heading-mosaic {
+		height: 39px;
+		line-height: 39px;
+		padding: 0 10px;
+		background: @headingMosaicBg;
+		border-bottom: 1px solid #e5e5e5;
+		margin: 0 0 10px;
+		font-weight: 400;
+	}
+	h3.heading-mosaic { font-size: 16pt; }
+	h2.heading-mosaic { font-size: 20pt; height: 49px; line-height: 49px; }
+	.heading-arrow {
+		text-transform: uppercase;
+		border-bottom: 1px solid #dddddd;
+		margin: 0 0 10px;
+		padding: 0 15px;
+		font-size: 11pt;
+		height: 35px;
+		line-height: 30px;
+		position: relative;
+		&:after {
+			content: "";
+			display: inline-block;
+			width: 0;
+			height: 0;
+			border-bottom: 8px solid #ddd;
+			border-right: 8px solid transparent;
+			border-left: 8px solid transparent;
+			position: absolute;
+			bottom: 0;
+			left: 15px;
+		}
+		&.glyphicons { padding: 0 10px 0 40px; i:before { font-size: 17px; left: 15px; } }
+		&.margin-bottom-none { margin-bottom: 0; }
+	}
+	
+	> .widget { 
+		border-left: 0; 
+		border-right: 0;
+		.widget-head,
+		.widget-body {
+			border-left: 0; 
+			border-right: 0;
+		}
+		&:last-child { margin: 0; }
+	}
+	
+	> .table { 
+		border-left: none; border-right: none;
+		tr td:first-child { border-left: none; }
+	}
+}
+
+// Footer
+// -------------------------
+ 
+#footer {
+	background: rgba(0,0,0,.9) url("../images/mosaic-pattern.png") repeat;
+	border-top: 1px solid rgba(255,255,255,.2);
+	color: #fff;
+	padding: 10px 10px 30px;
+	position: relative;
+	overflow: hidden;
+	a:not(.btn) { color: #dadada; }
+	.copy {
+		background: rgba(0,0,0,.2);
+		margin: 5px 10px;
+		a { color: @primaryColor; }
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 20px;
+	}
+	.row-menu {
+		padding: 10px;
+		[class*="span"] {
+			> ul { margin: 0; } 
+		}
+	}
+}
+
+.text-faded { color: #d7d7d7 !important; }
+.text-large { font-size: 35px !important; line-height: 40px !important; }
+.text-xxlarge { font-size: 70px; line-height: 70px; }

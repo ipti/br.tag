@@ -6,11 +6,12 @@ $_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNo
 $_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclarationReport');
 $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+//$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $_GLOBALGROUP = 0;
+$domain = 'propria';
 switch ($domain) {
     case 'propria':
-        $instance = 'PROPRIÁ';
+        $instance = 'DEV';
         $db = 'io.escola.se.propria';
         break;
     case 'afonsomedeiros':

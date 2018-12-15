@@ -1,4 +1,5 @@
 <?php
+
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/framework/yii.php';
 $instance=dirname(__FILE__).'/instance.php';
