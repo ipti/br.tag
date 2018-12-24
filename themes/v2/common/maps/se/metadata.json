@@ -1,0 +1,14 @@
+{
+  "name": "cidades-sergipe",
+  "version": "1.1.0",
+  "description": "",
+  "attribution": "Rendered with <a href=\"https://www.maptiler.com/\">MapTiler Desktop</a>",
+  "type": "baselayer",
+  "format": "pbf",
+  "minzoom": "5",
+  "maxzoom": "11",
+  "scale": "1.000000",
+  "bounds": [-38.24504702, -11.56865574, -36.39386782, -9.51502991],
+  "profile": "mercator",
+  "vector_layers": [{"id":"28MUE250GC_SIR","description":"","minzoom":5, "maxzoom":11,"fields":{"NM_MUNICIP":"String","CD_GEOCMU":"String"}}]
+}

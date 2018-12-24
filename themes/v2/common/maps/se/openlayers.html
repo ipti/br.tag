@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>cidades-sergipe</title>
+<meta charset="utf-8">
+<meta http-equiv="imagetoolbar" content="no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css" type="text/css">
+<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL,fetch,Function.prototype.bind,es5&flags=always,gated&unknown=polyfill" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js" type="text/javascript"></script>
+<style type="text/css">
+#osmCheckbox,#osmCheckboxLabel{bottom:10px;position:absolute}
+#layerList,#osmCheckbox,#osmCheckboxLabel,#slider{position:absolute}
+#layerList{top:30px;right:0;bottom:0;width:220px;overflow:auto}
+#map,.ol-overlaycontainer-stopevent,body,html{overflow:hidden}
+#layerList div{color:#000;cursor:pointer}
+#layerList div.hidden{opacity:.3}
+#layerList div div{width:15px;height:15px;display:inline-block}
+#osmCheckbox{left:10px}
+#osmCheckboxLabel{left:30px;text-shadow:#fff 0 0 8px}
+#slider{width:200px;top:10px;right:10px;background:#fff;color:#fff}
+#map,body,html{width:100%;height:100%;margin:0;padding:0;background:#fff,color:#333;font-family:Arial,sans-serif;font-size:14px;line-height:1}
+#map{top:0;left:0;right:230px;bottom:0;width:auto}
+#map,.ol-popup{position:absolute}
+.map-controls a.primary,.map-controls a.primary:active,.map-controls a.primary:focus,.map-controls a.primary:hover,.ol-control button.primary,.ol-control button.primary:active,.ol-control button.primary:focus,.ol-control button.primary:hover{color:#fff;background:#6941aa;border:1px solid #6941aa}
+.map-controls a:active,.map-controls a:focus,.map-controls a:hover,.ol-control button:active,.ol-control button:focus,.ol-control button:hover{color:#6941aa;background:#fff;border:1px solid #977dc7}
+.map-controls a .disabled,.map-controls a.disabled,.ol-control button .disabled,.ol-control button.disabled{background-color:#e6e6e6}
+.map-controls a span:first-child,.ol-control button span:first-child{display:none}
+.map-controls a .enabled span:first-child,.map-controls a span:last-child,.map-controls a.enabled span:first-child,.ol-control button .enabled span:first-child,.ol-control button span:last-child,.ol-control button.enabled span:first-child{display:block}
+.map-controls a .enabled,.map-controls a.enabled,.ol-control button .enabled,.ol-control button.enabled{color:#6941aa;background:#fff;border:1px solid #6941aa;z-index:12}
+.map-controls a .enabled span:last-child,.map-controls a.enabled span:last-child,.ol-control button .enabled span:last-child,.ol-control button.enabled span:last-child{display:none}
+.ol-control button{vertical-align:middle;font-family:icons;display:block;position:relative;color:#848788;background:#fff;text-decoration:none;width:36px;height:36px;font-size:21.6px;text-align:center;margin:-1px 0;font-weight:700;cursor:pointer;z-index:10;border:1px solid #977dc7;line-height:1.2em;padding-bottom:5px}
+.ol-control.ol-attribution button{display:inline-block}
+.ol-control,.ol-control:hover{background-color:transparent;border-radius:0;padding:0}
+.ol-scale-line{background:0 0}
+.ol-scale-line-inner{border:1px solid #fff;border-top:none;color:#fff}
+.ol-popup{background-color:#fff;-webkit-filter:drop-shadow(0 1px 4px rgba(0,0,0,.2));filter:drop-shadow(0 1px 4px rgba(0, 0, 0, .2));padding:10px;border-radius:10px;border:1px solid #ccc;bottom:12px;left:-50px;font-size:11px;min-width:150px}
+.ol-popup:after,.ol-popup:before{top:100%;border:solid transparent;content:" ";height:0;width:0;position:absolute;pointer-events:none}
+.ol-popup:after{border-top-color:#fff;border-width:10px;left:48px;margin-left:-10px}
+.ol-popup:before{border-top-color:#ccc;border-width:11px;left:48px;margin-left:-11px}
+.inspect-layer{font-weight:700;line-height:2}
+.inspect-layer:not(:first-child){border-top:1px solid #ccc}
+.inspect-row{display:table-row;line-height:1.8}
+.inspect-name,.inspect-value{display:table-cell}
+.inspect-value{padding-left:10px}
+</style>
+<script type="text/javascript">
+var randomColor=function(){var r=null,e={};o("monochrome",null,[[0,0],[100,0]]),o("red",[-26,18],[[20,100],[30,92],[40,89],[50,85],[60,78],[70,70],[80,60],[90,55],[100,50]]),o("orange",[19,46],[[20,100],[30,93],[40,88],[50,86],[60,85],[70,70],[100,70]]),o("yellow",[47,62],[[25,100],[40,94],[50,89],[60,86],[70,84],[80,82],[90,80],[100,75]]),o("green",[63,178],[[30,100],[40,90],[50,85],[60,81],[70,74],[80,64],[90,50],[100,40]]),o("blue",[179,257],[[20,100],[30,86],[40,80],[50,74],[60,60],[70,52],[80,44],[90,39],[100,35]]),o("purple",[258,282],[[20,100],[30,87],[40,79],[50,70],[60,65],[70,59],[80,52],[90,45],[100,42]]),o("pink",[283,334],[[20,100],[30,90],[40,86],[60,84],[80,80],[90,75],[100,73]]);var n=function(o){if(void 0!==(o=o||{}).seed&&null!==o.seed&&o.seed===parseInt(o.seed,10))r=o.seed;else if("string"==typeof o.seed)r=function(r){for(var e=0,n=0;n!==r.length&&!(e>=Number.MAX_SAFE_INTEGER);n++)e+=r.charCodeAt(n);return e}(o.seed);else{if(void 0!==o.seed&&null!==o.seed)throw new TypeError("The seed value must be an integer or string");r=null}var i,l;if(null!==o.count&&void 0!==o.count){var c=o.count,h=[];for(o.count=null;c>h.length;)r&&o.seed&&(o.seed+=1),h.push(n(o));return o.count=c,h}return function(r,e){switch(e.format){case"hsvArray":return r;case"hslArray":return s(r);case"hsl":var n=s(r);return"hsl("+n[0]+", "+n[1]+"%, "+n[2]+"%)";case"hsla":var t=s(r),a=e.alpha||Math.random();return"hsla("+t[0]+", "+t[1]+"%, "+t[2]+"%, "+a+")";case"rgbArray":return u(r);case"rgb":var o=u(r);return"rgb("+o.join(", ")+")";case"rgba":var i=u(r),a=e.alpha||Math.random();return"rgba("+i.join(", ")+", "+a+")";default:return function(r){var e=u(r);function n(r){var e=r.toString(16);return 1==e.length?"0"+e:e}return"#"+n(e[0])+n(e[1])+n(e[2])}(r)}}([i=function(r){var n=a(function(r){if("number"==typeof parseInt(r)){var n=parseInt(r);if(n<360&&n>0)return[n,n]}if("string"==typeof r)if(e[r]){var t=e[r];if(t.hueRange)return t.hueRange}else if(r.match(/^#?([0-9A-F]{3}|[0-9A-F]{6})$/i)){var a=function(r){r=3===(r=r.replace(/^#/,"")).length?r.replace(/(.)/g,"$1$1"):r;var e=parseInt(r.substr(0,2),16)/255,n=parseInt(r.substr(2,2),16)/255,t=parseInt(r.substr(4,2),16)/255,a=Math.max(e,n,t),o=a-Math.min(e,n,t),u=a?o/a:0;switch(a){case e:return[(n-t)/o%6*60||0,u,a];case n:return[60*((t-e)/o+2)||0,u,a];case t:return[60*((e-n)/o+4)||0,u,a]}}(r)[0];return[a,a]}return[0,360]}(r.hue));n<0&&(n=360+n);return n}(o),l=function(r,e){if("monochrome"===e.hue)return 0;if("random"===e.luminosity)return a([0,100]);var n=(s=r,t(s).saturationRange),o=n[0],u=n[1];var s;switch(e.luminosity){case"bright":o=55;break;case"dark":o=u-10;break;case"light":u=55}return a([o,u])}(i,o),function(r,e,n){var o=function(r,e){for(var n=t(r).lowerBounds,a=0;a<n.length-1;a++){var o=n[a][0],u=n[a][1],s=n[a+1][0],i=n[a+1][1];if(e>=o&&e<=s){var l=(i-u)/(s-o),c=u-l*o;return l*e+c}}return 0}(r,e),u=100;switch(n.luminosity){case"dark":u=o+20;break;case"light":o=(u+o)/2;break;case"random":o=0,u=100}return a([o,u])}(i,l,o)],o)};function t(r){r>=334&&r<=360&&(r-=360);for(var n in e){var t=e[n];if(t.hueRange&&r>=t.hueRange[0]&&r<=t.hueRange[1])return e[n]}return"Color not found"}function a(e){if(null===r)return Math.floor(e[0]+Math.random()*(e[1]+1-e[0]));var n=e[1]||1,t=e[0]||0,a=(r=(9301*r+49297)%233280)/233280;return Math.floor(t+a*(n-t))}function o(r,n,t){var a=t[0][0],o=t[t.length-1][0],u=t[t.length-1][1],s=t[0][1];e[r]={hueRange:n,lowerBounds:t,saturationRange:[a,o],brightnessRange:[u,s]}}function u(r){var e=r[0];0===e&&(e=1),360===e&&(e=359),e/=360;var n=r[1]/100,t=r[2]/100,a=Math.floor(6*e),o=6*e-a,u=t*(1-n),s=t*(1-o*n),i=t*(1-(1-o)*n),l=256,c=256,h=256;switch(a){case 0:l=t,c=i,h=u;break;case 1:l=s,c=t,h=u;break;case 2:l=u,c=t,h=i;break;case 3:l=u,c=s,h=t;break;case 4:l=i,c=u,h=t;break;case 5:l=t,c=u,h=s}return[Math.floor(255*l),Math.floor(255*c),Math.floor(255*h)]}function s(r){var e=r[0],n=r[1]/100,t=r[2]/100,a=(2-n)*t;return[e,Math.round(n*t/(a<1?a:2-a)*1e4)/100,a/2*100]}return n}();function brightColor(r,e){var n="bright",t=null;return/water|ocean|lake|sea|river/.test(r)&&(t="blue"),/state|country|place/.test(r)&&(t="pink"),/road|highway|transport/.test(r)&&(t="orange"),/contour|building/.test(r)&&(t="monochrome"),/building/.test(r)&&(n="dark"),/contour|landuse/.test(r)&&(t="yellow"),/wood|forest|park|landcover/.test(r)&&(t="green"),"rgba("+randomColor({luminosity:n,hue:t,seed:r,format:"rgbArray"}).concat([e||1]).join(", ")+")"}function alphaColors(r){var e=brightColor.bind(null,r);return{circle:e(.8),line:e(.6),polygon:e(.3),polygonOutline:e(.6),default:e(1)}}
+
+</script>
+</head>
+<body>
+<div id="map" class="map"></div>
+<div id="popup" class="ol-popup">
+  <div id="popup-content"></div>
+</div>
+<div id="layerList"></div>
+<input type="checkbox" id="osmCheckbox" /><label id="osmCheckboxLabel" for="osmCheckbox">Show OSM</label>
+<input id="slider" type="range" min="0" max="1" step="0.1" value="1" oninput="layer.setOpacity(this.value)">
+<script>
+var map;
+var layer;
+
+if (window.location.protocol == 'file:' && window.location.search != '?skipalert=') alert('Please upload this directory to a web hosting or run a simple web server!');
+var mapExtent = ol.proj.transformExtent([-38.245047, -11.568656, -36.393868, -9.515030], 'EPSG:4326', 'EPSG:3857');
+var mapMinZoom = 5;
+var mapMaxZoom = 11;
+
+// Prepare style list
+var layerList = document.getElementById('layerList');
+var layerStyleMap = {}, layerStyleVisibility = {};
+var vlayers = [{"id":"28MUE250GC_SIR","description":"","minzoom":5, "maxzoom":11,"fields":{"NM_MUNICIP":"String","CD_GEOCMU":"String"}}];
+vlayers.forEach(function(el) {
+    var layerId = el['id'];
+    var colors = alphaColors(layerId);
+
+    var style = {
+        'Polygon': new ol.style.Style({
+            fill: new ol.style.Fill({color: colors.polygon}),
+            stroke: new ol.style.Stroke({color: colors.polygonOutline})
+        }),
+        'LineString': new ol.style.Style({
+            stroke: new ol.style.Stroke({color: colors.line})
+        }),
+        'Point': new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({color: colors.circle}),
+                radius: 2
+            })
+        })
+    };
+    style['MultiPolygon'] = style['Polygon'];
+    style['MultiLineString'] = style['LineString'];
+    style['MultiPoint'] = style['Point'];
+
+    layerStyleMap[layerId] = style;
+    layerStyleVisibility[layerId] = true;
+
+    var item = document.createElement('div');
+    item.innerHTML = '<div style="' +
+      'background:' + colors.default + ';' +
+      '"></div> ' + layerId;
+
+    item.addEventListener('click', function(e) {
+        layerStyleVisibility[layerId] = !layerStyleVisibility[layerId];
+        item.className = layerStyleVisibility[layerId] ? '' : 'hidden';
+        layer.changed();
+    });
+    layerList.appendChild(item);
+});
+
+// Prepare vector layer
+layer = new ol.layer.VectorTile({
+    //preload: Infinity,
+    source: new ol.source.VectorTile({
+        attributions: [new ol.Attribution({html: 'cidades-sergipe; Rendered with <a href="https://www.maptiler.com/">MapTiler Desktop</a>'})],
+        format: new ol.format.MVT(),
+        tileGrid: new ol.tilegrid.createXYZ({
+            minZoom: mapMinZoom,
+            maxZoom: mapMaxZoom,
+            tileSize: 512,
+        }),
+        tilePixelRatio: 8,
+        url: "{z}/{x}/{y}.pbf",
+    }),
+    extent: mapExtent,
+    style: function(feature, resolution) {
+        var layerId = feature.get('layer');
+        if (!layerStyleVisibility[layerId])
+            return null;
+        var style = layerStyleMap[layerId][feature.getType()];
+        if (!style) {
+            var colors = alphaColors(layerId);
+            style = new ol.style.Style({
+                image: new ol.style.Circle({fill: new ol.style.Fill({color: colors.circle}), radius: 2.1}),
+                stroke: new ol.style.Stroke({color: colors.polygonOutline, width: 1})
+            });
+        }
+        return [style];
+    }
+});
+map = new ol.Map({
+    target: 'map',
+    layers: [
+        layer
+    ],
+    view: new ol.View({
+        center: ol.proj.fromLonLat([-37.319457, -10.541843]),
+        zoom: 6,
+        minZoom: mapMinZoom,
+    })
+});
+
+var osmCheckbox = document.getElementById('osmCheckbox');
+var osmLayer = new ol.layer.Tile({
+    source: new ol.source.OSM(),
+    opacity: 0.2
+})
+osmCheckbox.onchange = function(e) {
+    if (osmCheckbox.checked) {
+        map.getLayers().insertAt(0, osmLayer);
+    } else {
+        map.removeLayer(osmLayer);
+    }
+};
+
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-content');
+var overlay = new ol.Overlay({element: container});
+map.addOverlay(overlay);
+map.on('pointermove', function(e) {
+    var html = '';
+    map.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
+        var props = feature.getProperties();
+        html += '<div class="inspect-layer">#' + props.layer + '</div>';
+        for (var key in props) {
+            if (key != 'layer') {
+                html += '<span class="inspect-row"><span class="inspect-name">' + key + '</span><span class="inspect-value">' + props[key] + '</span></span>';
+            }
+        }
+    });
+    if (html.length > 0) {
+        content.innerHTML = html;
+        overlay.setPosition(e.coordinate);
+    } else {
+        overlay.setPosition(undefined);
+    }
+});
+</script>
+</body>
+</html>
