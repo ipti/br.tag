@@ -1,0 +1,257 @@
+/*======= All App Effect Is Mentioned Here ========*/
+.rct-notify {
+  display: flex;
+  -moz-animation: notify 1.5s infinite linear;
+  -o-animation: notify 1.5s infinite linear;
+  -webkit-animation: notify 1.5s infinite linear;
+  animation: notify 1.5s infinite linear;
+  border-radius: 100%;
+}
+@-webkit-keyframes notify {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(179, 182, 183, 0.96);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 12px rgba(179, 182, 183, 0.96);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(179, 182, 183, 0.96);
+  }
+}
+@keyframes notify {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(179, 182, 183, 0.96);
+    box-shadow: 0 0 0 0 rgba(179, 182, 183, 0.96);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 12px rgba(179, 182, 183, 0);
+    box-shadow: 0 0 0 12px rgba(179, 182, 183, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(179, 182, 183, 0);
+    box-shadow: 0 0 0 0 rgba(179, 182, 183, 0);
+  }
+}
+/*=========== Weather Widget Effect =============*/
+.rct-weather-widget {
+  background-image: $weather-bg;
+  background-size: cover;
+  -moz-animation: animatedBackground 25s infinite ease;
+  -o-animation: animatedBackground 25s infinite ease;
+  -webkit-animation: animatedBackground 25s infinite ease;
+  animation: animatedBackground 25s infinite ease;
+}
+@-webkit-keyframes animatedBackground {
+  0% { background-position: 0 0; }
+  1% { background-position: 0 0; }
+  50% { background-position: -1000px 0; }
+  51% { background-position: -1000px 0; }
+  99% { background-position: 0 0; }
+  100% { background-position: 0 0; }
+}
+@keyframes animatedBackground {
+  0% { background-position: 0 0; }
+  1% { background-position: 0 0; }
+  50% { background-position: -1000px 0; }
+  51% { background-position: -1000px 0; }
+  99% { background-position: 0 0; }
+  100% { background-position: 0 0; }
+}
+/*===== Setting Rotate Animation ======*/
+.rotate {
+  -webkit-transition:0.6s ease-out;
+  -moz-transition:0.6s ease-out;
+  -ms-transition:0.6s ease-out;
+  -o-transition:0.6s ease-out;
+  transition:0.6s ease-out !important;
+}
+.rotate:hover {
+  -webkit-transform:rotateZ(360deg);
+  -moz-transform:rotateZ(360deg);
+  -ms-transform:rotateZ(360deg);
+  -o-transform:rotateZ(360deg);
+  transform:rotateZ(360deg);
+}
+/*====== Bell Shake Animation =====*/
+@-ms-keyframes ring {
+  0%{
+    -ms-transform:rotate(15deg);
+  }
+  50%{
+    -ms-transform:rotate(-15deg);
+  }
+  100%{
+    -ms-transform:rotate(15deg);
+  }
+}
+ @-moz-keyframes ring {
+  0%{
+    -moz-transform:rotate(15deg);
+  }
+  50%{
+    -moz-transform:rotate(-15deg);
+  }
+  100%{
+    -moz-transform:rotate(15deg);
+  }
+}
+ @-webkit-keyframes ring {
+  0%{
+    -webkit-transform:rotate(15deg);
+  }
+  50%{
+    -webkit-transform:rotate(-15deg);
+  }
+  100%{
+    -webkit-transform:rotate(15deg);
+  }
+}
+ @keyframes ring {
+  0%{
+    transform:rotate(15deg);
+  }
+  50%{
+    transform:rotate(-15deg);
+  }
+  100%{
+    transform:rotate(15deg);
+  }
+}
+.shake {
+  -ms-animation:ring .3s infinite;
+  -moz-animation:ring .3s infinite;
+  -webkit-animation:ring .3s infinite;
+  animation:ring .3s infinite;
+}
+
+@keyframes spin-icon{
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.spin-icon{
+  -webkit-animation: spin-icon 2s infinite linear;
+  animation: spin-icon 2s infinite linear;
+}
+/*======= Theme Panel =======*/
+.fixed-plugin {
+  position: fixed;
+  right: -2px;
+  width: auto;
+  z-index: 9;
+  border-radius: 10px 0 0 10px;
+  top: 130px;
+  i {
+    padding: 0.625rem; //10px;
+  }
+  .header-title {
+    line-height: 25px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .badge {
+    border-radius: 100%;
+    cursor: pointer;
+    display: inline-block;
+    height: 35px;
+    position: relative;
+    width: 35px;
+    padding: 0 !important;
+    transition: all .34s;
+  }
+  .dropdown {
+    > button.btn-secondary {
+      background: none;
+      border: none;
+      padding: 0;
+      &:hover, &.active, &:focus {
+        background: none;
+      }
+    }
+    &.show {
+      .dropdown-menu {
+        transform: translate3d(0,-40px,0) !important;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    .dropdown-menu {
+      right: 45px;
+      left: auto !important;
+      width: 19rem; // 330px;
+      border-radius: 5px;
+      padding: 1.25rem 0rem;
+      background-color: $block-bg;
+      transform: translate3d(0,100px,0) !important;
+      &::before, &::after {
+        border: none;
+      }
+    }
+  }
+  .background-img {
+    .img-holder {
+      border: 3px solid transparent;
+      overflow: hidden;
+      border-radius: 10px;
+      margin: 0 4px;
+      img {
+        max-height: 100%;
+        height: 100px;
+        width: 50px;
+      }
+      &.active {
+        border-color: $danger;
+      }
+    }
+  }
+}
+/*========== Tour scss =========*/
+.joyride-tooltip {
+	width: 23.13rem !important; //370px;
+  padding: 0 !important;
+  border-radius: 0;
+  &.right {
+    .joyride-tooltip__triangle {
+      left: -12px !important;
+      top: 8px;
+    }
+  }
+  &.bottom {
+    .joyride-tooltip__triangle {
+      top: -12px !important;
+    }
+  }
+  &.left {
+    .joyride-tooltip__triangle {
+      right: -12px !important;
+    }
+  }
+  .joyride-tooltip__header, .joyride-tooltip__main, .joyride-tooltip__footer {
+    padding: 0.625rem !important;
+  }
+  .joyride-tooltip__header {
+    @include border(1px solid, $primary, bottom);
+  	background-color: $primary;
+    color: $white;
+  }
+  .joyride-tooltip__footer {
+    @include border(1px solid, $input-border-color, top);
+  }
+  .joyride-tooltip__button--skip {
+    color: #f04;
+  }
+  .joyride-tooltip__close {
+    background: none;
+    &::before {
+      content: "\f136";
+    	font-family: Material-Design-Iconic-Font;
+    	color: $white;
+    }
+  }
+}

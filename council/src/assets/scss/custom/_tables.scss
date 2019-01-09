@@ -1,0 +1,146 @@
+/*============ Tables Style ===========*/
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+table {
+  thead, tbody {
+    tr {
+      &[class*='bg-'] {
+        td, th {
+          color: $white !important;
+        }
+      }
+    }
+  }
+  thead {
+    background-color: $table-head-bg;
+    tr {
+      th {
+        font-size: $table-tbody-font-size;
+        font-weight: 500;
+        color: $table-head-color;
+        border-width: 1px !important;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        font-size: $table-tbody-font-size;
+        font-weight: $table-tbody-font-weight;
+      }
+    }
+  }
+  thead, tbody, tfoot {
+    tr {
+      th, td {
+        vertical-align: middle !important;
+      }
+    }
+  }
+  .table-action {
+    a {
+      color: $gray-600;
+      font-size: 14px;
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+}
+.table-lg {
+  tr {
+    td {
+      padding: 1.438rem 0.75rem; //25px 12px;
+    }
+  }
+}
+.flip-scroll {
+  table {
+    tr {
+      th {
+        color: $white;
+      }
+    }
+  }
+}
+.table-borderless {
+  @include border(1px solid, $input-border-color, top bottom left right);
+  thead {
+    tr {
+      th {
+        font-size: 1.125rem; //18px;
+        color: $gray-900;
+        padding: 1.25rem 0.75rem; //20px 12px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+        border: none;
+      }
+    }
+  }
+}
+@media only screen and (max-width:767px) {
+  .unseen table {
+    td, th {
+      &:nth-child(4),
+      &:nth-child(7),
+      &:nth-child(8) {
+        display: none;
+      }
+    }
+  }
+}
+@media only screen and (max-width:991px) {
+  .unseen table {
+    td, th {
+      &:nth-child(2) {
+        display: none;
+      }
+    }
+  }
+  .flip-scroll * html .flip-content {
+    zoom: 1
+  }
+  .flip-scroll {
+    table {
+      display: block;
+    }
+    thead {
+      display: block;
+      float: left;
+    }
+    tbody {
+      display: block;
+      width: auto;
+      position: relative;
+      overflow-x: auto;
+      white-space: nowrap;
+      tr {
+        display: inline-block;
+        margin-left: -5px;
+        border-left: 1px solid $input-border-color;
+      }
+    }
+    td, th {
+      border-bottom: 1px solid $input-border-color;
+      border-right: 1px solid $input-border-color;
+      padding: 5px;
+      width: auto;
+      display: block;
+      text-align: right
+      &:last-child {
+        border-bottom: 1px solid $input-border-color;
+      }
+    }
+  }
+}

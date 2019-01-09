@@ -1,0 +1,388 @@
+/*======== Agency Menu Layout ========*/
+
+.app-boxed {
+   .app-container {
+      margin: 0 auto;
+      .app-header {
+         padding: 1rem 0;
+         margin: 0 1rem;
+         .rct-header {
+            background-color: transparent !important;
+            box-shadow: none !important;
+            >div {
+               padding: 0 !important;
+            }
+            .site-logo {
+               background-color: transparent !important;
+               padding: 0 !important;
+            }
+            .navbar-right {
+               li {
+                  &.summary-icon {
+                     display: none;
+                  }
+                  button,
+                  a i,
+                  a button {
+                     color: $white;
+                  }
+                  .dropdown-menu {
+                     ul li button,
+                     ul li a i {
+                        color: $gray-900;
+                     }
+                  }
+               }
+            }
+         }
+      }
+      .rct-page {
+         background-color: $gray-200;
+         border-radius: 10px;
+         overflow: hidden;
+         margin: 0 1rem;
+         .agency-menu {
+            height: 4.688rem;
+            padding-right: 1.5rem;
+            .nav-link span {
+               transition: color 0.2s ease;
+            }
+            .nav {
+               .nav-item {
+                  &:hover {
+                     >.nav-link,
+                     >.nav-link span {
+                        color: $primary !important;
+                     }
+                  }
+               }
+               >.nav-item {
+                  >.nav-link {
+                     height: 4.688rem;
+                     i {
+                        font-size: 1.25rem;
+                     }
+                  }
+                  &.nav-item-active,
+                  .sub-menu,
+                  .sub-menu .nav-item>.sub-menu-child,
+                  .sub-menu-child .nav-item>.sub-menu-sub-child {
+                     &:after {
+                        content: "";
+                        position: absolute;
+                        border: 9px solid black;
+                        border-color: transparent transparent #FFFFFF #FFFFFF;
+                        box-shadow: -3px 3.5px 7px rgba(204, 204, 204, 0.25);
+                        z-index: 4;
+                        transition: all 0.2s ease;
+                     }
+                  }
+                  .sub-menu,
+                  .sub-menu-child,
+                  .sub-menu-sub-child {
+                     box-shadow: 0 0 15px 1px rgba(69, 65, 78, .2);
+                     border-radius: 5px;
+                     transform: translateY(2rem);
+                     transition: transform 0.2s ease-in;
+                  }
+                  .sub-menu {
+                     top: 4.75rem;
+                     left: 1.5rem;
+                     >.nav-item {
+                        position: relative;
+                        &:after {
+                           content: "";
+                           left: 0;
+                           top: 0;
+                           bottom: 0;
+                           @include border(5px solid, $primary, left);
+                           position: absolute;
+                           opacity: 0;
+                           transition: all 0.3s ease-in-out;
+                        }
+                        &:hover {
+                           &:after {
+                              opacity: 1;
+                           }
+                        }
+                     }
+                     li {
+                        &:first-child {
+                           .nav-link {
+                              border-radius: 5px 5px 0 0;
+                           }
+                        }
+                        &:last-child {
+                           .nav-link {
+                              border-radius: 0 0 5px 5px;
+                           }
+                        }
+                        .deep-level {
+                           width: 500px !important;
+                        }
+                     }
+                     &:after {
+                        top: -0.5rem;
+                        left: 2rem;
+                        transform: rotate(135deg);
+                     }
+                     .nav-item {
+                        .nav-link {
+                           display: flex;
+                           align-items: center;
+                        }
+                        >.sub-menu-child {
+                           left: 15.8rem;
+                           width: 75%;
+                           &:after {
+                              top: 1rem;
+                              left: -0.5rem;
+                              transform: rotate(45deg);
+                           }
+                           li {
+                              .sub-menu-sub-child {
+                                 width: 75%;
+                                 left: 12rem;
+                                 li {
+                                    &:hover {
+                                       >.nav-link,
+                                       >.nav-link span {
+                                          color: $primary !important;
+                                       }
+                                    }
+                                 }
+                                 &:after {
+                                    top: 1rem;
+                                    left: -0.5rem;
+                                    transform: rotate(45deg);
+                                 }
+                              }
+                              &:hover {
+                                 >.sub-menu-sub-child {
+                                    transform: translateY(0rem);
+                                 }
+                              }
+                           }
+                        }
+                        &:hover {
+                           >.sub-menu-child {
+                              transform: translateY(0rem);
+                           }
+                        }
+                     }
+                  }
+                  &:hover {
+                     .sub-menu {
+                        transform: translateY(0);
+                     }
+                  }
+                  &.nav-item-active {
+                     &:hover {
+                        &:after {
+                           content: none;
+                        }
+                     }
+                     >.nav-link,
+                     >.nav-link span {
+                        color: $primary !important;
+                     }
+                     &:after {
+                        top: 4rem;
+                        left: 3.55rem;
+                        transform: rotate(-45deg);
+                     }
+                  }
+               }
+            }
+         }
+      }
+      .rct-footer {
+         background-color: transparent !important;
+         padding-left: 0;
+         padding-right: 0;
+         margin: 0 1rem;
+         * {
+            color: $white;
+         }
+      }
+      .fixed-plugin {
+         .agency-bg {
+            display: block !important;
+            li.active {
+               .badge {
+                  border: 3px solid $primary;
+                  box-shadow: 0 0 5px $blue;
+               }
+            }
+         }
+      }
+   }
+   .mail-sidebar-wrap .user-wrap,
+   .todo-sidebar-wrap .user-wrap,
+   .chat-sidebar .user-wrap {
+      height: auto !important;
+   }
+}
+
+@media (min-width: 1400px) {
+   .app-boxed {
+      .app-container {
+         width: 1500px
+      }
+      .rct-footer,
+      .app-header,
+      .rct-page {
+         margin: 0 1.875rem;
+      }
+   }
+}
+
+@media (min-width: 991px) {
+   .app-boxed {
+      .agency-menu {
+         .hamburger-icon {
+            display: none;
+         }
+      }
+      .fixed-plugin {
+         .sidebar-overlay,
+         .sidebar-color,
+         .sidebar-img,
+         .sidebar-img-check,
+         .background-img,
+         .mini-sidebar-option,
+         .box-layout-option {
+            display: none;
+         }
+      }
+   }
+}
+
+@media (max-width: 990px) {
+   .app-boxed {
+      .app-header {
+         padding: 0 !important;
+      }
+      .agency-menu {
+         padding: 0 1.5rem;
+         height: 3.5rem !important;
+         .nav {
+            display: none;
+         }
+         .hamburger-icon {
+            display: block;
+         }
+      }
+      .rct-page {
+         >.rct-scroll {
+            height: calc(100vh - 9.75rem) !important;
+         }
+      }
+      .rct-footer {
+         padding: 0.5rem 0;
+         justify-content: center !important;
+         ul {
+            display: none !important;
+         }
+      }
+   }
+}
+
+@media (max-width: 500px) {
+   .app-boxed {
+      .rct-header .site-logo {
+         display: block !important;
+         .logo-normal {
+            display: none !important;
+         }
+      }
+   }
+}
+
+@media (max-width: 1050px) {
+   .app-boxed {
+      .horizontal-menu {
+         >ul>li>a {
+            padding: 0.5rem 1rem !important;
+         }
+      }
+   }
+}
+
+@media (max-width: 1200px) and (min-width:900px) {
+   .agency-menu {
+      .nav {
+         >.nav-item:last-child {
+            >.sub-menu {
+               >.nav-item:last-child {
+                  &:hover {
+                     >.nav-link {
+                        &:after {
+                           transform: rotate(90deg);
+                        }
+                     }
+                  }
+                  .sub-menu-child {
+                     left: 0 !important;
+                     top: 3rem !important;
+                     width: 100% !important;
+                     &:after {
+                        content: none !important;
+                     }
+                     li {
+                        .sub-menu-sub-child {
+                           left: 15.8rem !important;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+.app-boxed.app-boxed-v2 {
+   animation: changeBg 25s linear infinite;
+   background-size: cover;
+   background-position: center center;
+   background-repeat: no-repeat;
+   .activity-widget {
+      .rct-scroll {
+         @media(max-width: 1300px) and (min-width:1150px) {
+            max-height: 360px !important;
+         }
+         @media(max-width:1149px) and (min-width:991px) {
+            max-height: 330px !important;
+         }
+      }
+   }
+   .fixed-plugin {
+      .agency-bg{
+         display:none !important;
+      }
+   }
+}
+
+/*================= Change Bg ===================*/
+
+@keyframes changeBg {
+   0% {
+      background-image: url("../img/bg-1.jpg");
+   }
+   20% {
+      background-image: url("../img/bg-2.jpg");
+   }
+   40% {
+      background-image: url("../img/bg-3.jpg");
+   }
+   60% {
+      background-image: url("../img/bg-4.jpg");
+   }
+   80% {
+      background-image: url("../img/bg-5.jpg");
+   }
+   100% {
+      background-image: url("../img/bg-1.jpg");
+   }
+}

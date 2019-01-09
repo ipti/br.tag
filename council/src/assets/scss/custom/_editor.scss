@@ -1,0 +1,25 @@
+/*============ Editor Style =============*/
+// Wysiwyg Editor
+.rct-editor-wrapper {
+  .rdw-editor-toolbar {
+    border: 1px solid $input-border-color !important;
+    background-color: $blue;
+  }
+  .rct-wysiwyg-editor {
+    height: 300px !important;
+    border: 1px solid $input-border-color !important;
+    padding: 5px 15px !important;
+    background: $block-bg;
+  }
+}
+
+// Quill Ediotr
+.quill {
+	overflow: hidden;
+}
+.ql-container {
+  height: 300px;
+}
+.ql-container.ql-snow, .ql-toolbar.ql-snow {
+  border-color: $input-border-color;
+}
