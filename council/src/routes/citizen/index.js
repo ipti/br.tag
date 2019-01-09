@@ -9,7 +9,8 @@ import { Redirect, Route, Switch, Link } from 'react-router-dom';
 import {
     AsyncCitizenFollowComponent,
     AsyncCitizenViewerComponent,
-    AsyncCitizenFormComponent
+    AsyncCitizenFormComponent,
+    AsyncComplaintFactRegisterComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 
@@ -20,6 +21,7 @@ const Citizen = ({match}) => (
         <Route path={`${match.url}/follow`} component={AsyncCitizenFollowComponent} />
         <Route path={`${match.url}/view/:id`} component={AsyncCitizenViewerComponent} />
         <Route path={`${match.url}/form`} component={AsyncCitizenFormComponent} />
+        <Route path={`${match.url}/fact`} component={AsyncComplaintFactRegisterComponent} />
     </Switch>
     </div>
 );

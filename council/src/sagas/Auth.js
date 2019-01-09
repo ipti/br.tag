@@ -2,13 +2,7 @@
  * Auth Sagas
  */
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import {
-    auth,
-    facebookAuthProvider,
-    googleAuthProvider,
-    twitterAuthProvider,
-    githubAuthProvider
-} from '../firebase';
+
 import {
     LOGIN_USER,
     LOGIN_FACEBOOK_USER,

@@ -93,6 +93,17 @@ const AsyncComplaintViewComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*------------ Fact Register --------------------*/
+const AsyncComplaintFactRegisterComponent = Loadable({
+	loader: () => import("Routes/factregister/index.js"),
+	loading: ()=> <RctPageLoader />,
+});
+
+const AsyncComplaintFactRegisterFormComponent = Loadable({
+	loader: () => import("Routes/factregister/factRegister.js"),
+	loading: ()=> <RctPageLoader />,
+});
+
 /*---------------- Citizen ------------------*/
 
 const AsyncCitizenComponent = Loadable({
@@ -115,6 +126,8 @@ const AsyncCitizenFormComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*------------------- */
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -134,5 +147,7 @@ export {
 	AsyncCitizenFollowComponent,
 	AsyncCitizenViewerComponent,
 	AsyncCitizenFormComponent,
-	AsyncCitizenComponent
+	AsyncCitizenComponent,
+	AsyncComplaintFactRegisterComponent,
+	AsyncComplaintFactRegisterFormComponent,
 };

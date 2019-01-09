@@ -25,7 +25,8 @@ import RctBoxedLayout from './RctBoxedLayout';
 // async components
 import {
 	AsyncSessionLoginComponent,
-	AsyncCitizenComponent
+	AsyncCitizenComponent,
+	AsyncComplaintFactRegisterComponent,
 } from 'Components/AsyncComponent/AsyncComponent';
 
 
@@ -41,6 +42,7 @@ const InitialPath = ({ component: Component, ...rest, authUser }) =>
 				: <Redirect
 					to={{
 						pathname: '/session/login',
+						
 						state: { from: props.location }
 					}}
 				/>}
@@ -66,6 +68,8 @@ class App extends Component {
 				<Route path="/session/login" component={AsyncSessionLoginComponent} />
 				<Route path="/session/logout" component={AsyncSessionLoginComponent} />
 				<Route path="/citizen" component={AsyncCitizenComponent} />
+				<Route path="/factregister" component={AsyncComplaintFactRegisterComponent} />
+				
 			</RctThemeProvider>
 		);
 	}
