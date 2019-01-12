@@ -21,6 +21,24 @@
  * @property integer $edcenso_nation_fk
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
+ * @property integer $college_post_graduation_specialization
+ * @property integer $college_post_graduation_master
+ * @property integer $college_post_graduation_doctorate
+ * @property integer $college_post_graduation_education_manager
+ * @property integer $college_other_courses_pre_school
+ * @property integer $college_other_courses_basic_education_initial_years
+ * @property integer $college_other_courses_basic_education_final_years
+ * @property integer $college_other_courses_high_school
+ * @property integer $college_other_courses_education_of_youth_and_adults
+ * @property integer $college_other_courses_special_education
+ * @property integer $college_other_courses_native_education
+ * @property integer $college_other_courses_field_education
+ * @property integer $college_other_courses_environment_education
+ * @property integer $college_other_courses_human_rights_education
+ * @property integer $college_other_courses_sexual_education
+ * @property integer $college_other_courses_child_and_teenage_rights
+ * @property integer $college_other_courses_ethnic_education
+ * @property integer $college_other_courses_other
  * @property integer $deficiency
  * @property integer $deficiency_type_blindness
  * @property integer $deficiency_type_low_vision
@@ -111,7 +129,7 @@ class StudentIdentification extends AltActiveRecord {
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, name, birthday, sex, color_race, filiation, nationality, edcenso_nation_fk, deficiency, send_year', 'required'),
-            array('sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
+            array('sex, color_race, filiation, scholarity, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, college_post_graduation_specialization, college_post_graduation_master, college_post_graduation_doctorate, college_post_graduation_education_manager, college_other_courses_pre_school, college_other_courses_basic_education_initial_years, college_other_courses_basic_education_final_years, college_other_courses_high_school, college_other_courses_education_of_youth_and_adults, college_other_courses_native_education, college_other_courses_field_education, college_other_courses_environment_education, college_other_courses_human_rights_education, college_other_courses_sexual_education, college_other_courses_child_and_teenage_rights, college_other_courses_ethnic_education, college_other_courses_other, college_other_courses_special_education, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, responsable, responsable_scholarity, filiation_1_scholarity, filiation_2_scholarity, bf_participator', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
@@ -126,7 +144,7 @@ class StudentIdentification extends AltActiveRecord {
             array('last_change, food_restrictions', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, inep_id, id, name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, college_post_graduation_specialization, college_post_graduation_master, college_post_graduation_doctorate, college_post_graduation_education_manager, college_other_courses_pre_school, college_other_courses_basic_education_initial_years, college_other_courses_basic_education_final_years, college_other_courses_high_school, college_other_courses_education_of_youth_and_adults, college_other_courses_native_education, college_other_courses_field_education, college_other_courses_environment_education, college_other_courses_human_rights_education, college_other_courses_sexual_education, college_other_courses_child_and_teenage_rights, college_other_courses_ethnic_education, college_other_courses_other, college_other_courses_special_education, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, food_restrictions, responsable_telephone, fkid', 'safe', 'on'=>'search'),
         );
     }
 
@@ -169,6 +187,24 @@ class StudentIdentification extends AltActiveRecord {
             'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
             'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
             'deficiency' => Yii::t('default', 'Deficiency'),
+            'college_post_graduation_specialization' => Yii::t('default', 'College Post Graduation Specialization'),
+            'college_post_graduation_master' => Yii::t('default', 'College Post Graduation Master'),
+            'college_post_graduation_doctorate' => Yii::t('default', 'College Post Graduation Doctorate'),
+            'college_post_graduation_education_manager' => Yii::t('default', 'College Post Graduation Education Manager'),
+            'college_other_courses_pre_school' => Yii::t('default', 'College Other Courses Pre School'),
+            'college_other_courses_basic_education_initial_years' => Yii::t('default', 'College Other Courses Basic Education Initial Years'),
+            'college_other_courses_basic_education_final_years' => Yii::t('default', 'College Other Courses Basic Education Final Years'),
+            'college_other_courses_high_school' => Yii::t('default', 'College Other Courses High School'),
+            'college_other_courses_education_of_youth_and_adults' => Yii::t('default', 'College Other Courses Education Of Youth And Adults'),
+            'college_other_courses_special_education' => Yii::t('default', 'College Other Courses Special Education'),
+            'college_other_courses_native_education' => Yii::t('default', 'College Other Courses Native Education'),
+            'college_other_courses_field_education' => Yii::t('default', 'College Other Courses Field Education'),
+            'college_other_courses_environment_education' => Yii::t('default', 'College Other Courses Environment Education'),
+            'college_other_courses_human_rights_education' => Yii::t('default', 'College Other Courses Human Rights Education'),
+            'college_other_courses_sexual_education' => Yii::t('default', 'College Other Courses Sexual Education'),
+            'college_other_courses_child_and_teenage_rights' => Yii::t('default', 'College Other Courses Child And Teenage Rights'),
+            'college_other_courses_ethnic_education' => Yii::t('default', 'College Other Courses Ethnic Education'),
+            'college_other_courses_other' => Yii::t('default', 'College Other Courses Other'),
             'deficiency_type_blindness' => Yii::t('default', 'Deficiency Type Blindness'),
             'deficiency_type_low_vision' => Yii::t('default', 'Deficiency Type Low Vision'),
             'deficiency_type_deafness' => Yii::t('default', 'Deficiency Type Deafness'),
@@ -249,6 +285,24 @@ class StudentIdentification extends AltActiveRecord {
 //        $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
 //        $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
 //        $criteria->compare('deficiency', $this->deficiency);
+//        $criteria->compare('college_post_graduation_specialization', $this->college_post_graduation_specialization);
+//        $criteria->compare('college_post_graduation_master', $this->college_post_graduation_master);
+//        $criteria->compare('college_post_graduation_doctorate', $this->college_post_graduation_doctorate);
+//        $criteria->compare('college_post_graduation_education_manager', $this->college_post_graduation_education_manager);
+//        $criteria->compare('college_other_courses_pre_school', $this->college_other_courses_pre_school);
+//        $criteria->compare('college_other_courses_basic_education_initial_years', $this->college_other_courses_basic_education_initial_years);
+//        $criteria->compare('college_other_courses_basic_education_final_years', $this->college_other_courses_basic_education_final_years);
+//        $criteria->compare('college_other_courses_high_school', $this->college_other_courses_high_school);
+//        $criteria->compare('college_other_courses_education_of_youth_and_adults', $this->college_other_courses_education_of_youth_and_adults);
+//        $criteria->compare('college_other_courses_special_education', $this->college_other_courses_special_education);
+//        $criteria->compare('college_other_courses_native_education', $this->college_other_courses_native_education);
+//        $criteria->compare('college_other_courses_field_education', $this->college_other_courses_field_education);
+//        $criteria->compare('college_other_courses_environment_education', $this->college_other_courses_environment_education);
+//        $criteria->compare('college_other_courses_human_rights_education', $this->college_other_courses_human_rights_education);
+//        $criteria->compare('college_other_courses_sexual_education', $this->college_other_courses_sexual_education);
+//        $criteria->compare('college_other_courses_child_and_teenage_rights', $this->college_other_courses_child_and_teenage_rights);
+//        $criteria->compare('college_other_courses_ethnic_education', $this->college_other_courses_ethnic_education);
+//        $criteria->compare('college_other_courses_other', $this->college_other_courses_other);
 //        $criteria->compare('deficiency_type_blindness', $this->deficiency_type_blindness);
 //        $criteria->compare('deficiency_type_low_vision', $this->deficiency_type_low_vision);
 //        $criteria->compare('deficiency_type_deafness', $this->deficiency_type_deafness);
