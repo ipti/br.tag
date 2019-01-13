@@ -35,6 +35,17 @@
  * @property integer $current_stage_situation
  * @property integer $previous_stage_situation
  * @property integer $admission_type
+ * @property integer $aee_cognitive_functions
+ * @property integer $aee_autonomous_life
+ * @property integer $aee_curriculum_enrichment
+ * @property integer $aee_accessible_teaching
+ * @property integer $aee_libras
+ * @property integer $aee_portuguese
+ * @property integer $aee_soroban
+ * @property integer $aee_braille
+ * @property integer $aee_mobility_techniques
+ * @property integer $aee_caa
+ * @property integer $aee_optical_nonoptical
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -115,7 +126,7 @@ class StudentEnrollment extends AltActiveRecord
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, student_fk, classroom_fk', 'required'),
-            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status', 'numerical', 'integerOnly'=>true),
+            array('student_fk, classroom_fk, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('student_inep_id, classroom_inep_id, enrollment_id', 'length', 'max'=>12),
@@ -124,7 +135,7 @@ class StudentEnrollment extends AltActiveRecord
             array('enrollment_id', 'validateMultiply'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical', 'safe', 'on'=>'search'),
         );
     }
 
@@ -184,7 +195,18 @@ class StudentEnrollment extends AltActiveRecord
             'previous_stage_situation' => Yii::t('default', 'Previous stage situation'),
             'school_admission_date' => Yii::t('default', 'School admission date'),
             'admission_type' => Yii::t('default', 'Admission type'),
-            'status' => Yii::t('default', 'Status')
+            'status' => Yii::t('default', 'Status'),
+            'aee_cognitive_functions' => Yii::t('default', 'Aee Cognitive Functions'),
+            'aee_autonomous_life' => Yii::t('default', 'Aee Autonomous Life'),
+            'aee_curriculum_enrichment' => Yii::t('default', 'Aee Curriculum Enrichment'),
+            'aee_accessible_teaching' => Yii::t('default', 'Aee Accessible Teaching'),
+            'aee_libras' => Yii::t('default', 'Aee Libras'),
+            'aee_portuguese' => Yii::t('default', 'Aee Portuguese'),
+            'aee_soroban' => Yii::t('default', 'Aee Soroban'),
+            'aee_braille' => Yii::t('default', 'Aee Braille'),
+            'aee_mobility_techniques' => Yii::t('default', 'Aee Mobility Techniques'),
+            'aee_caa' => Yii::t('default', 'Aee Caa'),
+            'aee_optical_nonoptical' => Yii::t('default', 'Aee Optical Nonoptical')
 
         );
     }

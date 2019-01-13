@@ -796,6 +796,27 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                 </div>
                             </div>
+
+                            <div class="separator"></div>
+
+                            <div class="widget widget-scroll margin-bottom-none"
+                                 data-toggle="collapse-widget" data-scroll-height="223px"
+                                 data-collapse-closed="false">
+                                <div class="widget-head">
+                                    <h4 class="heading glyphicons nameplate">
+                                        <i></i>Justificativa da falta de documentação
+                                    </h4>
+                                </div>
+                                <div class="widget-body in" style="height: auto;">
+                                    <div class="control-group">
+                                        <?php echo $form->labelEx($modelStudentIdentification, 'no_documents_desc', array('class' => 'control-label')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->DropDownList($modelStudentIdentification, 'no_documents_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
+                                            <?php echo $form->error($modelStudentIdentification, 'no_documents_desc'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class=" span6">
@@ -1246,6 +1267,55 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <label class="checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
                                         <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="control-group" id="">
+                                <label class="control-label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_cognitive_functions']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_autonomous_life']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_curriculum_enrichment']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_accessible_teaching']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_libras']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_portuguese']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_soroban']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_braille']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_mobility_techniques']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_caa']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_caa', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo StudentEnrollment::model()->attributeLabels()['aee_optical_nonoptical']; ?>
+                                        <?php echo $form->checkBox($modelEnrollment, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
                             </div>
