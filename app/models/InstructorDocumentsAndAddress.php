@@ -18,6 +18,7 @@
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
  * @property string $fkid
+ * @property integer $diff_location
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -62,7 +63,7 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('school_inep_id_fk', 'required'),
-			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk', 'numerical', 'integerOnly'=>true),
+			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk, diff_location', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, cep', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
@@ -111,6 +112,7 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 			'neighborhood' => Yii::t('default', 'Neighborhood'),
 			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
+			'diff_location' => Yii::t('default', 'Diff Location'),
 		);
 	}
 

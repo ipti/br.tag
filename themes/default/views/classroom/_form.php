@@ -94,6 +94,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
+                            <div class="control-group" id="course">
+                                <?php echo $form->labelEx($modelClassroom, 'course', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'course', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso', 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->error($modelClassroom, 'course'); ?>
+                                </div>
+                            </div>
+
                             <div class="control-group" id="stage_vs_modality">
                                 <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -282,6 +290,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
                                 </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelClassroom, 'schooling', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelClassroom, 'schooling'); ?>
+                                    <?php echo $form->error($modelClassroom, 'schooling'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelClassroom, 'diff_location', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'diff_location', array(null => 'Selecione a localização', 0 => 'A turma não está em local de funcionamento diferenciado', 1 => 'Sala anexa', 2 => 'Unidade de atendimento socioeducativo', 3 => 'Unidade prisional'), array("class" => "select-search-on")); ?>
+                                    <div class="controls">                    
+                                        <?php echo $form->error($modelClassroom, 'diff_location'); ?>
+                                    </div>
+                                </div> 
                             </div>
 
                             <div class="control-group">

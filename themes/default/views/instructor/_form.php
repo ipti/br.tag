@@ -230,6 +230,14 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
                                         <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
+                                    <label class="checkbox">
+                                        <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo InstructorIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
+                                        <?php echo $form->checkBox($modelInstructorIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
                                 </div>
                             </div>
 
@@ -333,6 +341,16 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                     </div>
                                 </div> 
 
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Área onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
+                                    <div class="controls">                    
+                                        <?php echo $form->error($modelInstructorDocumentsAndAddress, 'diff_location'); ?>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>

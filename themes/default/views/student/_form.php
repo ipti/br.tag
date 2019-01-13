@@ -422,90 +422,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Graduate School Completed'); ?></label>
-                                <div class="uniformjs margin-left" id="StudentIdentification_graduate_school_completed">
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_post_graduation_specialization']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_post_graduation_specialization', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_post_graduation_master']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_post_graduation_master', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_post_graduation_doctorate']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_post_graduation_doctorate', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_post_graduation_education_manager']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_post_graduation_education_manager', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Other Specific Courses'); ?></label>
-                                <div class="uniformjs margin-left" id="StudentIdentification_other_specific_courses">
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_pre_school']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_pre_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_basic_education_initial_years']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_basic_education_initial_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_basic_education_final_years']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_basic_education_final_years', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_high_school']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_high_school', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_education_of_youth_and_adults']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_education_of_youth_and_adults', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_special_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_special_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_native_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_native_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_field_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_field_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_environment_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_environment_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_human_rights_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_human_rights_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_sexual_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_sexual_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_child_and_teenage_rights']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_child_and_teenage_rights', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_ethnic_education']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_ethnic_education', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['college_other_courses_other']; ?>
-                                        <?php echo $form->checkBox($modelStudentIdentification, 'college_other_courses_other', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
                                 <div class="uniformjs margin-left" id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
@@ -1070,6 +986,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Área onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
+                                    <div class="controls">                    
+                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>

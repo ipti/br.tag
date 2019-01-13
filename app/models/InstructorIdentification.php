@@ -30,6 +30,8 @@
  * @property integer $deficiency_type_phisical_disability
  * @property integer $deficiency_type_intelectual_disability
  * @property integer $deficiency_type_multiple_disabilities
+ * @property integer $deficiency_type_autism
+ * @property integer $deficiency_type_gifted
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -81,7 +83,7 @@ class InstructorIdentification extends CActiveRecord {
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, name, birthday_date, sex, color_race, nationality, edcenso_nation_fk, deficiency, filiation', 'required'),
-            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities', 'numerical', 'integerOnly'=>true),
+            array('sex, color_race, filiation, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_gifted', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk', 'length', 'max'=>8),
             array('inep_id', 'length', 'max'=>12),
@@ -142,7 +144,10 @@ class InstructorIdentification extends CActiveRecord {
             'deficiency_type_phisical_disability' => Yii::t('default', 'Deficiency Type Phisical Disability'),
             'deficiency_type_intelectual_disability' => Yii::t('default', 'Deficiency Type Intelectual Disability'),
             'deficiency_type_multiple_disabilities' => Yii::t('default', 'Deficiency Type Multiple Disabilities'),
-            'role' => Yii::t('default', 'Role')
+            'role' => Yii::t('default', 'Role'),
+            'deficiency_type_autism' => Yii::t('default', 'Deficiency Type Autism'),
+            'deficiency_type_gifted' => Yii::t('default', 'Deficiency Type Gifted'),
+
         );
     }
 
