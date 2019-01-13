@@ -210,6 +210,56 @@ $form=$this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
+                            <div class="control-group" id="">
+                                <label class="control-label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_cognitive_functions']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_autonomous_life']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_curriculum_enrichment']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_accessible_teaching']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_libras']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_portuguese']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_soroban']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_braille']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_mobility_techniques']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_caa']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_caa', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo $model->attributeLabels()['aee_optical_nonoptical']; ?>
+                                        <?php echo $form->checkBox($model, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <span style="clear:both;display:block"></span>
