@@ -11,6 +11,7 @@ $(document).ready(function(){
     $.fn.editable.defaults.mode = 'inline';
     $('.editable a').editable({
         type: 'text',
+        emptytext: 'Indeterminado',
         pk: 1,
         url: '/post',
         title: 'Enter username'
@@ -103,7 +104,7 @@ $cs->registerCss('general', '
         background-color: #555;
     }
     .btn-simple{margin:0;padding:0}
-
+    .wizard-card .tab-content,.wizard-card{min-height:unset}
 ');
 
 ?>
@@ -151,14 +152,15 @@ $cs->registerCss('general', '
                 .attr("stroke", "#222");    
         }
         var aa = [-37.50719669199343, -11.36121753275635];
-        var bb = [-37.50719669199343, -11.36121753275635];
+        var bb = [-37.5078, -11.368];
         map.selectAll("circle")
 		.data([aa,bb]).enter()
 		.append("circle")
 		.attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
 		.attr("cy", function (d) { return projection(d)[1]; })
-		.attr("r", "8px")
-		.attr("fill", "red")
+		.attr("r", "3px")
+		.attr("fill", "red");
+        
     }
     
 
@@ -208,7 +210,7 @@ $cs->registerCss('general', '
         </nav>
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                     <div class="col-md-12">
                         <div class="card">
                                 <div class="card-content">
@@ -218,7 +220,7 @@ $cs->registerCss('general', '
                                                 <a data-toggle="tooltip" 
                                                 data-placement="top" title="" data-container="body" 
                                                 data-original-title="Tooltip on top" href="#" id="name">
-                                                Turma 1º ANO A
+                                                Abel Rosa Nicacio
                                                 </a>
                                             </h2>
                                         </div>
@@ -230,31 +232,56 @@ $cs->registerCss('general', '
                                             </button>
                                         </div>
                                     </div>
-                                    
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="fileinput fileinput-new text-center center" data-provides="fileinput">
+                                                <div class="fileinput-new thumbnail img-raised">
+                                                    <img src="<?php echo Yii::app()->theme->baseUrl.'/common/img/image_placeholder.jpg'?>" alt="...">
+                                                </div>
+                                                <div class="fileinput-preview fileinput-exists thumbnail img-circle img-raised"></div>
+                                                <div>
+                                                    <span class="btn btn-raised btn-round btn-default btn-file">
+                                                        <span class="fileinput-new">Add Photo</span>
+                                                        <span class="fileinput-exists">Change</span>
+                                                        <input type="file" name="..."></span>
+                                                    <br>
+                                                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="map" class="col-md-9">
+                                        </div>
+                                    </div>
                                     
                                     <div class="info info-horizontal innerLR info-edit">
                                         <div class="icon icon-info">
                                             <i class="material-icons">school</i>
                                         </div>
                                         <div class="description editable">
-                                            <h4 class="info-title">Perfil da Turma</h4>
+                                            <h4 class="info-title">Perfil do Aluno</h4>
                                             <p>
                                                 <p>
-                                                Esta turma funciona no turno <a href="#" id="turn">Matutino</a>
-                                                no horário inicial das <a href="#">07:30</a> as <a href="#">11:45</a>
+                                                    Nascido em <a href="#">26/08/2009</a> com a nacionalidade <a href="#">Brasileira</a>. Natural
+                                                    de <a href="#">Estância</a>, <a href="#">Sergipe</a>. De gênero <a href="#">Masculino</a>
+                                                    de cor/raça <a href="#">Parda</a>
                                                 </p>
                                                 <p>
-                                                O <a href="#">Ensino Regular</a> é a modalidade de ensino e essa turma <a href="#">Participa</a>
-                                                do programa mais educação.
+                                                O Aluno <a href="#">Participa</a> do Bolsa Família e <a href="#">Não Possui</a> restrição alimentar
                                                 </p>
                                                 <p>
-                                                Realiza o tipo de atendimento <a href="#">Não se aplica</a>
+                                                <a href="#">Possui</a> deficiência. São elas <a href="#">Cegueira, Baixa Visão, Surdez</a>
                                                 </p>
                                                 <p>
-                                                    Possui as as seguintes atividade de atendimento educacional <a href="#">...</a>
+                                                Necessita dos seguintes recursos em avaliações do INEP(Prova Brasil, SAEB):<a href="#">Auxilio Ledor, Auxilio transcrição</a>
                                                 </p>
                                                 <p>
-                                                    <a href="#">Participa</a> do programa Mais Educação
+                                                <a href="#">Possui (LA) </a>restrição na justiça.
+                                                </p>
+                                                <p>
+                                                Mora a<a href="#">1 KM</a> da escola, na zona <a href="#">Rural</a>
+                                                no CEP <a href="#">49090390</a> na Rua <a href="#">Pov Engenho Dagua</a>,
+                                                Número: <a href="#">Indeterminado</a>, Bairro: <a href="#">Centro</a>,
+                                                Cidade de <a href="#">Indiaroba</a>, Estado de <a href="#">Sergipe</a>
                                                 </p>
                                         </div>
                                     </div>
@@ -264,24 +291,48 @@ $cs->registerCss('general', '
                                             <i class="material-icons">school</i>
                                         </div>
                                         <div class="description editable">
-                                            <h4 class="info-title">Professores</h4>
+                                            <h4 class="info-title">Filiação</h4>
                                             <p>
-                                                O estilo de ensino desta turma é <a href="#">Polivante</a>
+                                                O tipo de filiação do aluno é <a href="#">Mãe e/ou Pai</a>
                                             </p>
-                                            <p>Esta turma tem aula com os seguintes professores/disciplinas: 
-                                            <ul>
-                                                <li><a href="#">Carlos Alberto</a> da aula de <a href="#">Matemática</a></li>
-                                                <li><a href="#">Adriana Silva</a> da aula de <a href="#">Português</a></li>
-                                                <li><a href="#">Sem Professor</a> da aula de <a href="#">Ciências</a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                                <li><a href="#"></a> da aula de <a href="#"></a></li>
-                                            </ul>
+                                            <p>
+                                                A mãe chama-se <a href="#">Gerlani Rosa da Conceição</a>, possui
+                                                RG sobe o número <a href="#"></a>, CPF de número <a href="#">842.785.605-91</a>.
+                                                A escolaridade da mãe é <a href="#">Indeterminada</a>, possui a profissão de 
+                                                <a href="#">Indeterminada</a>
+                                                Esta turma tem aula com os seguintes professores/disciplinas: 
+                                            </p>
+                                            <p>
+                                                O Pai chama-se <a href="#">Indeterminado</a>, possui
+                                                RG sobe o número <a href="#"></a>, CPF de número <a href="#">842.785.605-91</a>.
+                                                A escolaridade da mãe é <a href="#">Indeterminada</a>, possui a profissão de 
+                                                <a href="#">Indeterminada</a>
+                                                Esta turma tem aula com os seguintes professores/disciplinas: 
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="info info-horizontal innerLR info-edit">
+                                        <div class="icon icon-info">
+                                            <i class="material-icons">school</i>
+                                        </div>
+                                        <div class="description editable">
+                                            <h4 class="info-title">Identificação</h4>
+                                            <p>
+                                               O Aluno possui código do NIS de número: <a href="#">215459846</a>, ID do Inep: <a href="#">0255668549</a>,
+                                               Cartão Nacional de Saúde: <a href="#">25549894569</a>, CPF: <a href="#">84565249579</a>.
+                                            </p>
+                                            <p>
+                                               O seu documento de identidade está registrado sobe o número: <a href="#">24468479955</a>, 
+                                               emitido pelo Orgão <a href="#">SSP/SE</a> no estado de <a href="#">Sergipe</a>
+                                               na data de <a href="#">22/12/1987</a>
+                                            </p>
+                                            
+                                            <p>
+                                                A Certidão Civil do tipo <a href="#">Nascimento</a> está no modelo <a href="#">Antigo</a>, com
+                                                número de termo <a href="#">12352</a>,Folha <a href="#">224</a>, Livro <a href="#">A50</a>,
+                                                Data de emissão <a href="#">31/08/2009</a> registrado no Cartório <a href="#">CARTORIO DO 2º OFICIO DE ESTÂNCIA</a>, da 
+                                                cidade de <a href="#">Estância</a> no estado de <a href="#">Sergipe</a>
                                             </p>
                                         </div>
                                     </div>
@@ -294,51 +345,112 @@ $cs->registerCss('general', '
                         </div>    
                     </div>
             </div>
-            <div class="col-md-7">
-                                <ul class="nav nav-pills nav-pills-info nav-pills-icons nav-stacked row" role="tablist">
+            <div class="col-md-6">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"> 
+	                          <div class="panel panel-info col-md-6">
+	                            <div class="panel-heading" role="tab" id="headingOne">
+	                                <a role="button" aria-expanded="true">
+	                                    <h4 class="panel-title text-info">
+	                                    Ações Rápidas
+	                                    </h4>
+	                                </a>
+	                            </div>
+	                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="true">
+	                              <div class="panel-body">
+                                            <ul class="nav nav-pills nav-pills-info nav-pills-icons nav-stacked" role="tablist">
                                                 <!--
                                                     color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
                                                 -->
-                                                <li class="col-md-2">
+                                                <li class="col-md-6">
                                                     <a href="http://globo.com/" aria-expanded="true">
                                                         <i class="material-icons">dashboard</i>
                                                         DashForm&trade; Inicial
                                                     </a>
                                                 </li>
-                                                <li class="col-md-2">
+                                                <li class="col-md-6">
                                                     <a href="#schedule-2" role="tab" data-toggle="tab" aria-expanded="false">
-                                                        <i class="material-icons">transfer_within_a_station</i>
-                                                       Matrícula em Grupo
+                                                        <i class="material-icons">settings</i>
+                                                        Conselho Tutelar
                                                     </a>
                                                 </li>
-                                                <li class="col-md-2">
+                                                <li class="col-md-6">
                                                     <a href="#schedule-2" role="tab" data-toggle="tab" aria-expanded="false">
-                                                        <i class="material-icons">transfer_within_a_station</i>
-                                                       Relatório - Matrícula
+                                                        <i class="material-icons">today</i>
+                                                       Relizar Matrícula
                                                     </a>
                                                 </li>
-                                                
-                                                <li class="col-md-2">
+                                                <li class="col-md-6">
                                                     <a href="#schedule-2" role="tab" data-toggle="tab" aria-expanded="false">
-                                                        <i class="material-icons">list_alt</i>
-                                                       Fichas de Matrícula
-                                                    </a>
-                                                </li>
-                                                <li class="col-md-2">
-                                                    <a href="#schedule-2" role="tab" data-toggle="tab" aria-expanded="false">
-                                                        <i class="material-icons">exposure</i>
-                                                      Atas de Notas
-                                                    </a>
-                                                </li>
-                                                <li class="col-md-2">
-                                                    <a href="#schedule-2" role="tab" data-toggle="tab" aria-expanded="false">
-                                                        <i class="material-icons">exposure</i>
-                                                      Atas de Notas
+                                                        <i class="material-icons">view_module</i>
+                                                        Fazer Transferência
                                                     </a>
                                                 </li>
                                                 
                                                 
-                                </ul>
+                                            </ul>  
+	                                </div>
+	                            </div>
+	                          </div>
+
+
+
+
+
+	                          <div class="panel panel-info col-md-6">
+                              <div class="panel-heading" role="tab" id="headingOne">
+	                                <a role="button"  data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+	                                    <h4 class="panel-title text-info">
+	                                    Relatórios Contextualizados
+	                                    </h4>
+	                                </a>
+	                            </div>
+	                            <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="true">
+	                              <div class="panel-body">
+
+                                        <ul class="nav nav-pills nav-pills-info nav-pills-icons nav-stacked row" role="tablist">
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">text_rotate_vertical</i>
+                                                    Ficha Matrícula
+                                                    </a>
+                                                </li>
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">compare_arrows</i>
+                                                    Declaração Matrícula
+                                                    </a>
+                                                </li>
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">equalizer</i>
+                                                    Ficha de Notas
+                                                    </a>
+                                                </li>
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">person_add_disabled</i>
+                                                    Notificação Matrícula
+                                                    </a>
+                                                </li>
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">equalizer</i>
+                                                    Declaração Aluno
+                                                    </a>
+                                                </li>
+                                                <li class="col-md-6">
+                                                    <a href="#dashboard-2" role="tab" data-toggle="tab" aria-expanded="true">
+                                                        <i class="material-icons">directions_bus</i>
+                                                       Formulário Transf
+                                                    </a>
+                                                </li>
+                                        </ul>
+                                        
+
+
+	                              </div>
+	                            </div>
+	                        </div>  
 
                             <div class="row">
                             <div class="card card-nav-tabs">
@@ -348,22 +460,17 @@ $cs->registerCss('general', '
                                                 <ul class="nav nav-tabs" data-tabs="tabs">
                                                     <li class="active">
                                                         <a href="#students" data-toggle="tab">
-                                                            Alunos da turma
+                                                            Matrículas
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#synapse" data-toggle="tab">
-                                                            Synapse
+                                                            Histórico Escolar
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a href="#opendata" data-toggle="tab">
-                                                            Saúde
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#opendata" data-toggle="tab">
-                                                            Dados abertos
+                                                            Dados externos
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -377,8 +484,8 @@ $cs->registerCss('general', '
                                                 <table class="table table-striped editable">
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-center">#</th>
-                                                            <th class="text-center">Nome</th>
+                                                            <th class="text-center">Ano</th>
+                                                            <th class="text-center">Turma</th>
                                                             <th class="text-center">Transporte</th>
                                                             <th class="text-center">Etapa de Ensino</th>
                                                             <th class="text-center">Situação</th>
@@ -387,18 +494,13 @@ $cs->registerCss('general', '
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
+                                                                2018
                                                             </td>
                                                             <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
+                                                                3º ANO C
+                                                                <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
+                                                                        <i class="material-icons">edit</i>
+                                                                </button>
                                                             </td>
                                                             <td><a href="#">Ônibus</a></td>                                                          </td>
                                                             <td><a href="#">Fundamental de 9 anos Multi</a></td>
@@ -406,163 +508,19 @@ $cs->registerCss('general', '
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
+                                                                2017
                                                             </td>
                                                             <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
+                                                                2º ANO B
                                                             </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
+                                                            <td>Ônibus</td>                                                          </td>
+                                                            <td>Fundamental de 9 anos Multi</td>
+                                                            <td>Matrículado</td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    
-                                                                    <label>
-                                                                        <input type="checkbox" name="optionsCheckboxes"><span class="checkbox-material"><span class="check"></span></span>
-                                                                    </label>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                            José Carlos Feliz
-                                                            <button type="button" rel="tooltip" class="btn btn-info btn-simple" data-original-title="" title="">
-                                                                    <i class="material-icons">edit</i>
-                                                            </button>
-                                                            </td>
-                                                            <td><a href="#">Ônibus</a></td>                                                          </td>
-                                                            <td><a href="#">Fundamental de 9 anos Multi</a></td>
-                                                            <td><a href="#">Matrículado</a></td>
-                                                        </tr>
+                                                        
+
                                                         </tbody>
                                                     </table>
-                                                </div>
-                                                <div class="editable">
-                                                  Mover os 7 alunos selecionados para turma<a href=""></a>
-                                                  <button class="btn btn-warning btn-sm">Mover<div class="ripple-container"></div></button>
-                                                  <button class="btn btn-danger btn-sm">Cancelar<div class="ripple-container"></div></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -573,7 +531,63 @@ $cs->registerCss('general', '
 
             </div>
         </div>
-        
-        
+        <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-notice wizard-container">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                </div>
+                <div id="wizard" data-color="blue" class="modal-content card wizard-card editable">
+                    <form action="" method="">
+                                    <div class="wizard-navigation">
+                                        <ul>
+                                            <li><a href="#location" data-toggle="tab">Turma</a></li>
+                                            <li><a href="#type" data-toggle="tab">Transporte</a></li>
+                                            <li><a href="#facilities" data-toggle="tab">Multi Etapa</a></li>
+                                            <li><a href="#addinfo" data-toggle="tab">Adicionais</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane" id="location">
+                                            <h4 class="text-center">Qual a turma que deseja matricular o Aluno? </h4>
+                                            <h5 class="text-center"><a href="#"></a></h5>
+                                        </div>
+                                        <div class="tab-pane" id="type">
+                                            <h4 class="text-center">O aluno vai precisar de transporte escolar? </h4>
+                                            <h5 class="text-center"><a href="#">Sim</a></h5>
+                                        </div>
+                                        <div class="tab-pane" id="facilities">
+                                            <h4 class="text-center">A turma é multi-etapa? Caso seja qual é a etapa do aluno?</h4>
+                                            <h5 class="text-center"><a href="#">Sim</a>,<a href="#">Fundamental de 9 anos - 1º ANO</a></h5>
+                                            <h4 class="text-center">A turma é unificada? Caso seja qual é o tipo do aluno? </h4>
+                                            <h5 class="text-center"><a href="#">Não</a>,<a href="#"></a></h5>
+                                        </div>
+                                        <div class="tab-pane" id="addinfo">
+                                            <h4 class="text-center">Qual é o Tipo de Ingresso do Aluno?</h4>
+                                            <h5 class="text-center"><a href="#">Sim</a></h5>
+                                            <h4 class="text-center">Recebe escolarização em outro espaço?</h4>
+                                            <h5 class="text-center"><a href="#">Não</a></h5>
+                                            <h4 class="text-center">Qual a situação do aluno no ano anterior?</h4>
+                                            <h5 class="text-center"><a href="#">Aprovado</a></h5>
+                                            <h4 class="text-center">Qual a situação na série atual?</h4>
+                                            <h5 class="text-center"><a href="#">Não</a></h5>
+                                        </div>
+                                    </div>
+                                    <div class="wizard-footer">
+                                        <div class="pull-right">
+                                            <input type='button' class='btn btn-next btn-fill btn-info btn-wd' name='next' value='Avançar' />
+                                            <input type='button' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Registrar' />
+                                        </div>
+                                        <div class="pull-left">
+                                            <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Voltar' />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </form>
+                    
+                </div>
+            </div>
+        </div>   
+     
 </div>   
 

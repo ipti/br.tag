@@ -3,6 +3,8 @@
 ## [Próximas Versões]
 - Melhorar o relatório de análise comparativa de matrículas.
 - Habilitar action de Update automático ao efetuar login em nova versão.
+- Inclusão Dashform
+
 
 ## [Versão 2.10.7]
 **Melhorias:**
