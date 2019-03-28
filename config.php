@@ -1,16 +1,17 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.10.7F');
-define("BOARD_MSG",'<div class="alert alert-success">
+define("TAG_VERSION",'2.10.7E');
+define("BOARD_MSG",'
+		
+		<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>07/06/2018 - TAG VERSÃO 2.10.7F:</strong>
+		<strong>14/01/2019 - TAG VERSÃO 2.10.7E:</strong>
 		<br>
 		<ul>
-		    <li>Educacenso 2018</li>
+		    <li>Educacenso 2019</li>
 				<ul>
-					<li>Melhoria nas validações do Educacenso</li>
-					<li>Aviso Importante: Todas as escolas devem validar os dados antes da exportação, esse processo deve
-					ser feito clicando no link do menu lateral "EDUCACENSO"</li>
+					<li>Novos campos nos cadastros de professores, alunos, turmas e escola</li>
+					<li>Novos cadastros 100% compativeis com Censo 2019</li>
 				</ul>
         	</ul>
 	</div>');

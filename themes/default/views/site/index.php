@@ -85,14 +85,14 @@
 	</div>
 </div>
 <div class="innerLR eggs">
-	<!--<div class="alert alert-success">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Mural de Avisos:</strong>
-		<br>
-		- Novos formulários incluídos: Guia de Transferência, Declaração, Ata de Rendimento
-	</div>-->
+	
 	<?php echo BOARD_MSG; ?>
 	
+
+	
+
+
+
 	<div class="row-fluid">
 		<div class="span9">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"

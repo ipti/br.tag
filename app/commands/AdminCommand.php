@@ -1,143 +1,81 @@
 <?php
-	class AdminController extends Controller {
-		public $layout = 'fullmenu';
-		public function accessRules() {
-			return [
-				[
-					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
-				], [
-					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => [
-						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
-					], 'users' => ['@'],
-				],
-			];
-		}
-		/**
-		 * Show the Index Page.
-		 */
-		public function actionIndex() {
-			$this->render('index');
-		}
-		public function actionCreateUser() {
-			$model = new Users;
+class AdminCommand extends CConsoleCommand
+{
+    // Define attributes and methods!
+        public function run($args)
+        {
+				//defined('YII_DEBUG') or define('YII_DEBUG',false);
+				//ini_set('display_errors','0');
+				error_reporting(0);
+				//define("YII_ENBLE_ERROR_HANDLER",false);
+				//define("YII_ENBLE_EXCEPTION_HANDLER",false);
 
-			if (isset($_POST['Users'], $_POST['Confirm'])) {
-				$model->attributes = $_POST['Users'];
-				if ($model->validate()) {
-					$password = md5($_POST['Users']['password']);
-					$confirm = md5($_POST['Confirm']);
-					if ($password == $confirm) {
-						$model->password = $password;
-						// form inputs are valid, do something here
-						if ($model->save()) {
-							$save = TRUE;
-							foreach ($_POST['schools'] as $school) {
-								$userSchool = new UsersSchool;
-								$userSchool->user_fk = $model->id;
-								$userSchool->school_fk = $school;
-								$save = $save && $userSchool->validate() && $userSchool->save();
-							}
-							if ($save) {
-								$auth = Yii::app()->authManager;
-								$auth->assign($_POST['Role'], $model->id);
-								Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-								$this->redirect(['index']);
+                ini_set('max_execution_time', 0);
+                ini_set('memory_limit', '288M');
+                set_time_limit(0);
+                ignore_user_abort();
+                Yii::app()->db2;
+                $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
+                
+                $loads = array();
+                $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
+                foreach ($dbs as $db) {
+                    if($db['TABLE_SCHEMA'] != 'io.escola.demo'){
+                        $dbname = $db['TABLE_SCHEMA'];
+                        echo "Conectando a $dbname..\n";
+                       Yii::app()->db->setActive(false);
+                        Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
+                        Yii::app()->db->setActive(true);
+                        $fileName = $dbname . ".json";
+						@$fileImport = fopen($fileName, "r");
+						$fileNameBak = $dbname . ".json.bak";
+						@$fileImportBak = fopen($fileNameBak, "r");
+
+                        if ($fileImport == FALSE && $fileImportBak == FALSE) {
+                            echo "Exportando..\n";
+                            $loads = $this->prepareExport();
+                            if(isset($loads['students'])){
+                                $datajson = serialize($loads);
+                                $file = fopen($fileName, "w");
+                                fwrite($file, $datajson);
+                                fclose($file);
+                            }
+						}
+						
+						//$fileName = $dbname . ".json";
+						//rename($fileName.'.bak.json', $fileName);
+                        echo 'fim exportação\n';
+                    }
+                    
+				}
+                foreach ($dbs as $db) {
+                         if($db['TABLE_SCHEMA'] != 'io.escola.demo' &&  $db['TABLE_SCHEMA'] != 'io.escola.adefib'
+                         && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco')
+                         {
+                            $dbname = $db['TABLE_SCHEMA'];
+                            $fileName = $dbname . ".json";
+							$fileImport = fopen($fileName, "r");
+							if ($fileImport) {
+								echo "Importando..\n";
+								$jsonSyncTag = "";
+								while (!feof($fileImport)) {
+									$linha = fgets($fileImport, filesize($fileName));
+									$jsonSyncTag .= $linha;
+								}
+								fclose($fileImport);
+								$json = unserialize($jsonSyncTag);
+								$this->loadMaster($json);
+								rename($fileName, $fileName.'.bak');
 							}
 						}
-					} else {
-						$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-					}
-				}
-			}
-			$this->render('createUser', ['model' => $model]);
-		}
+						
+                }
 
-		public function actionEditPassword($id) {
-			$model = Users::model()->findByPk($id);
-
-			if (isset($_POST['Users'], $_POST['Confirm'])) {
-				$password = md5($_POST['Users']['password']);
-				$confirm = md5($_POST['Confirm']);
-				if ($password == $confirm) {
-					$model->password = $password;
-					if ($model->save()) {
-						Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-						$this->redirect(['index']);
-					}
-				} else {
-					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-				}
-			}
-			$this->render('editPassword', ['model' => $model]);
-		}
-
-
-		public function actionClearDB() {
-			//delete from users_school;
-			//delete from users;
-			// delete from auth_assignment;
-
-		$command = "
-			SET FOREIGN_KEY_CHECKS=0;
-			
-			delete from auth_assignment;
-			delete from users;
-			delete from users_school;
-			
-			delete from class_board;
-            delete from class_faults;
-            delete from class;
-
-            delete from student_enrollment;
-            delete from student_identification;
-            delete from student_documents_and_address;
-
-            delete from instructor_teaching_data;
-            delete from instructor_identification;
-            delete from instructor_documents_and_address;
-            delete from instructor_variable_data;
-
-            delete from classroom;
-
-            delete from school_identification;
-            delete from school_structure;";
-
-			set_time_limit(0);
-			ignore_user_abort();
-			Yii::app()->db->createCommand($command)->query();
-
-			$this->addTestUsers();
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
-    }
-        public function addTestUsers() {
-            set_time_limit(0);
-            ignore_user_abort();
-            $admin_login = 'admin';
-            $admin_password = md5('p@s4ipti');
-
-            $command = "INSERT INTO `users`VALUES
-                        (1, 'Administrador', '$admin_login', '$admin_password', 1);";
-            Yii::app()->db->createCommand($command)->query();
-
-            $auth = Yii::app()->authManager;
-            $auth->assign('admin', 1);
-
-//        //Criar usuário de teste, remover depois.
-//        /*         * ************************************************************************************************ */
-//        /**/$command = "INSERT INTO `users`VALUES"
-//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-//        /**/Yii::app()->db->createCommand($command)->query();
-//        /*         * ************************************************************************************************ */
         }
+    
+            
+
+       
 		public function mres($value)
 		{
 			$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
@@ -145,63 +83,51 @@
 
 			return str_replace($search, $replace, $value);
 		}
-		public function actionImportMaster(){
-			set_time_limit(0);
-			ini_set('memory_limit', '-1');
-			ignore_user_abort();
-			$time1 = time();
-			$path = Yii::app()->basePath;
-			$uploadfile = $path . '/import/28031610.json';
-			$fileDir = $uploadfile;
-			$mode = 'r';
-
-			$fileImport = fopen($fileDir, $mode);
-			if ($fileImport == FALSE) {
-				die('O arquivo não existe.');
-			}
-
-		$jsonSyncTag = "";
-		while (!feof($fileImport)) {
-			$linha = fgets($fileImport, filesize($uploadfile));
-			$jsonSyncTag .= $linha;
-		}
-		fclose($fileImport);
-		$json = unserialize($jsonSyncTag);
-		$this->loadMaster($json);
-
-	}
+	
 	public function loadMaster($loads){
 		ini_set('max_execution_time', 0);
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 		//ignore_user_abort();
-		foreach ($loads['schools'] as $index => $scholl) {
+		/*foreach ($loads['schools'] as $index => $scholl) {
+            echo "Importando escola". $scholl['name']."..\n";
 			$saveschool = new SchoolIdentification();
-			$saveschool->setDb2Connection(true);
+            $saveschool->setDb2Connection(true);
+            $saveschool->setScenario('search');
 			$saveschool->refreshMetaData();
 			$saveschool = $saveschool->findByAttributes(array('inep_id'=>$scholl['inep_id']));
 			if(!isset($saveschool)){
-				$saveschool = new SchoolIdentification();
-				$saveschool->setDb2Connection(true);
-				$saveschool->refreshMetaData();
-			}
-			$saveschool->attributes = $scholl;
-			$saveschool->save();
+                $saveschool = new SchoolIdentification();
+			    $saveschool->setDb2Connection(true);
+			    $saveschool->refreshMetaData();
+            }
+            $saveschool->setScenario('search');
+            $saveschool->attributes = $scholl;
+            $saveschool->save();
+            if(!empty($saveschool->errors)){
+                var_dump($saveschool->errors);exit;
+            }
 		}
 		foreach ($loads['schools_structure'] as $index => $structure) {
 			$saveschool = new SchoolStructure();
-			$saveschool->setDb2Connection(true);
+            $saveschool->setDb2Connection(true);
+            $saveschool->setScenario('search');
 			$saveschool->refreshMetaData();
 			$saveschool = $saveschool->findByAttributes(array('school_inep_id_fk'=>$structure['school_inep_id_fk']));
 			if(!isset($saveschool)){
-				$saveschool = new SchoolStructure();
+                $saveschool = new SchoolStructure();
+                $saveschool->setScenario('search');
 				$saveschool->setDb2Connection(true);
 				$saveschool->refreshMetaData();
 			}
 			$saveschool->attributes = $structure;
-			$saveschool->save();
+            $saveschool->save();
+            if(!empty($saveschool->errors)){
+                var_dump($saveschool->errors);exit;
+            }
 		}
 		foreach ($loads['classrooms'] as $index => $class) {
+            echo "Importando turma". $class['name']."..\n";
 			$saveclass = new Classroom();
 			$saveclass->setScenario('search');
 			$saveclass->setDb2Connection(true);
@@ -215,10 +141,14 @@
 			}
 			$saveclass->attributes = $class;
 			$saveclass->hash = $class['hash'];
-			$saveclass->save();
+            $saveclass->save();
+            if(!empty($saveclass->errors)){
+                var_dump($saveclass->errors);exit;
+            }
 		}
-
+		*/
 		foreach ($loads['students'] as $i => $student) {
+            echo "Importando aluno". $student['name']."..\n";
 			$savestudent = new StudentIdentification();
 			$savestudent->setScenario('search');
 			$savestudent->setDb2Connection(true);
@@ -232,11 +162,15 @@
 			}
 			$savestudent->attributes = $student;
 			$savestudent->hash = $student['hash'];
-			$savestudent->save();
+            $savestudent->save();
+            if(!empty($savestudent->errors)){
+                var_dump($savestudent->errors);exit;
+            }
 
 		}
 
 		foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+            echo "Importando aluno". $documentsaddress['hash']."..\n";
 			$savedocument = new StudentDocumentsAndAddress();
 			$savedocument->setScenario('search');
 			$savedocument->setDb2Connection(true);
@@ -250,16 +184,20 @@
 			}
 			$savedocument->attributes = $documentsaddress;
 			$savedocument->hash = $documentsaddress['hash'];
-			$savedocument->save();
+            $savedocument->save();
+            if(!empty($savedocument->errors)){
+                var_dump($savedocument->errors);exit;
+            }
 		}
-
+		/*
 		foreach ($loads['enrollments'] as $index => $enrollment) {
+            echo "Importando matrícula". $enrollment['hash']."..\n";
 			$saveenrollment = new StudentEnrollment();
 			$saveenrollment->setScenario('search');
 			$saveenrollment->setDb2Connection(true);
 			$saveenrollment->refreshMetaData();
 			$saveenrollment = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
-			if (!isset($exist)){
+			if (!isset($saveenrollment)){
 				$saveenrollment = new StudentEnrollment();
 				$saveenrollment->setScenario('search');
 				$saveenrollment->setDb2Connection(true);
@@ -269,8 +207,12 @@
 			$saveenrollment->hash = $enrollment['hash'];
 			$saveenrollment->hash_classroom = $enrollment['hash_classroom'];
 			$saveenrollment->hash_student = $enrollment['hash_student'];
-			$saveenrollment->save();
+            $saveenrollment->save();
+            if(!empty($saveenrollment->errors)){
+                    var_dump($saveenrollment->errors);exit;
+            }
 		}
+		*/
 		//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
 
 	}
@@ -279,7 +221,7 @@
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 		ignore_user_abort();
-		$year = Yii::app()->user->year;
+		$year = 2018;
 		$loads = array();
 		$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
@@ -299,7 +241,7 @@
 			$conn = false;
 		}
 		if($conn){
-			/*
+			
 			foreach ($studentAll as $index => $student) {
 				$hash_student = hexdec(crc32($student->name.$student->birthday));
 				if(!isset($loads['students'][$hash_student])){
@@ -313,9 +255,11 @@
 					$loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
 					$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 				}
-			}*/
+			}
 		}
+		/*
 		foreach ($schools as $index => $schll) {
+            $year = 2018;
 			$ischool = new SchoolIdentification();
 			$ischool->setDb2Connection(false);
 			$ischool->refreshMetaData();
@@ -324,7 +268,7 @@
 			$iclass = new Classroom();
 			$iclass->setDb2Connection(false);
 			$iclass->refreshMetaData();
-			$classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
+			$classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => $year]);
 			$hash_school = hexdec(crc32($school->inep_id.$school->name));
 			$loads['schools'][$hash_school] = $school->attributes;
 			$loads['schools'][$hash_school]['hash'] = $hash_school;
@@ -375,77 +319,12 @@
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
                     }
-                }*/
+                }
 
 			}
-		}
-		//var_dump($loads);exit;
-		//apc_store('loads', $bar);
+		}*/
+		
 		return $loads;
 	}
-	public function actionExportMaster(){
-		try {
-			ini_set('max_execution_time', 0);
-			ini_set('memory_limit', '-1');
-			set_time_limit(0);
-			ignore_user_abort();
-			Yii::app()->db2;
-			$sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
-			$dbs = Yii::app()->db2->createCommand($sql)->queryAll();
-			$loads = array();
-			$priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
-			array_unshift($dbs, $priority);
-			foreach ($dbs as $db) {
-				//if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
-				if($db['TABLE_SCHEMA'] == 'io.escola.geminiano'){
-					$dbname = $db['TABLE_SCHEMA'];
-					echo $dbname;
-					Yii::app()->db->setActive(false);
-					Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
-					Yii::app()->db->setActive(true);
-
-					$loads = $this->prepareExport();
-					$datajson = serialize($loads);
-					ini_set('memory_limit', '288M');
-					$fileName = "./app/export/" . $dbname . ".json";
-					$file = fopen($fileName, "w");
-					fwrite($file, $datajson);
-					fclose($file);
-					header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-					header("Content-Type: application/force-download");
-					header("Content-Length: " . filesize($fileName));
-					header("Connection: close");
-					$file = fopen($fileName, "r");
-					fpassthru($file);
-					fclose($file);
-					unlink($fileName);
-
-					//$this->loadMaster($loads);
-				}
-				
-			}
-			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
-			$this->redirect(['index']);
-		} catch (Exception $e) {
-			//echo 
-			var_dump($e);exit;
-			$loads = $this->prepareExport();
-			$datajson = serialize($loads);
-			ini_set('memory_limit', '288M');
-			$fileName = "./app/export/" . Yii::app()->user->school . ".json";
-			$file = fopen($fileName, "w");
-			fwrite($file, $datajson);
-			fclose($file);
-			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-			header("Content-Type: application/force-download");
-			header("Content-Length: " . filesize($fileName));
-			header("Connection: close");
-			$file = fopen($fileName, "r");
-			fpassthru($file);
-			fclose($file);
-			unlink($fileName);
-		}
-	}
+	
 }
-
-?>

@@ -113,6 +113,10 @@ switch ($domain) {
         $instance = 'ROMEU DE AGUIAR';
         $db = 'io.escola.se.malhada.romeuaguiar';
         break;
+    case 'indiaroba':
+        $instance = 'INDIAROBA';
+        $db = 'io.escola.se.indiaroba';
+        break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
@@ -186,17 +190,18 @@ switch ($domain) {
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'io.escola.se';
+        $db = 'io.escola.se.indiaroba';
         break;
 }
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=localhost;dbname=$db",
+    'connectionString' => "mysql:host=ipti.org.br;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'user.tag',
-    'password' => '123456',
+    'username' => 'user.dev',
+    'password' => 'p@s4dev&23',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
+//phpinfo();exit;

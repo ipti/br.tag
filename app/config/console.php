@@ -8,26 +8,39 @@ return array(
 
 	// preloading 'log' component
 	'preload'=>array('log'),
-
+	'import' => array(
+        'application.models.*',
+        'application.controllers.*',
+        'application.components.*',
+        'application.modules.wizard.models.*',
+        'application.modules.calendar.models.*',
+        'application.modules.quiz.models.*',
+    ),
 	// application components
 	'components'=>array(
 
-		'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=br.org.ipti.boquim.tag',
+		'db2' => array(
+            'connectionString' => 'mysql:host=ipti.org.br;dbname=com.escola10',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
+            'username' => 'user.dev',
+            'password' => 'p@s4dev&23',
             'charset' => 'utf8',
+            'class'   => 'CDbConnection'
         ),
-		
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-			),
-		),
+        'db' => array(
+            'connectionString' => 'mysql:host=ipti.org.br;dbname=io.escola.geminiano',
+            'emulatePrepare' => true,
+            'username' => 'user.dev',
+            'password' => 'p@s4dev&23',
+            'charset' => 'utf8',
+            'class'   => 'CDbConnection'
+        ),
+        'authManager' => array(
+            'class' => 'CDbAuthManager',
+            'connectionID' => 'db',
+            'itemTable' => 'auth_item',
+            'assignmentTable' => 'auth_assignment',
+            'itemChildTable' => 'auth_item_child',
+		)
 	),
 );
