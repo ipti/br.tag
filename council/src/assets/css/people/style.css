@@ -1,0 +1,32 @@
+.people-card{
+    background-color: #FFF;
+}
+
+.people-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.people-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.people-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}

@@ -31,7 +31,7 @@ let pathsToClean = [
 // the clean options to use
 let cleanOptions = {
     root: __dirname,
-    verbose: false, // Write logs to console.
+    verbose: true, // Write logs to console.
     dry: false
 }
 
@@ -55,13 +55,25 @@ module.exports = {
         compress: true,
         port: 3000, // port number
         historyApiFallback: true,
-        quiet: true
+        quiet: true,
+        noInfo: true,
+        stats: {
+            // Config for minimal console.log mess.
+            assets: false,
+            colors: true,
+            version: false,
+            hash: false,
+            timings: false,
+            chunks: false,
+            chunkModules: false
+        }
     },
     // resolve alias (Absolute paths)
     resolve: {
         alias: {
             Actions: path.resolve(__dirname, 'src/actions/'),
             Components: path.resolve(__dirname, 'src/components/'),
+            Container: path.resolve(__dirname, 'src/container/'),
             Assets: path.resolve(__dirname, 'src/assets/'),
             Util: path.resolve(__dirname, 'src/util/'),
             Routes: path.resolve(__dirname, 'src/routes/'),

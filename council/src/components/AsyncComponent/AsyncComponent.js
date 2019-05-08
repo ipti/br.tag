@@ -115,6 +115,35 @@ const AsyncCitizenFormComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- People ------------------*/
+
+const AsyncPeopleContainer = Loadable({
+	loader: () => import("Container/People/PeopleContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPeopleFormContainer = Loadable({
+	loader: () => import("Container/People/PeopleFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+/*---------------- Notification ------------------*/
+
+const AsyncNotificationContainer = Loadable({
+	loader: () => import("Container/Notification/NotificationContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncNotificationFormContainer = Loadable({
+	loader: () => import("Container/Notification/NotificationFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewNotificationContainer = Loadable({
+	loader: () => import("Container/Notification/PreviewNotificationContainer"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -134,5 +163,10 @@ export {
 	AsyncCitizenFollowComponent,
 	AsyncCitizenViewerComponent,
 	AsyncCitizenFormComponent,
-	AsyncCitizenComponent
+	AsyncCitizenComponent,
+	AsyncPeopleContainer,
+	AsyncPeopleFormContainer,
+	AsyncNotificationContainer,
+	AsyncNotificationFormContainer,
+	AsyncPreviewNotificationContainer,
 };

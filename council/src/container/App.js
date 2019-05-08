@@ -21,6 +21,9 @@ import RctDefaultLayout from './DefaultLayout';
 // boxed layout
 import RctBoxedLayout from './RctBoxedLayout';
 
+// preview layout
+import DocumentLayout from './DocumentLayout';
+
 
 // async components
 import {
@@ -59,6 +62,11 @@ class App extends Component {
 					path={`${match.url}app`}
 					authUser={sessionStorage.getItem('user')}
 					component={RctDefaultLayout}
+				/>
+				<InitialPath
+					path={`${match.url}document`}
+					authUser={sessionStorage.getItem('user')}
+					component={DocumentLayout}
 				/>
 				<Route path="/horizontal" component={HorizontalLayout} />
 				<Route path="/agency" component={AgencyLayout} />

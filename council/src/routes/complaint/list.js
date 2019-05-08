@@ -72,8 +72,7 @@ export default class ComplaintList extends Component {
             filter: this.state.filter,
             institution: sessionStorage.getItem('institution')
         }
-        const token = sessionStorage.getItem('token');
-        api.get(`/v1/complaint?access-token=${token}&${buildParam(param)}`)
+        api.get(`/v1/complaint?${buildParam(param)}`)
             .then(function(response){
                 let data = response.data;
                 let complaints = data.complaints;

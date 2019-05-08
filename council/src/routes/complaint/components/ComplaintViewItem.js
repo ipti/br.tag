@@ -166,7 +166,7 @@ class ComplaintViewItem extends Component {
 
             var data = this.normalizeFieldsResponse();
 
-            api.post(`/v1/complaint/response/${this.props.id}?access-token=${this.props.user.access_token}`, data, header)
+            api.post(`/v1/complaint/response/${this.props.id}`, data, header)
                 .then(function(response){
                     if(typeof response.data.status !== 'undefined'){
                         if(response.data.status == '1'){
@@ -214,7 +214,7 @@ class ComplaintViewItem extends Component {
 
             var data = this.normalizeFieldsForward();
 
-            api.post(`/v1/complaint/forward/${this.props.id}?access-token=${this.props.user.access_token}`, data, header)
+            api.post(`/v1/complaint/forward/${this.props.id}`, data, header)
                 .then(function(response){
                     if(typeof response.data.status !== 'undefined'){
                         if(response.data.status == '1'){
@@ -247,7 +247,7 @@ class ComplaintViewItem extends Component {
     }
 
     handleFinalize() {
-        api.post(`/v1/complaint/finalize/${this.props.id}?access-token=${this.props.user.access_token}`)
+        api.post(`/v1/complaint/finalize/${this.props.id}`)
             .then(function(response){
                 let data = response.data.data;
                 if(response.data.status == '1'){
@@ -297,7 +297,7 @@ class ComplaintViewItem extends Component {
     
     loadComplaint(){
         this.setState({complaint: null});
-        api.get(`/v1/complaint/${this.props.id}?access-token=${this.props.user.access_token}`)
+        api.get(`/v1/complaint/${this.props.id}`)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
@@ -352,7 +352,7 @@ class ComplaintViewItem extends Component {
 
     getInstitutions(){
         this.setState({institutions: []});
-        api.get(`/v1/institution?access-token=${this.props.user.access_token}`)
+        api.get(`/v1/institution`)
             .then(function(response){
                 this.setState({institutions: response.data});
                 this.setState({institutionsLoaded: true});

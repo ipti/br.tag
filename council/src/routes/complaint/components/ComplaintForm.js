@@ -13,7 +13,6 @@ import {
 } from 'reactstrap';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -215,9 +214,9 @@ export default class ComplaintForm extends Component {
          }
     }
 
-    loadComplaint(){ console.log(user);
+    loadComplaint(){
         this.setState({complaintLoaded: false});
-        api.get(`/v1/complaint/${this.props.id}?access-token=${sessionStorage.getItem('token')}`)
+        api.get(`/v1/complaint/${this.props.id}`)
             .then(function(response){
                 let data = response.data.data;
                 this.setState({
@@ -270,7 +269,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint?access-token=${sessionStorage.getItem('token')}`, data, header)
+        api.post(`/v1/complaint`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
@@ -315,7 +314,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint/update/${this.props.id}?access-token=${sessionStorage.getItem('token')}`, data, header)
+        api.post(`/v1/complaint/update/${this.props.id}`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){
@@ -361,7 +360,7 @@ export default class ComplaintForm extends Component {
         };
 
         var data = this.normalizeFields();
-        api.post(`/v1/complaint/formalize/${this.props.id}?access-token=${sessionStorage.getItem('token')}`, data, header)
+        api.post(`/v1/complaint/formalize/${this.props.id}`, data, header)
             .then(function(response){
                 if(typeof response.data.status !== 'undefined'){
                     if(response.data.status == '1'){

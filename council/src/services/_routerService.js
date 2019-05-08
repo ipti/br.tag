@@ -2,7 +2,8 @@
 import Dashboard from 'Routes/dashboard';
 import Complaint from 'Routes/complaint';
 import Citizen from 'Routes/citizen';
-import Mail from 'Routes/mail';
+import People from 'Routes/people';
+import Notification from 'Routes/notification';
 
 export default [
 	{
@@ -22,7 +23,11 @@ export default [
 		component: Citizen
 	},
 	{
-		path: 'mail',
-		component: Mail
+		path: 'people',
+		component: People
+	},
+	{
+		path: 'notification',
+		component: Notification
 	}
 ]

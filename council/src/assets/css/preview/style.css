@@ -1,0 +1,52 @@
+/* body {
+    background: white;
+    font: 13pt Georgia, "Times New Roman", Times, serif;
+}
+h1 {
+    font-size: 24pt;
+}
+    
+h2, h3, h4 {
+    font-size: 14pt;
+    margin-top: 5px;
+    margin-bottom: unset;
+}
+
+hr{
+    margin-top: unset;
+} */
+
+.header-image{
+    width: 30%;
+}
+
+.header-text{
+    width: 70%;
+}
+
+.title-header{
+    font-weight: bold;
+    font-family: "Heebo", sans-serif;
+}
+
+.page{
+    width: 1024px;
+    margin: 0 auto;
+    background: white;
+    
+}
+
+.mr-20{
+    margin-right: 20px;
+}
+
+#root{
+    width: unset;
+}
+
+@page{
+    margin: 1cm;
+}
+
+
+
