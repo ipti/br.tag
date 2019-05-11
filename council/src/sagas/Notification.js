@@ -11,6 +11,8 @@ import {
     GET_NOTIFICATION_BY_ID,
     SAVE_NOTIFICATION,
     UPDATE_NOTIFICATION,
+    DELETE_NOTIFICATION,
+    PREVIEW_NOTIFICATION,
     ON_CHANGE_NOTIFICATION_FORM
 } from 'Actions/NotificationTypes';
 
@@ -23,7 +25,10 @@ import {
     saveNotificationFailure,
     updateNotificationSuccess,
     updateNotificationFailure,
+    deleteNotificationSuccess,
+    deleteNotificationFailure,
     onChangeNotificationFormSuccess,
+    previewNotificationSuccess
 } from 'Actions';
 
 
@@ -46,6 +51,13 @@ const updateNotificationRequest = async (data) =>
     await Api.post(`/v1/notification/${data._id}`, data)
         .then(response => response)
         .catch(error => error);
+
+const deleteNotificationRequest = async (id) => {
+    await Api.delete(`/v1/notification/${id}`)
+        .then(response => response)
+        .catch(error => error);
+
+}
 
 
 function* getNotificationFromServer(action) {
@@ -84,8 +96,23 @@ function* updateNotificationFromServer(action) {
     }
 }
 
+function* deleteNotificationFromServer(action) {
+    try {
+        const response = yield call(() => deleteNotificationRequest(action.payload));
+        yield put(deleteNotificationSuccess(response));
+    } catch (error) {
+        yield put(deleteNotificationFailure(error));
+    }
+}
+
 function* changeNotificationForm(action) {
     yield put(onChangeNotificationFormSuccess(action.payload));
+}
+
+function* previewNotification(action) {
+    const url = window.location;
+    window.open(`${url.protocol}//${url.host}/document/preview/notification/${action.payload}`);
+    yield put(previewNotificationSuccess(action.payload));
 }
 
 
@@ -105,8 +132,16 @@ export function* updateNotification() {
     yield takeLatest(UPDATE_NOTIFICATION, updateNotificationFromServer);
 }
 
+export function* deleteNotification() {
+    yield takeLatest(DELETE_NOTIFICATION, deleteNotificationFromServer);
+}
+
 export function* onChangeNotificationForm() {
     yield takeEvery(ON_CHANGE_NOTIFICATION_FORM, changeNotificationForm);
+}
+
+export function* onPreviewNotification() {
+    yield takeEvery(PREVIEW_NOTIFICATION, previewNotification);
 }
 
 
@@ -116,6 +151,8 @@ export default function* rootSaga() {
         fork(getNotificationById),
         fork(saveNotification),
         fork(updateNotification),
+        fork(deleteNotification),
         fork(onChangeNotificationForm),
+        fork(onPreviewNotification),
     ]);
 }

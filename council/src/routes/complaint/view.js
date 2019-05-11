@@ -6,12 +6,12 @@ import React, { Component } from 'react';
 import ComplaintViewItem from './components/ComplaintViewItem';
 
 const user = {
-	id: sessionStorage.getItem('user'),
-	name: sessionStorage.getItem('user_name'),
-	email: sessionStorage.getItem('user_email'),
-	access_token: sessionStorage.getItem('token'),
-	institution: sessionStorage.getItem('institution'),
-	institutionType: sessionStorage.getItem('institution_type')
+	id: localStorage.getItem('user'),
+	name: localStorage.getItem('user_name'),
+	email: localStorage.getItem('user_email'),
+	access_token: localStorage.getItem('token'),
+	institution: localStorage.getItem('institution'),
+	institutionType: localStorage.getItem('institution_type')
 }
 
 export default class ComplaintView extends Component {
@@ -22,14 +22,14 @@ export default class ComplaintView extends Component {
 
 	render() {
 		let userParam = user;
-		if(user.access_token != sessionStorage.getItem('access_token')){
+		if(user.access_token != localStorage.getItem('access_token')){
 			userParam = {
-				id: sessionStorage.getItem('user'),
-				name: sessionStorage.getItem('user_name'),
-				email: sessionStorage.getItem('user_email'),
-				access_token: sessionStorage.getItem('token'),
-				institution: sessionStorage.getItem('institution'),
-				institutionType: sessionStorage.getItem('institution_type'),
+				id: localStorage.getItem('user'),
+				name: localStorage.getItem('user_name'),
+				email: localStorage.getItem('user_email'),
+				access_token: localStorage.getItem('token'),
+				institution: localStorage.getItem('institution'),
+				institutionType: localStorage.getItem('institution_type'),
 			}
 		}
 		const { match, } = this.props;

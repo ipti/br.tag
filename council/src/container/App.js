@@ -60,12 +60,12 @@ class App extends Component {
 				<NotificationContainer />
 				<InitialPath
 					path={`${match.url}app`}
-					authUser={sessionStorage.getItem('user')}
+					authUser={localStorage.getItem('user')}
 					component={RctDefaultLayout}
 				/>
 				<InitialPath
 					path={`${match.url}document`}
-					authUser={sessionStorage.getItem('user')}
+					authUser={localStorage.getItem('user')}
 					component={DocumentLayout}
 				/>
 				<Route path="/horizontal" component={HorizontalLayout} />
@@ -81,7 +81,7 @@ class App extends Component {
 
 // map state to props
 const mapStateToProps = ({ authUser }) => {
-	const user = sessionStorage.getItem('user');
+	const user = localStorage.getItem('user');
 	return user;
 };
 

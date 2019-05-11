@@ -109,18 +109,18 @@ export default class ComplaintForm extends Component {
                 neighborhood: this.state.neighborhood,
                 complement: this.state.complement,
             },
-            receive_user: sessionStorage.getItem('user'),
+            receive_user: localStorage.getItem('user'),
             type: this.state.type,
             complement_type: this.state.complement_type,
             informer: this.state.informer,
-            place: sessionStorage.getItem('institution'),
+            place: localStorage.getItem('institution'),
             forwards: [
                 {
                     description: this.state.description,
                     date: actualDate,
                     files: this.state.files,
-                    user: sessionStorage.getItem('user'),
-                    institution: sessionStorage.getItem('institution')
+                    user: localStorage.getItem('user'),
+                    institution: localStorage.getItem('institution')
                 }
             ]
     
@@ -142,7 +142,7 @@ export default class ComplaintForm extends Component {
                     neighborhood: this.state.neighborhood,
                     complement: this.state.complement,
                 },
-                receive_user: sessionStorage.getItem('user'),
+                receive_user: localStorage.getItem('user'),
                 type: this.state.type,
                 complement_type: this.state.complement_type,
                 informer: this.state.informer,

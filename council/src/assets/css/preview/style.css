@@ -1,20 +1,29 @@
 /* body {
     background: white;
     font: 13pt Georgia, "Times New Roman", Times, serif;
-}
-h1 {
+} */
+
+.page h1 {
     font-size: 24pt;
 }
     
-h2, h3, h4 {
+.page h2, .page h3, .page h4 {
     font-size: 14pt;
     margin-top: 5px;
     margin-bottom: unset;
 }
 
-hr{
+.page .body h2, .page .body h3, .page .body h4 {
+    margin-bottom: 10px;
+}
+
+.page p{
+    font-size: 12pt;
+}
+
+.page hr{
     margin-top: unset;
-} */
+}
 
 .header-image{
     width: 30%;
@@ -38,6 +47,14 @@ hr{
 
 .mr-20{
     margin-right: 20px;
+}
+
+.mt-20{
+    margin-top: 20px;
+}
+
+.mt-40{
+    margin-top: 40px;
 }
 
 #root{

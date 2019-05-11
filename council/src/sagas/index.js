@@ -10,6 +10,7 @@ import todoSagas from './Todo';
 import feedbacksSagas from './Feedbacks';
 import PeopleSagas from './People';
 import NotificationSagas from './Notification';
+import InstitutionSagas from './Institution';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -18,6 +19,7 @@ export default function* rootSaga(getState) {
         todoSagas(),
         feedbacksSagas(),
         PeopleSagas(),
-        NotificationSagas()
+        NotificationSagas(),
+        InstitutionSagas()
     ]);
 }

@@ -39,18 +39,18 @@ class Signin extends Component {
    */
   onUserLogin() {
     if (this.state.username !== '' && this.state.password !== '') {
-      sessionStorage.clear();
+      localStorage.clear();
       this.setState({loader: true});
       api.post('/user/login', this.state)
         .then(function(response){
           if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
             let data = response.data.data;
-            sessionStorage.setItem('user', data._id);
-            sessionStorage.setItem('user_name', data.name);
-            sessionStorage.setItem('user_email', data.email);
-            sessionStorage.setItem('token', data.access_token);
-            sessionStorage.setItem('institution', data.institution);
-            sessionStorage.setItem('institution_type', data.institution_type);
+            localStorage.setItem('user', data._id);
+            localStorage.setItem('user_name', data.name);
+            localStorage.setItem('user_email', data.email);
+            localStorage.setItem('token', data.access_token);
+            localStorage.setItem('institution', data.institution);
+            localStorage.setItem('institution_type', data.institution_type);
             this.props.history.push('/app/complaint/list');
           }
           else{
@@ -67,16 +67,16 @@ class Signin extends Component {
 
   onUserLogout(){
     this.setState({loader: true});
-    api.post(`/user/logout`, {token: sessionStorage.getItem('token')})
+    api.post(`/user/logout`, {token: localStorage.getItem('token')})
         .then(function(response){
           if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
-            sessionStorage.clear();
+            localStorage.clear();
             this.setState({loader: false});
             this.props.history.push('/session/login');
           }
         }.bind(this))
         .catch(function(error){
-          sessionStorage.clear();
+          localStorage.clear();
           this.setState({loader: false});
           this.props.history.push('/session/login');
         });
@@ -86,7 +86,7 @@ class Signin extends Component {
     if(this.props.location.pathname.indexOf('logout') >= 0){
       this.onUserLogout();
     }else{
-      sessionStorage.clear();
+      localStorage.clear();
     }
   }
 

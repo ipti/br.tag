@@ -12,6 +12,7 @@ import feedbacksReducer from './FeedbacksReducer';
 import ecommerceReducer from './EcommerceReducer';
 import peopleReducer from './PeopleReducer';
 import notificationReducer from './NotificationReducer';
+import InstitutionReducer from './InstitutionReducer';
 
 const reducers = combineReducers({
   settings,
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   ecommerce: ecommerceReducer,
   people: peopleReducer,
   notification: notificationReducer,
+  institution: InstitutionReducer,
 });
 
 export default reducers;

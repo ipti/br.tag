@@ -66,6 +66,31 @@ export const updateNotificationSuccess = (response) => ({
 });
 
 export const updateNotificationFailure = (error) => ({
+    type: actions.DELETE_NOTIFICATION_FAILURE,
+    payload: error
+});
+
+export const deleteNotification = (data) => ({
+    type: actions.DELETE_NOTIFICATION,
+    payload: data
+});
+
+export const deleteNotificationSuccess = (response) => ({
+    type: actions.DELETE_NOTIFICATION_SUCCESS,
+    payload: response.data
+});
+
+export const deleteNotificationFailure = (error) => ({
     type: actions.UPDATE_NOTIFICATION_FAILURE,
     payload: error
+});
+
+export const previewNotification = (data) => ({
+    type: actions.PREVIEW_NOTIFICATION,
+    payload: data
+});
+
+export const previewNotificationSuccess = (data) => ({
+    type: actions.PREVIEW_NOTIFICATION_SUCCESS,
+    payload: data
 });

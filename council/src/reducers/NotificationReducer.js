@@ -132,7 +132,30 @@ export default (state = INIT_STATE, action) => {
                 _notification: {type: 'error', message:'Erro ao salvar notificação'},
                 loading: false
             }
+
+        case actions.DELETE_NOTIFICATION:
+            return {
+                ...state,
+                loading: true,
+                _notification: {}
+            }
         
+        case actions.DELETE_NOTIFICATION_SUCCESS:
+            return {
+                ...state,
+                _notification: {type: (action.payload.status === '1' ? 'success': 'error'), message: action.payload.message},
+                loading: false
+            }
+
+        case actions.DELETE_NOTIFICATION_FAILURE:
+            return {
+                ...state,
+                _notification: {type: 'error', message:'Erro ao excluir notificação'},
+                loading: false
+            }
+        case actions.PREVIEW_NOTIFICATION:
+        case actions.PREVIEW_NOTIFICATION_SUCCESS:
+            return state
         
         default:
         return state

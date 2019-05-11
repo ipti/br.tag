@@ -36,7 +36,7 @@ class NotificationContainer extends Component{
 
     loadNotification = () =>{
         return this.props.notifications.map((notification) =>{
-            return <Card id={notification._id} notified={notification.notified} createdAt={notification.createdAt} />
+            return <Card id={notification._id} notified={notification.notified.name} createdAt={notification.createdAt} />
         });
     }
     

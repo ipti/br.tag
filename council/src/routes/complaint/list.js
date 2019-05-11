@@ -14,12 +14,12 @@ import ComplaintListItem from './components/ComplaintListItem';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 
 const user = {
-    id: sessionStorage.getItem('user'),
-    name: sessionStorage.getItem('user_name'),
-    email: sessionStorage.getItem('user_email'),
-    access_token: sessionStorage.getItem('token'),
-    institution: sessionStorage.getItem('institution'),
-    institutionType: sessionStorage.getItem('institution_type')
+    id: localStorage.getItem('user'),
+    name: localStorage.getItem('user_name'),
+    email: localStorage.getItem('user_email'),
+    access_token: localStorage.getItem('token'),
+    institution: localStorage.getItem('institution'),
+    institutionType: localStorage.getItem('institution_type')
 }
 
 export default class ComplaintList extends Component {
@@ -70,7 +70,7 @@ export default class ComplaintList extends Component {
         var param = {
             page : this.state.currentPage,
             filter: this.state.filter,
-            institution: sessionStorage.getItem('institution')
+            institution: localStorage.getItem('institution')
         }
         api.get(`/v1/complaint?${buildParam(param)}`)
             .then(function(response){
