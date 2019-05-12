@@ -25,14 +25,14 @@ class FoodFormContainer extends Component{
     }
 
     componentWillReceiveProps(nextProps){
-        if(typeof nextProps.food.type !== 'undefined'){
-            switch (nextProps.food.type) {
+        if(typeof nextProps.notification.type !== 'undefined'){
+            switch (nextProps.notification.type) {
                 case 'success':
-                    NotificationManager.success(nextProps.food.message);
+                    NotificationManager.success(nextProps.notification.message);
                     this.props.history.push(`/app/food/list`);
                     break;
                 default:
-                    NotificationManager.error(nextProps.food.message);
+                    NotificationManager.error(nextProps.notification.message);
                     break;
             }
         }

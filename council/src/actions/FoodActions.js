@@ -70,9 +70,10 @@ export const updateFoodFailure = (error) => ({
     payload: error
 });
 
-export const deleteFood = (data) => ({
+export const deleteFood = (data, callback = null) => ({
     type: actions.DELETE_FOOD,
-    payload: data
+    payload: data,
+    callback: callback
 });
 
 export const deleteFoodSuccess = (response) => ({

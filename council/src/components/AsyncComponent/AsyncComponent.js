@@ -196,6 +196,5 @@ export {
     AsyncFoodContainer,
     AsyncFoodFormContainer,
     AsyncPreviewFoodContainer,
-	AsyncPreviewNotificationContainer,
 	AsyncServiceFormContainer,
 };
