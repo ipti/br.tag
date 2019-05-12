@@ -11,6 +11,7 @@ import authUserReducer from './AuthUserReducer';
 import feedbacksReducer from './FeedbacksReducer';
 import ecommerceReducer from './EcommerceReducer';
 import peopleReducer from './PeopleReducer';
+import serviceReducer from './ServiceReducer';
 import notificationReducer from './NotificationReducer';
 import InstitutionReducer from './InstitutionReducer';
 
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   feedback: feedbacksReducer,
   ecommerce: ecommerceReducer,
   people: peopleReducer,
+  service: serviceReducer,
   notification: notificationReducer,
   institution: InstitutionReducer,
 });

@@ -144,6 +144,13 @@ const AsyncPreviewNotificationContainer = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- Service ------------------*/
+
+const AsyncServiceFormContainer = Loadable({
+	loader: () => import("Container/Service/ServiceFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -169,4 +176,5 @@ export {
 	AsyncNotificationContainer,
 	AsyncNotificationFormContainer,
 	AsyncPreviewNotificationContainer,
+	AsyncServiceFormContainer,
 };
