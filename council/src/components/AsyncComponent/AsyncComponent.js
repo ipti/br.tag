@@ -144,6 +144,23 @@ const AsyncPreviewNotificationContainer = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- Food ------------------*/
+
+const AsyncFoodContainer = Loadable({
+    loader: () => import("Container/Food/FoodContainer"),
+    loading: () => <RctPageLoader />,
+});
+
+const AsyncFoodFormContainer = Loadable({
+    loader: () => import("Container/Food/FoodFormContainer"),
+    loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewFoodContainer = Loadable({
+    loader: () => import("Container/Food/PreviewFoodContainer"),
+    loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -168,5 +185,8 @@ export {
 	AsyncPeopleFormContainer,
 	AsyncNotificationContainer,
 	AsyncNotificationFormContainer,
-	AsyncPreviewNotificationContainer,
+    AsyncPreviewNotificationContainer,
+    AsyncFoodContainer,
+    AsyncFoodFormContainer,
+    AsyncPreviewFoodContainer,
 };
