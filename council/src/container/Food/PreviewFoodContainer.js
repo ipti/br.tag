@@ -22,17 +22,16 @@ class PreviewFoodContainer extends Component{
     
     render(){
         const {food, institution} = this.props;
-        
         return(
             <Fragment>
                 {
-                    notification.loading && institution.loading ? 
+                    food.loading && institution.loading ? 
                     (
                         <RctSectionLoader />
                     )
                     :
                     (
-                        <PreviewFood food={food} institution={institution.institution} />
+                        <PreviewFood food={food.food} institution={institution.institution} />
                     )
                 }
             </Fragment>

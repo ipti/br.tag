@@ -37,7 +37,7 @@ class Card extends Component {
                             this.state.showActions ? (
                                 <div className="row mx-0 w-100" onClick={this.handleClose}>
                                     <div className="col-12 d-flex justify-content-center aling-items-center">
-                                        <Button className="mr-2" color="primary" onClick={() => this.props.previewNotification(this.props.id)} >Visualizar</Button>
+                                        <Button className="mr-2" color="primary" onClick={() => this.props.previewFood(this.props.id)} >Visualizar</Button>
                                         <Button color="danger" onClick={() => this.deleteFood(this.props.id)} >Excluir</Button>
                                     </div>
                                 </div>
