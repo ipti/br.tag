@@ -11,5 +11,6 @@ export * from './EcommerceActions';
 export * from './PeopleActions';
 export * from './NotificationActions';
 export * from './FoodActions';
+export * from './WarningActions';
 export * from './ServiceActions';
 export * from './InstitutionActions';

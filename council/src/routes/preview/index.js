@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import {
     AsyncPreviewNotificationContainer,
     AsyncPreviewFoodContainer,
+    AsyncPreviewWarningContainer,
     AsyncPreviewServiceContainer,
 } from 'Components/AsyncComponent/AsyncComponent';
 
@@ -14,6 +15,7 @@ const Preview = ({match}) => (
         <Switch>
             <Route exact={true} path={`${match.url}/notification/:id`} component={AsyncPreviewNotificationContainer} />
             <Route exact={true} path={`${match.url}/food/:id`} component={AsyncPreviewFoodContainer} />
+            <Route exact={true} path={`${match.url}/warning/:id`} component={AsyncPreviewWarningContainer} />
             <Route exact={true} path={`${match.url}/service/:id`} component={AsyncPreviewServiceContainer} />
         </Switch>
     </div>

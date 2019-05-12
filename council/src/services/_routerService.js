@@ -5,6 +5,7 @@ import Citizen from 'Routes/citizen';
 import People from 'Routes/people';
 import Notification from 'Routes/notification';
 import Food from 'Routes/food';
+import Warning from 'Routes/warning';
 import Service from 'Routes/service';
 
 export default [
@@ -35,7 +36,11 @@ export default [
     {
         path: 'food',
         component: Food
-	},
+    },
+    {
+        path: 'warning',
+        component: Warning
+    },
 	{
 		path: 'service',
 		component: Service

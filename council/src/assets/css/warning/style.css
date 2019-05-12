@@ -1,0 +1,44 @@
+.warning-card{
+    background-color: #FFF;
+}
+
+.warning-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.warning-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.warning-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.warning-label{
+    font-size: 16px;
+    color: #74777b;
+    margin-bottom: unset;
+}
+
+.warning-container-select{
+    border: solid 1px #ddd;
+    padding: 30px;
+    border-radius: 10px;
+}
