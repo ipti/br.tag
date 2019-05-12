@@ -13,6 +13,7 @@ import ecommerceReducer from './EcommerceReducer';
 import peopleReducer from './PeopleReducer';
 import serviceReducer from './ServiceReducer';
 import notificationReducer from './NotificationReducer';
+import foodReducer from './FoodReducer';
 import InstitutionReducer from './InstitutionReducer';
 
 const reducers = combineReducers({
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   people: peopleReducer,
   service: serviceReducer,
   notification: notificationReducer,
+  food: foodReducer,
   institution: InstitutionReducer,
 });
 

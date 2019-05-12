@@ -10,5 +10,6 @@ export * from './FeedbacksActions';
 export * from './EcommerceActions';
 export * from './PeopleActions';
 export * from './NotificationActions';
+export * from './FoodActions';
 export * from './ServiceActions';
 export * from './InstitutionActions';

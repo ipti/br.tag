@@ -4,6 +4,7 @@ import Complaint from 'Routes/complaint';
 import Citizen from 'Routes/citizen';
 import People from 'Routes/people';
 import Notification from 'Routes/notification';
+import Food from 'Routes/food';
 import Service from 'Routes/service';
 
 export default [
@@ -30,6 +31,10 @@ export default [
 	{
 		path: 'notification',
 		component: Notification
+    },
+    {
+        path: 'food',
+        component: Food
 	},
 	{
 		path: 'service',
