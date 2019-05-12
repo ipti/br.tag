@@ -36,7 +36,9 @@ class FoodContainer extends Component{
 
     loadFoods = () =>{
         return this.props.foods.map((food) =>{
-            return <Card id={food._id} reason={food.reason} createdAt={food.createdAt} />
+            return (
+                <Card id={food._id} personApplicantName={food.personApplicant.name} reason={food.reason} createdAt={food.createdAt} />
+            );
         });
     }
     

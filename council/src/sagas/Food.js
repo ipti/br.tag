@@ -98,6 +98,9 @@ function* deleteFoodFromServer(action) {
     try {
         const response = yield call(() => deleteFoodRequest(action.payload));
         yield put(deleteFoodSuccess(response));
+        if (typeof(action.callback) === 'function') {
+            action.callback();
+        }
     } catch (error) {
         yield put(deleteFoodFailure(error));
     }
