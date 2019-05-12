@@ -16,6 +16,7 @@ import notificationReducer from './NotificationReducer';
 import foodReducer from './FoodReducer';
 import warningReducer from './WarningReducer';
 import InstitutionReducer from './InstitutionReducer';
+import HousingReducer from './HousingReducer';
 
 const reducers = combineReducers({
   settings,
@@ -32,6 +33,7 @@ const reducers = combineReducers({
   food: foodReducer,
   warning: warningReducer,
   institution: InstitutionReducer,
+  housing: HousingReducer,
 });
 
 export default reducers;

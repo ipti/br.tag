@@ -7,6 +7,7 @@ import Notification from 'Routes/notification';
 import Food from 'Routes/food';
 import Warning from 'Routes/warning';
 import Service from 'Routes/service';
+import Housing from 'Routes/housing';
 
 export default [
 	{
@@ -45,4 +46,8 @@ export default [
 		path: 'service',
 		component: Service
 	},
+	{
+		path: 'housing',
+		component: Housing
+	}
 ]
