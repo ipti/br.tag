@@ -7,6 +7,7 @@ import {
     AsyncPreviewWarningContainer,
     AsyncPreviewServiceContainer,
     AsyncPreviewHousingContainer,
+    AsyncPreviewFactContainer,
 } from 'Components/AsyncComponent/AsyncComponent';
 
 import 'Assets/css/preview/style.css';
@@ -19,6 +20,7 @@ const Preview = ({match}) => (
             <Route exact={true} path={`${match.url}/warning/:id`} component={AsyncPreviewWarningContainer} />
             <Route exact={true} path={`${match.url}/service/:id`} component={AsyncPreviewServiceContainer} />
             <Route exact={true} path={`${match.url}/housing/:id`} component={AsyncPreviewHousingContainer} />
+            <Route exact={true} path={`${match.url}/fact/:id`} component={AsyncPreviewFactContainer} />
         </Switch>
     </div>
 );

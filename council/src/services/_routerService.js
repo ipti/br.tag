@@ -8,6 +8,7 @@ import Food from 'Routes/food';
 import Warning from 'Routes/warning';
 import Service from 'Routes/service';
 import Housing from 'Routes/housing';
+import Fact from 'Routes/fact';
 
 export default [
 	{
@@ -49,5 +50,9 @@ export default [
 	{
 		path: 'housing',
 		component: Housing
+	},
+	{
+		path: 'fact',
+		component: Fact
 	}
 ]

@@ -212,6 +212,23 @@ const AsyncPreviewHousingContainer = Loadable({
     loading: () => <RctPageLoader />,
 });
 
+/*---------------- Fact ------------------*/
+
+const AsyncFactContainer = Loadable({
+	loader: () => import("Container/Fact/FactContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncFactFormContainer = Loadable({
+	loader: () => import("Container/Fact/FactFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewFactContainer = Loadable({
+    loader: () => import("Container/Fact/PreviewFactContainer"),
+    loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -249,4 +266,7 @@ export {
 	AsyncPreviewHousingContainer,
 	AsyncHousingContainer,
 	AsyncHousingFormContainer,
+	AsyncPreviewFactContainer,
+	AsyncFactContainer,
+	AsyncFactFormContainer,
 };
