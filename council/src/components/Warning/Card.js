@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import renderHTML from 'react-render-html';;
+import { Button } from 'reactstrap'
 import { connect } from 'react-redux';
 import { previewWarning, deleteWarning, getWarning } from 'Actions';
 
@@ -67,7 +68,7 @@ class Card extends Component {
                                         <div className="col-12">
                                             <div className="w-100">
                                                 <div className="w-100">
-                                                    <h4 className="food-card-title text-ellipsis">{reason}</h4>
+                                                    <h4 className="food-card-title text-ellipsis">{renderHTML(reason)}</h4>
                                                 </div>
                                             </div>
                                         </div>

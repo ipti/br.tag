@@ -1,4 +1,5 @@
 import  * as actions from 'Actions/WarningTypes';
+import { EditorState } from 'draft-js';
 
 function setFormFields(data){
     return{
@@ -22,7 +23,7 @@ const INIT_STATE ={
         _id: '',
         personAdolescent: '',
         personRepresentative: '',
-        reason: ''
+        reason: EditorState.createEmpty()
     },
     loading: false,
     notification: {}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import FeedbackError from 'Components/Form/FeedbackError';
 import PeopleSelect from 'Components/People/PeopleSelect';
+import { Editor } from 'react-draft-wysiwyg';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeWarningForm } from 'Actions';
@@ -79,7 +80,32 @@ class WarningForm extends Component{
                                         <h4 className="warning-label text-ellipsis">
                                             <Label for="reason">Motivo</Label>
                                         </h4>
-                                        <Input invalid={!this.props.errors.reason.valid} type="textarea" name="reason" id="reason" value={this.state.reason} onChange={(e) => this.handleChange(e.target.value, 'reason')} />
+                                        <Input type="hidden" invalid={!this.props.errors.reason.valid} />
+                                        <Editor
+                                            editorState={this.state.reason}
+                                            onEditorStateChange={(value) => this.handleChange(value, 'reason')}
+                                            editorClassName="warning-editor"
+                                            toolbar={{
+                                                options: ['inline', 'fontSize', 'colorPicker', 'list', 'textAlign', 'link', 'image', 'history'],
+                                                inline: { inDropdown: false },
+                                                list: { inDropdown: true },
+                                                textAlign: { inDropdown: true },
+                                                link: { inDropdown: true },
+                                                history: { inDropdown: false }
+                                            }}
+                                            wrapperStyle={{
+                                                'border': '1px solid #C5C5C5',
+                                                'borderRadius': '3px'
+                                            }}
+                                            toolbarStyle={{
+                                                'border': 'none',
+                                                'borderBottom': '1px solid #C5C5C5'
+                                            }}
+                                            editorStyle={{
+                                                'padding': '10px'
+                                            }}
+
+                                        />
                                         <FeedbackError errors={this.props.errors.reason.errors} />
                                     </FormGroup>
                                 </div>

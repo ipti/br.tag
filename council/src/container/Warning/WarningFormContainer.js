@@ -4,6 +4,9 @@ import Validator from 'Util/Validator';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
+import { convertToRaw } from 'draft-js';
+import draftToMarkdown from 'draftjs-to-markdown';
+import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import { saveWarning, getWarningById, updateWarning } from 'Actions';
 import 'Assets/css/warning/style.css';
@@ -81,6 +84,10 @@ class WarningFormContainer extends Component{
     }
 
     validate = (data) =>{
+        data = {
+            ...data,
+            reason: this.toMarkDown(data.reason)
+        };
         let isValid = true;
         this.errors = this.initialErros();
 
@@ -119,13 +126,21 @@ class WarningFormContainer extends Component{
         }
     }
 
+    toMarkDown = (state) => {
+        return draftToMarkdown(convertToRaw(state.getCurrentContent())).trim();
+    }
+
+    toHTML = (state) => {
+        return draftToHtml(convertToRaw(state.getCurrentContent()));
+    }
+
     normalizeData = (data) =>{
         return (
             {
                 _id: data._id,
                 personAdolescent: data.personAdolescent,
                 personRepresentative: data.personRepresentative,
-                reason: data.reason,
+                reason: this.toHTML(data.reason),
             }
         )
     }
