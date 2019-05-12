@@ -13,3 +13,4 @@ export * from './NotificationActions';
 export * from './FoodActions';
 export * from './ServiceActions';
 export * from './InstitutionActions';
+export * from './HousingActions';

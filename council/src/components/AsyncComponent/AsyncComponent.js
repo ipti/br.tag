@@ -178,6 +178,24 @@ const AsyncPreviewFoodContainer = Loadable({
     loading: () => <RctPageLoader />,
 });
 
+
+/*---------------- Housing ------------------*/
+
+const AsyncHousingContainer = Loadable({
+	loader: () => import("Container/Housing/HousingContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncHousingFormContainer = Loadable({
+	loader: () => import("Container/Housing/HousingFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewHousingContainer = Loadable({
+    loader: () => import("Container/Housing/PreviewHousingContainer"),
+    loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -209,4 +227,7 @@ export {
 	AsyncServiceContainer,
 	AsyncServiceFormContainer,
 	AsyncPreviewServiceContainer,
+	AsyncPreviewHousingContainer,
+	AsyncHousingContainer,
+	AsyncHousingFormContainer,
 };

@@ -59,6 +59,13 @@
 
 #root{
     width: unset;
+    overflow-y: scroll;
+}
+
+@media print{
+    #root{
+        overflow-y: unset;
+    }
 }
 
 @page{

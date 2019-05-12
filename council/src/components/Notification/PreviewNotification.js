@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import PreviewDocument from 'Components/PreviewDocument/PreviewDocument'
 import Header from 'Components/PreviewDocument/Header'
 import PropTypes from 'prop-types';
 
