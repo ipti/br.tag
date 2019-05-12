@@ -146,8 +146,18 @@ const AsyncPreviewNotificationContainer = Loadable({
 
 /*---------------- Service ------------------*/
 
+const AsyncServiceContainer = Loadable({
+	loader: () => import("Container/Service/ServiceContainer"),
+	loading: () => <RctPageLoader />,
+});
+
 const AsyncServiceFormContainer = Loadable({
 	loader: () => import("Container/Service/ServiceFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewServiceContainer = Loadable({
+	loader: () => import("Container/Service/PreviewServiceContainer"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -196,5 +206,7 @@ export {
     AsyncFoodContainer,
     AsyncFoodFormContainer,
     AsyncPreviewFoodContainer,
+	AsyncServiceContainer,
 	AsyncServiceFormContainer,
+	AsyncPreviewServiceContainer,
 };

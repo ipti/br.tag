@@ -36,7 +36,7 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 services: action.payload.services,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Notificações carregadas com sucesso'},
+                notification: {type: 'success', message:'Serviços carregadas com sucesso'},
                 loading: false
             }
 
@@ -65,7 +65,7 @@ export default (state = INIT_STATE, action) => {
         case actions.SAVE_SERVICE_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao salvar notificação'},
+                notification: {type: 'error', message:'Erro ao salvar Resquisição de Serviço'},
                 loading: false
             }
         
@@ -101,7 +101,7 @@ export default (state = INIT_STATE, action) => {
         case actions.GET_SERVICE_BY_ID_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao carregar notificação'},
+                notification: {type: 'error', message:'Erro ao carregar requisição de serviço'},
                 loading: false
             }
         
@@ -123,7 +123,7 @@ export default (state = INIT_STATE, action) => {
         case actions.UPDATE_SERVICE_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao salvar notificação'},
+                notification: {type: 'error', message:'Erro ao salvar requisição de serviço'},
                 loading: false
             }
 
@@ -144,7 +144,7 @@ export default (state = INIT_STATE, action) => {
         case actions.DELETE_SERVICE_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao excluir notificação'},
+                notification: {type: 'error', message:'Erro ao excluir requisição de serviço'},
                 loading: false
             }
         case actions.PREVIEW_SERVICE:

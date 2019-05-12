@@ -45,7 +45,7 @@ class ServiceForm extends Component{
         return(
             <div className="row justify-content-md-center">
                 <div className="col-md-12">
-                    <RctCollapsibleCard heading="Cadastro Notificação">
+                    <RctCollapsibleCard heading="Cadastro Requisição de Serviço">
                         <Form>
                             <div className="row justify-content-center">
                                 <div className="col-sm-12 col-md-6 notification-container-select">
