@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
 import { connect } from 'react-redux';
 import { saveFact, getFactById, updateFact } from 'Actions';
-import { convertToRaw, convertFromRaw } from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import { convertToRaw } from 'draft-js';
+import draftToMarkdown from 'draftjs-to-markdown';
+import draftToHtml from 'draftjs-to-html';
 import 'Assets/css/fact/style.css';
 
 
@@ -84,6 +85,11 @@ class FactFormContainer extends Component{
     }
 
     validate = (data) =>{
+        data = {
+            ...data,
+            description: this.toMarkDown(data.description),
+            providence: this.toMarkDown(data.providence)
+        };
         let isValid = true;
         this.errors = this.initialErros();
 
@@ -122,9 +128,12 @@ class FactFormContainer extends Component{
         }
     }
 
-    toHTML = (text) => {
-        const json = convertToRaw(text);
-        return stateToHTML(convertFromRaw(json));
+    toMarkDown = (state) => {
+        return draftToMarkdown(convertToRaw(state.getCurrentContent())).trim();
+    }
+
+    toHTML = (state) => {
+        return draftToHtml(convertToRaw(state.getCurrentContent()));
     }
 
     normalizeData = (data) =>{
@@ -132,8 +141,8 @@ class FactFormContainer extends Component{
             {
                 _id: data._id,
                 child: data.child,
-                description: this.toHTML(data.description.getCurrentContent()),
-                providence: this.toHTML(data.providence.getCurrentContent()),
+                description: this.toHTML(data.description),
+                providence: this.toHTML(data.providence),
             }
         )
     }
