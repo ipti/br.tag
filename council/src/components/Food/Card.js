@@ -42,8 +42,8 @@ class Card extends Component {
                                     </div>
                                 </div>
                             ) : (
-                                <React.Fragment>
-                                    <div className="row mx-0" onClick={this.handleClick}>
+                                <div onClick={this.handleClick}>
+                                    <div className="row mx-0">
                                         <div className="col-7 d-flex aling-items-center">
                                             <div className="mr-2">
                                                 <img width="26px" src={require('../../assets/img/icons/student.png')} />
@@ -72,7 +72,7 @@ class Card extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                </React.Fragment>
+                                </div>
                             )
                         }
                     </div>

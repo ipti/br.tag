@@ -1,103 +1,73 @@
 import React, { Component, Fragment } from 'react';
-import Header from 'Components/PreviewDocument/Header'
+import Header from 'Components/PreviewDocument/Header';
+import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
-
-class Applicant extends Component {
-    render() {
-        const applicant = this.props.applicant;
-        return (
-            <Fragment>
-                <div className="mt-2">
-                    <p className="text-justify my-0">
-                        <strong className="title-header">Requerente: {applicant.name} </strong>
-                        menor impúbere neste ato representado por sua Genitora, <strong>{applicant.motherName} </strong>
-                        portadora do RG: <strong>{applicant.rg} </strong> e CPF: <strong>{applicant.cpf}, </strong>
-                        residente e domiciliada no(a) {`${applicant.neighborhood} ${applicant.street} ${applicant.number} `}
-                    </p>
-                    <p className="text-justify my-0">
-                        <strong>Cidade: </strong>{`${applicant.city}/${applicant.state}`}
-                    </p>
-                </div>
-            </Fragment>
-        );
-    }
-}
-
-
-class Representative extends Component {
-    render() {
-        const representative = this.props.representative;
-        return (
-            <Fragment>
-                <div className="mt-2">
-                    <p className="text-justify my-0">
-                        <strong className="title-header">Requerido: </strong>{representative.name}
-                    </p>
-                    <p className="text-justify my-0">
-                        <strong className="title-header">Endereço: </strong>{`${representative.neighborhood} ${representative.street} ${representative.number} `}
-                    </p>
-                    <p className="text-justify my-0">
-                        <strong className="title-header">Cidade: </strong>{`${representative.city}/${representative.state}`}
-                    </p>
-                </div>
-            </Fragment>
-        );
-    }
-}
-
-class Reason extends Component {
-    render() {
-        const reason = this.props.reason;
-        return (
-            <Fragment>
-                <div className="mt-2">
-                    <p className="text-justify my-0">
-                        <strong className="title-header">Obs: </strong>{reason}
-                    </p>
-                </div>
-            </Fragment>
-        );
-    }
-}
 
 class ParagrahpOne extends Component {
     render() {
+        const { adolescent, representative } = this.props;
         return (
-            <div className="mt-20">
-                <p className="text-center my-0">
-                    Desde já quero renovar os votos de consideração e apreço.
-                </p>
-                <p className="text-center my-0">
-                    Atenciosamente,
-                </p>
-                <p className="text-center my-0">
-                    Conselho Tutelar
-                </p>
-            </div>
+            <Fragment>
+                <div className="mt-2">
+                    <p className="text-justify my-0">
+                        No dia {this.props.date} no Conselho Tutelarde Santa Luzia do Itanhi/ Se,perante os conselheiros,
+                        compareceu <strong className="title-header">{adolescent.name} </strong>
+                        neste ato represetada por Sr(a). <strong className="title-header">{representative.name}, </strong>
+                        {`${representative.nacionality} ${representative.civilStatus}, nascido(a) na cidade de ${representative.city} e portador(a) do RG: ${representative.rg} e CPF: ${representative.cpf}`}
+                    </p>
+                </div>
+            </Fragment>
         );
     }
 }
 
 class ParagrahpTwo extends Component {
     render() {
+        const reason = this.props.reason;
         return (
-            <div className="mt-0">
-                <p className="text-left my-0">
-                    <strong>Procuradoria Municipal</strong>
-                </p>
-            </div>
+            <Fragment>
+                <div className="mt-2">
+                    <p className="text-justify my-0">
+                        {reason}
+                    </p>
+                </div>
+            </Fragment>
         );
     }
 }
 
 class ParagrahpThree extends Component {
     render() {
-        const date = this.props.date;
         return (
             <div className="mt-0">
-                <p className="text-right my-0">
-                    Santa Luzia do Itanhi/Se {date}
+                <p className="text-center my-0">
+                    Santa Luzia do Itanhi/Se
                 </p>
+            </div>
+        );
+    }
+}
+
+class ParagrahpFour extends Component {
+    render() {
+        return (
+            <div className="mt-0">
+                <div className="text-left my-0">
+                    <div className="row">
+                        <div className="col-1">
+                            Acordante:
+                        </div>
+                        <div className="col-11">
+                            <input style={{
+                                border: 'none',
+                                borderBottom: '1px solid #000000'
+                            }} />
+                        </div>
+                    </div>
+                    <div className="mt-1">
+                        <strong>{this.props.adolescent.name}</strong> (representado(a) por <strong>{this.props.representative.name}</strong>)
+                    </div>
+                </div>
             </div>
         );
     }
@@ -110,14 +80,12 @@ class Body extends Component {
         return (
             <div className="body" style={{ margin: '2px 20px' }}>
                 <div className="mt-40">
-                    <h2 className="text-center">Ação de Alimentos</h2>
+                    <h2 className="text-center">TERMO DE COMPROMISSO E DE ADVERTÊNCIA</h2>
                 </div>
-                <Applicant {...props} />
-                <Representative {...props} />
-                <Reason {...props} />
                 <ParagrahpOne {...props} />
                 <ParagrahpTwo {...props} />
                 <ParagrahpThree {...props} />
+                <ParagrahpFour {...props} />
             </div>
         );
     }
@@ -133,7 +101,7 @@ class Head extends Component {
     }
 }
 
-class PreviewFood extends Component {
+class PreviewWarning extends Component {
 
     normalizeStreet = (address) => {
         const data = {
@@ -155,29 +123,22 @@ class PreviewFood extends Component {
         return Object.values(data).join(' ');
     }
 
-    normalizeData = (food) => {
+    normalizeData = (warning) => {
         return {
-            applicant: {
-                name: food.personApplicant && food.personApplicant.name ? food.personApplicant.name : '',
-                motherName: food.personApplicant && food.personApplicant.mother ? food.personApplicant.mother : '',
-                rg: food.personApplicant && food.personApplicant.rg ? food.personApplicant.rg : '',
-                cpf: food.personApplicant && food.personApplicant.cpf ? food.personApplicant.cpf : '',
-                neighborhood: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.neighborhood : '',
-                street: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.street : '',
-                number: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.number : '',
-                city: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.city : '',
-                state: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.state : '',
+            adolescent: {
+                name: warning.personAdolescent && warning.personAdolescent.name ? warning.personAdolescent.name : ''
             },
             representative: {
-                name: food.personRepresentative && food.personRepresentative.name ? food.personRepresentative.name : '',
-                neighborhood: food.personRepresentative && food.personRepresentative.address ? food.personRepresentative.address.neighborhood : '',
-                street: food.personRepresentative && food.personRepresentative.address ? food.personRepresentative.address.street : '',
-                number: food.personRepresentative && food.personRepresentative.address ? food.personRepresentative.address.number : '',
-                city: food.personRepresentative && food.personRepresentative.address ? food.personRepresentative.address.city : '',
-                state: food.personRepresentative && food.personRepresentative.address ? food.personRepresentative.address.state : '',
+                name: warning.personRepresentative && warning.personRepresentative.name ? warning.personRepresentative.name : '',
+                nacionality: warning.personRepresentative && warning.personRepresentative.nacionality ? warning.personRepresentative.nacionality : '',
+                civilStatus: warning.personRepresentative && warning.personRepresentative.civilStatus ? warning.personRepresentative.civilStatus : '',
+                rg: warning.personRepresentative && warning.personRepresentative.rg ? warning.personRepresentative.rg : '',
+                cpf: warning.personRepresentative && warning.personRepresentative.cpf ? warning.personRepresentative.cpf : '',
+                neighborhood: warning.personRepresentative && warning.personRepresentative.address ? warning.personRepresentative.address.neighborhood : '',
+                city: warning.personRepresentative && warning.personRepresentative.address ? warning.personRepresentative.address.city : '',
             },
-            reason: food.reason ? food.reason : '',
-            date: food.createdAt ? food.createdAt.split(' ')[0] : '',
+            reason: warning.reason ? renderHTML(warning.reason) : '',
+            date: warning.createdAt ? warning.createdAt.split(' ')[0] : '',
         }
 
     }
@@ -199,15 +160,15 @@ class PreviewFood extends Component {
         return (
             <Fragment>
                 <Head {...this.normalizeHeaderData(this.props.institution)} />
-                <Body {...this.normalizeData(this.props.food)} />
+                <Body {...this.normalizeData(this.props.warning)} />
             </Fragment>
         )
     }
 }
 
-PreviewFood.propTypes = {
-    food: PropTypes.object.isRequired,
+PreviewWarning.propTypes = {
+    warning: PropTypes.object.isRequired,
     institution: PropTypes.object.isRequired,
 };
 
-export default PreviewFood;
+export default PreviewWarning;
