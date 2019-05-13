@@ -18,6 +18,7 @@ import warningReducer from './WarningReducer';
 import InstitutionReducer from './InstitutionReducer';
 import HousingReducer from './HousingReducer';
 import FactReducer from './FactReducer';
+import ReportReducer from "./ReportReducer";
 
 const reducers = combineReducers({
   settings,
@@ -36,6 +37,7 @@ const reducers = combineReducers({
   institution: InstitutionReducer,
   housing: HousingReducer,
   fact: FactReducer,
+  report: ReportReducer,
 });
 
 export default reducers;

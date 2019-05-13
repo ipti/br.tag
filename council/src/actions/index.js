@@ -15,4 +15,5 @@ export * from './WarningActions';
 export * from './ServiceActions';
 export * from './InstitutionActions';
 export * from './HousingActions';
+export * from './ReportActions';
 export * from './FactActions';

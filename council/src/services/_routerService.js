@@ -7,6 +7,7 @@ import Notification from 'Routes/notification';
 import Food from 'Routes/food';
 import Warning from 'Routes/warning';
 import Service from 'Routes/service';
+import Report from 'Routes/report';
 import Housing from 'Routes/housing';
 import Fact from 'Routes/fact';
 
@@ -46,6 +47,10 @@ export default [
 	{
 		path: 'service',
 		component: Service
+	},
+	{
+		path: 'report',
+		component: Report
 	},
 	{
 		path: 'housing',

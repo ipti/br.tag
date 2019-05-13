@@ -16,6 +16,7 @@ import WarningSagas from './Warning';
 import InstitutionSagas from './Institution';
 import HousingSagas from './Housing';
 import FactSagas from './Fact';
+import ReportSagas from './Report';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -31,5 +32,6 @@ export default function* rootSaga(getState) {
         InstitutionSagas(),
         HousingSagas(),
         FactSagas(),
+        ReportSagas(),
     ]);
 }
