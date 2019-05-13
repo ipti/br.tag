@@ -3,6 +3,8 @@ import  * as actions from 'Actions/ServiceTypes';
 function setFormFields(data){
     return{
         _id: data._id,
+        child: data.child,
+        description: data.description,
     }
 }
 
@@ -16,7 +18,9 @@ const INIT_STATE ={
         totalPages: 0
     },
     formFields:{
-        _id: ''
+        _id: '',
+        child: '',
+        description: '',
     },
     loading: false,
     notification: {}

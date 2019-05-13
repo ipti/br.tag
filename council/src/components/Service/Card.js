@@ -28,7 +28,7 @@ class Card extends Component{
     
 
     render(){
-        const {id, notified, createdAt} = this.props;
+        const {id, child, createdAt} = this.props;
         return(
             <div className="col-sm-12 col-md-4 cursor-pointer" >
                 <div className="rct-block">
@@ -49,8 +49,8 @@ class Card extends Component{
                                         <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                     </div>
                                     <div className="w-100">
-                                        <h4 className="notification-card-title text-ellipsis">{notified}</h4>
-                                        <span className="notification-card-subtitle">Nome</span>
+                                        <h4 className="service-card-title text-ellipsis">{child}</h4>
+                                        <span className="service-card-subtitle">Nome</span>
                                     </div>
                                 </div>
                                 <div className="col-4 d-flex aling-items-center">
@@ -58,8 +58,8 @@ class Card extends Component{
                                         <img width="26px" src={require('../../assets/img/icons/calendar.png')} />
                                     </div>
                                     <div>
-                                        <h4 className="notification-card-title">{createdAt.split(' ')[0]}</h4>
-                                        <span className="notification-card-subtitle">Criada em</span>
+                                        <h4 className="service-card-title">{createdAt.split(' ')[0]}</h4>
+                                        <span className="service-card-subtitle">Criada em</span>
                                     </div>
                                 </div>
                             </div>
@@ -73,12 +73,12 @@ class Card extends Component{
 }
 
 Card.propTypes = {
-    notified: PropTypes.string.isRequired,
+    child: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ notification }) => {
-    return notification;
+const mapStateToProps = ({ service }) => {
+    return service;
  };
 
 export default connect(mapStateToProps, {
