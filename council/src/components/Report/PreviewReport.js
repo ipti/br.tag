@@ -3,14 +3,14 @@ import PreviewDocument from 'Components/PreviewDocument/PreviewDocument'
 import Header from 'Components/PreviewDocument/Header'
 import PropTypes from 'prop-types';
 
-class Service extends Component{
+class Report extends Component{
 
     render(){
         const props = this.props;
         return(
             <Fragment>
                 <div className="mt-40">
-                    <h1 className="text-center">Relatório</h1>
+                    <h1 className="text-center">report</h1>
                 </div>
                 <div className="mt-40">
                     <h4 className="title-header">Nome: {props.name}</h4>
@@ -72,7 +72,7 @@ class Body extends Component{
         const props = this.props;
         return(
             <div className="body" style={{margin: '2px 20px'}}>
-                <Service {...props.notified} />
+                <Report {...props.notified} />
                 <ParagrahpOne {...props.paragraphOne} />
                 <ParagrahpTwo />
                 <ParagrahpThree {...props.paragraphThree} />
@@ -113,21 +113,21 @@ class PreviewNotification extends Component{
         return Object.values(data).join(' ');
     }
 
-    normalizeData = (service) =>{
-        console.log(service)
+    normalizeData = (report) =>{
+        console.log(report)
         return {
             notified:{
-                name: service.notified && service.notified.name ? service.notified.name : '',
-                street: service.notified && service.notified.address ? this.normalizeStreet(service.notified.address): '',
-                city: service.notified && service.notified.address ? this.normalizeCity(service.notified.address) : '',
-                profession: service.notified && service.notified.profession ? service.notified.profession : '',
+                name: report.notified && report.notified.name ? report.notified.name : '',
+                street: report.notified && report.notified.address ? this.normalizeStreet(report.notified.address): '',
+                city: report.notified && report.notified.address ? this.normalizeCity(report.notified.address) : '',
+                profession: report.notified && report.notified.profession ? report.notified.profession : '',
             },
             paragraphOne:{
-                date: service.date ? service.date : '',
-                time: service.time ? service.time : ''
+                date: report.date ? report.date : '',
+                time: report.time ? report.time : ''
             },
             paragraphThree:{
-                date: service.createdAt ? service.createdAt.split(' ')[0] : ''
+                date: report.createdAt ? report.createdAt.split(' ')[0] : ''
             }
         }
 
@@ -151,14 +151,14 @@ class PreviewNotification extends Component{
         return(
             <Fragment>
                 <Head {...this.normalizeHeaderData(this.props.institution)} />
-                <Body {...this.normalizeData(this.props.service)} />
+                <Body {...this.normalizeData(this.props.report)} />
             </Fragment>
         )
     }
 }
 
 PreviewNotification.propTypes = {
-    service: PropTypes.object.isRequired,
+    report: PropTypes.object.isRequired,
     institution: PropTypes.object.isRequired,
 };
 

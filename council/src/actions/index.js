@@ -14,3 +14,4 @@ export * from './FoodActions';
 export * from './ServiceActions';
 export * from './InstitutionActions';
 export * from './HousingActions';
+export * from './ReportActions';

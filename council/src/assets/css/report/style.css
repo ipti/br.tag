@@ -1,0 +1,49 @@
+.report-card{
+    background-color: #FFF;
+}
+
+.report-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.report-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.report-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.report-label{
+    font-size: 20px;
+    color: #74777b;
+    margin-bottom: unset;
+}
+
+.report-container-select{
+    border: solid 1px #ddd;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.report-editor{
+    height: 250px;
+    overflow-y: hidden;
+}

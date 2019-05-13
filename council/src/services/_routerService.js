@@ -6,6 +6,7 @@ import People from 'Routes/people';
 import Notification from 'Routes/notification';
 import Food from 'Routes/food';
 import Service from 'Routes/service';
+import Report from 'Routes/report';
 import Housing from 'Routes/housing';
 
 export default [
@@ -40,6 +41,10 @@ export default [
 	{
 		path: 'service',
 		component: Service
+	},
+	{
+		path: 'report',
+		component: Report
 	},
 	{
 		path: 'housing',

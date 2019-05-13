@@ -161,6 +161,23 @@ const AsyncPreviewServiceContainer = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- Report ------------------*/
+
+const AsyncReportContainer = Loadable({
+	loader: () => import("Container/Report/ReportContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncReportFormContainer = Loadable({
+	loader: () => import("Container/Report/ReportFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewReportContainer = Loadable({
+	loader: () => import("Container/Report/PreviewReportContainer"),
+	loading: () => <RctPageLoader />,
+});
+
 /*---------------- Food ------------------*/
 
 const AsyncFoodContainer = Loadable({
@@ -227,6 +244,9 @@ export {
 	AsyncServiceContainer,
 	AsyncServiceFormContainer,
 	AsyncPreviewServiceContainer,
+	AsyncReportContainer,
+	AsyncReportFormContainer,
+	AsyncPreviewReportContainer,
 	AsyncPreviewHousingContainer,
 	AsyncHousingContainer,
 	AsyncHousingFormContainer,
