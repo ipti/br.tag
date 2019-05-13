@@ -14,8 +14,10 @@ import peopleReducer from './PeopleReducer';
 import serviceReducer from './ServiceReducer';
 import notificationReducer from './NotificationReducer';
 import foodReducer from './FoodReducer';
+import warningReducer from './WarningReducer';
 import InstitutionReducer from './InstitutionReducer';
 import HousingReducer from './HousingReducer';
+import FactReducer from './FactReducer';
 import ReportReducer from "./ReportReducer";
 
 const reducers = combineReducers({
@@ -31,8 +33,10 @@ const reducers = combineReducers({
   service: serviceReducer,
   notification: notificationReducer,
   food: foodReducer,
+  warning: warningReducer,
   institution: InstitutionReducer,
   housing: HousingReducer,
+  fact: FactReducer,
   report: ReportReducer,
 });
 

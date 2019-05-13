@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import renderHTML from 'react-render-html';;
+import { Button } from 'reactstrap'
 import { connect } from 'react-redux';
-import { previewFood, deleteFood, getFood } from 'Actions';
+import { previewWarning, deleteWarning, getWarning } from 'Actions';
 
 class Card extends Component {
 
@@ -21,14 +22,14 @@ class Card extends Component {
         this.setState({ showActions: false });
     };
 
-    deleteFood = (id) => {
-        this.props.deleteFood(id, () => {
-            this.props.getFood();
+    deleteWarning = (id) => {
+        this.props.deleteWarning(id, () => {
+            this.props.getWarning();
         });
     }
 
     render(){
-        const {id, personApplicantName, reason, createdAt} = this.props;
+        const {id, personAdolescentName, reason, createdAt} = this.props;
         return(
             <div className="col-sm-12 col-md-4 cursor-pointer" >
                 <div className="rct-block">
@@ -37,8 +38,8 @@ class Card extends Component {
                             this.state.showActions ? (
                                 <div className="row mx-0 w-100" onClick={this.handleClose}>
                                     <div className="col-12 d-flex justify-content-center aling-items-center">
-                                        <Button className="mr-2" color="primary" onClick={() => this.props.previewFood(id)} >Visualizar</Button>
-                                        <Button color="danger" onClick={() => this.deleteFood(id)} >Excluir</Button>
+                                        <Button className="mr-2" color="primary" onClick={() => this.props.previewWarning(id)} >Visualizar</Button>
+                                        <Button color="danger" onClick={() => this.deleteWarning(id)} >Excluir</Button>
                                     </div>
                                 </div>
                             ) : (
@@ -49,8 +50,8 @@ class Card extends Component {
                                                 <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                             </div>
                                             <div className="w-100">
-                                                <span className="food-card-subtitle">Requerente</span>
-                                                <h4 className="food-card-title text-ellipsis">{personApplicantName}</h4>
+                                                <span className="warning-card-subtitle">Adolescente</span>
+                                                <h4 className="warning-card-title text-ellipsis">{personAdolescentName}</h4>
                                             </div>
                                         </div>
                                         <div className="col-4 d-flex aling-items-center">
@@ -67,7 +68,7 @@ class Card extends Component {
                                         <div className="col-12">
                                             <div className="w-100">
                                                 <div className="w-100">
-                                                    <h4 className="food-card-title text-ellipsis">{reason}</h4>
+                                                    <h4 className="food-card-title text-ellipsis">{renderHTML(reason)}</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,17 +84,17 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-    personApplicantName: PropTypes.string.isRequired,
+    personAdolescentName: PropTypes.string.isRequired,
     reason: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ food }) => {
-    return food;
+const mapStateToProps = ({ warning }) => {
+    return warning;
  };
 
 export default connect(mapStateToProps, {
-    previewFood: previewFood, 
-    deleteFood: deleteFood,
-    getFood: getFood,
+    previewWarning: previewWarning, 
+    deleteWarning: deleteWarning,
+    getWarning: getWarning,
  })(Card);

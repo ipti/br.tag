@@ -195,6 +195,22 @@ const AsyncPreviewFoodContainer = Loadable({
     loading: () => <RctPageLoader />,
 });
 
+/*---------------- Warning ------------------*/
+
+const AsyncWarningContainer = Loadable({
+    loader: () => import("Container/Warning/WarningContainer"),
+    loading: () => <RctPageLoader />,
+});
+
+const AsyncWarningFormContainer = Loadable({
+    loader: () => import("Container/Warning/WarningFormContainer"),
+    loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewWarningContainer = Loadable({
+    loader: () => import("Container/Warning/PreviewWarningContainer"),
+    loading: () => <RctPageLoader />,
+});
 
 /*---------------- Housing ------------------*/
 
@@ -210,6 +226,23 @@ const AsyncHousingFormContainer = Loadable({
 
 const AsyncPreviewHousingContainer = Loadable({
     loader: () => import("Container/Housing/PreviewHousingContainer"),
+    loading: () => <RctPageLoader />,
+});
+
+/*---------------- Fact ------------------*/
+
+const AsyncFactContainer = Loadable({
+	loader: () => import("Container/Fact/FactContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncFactFormContainer = Loadable({
+	loader: () => import("Container/Fact/FactFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncPreviewFactContainer = Loadable({
+    loader: () => import("Container/Fact/PreviewFactContainer"),
     loading: () => <RctPageLoader />,
 });
 
@@ -240,6 +273,9 @@ export {
     AsyncPreviewNotificationContainer,
     AsyncFoodContainer,
     AsyncFoodFormContainer,
+    AsyncWarningContainer,
+    AsyncWarningFormContainer,
+    AsyncPreviewWarningContainer,
     AsyncPreviewFoodContainer,
 	AsyncServiceContainer,
 	AsyncServiceFormContainer,
@@ -250,4 +286,7 @@ export {
 	AsyncPreviewHousingContainer,
 	AsyncHousingContainer,
 	AsyncHousingFormContainer,
+	AsyncPreviewFactContainer,
+	AsyncFactContainer,
+	AsyncFactFormContainer,
 };

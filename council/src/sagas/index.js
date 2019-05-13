@@ -12,8 +12,10 @@ import PeopleSagas from './People';
 import NotificationSagas from './Notification';
 import ServiceSagas from './Service';
 import FoodSagas from './Food';
+import WarningSagas from './Warning';
 import InstitutionSagas from './Institution';
 import HousingSagas from './Housing';
+import FactSagas from './Fact';
 import ReportSagas from './Report';
 
 export default function* rootSaga(getState) {
@@ -25,9 +27,11 @@ export default function* rootSaga(getState) {
         PeopleSagas(),
         NotificationSagas(),
         FoodSagas(),
+        WarningSagas(),
         ServiceSagas(),
         InstitutionSagas(),
         HousingSagas(),
+        FactSagas(),
         ReportSagas(),
     ]);
 }
