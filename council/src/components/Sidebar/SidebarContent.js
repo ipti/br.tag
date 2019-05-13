@@ -108,15 +108,6 @@ class SidebarContent extends Component {
                         ))}
                     </List>
                     <List className="rct-mainMenu p-0 m-0 list-unstyled" >
-                        {sidebarMenus.ficai.map((menu, key) => (
-                            <NavMenuItem
-                                menu={menu}
-                                key={key}
-                                onToggleMenu={() => this.toggleMenu(menu, 'ficai')}
-                            />
-                        ))}
-                    </List>
-                    <List className="rct-mainMenu p-0 m-0 list-unstyled" >
                         {sidebarMenus.people.map((menu, key) => (
                             <NavMenuItem
                                 menu={menu}
