@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeHousingForm } from 'Actions';
 import Select from 'react-select'
-import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import {
 	Button,
@@ -144,7 +143,8 @@ class HousingForm extends Component{
                                             }}
                     
                                         />
-                                        <div className="invalid-feedback" ></div>
+                                        <Input type="hidden" invalid={!this.props.errors.motive.valid} />
+                                        <FeedbackError errors={this.props.errors.motive.errors} />
                                     </FormGroup>
 
                                     

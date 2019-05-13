@@ -1,4 +1,5 @@
 import  * as actions from 'Actions/HousingTypes';
+import { EditorState } from 'draft-js';
 
 function setFormFields(data){
     return{
@@ -24,7 +25,7 @@ const INIT_STATE ={
         sender: '',
         child: '',
         receiver: '',
-        motive: '',
+        motive: EditorState.createEmpty(),
     },
     loading: false,
     notification: {}

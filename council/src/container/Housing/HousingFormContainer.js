@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
 import { connect } from 'react-redux';
 import { saveHousing, getHousingById, updateHousing } from 'Actions';
-import { convertToRaw, convertFromRaw } from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import { convertToRaw } from 'draft-js';
+import draftToMarkdown from 'draftjs-to-markdown';
+import draftToHtml from 'draftjs-to-html';
 import 'Assets/css/housing/style.css';
 
 
@@ -87,6 +88,10 @@ class HousingFormContainer extends Component{
     }
 
     validate = (data) =>{
+        data = {
+            ...data,
+            motive: this.toMarkDown(data.motive)
+        };
         let isValid = true;
         this.errors = this.initialErros();
 
@@ -125,9 +130,12 @@ class HousingFormContainer extends Component{
         }
     }
 
-    toHTML = (text) => {
-        const json = convertToRaw(text);
-        return stateToHTML(convertFromRaw(json));
+    toMarkDown = (state) => {
+        return draftToMarkdown(convertToRaw(state.getCurrentContent())).trim();
+    }
+
+    toHTML = (state) => {
+        return draftToHtml(convertToRaw(state.getCurrentContent()));
     }
 
     normalizeData = (data) =>{
@@ -137,7 +145,7 @@ class HousingFormContainer extends Component{
                 child: data.child,
                 receiver: data.receiver,
                 sender: data.sender.value,
-                motive: this.toHTML(data.motive.getCurrentContent()),
+                motive: this.toHTML(data.motive),
             }
         )
     }
