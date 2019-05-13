@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
 import { connect } from 'react-redux';
 import { saveReport, getReportById, updateReport } from 'Actions';
-import { convertToRaw, convertFromRaw } from 'draft-js';
-import {stateToHTML} from 'draft-js-export-html';
+import { convertToRaw } from 'draft-js';
+import draftToMarkdown from 'draftjs-to-markdown';
+import draftToHtml from 'draftjs-to-html';
 import 'Assets/css/report/style.css';
 
 
@@ -40,9 +41,12 @@ class ReportFormContainer extends Component{
         }
     }
 
-    toHTML = (text) => {
-        const json = convertToRaw(text);
-        return stateToHTML(convertFromRaw(json));
+    toMarkDown = (state) => {
+        return draftToMarkdown(convertToRaw(state.getCurrentContent())).trim();
+    }
+
+    toHTML = (state) => {
+        return draftToHtml(convertToRaw(state.getCurrentContent()));
     }
 
     initialState = () =>{
@@ -81,6 +85,10 @@ class ReportFormContainer extends Component{
     }
 
     validate = (data) =>{
+        data = {
+            ...data,
+            description: this.toMarkDown(data.description)
+        };
         let isValid = true;
         this.errors = this.initialErros();
 
@@ -122,7 +130,7 @@ class ReportFormContainer extends Component{
     normalizeData = (data) =>{
         return (
             {
-                description: this.toHTML(data.description.getCurrentContent()),
+                description: this.toHTML(data.description),
             }
         )
     }

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import FeedbackError from 'Components/Form/FeedbackError';
-import PeopleSelect from 'Components/People/PeopleSelect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeReportForm } from 'Actions';
-import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 
 import {
@@ -51,7 +49,7 @@ class ReportForm extends Component{
                     <RctCollapsibleCard heading="Cadastro de Relatório">
                         <Form>
                             <div className="row justify-content-center">
-                                <div className="col-sm-12 col-md-6 notification-container-select">
+                                <div className="col-sm-12 col-md-6 report-container-select">
                                     <Input type="hidden" name="id" id="id" autoComplete="off" value={this.state._id} />
                                     <div className="row mx-0 mb-3">
                                         <div className="col-7 px-0 d-flex align-items-center">
@@ -59,7 +57,7 @@ class ReportForm extends Component{
                                                 <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                             </div>
                                             <div className="w-100">
-                                                <h4 className="notification-label text-ellipsis"> Relatório </h4>
+                                                <h4 className="report-label text-ellipsis"> Relatório </h4>
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +96,8 @@ class ReportForm extends Component{
                                             }}
 
                                         />
-                                        <div className="invalid-feedback" ></div>
+                                        <Input type="hidden" invalid={!this.props.errors.description.valid} />
+                                        <FeedbackError errors={this.props.errors.description.errors} />
                                     </FormGroup>
                                 </div>
 
