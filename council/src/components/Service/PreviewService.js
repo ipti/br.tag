@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import PreviewDocument from 'Components/PreviewDocument/PreviewDocument'
-import Header from 'Components/PreviewDocument/Header'
+import Header from 'Components/PreviewDocument/Header';
+import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
 
 class Service extends Component{
@@ -10,11 +10,11 @@ class Service extends Component{
         return(
             <Fragment>
                 <div className="mt-40">
-                    <h1 className="text-center">Relatório</h1>
+                    <h1 className="text-center">Requisição de Serviços Pública</h1>
                 </div>
                 <div className="mt-40">
-                    <h4 className="title-header">Nome: {props.name}</h4>
-                    <h4 className="title-header">Profissão: {props.profession}</h4>
+                    <p className="text-justify">O Conselho Tutelar dos Diretos da Criança e do Adolescente, órgão permanente e autônomo, não jurisdicional, encarregado pela sociedade de zelar pelos direitos da criança e do Adolescente definidos na Lei Federal do ECA (art.136, inciso III, letra “a” - nº 8.069/90), vem mui respeitosamente através dos conselheiros que o presente subscreve, requisitar tratamento médico,psicológico ou psiquiátrico, em regime hospitalar ou ambulatorial, conforme previsto na <strong>lei 8069/90 ECA,art 101 parágrafo V.</strong></p>
+                    <p>Para o(a) adolescente {props.name} ({props.age} anos), {props.address}.</p>
                 </div>
             </Fragment>
         );
@@ -26,11 +26,8 @@ class ParagrahpOne extends Component{
     render(){
         const props = this.props;
         return(
-            <div className="d-flex mt-40">
-                <p className="text-justify">
-                    O conselho Tutelar dos Diretos da Criança e do Adolescente, órgão permanente e autônomo, não jurisdicional, encarregado pela sociedade de zelar pelos direitos da criança e do adolescente definidos na Lei Federal do ECA (art.131-nº8.069/90), Vem mui respeitosamente notificar a senhor(a) para comparecer na sede do Conselho Tutelar nesta, no <strong>Dia {props.date}</strong> ás <strong> {props.time} </strong>
-                    Para tratar de assuntos de seu interesse.
-                </p>
+            <div className="mt-20">
+                {renderHTML(props.description)}
             </div>
         );
     }
@@ -39,29 +36,32 @@ class ParagrahpOne extends Component{
 class ParagrahpTwo extends Component{
 
     render(){
-        return(
-            <div className="d-flex">
-                <p className="text-justify">
-                    Agradecemos a atenção e lembramos que o não comparecimento injustificado da presente, poderá implicar em medidas judiciais, inclusive condução coercitiva, sem prejuízo de eventual responsabilização por crime ou infração administrativa (art.236 e 249- ECA).
-                </p>
-            </div>
-        );
-    }
-}
-
-class ParagrahpThree extends Component{
-
-    render(){
         const props = this.props;
         return(
-            <div className="mt-40">
-                <p className="text-left">
-                    Atenciosamente,
-                </p>
-                <p className="text-left mt-20">
-                    Conselho Tutelar de Santa Luzia do Itanhi/Se {props.date}
-                </p>
-            </div>
+            <Fragment>
+                <div className="mt-20">
+                    <p className="text-justify">
+                    Isto posto, e considerando o dever elementar do Poder Público em proporcionar, com a mais absoluta prioridade, a efetivação do direito à saúde da criança/adolescente acima nominada, inclusive sob pena de responsabilidade (arts. 4º, caput e par. único c/c 208, caput e inciso VII, da Lei nº 8.069/90), este Conselho Tutelar, usando de sua prerrogativa institucional contida no art. 136, inciso III, alínea “a”, da Lei nº 8.069/90, vem perante Vossa Senhoria requisitar o tratamento do paciente acima referido, sem prejuízo da orientação aos pais e outras providências necessárias a seu tratamento e posterior reabilitação, observando-se em qualquer caso as normas técnicas e jurídicas aplicáveis à matéria.
+                    </p>
+                    <p className="text-justify">
+                        Por fim, informo a Vossa Senhoria que o descumprimento da presente requisição caracteriza, em tese, a infração administrativa tipificada no art. 249, da Lei nº 8.069/90, além de sujeitar os agentes públicos omissos a outras sanções administrativas e civis, nos moldes do previsto nos arts. 5º, 208 e 216, da Lei nº 8.069/90.
+                    </p>
+                    <p className="text-center mt-40">
+                        <strong>Obs: aguardamos respostas no prazo não superior a 10 (dez) dias</strong>
+                    </p>
+                    <p className="text-center">
+                        Desde já quero renovar os votos de consideração e apreço.
+                    </p>
+                </div>
+                <div className="mt-40">
+                    <p className="text-center">
+                        Atenciosamente,
+                    </p>
+                    <p className="text-center mt-20">
+                        Conselho Tutelar de Santa Luzia do Itanhi / SE {props.date}
+                    </p>
+                </div>
+            </Fragment>
         );
     }
 }
@@ -72,10 +72,9 @@ class Body extends Component{
         const props = this.props;
         return(
             <div className="body" style={{margin: '2px 20px'}}>
-                <Service {...props.notified} />
+                <Service {...props.child} />
                 <ParagrahpOne {...props.paragraphOne} />
-                <ParagrahpTwo />
-                <ParagrahpThree {...props.paragraphThree} />
+                <ParagrahpTwo {...props.paragraphTwo} />
             </div>
         );
     }
@@ -91,42 +90,32 @@ class Head extends Component{
     }
 } 
 
-class PreviewNotification extends Component{
+class PreviewService extends Component{
 
-    normalizeStreet = (address) => {
+    normalizeAddress = (address) => {
         const data = {
             street: `${address.street}`,
-            number: new String(address.number).length ? `, ${address.number} ` : null,
-            complement: new String(address.complement).length ? `, ${address.complement} ` : null,
-            neighborhood: new String(address.neighborhood).length ? `, ${address.neighborhood} ` : null,
-        }
-
-        return Object.values(data).join(' ');
-    }
-
-    normalizeCity = (address) => {
-        const data = {
-            city: `${address.city}`,
-            state: new String(address.state).length ? ` - ${address.state} ` : null
+            number: new String(address.number).length ? `, ${address.number} ` : '',
+            complement: new String(address.complement).length ? `, ${address.complement} ` : '',
+            neighborhood: new String(address.neighborhood).length ? `, ${address.neighborhood} ` : '',
+            city: new String(address.city).length ? `, ${address.city} ` : '',
+            state: new String(address.state).length ? ` - ${address.state} ` : ''
         }
 
         return Object.values(data).join(' ');
     }
 
     normalizeData = (service) =>{
-        console.log(service)
         return {
-            notified:{
-                name: service.notified && service.notified.name ? service.notified.name : '',
-                street: service.notified && service.notified.address ? this.normalizeStreet(service.notified.address): '',
-                city: service.notified && service.notified.address ? this.normalizeCity(service.notified.address) : '',
-                profession: service.notified && service.notified.profession ? service.notified.profession : '',
+            child:{
+                name: service.child && service.child.name ? service.child.name : '',
+                age: service.child && service.child.age ? service.child.age : '',
+                address: service.child && service.child.address ? this.normalizeAddress(service.child.address): '',
             },
             paragraphOne:{
-                date: service.date ? service.date : '',
-                time: service.time ? service.time : ''
+                description: service.description ? service.description : '',
             },
-            paragraphThree:{
+            paragraphTwo:{
                 date: service.createdAt ? service.createdAt.split(' ')[0] : ''
             }
         }
@@ -157,9 +146,9 @@ class PreviewNotification extends Component{
     }
 }
 
-PreviewNotification.propTypes = {
+PreviewService.propTypes = {
     service: PropTypes.object.isRequired,
     institution: PropTypes.object.isRequired,
 };
 
-export default PreviewNotification;
+export default PreviewService;

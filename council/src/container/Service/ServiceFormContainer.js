@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
 import { connect } from 'react-redux';
 import { saveService, getServiceById, updateService } from 'Actions';
-import 'Assets/css/notification/style.css';
+import { convertToRaw, convertFromRaw } from 'draft-js';
+import {stateToHTML} from 'draft-js-export-html';
+import 'Assets/css/service/style.css';
 
 
 class ServiceFormContainer extends Component{
@@ -47,15 +49,19 @@ class ServiceFormContainer extends Component{
 
     initialErros = () =>{
         return {
-            _id: {valid: true, errors: []}
+            child: {valid: true, errors: []},
+            description: {valid: true, errors: []},
         };
     }
 
     initialRules = () => {
         return {
-            _id: [
+            child: [
                 { rule: Validator.notEmpty, message: "Pessoa não pode ser vazio"}
-            ]
+            ],
+            description: [
+                { rule: Validator.notEmpty, message: "Descrição não pode ser vazio"}
+            ],
         }
     }
 
@@ -112,10 +118,17 @@ class ServiceFormContainer extends Component{
         }
     }
 
+    toHTML = (text) => {
+        const json = convertToRaw(text);
+        return stateToHTML(convertFromRaw(json));
+    }
+
     normalizeData = (data) =>{
         return (
             {
-                idPerson: data._id
+                _id: data._id,
+                child: data.child,
+                description: this.toHTML(data.description.getCurrentContent()),
             }
         )
     }
