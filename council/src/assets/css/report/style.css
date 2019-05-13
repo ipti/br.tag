@@ -47,3 +47,12 @@
     height: 180px;
     overflow-y: hidden;
 }
+
+.report-place{
+    text-align: right !important;
+    margin-top: -17px !important;
+}
+
+.report-date{
+    margin-top: -27px !important;
+}

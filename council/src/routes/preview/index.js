@@ -6,6 +6,7 @@ import {
     AsyncPreviewFoodContainer,
     AsyncPreviewWarningContainer,
     AsyncPreviewServiceContainer,
+    AsyncPreviewReportContainer,
     AsyncPreviewHousingContainer,
     AsyncPreviewFactContainer,
 } from 'Components/AsyncComponent/AsyncComponent';
@@ -19,6 +20,7 @@ const Preview = ({match}) => (
             <Route exact={true} path={`${match.url}/food/:id`} component={AsyncPreviewFoodContainer} />
             <Route exact={true} path={`${match.url}/warning/:id`} component={AsyncPreviewWarningContainer} />
             <Route exact={true} path={`${match.url}/service/:id`} component={AsyncPreviewServiceContainer} />
+            <Route exact={true} path={`${match.url}/report/:id`} component={AsyncPreviewReportContainer} />
             <Route exact={true} path={`${match.url}/housing/:id`} component={AsyncPreviewHousingContainer} />
             <Route exact={true} path={`${match.url}/fact/:id`} component={AsyncPreviewFactContainer} />
         </Switch>

@@ -2,6 +2,9 @@ import React, { Component, Fragment } from 'react';
 import PreviewDocument from 'Components/PreviewDocument/PreviewDocument'
 import Header from 'Components/PreviewDocument/Header'
 import PropTypes from 'prop-types';
+import 'Assets/css/report/style.css';
+import renderHTML from 'react-render-html';
+
 
 class Report extends Component{
 
@@ -9,13 +12,16 @@ class Report extends Component{
         const props = this.props;
         return(
             <Fragment>
-                <div className="mt-40">
-                    <h1 className="text-center">report</h1>
+                <div className="mt-40 report-place" >
+                    <h4 className="title-header">{props.place}</h4>
+                </div>
+                <div className="mt-40 report-date" >
+                    <h4 className="title-header"> {props.date}</h4>
                 </div>
                 <div className="mt-40">
-                    <h4 className="title-header">Nome: {props.name}</h4>
-                    <h4 className="title-header">Profissão: {props.profession}</h4>
+                    <h1 className="text-center">Relatório Informativo</h1>
                 </div>
+
             </Fragment>
         );
     }
@@ -27,10 +33,7 @@ class ParagrahpOne extends Component{
         const props = this.props;
         return(
             <div className="d-flex mt-40">
-                <p className="text-justify">
-                    O conselho Tutelar dos Diretos da Criança e do Adolescente, órgão permanente e autônomo, não jurisdicional, encarregado pela sociedade de zelar pelos direitos da criança e do adolescente definidos na Lei Federal do ECA (art.131-nº8.069/90), Vem mui respeitosamente notificar a senhor(a) para comparecer na sede do Conselho Tutelar nesta, no <strong>Dia {props.date}</strong> ás <strong> {props.time} </strong>
-                    Para tratar de assuntos de seu interesse.
-                </p>
+                { props.body && renderHTML(props.body) }
             </div>
         );
     }
@@ -40,31 +43,19 @@ class ParagrahpTwo extends Component{
 
     render(){
         return(
-            <div className="d-flex">
-                <p className="text-justify">
-                    Agradecemos a atenção e lembramos que o não comparecimento injustificado da presente, poderá implicar em medidas judiciais, inclusive condução coercitiva, sem prejuízo de eventual responsabilização por crime ou infração administrativa (art.236 e 249- ECA).
-                </p>
+            <div>
+                <div className="text-center">
+                    Atenciosamente
+                </div>
+                <div className="text-center">
+                    Conselheiros Tutelares
+                </div>
             </div>
+
         );
     }
 }
 
-class ParagrahpThree extends Component{
-
-    render(){
-        const props = this.props;
-        return(
-            <div className="mt-40">
-                <p className="text-left">
-                    Atenciosamente,
-                </p>
-                <p className="text-left mt-20">
-                    Conselho Tutelar de Santa Luzia do Itanhi/Se {props.date}
-                </p>
-            </div>
-        );
-    }
-}
 
 class Body extends Component{
 
@@ -72,10 +63,9 @@ class Body extends Component{
         const props = this.props;
         return(
             <div className="body" style={{margin: '2px 20px'}}>
-                <Report {...props.notified} />
-                <ParagrahpOne {...props.paragraphOne} />
+                <Report {...props.localPlace} />
+                <ParagrahpOne {...props.body} />
                 <ParagrahpTwo />
-                <ParagrahpThree {...props.paragraphThree} />
             </div>
         );
     }
@@ -113,27 +103,22 @@ class PreviewNotification extends Component{
         return Object.values(data).join(' ');
     }
 
-    normalizeData = (report) =>{
-        console.log(report)
+    normalizeData = (report, institution) =>{
+        const { address } = institution
         return {
-            notified:{
-                name: report.notified && report.notified.name ? report.notified.name : '',
-                street: report.notified && report.notified.address ? this.normalizeStreet(report.notified.address): '',
-                city: report.notified && report.notified.address ? this.normalizeCity(report.notified.address) : '',
-                profession: report.notified && report.notified.profession ? report.notified.profession : '',
+            localPlace:{
+                date: report && report.date ? report.date : '',
+                place: address && address.city && address.state ? `${address.city}/${address.state}` : '',
             },
-            paragraphOne:{
-                date: report.date ? report.date : '',
-                time: report.time ? report.time : ''
-            },
-            paragraphThree:{
-                date: report.createdAt ? report.createdAt.split(' ')[0] : ''
+            body: {
+                body:  report.description
             }
         }
 
     }
 
     normalizeHeaderData = (institution) =>{
+        console.log(institution)
         const street = institution.address && institution.address.street ? `${institution.address.street}`: '';
         const number = institution.address && institution.address.number && new String(institution.address.number).length ? `, ${institution.address.number} ` : null;
 
@@ -151,7 +136,7 @@ class PreviewNotification extends Component{
         return(
             <Fragment>
                 <Head {...this.normalizeHeaderData(this.props.institution)} />
-                <Body {...this.normalizeData(this.props.report)} />
+                <Body {...this.normalizeData(this.props.report, this.props.institution)} />
             </Fragment>
         )
     }
