@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import PreviewFood from 'Components/Food/PreviewFood';
+import PreviewWarning from 'Components/Warning/PreviewWarning';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import { connect } from 'react-redux';
-import { getFoodById, getInstitutionById } from 'Actions';
+import { getWarningById, getInstitutionById } from 'Actions';
 
 
-class PreviewFoodContainer extends Component{
+class PreviewWarningContainer extends Component{
 
     constructor(props){
         super(props);
@@ -17,21 +17,21 @@ class PreviewFoodContainer extends Component{
     componentDidMount = async () =>{
         const institution = localStorage.getItem('institution');
         await this.props.getInstitutionById(institution);
-        await this.props.getFoodById(this.props.match.params.id);
+        await this.props.getWarningById(this.props.match.params.id);
     }
     
     render(){
-        const {food, institution} = this.props;
+        const {warning, institution} = this.props;
         return(
             <Fragment>
                 {
-                    food.loading && institution.loading ? 
+                    warning.loading && institution.loading ? 
                     (
                         <RctSectionLoader />
                     )
                     :
                     (
-                        <PreviewFood food={food.food} institution={institution.institution} />
+                        <PreviewWarning warning={warning.warning} institution={institution.institution} />
                     )
                 }
             </Fragment>
@@ -39,14 +39,14 @@ class PreviewFoodContainer extends Component{
     }
 }
 
-const mapStateToProps = ({ food, institution }) => {
+const mapStateToProps = ({ warning, institution }) => {
     return {
-        food: food,
+        warning: warning,
         institution: institution
     };
  };
 
 export default connect(mapStateToProps, {
-    getFoodById,
+    getWarningById,
     getInstitutionById
- })(PreviewFoodContainer)
+ })(PreviewWarningContainer)

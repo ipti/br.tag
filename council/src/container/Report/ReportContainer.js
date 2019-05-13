@@ -6,7 +6,7 @@ import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getReport } from 'Actions';
-import 'Assets/css/notification/style.css';
+import 'Assets/css/report/style.css';
 
 
 class ReportContainer extends Component{

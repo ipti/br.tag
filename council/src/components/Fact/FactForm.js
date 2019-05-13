@@ -69,6 +69,7 @@ class FactForm extends Component{
                                     </div>
                                     <FormGroup>
                                         <PeopleSelect value={this.state.child} handleChange={(value) => this.handleChangeSelect(value, 'child')} />
+                                        <Input type="hidden" invalid={!this.props.errors.child.valid} />
                                         <FeedbackError errors={this.props.errors.child.errors} />
                                     </FormGroup>
 
@@ -109,7 +110,8 @@ class FactForm extends Component{
                                             }}
                     
                                         />
-                                        <div className="invalid-feedback" ></div>
+                                        <Input type="hidden" invalid={!this.props.errors.description.valid} />
+                                        <FeedbackError errors={this.props.errors.description.errors} />
                                     </FormGroup>
 
                                     <div className="row mx-0 mb-3">
@@ -148,7 +150,8 @@ class FactForm extends Component{
                                             }}
                     
                                         />
-                                        <div className="invalid-feedback" ></div>
+                                        <Input type="hidden" invalid={!this.props.errors.providence.valid} />
+                                        <FeedbackError errors={this.props.errors.providence.errors} />
                                     </FormGroup>
 
                                     

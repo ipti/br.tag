@@ -1,4 +1,5 @@
 import  * as actions from 'Actions/FactTypes';
+import { EditorState } from 'draft-js';
 
 function setFormFields(data){
     return{
@@ -20,9 +21,9 @@ const INIT_STATE ={
     },
     formFields:{
         _id: '',
-        description: '',
+        description: EditorState.createEmpty(),
         child: '',
-        providence: '',
+        providence: EditorState.createEmpty(),
     },
     loading: false,
     notification: {}

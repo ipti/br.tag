@@ -1,4 +1,5 @@
 import  * as actions from 'Actions/FoodTypes';
+import { EditorState } from 'draft-js';
 
 function setFormFields(data){
     return{
@@ -25,7 +26,7 @@ const INIT_STATE ={
         personApplicant: '',
         personRepresentative: '',
         personRequired: '',
-        reason: '',
+        reason: EditorState.createEmpty(),
         place: '',
     },
     loading: false,

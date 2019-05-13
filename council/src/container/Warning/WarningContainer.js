@@ -37,7 +37,7 @@ class WarningContainer extends Component{
     loadWarnings = () =>{
         return this.props.warnings.map((warning) =>{
             return (
-                <Card id={warning._id} personAdolescentName={warning.personAdolescent.name} reason={warning.reason} createdAt={warning.createdAt} />
+                <Card id={warning._id} personAdolescentName={warning.personAdolescent.name} createdAt={warning.createdAt} />
             );
         });
     }

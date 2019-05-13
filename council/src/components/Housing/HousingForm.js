@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeHousingForm } from 'Actions';
 import Select from 'react-select'
-import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import {
 	Button,
@@ -60,7 +59,7 @@ class HousingForm extends Component{
                     <RctCollapsibleCard heading="Cadastro Termo de Abrigamento">
                         <Form>
                             <div className="row justify-content-center">
-                                <div className="col-sm-12 col-md-6 housing-container-select">
+                                <div className="col-sm-12 col-md-10 housing-container-select">
                                     <Input type="hidden" name="id" id="id" autoComplete="off" value={this.state._id} />
                                     <div className="row mx-0 mb-3">
                                         <div className="col-7 px-0 d-flex align-items-center">
@@ -144,7 +143,8 @@ class HousingForm extends Component{
                                             }}
                     
                                         />
-                                        <div className="invalid-feedback" ></div>
+                                        <Input type="hidden" invalid={!this.props.errors.motive.valid} />
+                                        <FeedbackError errors={this.props.errors.motive.errors} />
                                     </FormGroup>
 
                                     

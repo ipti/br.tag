@@ -6,7 +6,7 @@ import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getService } from 'Actions';
-import 'Assets/css/notification/style.css';
+import 'Assets/css/service/style.css';
 
 
 class ServiceContainer extends Component{
@@ -35,8 +35,8 @@ class ServiceContainer extends Component{
     }
 
     loadService = () =>{
-        return this.props.services.map((notification) =>{
-            return <Card id={notification._id} notified={notification.notified.name} createdAt={notification.createdAt} />
+        return this.props.services.map((service) =>{
+            return <Card id={service._id} child={service.child.name} createdAt={service.createdAt} />
         });
     }
     

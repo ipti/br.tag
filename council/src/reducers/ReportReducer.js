@@ -1,4 +1,5 @@
 import  * as actions from 'Actions/ReportTypes';
+import { EditorState } from 'draft-js';
 
 function setFormFields(data){
     return{
@@ -16,7 +17,7 @@ const INIT_STATE ={
         totalPages: 0
     },
     formFields:{
-        description: ''
+        description: EditorState.createEmpty()
     },
     loading: false,
     notification: {}

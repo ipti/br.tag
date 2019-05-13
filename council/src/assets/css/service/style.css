@@ -1,18 +1,18 @@
-.food-card{
+.service-card{
     background-color: #FFF;
 }
 
-.food-card:not(:last-child){
+.service-card:not(:last-child){
     margin-right: 25px;
 }
 
-.food-card-title{
+.service-card-title{
     font-size: 14px;
     color:#888888;
     margin: unset;
 }
 
-.food-card-subtitle{
+.service-card-subtitle{
     display: block;
     font-size: 12px;
     font-weight: bold;
@@ -31,19 +31,19 @@
     cursor: pointer;
 }
 
-.food-label{
-    font-size: 16px;
+.service-label{
+    font-size: 20px;
     color: #74777b;
     margin-bottom: unset;
 }
 
-.food-container-select{
+.service-container-select{
     border: solid 1px #ddd;
     padding: 30px;
     border-radius: 10px;
 }
 
-.food-editor{
+.service-editor{
     height: 300px;
     overflow-y: hidden;
 }
