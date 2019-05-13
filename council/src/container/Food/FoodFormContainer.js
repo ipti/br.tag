@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 import { NotificationManager } from 'react-notifications';
 import { connect } from 'react-redux';
 import { saveFood, getFoodById, updateFood } from 'Actions';
+import { convertToRaw } from 'draft-js';
+import draftToMarkdown from 'draftjs-to-markdown';
+import draftToHtml from 'draftjs-to-html';
 import 'Assets/css/food/style.css';
 
 
@@ -36,6 +39,14 @@ class FoodFormContainer extends Component{
                     break;
             }
         }
+    }
+
+    toMarkDown = (state) => {
+        return draftToMarkdown(convertToRaw(state.getCurrentContent())).trim();
+    }
+
+    toHTML = (state) => {
+        return draftToHtml(convertToRaw(state.getCurrentContent()));
     }
 
     initialState = () =>{
@@ -85,6 +96,10 @@ class FoodFormContainer extends Component{
     }
 
     validate = (data) =>{
+        data = {
+            ...data,
+            reason: this.toMarkDown(data.reason)
+        };
         let isValid = true;
         this.errors = this.initialErros();
 
@@ -130,7 +145,7 @@ class FoodFormContainer extends Component{
                 personApplicant: data.personApplicant,
                 personRepresentative: data.personRepresentative,
                 personRequired: data.personRequired,
-                reason: data.reason,
+                reason: this.toHTML(data.reason),
                 place: localStorage.getItem('institution'),
             }
         )

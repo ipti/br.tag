@@ -42,3 +42,8 @@
     padding: 30px;
     border-radius: 10px;
 }
+
+.food-editor{
+    height: 300px;
+    overflow-y: hidden;
+}

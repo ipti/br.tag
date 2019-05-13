@@ -5,6 +5,7 @@ import PeopleSelect from 'Components/People/PeopleSelect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeFoodForm } from 'Actions';
+import { Editor } from 'react-draft-wysiwyg';
 import {
 	Button,
 	Form,
@@ -94,7 +95,34 @@ class FoodForm extends Component{
                                         <h4 className="food-label text-ellipsis">
                                             <Label for="reason">Motivo</Label>
                                         </h4>
-                                        <Input invalid={!this.props.errors.reason.valid} type="textarea" name="reason" id="reason" value={this.state.reason} onChange={(e) => this.handleChange(e.target.value, 'reason')} />
+                                        <Editor
+                                            editorState={this.state.reason}
+                                            toolbarClassName="toolbarClassName"
+                                            wrapperClassName="wrapperClassName"
+                                            editorClassName="food-editor"
+                                            onEditorStateChange={(value) => this.handleChange(value, 'reason')}
+                                            toolbar={{
+                                                options: ['inline', 'fontSize', 'colorPicker', 'list', 'textAlign', 'link', 'image', 'history'],
+                                                inline: { inDropdown: false },
+                                                list: { inDropdown: true },
+                                                textAlign: { inDropdown: true },
+                                                link: { inDropdown: true },
+                                                history: { inDropdown: false }
+                                            }}
+                                            wrapperStyle={{
+                                                'border': '1px solid #C5C5C5',
+                                                'borderRadius': '3px'
+                                            }}
+                                            toolbarStyle={{
+                                                'border': 'none',
+                                                'borderBottom': '1px solid #C5C5C5'
+                                            }}
+                                            editorStyle={{
+                                                'padding': '10px'
+                                            }}
+
+                                        />
+                                        <Input type="hidden" invalid={!this.props.errors.reason.valid} />
                                         <FeedbackError errors={this.props.errors.reason.errors} />
                                     </FormGroup>
                                 </div>

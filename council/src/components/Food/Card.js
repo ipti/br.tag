@@ -63,15 +63,6 @@ class Card extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="row mt-2">
-                                        <div className="col-12">
-                                            <div className="w-100">
-                                                <div className="w-100">
-                                                    <h4 className="food-card-title text-ellipsis">{reason}</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             )
                         }
@@ -84,7 +75,6 @@ class Card extends Component {
 
 Card.propTypes = {
     personApplicantName: PropTypes.string.isRequired,
-    reason: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
 };
 

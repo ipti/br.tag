@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Header from 'Components/PreviewDocument/Header'
+import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
 
 class Applicant extends Component {
@@ -52,7 +53,7 @@ class Reason extends Component {
             <Fragment>
                 <div className="mt-2">
                     <p className="text-justify my-0">
-                        <strong className="title-header">Obs: </strong>{reason}
+                        <strong className="title-header">Obs: </strong>{renderHTML(reason)}
                     </p>
                 </div>
             </Fragment>
