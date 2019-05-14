@@ -35,27 +35,27 @@ import {
 const getNotificationRequest = async (page) =>
     await Api.get(`/v1/notification?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getNotificationByIdRequest = async (id) =>
     await Api.get(`/v1/notification/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const saveNotificationRequest = async (data) =>
     await Api.post('/v1/notification', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updateNotificationRequest = async (data) =>
     await Api.post(`/v1/notification/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const deleteNotificationRequest = async (id) => {
     await Api.delete(`/v1/notification/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 }
 

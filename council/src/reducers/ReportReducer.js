@@ -37,14 +37,13 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 reports: action.payload.reports,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Serviços carregadas com sucesso'},
                 loading: false
             }
 
         case actions.GET_REPORT_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao carregar notificações'},
+                notification: {type: 'error', message:'Erro ao carregar relatórios'},
                 loading: false
             }
 
@@ -66,7 +65,7 @@ export default (state = INIT_STATE, action) => {
         case actions.SAVE_REPORT_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao salvar Resquisição de Serviço'},
+                notification: {type: 'error', message:'Erro ao salvar Relatório'},
                 loading: false
             }
         
@@ -102,7 +101,7 @@ export default (state = INIT_STATE, action) => {
         case actions.GET_REPORT_BY_ID_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao carregar requisição de serviço'},
+                notification: {type: 'error', message:'Erro ao carregar relatório'},
                 loading: false
             }
         
@@ -124,7 +123,7 @@ export default (state = INIT_STATE, action) => {
         case actions.UPDATE_REPORT_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao salvar requisição de serviço'},
+                notification: {type: 'error', message:'Erro ao salvar relatório'},
                 loading: false
             }
 
@@ -145,7 +144,7 @@ export default (state = INIT_STATE, action) => {
         case actions.DELETE_REPORT_FAILURE:
             return {
                 ...state,
-                notification: {type: 'error', message:'Erro ao excluir requisição de serviço'},
+                notification: {type: 'error', message:'Erro ao excluir relatório'},
                 loading: false
             }
         case actions.PREVIEW_REPORT:

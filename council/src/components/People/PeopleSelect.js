@@ -64,8 +64,9 @@ class PeopleSelect extends Component{
         return (
             <div className="people-content">
                 <AsyncSelect 
-                    cacheOptions 
+                    cacheOptions={true}
                     defaultOptions
+                    isLoading
                     value={this.state.options.filter((people) => this.state.people.value !== '' && this.state.people.value.id === people.value.id)} 
                     loadOptions={this.options}
                     placeholder="Selecione..."

@@ -30,22 +30,22 @@ import {
 const getPeopleRequest = async (page) =>
     await Api.get(`/v1/people?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getPeopleByIdRequest = async (id) =>
     await Api.get(`/v1/people/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const savePeopleRequest = async (data) =>
     await Api.post('/v1/people', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updatePeopleRequest = async (data) =>
     await Api.post(`/v1/people/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 
 function* getPeopleFromServer(action) {

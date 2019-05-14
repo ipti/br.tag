@@ -50,8 +50,8 @@ class Card extends Component {
                                                 <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                             </div>
                                             <div className="w-100">
-                                                <span className="warning-card-subtitle">Adolescente</span>
                                                 <h4 className="warning-card-title text-ellipsis">{personAdolescentName}</h4>
+                                                <span className="warning-card-subtitle">Adolescente</span>
                                             </div>
                                         </div>
                                         <div className="col-4 d-flex aling-items-center">

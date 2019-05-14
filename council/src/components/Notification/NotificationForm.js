@@ -5,6 +5,7 @@ import PeopleSelect from 'Components/People/PeopleSelect';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangeNotificationForm } from 'Actions';
+import { formatTime, formatDate } from 'Helpers/formats';
 import {
 	Button,
 	Form,
@@ -69,14 +70,14 @@ class NotificationForm extends Component{
                                         <div className="col-sm-12 col-md-8">
                                             <FormGroup>
                                                 <Label for="child">Dia</Label>
-                                                <Input invalid={!this.props.errors.date.valid} type="text" name="date" id="date" autoComplete="off" maxLength={10} value={this.state.date} onChange={(e) => this.handleChange(e, 'date')} bsSize="lg" />
+                                                <Input invalid={!this.props.errors.date.valid} type="text" name="date" id="date" autoComplete="off" maxLength={10} value={this.state.date} onChange={(e) => this.handleChange(e, 'date')} onInput ={ (e) => e.target.value = formatDate(e.target.value)} bsSize="lg" />
                                                 <FeedbackError errors={this.props.errors.date.errors} />
                                             </FormGroup>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <FormGroup>
                                                 <Label for="birthday">Hora</Label>
-                                                <Input invalid={!this.props.errors.time.valid} type="text" name="time" id="time" autoComplete="off" maxLength={5} value={this.state.time} onChange={(e) => this.handleChange(e, 'time')} bsSize="lg" />
+                                                <Input invalid={!this.props.errors.time.valid} type="text" name="time" id="time" autoComplete="off" maxLength={5} value={this.state.time} onChange={(e) => this.handleChange(e, 'time')} onInput ={ (e) => e.target.value = formatTime(e.target.value)} bsSize="lg" />
                                                 <FeedbackError errors={this.props.errors.time.errors} />
                                             </FormGroup>
                                         </div>

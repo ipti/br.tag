@@ -13,10 +13,7 @@ class Report extends Component{
         return(
             <Fragment>
                 <div className="mt-40 report-place" >
-                    <h4 className="title-header">{props.place}</h4>
-                </div>
-                <div className="mt-40 report-date" >
-                    <h4 className="title-header"> {props.date}</h4>
+                    <h4>{props.place} {props.date}</h4>
                 </div>
                 <div className="mt-40">
                     <h1 className="text-center">Relatório Informativo</h1>
@@ -44,12 +41,12 @@ class ParagrahpTwo extends Component{
     render(){
         return(
             <div>
-                <div className="text-center">
+                <p className="text-center">
                     Atenciosamente
-                </div>
-                <div className="text-center">
+                </p>
+                <p className="text-center">
                     Conselheiros Tutelares
-                </div>
+                </p>
             </div>
 
         );

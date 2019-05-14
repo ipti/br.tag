@@ -4,6 +4,7 @@ import People from 'Components/People/People';
 import CustomPagination from 'Components/CustomPagination/CustomPagination';
 import Card from 'Components/People/Card';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+import { Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { getPeople } from 'Actions';
 import 'Assets/css/people/style.css';
@@ -53,7 +54,16 @@ class PeopleContainer extends Component{
                     (
                         <Fragment>
                             <People peoples={peoples} />
-                            <CustomPagination totalItens={this.props.pagination.totalItens} perPage={this.props.pagination.perPage} totalPages={this.props.pagination.totalPages} currentPage={this.props.pagination.currentPage} handlePageChange={this.pageChange} />
+                            {
+                                peoples.length > 0 ?
+                                (
+                                    this.props.pagination.totalPages > 1 && <CustomPagination totalItens={this.props.pagination.totalItens} perPage={this.props.pagination.perPage} totalPages={this.props.pagination.totalPages} currentPage={this.props.pagination.currentPage} handlePageChange={this.pageChange} />
+                                )
+                                :
+                                (
+                                    <Alert color="danger"> Nenhum item para exibir </Alert>
+                                )
+                            }
                         </Fragment>
                     )
                 }

@@ -35,27 +35,27 @@ import {
 const getReportRequest = async (page) =>
     await Api.get(`/v1/report?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getReportByIdRequest = async (id) =>
     await Api.get(`/v1/report/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const saveReportRequest = async (data) =>
     await Api.post('/v1/report', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updateReportRequest = async (data) =>
     await Api.post(`/v1/report/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const deleteReportRequest = async (id) => {
     await Api.delete(`/v1/report/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 }
 
@@ -79,7 +79,6 @@ function* getReportByIdFromServer(action) {
 }
 
 function* saveReportFromServer(action) {
-    console.log(action.payload)
     try {
         const response = yield call(() => saveReportRequest(action.payload));
         yield put(saveReportSuccess(response));

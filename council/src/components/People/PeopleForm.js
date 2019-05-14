@@ -5,6 +5,7 @@ import FeedbackError from 'Components/Form/FeedbackError';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onChangePeopleForm } from 'Actions';
+import { formatCPF, formatDate, formatCEP } from 'Helpers/formats';
 import {
 	Button,
 	Form,
@@ -55,7 +56,7 @@ class PeopleForm extends Component{
                                 <div className="col-sm-6 col-md-4">
                                     <FormGroup>
                                         <Label for="birthday">Nascimento</Label>
-                                        <Input invalid={!this.props.errors.birthday.valid} type="text" name="birthday" id="birthday" autoComplete="off" value={this.state.birthday} onChange={(e) => this.handleChange(e, 'birthday')} bsSize="lg" />
+                                        <Input invalid={!this.props.errors.birthday.valid} type="text" name="birthday" id="birthday" maxLength={10} autoComplete="off" value={this.state.birthday} onChange={(e) => this.handleChange(e, 'birthday')} onInput ={ (e) => e.target.value = formatDate(e.target.value)} bsSize="lg" />
                                         <FeedbackError errors={this.props.errors.birthday.errors} />
                                     </FormGroup>
                                 </div>
@@ -99,7 +100,7 @@ class PeopleForm extends Component{
                                 <div className="col-sm-12 col-md-4">
                                     <FormGroup>
                                         <Label for="cpf">CPF</Label>
-                                        <Input invalid={!this.props.errors.cpf.valid} type="text" name="cpf" id="cpf" autoComplete="off" value={this.state.cpf} onChange={(e) => this.handleChange(e, 'cpf')} bsSize="lg" />
+                                        <Input invalid={!this.props.errors.cpf.valid} type="text" name="cpf" id="cpf" autoComplete="off" maxLength={14} value={this.state.cpf} onChange={(e) => this.handleChange(e, 'cpf')} onInput ={ (e) => e.target.value = formatCPF(e.target.value)} bsSize="lg" />
                                         <FeedbackError errors={this.props.errors.cpf.errors} />
                                     </FormGroup>
                                 </div>
@@ -190,7 +191,7 @@ class PeopleForm extends Component{
                                 <div className="col-sm-12 col-md-4">
                                     <FormGroup>
                                         <Label for="zip">CEP</Label>
-                                        <Input invalid={!this.props.errors.zip.valid} type="text" name="zip" id="zip" autoComplete="off" value={this.state.zip} onChange={(e) => this.handleChange(e, 'zip')} bsSize="lg" />
+                                        <Input invalid={!this.props.errors.zip.valid} type="text" name="zip" id="zip" maxLength={9} autoComplete="off" value={this.state.zip} onChange={(e) => this.handleChange(e, 'zip')} onInput ={ (e) => e.target.value = formatCEP(e.target.value)} bsSize="lg" />
                                         <FeedbackError errors={this.props.errors.zip.errors} />
                                     </FormGroup>
                                 </div>

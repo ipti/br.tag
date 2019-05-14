@@ -78,7 +78,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 peoples: action.payload.peoples,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Pessoas carregadas com sucesso'},
                 loading: false
             }
 

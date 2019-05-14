@@ -43,7 +43,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 facts: action.payload.facts,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Registro de Fato carregadas com sucesso'},
                 loading: false
             }
 

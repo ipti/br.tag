@@ -47,7 +47,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 foods: action.payload.foods,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Ação de alimentos carregadas com sucesso'},
                 loading: false
             }
 

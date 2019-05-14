@@ -49,18 +49,9 @@ class ReportForm extends Component{
                     <RctCollapsibleCard heading="Cadastro de Relatório">
                         <Form>
                             <div className="row justify-content-center">
-                                <div className="col-sm-12 col-md-6 report-container-select">
+                                <div className="col-sm-12 col-md-10 report-container-select">
                                     <Input type="hidden" name="id" id="id" autoComplete="off" value={this.state._id} />
-                                    <div className="row mx-0 mb-3">
-                                        <div className="col-7 px-0 d-flex align-items-center">
-                                            <div className="mr-2">
-                                                <img width="26px" src={require('../../assets/img/icons/student.png')} />
-                                            </div>
-                                            <div className="w-100">
-                                                <h4 className="report-label text-ellipsis"> Relatório </h4>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <div className="row mx-0 mb-3">
                                         <div className="col-7 px-0 d-flex align-items-center">
                                             <div className="w-100">

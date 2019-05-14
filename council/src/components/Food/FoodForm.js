@@ -44,7 +44,7 @@ class FoodForm extends Component{
                     <RctCollapsibleCard heading="Cadastro Ação de alimentos">
                         <Form>
                             <div className="row justify-content-center">
-                                <div className="col-sm-12 col-md-6 food-container-select">
+                                <div className="col-sm-12 col-md-10 food-container-select">
                                     <Input type="hidden" name="id" id="id" autoComplete="off" value={this.state._id} />
                                     <div className="row mx-0 mb-3">
                                         <div className="col-7 px-0 d-flex align-items-center">

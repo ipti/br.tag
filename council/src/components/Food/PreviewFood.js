@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import Header from 'Components/PreviewDocument/Header'
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
+import { formatCPF } from 'Helpers/formats';
 
 class Applicant extends Component {
     render() {
         const applicant = this.props.applicant;
         return (
             <Fragment>
-                <div className="mt-2">
+                <div className="mt-40">
                     <p className="text-justify my-0">
                         <strong className="title-header">Requerente: {applicant.name} </strong>
                         menor impúbere neste ato representado por sua Genitora, <strong>{applicant.motherName} </strong>
@@ -30,7 +31,7 @@ class Representative extends Component {
         const representative = this.props.representative;
         return (
             <Fragment>
-                <div className="mt-2">
+                <div className="mt-20">
                     <p className="text-justify my-0">
                         <strong className="title-header">Requerido: </strong>{representative.name}
                     </p>
@@ -51,7 +52,7 @@ class Reason extends Component {
         const reason = this.props.reason;
         return (
             <Fragment>
-                <div className="mt-2">
+                <div className="mt-20">
                     <p className="text-justify my-0">
                         <strong className="title-header">Obs: </strong>{renderHTML(reason)}
                     </p>
@@ -64,11 +65,11 @@ class Reason extends Component {
 class ParagrahpOne extends Component {
     render() {
         return (
-            <div className="mt-20">
-                <p className="text-center my-0">
+            <div className="mt-40">
+                <p className="text-center mt-40 my-0">
                     Desde já quero renovar os votos de consideração e apreço.
                 </p>
-                <p className="text-center my-0">
+                <p className="text-center mt-20 my-0">
                     Atenciosamente,
                 </p>
                 <p className="text-center my-0">
@@ -162,7 +163,7 @@ class PreviewFood extends Component {
                 name: food.personApplicant && food.personApplicant.name ? food.personApplicant.name : '',
                 motherName: food.personApplicant && food.personApplicant.mother ? food.personApplicant.mother : '',
                 rg: food.personApplicant && food.personApplicant.rg ? food.personApplicant.rg : '',
-                cpf: food.personApplicant && food.personApplicant.cpf ? food.personApplicant.cpf : '',
+                cpf: food.personApplicant && food.personApplicant.cpf ? formatCPF(food.personApplicant.cpf) : '',
                 neighborhood: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.neighborhood : '',
                 street: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.street : '',
                 number: food.personApplicant && food.personApplicant.address ? food.personApplicant.address.number : '',

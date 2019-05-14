@@ -45,7 +45,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 housings: action.payload.housings,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Termo de Abrigramento carregadas com sucesso'},
                 loading: false
             }
 

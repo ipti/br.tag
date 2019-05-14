@@ -35,27 +35,27 @@ import {
 const getWarningRequest = async (page) =>
     await Api.get(`/v1/warning?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getWarningByIdRequest = async (id) =>
     await Api.get(`/v1/warning/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const saveWarningRequest = async (data) =>
     await Api.post('/v1/warning', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updateWarningRequest = async (data) =>
     await Api.post(`/v1/warning/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const deleteWarningRequest = async (id) =>
     await Api.delete(`/v1/warning/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 
 function* getWarningFromServer(action) {

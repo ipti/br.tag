@@ -35,27 +35,27 @@ import {
 const getServiceRequest = async (page) =>
     await Api.get(`/v1/service?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getServiceByIdRequest = async (id) =>
     await Api.get(`/v1/service/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const saveServiceRequest = async (data) =>
     await Api.post('/v1/service', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updateServiceRequest = async (data) =>
     await Api.post(`/v1/service/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const deleteServiceRequest = async (id) => {
     await Api.delete(`/v1/service/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 }
 

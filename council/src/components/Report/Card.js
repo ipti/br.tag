@@ -49,8 +49,8 @@ class Card extends Component{
                                         <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                     </div>
                                     <div className="w-100">
-                                        <h4 className="notification-card-title text-ellipsis">{notified}</h4>
-                                        <span className="notification-card-subtitle">Nome</span>
+                                        <h4 className="report-card-title text-ellipsis">{notified}</h4>
+                                        <span className="report-card-subtitle">Identificador</span>
                                     </div>
                                 </div>
                                 <div className="col-4 d-flex aling-items-center">
@@ -58,8 +58,8 @@ class Card extends Component{
                                         <img width="26px" src={require('../../assets/img/icons/calendar.png')} />
                                     </div>
                                     <div>
-                                        <h4 className="notification-card-title">{createdAt.split(' ')[0]}</h4>
-                                        <span className="notification-card-subtitle">Criada em</span>
+                                        <h4 className="report-card-title">{createdAt.split(' ')[0]}</h4>
+                                        <span className="report-card-subtitle">Criado em</span>
                                     </div>
                                 </div>
                             </div>
@@ -77,8 +77,8 @@ Card.propTypes = {
     createdAt: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ notification }) => {
-    return notification;
+const mapStateToProps = ({ report }) => {
+    return report;
  };
 
 export default connect(mapStateToProps, {

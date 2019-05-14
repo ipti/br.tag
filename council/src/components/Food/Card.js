@@ -49,8 +49,8 @@ class Card extends Component {
                                                 <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                             </div>
                                             <div className="w-100">
-                                                <span className="food-card-subtitle">Requerente</span>
                                                 <h4 className="food-card-title text-ellipsis">{personApplicantName}</h4>
+                                                <span className="food-card-subtitle">Requerente</span>
                                             </div>
                                         </div>
                                         <div className="col-4 d-flex aling-items-center">

@@ -2,13 +2,14 @@ import React, { Component, Fragment } from 'react';
 import Header from 'Components/PreviewDocument/Header';
 import renderHTML from 'react-render-html';
 import PropTypes from 'prop-types';
+import { formatCPF } from 'Helpers/formats';
 
 class ParagrahpOne extends Component {
     render() {
         const { adolescent, representative } = this.props;
         return (
             <Fragment>
-                <div className="mt-2">
+                <div className="mt-40">
                     <p className="text-justify my-0">
                         No dia {this.props.date} no Conselho Tutelarde Santa Luzia do Itanhi/ Se,perante os conselheiros,
                         compareceu <strong className="title-header">{adolescent.name} </strong>
@@ -26,7 +27,7 @@ class ParagrahpTwo extends Component {
         const reason = this.props.reason;
         return (
             <Fragment>
-                <div className="mt-2">
+                <div className="mt-20">
                     <p className="text-justify my-0">
                         {reason}
                     </p>
@@ -39,7 +40,7 @@ class ParagrahpTwo extends Component {
 class ParagrahpThree extends Component {
     render() {
         return (
-            <div className="mt-0">
+            <div className="mt-40">
                 <p className="text-center my-0">
                     Santa Luzia do Itanhi/Se
                 </p>
@@ -133,7 +134,7 @@ class PreviewWarning extends Component {
                 nacionality: warning.personRepresentative && warning.personRepresentative.nacionality ? warning.personRepresentative.nacionality : '',
                 civilStatus: warning.personRepresentative && warning.personRepresentative.civilStatus ? warning.personRepresentative.civilStatus : '',
                 rg: warning.personRepresentative && warning.personRepresentative.rg ? warning.personRepresentative.rg : '',
-                cpf: warning.personRepresentative && warning.personRepresentative.cpf ? warning.personRepresentative.cpf : '',
+                cpf: warning.personRepresentative && warning.personRepresentative.cpf ? formatCPF(warning.personRepresentative.cpf) : '',
                 neighborhood: warning.personRepresentative && warning.personRepresentative.address ? warning.personRepresentative.address.neighborhood : '',
                 city: warning.personRepresentative && warning.personRepresentative.address ? warning.personRepresentative.address.city : '',
             },

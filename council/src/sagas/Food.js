@@ -35,27 +35,27 @@ import {
 const getFoodRequest = async (page) =>
     await Api.get(`/v1/food?page=${page}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const getFoodByIdRequest = async (id) =>
     await Api.get(`/v1/food/get/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const saveFoodRequest = async (data) =>
     await Api.post('/v1/food', data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const updateFoodRequest = async (data) =>
     await Api.post(`/v1/food/${data._id}`, data)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 const deleteFoodRequest = async (id) =>
     await Api.delete(`/v1/food/${id}`)
         .then(response => response)
-        .catch(error => error);
+        .catch(error => Promise.reject(error));
 
 
 function* getFoodFromServer(action) {

@@ -38,12 +38,10 @@ export default (state = INIT_STATE, action) => {
             }
         
         case actions.GET_NOTIFICATION_SUCCESS:
-            console.log(action.payload.notifications)
             return {
                 ...state,
                 notifications: action.payload.notifications,
                 pagination: action.payload.pagination,
-                _notification: {type: 'success', message:'Notificações carregadas com sucesso'},
                 loading: false
             }
 

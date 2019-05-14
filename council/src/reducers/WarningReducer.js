@@ -43,7 +43,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 warnings: action.payload.warnings,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message: 'Advertências carregadas com sucesso'},
                 loading: false
             }
 
