@@ -35,8 +35,8 @@ class ReportContainer extends Component{
     }
 
     loadReport = () =>{
-        return this.props.reports.map((notification) =>{
-            return <Card id={notification._id} notified={notification.notified.name} createdAt={notification.createdAt} />
+        return this.props.reports.map((report) =>{
+            return <Card id={report._id} createdAt={report.createdAt} />
         });
     }
     

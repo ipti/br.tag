@@ -1,4 +1,5 @@
 import * as actions from './ReportTypes';
+import { call } from 'redux-saga/effects';
 
 export const getReport = (page = 1) => ({
     type: actions.GET_REPORT,
@@ -70,9 +71,10 @@ export const updateReportFailure = (error) => ({
     payload: error
 });
 
-export const deleteReport = (data) => ({
+export const deleteReport = (data, callback = null) => ({
     type: actions.DELETE_REPORT,
-    payload: data
+    payload: data,
+    callback: callback
 });
 
 export const deleteReportSuccess = (response) => ({

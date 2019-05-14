@@ -26,7 +26,7 @@ class PreviewHousingContainer extends Component{
         return(
             <Fragment>
                 {
-                    housing.loading && institution.loading ? 
+                    housing.loading || institution.loading ? 
                     (
                         <RctSectionLoader />
                     )

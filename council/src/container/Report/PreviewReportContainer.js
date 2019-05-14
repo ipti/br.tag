@@ -25,7 +25,7 @@ class PreviewReportContainer extends Component{
         return(
             <Fragment>
                 {
-                    report.loading && institution.loading ?
+                    report.loading || institution.loading ?
                     (
                         <RctSectionLoader />
                     )

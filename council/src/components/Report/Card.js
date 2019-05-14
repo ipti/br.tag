@@ -22,13 +22,14 @@ class Card extends Component{
     };
 
     deleteReport = async (id) => {
-        await this.props.deleteReport(id.$oid);
-        await this.props.getReport();
+        await this.props.deleteReport(id, () =>{
+            this.props.getReport();
+        });
     }
 
 
     render(){
-        const {id, notified, createdAt} = this.props;
+        const {id, createdAt} = this.props;
         return(
             <div className="col-sm-12 col-md-4 cursor-pointer" >
                 <div className="rct-block">
@@ -37,7 +38,7 @@ class Card extends Component{
                         this.state.showActions ?(
                             <div className="row mx-0 w-100" onClick = {this.handleClose}>
                                 <div className="col-12 d-flex justify-content-center aling-items-center">
-                                    <Button className="mr-2" color="primary" onClick={ () => this.props.previewReport(this.props.id.$oid)} >Visualizar</Button>
+                                    <Button className="mr-2" color="primary" onClick={ () => this.props.previewReport(this.props.id)} >Visualizar</Button>
                                     <Button color="danger" onClick={ () => this.deleteReport(this.props.id)} >Excluir</Button>
                                 </div>
                             </div>
@@ -49,7 +50,7 @@ class Card extends Component{
                                         <img width="26px" src={require('../../assets/img/icons/student.png')} />
                                     </div>
                                     <div className="w-100">
-                                        <h4 className="report-card-title text-ellipsis">{notified}</h4>
+                                        <h4 className="report-card-title text-ellipsis">{id}</h4>
                                         <span className="report-card-subtitle">Identificador</span>
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@ class Card extends Component{
 }
 
 Card.propTypes = {
-    notified: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
 };
 

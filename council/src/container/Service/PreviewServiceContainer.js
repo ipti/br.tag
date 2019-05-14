@@ -25,7 +25,7 @@ class PreviewServiceContainer extends Component{
         return(
             <Fragment>
                 {
-                    service.loading && institution.loading ?
+                    service.loading || institution.loading ?
                     (
                         <RctSectionLoader />
                     )

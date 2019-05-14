@@ -26,7 +26,7 @@ class PreviewNotificationContainer extends Component{
         return(
             <Fragment>
                 {
-                    notification.loading && institution.loading ? 
+                    notification.loading || institution.loading ? 
                     (
                         <RctSectionLoader />
                     )

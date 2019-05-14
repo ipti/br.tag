@@ -52,12 +52,10 @@ const updateServiceRequest = async (data) =>
         .then(response => response)
         .catch(error => Promise.reject(error));
 
-const deleteServiceRequest = async (id) => {
+const deleteServiceRequest = async (id) => 
     await Api.delete(`/v1/service/${id}`)
         .then(response => response)
         .catch(error => Promise.reject(error));
-
-}
 
 
 function* getServiceFromServer(action) {
@@ -100,6 +98,10 @@ function* deleteServiceFromServer(action) {
     try {
         const response = yield call(() => deleteServiceRequest(action.payload));
         yield put(deleteServiceSuccess(response));
+
+        if (typeof(action.callback) === 'function') {
+            action.callback();
+        }
     } catch (error) {
         yield put(deleteServiceFailure(error));
     }
@@ -111,7 +113,7 @@ function* changeServiceForm(action) {
 
 function* previewService(action) {
     const url = window.location;
-    window.open(`${url.protocol}//${url.host}/document/preview/Service/${action.payload}`);
+    window.open(`${url.protocol}//${url.host}/document/preview/service/${action.payload}`);
     yield put(previewServiceSuccess(action.payload));
 }
 

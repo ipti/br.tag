@@ -26,7 +26,7 @@ class PreviewFactContainer extends Component{
         return(
             <Fragment>
                 {
-                    fact.loading && institution.loading ? 
+                    fact.loading || institution.loading ? 
                     (
                         <RctSectionLoader />
                     )

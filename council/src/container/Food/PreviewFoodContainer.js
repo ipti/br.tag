@@ -25,7 +25,7 @@ class PreviewFoodContainer extends Component{
         return(
             <Fragment>
                 {
-                    food.loading && institution.loading ? 
+                    food.loading || institution.loading ? 
                     (
                         <RctSectionLoader />
                     )

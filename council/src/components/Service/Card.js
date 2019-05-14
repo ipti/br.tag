@@ -22,8 +22,9 @@ class Card extends Component{
     };
 
     deleteService = async (id) => {
-        await this.props.deleteService(id.$oid);
-        await this.props.getService();
+        this.props.deleteService(id, () =>{
+            this.props.getService();
+        });
     }
     
 
@@ -37,7 +38,7 @@ class Card extends Component{
                         this.state.showActions ?(
                             <div className="row mx-0 w-100" onClick = {this.handleClose}>
                                 <div className="col-12 d-flex justify-content-center aling-items-center">
-                                    <Button className="mr-2" color="primary" onClick={ () => this.props.previewService(this.props.id.$oid)} >Visualizar</Button>
+                                    <Button className="mr-2" color="primary" onClick={ () => this.props.previewService(this.props.id)} >Visualizar</Button>
                                     <Button color="danger" onClick={ () => this.deleteService(this.props.id)} >Excluir</Button>
                                 </div>
                             </div>

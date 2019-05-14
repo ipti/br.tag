@@ -52,12 +52,10 @@ const updateNotificationRequest = async (data) =>
         .then(response => response)
         .catch(error => Promise.reject(error));
 
-const deleteNotificationRequest = async (id) => {
+const deleteNotificationRequest = async (id) =>
     await Api.delete(`/v1/notification/${id}`)
         .then(response => response)
         .catch(error => Promise.reject(error));
-
-}
 
 
 function* getNotificationFromServer(action) {

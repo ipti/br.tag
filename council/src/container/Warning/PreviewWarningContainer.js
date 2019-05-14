@@ -25,7 +25,7 @@ class PreviewWarningContainer extends Component{
         return(
             <Fragment>
                 {
-                    warning.loading && institution.loading ? 
+                    warning.loading || institution.loading ? 
                     (
                         <RctSectionLoader />
                     )

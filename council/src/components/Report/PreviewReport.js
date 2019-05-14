@@ -29,7 +29,7 @@ class ParagrahpOne extends Component{
     render(){
         const props = this.props;
         return(
-            <div className="d-flex mt-40">
+            <div className="mt-40">
                 { props.body && renderHTML(props.body) }
             </div>
         );

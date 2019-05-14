@@ -66,13 +66,14 @@ export const updateServiceSuccess = (response) => ({
 });
 
 export const updateServiceFailure = (error) => ({
-    type: actions.DELETE_SERVICE_FAILURE,
+    type: actions.UPDATE_SERVICE_FAILURE,
     payload: error
 });
 
-export const deleteService = (data) => ({
+export const deleteService = (data, callback = null) => ({
     type: actions.DELETE_SERVICE,
-    payload: data
+    payload: data,
+    callback: callback
 });
 
 export const deleteServiceSuccess = (response) => ({
@@ -81,7 +82,7 @@ export const deleteServiceSuccess = (response) => ({
 });
 
 export const deleteServiceFailure = (error) => ({
-    type: actions.UPDATE_SERVICE_FAILURE,
+    type: actions.DELETE_SERVICE_FAILURE,
     payload: error
 });
 

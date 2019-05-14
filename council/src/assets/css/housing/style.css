@@ -38,12 +38,10 @@
 }
 
 .housing-container-select{
-    border: solid 1px #ddd;
     padding: 30px;
     border-radius: 10px;
 }
 
 .housing-editor{
     height: 300px;
-    overflow-y: hidden;
 }

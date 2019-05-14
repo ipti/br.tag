@@ -52,12 +52,11 @@ const updateReportRequest = async (data) =>
         .then(response => response)
         .catch(error => Promise.reject(error));
 
-const deleteReportRequest = async (id) => {
+const deleteReportRequest = async (id) =>
     await Api.delete(`/v1/report/${id}`)
         .then(response => response)
         .catch(error => Promise.reject(error));
 
-}
 
 
 function* getReportFromServer(action) {
@@ -100,6 +99,9 @@ function* deleteReportFromServer(action) {
     try {
         const response = yield call(() => deleteReportRequest(action.payload));
         yield put(deleteReportSuccess(response));
+        if (typeof(action.callback) === 'function') {
+            action.callback();
+        }
     } catch (error) {
         yield put(deleteReportFailure(error));
     }

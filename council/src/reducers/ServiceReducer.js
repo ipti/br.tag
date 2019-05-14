@@ -40,7 +40,6 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 services: action.payload.services,
                 pagination: action.payload.pagination,
-                notification: {type: 'success', message:'Serviços carregadas com sucesso'},
                 loading: false
             }
 

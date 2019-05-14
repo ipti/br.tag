@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { formatPhone } from 'Helpers/formats';
 
 class Header extends Component{
 
@@ -8,7 +9,7 @@ class Header extends Component{
             <Fragment>
                 { this.props.phone && 
                     <span className="mr-20">
-                        Fone: {this.props.phone}
+                        Fone: {formatPhone(this.props.phone)}
                     </span>
                 }
             </Fragment>
