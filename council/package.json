@@ -4,7 +4,7 @@
   "description": "A Material Design Reactjs + Redux Admin Template",
   "scripts": {
     "start": "webpack-dev-server --mode development --inline --progress",
-    "build": "webpack --mode production --watch"
+    "build": "webpack --mode production"
   },
   "keywords": [
     "reactjs"
