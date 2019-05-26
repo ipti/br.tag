@@ -70,9 +70,10 @@ export const updateNotificationFailure = (error) => ({
     payload: error
 });
 
-export const deleteNotification = (data) => ({
+export const deleteNotification = (data, callback = null) => ({
     type: actions.DELETE_NOTIFICATION,
-    payload: data
+    payload: data,
+    callback: callback
 });
 
 export const deleteNotificationSuccess = (response) => ({

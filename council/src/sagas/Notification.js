@@ -98,6 +98,9 @@ function* deleteNotificationFromServer(action) {
     try {
         const response = yield call(() => deleteNotificationRequest(action.payload));
         yield put(deleteNotificationSuccess(response));
+        if (typeof(action.callback) === 'function') {
+            action.callback();
+        }
     } catch (error) {
         yield put(deleteNotificationFailure(error));
     }

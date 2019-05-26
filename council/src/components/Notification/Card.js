@@ -21,9 +21,10 @@ class Card extends Component{
         this.setState({ showActions: false });
     };
 
-    deleteNotification = async (id) => {
-        await this.props.deleteNotification(id);
-        await this.props.getNotification();
+    deleteNotification = (id) => {
+        this.props.deleteNotification(id, () => {
+            this.props.getNotification();
+        });
     }
     
 
