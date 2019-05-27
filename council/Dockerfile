@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 ENV NPM_CONFIG_LOGLEVEL warn
 RUN chown -R node:node /usr/local/lib
 RUN npm install -g serve
-CMD serve -s dist
+CMD serve --port 80 -s dist 
 EXPOSE 80
 COPY package*.json ./
 RUN npm cache clean --force && npm install
