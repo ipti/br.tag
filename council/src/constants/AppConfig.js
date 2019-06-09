@@ -41,14 +41,13 @@ const AppConfig = {
     darkThemeColors: {
         darkBgColor: '#424242'
     },
-    baseUrl : '',
     baseUrl : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/` : `http://${window.location.host}/`,
     baseUrlApi : process.env.NODE_ENV === 'production' ? 'http://api.tag.ong.br':'http://api.tag.com/',
 
     citizen: {
-        id: '5ba4cca943269e4124001685',
+        id: '5cfd7906aaf4d73096ccd566',
         access_token: "4ovQBzFHaw1h3j4mQgDYzwLOYcfnYhed_1537467423",
-        institution: "5b956c3843269e6258003bf3"
+        institution: "5ceaa709de76c1afc98eecf3"
     }
 }
 export default AppConfig;
