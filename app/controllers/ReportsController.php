@@ -149,6 +149,59 @@ class ReportsController extends Controller {
             'classroom' => $classroom
         ));
     }
+    public function actionClocPerClassroom($id){
+        $this->layout = "reports";
+        $sql = "SELECT
+        `s`.`id`                                AS `enrollment`,
+        `s`.`name`                              AS `name`,
+        IF((`s`.`sex` = 1),'M','F')             AS `sex`,
+        `s`.`birthday`                          AS `birthday`,
+        `s`.`responsable_telephone`             AS `phone`,
+        `se`.`current_stage_situation`          AS `situation`,
+        `se`.`admission_type`                   AS `admission_type`,
+        `se`.`status`                           AS `status`,
+        `en`.`acronym`                          AS `nation`,
+        `ec`.`name`                             AS `city`,
+        `euf`.`acronym`                         AS `uf`,
+        `sd`.`address`                          AS `address`,
+        `sd`.`number`                           AS `number`,
+        `sd`.`complement`                       AS `complement`,
+        `sd`.`neighborhood`                     AS `neighborhood`,
+        `sd`.`civil_certification`              AS `cc`,
+        `sd`.`civil_register_enrollment_number` AS `cc_new`,
+        `sd`.`civil_certification_term_number`  AS `cc_number`,
+        `sd`.`civil_certification_book`         AS `cc_book`,
+        `sd`.`civil_certification_sheet`        AS `cc_sheet`,
+        `s`.`filiation_1`                       AS `mother`,
+        `s`.`deficiency`                        AS `deficiency`,
+        `c`.`id`                                AS `classroom_id`,
+        `c`.`school_year`                       AS `year`
+      FROM ((((((`student_identification` `s`
+              JOIN `student_documents_and_address` `sd`
+                ON ((`s`.`id` = `sd`.`id`)))
+             LEFT JOIN `edcenso_nation` `en`
+               ON ((`s`.`edcenso_nation_fk` = `en`.`id`)))
+            LEFT JOIN `edcenso_uf` `euf`
+              ON ((`s`.`edcenso_uf_fk` = `euf`.`id`)))
+           LEFT JOIN `edcenso_city` `ec`
+             ON ((`s`.`edcenso_city_fk` = `ec`.`id`)))
+          JOIN `student_enrollment` `se`
+            ON ((`s`.`id` = `se`.`student_fk`)))
+         JOIN `classroom` `c`
+           ON ((`se`.`classroom_fk` = `c`.`id`)))
+                    where  `c`.`school_year`  = ".$this->year.""
+            . " AND `c`.`id` = $id"
+            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $classroom = Classroom::model()->findByPk($id);
+
+        $this->render('ClocPerClassroom', array(
+            'report' => $result,
+            'classroom' => $classroom
+        ));
+    }
 
     public function actionStudentsByClassroomReport(){
         $_GET['id'] = Yii::app()->user->school;
@@ -479,6 +532,34 @@ class ReportsController extends Controller {
         $this->layout = "reportsclean";
         $sql = "SELECT * FROM classroom_qtd_students
                     where school_year  = ".$this->year." and school_inep_fk=".Yii::app()->user->school." order by name;";
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $this->render('NumberStudentsPerClassroomReport', array(
+            'report' => $result,
+        ));
+    }
+
+    public function actionClocReport() {
+        $this->layout = "reportsclean";
+        $sql = "SELECT
+        `c`.`school_inep_fk` AS `school_inep_fk`,
+        `c`.`id`             AS `id`,
+        `c`.`name`           AS `name`,
+        CONCAT_WS(' - ',CONCAT_WS(':',`c`.`initial_hour`,`c`.`initial_minute`),CONCAT_WS(':',`c`.`final_hour`,`c`.`final_minute`)) AS `time`,
+        (CASE `c`.`assistance_type` WHEN 0 THEN 'NÃO SE APLICA' WHEN 1 THEN 'CLASSE HOSPITALAR' WHEN 2 THEN 'UNIDADE DE ATENDIMENTO SOCIOEDUCATIVO' WHEN 3 THEN 'UNIDADE PRISIONAL ATIVIDADE COMPLEMENTAR' ELSE 'ATENDIMENTO EDUCACIONALESPECIALIZADO (AEE)' END) AS `assistance_type`,
+        (CASE `c`.`modality` WHEN 1 THEN 'REGULAR' WHEN 2 THEN 'ESPECIAL' ELSE 'EJA' END) AS `modality`,
+        `esm`.`name`         AS `stage`,
+        COUNT(`c`.`id`)      AS `students`,
+        `c`.`school_year`    AS `school_year`,
+        `se`.`status`        AS `status`
+      FROM ((`classroom` `c`
+          JOIN `student_enrollment` `se`
+            ON ((`c`.`id` = `se`.`classroom_fk`)))
+         LEFT JOIN `edcenso_stage_vs_modality` `esm`
+           ON ((`c`.`edcenso_stage_vs_modality_fk` = `esm`.`id`)))
+      WHERE ((`se`.`status` = 1)
+              OR ISNULL(`se`.`status`))
+      GROUP BY `c`.`id`";
+
         $result = Yii::app()->db->createCommand($sql)->queryAll();
         $this->render('NumberStudentsPerClassroomReport', array(
             'report' => $result,

@@ -50,7 +50,7 @@ class AdminCommand extends CConsoleCommand
 				}
                 foreach ($dbs as $db) {
                          if($db['TABLE_SCHEMA'] != 'io.escola.demo' &&  $db['TABLE_SCHEMA'] != 'io.escola.adefib'
-                         && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco')
+                         && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc')
                          {
                             $dbname = $db['TABLE_SCHEMA'];
                             $fileName = $dbname . ".json";
@@ -89,7 +89,7 @@ class AdminCommand extends CConsoleCommand
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 		//ignore_user_abort();
-		/*foreach ($loads['schools'] as $index => $scholl) {
+		foreach ($loads['schools'] as $index => $scholl) {
             echo "Importando escola". $scholl['name']."..\n";
 			$saveschool = new SchoolIdentification();
             $saveschool->setDb2Connection(true);
@@ -146,7 +146,7 @@ class AdminCommand extends CConsoleCommand
                 var_dump($saveclass->errors);exit;
             }
 		}
-		*/
+		
 		foreach ($loads['students'] as $i => $student) {
             echo "Importando aluno". $student['name']."..\n";
 			$savestudent = new StudentIdentification();
@@ -189,7 +189,7 @@ class AdminCommand extends CConsoleCommand
                 var_dump($savedocument->errors);exit;
             }
 		}
-		/*
+		
 		foreach ($loads['enrollments'] as $index => $enrollment) {
             echo "Importando matrícula". $enrollment['hash']."..\n";
 			$saveenrollment = new StudentEnrollment();
@@ -212,7 +212,7 @@ class AdminCommand extends CConsoleCommand
                     var_dump($saveenrollment->errors);exit;
             }
 		}
-		*/
+		
 		//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
 
 	}
@@ -221,7 +221,7 @@ class AdminCommand extends CConsoleCommand
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 		ignore_user_abort();
-		$year = 2018;
+		$year = 2019;
 		$loads = array();
 		$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
@@ -257,9 +257,9 @@ class AdminCommand extends CConsoleCommand
 				}
 			}
 		}
-		/*
+		
 		foreach ($schools as $index => $schll) {
-            $year = 2018;
+            $year = 2019;
 			$ischool = new SchoolIdentification();
 			$ischool->setDb2Connection(false);
 			$ischool->refreshMetaData();
@@ -319,10 +319,10 @@ class AdminCommand extends CConsoleCommand
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk] = $teachingData->instructorFk->instructorVariableData->attributes;
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
                     }
-                }
+				}*/
 
 			}
-		}*/
+		}
 		
 		return $loads;
 	}

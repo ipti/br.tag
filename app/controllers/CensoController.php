@@ -1750,8 +1750,8 @@ class CensoController extends Controller {
 	public function fixMistakesExport($register,$attributes){
 			switch ($register){
 				case '00':
-						$attributes['initial_date'] = '01/03/2018';
-						$attributes['final_date'] = '09/12/2018';
+						$attributes['initial_date'] = '01/03/2019';
+						$attributes['final_date'] = '09/12/2019';
 						if($attributes['situation'] == '1'){
 							$attributes['regulation'] = '2';
 						}
@@ -2304,7 +2304,7 @@ class CensoController extends Controller {
 		$path = Yii::app()->basePath;
 		//Se não passar parametro, o valor será predefinido
 		if (empty($_FILES['file']['name'])) {
-			$fileDir = $path . '/import/20072017161039.TXT';
+			$fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
 		} else {
 			$myfile = $_FILES['file'];
 			$uploadfile = $path . '/import/' . basename($myfile['name']);
@@ -2496,7 +2496,7 @@ class CensoController extends Controller {
 		$lines = $this->readFileImport();
 		$component=Yii::createComponent(array(
 			'class'=>'CDbConnection',
-			'connectionString' => 'mysql:host=localhost;dbname=information_schema',
+			'connectionString' => 'mysql:host=mariadb-mariadb.mariadb.svc.cluster.local;dbname=information_schema',
 			'emulatePrepare' => true,
 			'username' => Yii::app()->db->username,
 			'password' => Yii::app()->db->password,
@@ -2529,7 +2529,8 @@ class CensoController extends Controller {
 				$ivariable->save();
 			}
 		}
-		DEFINE('SCHOOL_YEAR',date("Y",strtotime($ivariable->initial_date)));
+		$dt = DateTime::createFromFormat("d/m/Y", $ivariable->initial_date);
+		DEFINE('SCHOOL_YEAR',$dt->format('Y'));
 
 		// registro 10
 		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = '".DBNAME."';";
@@ -2557,12 +2558,15 @@ class CensoController extends Controller {
 		foreach ($lines['20'] as $iline => $line) {
 			$ivariable = new Classroom();
 			foreach ($fields as $field) {
+
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
+				if($field['COLUMN_NAME'] != 'id'){
 					$code = '$ivariable->'.$column_name.'=$line[$order];';
-					eval($code);
+				}else{
+					$code = '$ivariable->'.$column_name.'="NULL";';
 				}
+				eval($code);
 			}
 			$exist    = Classroom::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
 			if(!isset($exist)){
@@ -2580,10 +2584,12 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
+				if($field['COLUMN_NAME'] != 'id'){
 					$code = '$ivariable->'.$column_name.'=$line[$order];';
-					eval($code);
+				}else{
+					$code = '$ivariable->'.$column_name.'="NULL";';
 				}
+				eval($code);
 			}
 			$exist    = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
 			if(!isset($exist)){
@@ -2598,8 +2604,12 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION'] - 1;
-				if (isset($line[$order]) && $line[$order] != '') {
-					$code = '$ivariable->' . $column_name . '=$line[$order];';
+				if(isset($line[$order])&&$line[$order] != ''){
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}else{
+						$code = '$ivariable->'.$column_name.'="NULL";';
+					}
 					eval($code);
 				}
 			}
@@ -2621,7 +2631,11 @@ class CensoController extends Controller {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
 				if(isset($line[$order])&&$line[$order] != ''){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}else{
+						$code = '$ivariable->'.$column_name.'="NULL";';
+					}
 					eval($code);
 				}
 			}
@@ -2641,8 +2655,14 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				@eval($code);
+				if(isset($line[$order])&&$line[$order] != ''){
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}else{
+						$code = '$ivariable->'.$column_name.'="NULL";';
+					}
+					eval($code);
+				}
 			}
 			$exist = InstructorTeachingData::model()->findByAttributes(array('instructor_inep_id'=>$ivariable->instructor_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){
@@ -2662,8 +2682,14 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				@eval($code);
+				if(isset($line[$order])&&$line[$order] != ''){
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}else{
+						$code = '$ivariable->'.$column_name.'="NULL";';
+					}
+					eval($code);
+				}
 			}
 			$exist = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
 			if(!isset($exist)){
@@ -2682,8 +2708,14 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				@eval($code);
+				if(isset($line[$order])&&$line[$order] != ''){
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}else{
+						$code = '$ivariable->'.$column_name.'="NULL";';
+					}
+					eval($code);
+				}
 			}
 			$exist = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk'=>$ivariable->student_fk));
 			if(!isset($exist)){
@@ -2704,8 +2736,12 @@ class CensoController extends Controller {
 			foreach ($fields as $field) {
 				$column_name = $field['COLUMN_NAME'];
 				$order = $field['ORDINAL_POSITION']-1;
-				$code = '$ivariable->'.$column_name.'=$line[$order];';
-				@eval($code);
+				if(isset($line[$order])&&$line[$order] != ''){
+					if($field['COLUMN_NAME'] != 'id'){
+						$code = '$ivariable->'.$column_name.'=$line[$order];';
+					}
+					eval($code);
+				};
 			}
 			$exist = StudentEnrollment::model()->findByAttributes(array('student_inep_id'=>$ivariable->student_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
 			if(!isset($exist)){
@@ -2714,6 +2750,7 @@ class CensoController extends Controller {
 				$ivariable->student_fk = $student_id->id;
 				$ivariable->classroom_fk = $classroom_id->id;
 				$ivariable->save();
+				
 			}
 		}
 	}
