@@ -159,6 +159,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
+                            <div class="control-group" id="aee2">
+                                <label class="control-label"><?php echo Yii::t('default', 'Assistence Types'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo Classroom::model()->attributeLabels()['complementary_activity']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'complementary_activity', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?php echo Classroom::model()->attributeLabels()['aee']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+
 
 
                             <div class="control-group" id="complementary_activity">
@@ -289,14 +307,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls" id="some">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator'); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'schooling', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelClassroom, 'schooling'); ?>
-                                    <?php echo $form->error($modelClassroom, 'schooling'); ?>
                                 </div>
                             </div>
 

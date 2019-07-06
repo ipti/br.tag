@@ -96,11 +96,11 @@ class SchoolIdentification extends AltActiveRecord {
         // will receive user inputs.
         return array(
             array('inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity', 'required'),
-            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ', 'numerical', 'integerOnly'=>true),
+            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly'=>true),
             array('register_type, ddd', 'length', 'max'=>2),
             array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),
             array('manager_cpf', 'length', 'max'=>11),
-            array('manager_name, name, address, logo_file_name', 'length', 'max'=>100),
+            array('manager_name, name, address, logo_file_name, manager_access_criterion', 'length', 'max'=>100),
             array('manager_email, address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
             array('initial_date, final_date, address_number', 'length', 'max'=>10),
             array('latitude, longitude, address_complement', 'length', 'max'=>20),
@@ -189,6 +189,12 @@ class SchoolIdentification extends AltActiveRecord {
             'linked_helth' => Yii::t('default', 'Linked health'),
             'linked_other' => Yii::t('default', 'LInked other'),
             'regulation_organ' => Yii::t('default', 'Regulation Organ'),
+            'regulation_organ_federal' => Yii::t('default', 'Regulation Organ Federal'),
+            'regulation_organ_state' => Yii::t('default', 'Regulation Organ State'),
+            'regulation_organ_municipal' => Yii::t('default', 'Regulation Organ Municipal'),
+            'private_school_organization_civil_society' => Yii::t('default', 'Organization Civil Society'),
+            'manager_access_criterion' => Yii::t('default', 'Manager Access Criterion'),
+            'manager_contract_type' => Yii::t('default', 'Manager Contract Type'),
         );
     }
 

@@ -86,7 +86,13 @@ return array(
     'Linked health' => 'Secretaria / Ministério da Saúde',
     'LInked other' => 'outro órgão da administração pública',
     'Linked Organs' => 'Órgãos que a escola está vinculada',
-    'Regulation Organ' => 'Órgão regulador',
+    'Regulation Organ' => 'Esfera do Órgão regulador',
+    'Regulation Organ Federal' => 'Órgão Federal',
+    'Regulation Organ State' => 'Órgão Estadual',
+    'Regulation Organ Municipal' => 'Órgão Municipal',
+    'Organization Civil Society' => 'Organização da Sociedade Civil (OSCIP)',
+    'Manager Contract Type' => 'Tipo de Contrato',
+    'Manager Access Criterion' => 'Especificação do Critério de Acesso',
 
     //School Structure
     'School Inep Id Fk' => 'Escola',
@@ -321,6 +327,9 @@ return array(
     'Student Guild' => 'Grêmio Estudantil',
     'Organ Others' => 'Outros',
     'Organ Inexistent' => 'Não há Órgãos',
+    'Potable Water' => 'Água Pótavel',
+    'Provide Potable Water' => 'Para Consumo Humano',
+    'Student Repose Room' => 'Sala de Repouso para Alunos',
     
     //Classroom
     'School Inep Fk' => 'Escola',
@@ -398,6 +407,9 @@ return array(
     'Schooling' => 'Escolarização',
     'Classroom Diff Location' => 'Local de Funcionamento Diferenciado',
     'Course' => 'Curso',
+    'Assistence Types' => 'Tipos de Atendimento',
+    'Complementary Activity' => 'Atividade Complementar',
+    'AEE' => 'Atendimento Educacional Especializado (AEE)',
     
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
