@@ -21,9 +21,9 @@ switch ($domain) {
         $instance = 'SANTA LUZIA DO ITANHY';
         $db = 'io.escola.se.santaluzia';
         break;
-    case 'santaluzia2':
-        $instance = 'SANTA LUZIA DO ITANHY - 2';
-        $db = 'io.escola.se.santaluzia2';
+    case 'santaluzia3':
+        $instance = 'SANTA LUZIA DO ITANHY - 3';
+        $db = 'br.ong.tag.santaluzia3';
         break;
     case 'edeziosouza':
         $instance = 'EDEZIO SOUZA - SANTA LUZIA';
@@ -188,6 +188,13 @@ switch ($domain) {
         $instance = 'DEMONSTRAÇÃO';
         $db = 'io.escola.se.demo';
         break;
+    case 'cloc':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'CLOC';
+        $db = 'io.escola.cloc';
+        break;
     default:
         $instance = 'SERGIPE';
         $db = 'io.escola.se.indiaroba';
@@ -197,10 +204,10 @@ define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=ipti.org.br;dbname=$db",
+    'connectionString' => "mysql:host=mariadb-mariadb.mariadb.svc.cluster.local;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'user.dev',
-    'password' => 'p@s4dev&23',
+    'username' => 'admin',
+    'password' => 'qwe456*123',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
