@@ -190,6 +190,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_name'); ?>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_contract_type', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'manager_contract_type', array(null => "Selecione o vínculo", "1" => "Concursado/Efetivo", "2" => "Temporário", "3" => "Terceirizado", "4" => "CLT"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_contract_type'); ?>
+                                </div>
+                            </div>
                         </div>
                         <div class="span6">
                             <div class="control-group">
@@ -210,6 +217,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'E-mail'); ?>"><i></i></span>
                                     <?php echo $form->error($modelSchoolIdentification, 'manager_email'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'manager_access_criterion', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textArea($modelSchoolIdentification, 'manager_access_criterion'); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'manager_access_criterion'); ?>
                                 </div>
                             </div>
                         </div>
@@ -324,10 +338,32 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?= $form->labelEx($modelSchoolIdentification, 'regulation_organ', array('class' => 'control-label')); ?>
+
+                                <label
+                                    class="control-label"><?= Yii::t('default', 'Regulation Organ'); ?>
+                                </label>
+
+                                <div class="uniformjs margin-left" id="SchoolIdentification_linked_organ">
+                                    <label class="checkbox">
+                                        <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
+                                        <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_federal', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_state']; ?>
+                                        <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_state', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
+                                        <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_municipal']; ?>
+                                        <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_municipal', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'private_school_organization_civil_society', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?= $form->DropDownList($modelSchoolIdentification, 'regulation_organ', array(null => 'Selecione o Órgão', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal'), array('class' => 'select-search-off')); ?>
-                                    <?= $form->error($modelSchoolIdentification, 'regulation_organ'); ?>
+                                    <?php echo $form->DropDownList($modelSchoolIdentification, 'private_school_organization_civil_society', array(null => 'Selecione', 0 => 'Não', 1 => 'Sim'), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'private_school_organization_civil_society'); ?>
                                 </div>
                             </div>
                             
@@ -912,6 +948,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_bathroom_with_shower', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_student_repose_room']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_student_repose_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                    <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_refectory']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_refectory', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
@@ -968,6 +1008,18 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid">
                         <div class="span4">
+                                        
+                            <div class="control-group">
+                                <label class="control-label"><?php echo Yii::t('default', 'Potable Water'); ?></label>
+
+                                <div class="uniformjs margin-left">
+                                    <label class="checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['provide_potable_water']; ?>
+                                        <?php echo $form->checkBox($modelSchoolStructure, 'provide_potable_water', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </label>
+                                </div>
+                            </div>
+
                             <div class="control-group">
                                 <label class="control-label"><?php echo Yii::t('default', 'Water Supply'); ?></label>
 
