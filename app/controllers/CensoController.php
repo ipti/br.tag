@@ -1626,6 +1626,20 @@ class CensoController extends Controller {
 			readfile($fileDir);
 		}
 	}
+	public function normalizeField2019($register,$attributes){
+		$attributes = $this->fixMistakesExport($register,$attributes);
+		$ordens = EdcensoAlias::model()->findAllByAttributes(["register" => $register]);
+		$attrorder = array();
+		foreach ($ordens as $key => $ordem) {
+			$eval = '$attrorder['.$ordem->corder.'] = $attributes["'.$ordem->attr.'"];';
+			eval($eval);
+		}
+		var_dump($attrorder);exit;
+		if(count($attrorder)){
+			$this->export .= implode('|', $attrorder);
+			$this->export .= "\n";
+		}
+	}
 	public function normalizeFields($register,$attributes){
 		$FIELDS = array(
 			'00'=>array(
@@ -2756,9 +2770,9 @@ class CensoController extends Controller {
 	}
 	public function actionExport() {
 		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-		$this->normalizeFields($school->register_type,$school->attributes);
+		$this->normalizeField2019($school->register_type,$school->attributes);
 		$schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
-		$this->normalizeFields($schoolStructure->register_type,$schoolStructure->attributes);
+		$this->normalizeField2019($schoolStructure->register_type,$schoolStructure->attributes);
 		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 		foreach ($classrooms as $iclass => $classroom) {
 			$log['classrooms'][$iclass] = $classroom->attributes;

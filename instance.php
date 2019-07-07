@@ -204,10 +204,10 @@ define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=mariadb-mariadb.mariadb.svc.cluster.local;dbname=$db",
+    'connectionString' => "mysql:host=ipti.org.br;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'admin',
-    'password' => 'qwe456*123',
+    'username' => 'user.dev',
+    'password' => 'p@s4dev&23',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
