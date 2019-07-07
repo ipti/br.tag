@@ -204,10 +204,10 @@ define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=ipti.org.br;dbname=$db",
+    'connectionString' => "mysql:host=localhost;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'user.dev',
-    'password' => 'p@s4dev&23',
+    'username' => 'user.tag',
+    'password' => '123456',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
