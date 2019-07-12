@@ -1634,7 +1634,6 @@ class CensoController extends Controller {
 			$eval = '$attrorder['.$ordem->corder.'] = $attributes["'.$ordem->attr.'"];';
 			eval($eval);
 		}
-		var_dump($attrorder);exit;
 		if(count($attrorder)){
 			$this->export .= implode('|', $attrorder);
 			$this->export .= "\n";

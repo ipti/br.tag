@@ -428,7 +428,7 @@
 			$this->redirect(['index']);
 		} catch (Exception $e) {
 			//echo 
-			var_dump($e);exit;
+			//var_dump($e);exit;
 			$loads = $this->prepareExport();
 			$datajson = serialize($loads);
 			ini_set('memory_limit', '288M');

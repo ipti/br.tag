@@ -9,9 +9,15 @@
             'description' => Yii::t('default', 'This action list all User, you can search, delete and update')),
     );
     ?>
+    <script type="text/javascript">
+    $(function() {
+        $(".itens-censo li").parents('div').css("display", "block");
+    });
+    </script>
     <style type="text/css">
         .widget-timeline .widget-body:before{background: none !important;}
         .widget-timeline ul.list-timeline li{margin-bottom: 2px;}
+        .itens-censo{display:none}
     </style>
    <div class="clearfix"></div>
     <div class="widget widget-4 widget-tabs-icons-only widget-timeline margin-bottom-none">
@@ -87,109 +93,112 @@
                         <?php }?>
 
                         <?php foreach ($log['instructor']  as $index => $instructor) {?>
-
-                            <h5>Professor - <?php echo $instructor['info']['name']; ?></h5>
-                            <?php foreach ($instructor['validate']['identification']  as $instructorerror) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">
-                                        <?php echo InstructorIdentification::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('instructor/update',
-                                            'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
-                                    </span>
-                                    <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
-                                    <div class="clearfix"></div>
-                                </li>
-                            <?php }?>
-                            <?php foreach ($instructor['validate']['documents']  as $instructorerror) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">
-                                        <?php echo InstructorDocumentsAndAddress::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('instructor/update',
-                                            'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
-                                    </span>
-                                    <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
-                                    <div class="clearfix"></div>
-                                </li>
-                            <?php }?>
-                            <?php foreach ($instructor['validate']['variabledata']  as $variabledata) {?>
-                                <?php foreach ($variabledata['errors'] as $vberros) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">Na turma <?php echo $variabledata['turma'] ?> |
-                                        <?php echo InstructorVariableData::model()->getAttributeLabel(key($vberros)) ?> - <?php echo current($vberros) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('classroom/update',
-                                            'id'=>$variabledata['id'], 'censo' => 1)); ?>
-                                    </span>
-                                    <?php $dataValidation['classroom'.$variabledata['id']][] = current($vberros); ?>
-                                    <div class="clearfix"></div>
-                                </li>
-                                <?php }?>
-                            <?php }?>
-                        <?php }?>
-                        <?php foreach ($log['student']  as $student) {?>
-                            <h5>Aluno - <?php echo $student['info']['name']; ?></h5>
-                            <?php foreach ($student['validate']['identification']  as $studenterror) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">
-                                        <?php echo StudentIdentification::model()->getAttributeLabel(key($studenterror)) ?> -
-                                        <?php echo current($studenterror) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('student/update',
-                                            'id'=>$student['info']['id'], 'censo' => 1)); ?>
-                                    </span>
-                                    <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
-                                    <div class="clearfix"></div>
-                                </li>
-                            <?php }?>
-                            <?php foreach ($student['validate']['documents']  as $studenterror) {?>
-                                <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                    <span class="ellipsis">
-                                        <?php echo StudentDocumentsAndAddress::model()->getAttributeLabel(key($studenterror)) ?> - <?php echo current($studenterror) ?>
-                                        <?php echo CHtml::link('- Corrigir',array('student/update',
-                                            'id'=>$student['info']['id'], 'censo' => 1)); ?>
-                                    </span>
-                                    <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
-                                    <div class="clearfix"></div>
-                                </li>
-                            <?php }?>
-                            <?php foreach ($student['validate']['enrollment']  as $enrollment) {?>
-                                <?php foreach ($enrollment['errors'] as $eberros) {?>
+                            <div class="itens-censo">
+                                <h5>Professor - <?php echo $instructor['info']['name']; ?></h5>
+                                <?php foreach ($instructor['validate']['identification']  as $instructorerror) {?>
                                     <li>
-                                <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                    <i></i>
-                                </span>
-                                        <span class="ellipsis">Na turma <?php echo $enrollment['turma'] ?> |
-                                            <?php echo StudentEnrollment::model()->getAttributeLabel(key($eberros)) ?> - <?php echo current($eberros) ?>
-                                            <?php echo CHtml::link('- Corrigir',array('enrollment/update',
-                                                'id'=>$enrollment['id'], 'censo' => 1)); ?>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                        <span class="ellipsis">
+                                            <?php echo InstructorIdentification::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('instructor/update',
+                                                'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
                                         </span>
-                                        <?php $dataValidation['enrollment'.$enrollment['id']][] = current($eberros); ?>
+                                        <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
                                         <div class="clearfix"></div>
                                     </li>
                                 <?php }?>
-                            <?php }?>
+                                <?php foreach ($instructor['validate']['documents']  as $instructorerror) {?>
+                                    <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                        <span class="ellipsis">
+                                            <?php echo InstructorDocumentsAndAddress::model()->getAttributeLabel(key($instructorerror)) ?> - <?php echo current($instructorerror) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('instructor/update',
+                                                'id'=>$instructor['info']['id'], 'censo' => 1)); ?>
+                                        </span>
+                                        <?php $dataValidation['instructor'.$instructor['info']['id']][] = current($instructorerror); ?>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                <?php }?>
+                                <?php foreach ($instructor['validate']['variabledata']  as $variabledata) {?>
+                                    <?php foreach ($variabledata['errors'] as $vberros) {?>
+                                    <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                        <span class="ellipsis">Na turma <?php echo $variabledata['turma'] ?> |
+                                            <?php echo InstructorVariableData::model()->getAttributeLabel(key($vberros)) ?> - <?php echo current($vberros) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('classroom/update',
+                                                'id'=>$variabledata['id'], 'censo' => 1)); ?>
+                                        </span>
+                                        <?php $dataValidation['classroom'.$variabledata['id']][] = current($vberros); ?>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                    <?php }?>
+                                <?php }?>
+                            </div>
+                        <?php }?>
+                        <?php foreach ($log['student']  as $student) {?>
+                            <div class="itens-censo">
+                                <h5>Aluno - <?php echo $student['info']['name']; ?></h5>
+                                <?php foreach ($student['validate']['identification']  as $studenterror) {?>
+                                    <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                        <span class="ellipsis">
+                                            <?php echo StudentIdentification::model()->getAttributeLabel(key($studenterror)) ?> -
+                                            <?php echo current($studenterror) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('student/update',
+                                                'id'=>$student['info']['id'], 'censo' => 1)); ?>
+                                        </span>
+                                        <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                <?php }?>
+                                <?php foreach ($student['validate']['documents']  as $studenterror) {?>
+                                    <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                        <span class="ellipsis">
+                                            <?php echo StudentDocumentsAndAddress::model()->getAttributeLabel(key($studenterror)) ?> - <?php echo current($studenterror) ?>
+                                            <?php echo CHtml::link('- Corrigir',array('student/update',
+                                                'id'=>$student['info']['id'], 'censo' => 1)); ?>
+                                        </span>
+                                        <?php $dataValidation['student'.$student['info']['id']][] = current($studenterror); ?>
+                                        <div class="clearfix"></div>
+                                    </li>
+                                <?php }?>
+                                <?php foreach ($student['validate']['enrollment']  as $enrollment) {?>
+                                    <?php foreach ($enrollment['errors'] as $eberros) {?>
+                                        <li>
+                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                        <i></i>
+                                    </span>
+                                            <span class="ellipsis">Na turma <?php echo $enrollment['turma'] ?> |
+                                                <?php echo StudentEnrollment::model()->getAttributeLabel(key($eberros)) ?> - <?php echo current($eberros) ?>
+                                                <?php echo CHtml::link('- Corrigir',array('enrollment/update',
+                                                    'id'=>$enrollment['id'], 'censo' => 1)); ?>
+                                            </span>
+                                            <?php $dataValidation['enrollment'.$enrollment['id']][] = current($eberros); ?>
+                                            <div class="clearfix"></div>
+                                        </li>
+                                    <?php }?>
+                                <?php }?>
+                            </div>
                         <?php }?>
 
                     </ul>
                 </div>
                 <!-- // Filter Users Tab END -->
                 <?php
-                    foreach ($dataValidation as $key => $value) {
+                    /*foreach ($dataValidation as $key => $value) {
                         Yii::app()->cache->set($key, $value, $timeExpiration);
-                    }
+                    }*/
                 ?>
 
 

@@ -6,7 +6,7 @@ $_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNo
 $_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclarationReport');
 $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
@@ -24,6 +24,10 @@ switch ($domain) {
     case 'santaluzia3':
         $instance = 'SANTA LUZIA DO ITANHY - 3';
         $db = 'br.ong.tag.santaluzia3';
+        break;
+    case 'santaluzia2':
+        $instance = 'SANTA LUZIA DO ITANHY - 2';
+        $db = 'io.escola.se.santaluzia2';
         break;
     case 'edeziosouza':
         $instance = 'EDEZIO SOUZA - SANTA LUZIA';
@@ -204,10 +208,10 @@ define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=ipti.org.br;dbname=$db",
+    'connectionString' => "mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'user.dev',
-    'password' => 'p@s4dev&23',
+    'username' => 'admin',
+    'password' => '123456',
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);

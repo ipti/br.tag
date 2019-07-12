@@ -725,10 +725,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentIdentification, 'no_documents_desc', array('class' => 'control-label')); ?>
+                                        <?php echo $form->labelEx($modelStudentIdentification, 'no_document_desc', array('class' => 'control-label')); ?>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentIdentification, 'no_documents_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
-                                            <?php echo $form->error($modelStudentIdentification, 'no_documents_desc'); ?>
+                                            <?php echo $form->DropDownList($modelStudentIdentification, 'no_document_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
+                                            <?php echo $form->error($modelStudentIdentification, 'no_document_desc'); ?>
                                         </div>
                                     </div>
                                 </div>

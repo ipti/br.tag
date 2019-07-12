@@ -39,13 +39,11 @@
                         return array("status" => true,"erro" =>"");
                     }
                 } else {
-                    var_dump($Reg60Field12);exit;
                     return array("status" => false,"erro" => " Campo 12 do registro 60 deve ser igual a 1 ou 2");
                 }
             } //deve ser nulo quando campo 5 for nulo
             else {
                 if (strlen($EmissorOrgan) != 0) {
-                    var_dump($EmissorOrgan);
                     return array("status" => false,"erro" =>" Orgao emissor deve ser nulo");
                 }
             }
@@ -294,7 +292,6 @@
             } else if ($nis == 00000000000) {
 								return array("status" => false,"erro" => "O NIS foi preenchido com valor inválido.");
 						} else if (!preg_match('/^[0-9]{11}$/', $nis)) {
-                                var_dump($nis);exit;
 								return array("status" => false,"erro" => "O NIS foi preenchido com valor inválido.");
 						}
 
