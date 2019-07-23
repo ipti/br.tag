@@ -42,7 +42,7 @@ const AppConfig = {
         darkBgColor: '#424242'
     },
     baseUrl : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/` : `http://${window.location.host}/`,
-    baseUrlApi : process.env.NODE_ENV === 'production' ? 'http://api.tag.ong.br':'http://api.tag.com/',
+    baseUrlApi : process.env.NODE_ENV === 'production' ? 'https://api.tag.ong.br':'http://api.tag.com/',
 
     citizen: {
         id: '5cfd7906aaf4d73096ccd566',
