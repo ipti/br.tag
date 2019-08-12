@@ -246,6 +246,19 @@ const AsyncPreviewFactContainer = Loadable({
     loading: () => <RctPageLoader />,
 });
 
+
+/*---------------- Attendance ------------------*/
+
+const AsyncAttendanceContainer = Loadable({
+	loader: () => import("Container/Attendance/AttendanceContainer"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncAttendanceFormContainer = Loadable({
+	loader: () => import("Container/Attendance/AttendanceFormContainer"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
@@ -289,4 +302,6 @@ export {
 	AsyncPreviewFactContainer,
 	AsyncFactContainer,
 	AsyncFactFormContainer,
+	AsyncAttendanceContainer,
+	AsyncAttendanceFormContainer,
 };

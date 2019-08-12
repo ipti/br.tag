@@ -64,6 +64,22 @@ export default {
 			]
 		}
 	],
+	attendance: [
+		{
+			"menu_title": "sidebar.menu.attendance",
+			"menu_icon": "zmdi zmdi-assignment",
+			"child_routes": [
+				{
+					"menu_title": "sidebar.menu.attendance.list",
+					"path": "/app/attendance/list",
+				},
+				{
+					"path": "/app/attendance/form",
+					"menu_title": "sidebar.menu.attendance.insert"
+				}
+			]
+		}
+	],
 	housing: [
 		{
 			"menu_title": "sidebar.menu.housing",

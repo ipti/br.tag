@@ -116,7 +116,15 @@ class SidebarContent extends Component {
                             />
                         ))}
                     </List>
-                    
+                    <List className="rct-mainMenu p-0 m-0 list-unstyled" >
+                        {sidebarMenus.attendance.map((menu, key) => (
+                            <NavMenuItem
+                                menu={menu}
+                                key={key}
+                                onToggleMenu={() => this.toggleMenu(menu, 'attendance')}
+                            />
+                        ))}
+                    </List>
                 </nav>
             </div>
         );

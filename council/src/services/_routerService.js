@@ -10,6 +10,7 @@ import Service from 'Routes/service';
 import Report from 'Routes/report';
 import Housing from 'Routes/housing';
 import Fact from 'Routes/fact';
+import Attendance from 'Routes/attendance';
 
 export default [
 	{
@@ -59,5 +60,9 @@ export default [
 	{
 		path: 'fact',
 		component: Fact
+	},
+	{
+		path: 'attendance',
+		component: Attendance
 	}
 ]

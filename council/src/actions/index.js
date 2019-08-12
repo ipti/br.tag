@@ -17,3 +17,4 @@ export * from './InstitutionActions';
 export * from './HousingActions';
 export * from './ReportActions';
 export * from './FactActions';
+export * from './AttendanceActions';

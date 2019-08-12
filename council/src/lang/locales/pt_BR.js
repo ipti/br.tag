@@ -28,6 +28,12 @@ module.exports = {
     "sidebar.menu.fact.list": "Listar Fatos",
     // =========== Fact =========== 
 
+    // =========== Attendance =========== 
+    "sidebar.menu.attendance": "Atendimento",
+    "sidebar.menu.attendance.insert": "Novo Atendimento",
+    "sidebar.menu.attendance.list": "Listar Atendimentos",
+    // =========== Attendance =========== 
+
     // =========== Housing =========== 
     "sidebar.menu.housing": "Abrigamento",
     "sidebar.menu.housing.insert": "Novo Abrigamento",

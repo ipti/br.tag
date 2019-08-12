@@ -1,0 +1,72 @@
+.attendance-card{
+    background-color: #FFF;
+}
+
+.attendance-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.attendance-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.attendance-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.attendance-label{
+    font-size: 20px;
+    color: #74777b;
+    margin-bottom: unset;
+}
+
+.attendance-container-select{
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.attendance-editor{
+    height: 300px;
+}
+
+.attendance-count{
+    background-color: #FFF;
+    border: solid 1px #e4e4e4;
+    margin-bottom: 40px;
+    border-radius: 15px;
+}
+
+.attendance-count .subtitle{
+    font-size: 60px;
+    color: #5d92f4;
+    text-align: center;
+    min-height: 200px;
+}
+
+.attendance-count .title{
+    padding-top: 15px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.attendance-count .divider{
+    width: 100%;
+    border-bottom: solid 1px #e4e4e4;
+}

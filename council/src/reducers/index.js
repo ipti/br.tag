@@ -19,6 +19,7 @@ import InstitutionReducer from './InstitutionReducer';
 import HousingReducer from './HousingReducer';
 import FactReducer from './FactReducer';
 import ReportReducer from "./ReportReducer";
+import AttendanceReducer from "./AttendanceReducer";
 
 const reducers = combineReducers({
   settings,
@@ -38,6 +39,7 @@ const reducers = combineReducers({
   housing: HousingReducer,
   fact: FactReducer,
   report: ReportReducer,
+  attendance: AttendanceReducer,
 });
 
 export default reducers;
