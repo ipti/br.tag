@@ -1286,10 +1286,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php  if( $me->classroomFk->school_year >= date('Y')){?>
                                                         <a href='<?php  echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id));?>'>
                                                             <i class="fa fa-pencil" style="color:#496cad; padding-right: 1%" ></i>
-                                                            <?php echo $me->classroomFk->name ?></a>
+                                                            <?php echo $me->classroomFk->name ?>
+                                                        
+                                                        </a>
                                                     <?php }else{ ?>
                                                         <p  title="Não é possível atualizar a Matrícula do ano anterior">
-                                                            <?php echo $me->classroomFk->name ?>
+                                                            <?php echo $me->classroomFk->name ?><br/>
+                                                            (<?php echo @$me->edcensoStageVsModalityFk->name ?>)
                                                         </p>
                                                     <?php }  ?>
                                                 </td>

@@ -243,48 +243,48 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_braille_system_education']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_braille_system_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_braille']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_optical_and_non_optical_resources']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_optical_and_non_optical_resources', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_optical_nonoptical']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_mental_processes_development_strategies']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_mental_processes_development_strategies', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_cognitive_functions']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_mobility_and_orientation_techniques']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_mobility_and_orientation_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_mobility_techniques']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['aee_libras']; ?>
                                         <?php echo $form->checkBox($modelClassroom, 'aee_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_caa_use_education']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_caa_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_caa']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_caa', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_curriculum_enrichment_strategy']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_curriculum_enrichment_strategy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_curriculum_enrichment']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_soroban_use_education']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_soroban_use_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_soroban']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_usability_and_functionality_of_computer_accessible_education']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_usability_and_functionality_of_computer_accessible_education', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_accessible_teaching']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_teaching_of_Portuguese_language_written_modality']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_teaching_of_Portuguese_language_written_modality', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_portuguese']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                     <label class="checkbox">
-                                        <?php echo Classroom::model()->attributeLabels()['aee_strategy_for_school_environment_autonomy']; ?>
-                                        <?php echo $form->checkBox($modelClassroom, 'aee_strategy_for_school_environment_autonomy', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <?php echo Classroom::model()->attributeLabels()['aee_autonomous_life']; ?>
+                                        <?php echo $form->checkBox($modelClassroom, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
                                 </div>
                             </div>

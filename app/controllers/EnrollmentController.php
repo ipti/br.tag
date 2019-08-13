@@ -285,6 +285,7 @@ class EnrollmentController extends Controller {
 
         if (isset($_POST['exams'])) {
             $exams = $_POST['exams'];
+            //var_dump($exams)
 
             foreach ($exams as $enrollment_id => $field){
 
@@ -442,7 +443,6 @@ class EnrollmentController extends Controller {
 
             foreach ($grades as $eid => $disciplines) {
                 foreach ($disciplines as $id => $values) {
-
                     $grade = Grade::model()->findByAttributes([
                         "enrollment_fk" => $eid,
                         "discipline_fk" => $id
@@ -455,7 +455,7 @@ class EnrollmentController extends Controller {
                         }
                     }
 
-                    @$grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
+                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
                     $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == "")) ? null : $values[1];
                     $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == "")) ? null : $values[2];
                     $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == "")) ? null : $values[3];

@@ -31,7 +31,7 @@ switch ($domain) {
         break;
     case 'edeziosouza':
         $instance = 'EDEZIO SOUZA - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.edeziosouza';
+        $db = 'br.ong.tag.santaluzia.edesiosouza';
         break;
     case 'adelsonsilveira':
         $instance = 'ADELSON SILVEIRA - SANTA LUZIA';
@@ -39,7 +39,7 @@ switch ($domain) {
         break;
      case 'acrisiocruz':
         $instance = 'ACRISIO CRUZ - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.acrisiocruz';
+        $db = 'br.ong.tag.santaluzia.acrisiocruz';
         break;
      case 'souteloribeiro':
         $instance = 'SOUTELO RIBEIRO - SANTA LUZIA';
@@ -47,15 +47,15 @@ switch ($domain) {
         break;
      case 'valquirialuiza':
         $instance = 'VALQUIRIA LUIZA - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.valquirialuiza';
+        $db = 'br.ong.tag.santaluzia.valquiria';
         break;
      case 'edmarjose':
         $instance = 'EDMAR JOSÉ - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.edmarjose';
+        $db = 'br.ong.tag.santaluzia.edmarjose';
         break;
      case 'josevicente':
         $instance = 'JOSÉ VICENTE - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.josevicente';
+        $db = 'br.ong.tag.santaluzia.josevicente';
         break;  
     case 'ilhadasflores':
         $instance = 'ILHA DAS FLORES';

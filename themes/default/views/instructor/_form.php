@@ -365,7 +365,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <div class="controls">
                                     <?php echo $form->DropDownlist($modelInstructorVariableData, 'scholarity', array(null => "Selecione uma escolaridade", 1 => 'Fundamental Incompleto', 2 => 'Fundamental Completo',
                                         3 => 'Ensino Médio - Normal/Magistério', 4 => 'Ensino Médio - Normal/Magistério Indígena',
-                                        5 => 'Ensino Médio', 6 => 'Superior'), array("class" => "select-search-off")); ?>
+                                        7 => 'Ensino Médio', 6 => 'Superior'), array("class" => "select-search-off")); ?>
                                     <?php echo $form->error($modelInstructorVariableData, 'scholarity'); ?>
                                 </div>
                             </div>

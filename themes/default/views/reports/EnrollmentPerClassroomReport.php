@@ -173,6 +173,22 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
+        }else if($key >=40 && $key <60){
+            $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
+                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+                . "</tr>";
         }else{
             $r60 .= "<tr>"."<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td>" . $r['name'] . "</td>"

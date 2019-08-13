@@ -109,7 +109,7 @@ ADD COLUMN `schooling` TINYINT(1) NULL AFTER `week_days_saturday`,
 ADD COLUMN `diff_location` SMALLINT(4) NULL AFTER `complementary_activity_type_6`,
 ADD COLUMN `discipline_protuguese_secondary_language` SMALLINT(6) NULL AFTER `discipline_sociology`,
 ADD COLUMN `discipline_curricular_stage` SMALLINT(6) NULL AFTER `discipline_protuguese_secondary_language`,
-ADD COLUMN `course` INT(11) NULL AFTER `internship`;
+ADD COLUMN `course` INT(11) NULL;
 
 ALTER TABLE `instructor_identification` 
 ADD COLUMN `deficiency_type_autism` TINYINT(1) NULL AFTER `deficiency_type_multiple_disabilities`,
@@ -126,7 +126,7 @@ ADD COLUMN `resource_zoomed_test_18` TINYINT(1) NULL AFTER `resource_zoomed_test
 ADD COLUMN `resource_cd_audio` TINYINT(1) NULL AFTER `resource_zoomed_test_24`,
 ADD COLUMN `resource_proof_language` TINYINT(1) NULL AFTER `resource_cd_audio`,
 ADD COLUMN `resource_video_libras` TINYINT(1) NULL AFTER `resource_proof_language`,
-ADD COLUMN `no_document_desc` SMALLINT(4) NULL AFTER `birthday_city`,
+ADD COLUMN `no_document_desc` SMALLINT(4) NULL,
 ADD COLUMN `scholarity` SMALLINT(4) NULL AFTER `no_document_desc`,
 ADD COLUMN `id_email` VARCHAR(255) NULL AFTER `scholarity`;
 
