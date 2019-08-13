@@ -2746,268 +2746,51 @@ class CensoController extends Controller {
 		return true;
 	}
 
-	public function actionImport(){
-		$lines = $this->readFileImport();
-		$component=Yii::createComponent(array(
-			'class'=>'CDbConnection',
-			'connectionString' => 'mysql:host=mariadb-mariadb.mariadb.svc.cluster.local;dbname=information_schema',
-			'emulatePrepare' => true,
-			'username' => Yii::app()->db->username,
-			'password' => Yii::app()->db->password,
-			'charset' => 'utf8',
-			'enableParamLogging'=>true,
-			'schemaCachingDuration'=>3600,
-		));
-		Yii::app()->setComponent('db3',$component);
+	public function getOrderInepId($fields){
+		$result = array_filter($fields, function($field){return $field->attr == 'inep_id';});
+		return count($result) ? current($result)->corder : null;
+	}
 
-		//registro 00
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_identification' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['00'] as $iline => $line) {
-			$ivariable = new SchoolIdentification();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
-					eval($code);
-				}
-			}
-			$exist    = SchoolIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			$edcenso_city_fk = substr($ivariable->edcenso_district_fk, 0, -2);
-			$code = substr($ivariable->edcenso_district_fk, -2);
-			$district = EdcensoDistrict::model()->findByAttributes(array('edcenso_city_fk'=>$edcenso_city_fk,'code'=>$code));
-			if(!isset($exist)){
-				$ivariable->name = utf8_encode($ivariable->name);
-				$ivariable->edcenso_district_fk=$district->id;
-				$ivariable->save();
-			}
-		}
-		$dt = DateTime::createFromFormat("d/m/Y", $ivariable->initial_date);
-		DEFINE('SCHOOL_YEAR',$dt->format('Y'));
+	public function updateImport($register, $lines, CActiveRecord $model, $fieldsUpdate){
 
-		// registro 10
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'school_structure' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['10'] as $iline => $line) {
-			$ivariable = new SchoolStructure();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
-					eval($code);
-				}
-			}
-			$exist    = SchoolStructure::model()->findByAttributes(array('school_inep_id_fk'=>$ivariable->school_inep_id_fk));
-			if(!isset($exist)){
-				$ivariable->save();
-			}
-		}
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => $register, "version" => '2018']);
+		$orderInepId = $this->getOrderInepId($fields) - 1;
+		foreach ($lines as $iline => $line) {
 
+			if(is_null($orderInepId) || !isset($line[$orderInepId]) || $line[$orderInepId] == ''){
+				continue;
+			}
 
-		// registro 20
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'classroom' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['20'] as $iline => $line) {
-			$ivariable = new Classroom();
-			foreach ($fields as $field) {
+			$ivariable = $model->findAllByAttributes(["inep_id" => $line[$orderInepId]]);
+			$hasModified = false;
 
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if($field['COLUMN_NAME'] != 'id'){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
-				}else{
-					$code = '$ivariable->'.$column_name.'="NULL";';
-				}
-				eval($code);
-			}
-			$exist    = Classroom::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			if(!isset($exist)){
-				$ivariable->name = utf8_encode($ivariable->name);
-				$ivariable->school_year = SCHOOL_YEAR;
-				$ivariable->save();
-			}
-		}
-
-		// registro 30
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_identification' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['30'] as $iline => $line) {
-			$ivariable = new InstructorIdentification();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if($field['COLUMN_NAME'] != 'id'){
-					$code = '$ivariable->'.$column_name.'=$line[$order];';
-				}else{
-					$code = '$ivariable->'.$column_name.'="NULL";';
-				}
-				eval($code);
-			}
-			$exist    = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			if(!isset($exist)){
-				$ivariable->save();
-			}
-		}
-		// registro 40
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_documents_and_address' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['40'] as $iline => $line) {
-			$ivariable = new InstructorDocumentsAndAddress();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION'] - 1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}else{
-						$code = '$ivariable->'.$column_name.'="NULL";';
+			if(count($ivariable)){
+				foreach ($fields as $field) {
+					$columnName = $field->attr;
+					$order = $field->corder -1 ;
+					if(isset($line[$order]) && $line[$order] != '' && in_array($columnName,$fieldsUpdate)){
+						$code = $ivariable->{$columnName} = $line[$order];
+						$hasModified = true;
 					}
-					eval($code);
 				}
-			}
-			$exist = InstructorDocumentsAndAddress::model()->findByAttributes(array('inep_id' => $ivariable->inep_id));
-			if (!isset($exist)) {
-				$id = InstructorIdentification::model()->findByAttributes(array('inep_id' => $ivariable->inep_id));
-				$ivariable->id = $id->id;
-				$ivariable->save();
-			}
-		}
 
-
-		// Registro 50
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_variable_data' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['50'] as $iline => $line) {
-			$ivariable = new InstructorVariableData();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}else{
-						$code = '$ivariable->'.$column_name.'="NULL";';
-					}
-					eval($code);
+				if($hasModified){
+					$ivariable->save();
 				}
-			}
-			$exist = InstructorVariableData::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			if(!isset($exist)){
-				$id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-				$ivariable->id = $id->id;
-				$ivariable->save();
-			}
-		}
-
-		// registro 51
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'instructor_teaching_data' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['51'] as $iline => $line) {
-			$ivariable = new InstructorTeachingData();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}else{
-						$code = '$ivariable->'.$column_name.'="NULL";';
-					}
-					eval($code);
-				}
-			}
-			$exist = InstructorTeachingData::model()->findByAttributes(array('instructor_inep_id'=>$ivariable->instructor_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
-			if(!isset($exist)){
-				$instructor_id = InstructorIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->instructor_inep_id));
-				$classroom_id = Classroom::model()->findByAttributes(array('inep_id'=>$ivariable->classroom_inep_id));
-				$ivariable->instructor_fk = $instructor_id->id;
-				$ivariable->classroom_id_fk = $classroom_id->id;
-				$ivariable->save();
-			}
-		}
-
-		// registro 60
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_identification' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['60'] as $iline => $line) {
-			$ivariable = new StudentIdentification();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}else{
-						$code = '$ivariable->'.$column_name.'="NULL";';
-					}
-					eval($code);
-				}
-			}
-			$exist = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->inep_id));
-			if(!isset($exist)){
-				$ivariable->send_year = 0;
-				$ivariable->save();
-			}
-		}
- 		//FIM registro 60
-
-
-		// registro 70
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_documents_and_address' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['70'] as $iline => $line) {
-			$ivariable = new StudentDocumentsAndAddress();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}else{
-						$code = '$ivariable->'.$column_name.'="NULL";';
-					}
-					eval($code);
-				}
-			}
-			$exist = StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk'=>$ivariable->student_fk));
-			if(!isset($exist)){
-				$id = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->student_fk));
-				$ivariable->id = $id->id;
-				$ivariable->save();
-
-			}
-		}
-
-
-
-		// registro 80
-		$sql = "SELECT COLUMN_NAME, ORDINAL_POSITION FROM COLUMNS WHERE table_name = 'student_enrollment' and table_schema = '".DBNAME."';";
-		$fields = Yii::app()->db3->createCommand($sql)->queryAll();
-		foreach ($lines['80'] as $iline => $line) {
-			$ivariable = new StudentEnrollment();
-			foreach ($fields as $field) {
-				$column_name = $field['COLUMN_NAME'];
-				$order = $field['ORDINAL_POSITION']-1;
-				if(isset($line[$order])&&$line[$order] != ''){
-					if($field['COLUMN_NAME'] != 'id'){
-						$code = '$ivariable->'.$column_name.'=$line[$order];';
-					}
-					eval($code);
-				};
-			}
-			$exist = StudentEnrollment::model()->findByAttributes(array('student_inep_id'=>$ivariable->student_inep_id,'classroom_inep_id'=>$ivariable->classroom_inep_id));
-			if(!isset($exist)){
-				$student_id = StudentIdentification::model()->findByAttributes(array('inep_id'=>$ivariable->student_inep_id));
-				$classroom_id = Classroom::model()->findByAttributes(array('inep_id'=>$ivariable->classroom_inep_id));
-				$ivariable->student_fk = $student_id->id;
-				$ivariable->classroom_fk = $classroom_id->id;
-				$ivariable->save();
-				
 			}
 		}
 	}
+
+	public function actionImport(){
+		$lines = $this->readFileImport();
+
+		$this->updateImport(30, $lines['30'], InstructorIdentification::model(), ['name','birthday_date','filiation_1','filiation_2']);
+		$this->updateImport(40, $lines['40'], InstructorDocumentsAndAddress::model(), ['cpf','nis','address','address_number','complement','neighborhood','cep']);
+		$this->updateImport(60, $lines['60'], StudentIdentification::model(), ['name','birthday','filiation_1','filiation_2']);
+		$this->updateImport(70, $lines['70'], InstructorDocumentsAndAddress::model(), ['cpf','nis','address','number','complement','neighborhood','cep']);
+		
+	}
+
 	public function actionExport() {
 		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 		$this->normalizeField2019($school->register_type,$school->attributes);
