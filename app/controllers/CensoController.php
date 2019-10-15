@@ -2906,6 +2906,25 @@ class CensoController extends Controller {
 		}
 
 	}
+
+	public function actionInitialImport(){
+		$import = new Import();
+
+		if (!empty($_FILES['Import']['name'])) {
+			$path = Yii::app()->basePath;
+			$file = $_FILES['Import'];
+			$uploadfile = $path . '/import/' . basename($file['name']['file']);
+			move_uploaded_file($file['tmp_name']['file'], $uploadfile);
+			$import->file = $uploadfile;
+
+			$import->year = $_POST['Import']['year'];
+			$import->importWithError = boolval($_POST['Import']['importWithError']);
+			$import->run();
+		}
+
+
+		$this->render('initialImport',['importModel' => $import]);
+	}
 }
 
 ?>

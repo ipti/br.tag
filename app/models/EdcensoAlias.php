@@ -60,6 +60,7 @@ class EdcensoAlias extends CActiveRecord
 		// 	'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
 		// 	'schoolIdentifications' => array(self::HAS_MANY, 'SchoolIdentification', 'edcenso_district_fk'),
 		// );
+		return [];
 	}
 
 	/**
