@@ -149,8 +149,11 @@ class EnrollmentController extends Controller {
                     $unsetrans = '$model->'.$key.'='.'0;';
                     eval($unsetrans);
                 }
-                $transportset = '$model->'.$_POST['StudentEnrollment']['transport_type'].'='.'1;';
-                eval($transportset);
+                if(!empty($_POST['StudentEnrollment']['transport_type'])){
+                    $transportset = '$model->'.$_POST['StudentEnrollment']['transport_type'].'='.'1;';
+                    eval($transportset);
+                }
+                
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));

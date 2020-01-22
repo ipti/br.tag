@@ -641,8 +641,8 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li,
 #menu > ul > li {
   display: block;
-  height: 35px;
-  line-height: 35px;
+  height: 30px;
+  line-height: 30px;
   border-bottom: 1px solid #ccc;
   position: relative;
   overflow: hidden;
@@ -672,8 +672,8 @@ body > .container-fluid.documentation {
   padding: 0;
   margin: 0;
   color: #7c7c7c;
-  height: 39px;
-  line-height: 39px;
+  height: 30px;
+  line-height: 30px;
   text-decoration: none;
   font-size: 13px;
   font-weight: 600;

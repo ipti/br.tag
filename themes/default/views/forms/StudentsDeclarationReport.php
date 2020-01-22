@@ -53,17 +53,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <br>
         <br>
         <p style="margin: 0 auto; text-align: right; width:600px">
-            <?php 
-                setlocale(LC_ALL, NULL);
-                setlocale(LC_ALL, 'portuguese', 'pt_BR.UTF8', 'pt_br.UTF8', 'ptb_BRA.UTF8',"ptb", 'ptb.UTF8');
-                date_default_timezone_set("America/Sao_Paulo");
-
-                $time = mktime();
-                $monthName = strftime("%B", $time);
-                echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y") 
-            ?>.
+            <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
         </p>
-
         <br>
         <br>
         <p style="margin: 0 auto; text-align: center; width:600px">

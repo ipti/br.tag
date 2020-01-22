@@ -190,7 +190,7 @@ switch ($domain) {
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
         $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'DEMONSTRAÇÃO';
-        $db = 'io.escola.se.demo';
+        $db = 'io.escola.demo';
         break;
     case 'cloc':
         $_GLOBALGROUP = 1;
@@ -198,6 +198,13 @@ switch ($domain) {
         $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'CLOC';
         $db = 'io.escola.cloc';
+        break;
+    case 'bacabeira':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'BACABEIRA';
+        $db = 'br.ong.tag.maranhao.bacabeira';
         break;
     default:
         $instance = 'SERGIPE';
@@ -215,4 +222,3 @@ define ("DBCONFIG", serialize (array(
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);
-//phpinfo();exit;

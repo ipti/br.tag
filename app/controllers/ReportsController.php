@@ -460,7 +460,7 @@ class ReportsController extends Controller {
         }
 
         $sql = "SELECT 
-                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns, s.*
+                    e.name as school_name, c.name as classroom_name, c.id as classroom_id, d.cns,d.rg_number, s.*
                 FROM 
                     student_enrollment as se
                     INNER JOIN classroom as c on se.classroom_fk=c.id
@@ -644,6 +644,8 @@ class ReportsController extends Controller {
 
             //$report[$student]['Classes'][$month] = $faults/$count or N/A
             //@done s3 - Calcular frequência para cada aluno: (Total de horários - faltas do aluno) / (Total de horários - Dias não ministrados)
+            $report[$student]['Classes']['f'.$month]['count'] = $count;
+            $report[$student]['Classes']['f'.$month]['faults'] =  $faults;
 
             $report[$student]['Classes'][$month]  =
                         ($count == 0)   //Se Count for 0, então não houveram aulas cadastradas

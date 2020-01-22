@@ -13,23 +13,17 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 
 ?>
 
-<div class="row-fluid hidden-print">
-    <div class="span12">
-        <div class="buttons">
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-        </div>
-    </div>
-</div>
 
 
-<div class="innerLR">
+
+<div>
     <div>
-        <table class="table">
-            <tr>
+        <table class="table" style="font-size:16px">
+            <!--<tr>
                 <td colspan="3">LOCAL REALIZAÇÃO: ESCOLA ESTADUAL COMENDADOR CALAZANS</td>
                 <td>CÓDIGO: <?= $classroom->school_inep_fk?></td>
-            </tr>
-            <tr>
+            </tr>-->
+            <!--<tr>
                 <td colspan="1">ENDEREÇO: <?= $school->address . (strlen($school->address_number) != 0 ? ", " . $school->address_number : "")?></td>
                 <td colspan="1">TURNO:
                     <?php
@@ -126,25 +120,30 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                     ?>
                 </td>
                 <td colspan="1">CURSO/TURMA: <?= $classroom->name?></td>
+            </tr>-->
+            <tr>
+                <td>CURSO/TURMA: <?= $classroom->name?></td>
+                <td>HORÁRIO: <?= $classroom->initial_hour?>:00 as <?= $classroom->final_hour?>:00</td>
             </tr>
             <tr>
                 <td>INSTRUTOR(A): </td>
+                <br>
+                <td>DATA: </td>
             </tr>
             <tr>
-                <td>DATA: </td>
+                
             </tr>
         </table>
     </div>
     <div>
-        <br>
-
+        <br/>
         <table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
                 <th rowspan="" style="text-align: center;">Nº</th>
                 <th rowspan="">ALUNO</th>
                 <th rowspan="" style="text-align: center; width:50px">DATA DE NASCIMENTO</th>
                 <th rowspan="" style="text-align: center;">TELEFONE</th>
-                <th rowspan="" style="text-align: center;">NOME DA MÃE</th>
+                <th rowspan="" style="text-align: center;">NOME RESPONSÁVEL</th>
                 <th rowspan="" style="text-align: center;">ENDEREÇO</th>
                 <th rowspan="" style="text-align: center;">ASSINATURA</th>
                 <?php

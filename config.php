@@ -1,5 +1,5 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG',false);
+defined('YII_DEBUG') or define('YII_DEBUG',FALSE);
 define("TAG_VERSION",'2.10.7E');
 define("BOARD_MSG",'
 		
