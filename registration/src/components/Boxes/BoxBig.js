@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ImgSchool from "../../assets/images/school-icon.png";
+import { Link } from "react-router-dom";
 import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 const BoxBig = props => {
-  const { children, title, subtitle, textRight, addCursor } = props;
+  const { children, title, subtitle, textRight, link } = props;
   const classes = useStyles();
 
   const headWithImage = () => (
@@ -41,14 +42,13 @@ const BoxBig = props => {
   );
 
   return (
-    <div
-      className={`${classes.contentBox} ${classes.floatLeft} ${
-        addCursor ? classes.addCursor : ""
-      }`}
+    <Link
+      to={link ? link : "#"}
+      className={`${classes.contentBox} ${classes.floatLeft}`}
     >
       <div>{title ? headWithoutImage() : headWithImage()}</div>
       <div>{children}</div>
-    </div>
+    </Link>
   );
 };
 

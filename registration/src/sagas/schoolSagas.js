@@ -3,18 +3,11 @@ import { getSchools, getSchool, getError } from "../actions/schoolActions";
 import api from "../services/api";
 
 // Requests
-const requestSchools = () => {
-  return api
-    .get("school")
-    .then(response => response.data)
-    .catch(err => {
-      throw err;
-    });
-};
+const requestSchools = data => {
+  let path = data ? "/school?page=" + data : "/school";
 
-const requestSchoolsPage = page => {
   return api
-    .get("school?page=" + page)
+    .get(path)
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -23,7 +16,7 @@ const requestSchoolsPage = page => {
 
 const requestSchool = id => {
   return api
-    .get("school/" + id)
+    .get("/school/" + id)
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -42,7 +35,7 @@ function* fetchSchools(action) {
 
 function* fetchSchoolsPage(action) {
   try {
-    const result = yield call(requestSchoolsPage, action.page);
+    const result = yield call(requestSchools, action.page);
     yield put(getSchools(result));
   } catch (e) {
     yield put(getError(e.message));

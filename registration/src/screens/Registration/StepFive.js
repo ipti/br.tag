@@ -1,0 +1,183 @@
+import React, { useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import { Formik, Form } from "formik";
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
+import { FormLabel, FormControl } from "@material-ui/core";
+import { ButtonPurple } from "../../components/Buttons";
+import Header from "../../components/Layouts/Header";
+import styles from "./styles";
+import * as Yup from "yup";
+import api from "../../services/api";
+
+const useStyles = makeStyles(styles);
+
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: "60px",
+    "min-height": "60px",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  }),
+  menu: base => ({
+    ...base,
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  })
+};
+
+const StepFive = props => {
+  const classes = useStyles();
+  const [inputValue, setInputValue] = useState("");
+  const [arrClassrooms, setArrClassrooms] = useState([]);
+  const [inputValueClassroom, setInputValueClassroom] = useState("");
+
+  const validationSchema = Yup.object().shape({
+    schoolInepId: Yup.string().required("Campo é obrigatório!"),
+    classroomId: Yup.string().required("Campo é obrigatório!")
+  });
+
+  const initialValues = {
+    schoolInepId: inputValue,
+    classroomId: inputValueClassroom
+  };
+
+  const handleInputChange = newValue => {
+    api.get("/external/school/" + newValue).then(response => {
+      if (response.data) {
+        setArrClassrooms(response.data.school.classrooms);
+      }
+    });
+    setInputValue(newValue);
+  };
+
+  const handleChange = newValue => {
+    setInputValueClassroom(newValue);
+  };
+
+  const searchSchools = (inputValue, callback) => {
+    if (inputValue.trim().length >= 3) {
+      setTimeout(() => {
+        api.get("/external/searchschool/" + inputValue).then(response => {
+          callback(response.data);
+        });
+      }, 500);
+    }
+  };
+  return (
+    <>
+      <Header />
+      <Formik
+        initialValues={initialValues}
+        onSubmit={values => props.next(6, values)}
+        validationSchema={validationSchema}
+        validateOnChange={false}
+        enableReinitialize
+      >
+        {props => {
+          return (
+            <Form>
+              <Grid
+                className={`${classes.contentMain} ${classes.marginTop}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item md={3} sm={6} xs={10}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    <FormLabel>Escola</FormLabel>
+                    <AsyncSelect
+                      styles={customStyles}
+                      cacheOptions
+                      loadOptions={searchSchools}
+                      defaultOptions
+                      placeholder="Digite o nome da escola"
+                      onChange={selectedOption => {
+                        handleInputChange(selectedOption._id);
+                      }}
+                      className={classes.selectField}
+                      getOptionValue={opt => opt.inepId}
+                      getOptionLabel={opt => opt.inepId + " - " + opt.name}
+                      loadingMessage={() => "Carregando"}
+                      noOptionsMessage={obj => {
+                        if (obj.inputValue.trim().length >= 3) {
+                          return "Nenhuma escola encontrada";
+                        } else {
+                          return "Digite 3 ou mais caracteres";
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <div className={classes.formFieldError}>
+                    {props.errors.schoolInepId}
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain} ${classes.marginTop30}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item md={3} sm={6} xs={10}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    <FormLabel>Turma</FormLabel>
+                    <Select
+                      styles={customStyles}
+                      className="basic-single"
+                      classNamePrefix="select"
+                      isSearchable={true}
+                      placeholder="Selecione a Turma"
+                      options={arrClassrooms}
+                      onChange={selectedOption => {
+                        handleChange(selectedOption._id);
+                      }}
+                      getOptionValue={opt => opt._id}
+                      getOptionLabel={opt => opt.name}
+                      loadingMessage={() => "Carregando"}
+                      noOptionsMessage={obj => {
+                        if (obj.inputValue.trim().length >= 3) {
+                          return "Nenhuma turma encontrada";
+                        } else {
+                          return "Digite 3 ou mais caracteres";
+                        }
+                      }}
+                    />
+                  </FormControl>
+                  <div className={classes.formFieldError}>
+                    {props.errors.classroomId}
+                  </div>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.marginTop} ${classes.marginButtom}`}
+                justify="center"
+                alignItems="center"
+                container
+                direction="row"
+              >
+                <Grid item md={2} sm={4} xs={6}>
+                  <ButtonPurple
+                    onClick={props.handleSubmit}
+                    type="submit"
+                    title="Finalizar"
+                  />
+                </Grid>
+              </Grid>
+            </Form>
+          );
+        }}
+      </Formik>
+    </>
+  );
+};
+
+export default StepFive;

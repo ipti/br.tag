@@ -3,8 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import styles from "./styles";
 import { BoxBig, BoxDiscriptionClassroom } from "../../components/Boxes";
+import { TitleWithLine } from "../../components/Titles";
 import MaleIcon from "../../assets/images/male-icon.png";
-import SchoolIcon from "../../assets/images/school-icon.png";
+import SchoolIcon from "../../assets/images/house-icon.png";
 
 const useStyles = makeStyles(styles);
 
@@ -18,14 +19,14 @@ const Home = props => {
             title={classroom.name}
             subtitle="Turma"
             addCursor={true}
-            textRight="Ativa"
+            textRight=""
           >
             <BoxDiscriptionClassroom
-              title="Vagas Preenchidas"
+              title="Preenchidas"
               registrationConfirmed={`${classroom.registrationConfirmed}`}
             />
             <BoxDiscriptionClassroom
-              title="Vagas Restante"
+              title="Restante"
               registrationRemaining={`${classroom.registrationRemaining}`}
             />
           </BoxBig>
@@ -35,16 +36,7 @@ const Home = props => {
   return (
     <>
       <Grid container direction="row">
-        <Grid
-          className={classes.boxTitlePagination}
-          item
-          md={12}
-          sm={12}
-          xs={12}
-        >
-          <h1 className={classes.title}>{data && data.name}</h1>
-          <span className={classes.linePurple} />
-        </Grid>
+        {data && <TitleWithLine title={data.name} />}
       </Grid>
       <Grid container direction="row" spacing={3}>
         <Grid item md={3}>
@@ -56,13 +48,15 @@ const Home = props => {
           {data && data.managerName}
         </Grid>
         <Grid item md={4}>
-          <div className={`${classes.floatLeft} ${classes.boxImageMale}`}>
-            <img src={MaleIcon} alt="Icone do Gestor" />
-          </div>
+          <img
+            className={`${classes.floatLeft} ${classes.boxImageMale}`}
+            src={MaleIcon}
+            alt="Icone do Gestor"
+          />
           <div className={classes.floatLeft}>
             <div className={`${classes.floatLeft} ${classes.boxManager}`}>
               <p className={classes.label}>Gestor</p>
-              {data && data.managerName}
+              <div className={classes.truncate}>{data && data.managerName}</div>
             </div>
           </div>
         </Grid>
@@ -72,9 +66,11 @@ const Home = props => {
       </Grid>
       <Grid container direction="row" spacing={3}>
         <Grid item md={5}>
-          <div className={`${classes.floatLeft} ${classes.boxSchool}`}>
-            <img src={SchoolIcon} alt="Icone da Escola" />
-          </div>
+          <img
+            className={`${classes.floatLeft} ${classes.iconHouse}`}
+            src={SchoolIcon}
+            alt="Icone de Endereço"
+          />
           <div className={`${classes.floatLeft} ${classes.boxAddress}`}>
             <p className={classes.label}>Endereço</p>
             {data && data.address}
@@ -89,17 +85,8 @@ const Home = props => {
           {data && data.city}
         </Grid>
       </Grid>
-      <Grid className={classes.boxCalssroom} container direction="row">
-        <Grid
-          className={classes.boxTitlePagination}
-          item
-          md={12}
-          sm={12}
-          xs={12}
-        >
-          <h1 className={classes.title}>Turmas</h1>
-          <span className={classes.linePurple} />
-        </Grid>
+      <Grid className={classes.boxClassroom} container direction="row">
+        <TitleWithLine title="Turmas" />
       </Grid>
       <Grid container direction="row" spacing={5}>
         {classrooms}

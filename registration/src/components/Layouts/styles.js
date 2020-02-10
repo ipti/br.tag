@@ -10,7 +10,7 @@ const useStyles = {
   root: {
     display: "block",
     borderRight: "1px solid",
-    borderRightColor: styleBase.colors.grayClear,
+    borderRightColor: styleBase.colors.grayClearOne,
     height: "130vh",
     paddingTop: "25px"
   },
@@ -21,20 +21,29 @@ const useStyles = {
     marginTop: 0
   },
   liMenu: {
-    "&:hover": {
-      color: styleBase.colors.gray,
-      fontWidth: "bold",
-      "& svg": {
-        stroke: `${styleBase.colors.pink} !important`
-      }
-    },
     marginBottom: 20,
     float: "left",
     width: "100%"
   },
   linkMenu: {
     color: styleBase.colors.grayClear,
-    textDecoration: "none"
+    textDecoration: "none",
+    "& .iconActive": {
+      display: "none"
+    },
+    "& .iconInactive": {
+      display: "block"
+    },
+    "&:hover": {
+      color: styleBase.colors.gray,
+      fontWidth: "bold",
+      "& .iconActive": {
+        display: "block"
+      },
+      "& .iconInactive": {
+        display: "none"
+      }
+    }
   },
   boxContentMain: {
     display: "block",
@@ -42,8 +51,23 @@ const useStyles = {
     fontFamily: styleBase.typography.types.regular,
     color: styleBase.colors.gray
   },
+  iconActive: {
+    display: "none"
+  },
   span: {
     marginLeft: 10
+  },
+  activeLink: {
+    color: styleBase.colors.gray,
+    "& .iconActive": {
+      display: "block"
+    },
+    "& .iconInactive": {
+      display: "none"
+    }
+  },
+  floatLeft: {
+    float: "left"
   }
 };
 

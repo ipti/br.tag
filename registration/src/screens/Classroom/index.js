@@ -1,14 +1,5 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
+import Classroom from "./Classroom";
+import ClassroomForm from "./Form";
+import RegistrationConfirmed from "./RegistrationConfirmed";
 
-const Home = props => {
-  return (
-    <Grid container direction="row" spacing={8}>
-      <Grid item md={12} sm={12} xs={12}>
-        Turmas
-      </Grid>
-    </Grid>
-  );
-};
-
-export default Home;
+export { Classroom, ClassroomForm, RegistrationConfirmed };

@@ -1,8 +1,5 @@
-import React from "react";
-import Classroom from "../../screens/Classroom";
+import Classroom from "./Classroom";
+import ClassroomForm from "./ClassroomForm";
+import Registration from "./Registration";
 
-const Home = () => {
-  return <Classroom />;
-};
-
-export default Home;
+export { Classroom, ClassroomForm, Registration };

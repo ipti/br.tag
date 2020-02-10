@@ -12,7 +12,7 @@ const SignIn = () => {
     api.post("login", values).then(function(response) {
       if (response && !("error" in response.data)) {
         login(response.data.data.access_token);
-        history.push("/inicio");
+        history.push("/");
       } else {
         setValid(false);
       }

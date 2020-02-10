@@ -17,7 +17,20 @@ const useStyles = {
     color: styleBase.colors.white,
     fontSize: styleBase.typography.font.midium,
     fontFamily: styleBase.typography.types.light,
-    padding: "6px 70px",
+    padding: "6px 10px",
+    width: "100%",
+    textAlign: "center"
+  },
+  buttomLinePurple: {
+    border: "1px solid",
+    borderRadius: "50px",
+    backgroundColor: styleBase.colors.white,
+    borderColor: styleBase.colors.purple,
+    color: styleBase.colors.purple,
+    fontSize: styleBase.typography.font.midium,
+    fontFamily: styleBase.typography.types.light,
+    textAlign: "center",
+    padding: "6px 10px",
     width: "100%"
   }
 };

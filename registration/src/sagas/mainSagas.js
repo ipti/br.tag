@@ -8,8 +8,25 @@ import {
 import {
   watchFetchSchedules,
   watchFetchSchedule,
-  watchFetchSchedulesPage
+  watchFetchSchedulesPage,
+  watchFetchSaveSchedule,
+  watchFetchUpdateSchedule
 } from "./scheduleSagas";
+
+import {
+  watchFetchClassrooms,
+  watchFetchClassroom,
+  watchFetchClassroomsPage,
+  watchFetchSaveClassroom,
+  watchFetchRegistration,
+  watchFetchUpdateRegistration,
+  watchFetchUpdateClassroom
+} from "./classroomSagas";
+
+import {
+  watchFetchStudent,
+  watchFetchSaveRegistration
+} from "./registrationSagas";
 
 export default function* rootSagas() {
   yield all([
@@ -18,6 +35,17 @@ export default function* rootSagas() {
     fork(watchFetchSchoolsPage),
     fork(watchFetchSchedules),
     fork(watchFetchSchedule),
-    fork(watchFetchSchedulesPage)
+    fork(watchFetchSchedulesPage),
+    fork(watchFetchSaveSchedule),
+    fork(watchFetchUpdateSchedule),
+    fork(watchFetchClassrooms),
+    fork(watchFetchClassroom),
+    fork(watchFetchClassroomsPage),
+    fork(watchFetchSaveClassroom),
+    fork(watchFetchRegistration),
+    fork(watchFetchUpdateRegistration),
+    fork(watchFetchUpdateClassroom),
+    fork(watchFetchStudent),
+    fork(watchFetchSaveRegistration)
   ]);
 }

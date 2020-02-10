@@ -46,7 +46,7 @@ const Login = props => {
         <Grid className={classes.boxRegister} container direction="row">
           <Grid item md={2} sm={2}></Grid>
           <Grid item md={9}>
-            <Link className={classes.linkRegister} to="#">
+            <Link className={classes.linkRegister} to="/matricula">
               CADASTRE-SE
             </Link>
           </Grid>
@@ -87,6 +87,7 @@ const Login = props => {
                       name="username"
                       onChange={props.handleChange}
                       variant="outlined"
+                      placeholder="Usuário"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -107,6 +108,7 @@ const Login = props => {
                       onChange={props.handleChange}
                       variant="outlined"
                       type="password"
+                      placeholder="Senha"
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">

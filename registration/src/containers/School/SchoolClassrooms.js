@@ -14,7 +14,7 @@ const Home = props => {
       setLoadData(false);
     }
   }, [loadData, props]);
-  return <SchoolClassroom data={props.school.school} />;
+  return <SchoolClassroom data={props.school && props.school.school} />;
 };
 
 const mapStateToProps = state => {

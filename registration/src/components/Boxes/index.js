@@ -1,4 +1,14 @@
 import BoxBig from "./BoxBig";
 import BoxDiscriptionClassroom from "./BoxDiscriptionClassroom";
 import BoxDiscriptionSchedule from "./BoxDiscriptionSchedule";
-export { BoxBig, BoxDiscriptionClassroom, BoxDiscriptionSchedule };
+import BoxVacancies from "./BoxVacancies";
+import BoxRegistration from "./BoxRegistration";
+import BoxStatus from "./BoxStatus";
+export {
+  BoxBig,
+  BoxDiscriptionClassroom,
+  BoxDiscriptionSchedule,
+  BoxVacancies,
+  BoxRegistration,
+  BoxStatus
+};

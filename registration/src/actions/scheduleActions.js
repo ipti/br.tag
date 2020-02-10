@@ -14,3 +14,8 @@ export const getError = error => ({
   type: actions.GET_ERROR,
   payload: error
 });
+
+export const getUpdateSchedule = data => ({
+  type: actions.UPDATE_SCHEDULE,
+  payload: data
+});

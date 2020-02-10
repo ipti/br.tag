@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { Schedule } from "../../screens/Schedule";
 import { connect } from "react-redux";
 
@@ -7,15 +6,10 @@ const Home = props => {
   const [loadData, setLoadData] = useState(true);
   const [loadDataPaginate, setLoadDataPaginate] = useState(false);
   const [page, setPage] = useState(0);
-  let history = useHistory();
 
-  const handleClick = id => {
-    history.push("/cronogramas/" + id);
-  };
-
-  const handlePage = page => {
+  const handlePage = (e, pageInfo) => {
     setLoadDataPaginate(true);
-    setPage(page);
+    setPage(pageInfo.activePage);
   };
 
   useEffect(() => {
@@ -32,7 +26,6 @@ const Home = props => {
 
   return (
     <Schedule
-      handleClick={handleClick}
       pagination={props.schedule.pagination}
       data={props.schedule.schedules}
       handlePage={handlePage}

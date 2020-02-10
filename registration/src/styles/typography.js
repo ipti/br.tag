@@ -3,7 +3,7 @@ const typography = {
     extraSmall2: "1.9vh",
     extraSmall3: "1.6vh",
     extraSmall: "2vh",
-    small: "2.3vh",
+    small: "2vh",
     midium: "3vh",
     large: "5vh",
     extraLarge: "6vh"

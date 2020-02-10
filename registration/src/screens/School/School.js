@@ -10,19 +10,22 @@ const useStyles = makeStyles(styles);
 const Home = props => {
   const classes = useStyles();
 
+  const pagination = () => {
+    if (props.pagination) {
+      return (
+        <Paginator
+          pagination={props.pagination}
+          handlePage={props.handlePage}
+        />
+      );
+    }
+  };
+
   const schools = () => {
     if (props.data) {
       return props.data.map((school, index) => (
-        <Grid
-          onClick={() => props.handleClick(school._id)}
-          key={index}
-          className={classes.box}
-          item
-          md={4}
-          sm={3}
-          xs={12}
-        >
-          <BoxBig addCursor={true} textRight="Ativa">
+        <Grid key={index} className={classes.box} item md={4} sm={3} xs={12}>
+          <BoxBig link={`escolas/${school._id}`} textRight="Ativa">
             <p className={classes.name}>{school.name}</p>
             <span className={classes.city}>{school.city}</span>
           </BoxBig>
@@ -43,14 +46,7 @@ const Home = props => {
           xs={12}
         >
           <h1 className={`${classes.title} ${classes.floatLeft}`}>Escolas</h1>
-          <div className={`${classes.floatRight}`}>
-            {props.pagination && (
-              <Paginator
-                handlePage={props.handlePage}
-                pagination={props.pagination}
-              />
-            )}
-          </div>
+          <div className={`${classes.floatRight}`}>{pagination()}</div>
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={8}>

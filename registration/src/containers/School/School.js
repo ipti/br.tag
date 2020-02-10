@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { School } from "../../screens/School";
 import { connect } from "react-redux";
 
@@ -7,15 +6,10 @@ const Home = props => {
   const [loadData, setLoadData] = useState(true);
   const [loadDataPaginate, setLoadDataPaginate] = useState(false);
   const [page, setPage] = useState(0);
-  let history = useHistory();
 
-  const handleClick = id => {
-    history.push("/escolas/" + id);
-  };
-
-  const handlePage = page => {
+  const handlePage = (e, pageInfo) => {
     setLoadDataPaginate(true);
-    setPage(page);
+    setPage(pageInfo.activePage);
   };
 
   useEffect(() => {
@@ -32,9 +26,8 @@ const Home = props => {
 
   return (
     <School
-      handleClick={handleClick}
-      pagination={props.schools.pagination}
-      data={props.schools.schools}
+      pagination={props.schools && props.schools.pagination}
+      data={props.schools && props.schools.schools}
       handlePage={handlePage}
     />
   );
