@@ -27,6 +27,8 @@
  */
 class InstructorDocumentsAndAddress extends CActiveRecord
 {
+	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -46,13 +48,17 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 	}
         
         public function behaviors() {
+        if($this->scenario != self::SCENARIO_IMPORT){
             return [
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
+
         }
+        return [];
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
