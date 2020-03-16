@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+
+// Material UI
+import Grid from "@material-ui/core/Grid";
+
+// Components
 import Start from "./Start";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
@@ -32,7 +37,11 @@ class Wizard extends Component {
   render() {
     const StepComponent = this.componentMapping[this.props.step];
 
-    return <StepComponent {...this.props} nextStep={this.nextStep} />;
+    return (
+      <Grid item xs={12}>
+        <StepComponent {...this.props} nextStep={this.nextStep} />
+      </Grid>
+    );
   }
 }
 

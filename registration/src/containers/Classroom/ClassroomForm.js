@@ -18,23 +18,28 @@ const Form = props => {
       setIsEdit(true);
       setLoadData(false);
     }
+
+    if (props?.error) {
+      setOpen(true);
+    }
   }, [isEdit, loadData, props]);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  // const handleClick = id => {
-  //   history.push("/turmas/" + props.match.params.id + "/matricula/" + id);
-  // };
-
   const alert = () => {
     let status = null;
     let message = null;
 
-    if (props.fetchClassroom) {
-      status = props.fetchClassroom.status;
-      message = props.fetchClassroom.message;
+    if (props?.error) {
+      status = 0;
+      message = props.error;
+    } else {
+      if (props.fetchClassroom) {
+        status = props.fetchClassroom.status;
+        message = props.fetchClassroom.message;
+      }
     }
 
     return (
@@ -60,11 +65,13 @@ const Form = props => {
   const validationSchema = Yup.object().shape({
     vacancies: Yup.number()
       .nullable()
-      .required("Campo é obrigatório!")
+      .required("Campo obrigatório!")
   });
 
-  let initialValues = {
-    vacancies: null
+  const initialValues = {
+    vacancies: props.classroom?.classroom?.data
+      ? props.classroom?.classroom?.data.vacancies
+      : ""
   };
 
   return (
@@ -89,7 +96,8 @@ const Form = props => {
 const mapStateToProps = state => {
   return {
     classroom: state.classroom,
-    fetchClassroom: state.classroom.fetchClassroom
+    fetchClassroom: state.classroom.fetchClassroom,
+    error: state.classroom.msgError
   };
 };
 

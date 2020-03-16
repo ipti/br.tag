@@ -11,7 +11,7 @@ const useStyles = {
     display: "block",
     borderRight: "1px solid",
     borderRightColor: styleBase.colors.grayClearOne,
-    height: "130vh",
+    minHeight: "100%",
     paddingTop: "25px"
   },
   menu: {
@@ -68,6 +68,22 @@ const useStyles = {
   },
   floatLeft: {
     float: "left"
+  },
+  "@media(max-width: 600px)": {
+    menu: {
+      display: "none"
+    },
+    root: {
+      display: "none"
+    }
+  },
+  header: {
+    flexBasis: 'auto',
+    flexGrow: 0
+  },
+  content: {
+    flexBasis: 'auto',
+    flexGrow: 1
   }
 };
 

@@ -1,21 +1,30 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import MaskedInput from "react-text-mask";
-import TextField from "@material-ui/core/TextField";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+
+// Material UI
 import {
+  Grid,
   FormLabel,
   FormControl,
   Select,
   RadioGroup,
   Radio,
   FormControlLabel,
-  MenuItem
+  MenuItem,
+  FormHelperText,
+  TextField
 } from "@material-ui/core";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+// Components
 import { ButtonPurple } from "../../components/Buttons";
-import Header from "../../components/Layouts/Header";
+
+// Third party
+import MaskedInput from "react-text-mask";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+
+// Styles
 import styleBase from "../../styles";
 import styles from "./styles";
 
@@ -31,11 +40,14 @@ const PurpleRadio = withStyles({
 })(props => <Radio color="default" {...props} />);
 
 const TextMaskDate = props => {
-  const { ...other } = props;
+  const { inputRef, ...others } = props;
 
   return (
     <MaskedInput
-      {...other}
+      {...others}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
       mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
       placeholderChar={"_"}
       showMask
@@ -47,22 +59,21 @@ const StepThree = props => {
   const classes = useStyles();
 
   const validationSchema = Yup.object().shape({
-    studentName: Yup.string().required("Campo é obrigatório!"),
-    birthday: Yup.string().required("Campo é obrigatório!"),
-    sex: Yup.string().required("Campo é obrigatório!"),
-    colorRace: Yup.string().required("Campo é obrigatório!")
+    studentName: Yup.string().required("Campo obrigatório!"),
+    birthday: Yup.string().required("Campo obrigatório!"),
+    sex: Yup.string().required("Campo obrigatório!"),
+    colorRace: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
-    studentName: props.student ? props.student.name : "",
-    birthday: props.student ? props.student.birthday : "",
-    colorRace: props.student ? props.student.colorRace : "0",
-    sex: props.student ? props.student.sex : ""
+    studentName: props?.student?.name ?? '',
+    birthday: props?.student?.birthday ?? '',
+    colorRace: props?.student?.colorRace ?? '',
+    sex: props?.student?.sex ?? ""
   };
 
   return (
     <>
-      <Header />
       <Formik
         initialValues={initialValues}
         onSubmit={values => props.next(4, values)}
@@ -70,7 +81,15 @@ const StepThree = props => {
         validateOnChange={false}
         enableReinitialize
       >
-        {props => {
+        {({ errors, values, touched, handleChange, handleSubmit }) => {
+
+          const errorList = {
+            studentName: touched.studentName && errors.studentName,
+            birthday: touched.birthday && errors.birthday,
+            colorRace: touched.colorRace && errors.colorRace,
+            sex: touched.sex && errors.sex,
+          };
+
           return (
             <Form>
               <Grid
@@ -80,23 +99,23 @@ const StepThree = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.studentName}
                   >
                     <FormLabel>Aluno</FormLabel>
                     <TextField
                       name="studentName"
-                      onChange={props.handleChange}
-                      value={props.values.studentName}
+                      onChange={handleChange}
+                      value={values.studentName}
                       variant="outlined"
                       className={classes.textField}
+                      error={errorList.studentName}
+                      autoComplete="off"
                     />
-
-                    <div className={classes.formFieldError}>
-                      {props.errors.studentName}
-                    </div>
+                    <FormHelperText>{errorList.studentName}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -107,10 +126,11 @@ const StepThree = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.birthday}
                   >
                     <FormLabel>Nascimento</FormLabel>
                     <TextField
@@ -119,13 +139,12 @@ const StepThree = props => {
                       className={classes.textField}
                       InputProps={{
                         inputComponent: TextMaskDate,
-                        value: props.values.birthday,
-                        onChange: props.handleChange
+                        value: values.birthday,
+                        onChange: handleChange
                       }}
+                      error={errorList.birthday}
                     />
-                    <div className={classes.formFieldError}>
-                      {props.errors.birthday}
-                    </div>
+                    <FormHelperText>{errorList.colorRace}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -136,17 +155,18 @@ const StepThree = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.colorRace}
                   >
                     <FormLabel>Cor/Raça</FormLabel>
                     <Select
                       variant="outlined"
                       name="colorRace"
-                      value={props.values.colorRace}
-                      onChange={props.handleChange}
+                      value={values.colorRace}
+                      onChange={handleChange}
                     >
                       <MenuItem value={`0`}>Não Declarada</MenuItem>
                       <MenuItem value={`1`}>Branca</MenuItem>
@@ -155,10 +175,7 @@ const StepThree = props => {
                       <MenuItem value={`4`}>Amarela</MenuItem>
                       <MenuItem value={`5`}>Indígena</MenuItem>
                     </Select>
-
-                    <div className={classes.formFieldError}>
-                      {props.errors.colorRace}
-                    </div>
+                    <FormHelperText>{errorList.colorRace}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -169,17 +186,17 @@ const StepThree = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.sex}
                   >
                     <FormLabel component="legend">Sexo</FormLabel>
-
                     <RadioGroup
-                      value={props.values.sex}
+                      value={values.sex}
                       name="sex"
-                      onChange={props.handleChange}
+                      onChange={handleChange}
                       row
                     >
                       <FormControlLabel
@@ -195,9 +212,7 @@ const StepThree = props => {
                         label="Masculino"
                       />
                     </RadioGroup>
-                    <div className={classes.formFieldError}>
-                      {props.errors.sex}
-                    </div>
+                    <FormHelperText>{errorList.sex}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -209,9 +224,9 @@ const StepThree = props => {
                 container
                 direction="row"
               >
-                <Grid item md={2} sm={4} xs={6}>
+                <Grid item xs={6}>
                   <ButtonPurple
-                    onClick={props.handleSubmit}
+                    onClick={handleSubmit}
                     type="submit"
                     title="Continuar"
                   />

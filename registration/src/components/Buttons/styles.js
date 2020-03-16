@@ -8,18 +8,27 @@ const useStyles = {
     color: styleBase.colors.purple,
     fontSize: styleBase.typography.font.small,
     fontFamily: styleBase.typography.types.bold,
-    padding: "10px 20px"
+    cursor: 'pointer',
+    transition: 'ease-in',
+    outline: 'none'
   },
   buttomPurple: {
     backgroundColor: styleBase.colors.purple,
     border: "none",
     borderRadius: "50px",
     color: styleBase.colors.white,
-    fontSize: styleBase.typography.font.midium,
+    fontSize: styleBase.typography.font.medium,
     fontFamily: styleBase.typography.types.light,
-    padding: "6px 10px",
     width: "100%",
-    textAlign: "center"
+    textAlign: "center",
+    padding: "8px 18px",
+    cursor: 'pointer',
+    transition: 'ease-in',
+    outline: 'none',
+
+    '&:hover': {
+      backgroundColor: styleBase.colors.purpleDark
+    }
   },
   buttomLinePurple: {
     border: "1px solid",
@@ -27,11 +36,18 @@ const useStyles = {
     backgroundColor: styleBase.colors.white,
     borderColor: styleBase.colors.purple,
     color: styleBase.colors.purple,
-    fontSize: styleBase.typography.font.midium,
+    fontSize: styleBase.typography.font.medium,
     fontFamily: styleBase.typography.types.light,
     textAlign: "center",
     padding: "6px 10px",
-    width: "100%"
+    cursor: 'pointer',
+    transition: 'ease-in',
+    outline: 'none',
+    width: "100%",
+
+    '&:hover': {
+      boxShadow: `0 0 1px 1px ${styleBase.colors.purple};`
+    }
   }
 };
 

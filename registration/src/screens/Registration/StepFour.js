@@ -1,21 +1,30 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import MaskedInput from "react-text-mask";
-import { Formik, Form } from "formik";
+
+// Material UI
 import {
   FormLabel,
   FormControl,
   RadioGroup,
   Radio,
-  FormControlLabel
+  FormControlLabel,
+  FormHelperText,
+  TextField,
+  Grid
 } from "@material-ui/core";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+// Components
 import { ButtonPurple } from "../../components/Buttons";
-import Header from "../../components/Layouts/Header";
+
+// Third party
+import * as Yup from "yup";
+import MaskedInput from "react-text-mask";
+import { Formik, Form } from "formik";
+
+// Styles
 import styleBase from "../../styles";
 import styles from "./styles";
-import * as Yup from "yup";
 
 const useStyles = makeStyles(styles);
 
@@ -29,28 +38,15 @@ const PurpleRadio = withStyles({
 })(props => <Radio color="default" {...props} />);
 
 const TextMaskFone = props => {
-  const { ...other } = props;
+  const { inputRef, ...other } = props;
 
   return (
     <MaskedInput
       {...other}
-      mask={[
-        "(",
-        /[1-9]/,
-        /\d/,
-        ")",
-        " ",
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        "-",
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/
-      ]}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[ "(", /[1-9]/, /\d/, ")", " ", /\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/ ]}
       placeholderChar={"\u2000"}
       showMask
     />
@@ -61,20 +57,19 @@ const StepFour = props => {
   const classes = useStyles();
 
   const validationSchema = Yup.object().shape({
-    responsableName: Yup.string().required("Campo é obrigatório!"),
-    fone: Yup.string().required("Campo é obrigatório!"),
-    residenceZone: Yup.string().required("Campo é obrigatório!")
+    responsableName: Yup.string().required("Campo obrigatório!"),
+    fone: Yup.string().required("Campo obrigatório!"),
+    residenceZone: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
-    responsableName: props.student ? props.student.filiation1 : "",
+    responsableName: props?.student?.filiation1 ?? '',
     fone: "",
-    residenceZone: props.student ? props.student.residenceZone : ""
+    residenceZone: props?.student?.residenceZone ?? ''
   };
 
   return (
     <>
-      <Header />
       <Formik
         initialValues={initialValues}
         onSubmit={values => props.next(5, values)}
@@ -82,7 +77,14 @@ const StepFour = props => {
         validateOnChange={false}
         enableReinitialize
       >
-        {props => {
+        {({ errors, values, touched, handleChange, handleSubmit }) => {
+
+          const errorList = {
+            responsableName: touched.responsableName && errors.responsableName,
+            residenceZone: touched.residenceZone && errors.residenceZone,
+            fone: touched.fone && errors.fone,
+          };
+
           return (
             <Form>
               <Grid
@@ -92,24 +94,23 @@ const StepFour = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.responsableName}
                   >
                     <FormLabel>Responsável</FormLabel>
                     <TextField
                       name="responsableName"
-                      value={props.values.responsableName}
-                      onChange={props.handleChange}
+                      value={values.responsableName}
+                      onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
+                      error={errorList.responsableName}
                     />
-
-                    <div className={classes.formFieldError}>
-                      {props.errors.responsableName}
-                    </div>
-                  </FormControl>
+                    <FormHelperText>{errorList.responsableName}</FormHelperText>               
+                    </FormControl>
                 </Grid>
               </Grid>
               <Grid
@@ -119,10 +120,11 @@ const StepFour = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.fone}
                   >
                     <FormLabel>Telefone</FormLabel>
                     <TextField
@@ -131,13 +133,12 @@ const StepFour = props => {
                       className={classes.textField}
                       InputProps={{
                         inputComponent: TextMaskFone,
-                        value: props.values.fone,
-                        onChange: props.handleChange
+                        value: values.fone,
+                        onChange: handleChange
                       }}
+                      error={errorList.fone}
                     />
-                    <div className={classes.formFieldError}>
-                      {props.errors.fone}
-                    </div>
+                    <FormHelperText>{errorList.fone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -148,16 +149,17 @@ const StepFour = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.residenceZone}
                   >
                     <FormLabel component="legend">Zona</FormLabel>
                     <RadioGroup
-                      value={props.values.residenceZone}
+                      value={values.residenceZone}
                       name="residenceZone"
-                      onChange={props.handleChange}
+                      onChange={handleChange}
                       row
                     >
                       <FormControlLabel
@@ -171,9 +173,7 @@ const StepFour = props => {
                         label="Rural"
                       />
                     </RadioGroup>
-                    <div className={classes.formFieldError}>
-                      {props.errors.residenceZone}
-                    </div>
+                    <FormHelperText>{errorList.residenceZone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -184,9 +184,9 @@ const StepFour = props => {
                 container
                 direction="row"
               >
-                <Grid item md={2} sm={4} xs={6}>
+                <Grid item xs={6}>
                   <ButtonPurple
-                    onClick={props.handleSubmit}
+                    onClick={handleSubmit}
                     type="submit"
                     title="Continuar"
                   />

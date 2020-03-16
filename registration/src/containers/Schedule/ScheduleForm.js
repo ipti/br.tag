@@ -24,6 +24,10 @@ const Form = props => {
     if (Object.keys(props.schedule.schedule).length > 0) {
       setActive(props.schedule.schedule.data.isActive);
     }
+
+    if (props?.error) {
+      setOpen(true);
+    }
   }, [isEdit, loadData, props]);
 
   const handleChangeActive = event => {
@@ -38,12 +42,14 @@ const Form = props => {
     let status = null;
     let message = null;
 
-    if (isEdit && props.fetchSchedule) {
-      status = props.fetchSchedule.status;
-      message = props.fetchSchedule.message;
+    if (props?.error) {
+      status = 0;
+      message = props.error;
     } else {
-      status = props.schedule.schedule.status;
-      message = props.schedule.schedule.message;
+      if (props.fetchSchedule?.status) {
+        status = props.fetchSchedule.status;
+        message = props.fetchSchedule.message;
+      }
     }
 
     return (
@@ -89,19 +95,38 @@ const Form = props => {
   const validationSchema = Yup.object().shape({
     internalTransferDateStart: Yup.date()
       .nullable()
-      .required("Campo é obrigatório!"),
+      .required("Campo obrigatório!"),
     internalTransferDateEnd: Yup.date()
+      .when(
+        "internalTransferDateStart",
+        (internalTransferDateStart, schema) => {
+          if (internalTransferDateStart !== null) {
+            return schema.min(
+              internalTransferDateStart,
+              "A Data Final deve ser maior do que a data inicial"
+            );
+          }
+        }
+      )
       .nullable()
-      .required("Campo é obrigatório!"),
+      .required("Campo obrigatório!"),
     newStudentDateStart: Yup.date()
       .nullable()
-      .required("Campo é obrigatório!"),
+      .required("Campo obrigatório!"),
     newStudentDateEnd: Yup.date()
+      .when("newStudentDateStart", (newStudentDateStart, schema) => {
+        if (newStudentDateStart !== null) {
+          return schema.min(
+            newStudentDateStart,
+            "A Data Final deve ser maior do que a data inicial"
+          );
+        }
+      })
       .nullable()
-      .required("Campo é obrigatório!"),
+      .required("Campo obrigatório!"),
     year: Yup.number()
       .min(4, "Campo deve ter no mínimo 4 digitos. Ex: 2020")
-      .required("Campo é obrigatório!")
+      .required("Campo obrigatório!")
   });
 
   const initialValues = () => {
@@ -166,7 +191,8 @@ const Form = props => {
 const mapStateToProps = state => {
   return {
     schedule: state.schedule,
-    fetchSchedule: state.schedule.fetchSchedule
+    fetchSchedule: state.schedule.fetchSchedule,
+    error: state.schedule.msgError
   };
 };
 

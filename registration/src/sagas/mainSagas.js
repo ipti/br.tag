@@ -25,7 +25,8 @@ import {
 
 import {
   watchFetchStudent,
-  watchFetchSaveRegistration
+  watchFetchSaveRegistration,
+  watchFetchPeriodRegistration
 } from "./registrationSagas";
 
 export default function* rootSagas() {
@@ -46,6 +47,7 @@ export default function* rootSagas() {
     fork(watchFetchUpdateRegistration),
     fork(watchFetchUpdateClassroom),
     fork(watchFetchStudent),
-    fork(watchFetchSaveRegistration)
+    fork(watchFetchSaveRegistration),
+    fork(watchFetchPeriodRegistration)
   ]);
 }

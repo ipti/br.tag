@@ -11,6 +11,6 @@ export const getSchool = response => ({
 });
 
 export const getError = error => ({
-  type: actions.GET_ERROR,
-  payload: error
+  type: actions.GET_ERROR_SCHOOL,
+  payload: "Erro: " + error + ". Por favor, tente novamente."
 });

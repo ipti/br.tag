@@ -5,7 +5,8 @@ const initialState = {
   classroom: {},
   registration: {},
   fetchRegistration: {},
-  fetchClassroom: {}
+  fetchClassroom: {},
+  msgError: ""
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +35,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fetchRegistration: action.payload
+      };
+    case actions.GET_ERROR_CLASSROOM:
+      return {
+        ...state,
+        msgError: action.payload
       };
     default:
       return state;

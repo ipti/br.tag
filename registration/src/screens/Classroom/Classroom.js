@@ -1,73 +1,73 @@
 import React from "react";
+
+// Material UI
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import Alert from '@material-ui/lab/Alert';
+
 import { Paginator } from "../../components/Paginator";
 import { BoxBig, BoxDiscriptionClassroom } from "../../components/Boxes";
+import List from "../../components/List";
+
+// Styles
 import styles from "./styles";
+
 const useStyles = makeStyles(theme => styles);
 
-const Home = props => {
+const Classroom = ({ data, pagination, handlePage }) => {
   const classes = useStyles();
 
-  const pagination = () => {
-    if (props.pagination) {
-      return (
-        <Paginator
-          pagination={props.pagination}
-          handlePage={props.handlePage}
-        />
-      );
-    }
-  };
-
   const classrooms = () => {
-    if (props.data) {
-      return props.data.map((classroom, index) => {
-        return (
-          <Grid key={index} item md={4} sm={4} xs={12}>
-            <BoxBig
-              link={`turmas/${classroom._id}`}
-              title={classroom.name}
-              subtitle="Turma"
-              addCursor={true}
-              textRight=""
-            >
-              <BoxDiscriptionClassroom
-                title="Preenchidas"
-                registrationConfirmed={`${classroom.confirmed}`}
-              />
-              <BoxDiscriptionClassroom
-                title="Restante"
-                registrationRemaining={`${classroom.remaining}`}
-              />
-            </BoxBig>
-          </Grid>
-        );
-      });
-    }
+    const classroomList = data ?? [];
 
-    return [];
+    return classroomList.map((classroom, index) => {
+      return (
+        <Grid key={index} item md={4} sm={4} xs={12}>
+          <BoxBig
+            link={`turmas/${classroom._id}`}
+            title={classroom.name}
+            subtitle="Turma"
+            addCursor={true}
+            textRight=""
+          >
+            <BoxDiscriptionClassroom
+              title="Preenchidas"
+              registrationConfirmed={`${classroom.confirmed}`}
+            />
+            <BoxDiscriptionClassroom
+              title="Restante"
+              registrationRemaining={`${classroom.remaining}`}
+            />
+          </BoxBig>
+        </Grid>
+      );
+    });
   };
 
   return (
     <>
       <Grid container direction="row">
-        <Grid
-          className={classes.boxTitlePagination}
-          item
-          md={12}
-          sm={12}
-          xs={12}
-        >
+        <Grid className={classes.boxTitlePagination} item xs={12}>
           <h1 className={`${classes.title} ${classes.floatLeft}`}>Turmas</h1>
-          <div className={`${classes.floatRight}`}>{pagination()}</div>
+          <div className={`${classes.floatRight}`}>
+            <Paginator
+              pagination={pagination}
+              handlePage={handlePage}
+            />
+          </div>
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={3}>
-        {classrooms()}
+        <List items={classrooms()} >
+          <Grid item xs={12} >
+            <Alert variant="outlined" severity="warning">
+              Nenhuma turma cadastrada
+            </Alert>
+          </Grid>
+        </List>
       </Grid>
     </>
   );
 };
 
-export default Home;
+export default Classroom;

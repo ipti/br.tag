@@ -70,6 +70,11 @@ const useStyles = {
   },
   boxButtons: {
     marginTop: 100
+  },
+  "@media(max-width: 600px)": {
+    title: {
+      fontSize: "16px"
+    }
   }
 };
 

@@ -3,7 +3,9 @@ import * as actions from "../actions/registrationTypes";
 const initialState = {
   student: {},
   schools: {},
-  registration: {}
+  registration: {},
+  period: {},
+  msgError: ""
 };
 
 export default (state = initialState, action) => {
@@ -15,6 +17,15 @@ export default (state = initialState, action) => {
     case actions.GET_REGISTRATION:
       return {
         registration: action.payload
+      };
+    case actions.GET_PERIOD_REGISTRATION:
+      return {
+        period: action.payload
+      };
+    case actions.GET_ERROR_REGISTRATION:
+      return {
+        ...state,
+        msgError: action.payload
       };
     default:
       return state;

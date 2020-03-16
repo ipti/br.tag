@@ -6,22 +6,19 @@ const useStyles = {
     fontFamily: styleBase.typography.types.light,
     textAlign: "center",
     fontSize: styleBase.typography.font.small,
-    "& img": {
-      marginTop: 40
-    },
     "& p": {
       margin: 0
     },
     "& h1": {
       color: styleBase.colors.gray,
-      fontSize: styleBase.typography.font.midium
+      fontSize: styleBase.typography.font.medium
     }
   },
   marginButtom: {
-    marginBottom: 60
+    marginBottom: 40
   },
   marginTop: {
-    marginTop: 60
+    marginTop: 40
   },
   marginTop30: {
     marginTop: 30

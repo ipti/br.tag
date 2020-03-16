@@ -5,9 +5,10 @@ const color = {
   grayOne: "#878787",
   gray: "#5f5b5b",
   purple: "#B06FF1",
+  purpleDark: "#9F5FDE",
   pink: "#F270FC",
   blue: "#7070FC",
-  red: "#721c24",
+  red: "#ED5A68",
   green: "#05ec02",
   blueClear: "#dcefed"
 };

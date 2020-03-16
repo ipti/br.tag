@@ -1,43 +1,52 @@
 import React from "react";
+
+// Material UI
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import styles from "./styles";
+
+// Components
 import { TitleWithLine } from "../../components/Titles";
 import { BoxStatus } from "../../components/Boxes";
+import { ButtonPurple, ButtonLinePurple } from "../../components/Buttons";
+
+// Assets
 import IconMale from "../../assets/images/male-icon.png";
 import IconStudent from "../../assets/images/student-male-icon.png";
 import IconHouse from "../../assets/images/house-icon.png";
 import IconClassroom from "../../assets/images/classroom-icon.png";
-import { ButtonPurple, ButtonLinePurple } from "../../components/Buttons";
+
+// Styles
+import styles from "./styles";
 
 const useStyles = makeStyles(styles);
 
 const Home = props => {
   const classes = useStyles();
-  const { registration, handleSubmit } = props;
 
-  let modalityDefault = { "1": "Ensno Regular" };
+  const {
+    registration: { data },
+    handleSubmit
+  } = props;
+  const { student, classroom } = data ?? { student: {}, classroom: {} };
 
-  let student_name = registration.data && registration.data.student.name;
-  let student_birthday =
-    registration.data && registration.data.student.birthday;
-  let status = registration.data && registration.data.student.newStudent;
-  let filiation1 = registration.data && registration.data.student.filiation1;
-  let address = registration.data && registration.data.student.address;
-  let cep = registration.data && registration.data.student.cep;
-  let city = registration.data && registration.data.student.city;
-  let responsableCpf =
-    registration.data && registration.data.student.responsableCpf
-      ? registration.data.student.responsableCpf
-      : "-------------";
-  let responsableBirthday =
-    registration.data && registration.data.student.responsableBirthday
-      ? registration.data.student.responsableBirthday
-      : "-------------";
+  const modalityDefault = { "1": "Ensno Regular" };
 
-  let classroom_name = registration.data && registration.data.classroom.name;
-  let modality =
-    registration.data && modalityDefault[registration.data.classroom.modality];
+  const nullableField = "-------------";
+
+  const studentName = student?.name;
+  const studentBirthday = student?.birthday;
+  const status = student?.newStudent;
+
+  const address = student?.address ?? nullableField;
+  const cep = student?.cep ?? nullableField;
+  const city = student?.city ?? nullableField;
+
+  const responsableName = student?.responsableName ?? nullableField;
+  const responsableCpf = student?.responsableCpf ?? nullableField;
+  const responsableBirthday = student?.responsableBirthday ?? nullableField;
+
+  const classroomName = classroom?.name ?? nullableField;
+  const modality = classroom && modalityDefault[classroom?.modality];
 
   return (
     <>
@@ -53,15 +62,15 @@ const Home = props => {
           />
           <div className={classes.floatLeft}>
             <p className={classes.label}>Aluno</p>
-            {student_name}
+            {studentName}
           </div>
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Nascimento</p>
-          {student_birthday}
+          {studentBirthday}
         </Grid>
         <Grid item md={4}>
-          <BoxStatus title={!status ? "Transferência" : "Novo"} />
+          <BoxStatus title={!status ? "Transferência" : "Novo Aluno"} />
         </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>
@@ -76,7 +85,7 @@ const Home = props => {
           />
           <div className={classes.floatLeft}>
             <p className={classes.label}>Responsável</p>
-            {filiation1}
+            {responsableName}
           </div>
         </Grid>
         <Grid item md={3}>
@@ -123,8 +132,8 @@ const Home = props => {
             alt="Icone de Turma"
           />
           <div className={classes.floatLeft}>
-            <p className={classes.label}>Truma</p>
-            {classroom_name}
+            <p className={classes.label}>Turma</p>
+            {classroomName}
           </div>
         </Grid>
         <Grid item md={3}>

@@ -1,21 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+// Material UI
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormLabel, FormControl } from "@material-ui/core";
+import Alert from '@material-ui/lab/Alert';
+
+// Third party
 import { Formik, Form } from "formik";
+
+// Components
 import { TitleWithLine } from "../../components/Titles";
 import { BoxVacancies } from "../../components/Boxes";
 import { BoxRegistration } from "../../components/Boxes";
 import { ButtonPurple } from "../../components/Buttons";
+import List from "../../components/List";
 
+// Styles
 import styles from "./styles";
 
 const useStyles = makeStyles(theme => styles);
 
 const Create = props => {
   const classes = useStyles();
+
   const {
     initialValues,
     handleSubmit,
@@ -25,22 +35,21 @@ const Create = props => {
   } = props;
 
   const registrations = () => {
-    if (data) {
-      return data.registrations.map((registration, index) => {
-        return (
-          <BoxRegistration
-            link={`${baseLink}/${registration._id}`}
-            key={index}
-            name={registration.student.name}
-            sex={registration.student.sex}
-            confirmed={registration.confirmed}
-            md={4}
-            sm={4}
-          />
-        );
-      });
-    }
-    return [];
+   const registrationList = data?.registrations ?? [];
+
+    return registrationList.map((registration, index) => {
+      return (
+        <BoxRegistration
+          link={`${baseLink}/${registration._id}`}
+          key={index}
+          name={registration.student.name}
+          sex={registration.student.sex}
+          confirmed={registration.confirmed}
+          md={4}
+          sm={4}
+        />
+      );
+    });
   };
 
   return (
@@ -71,15 +80,15 @@ const Create = props => {
                   >
                     <FormLabel>Número de Vagas</FormLabel>
                     <TextField
-                      id="outlined-basic"
                       variant="outlined"
                       name="vacancies"
+                      value={props.values.vacancies}
                       onChange={props.handleChange}
                       className={classes.textField}
                     />
 
                     <div className={classes.formFieldError}>
-                      {props.errors.year}
+                      {props.errors.vacancies}
                     </div>
                   </FormControl>
                   <Grid container direction="row">
@@ -128,7 +137,13 @@ const Create = props => {
         <TitleWithLine title="Matrículas" />
       </Grid>
       <Grid container direction="row" spacing={4}>
-        {registrations()}
+        <List items={registrations()} >
+          <Grid item xs={12} >
+            <Alert variant="outlined" severity="warning">
+              A turma não possui matrículas
+            </Alert>
+          </Grid>
+        </List>
       </Grid>
     </>
   );

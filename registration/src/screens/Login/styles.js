@@ -7,7 +7,7 @@ const useStyles = {
       width: "100%",
       marginBottom: "10px"
     },
-    height: "100%",
+    minHeight: "100%",
     background: `${styleBase.colors.blue} url(${Background})`,
     fontFamily: styleBase.typography.types.light
   },
@@ -61,7 +61,7 @@ const useStyles = {
     marginTop: 30
   },
   boxError: {
-    height: 45,
+    height: 48,
     color: styleBase.colors.red
   },
   link: {

@@ -4,6 +4,7 @@ import Login from "./containers/Login";
 import RegistrationHome from "./containers/Registration/Home";
 import { isAuthenticated } from "./services/auth";
 import MainLayout from "./components/Layouts/MainLayout";
+import NotFoundPage from "./components/Layouts/NotFoundPage";
 import CircularLoading from "./components/Loading/CircularLoading";
 
 const Home = lazy(() => import("./containers/Home"));
@@ -28,7 +29,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={props =>
       isAuthenticated() ? (
-        <Component {...props} />
+        <MainLayout>
+          <Suspense fallback={<CircularLoading />}>
+            <Component {...props} />
+          </Suspense>
+        </MainLayout>
       ) : (
         <Redirect
           to={{ pathname: "/login", state: { from: props.location } }}
@@ -41,41 +46,30 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
   <HashRouter>
     <Switch>
-      <Route path="/login" exact={true} component={Login} />
-      <Route path="/matricula" exact={true} component={RegistrationHome} />
-      <MainLayout>
-        <Suspense fallback={<CircularLoading />}>
-          <PrivateRoute exact={true} path="/inicio" component={Home} />
-          <PrivateRoute exact={true} path="/cronograma" component={Schedule} />
-          <PrivateRoute
-            exact={true}
-            path="/cronograma/adicionar"
-            component={ScheduleForm}
-          />
-          <PrivateRoute
-            exact={true}
-            path="/cronograma/editar/:id"
-            component={ScheduleForm}
-          />
-          <PrivateRoute exact={true} path="/escolas" component={School} />
-          <PrivateRoute
-            exact={true}
-            path="/escolas/:id"
-            component={SchoolClassrooms}
-          />
-          <PrivateRoute exact={true} path="/turmas" component={Classroom} />
-          <PrivateRoute
-            exact={true}
-            path="/turmas/:id"
-            component={ClassroomForm}
-          />
-          <PrivateRoute
-            exact={true}
-            path="/turmas/:id/matricula/:idRegistration"
-            component={RegistrationClassroom}
-          />
-        </Suspense>
-      </MainLayout>
+      <Route path="/login" exact component={Login} />
+      <Route path="/matricula" exact component={RegistrationHome} />
+      <PrivateRoute exact path="/" component={Schedule} />
+      <PrivateRoute exact path="/cronograma" component={Schedule} />
+      <PrivateRoute
+        exact
+        path="/cronograma/adicionar"
+        component={ScheduleForm}
+      />
+      <PrivateRoute
+        exact
+        path="/cronograma/editar/:id"
+        component={ScheduleForm}
+      />
+      <PrivateRoute exact path="/escolas" component={School} />
+      <PrivateRoute exact path="/escolas/:id" component={SchoolClassrooms} />
+      <PrivateRoute exact path="/turmas" component={Classroom} />
+      <PrivateRoute exact path="/turmas/:id" component={ClassroomForm} />
+      <PrivateRoute
+        exact
+        path="/turmas/:id/matricula/:idRegistration"
+        component={RegistrationClassroom}
+      />
+      <Route path="/*" component={NotFoundPage} />
     </Switch>
   </HashRouter>
 );

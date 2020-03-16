@@ -5,11 +5,18 @@ const useStyles = {
     color: styleBase.colors.gray,
     marginTop: 30,
     marginBottom: 0,
-    fontSize: styleBase.typography.font.small
+    fontSize: styleBase.typography.font.small,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   city: {
+    display: 'block',
     color: styleBase.colors.grayClear,
-    fontSize: styleBase.typography.font.extraSmall
+    fontSize: styleBase.typography.font.extraSmall,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   title: {
     marginTop: 0,
@@ -42,7 +49,7 @@ const useStyles = {
   label: {
     color: styleBase.colors.grayClear,
     marginTop: 0,
-    marginBottom: 6
+    marginBottom: 4
   },
   boxAddress: {
     width: 330
@@ -69,20 +76,23 @@ const useStyles = {
     width: 240
   },
   truncate: {
-    width: "230px",
+    display: 'block',
     whiteSpace: "nowrap",
     overflow: "hidden",
-    textOverflow: "ellipsis",
-    "&:hover": {
-      whiteSpace: "unset"
-    }
+    textOverflow: "ellipsis"
   },
   iconHouse: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: "6px",
     backgroundColor: styleBase.colors.purple,
-    width: "30px",
-    padding: "6px 10px 6px 10px",
-    marginRight: 15
+    padding: "6px 6px",
+    marginRight: 15,
+    width: 43
+  },
+  cursor: {
+    cursor: "pointer"
   }
 };
 

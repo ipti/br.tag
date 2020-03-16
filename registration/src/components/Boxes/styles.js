@@ -31,30 +31,36 @@ const useStyles = {
   },
   subtitle: {
     fontSize: styleBase.typography.font.extraSmall,
-    color: styleBase.colors.grayClear
+    color: styleBase.colors.grayClear,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   title: {
     fontSize: styleBase.typography.font.small,
-    color: styleBase.colors.gray
+    color: styleBase.colors.gray,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
   },
   boxWithoutImage: {
     marginBottom: 20
   },
   boxDescriptionCalssroom: {
     color: styleBase.colors.grayClear,
-    fontSize: styleBase.typography.font.extraSmall3
+    fontSize: styleBase.typography.font.extraSmall
   },
   boxDescriptionCalssroomTitle: {
     color: styleBase.colors.gray,
-    fontSize: styleBase.typography.font.extraSmall3
+    fontSize: styleBase.typography.font.extraSmall
   },
   boxDescriptionSchedule: {
     color: styleBase.colors.grayClear,
-    fontSize: styleBase.typography.font.extraSmall3
+    fontSize: styleBase.typography.font.extraSmall
   },
   boxDescriptionScheduleSubtitle: {
     color: styleBase.colors.gray,
-    fontSize: styleBase.typography.font.extraSmall3
+    fontSize: styleBase.typography.font.extraSmall
   },
   marginBox: {
     marginRight: 10
@@ -66,11 +72,14 @@ const useStyles = {
     backgroundColor: styleBase.colors.pink
   },
   boxQuantity: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     color: styleBase.colors.white,
-    fontSize: styleBase.typography.font.extraSmall2,
-    padding: "5px 8px",
+    fontSize: styleBase.typography.font.extraSmall,
+    padding: "9px 9px",
     borderRadius: 8,
-    marginRight: 6,
+    marginRight: 8,
     minWidth: 20,
     textAlign: "center"
   },

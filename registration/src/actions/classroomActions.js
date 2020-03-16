@@ -16,8 +16,8 @@ export const getRegistration = response => ({
 });
 
 export const getError = error => ({
-  type: actions.GET_ERROR,
-  payload: error
+  type: actions.GET_ERROR_CLASSROOM,
+  payload: "Erro: " + error + ". Por favor, tente novamente."
 });
 
 export const getUpdateClassroom = data => ({

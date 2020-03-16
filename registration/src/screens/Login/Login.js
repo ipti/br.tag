@@ -136,7 +136,7 @@ const Login = props => {
                     sm={12}
                   >
                     <div>
-                      {!isValid ? "Usuário e/ou Senha inválido(s)" : ""}
+                      {!isValid ? "Usuário ou senha inválido" : ""}
                     </div>
                   </Grid>
                   <Grid item md={6} sm={6}>

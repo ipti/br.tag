@@ -15,6 +15,10 @@ const Registration = props => {
       });
       setLoadData(false);
     }
+
+    if (props?.error) {
+      setOpen(true);
+    }
   }, [loadData, props]);
 
   const handleClose = () => {
@@ -22,16 +26,27 @@ const Registration = props => {
   };
 
   const alert = () => {
-    if (props.fetchRegistration) {
-      return (
-        <Alert
-          open={open}
-          handleClose={handleClose}
-          status={props.fetchRegistration.status}
-          message={props.fetchRegistration.message}
-        />
-      );
+    let status = null;
+    let message = null;
+
+    if (props?.error) {
+      status = 0;
+      message = props.error;
+    } else {
+      if (props.fetchRegistration) {
+        status = props.fetchRegistration.status;
+        message = props.fetchRegistration.message;
+      }
     }
+
+    return (
+      <Alert
+        open={open}
+        handleClose={handleClose}
+        status={status}
+        message={message}
+      />
+    );
   };
 
   const handleSubmit = value => {
@@ -57,7 +72,8 @@ const Registration = props => {
 const mapStateToProps = state => {
   return {
     registration: state.classroom.registration,
-    fetchRegistration: state.classroom.fetchRegistration
+    fetchRegistration: state.classroom.fetchRegistration,
+    error: state.classroom.msgError
   };
 };
 

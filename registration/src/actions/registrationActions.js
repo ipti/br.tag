@@ -10,7 +10,12 @@ export const getRegistration = response => ({
   payload: response
 });
 
+export const getPeriodRegistration = response => ({
+  type: actions.GET_PERIOD_REGISTRATION,
+  payload: response
+});
+
 export const getError = error => ({
-  type: actions.GET_ERROR,
+  type: actions.GET_ERROR_REGISTRATION,
   payload: error
 });

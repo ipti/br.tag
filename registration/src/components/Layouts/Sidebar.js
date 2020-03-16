@@ -11,20 +11,22 @@ import {
   IconHouseActive,
   IconSchoolActive
 } from "../Svg";
+
 import styles from "./styles";
+
 const useStyles = makeStyles(styles);
 
 const Sidebar = () => {
   let history = useHistory();
 
   const navItems = [
-    {
-      to: "/",
-      name: "Início",
-      exact: true,
-      IconActive: <IconHouseActive />,
-      Icon: <IconHouse />
-    },
+    // {
+    //   to: "/",
+    //   name: "Início",
+    //   exact: true,
+    //   IconActive: <IconHouseActive />,
+    //   Icon: <IconHouse />
+    // },
     {
       to: "/cronograma",
       name: "Cronograma",
@@ -49,6 +51,7 @@ const Sidebar = () => {
   ];
 
   const classes = useStyles();
+
   return (
     <div className={`${classes.root}`}>
       <ul className={`${classes.menu}`}>
@@ -56,7 +59,10 @@ const Sidebar = () => {
           <li key={index}>
             <Link
               className={`${classes.linkMenu} ${classes.liMenu} ${
-                history.location.pathname.includes(to) ? classes.activeLink : ""
+                (history.location.pathname.includes(to)) ||
+                (history.location.pathname.length === 1 && index === 0)
+                  ? classes.activeLink
+                  : ""
               }`}
               to={to}
             >

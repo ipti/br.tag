@@ -9,10 +9,13 @@ const useStyles = makeStyles(styles);
 const Main = props => {
   const { children } = props;
   const classes = useStyles();
+
   return (
-    <div>
-      <Header />
-      <Grid container direction="row">
+    <Grid container direction="column">
+      <Grid container item md={12} className={classes.header}>
+        <Header />
+      </Grid>
+      <Grid container item md={12} className={classes.content}>
         <Grid item md={2}>
           <Sidebar />
         </Grid>
@@ -20,7 +23,7 @@ const Main = props => {
           <div className={classes.boxContentMain}>{children}</div>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

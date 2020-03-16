@@ -17,7 +17,7 @@ const Paginator = props => {
       lastItem={null}
       siblingRange={2}
       onPageChange={handlePage}
-      totalPages={pagination.totalPages}
+      totalPages={pagination?.totalPages ?? 0}
       className={classes.root}
     />
   );

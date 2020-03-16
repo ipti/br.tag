@@ -6,7 +6,6 @@ import Select from "react-select";
 import AsyncSelect from "react-select/async";
 import { FormLabel, FormControl } from "@material-ui/core";
 import { ButtonPurple } from "../../components/Buttons";
-import Header from "../../components/Layouts/Header";
 import styles from "./styles";
 import * as Yup from "yup";
 import api from "../../services/api";
@@ -17,7 +16,7 @@ const customStyles = {
   control: base => ({
     ...base,
     height: "60px",
-    "min-height": "60px",
+    minHeight: "60px",
     fontFamily: "Roboto, Helvetica, Arial, sans-serif"
   }),
   menu: base => ({
@@ -33,8 +32,8 @@ const StepFive = props => {
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
   const validationSchema = Yup.object().shape({
-    schoolInepId: Yup.string().required("Campo é obrigatório!"),
-    classroomId: Yup.string().required("Campo é obrigatório!")
+    schoolInepId: Yup.string().required("Campo obrigatório!"),
+    classroomId: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
@@ -66,7 +65,6 @@ const StepFive = props => {
   };
   return (
     <>
-      <Header />
       <Formik
         initialValues={initialValues}
         onSubmit={values => props.next(6, values)}
@@ -84,7 +82,7 @@ const StepFive = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
@@ -124,7 +122,7 @@ const StepFive = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={10}>
+                <Grid item xs={12}>
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
@@ -164,7 +162,7 @@ const StepFive = props => {
                 container
                 direction="row"
               >
-                <Grid item md={2} sm={4} xs={6}>
+                <Grid item xs={6}>
                   <ButtonPurple
                     onClick={props.handleSubmit}
                     type="submit"

@@ -26,8 +26,8 @@ const BoxBig = props => {
     <div className={classes.boxWithoutImage}>
       {!textRight && (
         <>
-          <div className={classes.title}>{title}</div>
-          <div className={classes.subtitle}>{subtitle}</div>
+          <div className={classes.title} title={title}>{title}</div>
+          <div className={classes.subtitle} title={subtitle}>{subtitle}</div>
         </>
       )}
       {textRight && (
@@ -41,15 +41,35 @@ const BoxBig = props => {
     </div>
   );
 
-  return (
-    <Link
-      to={link ? link : "#"}
-      className={`${classes.contentBox} ${classes.floatLeft}`}
-    >
-      <div>{title ? headWithoutImage() : headWithImage()}</div>
-      <div>{children}</div>
-    </Link>
-  );
+  const contentBox = () => {
+    return (
+      <>
+        <div>{title ? headWithoutImage() : headWithImage()}</div>
+        <div>{children}</div>
+      </>
+    );
+  };
+
+  const Box = () => {
+    if (link) {
+      return (
+        <Link
+          to={link ? link : "#"}
+          className={`${classes.contentBox} ${classes.floatLeft}`}
+        >
+          {contentBox()}
+        </Link>
+      );
+    }
+
+    return (
+      <div className={`${classes.contentBox} ${classes.floatLeft}`}>
+        {contentBox()}
+      </div>
+    );
+  };
+
+  return Box();
 };
 
 export default BoxBig;

@@ -2,7 +2,8 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import {
   getStudent,
   getRegistration,
-  getError
+  getError,
+  getPeriodRegistration
 } from "../actions/registrationActions";
 import api from "../services/api";
 
@@ -19,6 +20,15 @@ const requestStudent = id => {
 const requestSaveRegistration = data => {
   return api
     .post("/external", data)
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+};
+
+const requestPeriodRegistration = () => {
+  return api
+    .get("/external/schedule/active")
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -44,6 +54,15 @@ function* fetchSaveRegistration(action) {
   }
 }
 
+function* fetchPeriodRegistration(action) {
+  try {
+    const result = yield call(requestPeriodRegistration);
+    yield put(getPeriodRegistration(result));
+  } catch (e) {
+    yield put(getError(e.message));
+  }
+}
+
 // Watchs
 export function* watchFetchStudent() {
   yield takeLatest("FETCH_STUDENT", fetchStudent);
@@ -51,4 +70,8 @@ export function* watchFetchStudent() {
 
 export function* watchFetchSaveRegistration() {
   yield takeLatest("FETCH_SAVE_REGISTRATION", fetchSaveRegistration);
+}
+
+export function* watchFetchPeriodRegistration() {
+  yield takeLatest("FETCH_PERIOD", fetchPeriodRegistration);
 }

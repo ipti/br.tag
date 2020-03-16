@@ -1,10 +1,8 @@
 const typography = {
   font: {
-    extraSmall2: "1.9vh",
-    extraSmall3: "1.6vh",
-    extraSmall: "2vh",
-    small: "2vh",
-    midium: "3vh",
+    extraSmall: 14,
+    small: 17,
+    medium: 20,
     large: "5vh",
     extraLarge: "6vh"
   },

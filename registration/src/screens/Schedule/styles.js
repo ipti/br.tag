@@ -36,9 +36,13 @@ const useStyles = {
     position: "relative"
   },
   addSchedule: {
-    position: "absolute",
-    right: 0,
-    bottom: "-80px"
+    position: "fixed",
+    right: 20,
+    bottom: 20
+  },
+  formFieldError: {
+    color: styleBase.colors.red,
+    fontSize: styleBase.typography.font.extraSmall
   }
 };
 

@@ -3,6 +3,7 @@ import {
   getSchedules,
   getSchedule,
   getUpdateSchedule,
+  getSaveSchedule,
   getError
 } from "../actions/scheduleActions";
 import api from "../services/api";
@@ -76,9 +77,9 @@ function* fetchSchedule(action) {
 function* fetchSaveSchedule(action) {
   try {
     const result = yield call(requestSaveSchedule, action.data);
-    yield put(getSchedule(result));
+    yield put(getSaveSchedule(result));
   } catch (e) {
-    yield put(getError(e.message));
+    yield put(getError());
   }
 }
 

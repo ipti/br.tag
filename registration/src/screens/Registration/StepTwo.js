@@ -1,11 +1,26 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
+
+// Material UI
+import {
+  Grid,
+  TextField,
+  FormControl,
+  FormHelperText
+} from "@material-ui/core";
+
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
+
+// Third party
 import { Formik, Form } from "formik";
-import homeImg from "../../assets/images/illustration-home.png";
-import { ButtonPurple } from "../../components/Buttons";
 import * as Yup from "yup";
+
+// Components
+import { ButtonPurple } from "../../components/Buttons";
+
+// Assets
+import homeImg from "../../assets/images/illustration-home.png";
+
+// Styles
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -16,27 +31,25 @@ const StepTwo = props => {
   const validationSchema = Yup.object().shape({
     numRegistration: Yup.string()
       .nullable()
-      .required("Campo é obrigatório!")
+      .required("Campo obrigatório!")
   });
 
   return (
     <>
       <Grid
-        className={`${classes.contentStart} ${classes.contentBond}`}
+        className={`${classes.contentStart}`}
         container
         direction="row"
         justify="center"
         alignItems="center"
       >
-        <Grid item md={8} sm={12} xs={12}>
-          <img src={homeImg} alt="" />
-        </Grid>
-        <Grid item md={8} sm={12} xs={12}>
+        <Grid item xs={12}><img src={homeImg} alt="" /></Grid>
+        <Grid item xs={12}>
           <h1>Possui Vínculo</h1>
-          <p>Informe o número de matrícula</p>
-          <p>do ano anterior abaixo</p>
+          <p>Informe o número de matrícula <br /> do ano anterior abaixo</p>
         </Grid>
       </Grid>
+
       <Formik
         initialValues={{
           numRegistration: ""
@@ -46,7 +59,12 @@ const StepTwo = props => {
         validateOnChange={false}
         enableReinitialize
       >
-        {props => {
+        {({ errors, touched, handleChange, handleSubmit }) => {
+
+          const errorList = {
+            numRegistration: touched.numRegistration && errors.numRegistration
+          };
+
           return (
             <Form>
               <Grid
@@ -56,19 +74,24 @@ const StepTwo = props => {
                 justify="center"
                 alignItems="center"
               >
-                <Grid item md={3} sm={6} xs={8}>
-                  <TextField
-                    label="Nº Matrícula"
-                    name="numRegistration"
-                    onChange={props.handleChange}
-                    id="outlined-size-small"
-                    variant="outlined"
-                    className={classes.textField}
-                  />
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.numRegistration}
+                  >
+                    <TextField
+                      label="Nº Matrícula"
+                      name="numRegistration"
+                      onChange={handleChange}
+                      id="outlined-size-small"
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.numRegistration}
+                    />
 
-                  <div className={classes.formFieldError}>
-                    {props.errors.numRegistration}
-                  </div>
+                    <FormHelperText>{errorList.numRegistration}</FormHelperText>
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid
@@ -78,9 +101,9 @@ const StepTwo = props => {
                 container
                 direction="row"
               >
-                <Grid item md={2} sm={6} xs={6}>
+                <Grid item xs={6}>
                   <ButtonPurple
-                    onClick={props.handleSubmit}
+                    onClick={handleSubmit}
                     type="submit"
                     title="Continuar"
                   />

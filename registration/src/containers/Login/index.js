@@ -20,7 +20,7 @@ const SignIn = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username é obrigatório!"),
+    username: Yup.string().required("Usuário é obrigatório!"),
     password: Yup.string()
       .min(6, "Senha deve ter no mínimo 6 caracteres")
       .required("Senha é obrigatória!")

@@ -2,7 +2,8 @@ import * as actions from "../actions/schoolTypes";
 
 const initialState = {
   schools: [],
-  school: {}
+  school: {},
+  msgError: ""
 };
 
 export default (state = initialState, action) => {
@@ -14,6 +15,11 @@ export default (state = initialState, action) => {
     case actions.GET_SCHOOL:
       return {
         school: action.payload
+      };
+    case actions.GET_ERROR_SCHOOL:
+      return {
+        ...state,
+        msgError: action.payload
       };
     default:
       return state;

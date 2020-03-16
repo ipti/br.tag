@@ -17,12 +17,14 @@ const Finish = props => {
         justify="center"
         alignItems="center"
       >
-        <Grid item md={8} sm={8} xs={8}>
+        <Grid item xs={12}>
           <img src={FinishImg} alt="" />
         </Grid>
-        <Grid item md={8} sm={8} xs={9}>
-          <p>Sua matrícula foi realizada, anote seu</p>
-          <p>código de inscrição abaixo</p>
+        <Grid item xs={12}>
+          <p>
+            Matrícula realizada com sucesso,
+            <br /> anote seu código de inscrição
+          </p>
         </Grid>
       </Grid>
       <Grid
@@ -32,14 +34,8 @@ const Finish = props => {
         justify="center"
         alignItems="center"
       >
-        <Grid
-          className={classes.boxNumberRegistration}
-          item
-          md={3}
-          sm={4}
-          xs={6}
-        >
-          {props.registration && props.registration.id}
+        <Grid className={classes.boxNumberRegistration} item xs={10}>
+          {props?.registration}
         </Grid>
       </Grid>
     </>

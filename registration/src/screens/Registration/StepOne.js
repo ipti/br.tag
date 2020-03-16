@@ -19,30 +19,23 @@ const Student = props => {
         justify="center"
         alignItems="center"
       >
-        <Grid item md={8} sm={12} xs={12}>
+        <Grid item xs={12}>
           <img src={homeImg} alt="" />
         </Grid>
-        <Grid item md={8} sm={8} xs={8}>
+        <Grid item xs={10}>
           <h1>Possui Vínculo</h1>
-          <p>Você estava matriculado na</p>
-          <p>instituição no ano anterior?</p>
+          <p>Você estava matriculado na instituição no ano anterior?</p>
         </Grid>
       </Grid>
-      <Grid
-        className={`${classes.marginTop}`}
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
-        <Grid item md={2} sm={4} xs={4}>
+      <Grid className={`${classes.marginTop}`} container justify="center" alignItems="center" >
+        <Grid item xs={4}>
           <ButtonPurple
             type="button"
             onClick={() => props.handleStudent(true)}
             title="Sim"
           />
         </Grid>
-        <Grid className={classes.marginLeftButton} item md={2} sm={4} xs={4}>
+        <Grid className={classes.marginLeftButton} item xs={4}>
           <ButtonLinePurple
             onClick={() => props.handleStudent(false)}
             type="button"
