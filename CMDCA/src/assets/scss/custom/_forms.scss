@@ -1,0 +1,57 @@
+/*========= All form Elements Style =========*/
+.input-group-prepend {
+  @include border(1px solid, $input-border-color, top bottom left);
+  border-top-left-radius: $border-radius;
+  border-bottom-left-radius: $border-radius;
+  button {
+    color: inherit;
+  }
+}
+.input-lg {
+  height: $input-lg-height;
+  padding: 0.375rem 0.7rem; // 6px 30px;
+}
+.input-lg-icon {
+  height: $input-lg-height;
+  padding: 0.375rem 2.7rem; // 6px 30px;
+}
+.app-selectbox {
+  border: 1px solid $block-border;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  height: $input-lg-height;
+  box-shadow: $block-shadow;
+  &:before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    margin-top: $caret-width * -0.3;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: $caret-width solid transparent;
+    border-top-color: $gray-900;
+  }
+  select {
+    padding: 0.3125rem 0.5rem; //5px 8px;
+    box-shadow: none;
+    background-color: $block-bg;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-transform: capitalize;
+    height: $input-lg-height !important;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+.app-selectbox-sm {
+  @extend .app-selectbox;
+  height: $input-height;
+  select {
+    height: $input-height !important;
+  }
+}

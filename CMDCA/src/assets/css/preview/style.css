@@ -1,0 +1,76 @@
+/* body {
+    background: white;
+    font: 13pt Georgia, "Times New Roman", Times, serif;
+} */
+
+.page h1 {
+    font-size: 18pt;
+}
+    
+.page h2, .page h3, .page h4 {
+    font-size: 14pt;
+    margin-top: 5px;
+    margin-bottom: unset;
+}
+
+.page .body h2, .page .body h3, .page .body h4 {
+    margin-bottom: 10px;
+}
+
+.page p{
+    font-size: 12pt;
+}
+
+.page hr{
+    margin-top: unset;
+}
+
+.header-image{
+    width: 30%;
+}
+
+.header-text{
+    width: 70%;
+}
+
+.title-header{
+    font-weight: bold;
+    font-family: "Heebo", sans-serif;
+}
+
+.page{
+    width: 1024px;
+    margin: 0 auto;
+    background: white;
+    
+}
+
+.mr-20{
+    margin-right: 20px !important;
+}
+
+.mt-20{
+    margin-top: 20px !important;
+}
+
+.mt-40{
+    margin-top: 40px !important;
+}
+
+#root{
+    width: unset;
+    overflow-y: scroll;
+}
+
+@media print{
+    #root{
+        overflow-y: unset;
+    }
+}
+
+@page{
+    margin: 1cm;
+}
+
+
+

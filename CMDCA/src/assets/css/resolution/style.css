@@ -1,0 +1,47 @@
+.resolution-card{
+    background-color: #FFF;
+}
+
+.resolution-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.resolution-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.resolution-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.resolution-label{
+    font-size: 16px;
+    color: #74777b;
+    margin-bottom: unset;
+}
+
+.resolution-container-select{
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.resolution-editor{
+    height: 300px;
+}

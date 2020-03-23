@@ -1,0 +1,28 @@
+.pagination li{
+    background-color: white;
+    padding: 5px;
+    border: solid 1px #52aeff;
+    margin: 0 5px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.pagination li.active, .pagination li.active a, .pagination li:hover{
+    background-color: #52aeff;
+    color: #ffffff !important;
+}
+
+.pagination li a{
+    width: 100%;
+    height: 100%;
+}
+
+.pagination li a:hover{
+    color: #ffffff !important;
+}
+
+.pagination li.active a:hover{
+    width: 100%;
+    height: 100%;
+    color: #ffffff !important;
+}

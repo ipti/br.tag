@@ -1,0 +1,254 @@
+/*======== Horizontal Menu Layout ========*/
+
+.app-horizontal {
+   .background-img,
+   ul.text-center>li:nth-of-type(3),
+   .app-settings>li:nth-of-type(2) {
+      display: none;
+   }
+   .app-header {
+      .humburger {
+         display: none;
+      }
+   }
+}
+
+.horizontal-menu {
+   display: flex;
+   background-color: $hoz-menu-bg;
+   height: $hoz-menu-height;
+   box-shadow: $hoz-box-shadow;
+   left: 0;
+   right: 0;
+   z-index: 99;
+   .no-arrow::after {
+      display: none;
+   }
+   >ul {
+      width: 100%;
+      &.horizontal-center {
+         justify-content: center;
+      }
+      >li {
+         position: relative;
+         >a {
+            color: $hoz-nav-link-color;
+            padding: $hoz-nav-link-spacing;
+            font-size: $hoz-nav-font-size;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &::after {
+               content: "\F2F9";
+               font-family: 'Material-Design-Iconic-Font';
+               font-size: 0.875rem;
+               margin-left: 0.9375rem;
+            }
+            &:hover {
+               background-color: $hoz-nav-link-hover-bg;
+            }
+            i {
+               margin-right: 0.625rem; //10px;
+            }
+         }
+         &:hover {
+            .sub-menu {
+               opacity: 1;
+               visibility: visible;
+            }
+         }
+         .sub-menu {
+            position: absolute;
+            left: 0;
+            z-index: 99;
+            background-color: $hoz-menu-bg;
+            width: $hoz-sub-menu-width;
+            visibility: hidden;
+            opacity: 0;
+            transform-origin: left 0 0;
+            transition: all 0.3s ease-in-out 0s;
+            box-shadow: $hoz-sub-menu-box-shadow;
+            >li {
+               >a {
+                  &::after {
+                     content: "\F2FB";
+                     font-family: 'Material-Design-Iconic-Font';
+                     position: absolute;
+                     right: 18px;
+                  }
+                  &:hover {
+                     background-color: $hoz-nav-link-hover-bg;
+                  }
+               }
+            }
+            li {
+               position: relative;
+               a {
+                  &:hover {
+                     background-color: $hoz-nav-link-hover-bg;
+                  }
+               }
+               &:hover {
+                  .sub-menu-child {
+                     opacity: 1;
+                     visibility: visible;
+                  }
+               }
+               .sub-menu-child {
+                  position: absolute;
+                  width: 100%;
+                  left: $hoz-sub-menu-width;
+                  top: 0;
+                  background-color: $hoz-menu-bg;
+                  opacity: 0;
+                  visibility: hidden;
+                  transform-origin: left 0 0;
+                  transition: all 0.3s ease-in-out 0s;
+                  box-shadow: $hoz-sub-menu-box-shadow;
+                  >li {
+                     >a {
+                        &::after {
+                           content: "\F2FB";
+                           font-family: 'Material-Design-Iconic-Font';
+                           position: absolute;
+                           right: 10px;
+                        }
+                        &:hover {
+                           background-color: $hoz-nav-link-hover-bg;
+                        }
+                     }
+                  }
+                  li {
+                     position: relative;
+                     a {
+                        &:hover {
+                           background-color: $hoz-nav-link-hover-bg;
+                        }
+                     }
+                     &:hover {
+                        .sub-menu-sub-child {
+                           opacity: 1;
+                           visibility: visible;
+                        }
+                     }
+                     .sub-menu-sub-child {
+                        position: absolute;
+                        width: 100%;
+                        left: $hoz-sub-menu-width;
+                        top: 0;
+                        background-color: $hoz-menu-bg;
+                        opacity: 0;
+                        visibility: hidden;
+                        transform-origin: left 0 0;
+                        transition: all 0.3s ease-in-out 0s;
+                        box-shadow: $hoz-sub-menu-box-shadow;
+                     }
+                  }
+               }
+               .deep-level {
+                  width: 500px;
+                  height: 350px;
+                  li {
+                     display: inline-block;
+                     width: 32%;
+                  }
+               }
+               a {
+                  color: $hoz-nav-link-color;
+                  padding: 0.8125rem 0.625rem 0.8125rem 1.563rem; //13px 10px 13px 25px;
+                  font-size: $hoz-nav-font-size;
+                  i {
+                     margin-right: 0.625rem; //10px;
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+@media(max-width: 965px) and (min-width: 320px) {
+   .menu-title {
+      display: none;
+   }
+   .horizontal-menu {
+      >ul {
+         >li {
+            >a {
+               font-size: 1.2rem;
+            }
+         }
+      }
+   }
+}
+
+@media (max-width: 780px) and (min-width: 320px) {
+   .horizontal-menu {
+      >ul {
+         >li {
+            .sub-menu {
+               width: 12rem;
+               li {
+                  a {
+                     padding: 0.8125rem 0.625rem 0.8125rem 0.563rem;
+                     i {
+                        display: none;
+                     }
+                  }
+                  .sub-menu-child {
+                     left: 12rem;
+                  }
+               }
+            }
+            .deep-level {
+               li {
+                  width: 26% !important;
+                  a {
+                     padding: 0.5rem !important;
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+@media (max-width: 700px) and (min-width: 320px) {
+   .horizontal-menu {
+      >ul {
+         >li {
+            position: static;
+            flex: 1 1 0;
+            .sub-menu {
+               width: 100%;
+               transition: all 0.5s ease-in-out 0s;
+               li {
+                  .sub-menu-child {
+                     left: 0;
+                     z-index: 999;
+                     position: static;
+                     max-height: 0;
+                     li {
+                        a {
+                           padding-left: 1.875rem; //30px;
+                        }
+                     }
+                  }
+                  &:hover {
+                     .sub-menu-child {
+                        max-height: 1500px;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+
+@media (max-width: 473px) {
+   .horizontal-menu>ul>li>a {
+      padding: 0rem 0rem 0rem 0rem;
+      line-height: 3.65;
+   }
+}

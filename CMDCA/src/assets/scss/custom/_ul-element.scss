@@ -1,0 +1,248 @@
+/*========== All UI Element Style ==========*/
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+}
+/*========== Alert Scss ==========*/
+.icon-alert {
+  .alert {
+    padding: 0;
+    .alert-addon {
+      background-color: rgba(0,0,0,0.2);
+      display: flex;
+      font-size: 1.563rem; //25px;
+      width: 50px;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+    }
+    p {
+      margin-bottom: 0;
+      padding: 10px;
+      display: inline-block;
+      padding-left: 4.375rem; //70px;
+    }
+  }
+}
+/*========= App Bar Scss ==========*/
+.appbar-wrapper {
+  .hamburger {
+    span {
+      @include border(1px solid, $white, top bottom left right);
+    }
+  }
+  .navbar-right {
+    > li:not(.dropdown) {
+      a {
+        font-size: 1.875rem; //30px;
+      }
+    }
+  }
+}
+/*========== Avatar Scss ==========*/
+.avatar-wrapper {
+  [class^="border-"], [class*="border-"] {
+    border-width: 2px;
+    border-style: solid;
+  }
+}
+.size-120 {
+  @extend .square-120;
+}
+.size-100 {
+  @extend .square-100;
+}
+.size-80 {
+  @extend .square-80;
+}
+.size-60 {
+  @extend .square-60;
+}
+.size-40 {
+  @extend .square-40;
+}
+.avatar-wrapper {
+  ul {
+    li {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+/*========== Buttons Scss ==========*/
+.sub-heading {
+  font-size: 14px;
+  display: block;
+  color: $gray-600;
+  margin-bottom: 1.875rem; //30px;
+  text-transform: capitalize;
+}
+.btn *, a[role=button], button[type=button] {
+  outline: none;
+  text-transform: capitalize;
+  font-weight: $font-weight-normal;
+}
+.btn-lg, .btn-group-lg > .btn {
+	padding: 0.8rem 1rem !important;
+	font-size: 1.1rem !important;
+	line-height: 1.5 !important;
+}
+[class^="btn-"], [class*="btn-"], button {
+  &:focus {
+    box-shadow: none !important;
+    outline: none;
+  }
+}
+.btn-warning, .btn-info {
+  color: $white;
+  &:hover, &:focus, &.active {
+    color: $white;
+  }
+}
+.btn-icon {
+  i {
+    font-size: 1.125rem; //12px;
+    margin: 0 5px;
+  }
+}
+.btn-small {
+  padding: 4px 15px;
+  font-size: 12px;
+}
+.btn-xs {
+  padding: 5px 10px !important;
+  font-size: 12px !important;
+  min-height: 30px !important;
+}
+.btn-sm:not(.btn-group .btn){
+  font-size:1rem !important;
+  height:2rem !important;
+  width:2rem !important;
+  min-height:2rem !important;
+}
+.btn-transparent {
+  background-color: transparent !important;
+  border: 1px solid $white !important;
+  color: $white !important;
+  border-radius: $input-radius !important;
+  height: $input-lg-height !important;
+}
+.btn-outline-default {
+  @include border(1px solid, $input-border-color, top bottom left right);
+  border-radius: $border-radius-sm;
+  color: $gray-900;
+  padding: 4px 8px;
+}
+/*========== Badge Scss ==========*/
+.badge-xs {
+  width: 0;
+  height: 0;
+  padding: 9px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+  font-size: 55%;
+  position: absolute;
+}
+.badge-sm {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 3px 8px;
+}
+.badge-lg {
+  padding: 15px 25px !important;
+}
+.badge-top-right {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+}
+.badge:not(.badge-xs) {
+  padding: 5px 15px 4px;
+  color: $white;
+  &:hover, &:focus, &.active {
+    color: $white;
+  }
+}
+.badge-default {
+  background-color: $gray-400;
+}
+/*========== Cards Scss ==========*/
+.card-img-overlay {
+  opacity: .8;
+  color: $white;
+}
+/*========== Chip Scss ==========*/
+.chip-wrapper:not([class*="chip-outline-"]) {
+  path {
+    fill: $white !important;
+  }
+  .rct-block-content {
+    > div {
+      vertical-align: middle;
+    }
+  }
+}
+/*======== GridList Scss =========*/
+.gradient-overlay {
+  background: -webkit-linear-gradient(180deg,rgba(0,0,0,.7) 0,rgba(0,0,0,.3) 70%,transparent) !important
+}
+/*========== Lists Scss ==========*/
+.list-wrapper {
+  .zmdi {
+    line-height: 30px;
+  }
+  .listSection {
+    background-color: $block-bg;
+  }
+}
+/*========= Responsive ========*/
+@media (max-width: 1024px) and (min-width: 320px) {
+  .cardsmasonry-wrapper {
+    .card-columns {
+    	column-count: 2;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .app-wrapper {
+    .navbar-right {
+      li:last-child {
+        display: none;
+      }
+    }
+  }
+}
+@media (max-width: 480px) {
+  .app-wrapper {
+    .navbar-right {
+      li {
+        width: 1.75rem;
+        a {
+          font-size: 1.4rem;
+        }
+      }
+    }
+  }
+  .cardsmasonry-wrapper {
+    .card-columns {
+      column-count: 1;
+    }
+  }
+}
+@media (max-width: 390px) {
+  .app-wrapper {
+    .navbar-right {
+      li:nth-child(n+2) {
+        display: none;
+      }
+    }
+  }
+}

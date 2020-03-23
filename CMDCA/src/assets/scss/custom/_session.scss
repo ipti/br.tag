@@ -1,0 +1,207 @@
+/*=========== Session Style =========*/
+.session-wrapper {
+  background-image: url("../../assets/img/rct-session-banner.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  left: 0;
+  position: fixed;
+  right: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .session-inner-wrapper {
+    transform: translate3d(0%, 10%, 0);
+    padding-bottom: 1.875rem;
+  }
+}
+.session-header {
+  background: none !important;
+  box-shadow: none !important;
+  > div {
+    padding: 0;
+  }
+}
+.session-logo {
+  display: flex;
+  align-items: center;
+  i {
+    font-size: 1.875rem; //30px;
+    margin-right: 0.9375rem; //15px;
+    color: $white;
+  }
+}
+.has-wrapper {
+  position: relative;
+  .has-input {
+    border: none;
+    padding: 0.625rem 1.563rem;
+  }
+  .has-icon {
+    position: absolute;
+    right: 25px;
+    top: 13px;
+    font-size: 1.25rem; //20px;
+  }
+}
+.btn-large {
+  height: $input-lg-height;
+}
+.error-wrapper {
+  @extend .session-wrapper;
+  background: $info;
+  background-image: none;
+  overflow-x: hidden;
+}
+.error-body {
+  h2 {
+    font-weight: 900;
+    text-shadow: 9px 10px 1px rgba(0,0,0,0.08);
+  }
+}
+.oops {
+  font-size: 3.75rem; //60px;
+}
+.bold {
+  font-size: 13.75rem; //220px;
+}
+.error-msg {
+  font-size: 4.375rem; //70px;
+}
+.rct-session-wrapper {
+  @extend .session-wrapper;
+  .row-eq-height {
+    align-items: center;
+  }
+  header {
+    height: 100px;
+    background: none !important;
+    justify-content: space-around;
+    box-shadow: none;
+  }
+  .session-inner-wrapper {
+    .session-body {
+      background-color: $block-bg;
+      border-radius: $block-border-radius;
+      padding: 2rem 6.25rem; //30px 100px;
+      p {
+        color: $gray-700;
+        font-size: 0.875rem; //14px;
+        a {
+          text-decoration: underline;
+          &:hover {
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
+  .has-wrapper {
+    .has-input {
+      @include border(1px solid, $input-border-color, top bottom left right);
+    }
+  }
+}
+[class*="circle-btn-"] {
+  border-radius: 50px !important;
+}
+.circle-btn-sm {
+  min-width: 160px !important;
+}
+.circle-btn-xs {
+  min-width: 120px !important;
+}
+.session-slider {
+  .slick-slide {
+    position: relative;
+    img {
+      border-radius: 6px;
+    }
+    .rct-img-overlay {
+      position: absolute;
+      bottom: 0px;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000000 100%);
+      padding: 0.9375rem 0.9375rem 1.563rem;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
+      color: $white;
+      p {
+        margin: 0;
+        font-size: 0.875rem;
+      }
+      h5 {
+        font-style: italic;
+        font-weight: 500;
+        margin-bottom: 5px;
+        font-size: 1.25rem;
+      }
+    }
+  }
+  .slick-dots {
+    text-align: right;
+    top: 0;
+    height: 30px;
+  }
+}
+/*======= Responsive =======*/
+@media (max-width: 1199px) and (min-width: 320px) {
+  .rct-session-wrapper {
+    .container {
+      max-width: 100%;
+    }
+    .session-inner-wrapper {
+      .session-body {
+        padding: 2rem 1.875rem;
+        [class*="btn-"]:not(.btn-success) {
+          height: 0px !important;
+          width: 35px;
+          font-size: 1rem;
+          margin-bottom: 5px !important;
+        }
+        p.mb-20, .session-head.mb-30 {
+        	margin-bottom: 0.9375 !important;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .rct-session-wrapper {
+    [class*="col-"] {
+      max-width: 100%;
+      flex: 100%;
+    }
+    .session-inner-wrapper {
+      transform: translate3d(0%, 0%, 0);
+    }
+    .session-slider {
+      display: none;
+    }
+  }
+}
+@media(max-width: 600px) {
+  .error-body {
+    .bold {
+      font-size: 8.75rem;
+    }
+    .error-msg {
+      font-size: 2.375rem;
+    }
+  }
+}
+@media (max-width: 575px)  {
+  .circle-btn-xs {
+  	min-width: 85px !important;
+  	padding: 5px 5px 3px!important;
+  }
+  .rct-session-wrapper {
+    .session-head h2 {
+    	font-size: 1.4rem;
+    	margin-bottom: 0.4rem;
+    }
+    header {
+      a.mr-15 {
+        display: none;
+      }
+    }
+  }
+}

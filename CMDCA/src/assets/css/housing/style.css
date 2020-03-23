@@ -1,0 +1,47 @@
+.housing-card{
+    background-color: #FFF;
+}
+
+.housing-card:not(:last-child){
+    margin-right: 25px;
+}
+
+.housing-card-title{
+    font-size: 14px;
+    color:#888888;
+    margin: unset;
+}
+
+.housing-card-subtitle{
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color:#8dc4ee;
+    margin-top: -2px;
+}
+
+.text-ellipsis{
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.housing-label{
+    font-size: 20px;
+    color: #74777b;
+    margin-bottom: unset;
+}
+
+.housing-container-select{
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.housing-editor{
+    height: 300px;
+}

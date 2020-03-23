@@ -1,0 +1,140 @@
+/*=========== User Style =========*/
+.card-block-content {
+	.media {
+		.media-left {
+			img {
+				margin-top: -30px;
+				@include border(3px solid, $white, top bottom left right);
+			}
+		}
+	}
+}
+.user-image {
+  img {
+    box-shadow: 0 7px 14px 0 rgba(0,0,0,0.21);
+    margin: 0 auto;
+  }
+}
+.profile-top {
+  overflow: hidden;
+}
+.profile-bottom {
+  margin-top: -50px;
+}
+.user-activity {
+  padding: 0.9375rem; //15px;
+  ul {
+    li {
+      @include border(2px solid, $gray-300, right);
+      padding: 0 0.625rem; //10px;
+      &:last-child {
+        border: none;
+      }
+      span {
+        font-size: 1.375rem; //22px;
+        margin: 0 10px;
+      }
+    }
+  }
+}
+.card-right-action {
+  color: $white;
+  border-radius: 100%;
+  position: absolute;
+  top: -8px;
+  right: 5px;
+  z-index: 99;
+}
+.media-listing {
+  .media {
+    padding: 1.25rem; //20px;
+  }
+}
+/*======= User Management =====*/
+.userProfile-wrapper {
+	.heading {
+		font-size: 1.5rem; //24px;
+		margin-bottom: 1.875rem; //30px;
+	}
+	button {
+		text-transform: capitalize;
+		color: $gray-700;
+	}
+	.bordered {
+		border: 8px solid rgba(255,255,255,0.23);
+	}
+	.profile-top {
+		position: relative;
+		.profile-content {
+			position: absolute;
+			top: 80px;
+			left: 110px;
+			.media-body {
+				h2, p {
+					color: $white;
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}
+.prefrences-wrapper {
+	p {
+		margin-bottom: 0;
+		color: $gray-700;
+	}
+	h5 {
+		margin-bottom: 10px;
+	}
+}
+.card-base {
+	padding: 0.9375rem;
+	@include border(1px solid, $input-border-color, top bottom left right);
+	border-radius: $border-radius;
+	background-color: $gray-100;
+	margin-bottom: 1.875rem; //30px;
+}
+/*======= Responsive =======*/
+@media (max-width: 1590px) and (min-width: 1199px) {
+	.user-list-wrapper {
+		[class*="col-"] {
+			max-width: 33.3%;
+			flex: 0 0 33.3%;
+		}
+	}
+}
+@media (max-width: 992px) and (min-width: 801px) {
+  .media-full {
+    width: 100%;
+    display: block;
+    img {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .media-body {
+      width: 100%;
+    }
+  }
+}
+@media (max-width: 575px) and (min-width: 320px) {
+  .media-full {
+    width: 100%;
+    display: block;
+    img {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .media-body {
+      width: 100%;
+    }
+  }
+}
+@media (max-width: 588px) and (min-width: 320px) {
+  .user-activity ul li {
+    display: block;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid $gray-300;
+    padding: 10px;
+  }
+}

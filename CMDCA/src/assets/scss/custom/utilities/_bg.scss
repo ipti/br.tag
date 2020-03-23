@@ -1,0 +1,64 @@
+/*=========== Background Utilities ==========*/
+
+.gradient-primary {
+   background: $gradient-primary;
+   * {
+      color: $white;
+   }
+}
+
+.gradient-purple {
+   background: $gradient-purple;
+   * {
+      color: $white;
+   }
+}
+
+.gradient-success {
+   background: $gradient-success;
+   * {
+      color: $white;
+   }
+}
+
+.gradient-danger {
+   background: $gradient-danger;
+   * {
+      color: $white;
+   }
+}
+
+.gradient-warning {
+   background: $gradient-warning;
+   * {
+      color: $white;
+   }
+}
+
+.bg-aqua{
+   background-color:$aqua;
+}
+
+.bg-light {
+   background-color: $gray-200 !important;
+}
+
+.bg-grdnt-violet {
+   background: linear-gradient(180deg, #03001E 0%, #7303C0 24.82%, #EC38BC 62.59%, #FDEFF9 100%);
+}
+
+.bg-grdnt-youtube {
+   background: linear-gradient(0deg, #F5AF19 0%, #F12711 100%);
+}
+
+.bg-grdnt-primary-danger {
+   background: linear-gradient(0deg, #EC2F4B 0%, #009FFF 100%);
+}
+
+.bg-grdnt-purple-danger {
+   background: linear-gradient(0deg, #240B36 0%, #C31432 100%);
+}
+
+.bg-grdnt-purple-dark {
+   background: linear-gradient(to top, #24243e, #302b63, #0f0c29);
+}
