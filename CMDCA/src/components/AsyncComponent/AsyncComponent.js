@@ -258,6 +258,11 @@ const AsyncResolutionFormContainer = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+const AsyncResolutionFormEditContainer = Loadable({
+	loader: () => import("Container/Resolution/ResolutionFormEditContainer.js"),
+	loading: () => <RctPageLoader />,
+});
+
 const AsyncResolutionContainer = Loadable({
 	loader: () => import("Container/Resolution/ResolutionContainer.js"),
 	loading: () => <RctPageLoader />,
@@ -272,6 +277,11 @@ const AsyncHomeContainer = Loadable({
 /*---------------- Advisor ------------------*/
 const AsyncAdvisorFormContainer = Loadable({
 	loader: () => import("Container/Advisor/AdvisorFormContainer.js"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncAdvisorFormEditContainer = Loadable({
+	loader: () => import("Container/Advisor/AdvisorFormEditContainer.js"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -299,6 +309,11 @@ const AsyncScheduleContainer = Loadable({
 /*---------------- News ------------------*/
 const AsyncNewsFormContainer = Loadable({
 	loader: () => import("Container/News/NewsFormContainer.js"),
+	loading: () => <RctPageLoader />,
+});
+
+const AsyncNewsFormEditContainer = Loadable({
+	loader: () => import("Container/News/NewsFormEditContainer.js"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -419,4 +434,7 @@ export {
 	AsyncNoticeContainer,
 	AsyncNoticeFormEditContainer,
 	AsyncScheduleFormEditContainer,
+	AsyncAdvisorFormEditContainer,
+	AsyncNewsFormEditContainer,
+	AsyncResolutionFormEditContainer,
 };

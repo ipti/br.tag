@@ -5,7 +5,7 @@ export default class HomeContainer extends Component{
     render(){
         return(
             <Fragment>
-                <Home/>
+                <Home {...this.props}/>
             </Fragment>
         );
     }

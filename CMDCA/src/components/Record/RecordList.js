@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Button, CardHeader, CardBody, Alert, Row, Col, Label} from 'reactstrap';
 import {NavLink} from 'react-router-dom'
-import { MonetizationOn, SkipPrevious, SkipNext } from '@material-ui/icons';
+import { MonetizationOn, SkipPrevious, SkipNext, Description } from '@material-ui/icons';
 import api from '../../api';
 import catcherror from '../../util/catcherror';
 import Swal from 'sweetalert2'
@@ -89,7 +89,7 @@ export default class RecordList extends Component{
         
         return(
             <div>
-                <h1>Documentos Financeiros:</h1>
+                <h1>Atas publicadas:</h1>
                 
                 {this.state.results===0 && this.state.carregando===false?
                 <Alert color="danger">
@@ -112,18 +112,18 @@ export default class RecordList extends Component{
                     </Row>
                     <div className="row">
                     {this.state.record.map(record => (
-                        <div className="col-sm-12 col-md-3 p-2" key={record._id}>
+                        <div className="col-sm-12 col-md-4 col-lg-3 p-1" key={record._id}>
                         <Card key={record._id} >
-                            <CardHeader><h4><MonetizationOn/> {record.title}</h4> </CardHeader>
+                            <CardHeader><h4><Description/> {record.title}</h4> </CardHeader>
                             <CardBody>   
                                 <center>
                                 <a href={record.url} target="blank">Visualizar</a></center>
                             </CardBody>
                             <div className="row justify-content-md-center">
-                                <div className="col-sm-12 col-md-4 p-1">
+                                <div className="col-sm-12 col-md-4 mb-1">
                                     <NavLink to={`form/${record._id}`}><Button color="secondary" block size="sm">Editar</Button></NavLink>
                                 </div>
-                                <div className="col-sm-12 col-md-4 p-1">
+                                <div className="col-sm-12 col-md-4 mb-1">
                                     <Button color="danger" size="sm" onClick={(e) => this.deleteRegister(e,record._id)}>Excluir</Button>
                                 </div>
                             </div>    

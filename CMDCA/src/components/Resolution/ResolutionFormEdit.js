@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import Section from 'Components/Form/Section';
-import api from '../../api/multpart.js';
+import api from '../../api/index.js';
 import successalert from '../../util/successalert';
 import catcherror from '../../util/catcherror';
 
@@ -33,31 +33,40 @@ export default class ResolutionForm extends Component{
         this.setState({ [key]: event.target.value });
     }
 
-    handleChangeFile = (event) => {
-        this.setState({file: event.target.files});
-    }
-    
-    handleClickTest = (event) =>{
-        alert(this.state.file);
+    componentDidMount(){
+        this.load();
     }
 
-     async handleSubmit(){
+    load = async () => {
         this.setState({load:true});
-        const data = new FormData();
-        data.append('file',this.state.file);
-        data.append('title',this.state.title);
-        data.append('responsable',this.state.responsable);
-        data.append('office',this.state.office);
-        await api.post('/resolution',data).then(()=>{
+        await api.get(`/resolution/${this.props.match.params.resolutionID}`).then((response)=>{
+            this.setState({
+                title:response.data.resolution.title,
+                responsable:response.data.resolution.responsable,
+                office:response.data.resolution.office,
+                load: false
+            });
+        }).catch((error)=>{
+            catcherror(error);
+        });    
+    };
+
+    handleSubmit = async()=>{
+        this.setState({load:true});
+        const data = {
+            title: this.state.title,
+            responsable: this.state.responsable,
+            office: this.state.office,
+        }
+        await api.put(`/resolution/${this.props.match.params.resolutionID}`,data).then(()=>{
             successalert();
-          this.clearState();
+            this.clearState();
+            this.props.history.push('/app/resolution/list');
         })
         .catch((error)=>{
+            this.clearState();
             catcherror(error);
-            this.setState({
-                load:false
-            });
-        })
+        });
         
       }
 
@@ -70,6 +79,11 @@ export default class ResolutionForm extends Component{
             file:'',
             load:false,
         });
+    }
+
+    redirect = () =>{
+        this.clearState();
+        this.props.history.push('/app/resolution/list');
     }
 
     onChangeHandler=(event)=>{
@@ -88,17 +102,17 @@ export default class ResolutionForm extends Component{
                         <Form>
                             <Section title="Dados da Resolução:" icon="collection-text" />
                             <div className="row">
-                                <div className="col-sm-12 col-md-8">
+                                <div className="col-sm-12 col-md-12">
                                     <FormGroup>
                                         <Label for="title">Título da resolução:</Label>
                                         <Input type="text"  name="title" id="title" autoComplete="off" bsSize="lg" value={this.state.title} onChange={(e) => this.handleChange(e, 'title')}/>
                                     </FormGroup>
                                 </div>
-                                <div className="col-sm-12 col-md-4">
+                                {/*<div className="col-sm-12 col-md-4">
                                     <Label for="advisorImage"><h4>Selecionar arquivo da resolução:</h4></Label>
-                                    {/*<Input type="file" name="advisorImage" id="advisorImage" value={this.state.image} onChange={(e) => this.handleChange(e, 'image')}/>*/}
+                                    <Input type="file" name="advisorImage" id="advisorImage" value={this.state.image} onChange={(e) => this.handleChange(e, 'image')}/>
                                     <input type="file" name="file" placeholder="Selecione um documento" onChange={this.onChangeHandler}/>
-                                </div>
+                                </div>*/}
                             </div>    
                             
                             <Section title="Responsável:" icon="account-box" />
@@ -122,7 +136,7 @@ export default class ResolutionForm extends Component{
                                     <Button color="success" disabled={this.state.load} onClick={this.handleSubmit}>{this.state.load?'Publicando...':'Publicar'}</Button>
                                 </div>
                                 <div className="col-sm-12 col-md-2">
-                                    <Button color="orange" disabled={this.state.load} onClick={this.clearState.bind(this)}>Limpar</Button>
+                                    <Button color="secondary" disabled={this.state.load} onClick={this.redirect}>Voltar</Button>
                                 </div>
                             </div>
                         </Form>

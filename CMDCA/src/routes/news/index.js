@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import {
     AsyncNewsContainer,
     AsyncNewsFormContainer,
+    AsyncNewsFormEditContainer,
     
 } from 'Components/AsyncComponent/AsyncComponent';
 
@@ -16,6 +17,7 @@ const News = ({ match }) => (
             <Redirect exact from={`${match.url}/`} to={`${match.url}/list`} />
             <Route path={`${match.url}/list`} component={AsyncNewsContainer} />
             <Route exact path={`${match.url}/form`} component={AsyncNewsFormContainer} />
+            <Route exact path={`${match.url}/form/:newsID`} component={AsyncNewsFormEditContainer} />
         </Switch>
     </div>
 );

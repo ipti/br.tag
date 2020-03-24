@@ -11,7 +11,6 @@ import {
 	FormGroup,
 	Label,
     Input,
-    Media
 } from 'reactstrap';
 
 

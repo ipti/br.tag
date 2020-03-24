@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Card, Button, CardHeader, CardBody, Alert, Row, Col, Label} from 'reactstrap';
-import { Receipt, SkipPrevious, SkipNext} from '@material-ui/icons';
+import { SkipPrevious, SkipNext, Event} from '@material-ui/icons';
 import {NavLink} from 'react-router-dom';
 import api from '../../api/index.js';
 import catcherror from '../../util/catcherror';
@@ -114,9 +114,9 @@ export default class ScheduleList extends Component{
                 </Row>
                 <div className="row">
                     {this.state.schedule.map(schedule => (
-                        <div className="col-sm-12 col-md-3 p-2" key={schedule._id}>
+                        <div className="col-sm-12 col-md-4 col-lg-3 p-1" key={schedule._id}>
                         <Card key={schedule._id} >
-                            <CardHeader className="card-title"><h4>Evento: {schedule.name}</h4></CardHeader>
+                            <CardHeader className="card-title"><h4><Event/> {schedule.name}</h4></CardHeader>
                             <CardBody>
                                 <p>
                                     Local: {schedule.location} <br/>
@@ -125,10 +125,10 @@ export default class ScheduleList extends Component{
                                 </p>
                             </CardBody>
                             <div className="row">
-                                <div className="col-sm-12 col-md-6 p-3">
+                                <div className="col-sm-12 col-md-6 mb-1">
                                     <NavLink to={`form/${schedule._id}`}><Button color="secondary" block size="sm">Editar</Button></NavLink>
                                 </div>
-                                <div className="col-sm-12 col-md-6 p-3">
+                                <div className="col-sm-12 col-md-6 mb-1">
                                     <Button color="danger" size="sm" onClick={(e) => this.deleteRegister(e,schedule._id)}>Excluir</Button>
                                 </div>
                             </div>    

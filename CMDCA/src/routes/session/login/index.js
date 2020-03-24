@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import QueueAnim from 'rc-queue-anim';
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 import api from 'Api';
+import catcherror from '../../../util/catcherror';
 
 // app config
 import AppConfig from 'Constants/AppConfig';
@@ -52,8 +53,7 @@ class Signin extends Component {
             localStorage.setItem('user_name', data.user.name);
             localStorage.setItem('user_email', data.user.email);
             localStorage.setItem('token', data.token);
-            //localStorage.setItem('institution', data.institution);
-            //localStorage.setItem('institution_type', data.institution_type);
+
             this.props.history.push('/app/home/index');
           }
           else{
@@ -62,8 +62,10 @@ class Signin extends Component {
           }
         }.bind(this))
         .catch((error)=>{
-          this.setState({loader: false});
-          alert(error.response.data.error);
+          this.setState({loader: false, email: '',
+          password: ''});
+          //alert(error.response.data.error);
+          catcherror(error);
           this.props.history.push('/session/login');
           
         });
@@ -73,20 +75,7 @@ class Signin extends Component {
   onUserLogout(){
     localStorage.clear();
     this.props.history.push('/session/login');
-    /*this.setState({loader: true});
-    api.post(`/user/logout`, {token: localStorage.getItem('token')})
-        .then(function(response){
-          if(typeof response.data.status !== 'undefined' && response.data.status == '1'){
-            localStorage.clear();
-            this.setState({loader: false});
-            this.props.history.push('/session/login');
-          }
-        }.bind(this))
-        .catch(function(error){
-          localStorage.clear();
-          this.setState({loader: false});
-          this.props.history.push('/session/login');
-        });*/
+    
   }
 
   componentDidMount(){

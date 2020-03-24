@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import Section from 'Components/Form/Section';
-import api from '../../api/multpart.js';
+import api from '../../api/index.js';
 import successalert from '../../util/successalert';
 import catcherror from '../../util/catcherror';
 
@@ -19,8 +19,9 @@ export default class NewsForm extends Component{
         super(props);
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.redirect=this.redirect.bind(this);
         this.state={
-            file:null,
+            file:'',
             files:[],
             title:'',
             content:'',
@@ -33,40 +34,52 @@ export default class NewsForm extends Component{
         this.setState({ [key]: event.target.value });
     }
 
-    handleChangeFile = (event) => {
-        this.setState({file: event.target.files});
-    }
-    
-    handleClickTest = (event) =>{
-        alert(this.state.file);
+    componentDidMount(){
+        this.load();
     }
 
-     async handleSubmit(){
+    load = async () => {
         this.setState({load:true});
-        const data = new FormData();
-        data.append('file',this.state.file);
-        data.append('title',this.state.title);
-        data.append('content',this.state.content);
-        await api.post('/news',data).then(()=>{
+        await api.get(`/news/${this.props.match.params.newsID}`).then((response)=>{
+            this.setState({
+                title:response.data.news.title,
+                content:response.data.news.content,
+                load: false
+            });
+        }).catch((error)=>{
+            catcherror(error);
+        });    
+    };
+
+    handleSubmit = async()=>{
+        this.setState({load:true});
+        const data = {
+            title: this.state.title,
+            content: this.state.content,
+        }
+        await api.put(`/news/${this.props.match.params.newsID}`,data).then(()=>{
             successalert();
-          this.clearState();
+            this.clearState();
+            this.props.history.push('/app/news/list');
         })
         .catch((error)=>{
+            this.clearState();
             catcherror(error);
-            this.setState({
-                load:false
-            });
-        })
+        });
         
       }
 
     clearState = () =>{
         this.setState({
-            file:'',
             title:'',
             content:'',
             load:false,
         });
+    }
+
+    redirect = () =>{
+        this.clearState();
+        this.props.history.push('/app/news/list');
     }
 
     onChangeHandler=(event)=>{
@@ -81,7 +94,7 @@ export default class NewsForm extends Component{
         return(
             <div className="row justify-content-md-center">
                 <div className="col-sm-12 col-md-12">
-                    <RctCollapsibleCard heading="Cadastro de notícia">
+                    <RctCollapsibleCard heading="Editar notícia">
                         <Form>
                             <Section title="Dados da notícia:" icon="collection-text" />
                             <div className="row">
@@ -92,11 +105,11 @@ export default class NewsForm extends Component{
                                     </FormGroup>
                                 </div>
                                 
-                                <div className="col-sm-12 col-md-4">
+                                {/*<div className="col-sm-12 col-md-4">
                                     <Label for="advisorImage"><h4>Adicionar foto da notícia:</h4></Label>
-                                    {/*<Input type="file" name="advisorImage" id="advisorImage" value={this.state.image} onChange={(e) => this.handleChange(e, 'image')}/>*/}
+                                    <Input type="file" name="advisorImage" id="advisorImage" value={this.state.image} onChange={(e) => this.handleChange(e, 'image')}/>
                                     <input type="file" name="file" onChange={this.onChangeHandler}/>
-                                </div>
+                                </div>*/}
                             </div>
 
                             <div className="row py-3">
@@ -113,7 +126,7 @@ export default class NewsForm extends Component{
                                     <Button color="success" disabled={this.state.load} onClick={this.handleSubmit}>{this.state.load?'Publicando...':'Publicar'}</Button>
                                 </div>
                                 <div className="col-sm-12 col-md-2 p-1">
-                                    <Button color="orange" disabled={this.state.load} onClick={this.clearState.bind(this)}>Limpar</Button>
+                                    <Button color="secondary" disabled={this.state.load} onClick={this.redirect}>Voltar</Button>
                                 </div>
                             </div>
                         </Form>

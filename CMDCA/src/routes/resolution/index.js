@@ -3,11 +3,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 
 import {
     AsyncResolutionContainer,
-    AsyncFoodFormContainer,
+    AsyncResolutionFormEditContainer,
     AsyncResolutionFormContainer
 } from 'Components/AsyncComponent/AsyncComponent';
 
-const AsyncResolutionFormContainerUpdate = (props) => <AsyncResolutionFormContainer scenario="update" {...props} />
+//const AsyncResolutionFormContainerUpdate = (props) => <AsyncResolutionFormContainer scenario="update" {...props} />
 
 
 const Resolution = ({ match }) => (
@@ -16,7 +16,7 @@ const Resolution = ({ match }) => (
             <Redirect exact from={`${match.url}/`} to={`${match.url}/list`} />
             <Route path={`${match.url}/list`} component={AsyncResolutionContainer} />
             <Route exact path={`${match.url}/form`} component={AsyncResolutionFormContainer} />
-            <Route exact path={`${match.url}/form/:id`} component={AsyncResolutionFormContainerUpdate} />
+            <Route exact path={`${match.url}/form/:resolutionID`} component={AsyncResolutionFormEditContainer} />
         </Switch>
     </div>
 );

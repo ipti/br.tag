@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Button, CardHeader, CardBody, Alert, Row, Col, Label} from 'reactstrap';
 import {NavLink} from 'react-router-dom'
-import { MonetizationOn, SkipPrevious, SkipNext } from '@material-ui/icons';
+import { MonetizationOn, SkipPrevious, SkipNext, Description } from '@material-ui/icons';
 import api from '../../api';
 import catcherror from '../../util/catcherror';
 import Swal from 'sweetalert2'
@@ -98,7 +98,7 @@ export default class NoticeList extends Component{
                 <div >
                      <Row>
                         <Col lg="8" sm="12">
-                            <Label><h6>Total de atas: {this.state.results}</h6></Label>
+                            <Label><h6>Total de editais: {this.state.results}</h6></Label>
                         </Col>
                         <Col lg="1" sm="3" xs="3">
                             <Button size="sm" color="primary" onClick={this.prevPage}  disabled={this.state.currentPage===1}><SkipPrevious fontSize="inherit"/></Button>
@@ -112,18 +112,18 @@ export default class NoticeList extends Component{
                     </Row>
                     <div className="row">
                     {this.state.notice.map(notice => (
-                        <div className="col-sm-12 col-md-3 p-2" key={notice._id}>
+                        <div className="col-sm-12 col-md-3 p-1" key={notice._id}>
                         <Card key={notice._id} >
-                            <CardHeader><h4><MonetizationOn/> {notice.title}</h4> </CardHeader>
+                            <CardHeader><h4><Description/> {notice.title}</h4> </CardHeader>
                             <CardBody>   
                                 <center>
                                 <a href={notice.url} target="blank">Visualizar</a></center>
                             </CardBody>
                             <div className="row justify-content-md-center">
-                                <div className="col-sm-12 col-md-4 p-1">
+                                <div className="col-sm-12 col-md-4 mb-1">
                                     <NavLink to={`form/${notice._id}`}><Button color="secondary" block size="sm">Editar</Button></NavLink>
                                 </div>
-                                <div className="col-sm-12 col-md-4 p-1">
+                                <div className="col-sm-12 col-md-4 mb-1">
                                     <Button color="danger" size="sm" onClick={(e) => this.deleteRegister(e,notice._id)}>Excluir</Button>
                                 </div>
                             </div>    

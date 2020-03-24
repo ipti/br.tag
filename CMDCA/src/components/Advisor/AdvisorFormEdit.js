@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 import Section from 'Components/Form/Section';
-import api from '../../api/multpart.js';
+import api from '../../api/index.js';
 import successalert from '../../util/successalert';
 import catcherror from '../../util/catcherror';
 
@@ -19,14 +19,13 @@ export default class AdvisorForm extends Component{
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.redirect=this.redirect.bind(this);
         this.state={
-            file:null,
-            name:'',
-            about:'',
-            action:'',
-            contact:'',
-            imageURL:'',
-            load:false,
+            name:"",
+            about:"",
+            action:"",
+            contact:"",
+            load:false
         };
     };
 
@@ -34,50 +33,64 @@ export default class AdvisorForm extends Component{
         this.setState({ [key]: event.target.value });
     }
     
-    handleClickTest = (event) =>{
-        alert(this.state.image);
+    async componentDidMount(){
+        this.load();
     }
 
-    async handleSubmit(){
+    load = async () => {
         this.setState({load:true});
-        const data = new FormData();
-        data.append('file',this.state.file);
-        data.append('name',this.state.name);
-        data.append('about',this.state.about);
-        data.append('contact',this.state.contact);
-        data.append('action',this.state.action);
-        await api.post('/advisor',data).then(()=>{
+        await api.get(`/advisor/${this.props.match.params.advisorID}`).then((response)=>{
+            console.log(response);
+            this.setState({
+                name:response.data.advisor.name,
+                about:response.data.advisor.about,
+                action:response.data.advisor.action,
+                contact:response.data.advisor.contact,
+                load: false,
+            });
+        }).catch((error)=>{
+            console.log(error.response)
+            catcherror(error);
+        });    
+    };
+
+    handleSubmit = async()=>{
+        this.setState({load:true});
+        const data = {
+            name:this.state.name,
+            action:this.state.action,
+            about:this.state.about,
+            contact:this.state.contact
+        };
+        await api.put(`/advisor/${this.props.match.params.advisorID}`,data).then((response)=>{
             successalert();
-          this.clearState();
+            this.clearState();
+            this.props.history.push('/app/advisor/list');
         })
         .catch((error)=>{
+            this.clearState();
             catcherror(error);
-            this.setState({
-                load:false
-            });
-        })
+        });
         
-      }
+    };
 
     clearState = () =>{
         this.setState({
-            file:null,
-            name:'',
-            about:'',
-            action:'',
-            contact:'',
-            imageURL:'',
+            file:"",
+            name:"",
+            about:"",
+            action:"",
+            contact:"",
             load:false,
         });
     }
 
-    onChangeHandler=(event)=>{
-        let file = event.target.files[0];
-        this.setState({
-            file: file
-        });
-        
+    redirect = () =>{
+        this.clearState();
+        this.props.history.push('/app/advisor/list');
     }
+
+    
     render(){
         return(
             <div className="row justify-content-md-center">
@@ -93,16 +106,12 @@ export default class AdvisorForm extends Component{
                                     </FormGroup>
                                 </div>
                                 
-                                <div className="col-sm-12 col-md-4">
-                                    <Label for="advisorImage"><h4>Adicionar foto do conselheiro:</h4></Label>
-                                    <input type="file" name="file" onChange={this.onChangeHandler}/>
-                                </div>
                             </div>
                             <div className="row">
                                 <div className="col-sm-12 col-md-6">
                                     <FormGroup>
                                         <Label for="function"><h4>Função:</h4></Label>
-                                        <Input type="text"  name="function" id="function" autoComplete="off" bsSize="lg" value={this.state.action} onChange={(e) => this.handleChange(e, 'action')}/>   
+                                        <Input type="text"  name="function" id="action" autoComplete="off" bsSize="lg" value={this.state.action} onChange={(e) => this.handleChange(e, 'action')}/>   
                                     </FormGroup>
                                 </div>
                                 <div className="col-sm-12 col-md-6">
@@ -127,7 +136,7 @@ export default class AdvisorForm extends Component{
                                     <Button color="success" disabled={this.state.load} onClick={this.handleSubmit}>{this.state.load?'Cadastrando...':'Cadastrar'}</Button>
                                 </div>
                                 <div className="col-sm-12 col-md-2 p-1">
-                                    <Button color="orange" disabled={this.state.load} onClick={this.clearState.bind(this)}>Limpar</Button>
+                                    <Button color="secondary" disabled={this.state.load} onClick={this.redirect}>Voltar</Button>
                                 </div>
                             </div>
                         </Form>
