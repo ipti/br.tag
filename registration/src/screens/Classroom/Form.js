@@ -6,7 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormLabel, FormControl } from "@material-ui/core";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
 
 // Third party
 import { Formik, Form } from "formik";
@@ -31,11 +32,12 @@ const Create = props => {
     handleSubmit,
     validationSchema,
     data,
-    baseLink
+    baseLink,
+    loadingIcon
   } = props;
 
   const registrations = () => {
-   const registrationList = data?.registrations ?? [];
+    const registrationList = data?.registrations ?? [];
 
     return registrationList.map((registration, index) => {
       return (
@@ -93,11 +95,15 @@ const Create = props => {
                   </FormControl>
                   <Grid container direction="row">
                     <Grid item md={4} sm={6}>
-                      <ButtonPurple
-                        onClick={props.handleSubmit}
-                        type="submit"
-                        title="Salvar"
-                      />
+                      {!loadingIcon ? (
+                        <ButtonPurple
+                          onClick={props.handleSubmit}
+                          type="submit"
+                          title="Salvar"
+                        />
+                      ) : (
+                        <Loading />
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -137,8 +143,8 @@ const Create = props => {
         <TitleWithLine title="Matrículas" />
       </Grid>
       <Grid container direction="row" spacing={4}>
-        <List items={registrations()} >
-          <Grid item xs={12} >
+        <List items={registrations()}>
+          <Grid item xs={12}>
             <Alert variant="outlined" severity="warning">
               A turma não possui matrículas
             </Alert>

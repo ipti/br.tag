@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
 import { Formik, Form } from "formik";
 import {
   FormControlLabel,
@@ -38,12 +39,12 @@ const theme = createMuiTheme({
 const Create = props => {
   const classes = useStyles();
   const {
-    active,
     handleChangeActive,
     initialValues,
     handleSubmit,
     validationSchema,
-    isEdit
+    isEdit,
+    loadingIcon
   } = props;
 
   return (
@@ -104,7 +105,7 @@ const Create = props => {
                         <FormControlLabel
                           control={
                             <Switch
-                              checked={active}
+                              checked={props.values.isActive || false}
                               name="isActive"
                               onChange={handleChangeActive}
                               color="primary"
@@ -251,11 +252,15 @@ const Create = props => {
                   direction="row"
                 >
                   <Grid item md={2} sm={2}>
-                    <ButtonPurple
-                      onClick={props.handleSubmit}
-                      type="submit"
-                      title={isEdit ? "Editar" : "Salvar"}
-                    />
+                    {!loadingIcon ? (
+                      <ButtonPurple
+                        onClick={props.handleSubmit}
+                        type="submit"
+                        title={isEdit ? "Editar" : "Salvar"}
+                      />
+                    ) : (
+                      <Loading />
+                    )}
                   </Grid>
                 </Grid>
               </MuiPickersUtilsProvider>

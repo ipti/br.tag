@@ -8,12 +8,11 @@ const useStyles = makeStyles(theme => ({
     "& > * + *": {
       marginLeft: theme.spacing(2)
     },
-    marginTop: "30%",
-    marginLeft: "40%"
+    marginLeft: "25%"
   }
 }));
 
-export default function CircularLoading() {
+export default function CircularLoadingButtomActions() {
   const classes = useStyles();
 
   return (

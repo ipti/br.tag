@@ -11,7 +11,7 @@ const Paginator = props => {
   return (
     <Pagination
       boundaryRange={0}
-      defaultActivePage={1}
+      defaultActivePage={props.activePage}
       ellipsisItem={null}
       firstItem={null}
       lastItem={null}

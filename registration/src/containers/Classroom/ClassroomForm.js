@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { ClassroomForm } from "../../screens/Classroom";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 
 const Form = props => {
   const [loadData, setLoadData] = useState(true);
-  const [open, setOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [loadingButtom, setLoadingButtom] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
     if (props.match.params.id && loadData) {
@@ -19,46 +22,58 @@ const Form = props => {
       setLoadData(false);
     }
 
-    if (props?.error) {
-      setOpen(true);
+    if (props?.openAlert) {
+      setTimeout(function() {
+        props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
+      }, 6000);
     }
-  }, [isEdit, loadData, props]);
+
+    if (props?.fetchClassroom?.status === "1" && props.isRedirectClassroom) {
+      history.push("/turmas");
+    }
+  }, [history, isEdit, loadData, props]);
 
   const handleClose = () => {
-    setOpen(false);
+    props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
   };
 
   const alert = () => {
-    let status = null;
-    let message = null;
+    if (props?.openAlert) {
+      let status = null;
+      let message = null;
 
-    if (props?.error) {
-      status = 0;
-      message = props.error;
-    } else {
-      if (props.fetchClassroom) {
+      if (props?.fetchRegistration?.status) {
+        status = props.fetchRegistration.status;
+        message = props.fetchRegistration.message;
+      } else if (props.fetchClassroom.status) {
         status = props.fetchClassroom.status;
         message = props.fetchClassroom.message;
+      } else {
+        status = 0;
+        message = props.error;
+      }
+
+      if (status && message) {
+        return (
+          <Alert
+            open={props?.openAlert}
+            handleClose={handleClose}
+            status={status}
+            message={message}
+          />
+        );
       }
     }
-
-    return (
-      <Alert
-        open={open}
-        handleClose={handleClose}
-        status={status}
-        message={message}
-      />
-    );
+    return <></>;
   };
 
   const handleSubmit = values => {
+    setLoadingButtom(true);
     props.dispatch({
       type: "FETCH_UPDATE_CLASSROOM",
       data: values,
       id: props.match.params.id
     });
-    setOpen(true);
     setLoadData(true);
   };
 
@@ -76,19 +91,26 @@ const Form = props => {
 
   return (
     <>
-      <ClassroomForm
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        handleSubmit={handleSubmit}
-        baseLink={`/turmas/${props.match.params.id}/matricula`}
-        isEdit={isEdit}
-        data={
-          Object.keys(props.classroom.classroom).length > 0
-            ? props.classroom.classroom.data
-            : null
-        }
-      />
-      {alert()}
+      {props?.loading && !loadingButtom ? (
+        <Loading />
+      ) : (
+        <>
+          <ClassroomForm
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            handleSubmit={handleSubmit}
+            baseLink={`/turmas/${props.match.params.id}/matricula`}
+            isEdit={isEdit}
+            loadingIcon={props?.loading}
+            data={
+              Object.keys(props.classroom.classroom).length > 0
+                ? props.classroom.classroom.data
+                : null
+            }
+          />
+          {alert()}
+        </>
+      )}
     </>
   );
 };
@@ -97,7 +119,11 @@ const mapStateToProps = state => {
   return {
     classroom: state.classroom,
     fetchClassroom: state.classroom.fetchClassroom,
-    error: state.classroom.msgError
+    error: state.classroom.msgError,
+    loading: state.classroom.loading,
+    openAlert: state.classroom.openAlert,
+    fetchRegistration: state.classroom.fetchRegistration,
+    isRedirectClassroom: state.classroom.isRedirectClassroom
   };
 };
 

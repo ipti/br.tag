@@ -24,3 +24,7 @@ export const getUpdateSchedule = data => ({
   type: actions.UPDATE_SCHEDULE,
   payload: data
 });
+
+export const closeAlert = () => ({
+  type: actions.CLOSE_ALERT_SCHEDULE
+});

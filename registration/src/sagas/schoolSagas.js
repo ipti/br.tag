@@ -1,4 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
+import * as actions from "../actions/schoolTypes";
 import { getSchools, getSchool, getError } from "../actions/schoolActions";
 import api from "../services/api";
 
@@ -53,13 +54,13 @@ function* fetchSchool(action) {
 
 // Watchs
 export function* watchFetchSchools() {
-  yield takeLatest("FETCH_SCHOOLS", fetchSchools);
+  yield takeLatest(actions.FETCH_SCHOOLS, fetchSchools);
 }
 
 export function* watchFetchSchool() {
-  yield takeLatest("FETCH_SCHOOL", fetchSchool);
+  yield takeLatest(actions.FETCH_SCHOOL, fetchSchool);
 }
 
 export function* watchFetchSchoolsPage() {
-  yield takeLatest("FETCH_SCHOOLS_PAGE", fetchSchoolsPage);
+  yield takeLatest(actions.FETCH_SCHOOLS_PAGE, fetchSchoolsPage);
 }

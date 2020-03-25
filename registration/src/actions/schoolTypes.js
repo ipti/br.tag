@@ -1,3 +1,8 @@
 export const GET_ALL = "GET_ALL";
 export const GET_SCHOOL = "GET_SCHOOL";
 export const GET_ERROR_SCHOOL = "GET_ERROR_SCHOOL";
+export const GET_SCHOOL_LIST = "GET_SCHOOL_LIST";
+export const FETCH_SCHOOLS = "FETCH_SCHOOLS";
+export const FETCH_SCHOOL = "FETCH_SCHOOL";
+export const FETCH_SCHOOLS_PAGE = "FETCH_SCHOOLS_PAGE";
+export const CLOSE_ALERT_SCHOOL = "CLOSE_ALERT_SCHOOL";

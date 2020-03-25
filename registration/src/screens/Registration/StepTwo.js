@@ -16,6 +16,7 @@ import * as Yup from "yup";
 
 // Components
 import { ButtonPurple } from "../../components/Buttons";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
 
 // Assets
 import homeImg from "../../assets/images/illustration-home.png";
@@ -43,10 +44,14 @@ const StepTwo = props => {
         justify="center"
         alignItems="center"
       >
-        <Grid item xs={12}><img src={homeImg} alt="" /></Grid>
+        <Grid item xs={12}>
+          <img src={homeImg} alt="" />
+        </Grid>
         <Grid item xs={12}>
           <h1>Possui Vínculo</h1>
-          <p>Informe o número de matrícula <br /> do ano anterior abaixo</p>
+          <p>
+            Informe o número de matrícula <br /> do ano anterior abaixo
+          </p>
         </Grid>
       </Grid>
 
@@ -60,7 +65,6 @@ const StepTwo = props => {
         enableReinitialize
       >
         {({ errors, touched, handleChange, handleSubmit }) => {
-
           const errorList = {
             numRegistration: touched.numRegistration && errors.numRegistration
           };
@@ -102,11 +106,15 @@ const StepTwo = props => {
                 direction="row"
               >
                 <Grid item xs={6}>
-                  <ButtonPurple
-                    onClick={handleSubmit}
-                    type="submit"
-                    title="Continuar"
-                  />
+                  {!props.loadingButtom ? (
+                    <ButtonPurple
+                      onClick={handleSubmit}
+                      type="submit"
+                      title="Continuar"
+                    />
+                  ) : (
+                    <Loading />
+                  )}
                 </Grid>
               </Grid>
             </Form>

@@ -32,16 +32,16 @@ const useStyles = {
   subtitle: {
     fontSize: styleBase.typography.font.extraSmall,
     color: styleBase.colors.grayClear,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   title: {
     fontSize: styleBase.typography.font.small,
     color: styleBase.colors.gray,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis"
   },
   boxWithoutImage: {
     marginBottom: 20
@@ -72,9 +72,9 @@ const useStyles = {
     backgroundColor: styleBase.colors.pink
   },
   boxQuantity: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     color: styleBase.colors.white,
     fontSize: styleBase.typography.font.extraSmall,
     padding: "9px 9px",
@@ -166,10 +166,10 @@ const useStyles = {
     width: "230px",
     whiteSpace: "nowrap",
     overflow: "hidden",
-    textOverflow: "ellipsis",
-    "&:hover": {
-      whiteSpace: "unset"
-    }
+    textOverflow: "ellipsis"
+    // "&:hover": {
+    //   whiteSpace: "unset"
+    // }
   }
 };
 export default useStyles;

@@ -24,7 +24,10 @@ const Start = props => {
         </Grid>
         <Grid item xs={12}>
           <h1>Matrícula Online</h1>
-          <p>Bem-vindo ao Matrícula online, para <br /> iniciar clique no botão abaixo</p>
+          <p>
+            Bem-vindo ao Matrícula online, para <br /> iniciar clique no botão
+            abaixo
+          </p>
         </Grid>
       </Grid>
       <Grid

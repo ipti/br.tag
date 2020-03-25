@@ -1,4 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
+import * as actions from "../actions/scheduleTypes";
 import {
   getSchedules,
   getSchedule,
@@ -94,21 +95,21 @@ function* fetchUpdateSchedule(action) {
 
 // Watchs
 export function* watchFetchSchedules() {
-  yield takeLatest("FETCH_SCHEDULES", fetchSchedules);
+  yield takeLatest(actions.FETCH_SCHEDULES, fetchSchedules);
 }
 
 export function* watchFetchSchedule() {
-  yield takeLatest("FETCH_SCHEDULE", fetchSchedule);
+  yield takeLatest(actions.FETCH_SCHEDULE, fetchSchedule);
 }
 
 export function* watchFetchSchedulesPage() {
-  yield takeLatest("FETCH_SCHEDULES_PAGE", fetchSchedulesPage);
+  yield takeLatest(actions.FETCH_SCHEDULES_PAGE, fetchSchedulesPage);
 }
 
 export function* watchFetchSaveSchedule() {
-  yield takeLatest("FETCH_SAVE_SCHEDULE", fetchSaveSchedule);
+  yield takeLatest(actions.FETCH_SAVE_SCHEDULE, fetchSaveSchedule);
 }
 
 export function* watchFetchUpdateSchedule() {
-  yield takeLatest("FETCH_UPDATE_SCHEDULE", fetchUpdateSchedule);
+  yield takeLatest(actions.FETCH_UPDATE_SCHEDULE, fetchUpdateSchedule);
 }

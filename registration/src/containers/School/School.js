@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { School } from "../../screens/School";
 import { connect } from "react-redux";
 import Alert from "../../components/Alert/CustomizedSnackbars";
+import Loading from "../../components/Loading/CircularLoading";
 
 const Home = props => {
   const [loadData, setLoadData] = useState(true);
   const [loadDataPaginate, setLoadDataPaginate] = useState(false);
-  const [page, setPage] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
   const handlePage = (e, pageInfo) => {
     setLoadDataPaginate(true);
@@ -25,41 +25,56 @@ const Home = props => {
       setLoadDataPaginate(false);
     }
 
-    if (props?.error) {
-      setOpen(true);
+    if (props?.openAlert) {
+      setTimeout(function() {
+        props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+      }, 6000);
     }
   }, [loadData, page, loadDataPaginate, props]);
 
   const handleClose = () => {
-    setOpen(false);
+    props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
   };
 
   const alert = () => {
-    let status = null;
-    let message = null;
+    if (props.openAlert) {
+      let status = null;
+      let message = null;
 
-    if (props?.error) {
-      status = 0;
-      message = props.error;
+      if (props?.error) {
+        status = 0;
+        message = props?.error;
+      }
+
+      if (message !== null && status !== null) {
+        return (
+          <Alert
+            open={props?.openAlert}
+            handleClose={handleClose}
+            status={status}
+            message={message}
+          />
+        );
+      }
     }
 
-    return (
-      <Alert
-        open={open}
-        handleClose={handleClose}
-        status={status}
-        message={message}
-      />
-    );
+    return <></>;
   };
   return (
     <>
-      <School
-        pagination={props.schools && props.schools.pagination}
-        data={props.schools && props.schools.schools}
-        handlePage={handlePage}
-      />
-      {alert()}
+      {props.loading ? (
+        <Loading />
+      ) : (
+        <>
+          <School
+            pagination={props.schools?.pagination}
+            data={props.schools?.schools}
+            handlePage={handlePage}
+            activePage={page}
+          />
+          {alert()}
+        </>
+      )}
     </>
   );
 };
@@ -67,7 +82,9 @@ const Home = props => {
 const mapStateToProps = state => {
   return {
     schools: state.school.schools,
-    error: state.school.msgError
+    error: state.school.msgError,
+    loading: state.school.loading,
+    openAlert: state.school.openAlert
   };
 };
 export default connect(mapStateToProps)(Home);

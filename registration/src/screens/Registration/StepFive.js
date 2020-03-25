@@ -9,6 +9,7 @@ import { ButtonPurple } from "../../components/Buttons";
 import styles from "./styles";
 import * as Yup from "yup";
 import api from "../../services/api";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
 
 const useStyles = makeStyles(styles);
 
@@ -27,6 +28,7 @@ const customStyles = {
 
 const StepFive = props => {
   const classes = useStyles();
+  const { loadingButtom } = props;
   const [inputValue, setInputValue] = useState("");
   const [arrClassrooms, setArrClassrooms] = useState([]);
   const [inputValueClassroom, setInputValueClassroom] = useState("");
@@ -61,8 +63,11 @@ const StepFive = props => {
           callback(response.data);
         });
       }, 500);
+    } else {
+      callback(props?.schools);
     }
   };
+
   return (
     <>
       <Formik
@@ -163,11 +168,15 @@ const StepFive = props => {
                 direction="row"
               >
                 <Grid item xs={6}>
-                  <ButtonPurple
-                    onClick={props.handleSubmit}
-                    type="submit"
-                    title="Finalizar"
-                  />
+                  {!loadingButtom ? (
+                    <ButtonPurple
+                      onClick={props.handleSubmit}
+                      type="submit"
+                      title="Finalizar"
+                    />
+                  ) : (
+                    <Loading />
+                  )}
                 </Grid>
               </Grid>
             </Form>

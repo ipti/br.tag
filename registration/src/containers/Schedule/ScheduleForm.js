@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { ScheduleForm } from "../../screens/Schedule";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
+import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 
 const Form = props => {
   const [active, setActive] = useState(true);
   const [loadData, setLoadData] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [loadingButtom, setLoadingButtom] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [redirect, setRedirect] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
     if (props.match.params.id && loadData) {
@@ -21,14 +26,19 @@ const Form = props => {
       setLoadData(false);
     }
 
-    if (Object.keys(props.schedule.schedule).length > 0) {
-      setActive(props.schedule.schedule.data.isActive);
+    if (props.schedule?.schedule) {
+      setActive(props.schedule?.schedule?.data?.isActive);
     }
 
-    if (props?.error) {
+    if (redirect && props?.fetchSchedule?.status === "1" && !props?.error) {
+      history.push("/cronograma");
+    } else {
       setOpen(true);
+      setTimeout(function() {
+        setOpen(false);
+      }, 6000);
     }
-  }, [isEdit, loadData, props]);
+  }, [history, isEdit, loadData, props, redirect]);
 
   const handleChangeActive = event => {
     setActive(event.target.checked);
@@ -45,37 +55,33 @@ const Form = props => {
     if (props?.error) {
       status = 0;
       message = props.error;
-    } else {
-      if (props.fetchSchedule?.status) {
-        status = props.fetchSchedule.status;
-        message = props.fetchSchedule.message;
-      }
     }
 
-    return (
-      <Alert
-        open={open}
-        handleClose={handleClose}
-        status={status}
-        message={message}
-      />
-    );
+    if (props?.fetchSchedule?.status === "0") {
+      status = props?.fetchSchedule.status;
+      message = props?.fetchSchedule.message;
+    }
+
+    if (status !== null && message !== null) {
+      return (
+        <Alert
+          open={open}
+          handleClose={handleClose}
+          status={status}
+          message={message}
+        />
+      );
+    }
+
+    return <></>;
   };
 
   const handleSubmit = values => {
     let data = {
-      internalTransferDateStart: moment(
-        values.internalTransferDateStart
-      ).format("YYYY-MM-DD hh:mm:ss"),
-      internalTransferDateEnd: moment(values.internalTransferDateEnd).format(
-        "YYYY-MM-DD hh:mm:ss"
-      ),
-      newStudentDateStart: moment(values.newStudentDateStart).format(
-        "YYYY-MM-DD hh:mm:ss"
-      ),
-      newStudentDateEnd: moment(values.newStudentDateEnd).format(
-        "YYYY-MM-DD hh:mm:ss"
-      ),
+      internalTransferDateStart: values.internalTransferDateStart,
+      internalTransferDateEnd: values.internalTransferDateEnd,
+      newStudentDateStart: values.newStudentDateStart,
+      newStudentDateEnd: values.newStudentDateEnd,
       year: values.year,
       isActive: values.isActive
     };
@@ -89,7 +95,8 @@ const Form = props => {
     } else {
       props.dispatch({ type: "FETCH_SAVE_SCHEDULE", data });
     }
-    setOpen(true);
+    setRedirect(true);
+    setLoadingButtom(true);
   };
 
   const validationSchema = Yup.object().shape({
@@ -139,7 +146,7 @@ const Form = props => {
       isActive: active
     };
 
-    if (isEdit && Object.keys(props.schedule.schedule).length > 0) {
+    if (isEdit && props?.schedule?.schedule?.status) {
       initialValues = {
         internalTransferDateStart: moment(
           props.schedule.schedule.data.internalTransferDateStart
@@ -175,15 +182,22 @@ const Form = props => {
 
   return (
     <>
-      <ScheduleForm
-        initialValues={initialValues()}
-        validationSchema={validationSchema}
-        handleSubmit={handleSubmit}
-        handleChangeActive={handleChangeActive}
-        active={active}
-        isEdit={isEdit}
-      />
-      {alert()}
+      {props?.loading && !loadingButtom ? (
+        <Loading />
+      ) : (
+        <>
+          <ScheduleForm
+            initialValues={initialValues()}
+            validationSchema={validationSchema}
+            handleSubmit={handleSubmit}
+            handleChangeActive={handleChangeActive}
+            active={active}
+            isEdit={isEdit}
+            loadingIcon={props?.loading}
+          />
+          {alert()}
+        </>
+      )}
     </>
   );
 };
@@ -192,7 +206,8 @@ const mapStateToProps = state => {
   return {
     schedule: state.schedule,
     fetchSchedule: state.schedule.fetchSchedule,
-    error: state.schedule.msgError
+    error: state.schedule.msgError,
+    loading: state.schedule.loading
   };
 };
 

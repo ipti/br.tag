@@ -1,4 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
+import * as actions from "../actions/classroomTypes";
 import {
   getClassrooms,
   getClassroom,
@@ -135,29 +136,29 @@ function* fetchUpdateClassroom(action) {
 
 // Watchs
 export function* watchFetchClassrooms() {
-  yield takeLatest("FETCH_CLASSROOMS", fetchClassrooms);
+  yield takeLatest(actions.FETCH_CLASSROOMS, fetchClassrooms);
 }
 
 export function* watchFetchRegistration() {
-  yield takeLatest("FETCH_REGISTRATION", fetchRegistration);
+  yield takeLatest(actions.FETCH_REGISTRATION, fetchRegistration);
 }
 
 export function* watchFetchClassroom() {
-  yield takeLatest("FETCH_CLASSROOM", fetchClassroom);
+  yield takeLatest(actions.FETCH_CLASSROOM, fetchClassroom);
 }
 
 export function* watchFetchClassroomsPage() {
-  yield takeLatest("FETCH_CLASSROOMS_PAGE", fetchClassroomsPage);
+  yield takeLatest(actions.FETCH_CLASSROOMS_PAGE, fetchClassroomsPage);
 }
 
 export function* watchFetchSaveClassroom() {
-  yield takeLatest("FETCH_SAVE_CLASSROOM", fetchSaveClassroom);
+  yield takeLatest(actions.FETCH_SAVE_CLASSROOM, fetchSaveClassroom);
 }
 
 export function* watchFetchUpdateClassroom() {
-  yield takeLatest("FETCH_UPDATE_CLASSROOM", fetchUpdateClassroom);
+  yield takeLatest(actions.FETCH_UPDATE_CLASSROOM, fetchUpdateClassroom);
 }
 
 export function* watchFetchUpdateRegistration() {
-  yield takeLatest("FETCH_UPDATE_REGISTRATION", fetchUpdateRegistration);
+  yield takeLatest(actions.FETCH_UPDATE_REGISTRATION, fetchUpdateRegistration);
 }

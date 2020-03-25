@@ -2,13 +2,13 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  IconHouse,
+  //IconHouse,
+  //IconHouseActive,
   IconClassroom,
   IconSchedule,
   IconSchool,
   IconClassroomActive,
   IconScheduleActive,
-  IconHouseActive,
   IconSchoolActive
 } from "../Svg";
 
@@ -59,7 +59,7 @@ const Sidebar = () => {
           <li key={index}>
             <Link
               className={`${classes.linkMenu} ${classes.liMenu} ${
-                (history.location.pathname.includes(to)) ||
+                history.location.pathname.includes(to) ||
                 (history.location.pathname.length === 1 && index === 0)
                   ? classes.activeLink
                   : ""

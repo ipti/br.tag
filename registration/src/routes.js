@@ -7,7 +7,7 @@ import MainLayout from "./components/Layouts/MainLayout";
 import NotFoundPage from "./components/Layouts/NotFoundPage";
 import CircularLoading from "./components/Loading/CircularLoading";
 
-const Home = lazy(() => import("./containers/Home"));
+//const Home = lazy(() => import("./containers/Home"));
 const Schedule = lazy(() => import("./containers/Schedule/Schedule"));
 const ScheduleForm = lazy(() => import("./containers/Schedule/ScheduleForm"));
 

@@ -14,3 +14,7 @@ export const getError = error => ({
   type: actions.GET_ERROR_SCHOOL,
   payload: "Erro: " + error + ". Por favor, tente novamente."
 });
+
+export const closeAlert = () => ({
+  type: actions.CLOSE_ALERT_SCHOOL
+});

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { RegistrationConfirmed } from "../../screens/Classroom";
 import { connect } from "react-redux";
-import Alert from "../../components/Alert/CustomizedSnackbars";
+import Loading from "../../components/Loading/CircularLoading";
+import { useHistory } from "react-router-dom";
 
 const Registration = props => {
   const [loadData, setLoadData] = useState(true);
-  const [open, setOpen] = useState(false);
+  const [loadingButtom, setLoadingButtom] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
     if (props.match.params.idRegistration && loadData) {
@@ -16,55 +18,36 @@ const Registration = props => {
       setLoadData(false);
     }
 
-    if (props?.error) {
-      setOpen(true);
+    if (
+      props?.fetchRegistration?.status === "1" &&
+      props.isRedirectRegistration
+    ) {
+      history.go(-1);
     }
-  }, [loadData, props]);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const alert = () => {
-    let status = null;
-    let message = null;
-
-    if (props?.error) {
-      status = 0;
-      message = props.error;
-    } else {
-      if (props.fetchRegistration) {
-        status = props.fetchRegistration.status;
-        message = props.fetchRegistration.message;
-      }
-    }
-
-    return (
-      <Alert
-        open={open}
-        handleClose={handleClose}
-        status={status}
-        message={message}
-      />
-    );
-  };
+  }, [history, loadData, props]);
 
   const handleSubmit = value => {
+    setLoadingButtom(true);
     props.dispatch({
       type: "FETCH_UPDATE_REGISTRATION",
       data: { confirmed: value },
       id: props.match.params.idRegistration
     });
-    setOpen(true);
   };
 
   return (
     <>
-      <RegistrationConfirmed
-        registration={props.registration}
-        handleSubmit={handleSubmit}
-      />
-      {alert()}
+      {props.loading && !loadingButtom ? (
+        <Loading />
+      ) : (
+        <>
+          <RegistrationConfirmed
+            registration={props.registration}
+            handleSubmit={handleSubmit}
+            loadingIcon={props.loading}
+          />
+        </>
+      )}
     </>
   );
 };
@@ -72,8 +55,10 @@ const Registration = props => {
 const mapStateToProps = state => {
   return {
     registration: state.classroom.registration,
+    error: state.classroom.msgError,
+    loading: state.classroom.loading,
     fetchRegistration: state.classroom.fetchRegistration,
-    error: state.classroom.msgError
+    isRedirectRegistration: state.classroom.isRedirectRegistration
   };
 };
 

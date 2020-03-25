@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 
 // Redux
 import { connect } from "react-redux";
@@ -8,12 +7,14 @@ import { connect } from "react-redux";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 import Wizard from "../../screens/Registration/Wizard";
 import Wait from "../../screens/Registration/Wait";
+import Loading from "../../components/Loading/CircularLoadingRegistration";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
 
 const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
+  const [loadDataSchool, setLoadDataSchool] = useState(true);
   const [loadPeriod, setLoadPeriod] = useState(true);
   const [open, setOpen] = useState(false);
   const [number, setNumber] = useState("");
@@ -28,69 +29,76 @@ const Home = props => {
       setLoadDataStudent(false);
     }
 
+    if (loadDataSchool) {
+      props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
+      setLoadDataSchool(false);
+    }
+
     if (loadPeriod) {
       props.dispatch({ type: "FETCH_PERIOD" });
       setLoadPeriod(false);
     }
 
-    if (
-      step - 1 === 0 &&
-      props?.period &&
-      props.period?.data?.internal === false &&
-      props.period?.data?.newStudent === true
-    ) {
+    if (step === 2 && props?.student?.status === "1") {
       setStep(3);
     }
 
-    if (
-      step - 1 === 0 &&
-      props?.period &&
-      props.period?.data?.internal === true &&
-      props.period?.data?.newStudent === false &&
-      !props?.student?.status
-    ) {
-      setStep(2);
-    }
-
-    if (step === 2 && props.student && props.student.status === "1") {
-      setStep(3);
-    }
-
-    if (props.registration && props.registration.status === "1") {
+    if (props?.registration?.status === "1" && !props.loading) {
       setStep(6);
     }
 
-    if (props?.student && props?.student?.status === "1") {
+    if (props?.student?.status === "1" && !props.loading) {
       setStep(5);
     }
 
-    if (step === 2 && props.student && props.student.status === "0") {
-      setOpen(true);
+    if (props.openAlert) {
+      setTimeout(function() {
+        props.dispatch({ type: "CLOSE_ALERT_REGISTRATION" });
+      }, 3000);
     }
-  }, [loadDataStudent, loadPeriod, number, props, step]);
+  }, [loadDataSchool, loadDataStudent, loadPeriod, number, open, props, step]);
 
   const onSubmit = () => {
-    dataValues.birthday = dataValues.birthday
-      .split("/")
-      .reverse()
-      .join("-");
+    if (dataValues?.birthday) {
+      dataValues.birthday = dataValues.birthday
+        .split("/")
+        .reverse()
+        .join("-");
+    }
 
     props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: dataValues });
   };
 
   const next = (step, values) => {
     let data = Object.assign(dataValues, values);
-    if (step > 1) {
-      setDataValues(data);
-    }
-
-    if (step === 3 && values && values.numRegistration !== "") {
-      getDataStudent(values.numRegistration);
+    if (
+      step === 1 &&
+      props?.period &&
+      !props.period?.data?.internal &&
+      props.period?.data?.newStudent &&
+      !props?.student?.status
+    ) {
+      setStep(3);
+    } else if (
+      step === 1 &&
+      props?.period &&
+      props.period?.data?.internal &&
+      !props.period?.data?.newStudent
+    ) {
+      setStep(2);
     } else {
-      if (step === 6) {
-        onSubmit();
+      if (step > 1) {
+        setDataValues(data);
+      }
+
+      if (step === 3 && values && values.numRegistration !== "") {
+        getDataStudent(values.numRegistration);
       } else {
-        setStep(step);
+        if (step === 6) {
+          onSubmit();
+        } else {
+          setStep(step);
+        }
       }
     }
   };
@@ -107,7 +115,7 @@ const Home = props => {
   const alert = () => {
     return (
       <Alert
-        open={open}
+        open={props.openAlert}
         handleClose={handleClose}
         status="0"
         message="Matrícula não encontrada!."
@@ -128,7 +136,8 @@ const Home = props => {
       props.period?.data?.internal === true ||
       props.period?.data?.newStudent === true ||
       props?.student?.status ||
-      step === 6;
+      step === 6 ||
+      props.loading;
     return (
       <Grid
         container
@@ -140,12 +149,14 @@ const Home = props => {
           {isActive ? (
             <Wizard
               student={props.student && props.student.data}
+              schools={props?.schoolList}
               next={next}
               step={step}
               registration={
                 props?.registration && props?.registration?.data?.id
               }
               handleStudent={handleStudent}
+              loadingButtom={props.loading}
             />
           ) : (
             <Wait />
@@ -157,8 +168,14 @@ const Home = props => {
 
   return (
     <>
-      {wizard()}
-      {alert()}
+      {props.loading && step === 0 ? (
+        <Loading />
+      ) : (
+        <>
+          {wizard()}
+          {alert()}
+        </>
+      )}
     </>
   );
 };
@@ -167,7 +184,10 @@ const mapStateToProps = state => {
   return {
     student: state.registration.student,
     registration: state.registration.registration,
-    period: state.registration.period
+    period: state.registration.period,
+    schoolList: state.registration.schoolList,
+    loading: state.registration.loading,
+    openAlert: state.registration.openAlert
   };
 };
 

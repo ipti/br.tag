@@ -28,9 +28,6 @@ export default function CustomizedSnackbars(props) {
           horizontal: "right"
         }}
         open={props.open}
-        autoHideDuration={
-          props.autoHideDuration ? props.autoHideDuration : 6000
-        }
         onClose={props.handleOpen}
       >
         <Alert

@@ -19,3 +19,12 @@ export const getError = error => ({
   type: actions.GET_ERROR_REGISTRATION,
   payload: error
 });
+
+export const getSchoolList = response => ({
+  type: actions.GET_SCHOOL_LIST,
+  payload: response
+});
+
+export const closeAlert = () => ({
+  type: actions.CLOSE_ALERT_REGISTRATION
+});

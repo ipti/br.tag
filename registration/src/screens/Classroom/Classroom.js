@@ -3,7 +3,7 @@ import React from "react";
 // Material UI
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 
 import { Paginator } from "../../components/Paginator";
 import { BoxBig, BoxDiscriptionClassroom } from "../../components/Boxes";
@@ -14,7 +14,7 @@ import styles from "./styles";
 
 const useStyles = makeStyles(theme => styles);
 
-const Classroom = ({ data, pagination, handlePage }) => {
+const Classroom = ({ data, pagination, handlePage, activePage }) => {
   const classes = useStyles();
 
   const classrooms = () => {
@@ -53,13 +53,14 @@ const Classroom = ({ data, pagination, handlePage }) => {
             <Paginator
               pagination={pagination}
               handlePage={handlePage}
+              activePage={activePage}
             />
           </div>
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={3}>
-        <List items={classrooms()} >
-          <Grid item xs={12} >
+        <List items={classrooms()}>
+          <Grid item xs={12}>
             <Alert variant="outlined" severity="warning">
               Nenhuma turma cadastrada
             </Alert>

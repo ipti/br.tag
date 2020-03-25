@@ -1,4 +1,5 @@
 import React from "react";
+import { format, parseISO } from "date-fns";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TitleWithLine } from "../../components/Titles";
 import { BoxStatus } from "../../components/Boxes";
 import { ButtonPurple, ButtonLinePurple } from "../../components/Buttons";
+import Loading from "../../components/Loading/CircularLoadingButtomActions";
 
 // Assets
 import IconMale from "../../assets/images/male-icon.png";
@@ -34,7 +36,12 @@ const Home = props => {
   const nullableField = "-------------";
 
   const studentName = student?.name;
-  const studentBirthday = student?.birthday;
+
+  const studentDate = student?.birthday ? parseISO(student?.birthday) : "";
+  const studentBirthday = student?.birthday
+    ? format(studentDate, "dd/MM/yyyy")
+    : "";
+
   const status = student?.newStudent;
 
   const address = student?.address ?? nullableField;
@@ -43,7 +50,13 @@ const Home = props => {
 
   const responsableName = student?.responsableName ?? nullableField;
   const responsableCpf = student?.responsableCpf ?? nullableField;
-  const responsableBirthday = student?.responsableBirthday ?? nullableField;
+
+  const responsableDate = student?.responsableBirthday
+    ? parseISO(student?.responsableBirthday)
+    : "";
+  const responsableBirthday = student?.responsableBirthday
+    ? format(responsableDate, "dd/MM/yyyy")
+    : "";
 
   const classroomName = classroom?.name ?? nullableField;
   const modality = classroom && modalityDefault[classroom?.modality];
@@ -151,20 +164,28 @@ const Home = props => {
         direction="row"
         spacing={3}
       >
-        <Grid item md={3}>
-          <ButtonPurple
-            onClick={() => handleSubmit(true)}
-            type="button"
-            title="Confirmar"
-          />
-        </Grid>
-        <Grid item md={3}>
-          <ButtonLinePurple
-            onClick={() => handleSubmit(false)}
-            type="button"
-            title="Recusar"
-          />
-        </Grid>
+        {!props?.loadingIcon ? (
+          <>
+            <Grid item md={3}>
+              <ButtonPurple
+                onClick={() => handleSubmit(true)}
+                type="button"
+                title="Confirmar"
+              />
+            </Grid>
+            <Grid item md={3}>
+              <ButtonLinePurple
+                onClick={() => handleSubmit(false)}
+                type="button"
+                title="Recusar"
+              />
+            </Grid>
+          </>
+        ) : (
+          <Grid item md={3}>
+            <Loading />
+          </Grid>
+        )}
       </Grid>
     </>
   );

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { SchoolClassroom } from "../../screens/School";
 import { connect } from "react-redux";
 import Alert from "../../components/Alert/CustomizedSnackbars";
+import Loading from "../../components/Loading/CircularLoading";
 
 const Home = props => {
   const [loadData, setLoadData] = useState(true);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (loadData) {
@@ -16,36 +16,52 @@ const Home = props => {
       setLoadData(false);
     }
 
-    if (props?.error) {
-      setOpen(true);
+    if (props?.openAlert) {
+      setTimeout(function() {
+        props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+      }, 6000);
     }
   }, [loadData, props]);
 
   const handleClose = () => {
-    setOpen(false);
+    props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
   };
 
   const alert = () => {
-    let status = null;
-    let message = null;
+    if (props.openAlert) {
+      let status = null;
+      let message = null;
 
-    if (props?.error) {
-      status = 0;
-      message = props.error;
+      if (props?.error) {
+        status = 0;
+        message = props?.error;
+      }
+
+      if (message !== null && status !== null) {
+        return (
+          <Alert
+            open={props?.openAlert}
+            handleClose={handleClose}
+            status={status}
+            message={message}
+          />
+        );
+      }
     }
-    return (
-      <Alert
-        open={open}
-        handleClose={handleClose}
-        status={status}
-        message={message}
-      />
-    );
+
+    return <></>;
   };
+
   return (
     <>
-      <SchoolClassroom data={props.school && props.school.school} />
-      {alert()}
+      {props.loading ? (
+        <Loading />
+      ) : (
+        <>
+          <SchoolClassroom data={props.school?.school} />
+          {alert()}
+        </>
+      )}
     </>
   );
 };
@@ -53,7 +69,9 @@ const Home = props => {
 const mapStateToProps = state => {
   return {
     school: state.school.school,
-    error: state.school.msgError
+    error: state.school.msgError,
+    loading: state.school.loading,
+    openAlert: state.school.openAlert
   };
 };
 export default connect(mapStateToProps)(Home);

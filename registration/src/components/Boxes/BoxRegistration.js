@@ -17,7 +17,9 @@ const BoxRegistration = props => {
           <img src={sex === "1" ? IconMale : IconWoman} alt="Icone de aluno" />
         </div>
         <div className={`${classes.floatLeft} ${classes.nameStudent}`}>
-          <div className={`${classes.truncate}`}>{name}</div>
+          <div title={name} className={`${classes.truncate}`}>
+            {name}
+          </div>
           <span className={classes.subtitleStudent}>Aluno</span>
           {confirmed === true && (
             <span className={`${classes.confimedCicle}`}></span>

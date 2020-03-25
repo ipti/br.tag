@@ -29,3 +29,7 @@ export const getUpdateRegistration = data => ({
   type: actions.UPDATE_REGISTRATION,
   payload: data
 });
+
+export const closeAlert = () => ({
+  type: actions.CLOSE_ALERT_CLASSROOM
+});
