@@ -1,4 +1,4 @@
-FROM node:8.11.3
+FROM node:12.16
 RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 # The base node image sets a very verbose log level.
