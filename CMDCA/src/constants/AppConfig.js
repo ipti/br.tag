@@ -3,7 +3,7 @@
  */
 const AppConfig = {
     appLogo: require('Assets/img/site-logo.png'),          // App Logo
-    brandName: 'TomCom',                                    // Brand Name
+    brandName: 'TomCmdca',                                    // Brand Name
     navCollapsed: false,                                      // Sidebar collapse
     darkMode: false,                                          // Dark Mode
     boxLayout: false,                                         // Box Layout
@@ -42,8 +42,7 @@ const AppConfig = {
         darkBgColor: '#424242'
     },
     baseUrl : (window.location.host.indexOf(':') > 0) ? `http://${window.location.host.substr(0,window.location.host.indexOf(':'))}/` : `http://${window.location.host}/`,
-    //baseUrlApi : process.env.NODE_ENV === 'production' ? 'https://api.tag.ong.br':'http://api.tag.com/',
-    baseUrlApi : process.env.NODE_ENV === 'production' ? 'https://api.tag.ong.br':'http://localhost:3333',
+    baseUrlApi : process.env.NODE_ENV === 'production' ? 'https://tag-cmdca-api.herokuapp.com':'http://localhost:3333',
     citizen: {
         id: '5cfd7906aaf4d73096ccd566',
         access_token: "4ovQBzFHaw1h3j4mQgDYzwLOYcfnYhed_1537467423",
