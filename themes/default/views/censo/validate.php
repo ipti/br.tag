@@ -62,11 +62,11 @@
                                     <i></i>
                                 </span>
                                 <span class="ellipsis">
-                                    <?php echo SchoolIdentification::model()->getAttributeLabel(key($identification)) ?> -
-                                    <?php echo current($identification) ?>
+                                    <?php echo @SchoolIdentification::model()->getAttributeLabel(key($identification)) ?> -
+                                    <?php echo @current($identification) ?>
                                     <?php echo CHtml::link('- Corrigir',array('school/update', 'id'=>$log['school']['info']['inep_id'], 'censo' => 1)); ?>
                                 </span>
-                                    <?php $dataValidation['scholl'.$log['school']['info']['inep_id']][] = current($identification); ?>
+                                    <?php @$dataValidation['school'.$log['school']['info']['inep_id']][] = current($identification); ?>
                                 <div class="clearfix"></div>
                             </li>
                         <?php } ?>

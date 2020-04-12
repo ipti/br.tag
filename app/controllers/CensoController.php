@@ -1496,7 +1496,7 @@ class CensoController extends Controller {
 		$schoolstructurecolumn = $schoolstructure->attributes;
 		$log['school']['info'] = $school->attributes;
 		$log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn);
-		$log['school']['validate']['identification'] = array_map('trim', $log['school']['validate']['identification']);
+		@$log['school']['validate']['identification'] = array_map('trim', $log['school']['validate']['identification']);
 		$log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn,$schoolcolumn);
 		$classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 		foreach ($classrooms as $iclass => $classroom) {
@@ -1516,7 +1516,7 @@ class CensoController extends Controller {
 				if(!isset($log['student'][$enrollment->student_fk]['info'])){
 					$log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
 					$log['student'][$enrollment->student_fk]['validate']['identification'] = $this->validateStudentIdentification($enrollment->studentFk->attributes,$enrollment->studentFk->documentsFk->attributes);
-					$log['student'][$enrollment->student_fk]['validate']['documents'] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes,$enrollment->studentFk->attributes);
+					@$log['student'][$enrollment->student_fk]['validate']['documents'] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes,$enrollment->studentFk->attributes);
 				}
 				$log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
 				$log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;

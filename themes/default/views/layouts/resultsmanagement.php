@@ -29,7 +29,7 @@ $year = Yii::app()->user->year;
     <link href="<?=$baseScriptUrl?>/lib/fonts/glyphicons/css/glyphicons_filetypes.css" rel="stylesheet"/>
     <link href="<?=$baseScriptUrl?>/lib/fonts/glyphicons/css/glyphicons_regular.css" rel="stylesheet"/>
 
-    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
 
     <link href="<?=$baseScriptUrl?>/common/css/style.css" rel="stylesheet"/>
     <script type="text/javascript">var $baseScriptUrl = "<?=$baseScriptUrl?>";</script>
@@ -64,7 +64,7 @@ $year = Yii::app()->user->year;
                         <?= $content ?>
                     </div>
 
-                    <div class="col-md-4">
+                    <div id="sidewid" class="col-md-4">
                         <?php if(!Yii::app()->user->hardfoot){$this->widget('resultsmanagement.components.sideInfoWidget');}?>
                     </div>
                 </div>
@@ -77,7 +77,7 @@ $year = Yii::app()->user->year;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script src="<?=$baseScriptUrl?>/common/js/resultsLayout.js"></script>
 
 <script src="<?=$baseScriptUrl?>/lib/js/jquery.select2.pt-br.js"></script>
