@@ -1,6 +1,9 @@
 <?php
 
 	class CurricularmatrixController extends Controller {
+
+		public $MODEL_CURRICULAR_MATRINX = 'CurricularMatrix';
+
 		/**
 		 * @return array action filters
 		 */
@@ -92,5 +95,37 @@
 			return ['dataProvider'=>$dataProvider, 'filter'=>$filter];
 
 		}
+
+
+		public function loadModel($id, $model) {
+			$return = null;
+
+			if ($model == $this->MODEL_CURRICULAR_MATRINX) {
+					$return = CurricularMatrix::model()->findByPk($id);
+			}
+
+			if ($return === null) {
+					throw new CHttpException(404, 'The requested page does not exist.');
+			}
+			return $return;
+	}
+
+		/**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    //@done s1 - excluir Matrix Curricular
+    public function actionDelete($id) {
+			$curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRINX);
+			try {
+					if ($curricularMatrix->delete()) {
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz Curricular excluída com sucesso!'));
+							$this->redirect(array('index'));
+					}
+			} catch(Exception $e) {
+					throw new CHttpException(901, Yii::t('errors','Can not delete'));
+			}
+	}
 
 	}

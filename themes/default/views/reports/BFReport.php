@@ -16,33 +16,39 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <table class="table table-bordered table-striped">
             <?php
             $html = "";
-            foreach ($report as $name => $r) {
-                $html .= "<tr>"
-                        . "<td rowspan='4' colspan='1'>"
-                        . $name
-                        . "<br> Nascimento: " . $r['Info']['birthday']
-                        . "<br> NIS: " . $r['Info']['NIS']
-                        . "<br> Turma: " . $r['Info']['Classroom']
-                        . "</td>"
-                        . "<th>Mês:</th>"
-                        . "<th>Frequência:</th>"
-                        . "</tr>";
-                foreach ($r['Classes'] as $month => $classes) {
-                    setlocale(LC_ALL, NULL);
-                    setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
-                    $time = mktime(0, 0, 0, $month);
-                    $monthName = strftime("%B", $time);
-
+            $nameClassroom = [];
+            foreach ($reports as $classroom => $report) {
+                $html .= "<tr><th colspan='3'>{$classroom}</th><tr>";
+                foreach ($report as $name => $r) {
+                  
                     $html .= "<tr>"
-                            . "<td class='center'>"
-                            . $monthName
+                            . "<td rowspan='4' colspan='1'>"
+                            . $name
+                            . "<br> Nascimento: " . $r['Info']['birthday']
+                            . "<br> NIS: " . $r['Info']['NIS']
+                            . "<br> Turma: " . $r['Info']['Classroom']
                             . "</td>"
-                            . "<td class='center' >"
-                            . $classes
-                            . "</td>"
+                            . "<th>Mês:</th>"
+                            . "<th>Frequência:</th>"
                             . "</tr>";
+                    foreach ($r['Classes'] as $month => $classes) {
+                        setlocale(LC_ALL, NULL);
+                        setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
+                        $time = mktime(0, 0, 0, $month);
+                        $monthName = strftime("%B", $time);
+                        
+                        $html .= "<tr>"
+                                . "<td class='center'>"
+                                . $monthName
+                                . "</td>"
+                                . "<td class='center' >"
+                                . $classes
+                                . "</td>"
+                                . "</tr>";
+                    }
+                    $html .= "<tr><td colspan='3'></td></tr>";
+                    
                 }
-                $html .= "<tr><td colspan='3'></td></tr>";
             }
             echo $html;
             ?>

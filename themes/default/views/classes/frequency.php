@@ -23,7 +23,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="buttons span9">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
             <a href="<?php echo Yii::app()->createUrl('reports/bfreport') ?>" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>
-            <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
+            <!-- <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a> -->
         </div>
     </div>
 </div>
@@ -119,16 +119,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <div class="widget-head">
             <h4 class="heading" id="frequency-student-name" style="text-align: center; float: none"></h4>
         </div>
-        <table id="frequency" class="table table-bordered table-striped">
-            <thead>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="center">1</td>
-                </tr>
-            </tbody>
-        </table>
-    </div
+        <div class="table-scroll">
+            <table id="frequency" class="table table-bordered table-striped">
+            </table>
+        </div>
+    </div>
+    <div id="buttonsNexrPrev"></div>
     <?php $this->endWidget(); ?>
 </div>
 
@@ -141,5 +137,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
 <?php //@done s2 - reabilitar apenas os que não estão checados    ?>
     var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
+    var getClassesURLSave = "<?php echo Yii::app()->createUrl('classes/saveFrequency') ?>";
 
 </script>

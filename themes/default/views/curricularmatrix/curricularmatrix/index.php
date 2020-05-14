@@ -101,6 +101,7 @@
 					'name' => 'credits',
 					'htmlOptions' => ['width' => '150px']
 				],
+				['class' => 'CButtonColumn', 'template' => '{delete}'],
 			],
 		]);
 	?>

@@ -139,7 +139,7 @@ class TimesheetController extends Controller
                 }
             }
         }
-        $this->render('instructors');
+        $this->render('index');
     }
 
 

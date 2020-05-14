@@ -27,7 +27,8 @@ $this->breadcrumbs = array(
         <?php endif ?>
         <div class="span12">
                 <div class="span2">
-                    <a href="<?php echo Yii::app()->createUrl('reports/BFReport')?>" class="widget-stats">
+                    <a href="#" data-toggle="modal" data-target="#reportFamilyBag" class="widget-stats" target="_blank">
+                    <!-- <a  href="<?php //echo Yii::app()->createUrl('reports/BFReport')?>" class="widget-stats"> -->
                         <span class="fa-percent fa fa-4x"><i></i></span>
                         <span class="txt">Frequência para o Bolsa Família</span>
                         <div class="clearfix"></div>
@@ -208,6 +209,46 @@ $this->breadcrumbs = array(
     </div>
 </div>
 
+<div class="modal fade" id="reportFamilyBag" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="documentBag">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Frequência Bolsa Família - Escolha a Turma</h4>
+            </div>
+            <form class="form-vertical" action="/br.tag/?r=calendar" method="post">            
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class=" span12" style="margin: 10px 0 10px 0;">
+                            <div class="span4">
+                                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                            </div>
+                            <div class="span8">
+                                <?php
+                                    echo CHtml::dropDownList('classroom2', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(
+                                        'key' => 'id',
+                                        'class' => 'select-search-on',
+                                        'prompt' => 'Todas as turma',
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('classes/getDisciplines'),
+                                            'update' => '#disciplines',
+                                    )));
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="background-color:#FFF;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" url="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" type="button" value="Gerar" id="buildReportBF"> Gerar </a>         
+                </div>
+            </form>        
+        </div>
+    </div>
+</div>
+
 <?php
 
 $cs = Yii::app()->getClientScript();
@@ -218,5 +259,13 @@ $cs->registerScript('buildReport',"
         $(this).attr('url', url + '&id='+ id);
     });
     registerAndOpenTab('#buildReport');", CClientScript::POS_END);
+
+$cs->registerScript('buildReportBF',"  
+    $('#buildReportBF').live('click', function(event) {
+        var url = $(this).attr('url');
+        var id = $('#classroom2').val();
+        $(this).attr('url', url + '&id='+ id);
+    });
+    registerAndOpenTab('#buildReportBF');", CClientScript::POS_END);
 
  ?>

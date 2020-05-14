@@ -577,6 +577,7 @@ class ReportsController extends Controller {
     }
 
     public function actionBFReport() {
+        
         $this->layout = "reportsclean";
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
@@ -586,6 +587,14 @@ class ReportsController extends Controller {
         $monthI = $month <= 3 ? 1 : $month-3;
         $monthF = $month <= 1 ? 1 : $month-1;
         $year = date('Y');
+        
+        $arrFields = [":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school];
+        $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.given_class = 1 AND c.school_inep_fk = :school";
+        
+        if(isset($_GET['id']) && !empty($_GET['id'])){
+            $conditions .= " AND c.id = :id_classroom ";
+            $arrFields[':id_classroom'] = $_GET['id'];
+        }
 
         /*
         select c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults
@@ -622,11 +631,8 @@ class ReportsController extends Controller {
             group by student_fk, class.month,class.classroom_fk) cf 
         on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
         $command->where('c.school_year = :year '
-                . 'AND t.month >= :monthI '
-                . 'AND t.month <= :monthF '
-                . 'AND t.given_class = 1 '//0 não, 1 sim
-                . 'AND c.school_inep_fk = :school ',
-                array(":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school));
+                . $conditions,
+                $arrFields);
         $command->group = "c.id, t.month, si.id, cf.faults";
         $command->order = "student, month";
         $query = $command->queryAll();
@@ -643,9 +649,10 @@ class ReportsController extends Controller {
             $faults     = isset($v['faults'])       ? $v['faults']      : 0;
 
             //$report[$student]['Classes'][$month] = $faults/$count or N/A
+            
             //@done s3 - Calcular frequência para cada aluno: (Total de horários - faltas do aluno) / (Total de horários - Dias não ministrados)
-            $report[$student]['Classes']['f'.$month]['count'] = $count;
-            $report[$student]['Classes']['f'.$month]['faults'] =  $faults;
+            // $report[$student]['Classes']['f'.$month]['count'] = $count;
+            // $report[$student]['Classes']['f'.$month]['faults'] =  $faults;
 
             $report[$student]['Classes'][$month]  =
                         ($count == 0)   //Se Count for 0, então não houveram aulas cadastradas
@@ -662,15 +669,16 @@ class ReportsController extends Controller {
         }
 
         //Se não houver aulas no mês, coloca 0 no lugar.
+        $groupByClassroom = [];
         foreach ($report as $name => $c){
+            $groupByClassroom[$c['Info']['Classroom']][$name] = $c;
             for ($i = $monthI; $i <= $monthF; $i++) {
-
-                $report[$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
+                $groupByClassroom[$c['Info']['Classroom']][$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
             }
         }
-
+        
         $this->render('BFReport', array(
-            'report' => $report,
+            'reports' => $groupByClassroom,
         ));
     }
 
