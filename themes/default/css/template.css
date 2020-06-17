@@ -7329,3 +7329,115 @@ li.active a {
 .red {
   color: red;
 }
+
+.box-links-previous-next,
+.responsive-menu,
+#buttons-student,
+.hide-box {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #menu .slim-scroll > ul > li.hide-responsive,
+  #menu > ul > li.hide-responsive {
+    display: none !important;
+  }
+
+  .hide-responsive {
+    display: none !important;
+  }
+
+  #content {
+    margin: 0;
+  }
+
+  #box-menu {
+    margin-top: 44px !important;
+  }
+
+  .buttons button {
+    margin-top: -60px;
+  }
+
+  .buttons .print {
+    margin-top: -62px !important;
+  }
+
+  .box-links-previous-next {
+    margin-top: 20px;
+    display: block;
+  }
+
+  .show,
+  .responsive-menu,
+  #buttons-student,
+  .hide-box {
+    display: block;
+  }
+
+  .breadcrumb {
+    height: 52px !important;
+  }
+
+  .responsive-menu .dropdown-menu li {
+    margin-bottom: 5px;
+    border-bottom: solid 1px gray;
+  }
+
+  .responsive-menu .dropdown-menu li:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+
+  #widget-StudentsList,
+  .columnone {
+    margin-top: 50px !important;
+  }
+
+  .dropdown-toggle,
+  .responsive-menu .btn-group > .btn:hover,
+  .btn-group > .btn:focus,
+  .btn-group > .btn:active,
+  .btn-group > .btn.active,
+  .btn-group.open .btn.dropdown-toggle {
+    background-color: #496cad;
+    color: #fff;
+  }
+
+  .innerLR .responsive-menu {
+    margin-right: 15px;
+  }
+
+  #classroom-form .responsive-menu {
+    margin-right: 0;
+  }
+
+  .dropdown-margin {
+    margin-top: 57px;
+    margin-right: 10px;
+  }
+
+  #buttons-student {
+    margin-top: 10px;
+  }
+
+  #received .span3:first-child label:first-child {
+    margin-top: 64px !important;
+  }
+
+  #button-add-school {
+    margin-top: 8px;
+    margin-right: 10px;
+  }
+
+  #button-menu {
+    left: 85% !important;
+  }
+}

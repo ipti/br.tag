@@ -26,7 +26,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
-        <div class="buttons">
+        <div class="buttons hide-responsive">
             <a data-toggle="tab"
                class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
                style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
@@ -72,9 +72,16 @@ $form = $this->beginWidget('CActiveForm', array(
                 </li>
             </ul>
         </div>
-
         <div class="widget-body form-horizontal">
             <div class="tab-content" style="display:none">
+                <div id="buttons-student" class="">
+                    <a data-toggle="tab"
+                       class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
+                       style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                    <a data-toggle="tab"
+                       class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+                       <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'pull-right btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
+                </div>
                 <!-- Tab content -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
@@ -478,7 +485,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group hide-responsive">
                                 <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -860,7 +867,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="separator"></div>
-                            <div class="widget widget-scroll margin-bottom-none"
+                            <div class="widget widget-scroll margin-bottom-none hide-responsive"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
                                 <div class="widget-head">
@@ -1147,7 +1154,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
                                 </div>
                             </div>
-                            <div class="control-group" id="transport_type">
+                            <div class="control-group hide-responsive" id="transport_type">
                                 <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -1259,7 +1266,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $error[0]; ?>
                                 </div>
                             <?php }  ?>
-                            <div id="enrollment" class="widget widget-scroll margin-bottom-none">
+                            <div id="enrollment" class="widget widget-scroll margin-bottom-none table-responsive">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons book_open">
                                         <i></i><?php echo yii::t("default", "Enrollments"); ?>

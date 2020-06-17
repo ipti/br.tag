@@ -61,7 +61,7 @@ function isActive($pages){
                 <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a>
 
                 <!-- Menu Toggle Button -->
-                <button id="button-menu" type="button" class="btn btn-navbar hidden-desktop">
+                <button id="button-menu" type="button" class="pull-right btn btn-navbar hidden-desktop">
                     <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
 
@@ -91,11 +91,11 @@ function isActive($pages){
                 <!-- Sidebar menu -->
                 <div id="menu" class="hidden-print">
                     <div class="slim-scroll" data-scroll-height="800px">
-                        <ul>
+                        <ul id="box-menu">
                             <li id="menu-logout">
                                 <a class="glyphicons unshare" href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
                             </li>
-                            <li id="menu-dashboard" class="<?= isActive( "site" )?>">
+                            <li id="menu-dashboard" class="<?= isActive( "site" )?> hide-responsive">
                                 <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
                             </li>
                             <li id="menu-school" class="<?= isActive("school") ?>">
@@ -113,7 +113,7 @@ function isActive($pages){
                             <li id="menu-student" class="<?= isActive("student") ?>">
                                 <a  class="glyphicons parents" href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                             </li>
-                            <li id="menu-student" class="<?= isActive("reports") ?>">
+                            <li id="menu-student" class="<?= isActive("reports") ?> hide-responsive">
                                 <a  class="glyphicons signal" href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
                             </li>
 
@@ -128,45 +128,45 @@ function isActive($pages){
                                 </ul>
                             </li>-->
 
-                            <li id="menu-instructor" class="<?= isActive("instructor")?>">
+                            <li id="menu-instructor" class="<?= isActive("instructor")?> hide-responsive">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
-                            <li id="menu-plans" class="<?= isActive("courseplan") ?>">
+                            <li id="menu-plans" class="<?= isActive("courseplan") ?> hide-responsive">
                                 <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
                             </li>
-                            <li id="menu-contents" class="<?= isActive("classContents") ?>">
+                            <li id="menu-contents" class="<?= isActive("classContents") ?> hide-responsive">
                                 <a class="glyphicons notes_2" href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
                             </li>
-                            <li id="menu-classes" class="<?= isActive("frequency")?>">
+                            <li id="menu-classes" class="<?= isActive("frequency")?> hide-responsive">
                                 <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                             </li>
-                            <li id="menu-grade" class="<?= isActive("grades") ?>">
+                            <li id="menu-grade" class="<?= isActive("grades") ?> hide-responsive">
                                 <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                             </li>
-                            <li id="menu-lunch" class="<?= isActive("lunch") ?>">
+                            <li id="menu-lunch" class="<?= isActive("lunch") ?> hide-responsive">
                                 <a class="glyphicons cutlery" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
                             </li>
-                            <li id="menu-censo" class="<?= isActive("validate") ?>">
+                            <li id="menu-censo" class="<?= isActive("validate") ?> hide-responsive">
                                 <a class="glyphicons refresh" href="<?php echo yii::app()->createUrl('censo/validate') ?> "><i></i><span>Educacenso</span></a>
                             </li>
-                            <li id="menu-calendar" class="<?= isActive("calendar") ?>">
+                            <li id="menu-calendar" class="<?= isActive("calendar") ?> hide-responsive">
                                 <a class="glyphicons calendar" href="<?php echo yii::app()->createUrl('calendar') ?> "><i></i><span>Calendário Escolar</span></a>
                             </li>
-                            <li id="menu-timesheet" class="<?= isActive("timesheet") ?>">
+                            <li id="menu-timesheet" class="<?= isActive("timesheet") ?> hide-responsive">
                                 <a class="glyphicons table" href="<?php echo yii::app()->createUrl('timesheet') ?> "><i></i><span>Quadro de Horário</span></a>
                             </li>
-                            <li id="menu-matrix" class="<?= isActive("curricularmatrix") ?>">
+                            <li id="menu-matrix" class="<?= isActive("curricularmatrix") ?> hide-responsive">
                                 <a class="glyphicons stats" href="<?php echo yii::app()->createUrl('curricularmatrix') ?> "><i></i><span>Matriz Curricular</span></a>
                             </li>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
-                                <li id="menu-admin" class="<?= isActive("admin") ?>">
+                                <li id="menu-admin" class="<?= isActive("admin") ?> hide-responsive">
                                     <a class="glyphicons lock" href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
                                 </li>
-                                <li id="menu-logout">
+                                <li id="menu-logout" class="hide-responsive">
                                     <a class="glyphicons notes" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
                                 </li>
                             <?php } ?>
-                            <li id="menu-quiz" class="<?= isActive("quiz") ?>">
+                            <li id="menu-quiz" class="<?= isActive("quiz") ?> hide-responsive">
                                 <a class="glyphicons list" href="<?php echo yii::app()->createUrl('quiz') ?> "><i></i><span>Questionário</span></a>
                             </li>
 

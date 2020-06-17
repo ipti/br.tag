@@ -1,16 +1,18 @@
 <?php
 $_FORMS[0] = array('name'=>'Ficha de Matrícula','action'=>'StudentFileForm');
 $_FORMS[1] = array('name'=>'Declaração de Matrícula','action'=>'EnrollmentDeclarationReport');
-$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
-$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
+//$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
+//$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
 $_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclarationReport');
 $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
+$_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
+$_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 @$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
-        $instance = 'PROPRIÁ';
+        $instance = 'PROPRIÝ';
         $db = 'io.escola.se.propria';
         break;
     case 'afonsomedeiros':

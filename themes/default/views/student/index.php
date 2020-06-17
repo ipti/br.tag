@@ -8,7 +8,7 @@
     ?>
 
     <div class="row-fluid">
-        <div class="span12">
+        <div class="span12 hide-responsive">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Student Identifications') ?></h3>  
             <div class="buttons span7">
                 <!--<a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
@@ -17,6 +17,17 @@
                 <a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a>
             </div>
 
+        </div>
+        <div class="btn-group pull-right responsive-menu dropdown-margin">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Menu
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="<?= CHtml::normalizeUrl(array('wizard/configuration/student'))?>" class=""><i></i>Matrícula em Grupo</a></li>
+                <li><a href="<?= CHtml::normalizeUrl(array('student/create'))?>" class=""><i></i> <?= Yii::t('default', 'Add') ?></a></li>
+                <li><a href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1))?>" class=""><i></i> <?= Yii::t('default', 'Add (Fast)') ?></a></li>
+            </ul>
         </div>
     </div>
 

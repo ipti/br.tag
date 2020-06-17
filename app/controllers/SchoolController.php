@@ -33,7 +33,7 @@ class SchoolController extends Controller {
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete', 'create'),
+                'actions' => array('admin', 'delete', 'create', 'reports', 'ReportsMonthlyTransaction', 'Record'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users
@@ -317,6 +317,62 @@ class SchoolController extends Controller {
         $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $this->renderPartial('logo', array(
             'model'=>$model
+        ));
+    }
+
+    public function actionReports($id){
+        $this->layout = "reports";
+        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $this->render('MonthlySummary', array(
+            'model'=>$model
+        ));
+    }
+
+    public function actionReportsMonthlyTransaction($id, $type){
+        $this->layout = "reports";
+        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $title = '';
+
+        switch ($type) {
+            case 1:
+                $title = "ENSINO FUNDAMENTAL - ANOS INICIAIS";
+            break;
+            
+            case 2:
+                $title = "ENSINO FUNDAMENTAL - ANOS FINAIS";
+            break;
+            case 3:
+                $title = "EDUCAÇÃO INFANTIL - PRÉ-ESCOLA";
+            break;
+        }
+
+        $this->render('MonthlyTransaction', array(
+            'model'=>$model,
+            'type' => $type,
+            'title' => $title
+        ));
+    }
+
+    public function actionRecord($id, $type){
+        $this->layout = "reports";
+        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $title = '';
+
+        switch ($type) {
+            case 1:
+                $title = "Hitórico Ensino Regular";
+            break;
+            
+            case 2:
+                $title = "Histórico Ensino EJA";
+            break;
+            break;
+        }
+
+        $this->render('Record', array(
+            'model'=>$model,
+            'type' => $type,
+            'title' => $title
         ));
     }
 
