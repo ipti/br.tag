@@ -7337,6 +7337,10 @@ li.active a {
   display: none;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 @media (max-width: 480px) {
   .table-responsive {
     display: block;
@@ -7439,5 +7443,13 @@ li.active a {
 
   #button-menu {
     left: 85% !important;
+  }
+
+  .box-instructor > .dropdown-margin {
+    margin-top: 66px !important;
+  }
+
+  .container-instructor > .innerLR {
+    padding-top: 10px !important;
   }
 }

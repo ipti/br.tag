@@ -128,7 +128,7 @@ function isActive($pages){
                                 </ul>
                             </li>-->
 
-                            <li id="menu-instructor" class="<?= isActive("instructor")?> hide-responsive">
+                            <li id="menu-instructor" class="<?= isActive("instructor")?>">
                                 <a class="glyphicons nameplate" href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                             </li>
                             <li id="menu-plans" class="<?= isActive("courseplan") ?> hide-responsive">
