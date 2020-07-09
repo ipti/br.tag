@@ -20,18 +20,18 @@ return array(
 	'components'=>array(
 
 		'db2' => array(
-            'connectionString' => 'mysql:host=ipti.org.br;dbname=com.escola10',
+            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
             'emulatePrepare' => true,
-            'username' => 'user.dev',
-            'password' => 'p@s4dev&23',
+            'username' => 'admin',
+            'password' => '123456',
             'charset' => 'utf8',
             'class'   => 'CDbConnection'
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=ipti.org.br;dbname=io.escola.geminiano',
+            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=io.escola.se.boquim',
             'emulatePrepare' => true,
-            'username' => 'user.dev',
-            'password' => 'p@s4dev&23',
+            'username' => 'admin',
+            'password' => '123456',
             'charset' => 'utf8',
             'class'   => 'CDbConnection'
         ),

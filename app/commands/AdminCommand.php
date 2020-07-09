@@ -5,8 +5,8 @@ class AdminCommand extends CConsoleCommand
         public function run($args)
         {
 				//defined('YII_DEBUG') or define('YII_DEBUG',false);
-				//ini_set('display_errors','0');
-				error_reporting(0);
+				ini_set('display_errors','1');
+				error_reporting(1);
 				//define("YII_ENBLE_ERROR_HANDLER",false);
 				//define("YII_ENBLE_EXCEPTION_HANDLER",false);
 
