@@ -263,6 +263,7 @@ class AdminCommand extends CConsoleCommand
 		
 		foreach ($schools as $index => $schll) {
             $year = 2020;
+            //padronizar o ano no futuro
 			$ischool = new SchoolIdentification();
 			$ischool->setDb2Connection(false);
 			$ischool->refreshMetaData();
