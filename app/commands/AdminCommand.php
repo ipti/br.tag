@@ -20,7 +20,7 @@ class AdminCommand extends CConsoleCommand
                 $loads = array();
                 $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
                 foreach ($dbs as $db) {
-                    if($db['TABLE_SCHEMA'] != 'io.escola.demo' &&  $db['TABLE_SCHEMA'] != 'br.ong.tag' &&  $db['TABLE_SCHEMA'] != 'io.escola.adefib'
+                    if($db['TABLE_SCHEMA'] != 'io.escola.demo' &&  $db['TABLE_SCHEMA'] != 'br.ong.tag.cras.indiaroba' &&  $db['TABLE_SCHEMA'] != 'io.escola.adefib'
                         && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc'){
                         $dbname = $db['TABLE_SCHEMA'];
                         echo "Conectando a $dbname..\n";
