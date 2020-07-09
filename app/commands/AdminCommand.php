@@ -15,16 +15,17 @@ class AdminCommand extends CConsoleCommand
                 set_time_limit(0);
                 ignore_user_abort();
                 Yii::app()->db2;
-                $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
+                $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%' OR TABLE_SCHEMA LIKE 'br.ong.tag.%';";
                 
                 $loads = array();
                 $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
                 foreach ($dbs as $db) {
-                    if($db['TABLE_SCHEMA'] != 'io.escola.demo'){
+                    if($db['TABLE_SCHEMA'] != 'io.escola.demo' &&  $db['TABLE_SCHEMA'] != 'br.ong.tag' &&  $db['TABLE_SCHEMA'] != 'io.escola.adefib'
+                        && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc'){
                         $dbname = $db['TABLE_SCHEMA'];
                         echo "Conectando a $dbname..\n";
                        Yii::app()->db->setActive(false);
-                        Yii::app()->db->connectionString = "mysql:host=ipti.org.br;dbname=$dbname";
+                        Yii::app()->db->connectionString = "mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=$dbname";
                         Yii::app()->db->setActive(true);
                         $fileName = $dbname . ".json";
 						@$fileImport = fopen($fileName, "r");
@@ -53,6 +54,7 @@ class AdminCommand extends CConsoleCommand
                          && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc')
                          {
                             $dbname = $db['TABLE_SCHEMA'];
+                            echo "Conectando a $dbname..\n";
                             $fileName = $dbname . ".json";
 							$fileImport = fopen($fileName, "r");
 							if ($fileImport) {
@@ -67,6 +69,7 @@ class AdminCommand extends CConsoleCommand
 								$this->loadMaster($json);
 								rename($fileName, $fileName.'.bak');
 							}
+                             echo 'fim importação\n';
 						}
 						
                 }
@@ -221,7 +224,7 @@ class AdminCommand extends CConsoleCommand
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
 		ignore_user_abort();
-		$year = 2019;
+		$year = 2020;
 		$loads = array();
 		$sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
@@ -259,7 +262,7 @@ class AdminCommand extends CConsoleCommand
 		}
 		
 		foreach ($schools as $index => $schll) {
-            $year = 2019;
+            $year = 2020;
 			$ischool = new SchoolIdentification();
 			$ischool->setDb2Connection(false);
 			$ischool->refreshMetaData();
