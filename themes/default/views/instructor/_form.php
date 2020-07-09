@@ -24,7 +24,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
-        <div class="buttons">
+        <div class="buttons hide-responsive">
             <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
             <?php echo CHtml::htmlButton('<i></i>' . ($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit'));
@@ -34,7 +34,11 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 </div>
 
 <div class="innerLR">
-
+    <div class="box-links-previous-next mb-20" class="">
+        <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+        <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+        <?php echo CHtml::htmlButton('<i></i>' . ($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right', 'style' => 'display:none', 'type' => 'submit'));?>
+    </div>
     <div class="widget widget-tabs border-bottom-none">
         <?php
         echo $form->errorSummary($modelInstructorIdentification);
@@ -343,10 +347,10 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                             </div>
 
-                            <div class="control-group">
+                            <div class="control-group hide-responsive">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Área onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Ýrea onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Ýrea de assentamento'), array("class" => "select-search-on")); ?>
                                     <div class="controls">                    
                                         <?php echo $form->error($modelInstructorDocumentsAndAddress, 'diff_location'); ?>
                                     </div>
@@ -508,7 +512,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area1', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Área de Atuação',
+                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=1'),
@@ -583,7 +587,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area2', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Área de Atuação',
+                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=2'),
@@ -655,7 +659,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area3', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Área de Atuação',
+                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=3'),
