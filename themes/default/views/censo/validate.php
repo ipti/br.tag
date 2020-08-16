@@ -1,6 +1,6 @@
 <div id="mainPage" class="main"  style="margin-top:40px; padding: 10px">
     <?php
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Create a new User'));
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));
     $title = Yii::t('default', 'Create a new User');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
     $this->menu = array(
@@ -57,6 +57,7 @@
                     <ul class="list-timeline">
                         <h3>Pendências Escola</h3>
                         <?php foreach ($log['school']['validate']['identification']  as $index => $identification) {?>
+                            <?php if(!empty($identification)) {?>
                             <li>
                                 <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
                                     <i></i>
@@ -69,27 +70,31 @@
                                     <?php @$dataValidation['school'.$log['school']['info']['inep_id']][] = current($identification); ?>
                                 <div class="clearfix"></div>
                             </li>
+                            <?php } ?>
                         <?php } ?>
 
                         <?php foreach ($log['classroom']  as $index => $class) {?>
                             <?php if(!empty($class['validate']['identification'])){ ?>
-                                <h5>Turma - <?php echo $class['info']['name']; ?></h5>
-                                <?php foreach ($class['validate']['identification']  as $eindex => $classerror) {?>
-                                    <li>
-                                    <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
-                                        <i></i>
-                                    </span>
-                                        <span class="ellipsis">
-                                            <?php echo Classroom::model()->getAttributeLabel(key($classerror)) ?> -
-                                            <?php echo current($classerror) ?>
-                                            <?php echo CHtml::link('- Corrigir',array('classroom/update',
-                                                'id'=>$class['info']['id'], 'censo' => 1)); ?>
+                                <div class="itens-censo">
+                                    <h5>Turma - <?php echo $class['info']['name']; ?></h5>
+                                    <?php foreach ($class['validate']['identification']  as $eindex => $classerror) {?>
+                                        <li>
+                                        <span style="width: 20px;text-align: center;color:white;font-weight: bold" class="glyphicons activity-icon">
+                                            <i></i>
                                         </span>
-                                        <?php $dataValidation['classroom'.$class['info']['id']][] = current($classerror); ?>
-                                        <div class="clearfix"></div>
-                                    </li>
-                                <?php }?>
+                                            <span class="ellipsis">
+                                                <?php echo Classroom::model()->getAttributeLabel(key($classerror)) ?> -
+                                                <?php echo current($classerror) ?>
+                                                <?php echo CHtml::link('- Corrigir',array('classroom/update',
+                                                    'id'=>$class['info']['id'], 'censo' => 1)); ?>
+                                            </span>
+                                            <?php $dataValidation['classroom'.$class['info']['id']][] = current($classerror); ?>
+                                            <div class="clearfix"></div>
+                                        </li>
+                                    <?php }?>
+                                </div>
                             <?php }?>
+
                         <?php }?>
 
                         <?php foreach ($log['instructor']  as $index => $instructor) {?>

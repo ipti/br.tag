@@ -146,7 +146,7 @@ function isActive($pages){
                             <li id="menu-lunch" class="<?= isActive("lunch") ?> hide-responsive">
                                 <a class="glyphicons cutlery" href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
                             </li>
-                            <li id="menu-censo" class="<?= isActive("validate") ?> hide-responsive">
+                            <li id="menu-censo" class="<?= isActive("validate") ?>">
                                 <a class="glyphicons refresh" href="<?php echo yii::app()->createUrl('censo/validate') ?> "><i></i><span>Educacenso</span></a>
                             </li>
                             <li id="menu-calendar" class="<?= isActive("calendar") ?> hide-responsive">

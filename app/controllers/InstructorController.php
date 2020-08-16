@@ -352,9 +352,9 @@ preenchidos";
 			$school = Yii::app()->user->school;
 			$dataProvider = new CActiveDataProvider('InstructorIdentification', [
 				'criteria' => [
-					'condition' => 'school_inep_id_fk=' . $school, 'order' => 'name ASC',
+					'order' => 'name ASC',
 				], 'pagination' => [
-					'pageSize' => 12,
+					'pageSize' => 20,
 				]
 			]);
 			$this->render('index', [
@@ -502,6 +502,14 @@ preenchidos";
 			if ($return === NULL && $model == $this->InstructorIdentification) {
 				throw new CHttpException(404, 'The requested page does not exist.');
 			}
+            if ($return === NULL && $model == $this->InstructorDocumentsAndAddress) {
+                $return = InstructorDocumentsAndAddress::model()->findByPk($id);
+            }
+
+            if ($return === NULL && $model == $this->InstructorVariableData) {
+               $return = new InstructorVariableData();
+               $return->id = $instructor->inep_id;
+            }
 
 			return $return;
 		}

@@ -165,7 +165,7 @@ class InstructorIdentification extends CActiveRecord {
         // should not be searched.
 
         $criteria = new CDbCriteria;
-        $criteria->with = array('documents');
+        //$criteria->with = array('documents');
 
         $criteria->compare('register_type', $this->register_type, true);        
 //        $school = Yii::app()->user->school;
@@ -193,7 +193,7 @@ class InstructorIdentification extends CActiveRecord {
 //        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
 //        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
 
-        $criteria->addCondition('documents.cpf like "' . $this->documents . '%"');
+        //$criteria->addCondition('documents.cpf like "' . $this->documents . '%"');
 
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
@@ -203,7 +203,7 @@ class InstructorIdentification extends CActiveRecord {
                         ),
                     ),
                     'pagination' => array(
-                        'pageSize' => 15,
+                        'pageSize' => 20,
                     ),
                 ));
     }

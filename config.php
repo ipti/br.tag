@@ -1,17 +1,18 @@
 <?php
-defined('YII_DEBUG') or define('YII_DEBUG',FALSE);
-define("TAG_VERSION",'2.10.7E');
+defined('YII_DEBUG') or define('YII_DEBUG',false);
+define("TAG_VERSION",'2.11.0');
 define("BOARD_MSG",'
 		
 		<div class="alert alert-success">
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>14/01/2019 - TAG VERSÃO 2.10.7E:</strong>
+		<strong>15/08/2020 - TAG VERSÃO 2.11:</strong>
 		<br>
 		<ul>
-		    <li>Educacenso 2019</li>
+		    <li>Melhorias Validador e Mobile</li>
 				<ul>
-					<li>Novos campos nos cadastros de professores, alunos, turmas e escola</li>
-					<li>Novos cadastros 100% compativeis com Censo 2019</li>
+					<li>Correção cadastros de professores</li>
+					<li>Inclusão menu Educacenso versão mobile</li>
+					<li>Melhoria no validador do Educacenso</li>
 				</ul>
         	</ul>
 	</div>');

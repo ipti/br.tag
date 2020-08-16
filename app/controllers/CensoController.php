@@ -1025,7 +1025,7 @@ class CensoController extends Controller {
 
 		//campo 1
 		$result = $stiv->isRegister("60", $collumn['register_type']);
-		if(!$result["status"]) array_push($log, array("register_type"=>$result["erro"]));
+		//if(!$result["status"]) array_push($log, array("register_type"=>$result["erro"]));
 
 		//campo 2
 		$result = $stiv->isAllowedInepId($school_inep_id_fk,
