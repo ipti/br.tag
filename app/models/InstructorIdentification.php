@@ -47,7 +47,7 @@
  * @property InstructorDocumentsAndAddress $documents
  * @property InstructorVariableData $instructorVariableData
  */
-class InstructorIdentification extends CActiveRecord {
+class InstructorIdentification extends AltActiveRecord {
     
     const SCENARIO_IMPORT = "SCENARIO_IMPORT";
     /**
@@ -65,7 +65,7 @@ class InstructorIdentification extends CActiveRecord {
     public function tableName() {
         return 'instructor_identification';
     }
-    
+    /*
     public function behaviors() {
         if($this->scenario != self::SCENARIO_IMPORT){
             return [
@@ -77,7 +77,7 @@ class InstructorIdentification extends CActiveRecord {
 
         }
         return [];
-    }
+    }*/
 
     /**
      * @return array validation rules for model attributes.

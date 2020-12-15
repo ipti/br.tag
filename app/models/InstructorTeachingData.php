@@ -46,7 +46,7 @@
  * @property EdcensoDiscipline $discipline8Fk
  * @property EdcensoDiscipline $discipline9Fk
  */
-class InstructorTeachingData extends CActiveRecord
+class InstructorTeachingData extends AltActiveRecord
 {
 	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
 	/**
@@ -67,7 +67,7 @@ class InstructorTeachingData extends CActiveRecord
 		return 'instructor_teaching_data';
 	}
 
-        public function behaviors() {
+        /*public function behaviors() {
 			if($this->scenario != self::SCENARIO_IMPORT){
 				return [
 					'afterSave'=>[
@@ -77,7 +77,7 @@ class InstructorTeachingData extends CActiveRecord
 				];
 			}
 			return[];
-        }
+        }*/
         
 	/**
 	 * @return array validation rules for model attributes.

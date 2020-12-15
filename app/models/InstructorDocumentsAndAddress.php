@@ -25,7 +25,7 @@
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
-class InstructorDocumentsAndAddress extends CActiveRecord
+class InstructorDocumentsAndAddress extends AltActiveRecord
 {
 	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
 
@@ -46,7 +46,7 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 	{
 		return 'instructor_documents_and_address';
 	}
-        
+        /*
         public function behaviors() {
         if($this->scenario != self::SCENARIO_IMPORT){
             return [
@@ -58,7 +58,8 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 
         }
         return [];
-    }
+
+    }*/
 
 	/**
 	 * @return array validation rules for model attributes.

@@ -4,6 +4,6 @@
 .idea/
 instance.php
 .vscode/launch.json
-instance.php
+/instance.php
 config.php
 instance.php
