@@ -350,8 +350,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
     </table>
 </div>
-
-<div class='container-report mt-30 mb-30'>
+<?php if($_GLOBALGROUP != 1){?>
+    <div class='container-report mt-30 mb-30'>
     <table class="table-border">
       <tr class="blue-background titleBig text-center">
         <th colspan="8">Controle de Matrícula e Rematrícula</th>
@@ -381,7 +381,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
     </table>
   </div>
 </div>
-
+<?php } ?>
 <style>
 
     .container-report {
