@@ -2,7 +2,6 @@ FROM ipti/yii2
 COPY . /app
 ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl 
 ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
-
 RUN apk add --no-cache \
     $MUSL_LOCALE_DEPS \
     && wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-locales-master.zip \
