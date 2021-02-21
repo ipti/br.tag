@@ -1,25 +1,15 @@
 FROM ipti/yii2
 COPY . /app
-RUN apk update
-RUN apk add tzdata
-RUN cp /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
-RUN rm -r /usr/share/zoneinfo/Africa && \
-    rm -r /usr/share/zoneinfo/Antarctica && \
-    rm -r /usr/share/zoneinfo/Arctic && \
-    rm -r /usr/share/zoneinfo/Asia && \
-    rm -r /usr/share/zoneinfo/Atlantic && \
-    rm -r /usr/share/zoneinfo/Australia && \
-    rm -r /usr/share/zoneinfo/Europe  && \
-    rm -r /usr/share/zoneinfo/Indian && \
-    rm -r /usr/share/zoneinfo/Mexico && \
-    rm -r /usr/share/zoneinfo/Pacific && \
-    rm -r /usr/share/zoneinfo/Chile && \
-    rm -r /usr/share/zoneinfo/Canada
-RUN echo "America/Sao_Paulo" >  /etc/timezone
-ENV TZ America/Sao_Paulo
-ENV LANG pt_BR.UTF-8
-ENV LANGUAGE pt_BR.UTF-8
-ENV LC_ALL pt_BR.UTF-8
+ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl 
+ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
+
+RUN apk add --no-cache \
+    $MUSL_LOCALE_DEPS \
+    && wget https://gitlab.com/rilian-la-te/musl-locales/-/archive/master/musl-locales-master.zip \
+    && unzip musl-locales-master.zip \
+      && cd musl-locales-master \
+      && cmake -DLOCALE_PROFILE=OFF -D CMAKE_INSTALL_PREFIX:PATH=/usr . && make && make install \
+      && cd .. && rm -r musl-locales-master
 RUN mkdir assets
 RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf
 RUN chmod 777 /usr/local/bin/docker-run.sh
