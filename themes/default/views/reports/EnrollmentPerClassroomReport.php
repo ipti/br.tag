@@ -309,6 +309,8 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 <br>
     <p style="margin: 0 auto; text-align: right; width:600px">
         <?php
+        setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
         $time = time();
         $monthName = strftime("%B", $time);
         setlocale (LC_ALL, 'pt_BR.UTF-8');
