@@ -311,10 +311,10 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         <?php
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
+        setlocale(LC_TIME, "pt_BR.UTF-8");
         $time = time();
         $monthName = strftime("%B", $time);
-        setlocale (LC_ALL, 'pt_BR.UTF-8');
-        echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
+        echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." De ".ucfirst($monthName)." de ".date("Y")
         ?>.
     </p>
 <div style="margin: 20px auto 0; text-align:center; width: 1000px">
