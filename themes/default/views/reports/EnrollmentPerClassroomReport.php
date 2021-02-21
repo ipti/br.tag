@@ -311,6 +311,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         <?php
         $time = time();
         $monthName = strftime("%B", $time);
+        setlocale (LC_ALL, 'pt_BR.UTF-8');
         echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
         ?>.
     </p>
