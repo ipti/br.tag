@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "linebreak-style": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/order": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/prop-types": "off"
+  }
+}
