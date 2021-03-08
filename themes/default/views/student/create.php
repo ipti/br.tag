@@ -12,6 +12,8 @@
         'modelStudentIdentification' => $modelStudentIdentification,
         'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
         'modelEnrollment' => $modelEnrollment,
+        'vaccines' => $vaccines,
+        'studentVaccinesSaves' => $studentVaccinesSaves,
         'title' => $title
     ));
     ?>        
