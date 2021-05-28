@@ -441,6 +441,7 @@ return array(
     'Deficiency Type Childhood Disintegrative Disorder' => 'Transtorno desintegrativo da infância',
     'Deficiency Type Gifted' => 'Altas habilidades / Superdotação',
     'Required Resources' => 'Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)',
+    'Vaccine' => 'Vacinas',
     'Resource Aid Lector' => 'Auxílio Ledor',
     'Resource Aid Transcription' => 'Auxílio transcrição',
     'Resource Interpreter Guide' => 'Guia-Intéprete',
