@@ -20,7 +20,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
         ));
-//@done S1 - 08 - 11 - Não precisar selecionar a escola, ele já estará em uma
 ?>
 
 <div class="row-fluid">
@@ -544,6 +543,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive" id="vaccine">
+                                <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <?php foreach ($vaccines as $vaccine): ?>
+                                    <label class="checkbox">
+                                        <?= $vaccine->name; ?>
+                                        <?php echo CHtml::activeCheckBox($vaccine,"vaccine_id[]",array('checked'=>in_array($vaccine->id, $studentVaccinesSaves), 'value'=>$vaccine->id, 'uncheckValue' => null));  ?>
+                                    </label>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -1128,6 +1138,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                         ),
                                         array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group hide-responsive" id="vaccine">
+                                <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
+                                <div class="uniformjs margin-left">
+                                    <?php foreach ($vaccines as $vaccine): ?>
+                                    <label class="checkbox">
+                                        <?= $vaccine->name; ?>
+                                        <?php echo CHtml::activeCheckBox($vaccine,"vaccine_id[]",array('checked'=>in_array($vaccine->id, $studentVaccinesSaves), 'value'=>$vaccine->id, 'uncheckValue' => null));  ?>
+                                    </label>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>

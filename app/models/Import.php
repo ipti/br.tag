@@ -31,73 +31,60 @@ class Import extends CModel{
 		];
 	}
 
-    public function run(){
+	public function run(){
 		set_time_limit(0);
 		ignore_user_abort();
-		
-        $file = fopen($this->file, 'r');
-        
+
+		$file = fopen($this->file, 'r');
 		if ($file == false) {
 			$this->setError('file','O arquivo não existe.');
 			return;
 		}
 
 		$registers = [];
-
 		while (true) {
-			
 			$line = fgets($file);
 			if ($line == null) {
 				break;
 			}
 
-			
-			$registerType= $line[0] . $line[1];
-			
-			$fields = explode("|", $line);
-			$lineFields = [];
+			$registerType = substr($line, 0, 2);
+			$fields = explode('|', $line);
+			$fields = array_map('trim', $fields);
 
-			foreach ($fields as $key => $field) {
-				$value = !(isset($field)) ? '' : trim($field);
-				$lineFields[$key] = $value;
-			}
-
-			if(in_array($registerType, [40,50,60])){
+			if (in_array($registerType, [40, 50, 60])) {
 				$inepId = $fields[3];
-
-				if(!is_null($inepId)){
-					$registers[$registerType][$inepId] = $lineFields;
-				}
-				else{
+				if (!is_null($inepId)) {
+					$registers[$registerType][$inepId] = $fields;
+				} else {
 					$this->setFailure($registerType, $line);
 				}
-            }
-            else{
-                $registers[$registerType][] = $lineFields;
-            }
-        }
+			} else {
+				$registers[$registerType][] = $fields;
+			}
+		}
 
 		$this->registers = $registers;
-		$this->initImport();
+		$this->initImport($this->year);
 	}
 	
-	private function initImport(){
+	private function initImport($year){
 		$transaction = Yii::app()->db->beginTransaction();
 		try{
-			$this->importRegister00($this->registers['00']);
-			$this->importRegister10($this->registers['10']);
-			$this->importRegister20($this->registers['20']);
-			$this->importRegister30($this->registers['30']);
-			$this->importRegister40($this->registers['40']);
-			$this->importRegister50($this->registers['50']);
-			$this->importRegister60($this->registers['60']);
-			
+			$this->importRegister00($this->registers['00'], $year);
+			$this->importRegister10($this->registers['10'], $year);
+			$this->importRegister20($this->registers['20'], $year);
+			$this->importRegister30($this->registers['30'], $year);
+			$this->importRegister40($this->registers['40'], $year);
+			$this->importRegister50($this->registers['50'], $year);
+			$this->importRegister60($this->registers['60'], $year);
+	
 			if(!$this->hasErrors() || $this->importWithError){
 				$transaction->commit();
 				Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
+			} else {
+				$transaction->rollBack();
 			}
-
-			$transaction->rollBack();
 		}
 		catch(Exception $e)
 		{
@@ -106,9 +93,9 @@ class Import extends CModel{
 		}
 	}
     
-    public function importRegister00($lines){
+    public function importRegister00($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 0]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 0, 'year' => $year]);
 		$schoolIdentification = new SchoolIdentification();
 		$attributes = $schoolIdentification->attributeNames();
 
@@ -141,9 +128,9 @@ class Import extends CModel{
 		}
 	}
 
-    public function importRegister10($lines){
+    public function importRegister10($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 10]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 10, 'year' => $year]);
 		$schoolStructure = new SchoolStructure();
 		$attributes = $schoolStructure->attributeNames();
 
@@ -171,9 +158,9 @@ class Import extends CModel{
 		}
 	}
 
-    public function importRegister20($lines){
+    public function importRegister20($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 20]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 20, 'year' => $year]);
 		$classroom = new Classroom();
 		$attributes = $classroom->attributeNames();
 
@@ -204,24 +191,24 @@ class Import extends CModel{
 	}
 
 	
-	public function importRegister30($lines){
+	public function importRegister30($lines, $year){
 
 		foreach ($lines as $line) {
 			$isStudent = $this->isStudent($line[3]);
 			
 			if($isStudent){
-				$this->importRegister301($line);
+				$this->importRegister301($line, $year);
 			}
 			else{
-				$this->importRegister302($line);
+				$this->importRegister302($line, $year);
 			}
 		}
 	}
 
 
-    public function importRegister301($line){
+    public function importRegister301($line, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 301]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 301, 'year' => $year]);
 		$studentIdentificationModel = new StudentIdentification();
 		$studentDocumentModel = new StudentDocumentsAndAddress();
 		
@@ -255,9 +242,9 @@ class Import extends CModel{
 			
 	}
 
-    public function importRegister302($line){
+    public function importRegister302($line, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 302]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 302, 'year' => $year]);
 		$instructorIdentificationModel = new InstructorIdentification(InstructorIdentification::SCENARIO_IMPORT);
 		$instructorDocumentModel = new InstructorDocumentsAndAddress(InstructorDocumentsAndAddress::SCENARIO_IMPORT);
 		
@@ -289,9 +276,9 @@ class Import extends CModel{
 			
 	}
 
-	public function importRegister40($lines){
+	public function importRegister40($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 40]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 40, 'year' => $year]);
 		$school = new SchoolIdentification();
 		$attributes = $school->attributeNames();
 		$attributes = array_diff($attributes, ['register_type', 'inep_id']);
@@ -344,9 +331,9 @@ class Import extends CModel{
 		}
 	}
 
-	public function importRegister50($lines){
+	public function importRegister50($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 50]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 50, 'year' => $year]);
 		$instructorTeaching = new InstructorTeachingData(InstructorTeachingData::SCENARIO_IMPORT);
 		$attributes = $instructorTeaching->attributeNames();
 
@@ -398,9 +385,9 @@ class Import extends CModel{
 		}
 	}
 
-	public function importRegister60($lines){
+	public function importRegister60($lines, $year){
 
-		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 60]);
+		$fields = EdcensoAlias::model()->findAllByAttributes(["register" => 60, 'year' => $year]);
 		$studentEnrollment = new StudentEnrollment();
 		$attributes = $studentEnrollment->attributeNames();
 

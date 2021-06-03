@@ -125,6 +125,13 @@ class StudentController extends Controller {
         $modelStudentIdentification->deficiency = 0;
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $modelEnrollment =  new StudentEnrollment;
+        
+        $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
+        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id'=> $id]]);
+        if($studentVaccinesSaves){
+            $studentVaccinesSaves = array_map(function($item) { return $item->vaccine_id; }, $studentVaccinesSaves);
+        }
+        
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
@@ -155,7 +162,19 @@ class StudentController extends Controller {
                                             $saved = $modelEnrollment->save();
 	                        	}
 	                        	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
-	                    	}
+                            }
+                            
+                            if(count($_POST['Vaccine']['vaccine_id']) > 0) {
+                                StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+                                
+                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                    $studentVaccine = new StudentVaccine();
+                                    $studentVaccine->student_id = $modelStudentIdentification->id;
+                                    $studentVaccine->vaccine_id = $vaccine_id;
+                                    $studentVaccine->save();
+                                }
+                            }
+
 	                    	if($saved){
                                 Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
                                     $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi criado com sucesso!';
@@ -175,7 +194,9 @@ class StudentController extends Controller {
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
-        	'modelEnrollment' => $modelEnrollment
+            'modelEnrollment' => $modelEnrollment,
+            'vaccines' => $vaccines,
+            'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
 
@@ -189,6 +210,11 @@ class StudentController extends Controller {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         
+        $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
+        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id'=> $id]]);
+        if($studentVaccinesSaves){
+            $studentVaccinesSaves = array_map(function($item) { return $item->vaccine_id; }, $studentVaccinesSaves);
+        }
         //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
         $modelEnrollment = new StudentEnrollment(); 
         // Uncomment the following line if AJAX validation is needed
@@ -219,9 +245,24 @@ class StudentController extends Controller {
             				$saved = false;
                         	if($modelEnrollment->validate()) {
                             	$saved = $modelEnrollment->save();
-                        	}
+                            }
+                            
                         	//$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
-                    	}
+                        }
+                        
+                        if(count($_POST['Vaccine']['vaccine_id']) > 0) {
+                            if($studentVaccinesSaves){
+                                StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+                            }
+                            
+                            foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                $studentVaccine = new StudentVaccine();
+                                $studentVaccine->student_id = $modelStudentIdentification->id;
+                                $studentVaccine->vaccine_id = $vaccine_id;
+                                $studentVaccine->save();
+                            }
+                        }
+
                     	if($saved){
                             Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
                             $msg = 'O Cadastro de '.$modelStudentIdentification->name.' foi alterado com sucesso!';
@@ -236,7 +277,9 @@ class StudentController extends Controller {
         $this->render('update', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
-            'modelEnrollment' => $modelEnrollment
+            'modelEnrollment' => $modelEnrollment,
+            'vaccines' => $vaccines,
+            'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
 

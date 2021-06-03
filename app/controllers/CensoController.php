@@ -2792,6 +2792,24 @@ class CensoController extends Controller {
 	}
 
 	public function actionExport() {
+		include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
+		$Educacenso = new Educacenso;
+		$export = $Educacenso->exportar();
+
+		$fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
+		Yii::import('ext.FileManager.fileManager');
+		$fm = new fileManager();
+		$result = $fm->write($fileDir,$export);
+
+		if ($result) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+		} else {
+			Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+		}
+
+		return $this->redirect(array('validate'));
+
 		$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 		$this->normalizeField2019($school->register_type,$school->attributes);
 		$schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);

@@ -12,7 +12,7 @@ $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
-        $instance = 'PROPRIÝ';
+        $instance = 'PROPRIÁ';
         $db = 'io.escola.se.propria';
         break;
     case 'afonsomedeiros':
