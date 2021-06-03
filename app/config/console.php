@@ -20,7 +20,7 @@ return array(
 	'components'=>array(
 
 		'db2' => array(
-            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
+            'connectionString' => 'mysql:host=51.81.125.135:31160;dbname=com.escola10',
             'emulatePrepare' => true,
             'username' => 'admin',
             'password' => '123456',
@@ -28,7 +28,7 @@ return array(
             'class'   => 'CDbConnection'
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=io.escola.se.boquim',
+            'connectionString' => 'mysql:host=51.81.125.135:31160;dbname=io.escola.se.boquim',
             'emulatePrepare' => true,
             'username' => 'admin',
             'password' => '123456',

@@ -11,7 +11,6 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 
-
 <div id="body-students-file-form" class="pageA4V">
     <?php
 
@@ -350,7 +349,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
     </table>
 </div>
-<?php if($_GLOBALGROUP != 1){?>
+
+<?php if(GLOGALGROUP != 1){?>
     <div class='container-report mt-30 mb-30'>
     <table class="table-border">
       <tr class="blue-background titleBig text-center">
