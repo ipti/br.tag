@@ -99,6 +99,42 @@ switch ($domain) {
         $instance = 'CANHOBA';
         $db = 'io.escola.se.canhoba';
         break;
+    case 'laranjeiras':
+        $instance = 'LARANJEIRAS';
+        $db = 'io.escola.se.laranjeiras';
+        break;
+    case 'saosebastiao':
+        $instance = 'SÃO SEBASTIÃO';
+        $db = 'io.escola.pa.saosebastiao';
+        break;
+    case 'padrecarvalho':
+        $instance = 'PADRE CARVALHO';
+        $db = 'io.escola.mg.padrecarvalho';
+        break;
+    case 'santarosadelima':
+        $instance = 'SANTA ROSA DE LIMA';
+        $db = 'io.escola.se.santarosadelima';
+        break;
+    case 'umari':
+        $instance = 'UMARI';
+        $db = 'io.escola.ce.umari';
+        break;
+    case 'nossasenhoraaparecida':
+        $instance = 'NOSSA SENHORA APARECIDA';
+        $db = 'io.escola.se.nossasenhoraaparecida';
+        break;
+    case 'itabi':
+        $instance = 'ITABI';
+        $db = 'io.escola.se.itabi';
+        break;
+    case 'campodobrito':
+        $instance = 'CAMPO DO BRITO';
+        $db = 'io.escola.se.campodobrito';
+        break;
+    case 'saomigueldoaleixo':
+        $instance = 'SÃO MIGUEL DO ALEIXO';
+        $db = 'io.escola.se.saomigueldoaleixo';
+        break;
     case 'telha':
         $instance = 'TELHA';
         $db = 'io.escola.se.telha';
