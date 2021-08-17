@@ -4,15 +4,16 @@ define("TAG_VERSION",'2.11.0');
 define("BOARD_MSG",'
 		
 		<div class="alert alert-success">
+		
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>15/08/2020 - TAG VERSÃO 2.11:</strong>
+		<strong>17/08/2021 - TAG VERSÃO 2.11.7.20:</strong>
 		<br>
 		<ul>
-		    <li>Melhorias Validador e Mobile</li>
+		    <li>Adptação do Censo 2021</li>
 				<ul>
-					<li>Correção cadastros de professores</li>
-					<li>Inclusão menu Educacenso versão mobile</li>
-					<li>Melhoria no validador do Educacenso</li>
+					<li>Novos campos adicionados</li>
+					<li>Exportação dos dados</li>
+					<li>Importação dos dados</li>
 				</ul>
         	</ul>
 	</div>');

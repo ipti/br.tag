@@ -65,6 +65,7 @@
                                 'htmlOptions' => array('width' => '200px'),
                                 'filter' => false
                             ),
+                            array('class' => 'CButtonColumn', 'template' => '{update}'),
                             array('class' => 'CButtonColumn', 'template' => '{delete}'),
                         ),
                     ));
