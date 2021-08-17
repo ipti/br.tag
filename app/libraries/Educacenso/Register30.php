@@ -66,7 +66,7 @@ class Register30
         return $return;
     }
 
-    private static function getInstructors($instructorsTeachingDatas, $instructors)
+    private static function getInstructors($instructorsTeachingDatas, $instructors, $classroom)
     {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
@@ -305,7 +305,7 @@ class Register30
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => 2021]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
-                    $register[44] = $attr;
+                    $register[43] = $attr;
                 } else {
                     $register[$alias->corder] = $attr;
                 }
@@ -392,7 +392,7 @@ class Register30
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => 2021]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
-                    $register[44] = $attr;
+                    $register[43] = $attr;
                 } else {
                     $register[$alias->corder] = $attr;
                 }
@@ -406,7 +406,7 @@ class Register30
     {
         $instructor['register_type'] = '30';
 
-        $course1 = EdcensoCourseOfHigherEducation::model()->findByPk($attributes['high_education_course_code_1_fk']);
+        $course1 = EdcensoCourseOfHigherEducation::model()->findByPk($instructor['high_education_course_code_1_fk']);
         if ($course1->degree == 'Licenciatura') {
             $instructor['high_education_formation_1'] = '';
         }
@@ -507,6 +507,9 @@ class Register30
             if (isset($alias->corder)) {
                 $register[$alias->corder] = $attr;
             }
+            if ($key == 'scholarity' && $attr == '7') {
+                $register[47] = '1';
+            }
         }
 
         return $register;
@@ -522,7 +525,7 @@ class Register30
 
         foreach ($classrooms as $iclass => $attributes) {
             $students = self::getStudents($attributes, $students);
-            $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors);
+            $instructors = self::getInstructors($attributes->instructorTeachingDatas, $instructors, $attributes);
         }
 
         foreach ($students as $student) {
@@ -591,7 +594,7 @@ class Register30
             array_push($registers, implode('|', $register));
         }
 
-        array_push($registers, '30|'.Yii::app()->user->school.'|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
+        array_push($registers, '30|'.Yii::app()->user->school.'|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
 
         return $registers;
     }

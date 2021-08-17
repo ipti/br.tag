@@ -21,8 +21,8 @@ class Register00
             }
         }
 
-        $attributes['initial_date'] = '25/02/2020';
-        $attributes['final_date'] = '12/12/2020';
+        $attributes['initial_date'] = '25/02/2021';
+        $attributes['final_date'] = '12/12/2021';
 
         if ($attributes['situation'] == '1') {
             $attributes['regulation'] = '2';
@@ -57,6 +57,22 @@ class Register00
         // Caso o municipio seja Brasilia, o campo municipal não pode ser preenchido com o valor 1 (Sim)
         if ($attributes['edcenso_city_fk'] == '5300108' && $attributes['regulation_organ_municipal'] == '1') {
             $attributes['regulation_organ_municipal'] = '0';
+        }
+
+        if (! in_array($attributes['regulation'], array('1', '2'))) {
+            $attributes['regulation_organ_federal'] = '';
+            $attributes['regulation_organ_state'] = '';
+            $attributes['regulation_organ_municipal'] = '';
+        } else {
+            if (in_array($attributes['administrative_dependence'], array('2', '3'))) {
+                $attributes['regulation_organ_federal'] = '0';
+            }
+            if (in_array($attributes['administrative_dependence'], array('1', '2'))) {
+                $attributes['regulation_organ_municipal'] = '0';
+            }
+            if ($attributes['regulation_organ_federal'] == '1') {
+                $attributes['regulation_organ_municipal'] = '';
+            }
         }
 
         foreach ($attributes as $column => $value) {

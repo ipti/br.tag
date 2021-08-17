@@ -83,6 +83,86 @@ class Register10
             $attributes['shared_school_inep_id_6'] = '';
         }
 
+        if ($attributes['equipments_multimedia_collection'] == '') {
+            $attributes['equipments_multimedia_collection'] = '0';
+        }
+
+        if ($attributes['equipments_toys_early'] == '') {
+            $attributes['equipments_toys_early'] = '0';
+        }
+
+        if ($attributes['equipments_scientific_materials'] == '') {
+            $attributes['equipments_scientific_materials'] = '0';
+        }
+
+        if ($attributes['equipments_equipment_amplification'] == '') {
+            $attributes['equipments_equipment_amplification'] = '0';
+        }
+
+        if ($attributes['equipments_musical_instruments'] == '') {
+            $attributes['equipments_musical_instruments'] = '0';
+        }
+
+        if ($attributes['equipments_educational_games'] == '') {
+            $attributes['equipments_educational_games'] = '0';
+        }
+
+        if ($attributes['equipments_material_cultural'] == '') {
+            $attributes['equipments_material_cultural'] = '0';
+        }
+
+        if ($attributes['equipments_material_sports'] == '') {
+            $attributes['equipments_material_sports'] = '0';
+        }
+
+        if ($attributes['equipments_material_teachingindian'] == '') {
+            $attributes['equipments_material_teachingindian'] = '0';
+        }
+
+        if ($attributes['equipments_material_teachingethnic'] == '') {
+            $attributes['equipments_material_teachingethnic'] = '0';
+        }
+
+        if ($attributes['equipments_material_teachingrural'] == '') {
+            $attributes['equipments_material_teachingrural'] = '0';
+        }
+
+        if ($attributes['native_education'] == '') {
+            $attributes['native_education'] = '0';
+        }
+
+        if ($attributes['board_organ_association_parent'] == '') {
+            $attributes['board_organ_association_parent'] = '0';
+        }
+
+        if ($attributes['board_organ_association_parentinstructors'] == '') {
+            $attributes['board_organ_association_parentinstructors'] = '0';
+        }
+
+        if ($attributes['board_organ_board_school'] == '') {
+            $attributes['board_organ_board_school'] = '0';
+        }
+
+        if ($attributes['board_organ_student_guild'] == '') {
+            $attributes['board_organ_student_guild'] = '0';
+        }
+
+        if ($attributes['board_organ_others'] == '') {
+            $attributes['board_organ_others'] = '0';
+        }
+
+        if ($attributes['board_organ_inexistent'] == '') {
+            $attributes['board_organ_inexistent'] = '0';
+        }
+
+        if ($attributes['ppp_updated'] == '') {
+            $attributes['ppp_updated'] = '0';
+        }
+
+        if ($attributes['sewage_fossa'] == '1' && $attributes['sewage_fossa_common'] == '1') {
+            $attributes['sewage_fossa_common'] = '0';
+        }
+
         $classrooms = Classroom::model()->with([
             'edcensoStageVsModalityFk'=> [
                 'select' => false,
@@ -96,7 +176,7 @@ class Register10
         }
 
         foreach ($attributes as $column => $value) {
-            if ($value == '') {
+            if ($value === '') {
                 $alias = EdcensoAlias::model()->findByAttributes(['year' => 2021, 'register' => '10', 'attr' => $column]);
                 $attributes[$column] = $alias->default;
             }
