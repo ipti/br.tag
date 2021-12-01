@@ -198,9 +198,8 @@ preenchidos";
 			$modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
 			$modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
 			$modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
-
 			// Uncomment the following line if AJAX validation is needed
-			// $this->performAjaxValidation($modelStudentIdentification);
+//			 $this->performAjaxValidation($modelInstructorIdentification);
 
 			$saveInstructor = FALSE;
 			$saveDocumentsAndAddress = FALSE;
@@ -213,7 +212,6 @@ preenchidos";
 				$modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
 				$modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
 				$modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
-
 				if (!isset($modelInstructorIdentification->edcenso_nation_fk)) {
 					$modelInstructorIdentification->edcenso_nation_fk = 76;
 				}
@@ -241,22 +239,22 @@ preenchidos";
 				}
 				//======================================
 				//=== MODEL VariableData
-				if (isset($modelInstructorVariableData->scholarity) && $modelInstructorVariableData->scholarity == 6) {
-
-					if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
-						$saveVariableData = TRUE;
-					} else {
-						$error['variableData'] = "Pelo menos uma situação do curso superior, código
+                if (isset($modelInstructorVariableData->scholarity)) {
+                    if ($modelInstructorVariableData->scholarity == 6) {
+                        if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
+                            $saveVariableData = TRUE;
+                        } else {
+                            $error['variableData'] = "Pelo menos uma situação do curso superior, código
 do curso superior, tipo de instituição e instituição
 do curso superior deverão ser obrigatoriamente
 preenchidos";
-					}
-				} else {
-					$saveVariableData = TRUE;
-				}
+                        }
+                    } else {
+                        $saveVariableData = TRUE;
+                    }
+                }
 
 				if ($saveInstructor && $saveDocumentsAndAddress && $saveVariableData) {
-
 					// Setar todos os school_inep_id
 					$modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
 					$modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
@@ -275,7 +273,6 @@ preenchidos";
 						$modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_1_fk;
 						$modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_2_fk;
 						$modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_3_fk;
-
 						if ($modelInstructorDocumentsAndAddress->save() && $modelInstructorVariableData->save()) {
 							Yii::app()->user->setFlash('success', Yii::t('default', 'Professor alterado com sucesso!'));
 							$this->redirect(['index']);
@@ -507,8 +504,7 @@ preenchidos";
             }
 
             if ($return === NULL && $model == $this->InstructorVariableData) {
-               $return = new InstructorVariableData();
-               $return->id = $instructor->inep_id;
+                $return = InstructorVariableData::model()->findByPk($id);
             }
 
 			return $return;

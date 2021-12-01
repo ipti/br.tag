@@ -74,7 +74,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, cep', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
-			//array('cpf', 'length', 'max'=>11),
+			array('cpf', 'length', 'max'=>11),
 			array('address', 'length', 'max'=>100),
 			array('address_number', 'length', 'max'=>10),
 			array('complement', 'length', 'max'=>20),

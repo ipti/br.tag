@@ -42,9 +42,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
     <div class="widget widget-tabs border-bottom-none">
         <?php
         echo $form->errorSummary($modelInstructorIdentification);
-        //echo @$form->errorSummary($modelInstructorDocumentsAndAddress);
+        echo $form->errorSummary($modelInstructorDocumentsAndAddress);
         echo isset($error['documentsAndAddress']) ? $error['documentsAndAddress'] : '';
-        //echo $form->errorSummary($modelInstructorVariableData);
+        echo $form->errorSummary($modelInstructorVariableData);
         echo isset($error['variableData']) ? $error['variableData'] : '';
         ?>
         <div class="widget-head">
