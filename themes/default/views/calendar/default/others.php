@@ -61,10 +61,21 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                            href="#collapse<?= $calendar->id ?>">
                             <?= $calendar->school_year ?>
                         </a>
-                        <span class="span2 text-right pull-right change-active" data-toggle="modal"
-                              data-target="#setActual" data-id="<?= $calendar->id ?>">
+                        <span class="text-right pull-right change-active"
+                            <?php if (!$calendar->actual): ?>
+                                data-toggle="modal"
+                                data-target="#setActual"
+                            <?php endif; ?>
+                              data-id="<?= $calendar->id ?>">
+
                             <?= $calendar->actual ? "<i class='fa fa-check'></i>" : "<i class='fa fa-history'></i>" ?>
                         </span>
+                        <?php if (!$calendar->actual): ?>
+                            <span class="text-right pull-right remove-calendar" data-toggle="modal"
+                                  data-target="#removeCalendar" data-id="<?= $calendar->id ?>">
+                                <i class="fa fa-remove"></i>
+                            </span>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div id="collapse<?= $calendar->id ?>" class="accordion-body collapse">
@@ -77,7 +88,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                     </div>
                 </div>
             </div>
-            <?php
+        <?php
         endforeach;
         ?>
     </div>
@@ -90,7 +101,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel"><?= yii::t("calendarModule.index", "New Calendar") ?></h4>
             </div>
             <?php
@@ -167,7 +178,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"
                     id="myModalLabel"><?= yii::t("calendarModule.others", "Set Actual Calendar") ?></h4>
             </div>
@@ -182,7 +193,34 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                    <?= CHtml::button(yii::t("calendarModule.other", "Confirm"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/setActual'))); ?>
+                    <?= CHtml::button(yii::t("calendarModule.others", "Confirm"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/setActual'))); ?>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeCalendar" tabindex="-1" role="dialog" aria-labelledby="Remove Calendar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("calendarModule.others", "Remove Calendar") ?></h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <?= yii::t("calendarModule.others", "Are you sure?") ?>
+                        <input type="hidden" name="calendar_removal_id" id="calendar_removal_id" value="-1"/>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                    <?= CHtml::button(yii::t("calendarModule.others", "Confirm"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/removeCalendar'))); ?>
                 </div>
             </form>
         </div>
