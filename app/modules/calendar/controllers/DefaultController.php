@@ -23,7 +23,7 @@
                     'actions' => ['index', 'view'], 'users' => ['*'],
                 ], [
                     'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual'],
+                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar'],
                     'users' => ['@'],
                 ], [
                     'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -190,6 +190,11 @@
                     $actual->save();
                 }
             }
+            header("location:" . yii::app()->createUrl("/calendar/default/others"));
+        }
+
+        public function actionRemoveCalendar() {
+            Calendar::model()->deleteByPk($_POST['calendar_removal_id']);
             header("location:" . yii::app()->createUrl("/calendar/default/others"));
         }
 
