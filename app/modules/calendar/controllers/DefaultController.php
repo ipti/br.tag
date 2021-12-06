@@ -130,8 +130,8 @@
             ]);
         }
 
-        public function actionEvent($id) {
-            $event = CalendarEvent::model()->findByPk($id);
+        public function actionEvent() {
+            $event = CalendarEvent::model()->findByPk($_POST["id"]);
             echo json_encode($event->attributes);
         }
 

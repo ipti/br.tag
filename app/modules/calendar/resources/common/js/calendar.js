@@ -9,7 +9,7 @@ $(document).on("click", ".change-event", function () {
     var eventTypeFk = "";
     var eventCopyable = "0";
 
-    var url = GET_EVENT_URL+"/"+eventId;
+    var url = GET_EVENT_URL;
 
     var change = function(){
         $("#CalendarEvent_id").val(eventId);
@@ -29,6 +29,10 @@ $(document).on("click", ".change-event", function () {
     if(eventId != -1) {
         $.ajax({
             url: url,
+            method: "POST",
+            data: {
+                id: eventId
+            },
             success: function (data) {
                 data = $.parseJSON(data);
                 eventId = data.id;
