@@ -20,8 +20,7 @@ $(document).on("click", ".change-event", function () {
         $("#CalendarEvent_calendar_event_type_fk").val(eventTypeFk);
         if(eventCopyable == 1) {
             $("#CalendarEvent_copyable").attr("checked", "checked");
-        }
-        else{
+        } else{
             $("#CalendarEvent_copyable").removeAttr("checked");
         }
     }
@@ -29,7 +28,8 @@ $(document).on("click", ".change-event", function () {
     if(eventId != -1) {
         $.ajax({
             url: url,
-            method: "POST",
+            type: "POST",
+            dataType: 'text',
             data: {
                 id: eventId
             },

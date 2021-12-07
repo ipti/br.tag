@@ -50,6 +50,8 @@
             $copyFrom = isset($_POST['copy']) ? $_POST['copy'] : NULL;
             if ($attributes != NULL) {
                 $calendar->attributes = $attributes;
+                $calendar->start_date = $_POST["Calendar"]["base_year"] . "-01-01";
+                $calendar->end_date = $_POST["Calendar"]["base_year"] . "-12-31";
                 $calendar->school_fk = Yii::app()->user->school;
                 if ($calendar->validate()) {
                     $calendar->save();
@@ -103,8 +105,9 @@
                             }
                         }
                     }
-                    Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->school_year);
+                    Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
+                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -117,10 +120,15 @@
             $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : NULL;
             if ($attributes != NULL) {
                 $event->attributes = $attributes;
+                if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
+                    $event->end_date = $event->start_date;
+                    CalendarEvent::model()->deleteAllByAttributes("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                }
                 if ($event->validate()) {
                     $event->save();
-                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -148,11 +156,15 @@
                     $event = CalendarEvent::model()->findByPk($attributes["id"]);
                     $event->attributes = $attributes;
                 }
-
+                if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
+                    $event->end_date = $event->start_date;
+                    CalendarEvent::model()->deleteAll("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                }
                 if ($event->validate()) {
                     $event->save();
-                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }

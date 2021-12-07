@@ -37,13 +37,16 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
         <h3 class="heading-mosaic"><?= yii::t('calendarModule.index', 'Calendar') ?></h3>
 
         <div class="buttons span9">
-            <a href="<?= yii::app()->createUrl("calendar/default/others")?>" class="btn btn-primary btn-icon glyphicons calendar">
+            <a href="<?= yii::app()->createUrl("calendar/default/others") ?>"
+               class="btn btn-primary btn-icon glyphicons calendar">
                 <i></i><?= yii::t('calendarModule.index', "Other Calendars") ?>
             </a>
-            <button data-toggle="modal" data-target="#myNewEvent" class="btn btn-primary btn-icon glyphicons circle_plus">
+            <button data-toggle="modal" data-target="#myNewEvent"
+                    class="btn btn-primary btn-icon glyphicons circle_plus">
                 <i></i><?= yii::t('calendarModule.index', "New Event") ?>
             </button>
-            <button data-toggle="modal" data-target="#myNewCalendar" class="btn btn-primary btn-icon glyphicons circle_plus">
+            <button data-toggle="modal" data-target="#myNewCalendar"
+                    class="btn btn-primary btn-icon glyphicons circle_plus">
                 <i></i><?= yii::t('calendarModule.index', "New Calendar") ?>
             </button>
         </div>
@@ -66,7 +69,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel"><?= yii::t("calendarModule.index", "New Calendar") ?></h4>
             </div>
             <?php
@@ -86,12 +89,31 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
                 <div class="row-fluid">
 
                     <div class=" span12">
-                        <?= $form->label($modelCalendar, "school_year", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelCalendar, "title", array('class' => 'control-label')); ?>
                         <div class="span12">
-                            <?= $form->textField($modelCalendar, "school_year", ['class' => 'span11']) ?>
+                            <?= $form->textField($modelCalendar, "title", ['class' => 'span11']) ?>
                         </div>
                     </div>
                 </div>
+                <div class="row-fluid">
+                    <div class=" span6">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Base Year"), "copy", array('class' => 'control-label')); ?>
+                        <div class="span6">
+                            <?php
+                            $year = date('Y');
+                            $years = array();
+                            if (date('m') >= 11) {
+                                $year = $year + 1;
+                            }
+                            for ($i = $year; $i >= 2014; $i--) {
+                                $years[$i] = $i;
+                            }
+                            echo $form->dropDownList($modelCalendar, 'base_year', $years, array('class' => 'span11 input-block-level select-search-off'));
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <!--
                 <div class="row-fluid">
                     <div class=" span6">
                         <?= $form->label($modelCalendar, "start_date", array('class' => 'control-label')); ?>
@@ -106,20 +128,21 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
                         </div>
                     </div>
                 </div>
+                -->
                 <div class="row-fluid">
                     <div class=" span12">
                         <div class="span12">
-                            <?= $form->checkBox($modelCalendar, "actual") ?> <?= yii::t("calendarModule.labels","Actual"); ?>
+                            <?= $form->checkBox($modelCalendar, "actual") ?> <?= yii::t("calendarModule.labels", "Actual"); ?>
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?= chtml::label(yii::t("calendarModule.labels", "Copy From"),"copy", array('class' => 'control-label')); ?>
+                        <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
                         <div class="span12">
-                            <?= chtml::dropDownList("copy","",
-                                    chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "school_year"),
-                                    array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'),)) ?>
+                            <?= chtml::dropDownList("copy", "",
+                                chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "title"),
+                                array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'),)) ?>
                         </div>
                     </div>
                 </div>
@@ -141,7 +164,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel"><?= yii::t("calendarModule.index", "New Event") ?></h4>
             </div>
             <?php
@@ -166,7 +189,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
                     <div class=" span12">
                         <?= $form->label($modelEvent, "name", array('class' => 'control-label')); ?>
                         <div class="span12">
-                            <?= $form->hiddenField($modelEvent, "calendar_fk", ['value'=>$modelCalendar->id]) ?>
+                            <?= $form->hiddenField($modelEvent, "calendar_fk", ['value' => $modelCalendar->id]) ?>
                             <?= $form->textField($modelEvent, "name", ['class' => 'span11']) ?>
                         </div>
                     </div>

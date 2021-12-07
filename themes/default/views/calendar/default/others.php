@@ -59,7 +59,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                     <div class="accordion-toggle">
                         <a class="span10" data-toggle="collapse" data-parent="#calendars"
                            href="#collapse<?= $calendar->id ?>">
-                            <?= $calendar->school_year ?>
+                            <?= $calendar->title ?>
                         </a>
                         <span class="text-right pull-right change-active"
                             <?php if (!$calendar->actual): ?>
@@ -122,12 +122,31 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                 <div class="row-fluid">
 
                     <div class=" span12">
-                        <?= $form->label($modelCalendar, "school_year", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelCalendar, "title", array('class' => 'control-label')); ?>
                         <div class="span12">
-                            <?= $form->textField($modelCalendar, "school_year", ['class' => 'span11']) ?>
+                            <?= $form->textField($modelCalendar, "title", ['class' => 'span12']) ?>
                         </div>
                     </div>
                 </div>
+                <div class="row-fluid">
+                    <div class=" span6">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Base Year"), "copy", array('class' => 'control-label')); ?>
+                        <div class="span6">
+                            <?php
+                            $year = date('Y');
+                            $years = array();
+                            if (date('m') >= 11) {
+                                $year = $year + 1;
+                            }
+                            for ($i = $year; $i >= 2014; $i--) {
+                                $years[$i] = $i;
+                            }
+                            echo $form->dropDownList($modelCalendar, 'base_year', $years, array('class' => 'span11 input-block-level select-search-off'));
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <!--
                 <div class="row-fluid">
                     <div class=" span6">
                         <?= $form->label($modelCalendar, "start_date", array('class' => 'control-label')); ?>
@@ -142,6 +161,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                         </div>
                     </div>
                 </div>
+                -->
                 <div class="row-fluid">
                     <div class=" span6">
                         <div class="span12">
@@ -154,7 +174,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
                         <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
                         <div class="span12">
                             <?= chtml::dropDownList("copy", "",
-                                chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "school_year"),
+                                chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "title"),
                                 array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'),)) ?>
                         </div>
                     </div>

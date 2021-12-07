@@ -74,7 +74,7 @@ foreach ($calendar->calendarEvents as $event) {
 
 <div class="row-fluid">
     <div class="span12 img-polaroid">
-        <h4><?= yii::t("calendarModule.labels", "School Year").": ".$calendar->school_year?></h4>
+        <h4><?= yii::t("calendarModule.labels", "Title").": ".$calendar->title?></h4>
 
 <?php for ($i = 0; $i < $total / 4; $i++): ?>
     <div class="row-fluid calendar">
@@ -125,10 +125,10 @@ foreach ($calendar->calendarEvents as $event) {
                                 if ($day < 10) {
                                     $content = "0";
                                 }
-                                if (isInInterval($start, $start, $day, $m) || isInInterval($end, $end, $day, $m)) {
-                                    $class .= " calendar-black ";
-                                    $beforeContent .= "<i class=' calendar-icon fa fa-circle'></i>";
-                                }
+//                                if (isInInterval($start, $start, $day, $m) || isInInterval($end, $end, $day, $m)) {
+//                                    $class .= " calendar-black ";
+//                                    $beforeContent .= "<i class=' calendar-icon fa fa-circle'></i>";
+//                                }
                                 foreach ($events[$m] as $event) {
                                     /** @var $event CalendarEvent */
                                     $start_event = new DateTime($event->start_date);
@@ -178,10 +178,7 @@ endfor; ?>
             </div>
         </div>
         <?php
-        $html = '<div class="span3 calendar-subtitles calendar-black">'
-            . '<i class="fa fa-circle"></i>&nbsp;'
-            . '<span>' . yii::t('calendarModule.labels', "Beginning and End of the School Year.") . '</span>'
-            . '</div>';
+        $html = '';
         foreach ($types as $type) {
             /**@var $type CalendarEventType */
             $html .= '<div class="span3 calendar-subtitles calendar-' . $type->color . '">'
