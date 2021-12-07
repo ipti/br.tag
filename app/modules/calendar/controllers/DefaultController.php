@@ -23,7 +23,7 @@
                     'actions' => ['index', 'view'], 'users' => ['*'],
                 ], [
                     'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar'],
+                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent'],
                     'users' => ['@'],
                 ], [
                     'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -107,7 +107,6 @@
                     }
                     Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
-                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -128,7 +127,6 @@
                     $event->save();
                     Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
-                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -164,7 +162,6 @@
                     $event->save();
                     Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
-                    $this->redirect(yii::app()->createUrl("calendar"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -172,7 +169,10 @@
             $this->render('index', [
                 "modelCalendar" => $this->loadModel($event->calendar_fk), "modelEvent" => new CalendarEvent()
             ]);
+        }
 
+        public function actionDeleteEvent() {
+            CalendarEvent::model()->deleteByPk($_POST['CalendarEvent']["id"]);
         }
 
         public function actionOthers() {
