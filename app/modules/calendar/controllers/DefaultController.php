@@ -177,7 +177,9 @@
         }
 
         public function actionDeleteEvent() {
-            CalendarEvent::model()->deleteByPk($_POST['CalendarEvent']["id"]);
+            $event = CalendarEvent::model()->findByPk($_POST['CalendarEvent']["id"]);
+            Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
+            $event->delete();
             $this->redirect($_POST['CalendarEvent']["url"]);
         }
 
@@ -212,7 +214,9 @@
         }
 
         public function actionRemoveCalendar() {
-            Calendar::model()->deleteByPk($_POST['calendar_removal_id']);
+            $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
+            Log::model()->saveAction("calendar", $calendar->id, "D", $calendar->title);
+            $calendar->delete();
             header("location:" . yii::app()->createUrl("/calendar/default/others"));
         }
 
