@@ -1,6 +1,6 @@
 $(document).on("click", ".change-event", function () {
     var eventId = $(this).data('id');
-    var calendarFk = $(this).closest(".calendar").attr("data-id")
+    var calendarFk = $(this).closest(".calendar").attr("data-id");
     var eventName = "";
     var m = $(this).data('month');
     var d = $(this).data('day');
@@ -14,6 +14,7 @@ $(document).on("click", ".change-event", function () {
     var change = function(){
         $("#CalendarEvent_id").val(eventId);
         $("#CalendarEvent_calendar_fk").val(calendarFk);
+        $("#CalendarEvent_url").val(window.location);
         $("#CalendarEvent_name").val(eventName);
         $("#CalendarEvent_start_date").val(eventStartDate);
         $("#CalendarEvent_end_date").val(eventEndDate);

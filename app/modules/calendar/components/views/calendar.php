@@ -226,6 +226,8 @@ endfor; ?>
                             <?= $form->hiddenField($modelEvent, "id", ['class' => 'span11']) ?>
                             <?= $form->hiddenField($modelEvent, "calendar_fk", ['class' => '
                             span11']) ?>
+                            <?= $form->hiddenField($modelEvent, "url", ['class' => '
+                            span11']) ?>
                             <?= $form->textField($modelEvent, "name", ['class' => 'span11']) ?>
                         </div>
                     </div>

@@ -107,6 +107,9 @@
                     }
                     Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
+                    $calendar->actual == 1
+                        ? header("location:" . yii::app()->createUrl("/calendar/default/index"))
+                        : header("location:" . yii::app()->createUrl("/calendar/default/others"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -127,6 +130,7 @@
                     $event->save();
                     Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    header("location:" . yii::app()->createUrl("/calendar/default/index"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -162,6 +166,7 @@
                     $event->save();
                     Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    $this->redirect($attributes["url"]);
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -173,6 +178,7 @@
 
         public function actionDeleteEvent() {
             CalendarEvent::model()->deleteByPk($_POST['CalendarEvent']["id"]);
+            $this->redirect($_POST['CalendarEvent']["url"]);
         }
 
         public function actionOthers() {

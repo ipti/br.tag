@@ -87,7 +87,6 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
             ?>
             <div class="modal-body">
                 <div class="row-fluid">
-
                     <div class=" span12">
                         <?= $form->label($modelCalendar, "title", array('class' => 'control-label')); ?>
                         <div class="span12">
