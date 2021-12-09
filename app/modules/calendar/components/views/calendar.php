@@ -77,7 +77,7 @@ foreach ($calendar->calendarEvents as $event) {
         <h4><?= yii::t("calendarModule.labels", "Title").": ".$calendar->title?></h4>
 
 <?php for ($i = 0; $i < $total / 4; $i++): ?>
-    <div class="row-fluid calendar">
+    <div class="row-fluid calendar" data-id="<?= $calendar->id ?>">
         <div class="span12">
             <?php for ($j = 0; $j < 4; $j++):
                 if ($date->diff($end)->invert) break;
@@ -217,7 +217,6 @@ endfor; ?>
                 ),
             ));
             $modelEvent = new CalendarEvent();
-            $modelEvent->calendar_fk = $calendar->id;
             ?>
             <div class="modal-body">
                 <div class="row-fluid">
@@ -226,6 +225,8 @@ endfor; ?>
                         <div class="span12">
                             <?= $form->hiddenField($modelEvent, "id", ['class' => 'span11']) ?>
                             <?= $form->hiddenField($modelEvent, "calendar_fk", ['class' => '
+                            span11']) ?>
+                            <?= $form->hiddenField($modelEvent, "url", ['class' => '
                             span11']) ?>
                             <?= $form->textField($modelEvent, "name", ['class' => 'span11']) ?>
                         </div>
@@ -266,6 +267,7 @@ endfor; ?>
             </div>
 
             <div class="modal-footer">
+                <?= CHtml::button(yii::t("calendarModule.index", "Delete Event"), array('class' => 'btn btn-danger pull-left remove-event-button', 'submit' => array('/calendar/default/deleteEvent'))); ?>
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                 <?= CHtml::button(yii::t("calendarModule.index", "Save"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/changeEvent'))); ?>

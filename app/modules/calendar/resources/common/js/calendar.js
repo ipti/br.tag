@@ -1,6 +1,6 @@
 $(document).on("click", ".change-event", function () {
     var eventId = $(this).data('id');
-    //var calendarFk = "";
+    var calendarFk = $(this).closest(".calendar").attr("data-id");
     var eventName = "";
     var m = $(this).data('month');
     var d = $(this).data('day');
@@ -13,7 +13,8 @@ $(document).on("click", ".change-event", function () {
 
     var change = function(){
         $("#CalendarEvent_id").val(eventId);
-        //$("#CalendarEvent_calendar_fk").val(calendarFk);
+        $("#CalendarEvent_calendar_fk").val(calendarFk);
+        $("#CalendarEvent_url").val(window.location);
         $("#CalendarEvent_name").val(eventName);
         $("#CalendarEvent_start_date").val(eventStartDate);
         $("#CalendarEvent_end_date").val(eventEndDate);
@@ -26,6 +27,7 @@ $(document).on("click", ".change-event", function () {
     }
 
     if(eventId != -1) {
+        $(".remove-event-button").show();
         $.ajax({
             url: url,
             type: "POST",
@@ -36,7 +38,7 @@ $(document).on("click", ".change-event", function () {
             success: function (data) {
                 data = $.parseJSON(data);
                 eventId = data.id;
-                //calendarFk = data.calendar_fk;
+                calendarFk = data.calendar_fk;
                 eventName = data.name;
                 eventStartDate = data.start_date.split(" ")[0];
                 eventEndDate = data.end_date.split(" ")[0];
@@ -46,6 +48,7 @@ $(document).on("click", ".change-event", function () {
             },
         });
     }else{
+        $(".remove-event-button").hide();
         change();
     }
 
