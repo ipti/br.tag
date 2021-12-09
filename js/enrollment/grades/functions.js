@@ -1,8 +1,8 @@
 /**
  * Generate the content of the form
- * 
+ *
  * @param {json} data
- * 
+ *
  */
 function generateGradesForm(data) {
     if (data !== null && !$.isEmptyObject(data)) {
@@ -11,7 +11,6 @@ function generateGradesForm(data) {
         $(".students ul li").remove();
         $(".grades .tab-content .tab-pane").remove();
         $(".classroom").show();
-        console.log(data);
         var stage = data.stage;
         var grades_needed;
         if (stage >= 14 && stage <= 16) {
@@ -29,6 +28,7 @@ function generateGradesForm(data) {
                 cycle: false
             };
         }
+        var hasDisciplines = true;
         $.each(data, function (i, v) {
             var id = v.enrollment_id;
             var name = i.length > 25 ? i.substring(0, 22) + "..." : i;
@@ -36,12 +36,18 @@ function generateGradesForm(data) {
             if (i !== 'stage') {
                 addStudentOnMenu(id, name);
                 addStudentTable(id, full_name, grades_needed);
-                $.each(v.disciplines, function (i, v) {
-                    var discipline_id = i;
-                    var discipline = v;
-                    addStudentGrades(id, discipline_id, discipline, grades_needed);
+                if (Object.keys(v.disciplines).length && hasDisciplines) {
+                    $(".alert-no-disciplines").hide();
+                    $.each(v.disciplines, function (i, v) {
+                        var discipline_id = i;
+                        var discipline = v;
+                        addStudentGrades(id, discipline_id, discipline, grades_needed);
 
-                });
+                    });
+                } else {
+                    hasDisciplines = false;
+                    $(".alert-no-disciplines").show();
+                }
 
                 addFieldsByFrequency(id, v.school_days, v.workload);
                 addFrequencyByExam(id,  v.frequencies);

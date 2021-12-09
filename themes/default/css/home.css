@@ -278,3 +278,7 @@ form {
     margin-top: 10px;
     display: none;
 }
+
+.alert-no-disciplines {
+    display: none;
+}

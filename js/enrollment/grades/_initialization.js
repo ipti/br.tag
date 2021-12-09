@@ -13,7 +13,10 @@ $('#classroom').change(function () {
 
 
             generateGradesForm(data);
-            $('select.grade-dropdown').select2();
+            $('select.grade-dropdown').select2({
+                allowClear: true,
+                placeholder: "Selecione..."
+            });
             $(".classroom").show();
         },
     });
