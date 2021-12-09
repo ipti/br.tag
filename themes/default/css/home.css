@@ -273,3 +273,8 @@ form {
 .checkcolor {
     font-weight: bold;
 }
+
+.alert-no-calendar {
+    margin-top: 10px;
+    display: none;
+}

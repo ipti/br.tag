@@ -375,101 +375,111 @@ class ClassesController extends Controller {
      * Get all classes by classroom, disciplene and month
      */
     public function actionGetClassesForFrequency($classroom = null, $discipline = null, $month = null) {
-        $classroom = $classroom == null ? $_GET['classroom'] : $classroom;
-        $discipline = $discipline == null ? $_GET['disciplines'] : $discipline;
-        $month = $month == null ? $_GET['month'] : $month;
-
-        $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
-        $allDisciplines = ($discipline == null);
-
-        $classes = null;
-
-        $classes = Classes::model()->findAllByAttributes(array(
-            'classroom_fk' => $classroom,
-            'discipline_fk' => $discipline,
-            'month' => $month));
-
-        if ($allDisciplines) {
-            $schedules = Schedule::model()->findAllByAttributes(array(
-                'classroom_fk' => $classroom));
-        }
-        else {
-            $schedules = Schedule::model()->findAllByAttributes(array(
-                'classroom_fk' => $classroom,
-                'discipline_fk' => $discipline));
-        }
-/*        $calendars = Calendar::model()->findAllByAttributes(
-           array(
-               'school_year' => $_POST['year']
-           )
-        );
-        $match =
-        $match = addcslashes($match, '%_');*/
-
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('calenda', array('1','2'), 'OR');
-        $curyear =  Yii::app()->user->year;
-        $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
-        $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_year = $curyear and calendar_event_type_fk  = 301;")->queryAll();
-        $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom;")->queryAll();
-
-        
-        $return = array('days' => array(), 'no_school' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
-
-        $classes_days = array();
-
-       foreach ($schedules as $key => $schedule){
-
-           $classes_days[$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
-
-       }
-
-        $return['weekly_schedule'] = $classes_days;
-        $return['special_days'] = $special_days;
-        $return['saturday_school'] = $saturday_school;
-
+        $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
+        $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
         $criteria = new CDbCriteria();
         $criteria->with = array('studentFk');
         $criteria->together = true;
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom), $criteria);
-        $return['students'] = array();
+        if ($firstDay !== null && $lastDay !== null && $enrollments) {
+            $classroom = $classroom == null ? $_GET['classroom'] : $classroom;
+            $discipline = $discipline == null ? $_GET['disciplines'] : $discipline;
+            $month = $month == null ? $_GET['month'] : $month;
 
-        $discipline_condition = ($discipline == null) ? " 1=1" : " c.discipline_fk	= $discipline ";
-        $no_school = Yii::app()->db->createCommand("select c.day, c.classtype, c.schedule from class c  where $discipline_condition and	 
+            $discipline = ($discipline == "Todas as disciplinas") ? null : $discipline;
+            $allDisciplines = ($discipline == null);
+
+            $classes = null;
+
+            $classes = Classes::model()->findAllByAttributes(array(
+                'classroom_fk' => $classroom,
+                'discipline_fk' => $discipline,
+                'month' => $month));
+
+            if ($allDisciplines) {
+                $schedules = Schedule::model()->findAllByAttributes(array(
+                    'classroom_fk' => $classroom));
+            } else {
+                $schedules = Schedule::model()->findAllByAttributes(array(
+                    'classroom_fk' => $classroom,
+                    'discipline_fk' => $discipline));
+            }
+            /*        $calendars = Calendar::model()->findAllByAttributes(
+                       array(
+                           'school_year' => $_POST['year']
+                       )
+                    );
+                    $match =
+                    $match = addcslashes($match, '%_');*/
+
+            $criteria = new CDbCriteria();
+            $criteria->addInCondition('calenda', array('1','2'), 'OR');
+            $curyear =  Yii::app()->user->year;
+            $special_days = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and year(c.start_date) = $curyear and year(c.end_date) = $curyear and calendar_event_type_fk  like '1%';")->queryAll();
+            $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and year(c.start_date) = $curyear and year(c.end_date) = $curyear and calendar_event_type_fk  = 301;")->queryAll();
+            $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom;")->queryAll();
+
+            $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
+            $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
+
+            $return = array('days' => array(), 'no_school' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
+
+            $classes_days = array();
+
+            foreach ($schedules as $key => $schedule){
+
+                $classes_days[$schedule->week_day][$schedule->turn][$schedule->schedule] = $schedule->id;
+
+            }
+
+            $return['weekly_schedule'] = $classes_days;
+            $return['special_days'] = $special_days;
+            $return['saturday_school'] = $saturday_school;
+
+            $return['students'] = array();
+
+            $discipline_condition = ($discipline == null) ? " 1=1" : " c.discipline_fk	= $discipline ";
+            $no_school = Yii::app()->db->createCommand("select c.day, c.classtype, c.schedule from class c  where $discipline_condition and	 
             c.classroom_fk = $classroom  and c.month = $month and c.given_class != 1;")->queryAll();
-        $return['no_school'] = $no_school;
+            $return['no_school'] = $no_school;
 
-        foreach ($enrollments as $key => $e) {
-            if(isset($e->student_fk)){
-                $return['students'][$key]['id'] = $e->student_fk;
-                $return['students'][$key]['name'] = $e->studentFk->name;
-                $return['students'][$key]['faults'] =  Yii::app()->db->createCommand("select c.day , c.classtype, c.schedule, c.discipline_fk from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
+            foreach ($enrollments as $key => $e) {
+                if(isset($e->student_fk)){
+                    $return['students'][$key]['id'] = $e->student_fk;
+                    $return['students'][$key]['name'] = $e->studentFk->name;
+                    $return['students'][$key]['faults'] =  Yii::app()->db->createCommand("select c.day , c.classtype, c.schedule, c.discipline_fk from class c inner join class_faults cf on (c.id = cf.class_fk) where $discipline_condition and	 
                 c.classroom_fk = $classroom and cf.student_fk = $e->student_fk and c.month = $month and c.given_class = 1;")->queryAll();
+                }
             }
-        }
 
-        $result = $this->actionGetTimesheet($classroom);
-        
-        $report = [];
-        
-        $date = Yii::app()->user->year."-".$month."-01";
-        $qdtDaysMonth = date("t", strtotime($date));
-        
-        foreach ($return['students'] as $student) {
-            $report[$student['name']]['id'] = $student['id'];
-            $report[$student['name']]['month'] = $month;
-            $report[$student['name']]['faults'] = $student['faults'];
+            $result = $this->actionGetTimesheet($classroom);
 
-            for ($i = 1; $i<= $qdtDaysMonth; $i++) {
-                $date = Yii::app()->user->year."-".$month.'-'.$i;
-                $dayWeek = date('N', strtotime($date));
-                $report[$student['name']]['shedules'][$i] = $result['schedules'][$dayWeek];
+            $report = [];
+
+            $date = Yii::app()->user->year."-".$month."-01";
+            $qdtDaysMonth = date("t", strtotime($date));
+
+            foreach ($return['students'] as $student) {
+                $report[$student['name']]['id'] = $student['id'];
+                $report[$student['name']]['month'] = $month;
+                $report[$student['name']]['faults'] = $student['faults'];
+
+                for ($i = 1; $i<= $qdtDaysMonth; $i++) {
+                    $day = Yii::app()->user->year."-".str_pad($month, 2, "0", STR_PAD_LEFT).'-'.str_pad($i, 2, "0", STR_PAD_LEFT)." 00:00:00";
+                    if ($day >= $firstDay["start_date"] && $day <= $lastDay["end_date"]) {
+                        $dayWeek = date('N', strtotime($day));
+                        $report[$student['name']]['shedules'][$i] = $result['schedules'][$dayWeek];
+                    }
+                }
             }
-        }
 
-        echo json_encode(['report' => $report, 'qdtDaysMonth' => $qdtDaysMonth]);
-        return [];
+            echo json_encode(['valid' => true, 'report' => $report, 'qdtDaysMonth' => $qdtDaysMonth]);
+            return [];
+        } else {
+            echo json_encode(["valid" => false]);
+            return [];
+        }
     }
 
     /**

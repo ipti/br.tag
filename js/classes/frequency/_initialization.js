@@ -649,10 +649,17 @@ $("#classesSearch").on("click", function () {
       disciplines: $("#disciplines").val(),
     },
     success: function (response) {
-      if (response) {
-        window.localStorage.setItem("frequency", response);
-        dataFrequency();
-        $("#widget-frequency").show();
+      var data = JSON.parse(response);
+      if (data.valid) {
+        if (response) {
+          window.localStorage.setItem("frequency", response);
+          dataFrequency();
+          $("#widget-frequency").show();
+          $(".alert-no-calendar").hide();
+        }
+      } else {
+        $("#widget-frequency").hide();
+        $(".alert-no-calendar").show();
       }
     },
   });

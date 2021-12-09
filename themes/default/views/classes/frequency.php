@@ -22,7 +22,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</span></h3>  
         <div class="buttons span9">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-            <a href="<?php echo Yii::app()->createUrl('reports/bfreport') ?>" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>
+<!--            <a href="--><?php //echo Yii::app()->createUrl('reports/bfreport') ?><!--" class='btn btn-icon glyphicons print hidden-print'>Bolsa Familia<i></i></a>-->
             <!-- <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a> -->
         </div>
     </div>
@@ -123,6 +123,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <table id="frequency" class="table table-bordered table-striped">
             </table>
         </div>
+    </div>
+    <div class="alert-no-calendar alert alert-info display-hide">
+        Para pesquisar por um quadro de frequência, é preciso selecionar uma turma e um mês, bem como:
+        <ul>
+            <li>haver um calendário atual com os eventos de início e fim de ano escolar cadastrados;</li>
+            <li>adicionar uma matriz curricular e, por consequência, gerar um quadro de horário;</li>
+            <li>matricular alunos à turma.</li>
+        </ul>
     </div>
     <div id="buttonsNexrPrev"></div>
     <?php $this->endWidget(); ?>
