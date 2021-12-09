@@ -198,6 +198,9 @@ preenchidos";
 			$modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
 			$modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
 			$modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
+			if ($modelInstructorVariableData == null) {
+			    $modelInstructorVariableData = new InstructorVariableData();
+            }
 			// Uncomment the following line if AJAX validation is needed
 //			 $this->performAjaxValidation($modelInstructorIdentification);
 
