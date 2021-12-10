@@ -279,6 +279,15 @@ form {
     display: none;
 }
 
+.no-disciplines-guide {
+    display: none;
+}
+
+.no-disciplines-link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .alert-no-disciplines {
     display: none;
 }

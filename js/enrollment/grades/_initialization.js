@@ -150,3 +150,6 @@ $(document).on("keyup", "input.frequency-percentage", function (e) {
     this.value = val;
 });
 
+$(document).on("click", ".no-disciplines-link", function () {
+    $(".alert-no-disciplines").toggle();
+});
