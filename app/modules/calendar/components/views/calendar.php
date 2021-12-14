@@ -208,6 +208,7 @@ endfor; ?>
             /* @var $form CActiveForm */
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'createEvent',
+                'action' => '?r=/calendar/default/changeEvent',
                 'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
@@ -219,9 +220,10 @@ endfor; ?>
             $modelEvent = new CalendarEvent();
             ?>
             <div class="modal-body">
+                <div class="alert alert-error no-show"></div>
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?= $form->label($modelEvent, "name", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelEvent, "name", array('class' => 'control-label required')); ?>
                         <div class="span12">
                             <?= $form->hiddenField($modelEvent, "id", ['class' => 'span11']) ?>
                             <?= $form->hiddenField($modelEvent, "calendar_fk", ['class' => '
@@ -234,13 +236,13 @@ endfor; ?>
                 </div>
                 <div class="row-fluid">
                     <div class=" span6">
-                        <?= $form->label($modelEvent, "start_date", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelEvent, "start_date", array('class' => 'control-label required')); ?>
                         <div class="span12">
                             <?= $form->dateField($modelEvent, "start_date") ?>
                         </div>
                     </div>
                     <div class=" span6">
-                        <?= $form->label($modelEvent, "end_date", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelEvent, "end_date", array('class' => 'control-label required')); ?>
                         <div class="span12">
                             <?= $form->dateField($modelEvent, "end_date") ?>
                         </div>
@@ -248,7 +250,7 @@ endfor; ?>
                 </div>
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?= $form->label($modelEvent, "calendar_event_type_fk", array('class' => 'control-label')); ?>
+                        <?= $form->label($modelEvent, "calendar_event_type_fk", array('class' => 'control-label required')); ?>
                         <div class="span12">
                             <?= $form->dropDownList($modelEvent, "calendar_event_type_fk",
                                 $calendarTypes,
@@ -270,7 +272,7 @@ endfor; ?>
                 <?= CHtml::button(yii::t("calendarModule.index", "Delete Event"), array('class' => 'btn btn-danger pull-left remove-event-button', 'submit' => array('/calendar/default/deleteEvent'))); ?>
                 <button type="button" class="btn btn-default"
                         data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                <?= CHtml::button(yii::t("calendarModule.index", "Save"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/changeEvent'))); ?>
+                <button type="button" class="btn btn-primary save-event"><?= yii::t("calendarModule.index", "Save") ?></button>
             </div>
             <?php
             $this->endWidget();
