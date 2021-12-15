@@ -77,7 +77,7 @@ foreach ($calendar->calendarEvents as $event) {
         <h4><?= yii::t("calendarModule.labels", "Title").": ".$calendar->title?></h4>
 
 <?php for ($i = 0; $i < $total / 4; $i++): ?>
-    <div class="row-fluid calendar" data-id="<?= $calendar->id ?>">
+    <div class="row-fluid calendar" data-year="<?= date('Y',strtotime($calendar->start_date)) ?>" data-id="<?= $calendar->id ?>">
         <div class="span12">
             <?php for ($j = 0; $j < 4; $j++):
                 if ($date->diff($end)->invert) break;
@@ -220,48 +220,47 @@ endfor; ?>
             $modelEvent = new CalendarEvent();
             ?>
             <div class="modal-body">
-                <div class="alert alert-error no-show"></div>
+                <div class="error-calendar-event alert alert-error no-show"></div>
                 <div class="row-fluid">
-                    <div class=" span12">
+                    <div class="span12">
                         <?= $form->label($modelEvent, "name", array('class' => 'control-label required')); ?>
-                        <div class="span12">
-                            <?= $form->hiddenField($modelEvent, "id", ['class' => 'span11']) ?>
-                            <?= $form->hiddenField($modelEvent, "calendar_fk", ['class' => '
-                            span11']) ?>
-                            <?= $form->hiddenField($modelEvent, "url", ['class' => '
-                            span11']) ?>
-                            <?= $form->textField($modelEvent, "name", ['class' => 'span11']) ?>
+                        <div class="form-control">
+                            <input type="hidden" class="selected-calendar-current-year">
+                            <?= $form->hiddenField($modelEvent, "id") ?>
+                            <?= $form->hiddenField($modelEvent, "calendar_fk") ?>
+                            <?= $form->hiddenField($modelEvent, "url") ?>
+                            <?= $form->textField($modelEvent, "name", array('class' => 'span12')) ?>
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class=" span6">
+                    <div class="span6">
                         <?= $form->label($modelEvent, "start_date", array('class' => 'control-label required')); ?>
-                        <div class="span12">
-                            <?= $form->dateField($modelEvent, "start_date") ?>
+                        <div class="form-control">
+                            <?= $form->dateField($modelEvent, "start_date", array('class' => 'span12')) ?>
                         </div>
                     </div>
-                    <div class=" span6">
+                    <div class="span6">
                         <?= $form->label($modelEvent, "end_date", array('class' => 'control-label required')); ?>
-                        <div class="span12">
-                            <?= $form->dateField($modelEvent, "end_date") ?>
+                        <div class="form-control">
+                            <?= $form->dateField($modelEvent, "end_date", array('class' => 'span12')) ?>
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class=" span12">
+                    <div class="span12">
                         <?= $form->label($modelEvent, "calendar_event_type_fk", array('class' => 'control-label required')); ?>
-                        <div class="span12">
+                        <div class="form-control">
                             <?= $form->dropDownList($modelEvent, "calendar_event_type_fk",
                                 $calendarTypes,
-                                array('prompt' => 'Selecione o tipo',)); ?>
+                                array('prompt' => 'Selecione o tipo', 'class' => 'span6')); ?>
 
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class=" span6">
-                        <div class="span12">
+                    <div class="span12">
+                        <div class="span12 checkbox">
                             <?= $form->checkBox($modelEvent, "copyable") ?><?= yii::t("calendarModule.labels", "Copyable"); ?>
                         </div>
                     </div>

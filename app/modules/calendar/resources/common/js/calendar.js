@@ -1,4 +1,6 @@
 $(document).on("click", ".change-event", function () {
+    $("#myChangeEvent").find(".selected-calendar-current-year").val($(this).closest(".calendar").data("year"));
+    $(".error-calendar-event").hide();
     var eventId = $(this).data('id');
     var calendarFk = $(this).closest(".calendar").attr("data-id");
     var eventName = "";
@@ -53,15 +55,21 @@ $(document).on("click", ".change-event", function () {
     }
 });
 
+$(document).on("click", ".new-event", function() {
+    $("#myNewEvent").find(".selected-calendar-current-year").val($("div.calendar").data("year"));
+    $(".error-calendar-event").hide();
+});
+
 $(document).on("click", ".save-event", function (e) {
-    //verificar se as datas estao fora do escopo do ano
-    //verificar regra para outros createevents e saveevents
     var form = $(this).closest("form");
     if (form.find("#CalendarEvent_name").val() === "" || form.find("#CalendarEvent_start_date").val() === "" || form.find("#CalendarEvent_end_date").val() === "" || form.find("#CalendarEvent_calendar_event_type_fk").val() === "") {
         form.find(".alert").html("Campos com * são obrigatórios.").show();
     } else if (form.find("#CalendarEvent_end_date").val() < form.find("#CalendarEvent_start_date").val()) {
         form.find(".alert").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
+    } else if (form.find("#CalendarEvent_start_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val() || form.find("#CalendarEvent_end_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val()) {
+        form.find(".alert").html("O intervalo de datas deve atender o ano do calendário.").show();
     } else {
+        form.find(".alert").hide();
         form.submit();
     }
 });

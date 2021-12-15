@@ -160,7 +160,10 @@
                 }
                 if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
                     $event->end_date = $event->start_date;
-                    CalendarEvent::model()->deleteAll("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                    $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                    if ($start_scholar_year_date->id !== $event->id) {
+                        $start_scholar_year_date->delete();
+                    }
                 }
                 if ($event->validate()) {
                     $event->save();
