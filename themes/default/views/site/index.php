@@ -221,7 +221,7 @@
 								$eventDate = ($eventStart == $eventEnd ? $eventStart : $eventStart . " - " . $eventEnd);
 								?>
 								<span class="calendar-event"><i
-										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": " . $event->name ?></span>
+										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": <b>" . $event->name . "</b> (" . yii::t('default', $event->calendarEventTypeFk->name) . ")" ?></span>
 								<?php
 							endforeach;
 						?>

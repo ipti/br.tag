@@ -852,5 +852,24 @@ return array(
     'Create a new Question Group' => 'Criar novo grupo de questões',
     'Update Question Group' => 'Atualizar Grupo de perguntas',
 
+    //Calendar Events Name
+
+    'Holyday' => 'Feriado',
+    'Saturday School'=>'Sabado Letivo',
+    'Semester Recovery'=>'Recuperação Semestral',
+    'Admnistrative Meeting'=>'Reunião Administrativa',
+    'Planning'=>'Planejamento',
+    'Exam'=>' Avaliação',
+    'Continuing Education'=>'Formação Continuada',
+    'Commemoration'=>'Comemorações',
+    'Beginning and End of the School Year.'=>'Início e Fim do Ano Escolar',
+    'Vacation'=>'Férias',
+    'Parents Meeting'=>'Reunião de Pais',
+    'Replacement'=>'Reposição',
+    'Final Exam'=>'Prova Final',
+    'Subtitles'=>'Legenda',
+    "Beginning of the School Year" => "Início do Ano Escolar",
+    "End of the School Year" => "Fim do Ano Escolar",
+
     )   
 ?>

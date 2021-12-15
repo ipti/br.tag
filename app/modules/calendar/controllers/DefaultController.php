@@ -23,7 +23,7 @@
                     'actions' => ['index', 'view'], 'users' => ['*'],
                 ], [
                     'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent'],
+                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle'],
                     'users' => ['@'],
                 ], [
                     'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -232,4 +232,11 @@
             return $model;
         }
 
+        public function actionEditCalendarTitle() {
+            $calendar = Calendar::model()->findByPk($_POST["Calendar"]["id"]);
+            Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
+            $calendar->title = $_POST["Calendar"]["title"];
+            $calendar->save();
+            $this->redirect($_POST["Calendar"]["url"]);
+        }
     }

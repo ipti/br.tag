@@ -3,6 +3,7 @@ return [
     "Start Date" => "Data de Início *",
     "End Date" => "Data de Encerramento *",
     "Title" => "Título do Calendário",
+    "Title Required" => "Título do Calendário *",
     "School Year" => "Ano Escolar",
     "Beginning of the School Year" => "Início do Ano Escolar",
     "End of the School Year" => "Fim do Ano Escolar",
@@ -11,6 +12,7 @@ return [
     "Copyable" => "Copiável",
     "Event Type" => "Tipo do Evento *",
     "Base Year" => "Ano Base",
+    "Base Year Required" => "Ano Base *",
 
 
 

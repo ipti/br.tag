@@ -53,11 +53,22 @@ $(document).on("click", ".change-event", function () {
         $(".remove-event-button").hide();
         change();
     }
+    $("#myChangeEvent").modal("show");
 });
 
-$(document).on("click", ".new-event", function() {
+$(document).on("click", ".new-event", function () {
     $("#myNewEvent").find(".selected-calendar-current-year").val($("div.calendar").data("year"));
     $(".error-calendar-event").hide();
+});
+
+$(document).on("click", ".create-calendar", function () {
+    var form = $(this).closest("form");
+    if (form.find("#Calendar_title").val() === "") {
+        form.find(".alert").html("Campos com * são obrigatórios.").show();
+    } else {
+        form.find(".alert").hide();
+        form.submit();
+    }
 });
 
 $(document).on("click", ".save-event", function (e) {
@@ -68,6 +79,23 @@ $(document).on("click", ".save-event", function (e) {
         form.find(".alert").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
     } else if (form.find("#CalendarEvent_start_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val() || form.find("#CalendarEvent_end_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val()) {
         form.find(".alert").html("O intervalo de datas deve atender o ano do calendário.").show();
+    } else {
+        form.find(".alert").hide();
+        form.submit();
+    }
+});
+
+$(document).on("click", ".edit-calendar-title", function () {
+    $("#edit-calendar-title-modal").find("#Calendar_id").val($(this).closest(".calendar-container").find("div.calendar").attr("data-id"));
+    $("#edit-calendar-title-modal").find("#Calendar_title").val($(this).parent().children(".calendar-title").text());
+    $("#edit-calendar-title-modal").find("#Calendar_url").val(window.location);
+    $("#edit-calendar-title-modal").modal("show");
+});
+
+$(document).on("click", ".edit-calendar-title-button", function () {
+    var form = $(this).closest("form");
+    if (form.find("#Calendar_title").val() === "") {
+        form.find(".alert").html("Preencha o campo abaixo.").show();
     } else {
         form.find(".alert").hide();
         form.submit();

@@ -8,4 +8,5 @@ return [
     "Delete Event" => "Remover Evento",
     "Cancel" => "Cancelar",
     "Save" => "Salvar",
+    "Edit Calendar Title" => "Editar Título do Calendário"
 ];

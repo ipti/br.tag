@@ -151,3 +151,28 @@ form {
 .remove-calendar .fa-remove {
     color: darkred;
 }
+
+.actual-calendar-checkbox {
+    margin: 3px 0 15px 0;
+}
+
+.calendar-title-container {
+    padding: 5px 5px;
+    text-align: center;
+}
+
+.calendar-title-container span {
+    color: #333;
+    padding: 0 2px;
+}
+
+.edit-calendar-title {
+    margin-left: 10px;
+    font-size: 14px;
+    color: darkgoldenrod;
+    cursor: pointer;
+}
+
+.edit-calendar-title:hover {
+    color: #333;
+}

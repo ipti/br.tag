@@ -57,7 +57,7 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
             <div class="accordion-group">
                 <div class="accordion-heading">
                     <div class="accordion-toggle">
-                        <a class="span10" data-toggle="collapse" data-parent="#calendars"
+                        <a class="span12" data-toggle="collapse" data-parent="#calendars"
                            href="#collapse<?= $calendar->id ?>">
                             <?= $calendar->title ?>
                         </a>
@@ -96,103 +96,6 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'
 
 
 <!-- Modals -->
-<div class="modal fade" id="myNewCalendar" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"><?= yii::t("calendarModule.index", "New Calendar") ?></h4>
-            </div>
-            <?php
-            /* @var $form CActiveForm */
-            $modelCalendar = new Calendar();
-            $form = $this->beginWidget('CActiveForm', array(
-                'id' => 'createCalendar',
-                'enableClientValidation' => true,
-                'clientOptions' => array(
-                    'validateOnSubmit' => true,
-                ),
-                'htmlOptions' => array(
-                    'class' => 'form-vertical',
-                ),
-            ));
-            ?>
-            <div class="modal-body">
-                <div class="row-fluid">
-
-                    <div class=" span12">
-                        <?= $form->label($modelCalendar, "title", array('class' => 'control-label')); ?>
-                        <div class="span12">
-                            <?= $form->textField($modelCalendar, "title", ['class' => 'span12']) ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class=" span6">
-                        <?= chtml::label(yii::t("calendarModule.labels", "Base Year"), "copy", array('class' => 'control-label')); ?>
-                        <div class="span6">
-                            <?php
-                            $year = date('Y');
-                            $years = array();
-                            if (date('m') >= 11) {
-                                $year = $year + 1;
-                            }
-                            for ($i = $year; $i >= 2014; $i--) {
-                                $years[$i] = $i;
-                            }
-                            echo $form->dropDownList($modelCalendar, 'base_year', $years, array('class' => 'span11 input-block-level select-search-off'));
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <!--
-                <div class="row-fluid">
-                    <div class=" span6">
-                        <?= $form->label($modelCalendar, "start_date", array('class' => 'control-label')); ?>
-                        <div class="span12">
-                            <?= $form->dateField($modelCalendar, "start_date") ?>
-                        </div>
-                    </div>
-                    <div class=" span6">
-                        <?= $form->label($modelCalendar, "end_date", array('class' => 'control-label')); ?>
-                        <div class="span12">
-                            <?= $form->dateField($modelCalendar, "end_date") ?>
-                        </div>
-                    </div>
-                </div>
-                -->
-                <div class="row-fluid">
-                    <div class=" span6">
-                        <div class="span12">
-                            <?= $form->checkBox($modelCalendar, "actual") ?> <?= yii::t("calendarModule.labels", "Actual"); ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <div class=" span12">
-                        <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
-                        <div class="span12">
-                            <?= chtml::dropDownList("copy", "",
-                                chtml::listData(CalendarSchool::model()->findByPk(Yii::app()->user->school)->calendars, "id", "title"),
-                                array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'),)) ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                <?= CHtml::button(yii::t("calendarModule.index", "Save"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/create'))); ?>
-            </div>
-            <?php
-            $this->endWidget();
-            ?>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="setActual" tabindex="-1" role="dialog" aria-labelledby="Set Actual Calendar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

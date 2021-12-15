@@ -19,6 +19,7 @@
 class Calendar extends CActiveRecord{
 
     public $base_year;
+    public $url;
 
 	/**
 	 * @return string the associated database table name
