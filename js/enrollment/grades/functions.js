@@ -6,6 +6,7 @@
  */
 function generateGradesForm(data) {
     if (data !== null && !$.isEmptyObject(data)) {
+        $(".alert-no-students").hide();
         $('.select2-container-active').removeClass('select2-container-active');
         $(':focus').blur();
         $(".students ul li").remove();
@@ -28,10 +29,9 @@ function generateGradesForm(data) {
                 cycle: false
             };
         }
-        var hasDisciplines = true;
         $.each(data, function (i, v) {
             var id = v.enrollment_id;
-            var name = i.length > 25 ? i.substring(0, 22) + "..." : i;
+            var name = i.length > 21 ? i.substring(0, 18) + "..." : i;
             var full_name = i;
             if (i !== 'stage') {
                 addStudentOnMenu(id, name);
@@ -42,14 +42,15 @@ function generateGradesForm(data) {
                     var discipline = v;
                     addStudentGrades(id, discipline_id, discipline, grades_needed);
                 });
-                addFieldsByFrequency(id, v.school_days, v.workload);
-                addFrequencyByExam(id, v.frequencies);
+                addFieldsByFrequency(id, v.school_days, v.workload, grades_needed);
+                addFrequencyByExam(id, v.frequencies, grades_needed);
             }
         });
+        $("#save").show();
         $(".classroom .students li").first().addClass('active');
         $(".grades .tab-content .tab-pane").first().addClass('active');
     } else {
-        $(".classroom, .no-disciplines-guide, .alert-no-disciplines").hide();
+        $(".alert-no-students").show();
     }
 
     var classList = [];
@@ -229,32 +230,46 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
 
 }
 
-function addFieldsByFrequency(id, school_days, workload) {
+function addFieldsByFrequency(id, school_days, workload, fields) {
+    var countRemainingColumnsToFill = fields.recuperacao + (fields.final ? 1 : 0) + (fields.cycle ? 0 : 2) + 3;
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
-    for (var i = 0; i < 4; i++) {
-        var classnamed = "dias-letivos" + i;
-        tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
-            + 'class="' + classnamed + '" type="text"   data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
+    for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
+        if (i < 4) {
+            var classnamed = "dias-letivos" + i;
+            tbody += '<td class="center"><input name="exams[' + id + '][0][' + i + ']" '
+                + 'class="' + classnamed + '" type="text"   data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>"  step="1" min="0" max="1000" value="' + school_days[i] + '" /></td>"';
+        } else {
+            tbody += '<td></td>';
+        }
     }
     tbody += "</tr>";
     tbody += "<tr>";
     tbody += '<td class="discipline-name">Carga Horária</td>';
-    for (var i = 0; i < 4; i++) {
-        var classnamed = "carga-horaria" + i;
-        tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
-            + 'class="' + classnamed + '" type="text"  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
+    for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
+        if (i < 4) {
+            var classnamed = "carga-horaria" + i;
+            tbody += '<td class="center"><input name="exams[' + id + '][1][' + i + ']" '
+                + 'class="' + classnamed + '" type="text"  data-html = "true" data-container="body" data-toggle="popover" data-placement="right" data-content="<b> Compartilhado por toda a turma </b>" step="1" min="0" max="1000" value="' + workload[i] + '" /></td>"';
+        } else {
+            tbody += '<td></td>';
+        }
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);
 }
 
-function addFrequencyByExam(id, frequencies) {
+function addFrequencyByExam(id, frequencies, fields) {
+    var countRemainingColumnsToFill = fields.recuperacao + (fields.final ? 1 : 0) + (fields.cycle ? 0 : 2) + 3;
     var tbody = "<tr>";
     tbody += '<td class="discipline-name">Número de faltas</td>';
-    for (var i = 0; i < 4; i++) {
-        tbody += '<td class="center"><input name="exams[' + id + '][2][' + i + ']" '
-            + 'class="frequency-fields" type="text" step="1" min="0" max="1000" value="' + frequencies[i] + '"/></td>"';
+    for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
+        if (i < 4) {
+            tbody += '<td class="center"><input name="exams[' + id + '][2][' + i + ']" '
+                + 'class="frequency-fields" type="text" step="1" min="0" max="1000" value="' + frequencies[i] + '"/></td>"';
+        } else {
+            tbody += '<td></td>';
+        }
     }
     tbody += "</tr>";
     $('#tab' + id).find(".grade-table .row-grades").append(tbody);

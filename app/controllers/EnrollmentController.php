@@ -231,7 +231,7 @@ class EnrollmentController extends Controller {
     public function actionGrades() {
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
-        $classroom = Classroom::model()->findAllByAttributes(['school_year' => $year, 'school_inep_fk' => $school]);
+        $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
 
         $classroom = CHtml::listData($classroom, 'id', 'name');
 

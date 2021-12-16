@@ -1,25 +1,28 @@
 
 $('#classroom').change(function () {
-    $.ajax({
-        type: 'POST',
-        url: getGradesUrl,
-        cache: false,
-        data: {classroom: $("#classroom").val()},
-        beforeSend:function(){
-            $(".classroom").hide();
-        },
-        success: function (data) {
-            data = jQuery.parseJSON(data);
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: 'POST',
+            url: getGradesUrl,
+            cache: false,
+            data: {classroom: $("#classroom").val()},
+            beforeSend: function () {
+                $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+            },
+            success: function (data) {
+                data = jQuery.parseJSON(data);
 
 
-            generateGradesForm(data);
-            $('select.grade-dropdown').select2({
-                allowClear: true,
-                placeholder: "Selecione..."
-            });
-            $(".classroom").show();
-        },
-    });
+                generateGradesForm(data);
+                $('select.grade-dropdown').select2({
+                    allowClear: true,
+                    placeholder: "Selecione..."
+                });
+            },
+        });
+    } else {
+        $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+    }
 });
 
 $("#save").on("click", function () {

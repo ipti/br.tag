@@ -289,6 +289,6 @@ form {
     text-decoration: underline;
 }
 
-.alert-no-disciplines {
+.alert-no-disciplines, .alert-no-students {
     display: none;
 }

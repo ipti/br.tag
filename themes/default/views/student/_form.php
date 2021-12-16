@@ -1035,7 +1035,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $stage = $modelStudentIdentification->getCurrentStageVsModality();
                                     $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));
                                     $classrooms = Classroom::model()->findAll(
-                                        "school_year = :year AND school_inep_fk = :school",
+                                        "school_year = :year AND school_inep_fk = :school order by name",
                                         [
                                             ':year' => Yii::app()->user->year,
                                             ':school' => Yii::app()->user->school,
