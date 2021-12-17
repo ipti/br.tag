@@ -2,8 +2,8 @@
 /* @var $this ReportsController */
 
 $baseUrl = Yii::app()->baseUrl;
-//$cs = Yii::app()->getClientScript();
-//$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
+$cs = Yii::app()->getClientScript();
+$cs->registerCssFile($baseUrl . '/css/reports.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
 $this->breadcrumbs = array(
@@ -29,43 +29,43 @@ $this->breadcrumbs = array(
                 <div class="span2">
                     <a href="#" data-toggle="modal" data-target="#reportFamilyBag" class="widget-stats" target="_blank">
                     <!-- <a  href="<?php //echo Yii::app()->createUrl('reports/BFReport')?>" class="widget-stats"> -->
-                        <span class="fa-percent fa fa-4x"><i></i></span>
-                        <span class="txt">Frequência para o Bolsa Família</span>
+                        <div><i class="fa-percent fa fa-4x"></i></div>
+                        <span class="report-title">Frequência para o Bolsa Família</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport')?>" class="widget-stats">
-                        <span class="fa fa-sort-numeric-asc fa-4x"></span>
-                        <span class="txt">Número de Alunos por Turma</span>
+                        <div><i class="fa fa-sort-numeric-asc fa-4x"></i></div>
+                        <span class="report-title">Número de Alunos por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span2">
                     <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport')?>" class="widget-stats">
-                        <span class="fa fa-graduation-cap fa-4x"><i></i></span>
-                        <span class="txt">Professores por Turma</span>
+                        <div><i class="fa fa-graduation-cap fa-4x"></i></div>
+                        <span class="report-title">Professores por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport',array('id'=>Yii::app()->user->school))?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-heartbeat fa-4x"><i></i></span>
-                    <span class="txt">Alunos com Idade entre 5 e 14 Anos (SUS)</span>
+                    <div><i class="fa fa-heartbeat fa-4x"></i></div>
+                    <span class="report-title">Alunos com Idade entre 5 e 14 Anos (SUS)</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa-4x fa fa-exchange"><i></i></span>
-                    <span class="txt">Análise Comparativa de Matrículas</span>
+                    <div><i class="fa fa-exchange fa-4x"></i></div>
+                    <span class="report-title">Análise Comparativa de Matrículas</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport')?>" class="widget-stats" target="_blank">
-                    <span class="glyphicons signal"><i></i></span>
-                    <span class="txt">Número de Profissionais por turma</span>
+                    <div><span class="glyphicons signal"><i></i></span></div>
+                    <span class="report-title">Número de Profissionais por turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
@@ -74,43 +74,43 @@ $this->breadcrumbs = array(
 
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport',array('id'=>Yii::app()->user->school))?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-4x fa-handshake-o"><i></i></span>
-                    <span class="txt">Auxiliar/Assistente Educacional por Turma</span>
+                    <div><i class="fa fa-handshake-o fa-4x"></i></div>
+                    <span class="report-title">Auxiliar/Assistente Educacional por Turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-podcast fa-4x"><i></i></span>
-                    <span class="txt">Relação Disciplina/Docente</span>
+                    <div><i class="fa fa-podcast fa-4x"></i></div>
+                    <span class="report-title">Relação Disciplina/Docente</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa-dot-circle-o fa fa-4x"><i></i></span>
-                    <span class="txt">Monitores de Atividade Complementar por Turma</span>
+                    <div><i class="fa fa-dot-circle-o fa-4x"></i></div>
+                    <span class="report-title">Monitores de Atividade Complementar por Turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa-ban fa fa-4x"><i></i></span>
-                    <span class="txt">Relação Turmas sem Instrutor</span>
+                    <div><i class="fa fa-ban fa-4x"></i></div>
+                    <span class="report-title">Relação Turmas sem Instrutor</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa-users fa fa-4x"><i></i></span>
-                    <span class="txt">Número de Alunos e Professores por Turma</span>
+                    <div><i class="fa fa-users fa-4x"></i></div>
+                    <span class="report-title">Número de Alunos e Professores por Turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-4x fa-address-book"><i></i></span>
-                    <span class="txt">Relação de alunos por turma</span>
+                    <div><i class="fa fa-address-book fa-4x"></i></div>
+                    <span class="report-title">Relação de alunos por turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
@@ -118,43 +118,43 @@ $this->breadcrumbs = array(
         <div class="span12" style="margin: 10px 0 0 0">
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsinalphabeticalorderrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-4x fa-sort-alpha-asc"><i></i></span>
-                    <span class="txt">Relaçao de Alunos em ordem Alfabética</span>
+                    <div><i class="fa fa-sort-alpha-asc fa-4x"></i></div>
+                    <span class="report-title">Relaçao de Alunos em ordem Alfabética</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-wheelchair fa-4x"><i></i></span>
-                    <span class="txt">Relação Acessibilidade</span>
+                    <div><i class="fa fa-wheelchair fa-4x"></i></div>
+                    <span class="report-title">Relação Acessibilidade</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa-bus fa fa-4x"><i></i></span>
-                    <span class="txt">Relação Transporte Escolar</span>
+                    <div><i class="fa fa-bus fa-4x"></i></div>
+                    <span class="report-title">Relação Transporte Escolar</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport')?>" class="widget-stats" target="_blank">
-                    <span class="fa fa-4x fa-street-view"><i></i></span>
-                    <span class="txt">Alunos com Idade Incompatível por Turma</span>
+                    <div><i class="fa fa-street-view fa-4x"></i></div>
+                    <span class="report-title">Alunos com Idade Incompatível por Turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/bfrstudentReport')?>" class="widget-stats" target="_blank">
-                    <span class="glyphicons justify"><i></i></span>
-                    <span class="txt">Alunos participantes Bolsa Familia</span>
+                    <div><span class="glyphicons justify"><i></i></span></div>
+                    <span class="report-title">Alunos participantes Bolsa Familia</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
             <div class="span2">
                 <a href="<?php echo Yii::app()->createUrl('reports/studentpendingdocument')?>" class="widget-stats" target="_blank">
-                    <span class="fa-list-ol fa fa-4x"><i></i></span>
-                    <span class="txt">Alunos com Documentos Pendentes</span>
+                    <div><i class="fa fa-list-ol fa-4x"></i></div>
+                    <span class="report-title">Alunos com Documentos Pendentes</span>
                     <div class="clearfix"></div>
                 </a>
             </div>
@@ -162,8 +162,8 @@ $this->breadcrumbs = array(
         <div class="span12" style="margin: 10px 0 0 0">
             <div class="span2">
                 <a href="#" data-toggle="modal" data-target="#report" class="widget-stats" target="_blank">
-                    <span class="glyphicons signal"><i></i></span>
-                    <span class="txt">Alunos por turma</span>
+                    <div><span class="glyphicons signal"><i></i></span></div>
+                    <span class="report-title">Alunos por turma</span>
                     <div class="clearfix"></div>
                 </a>
             </div>

@@ -11,7 +11,7 @@ $(document).on("click", ".load-more", function () {
                 $(".load-more").hide();
             }
             $(".log").each(function () {
-                $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").html(), 100));
+                $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
             });
         }
     });
@@ -19,7 +19,7 @@ $(document).on("click", ".load-more", function () {
 
 $(document).ready(function () {
     $(".log").each(function () {
-        $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").html(), 100));
+        $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
     });
 
     if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {

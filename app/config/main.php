@@ -42,6 +42,9 @@ return array(
     ),
     // application components
     'components' => array(
+        'assetManager' => array(
+            'forceCopy' => YII_DEBUG
+        ),
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,

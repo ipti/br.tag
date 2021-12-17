@@ -711,7 +711,7 @@ body > .container-fluid.documentation {
 #menu > ul > li a.glyphicons i:before {
   font-size: 17px;
   color: #7c7c7c;
-  top: 10px;
+  top: 7px;
   left: 15px;
 }
 #menu .slim-scroll > ul > li a:hover,
