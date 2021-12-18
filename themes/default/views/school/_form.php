@@ -93,6 +93,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <button class="btn btn-icon glyphicons upload upload-logo-button" type="button"><i></i>Anexar</button>
+                                    <span class="uploaded-logo-name"></span>
                                     <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
                                 </div>

@@ -300,3 +300,9 @@ form {
 .upload-logo-button {
     margin-top: 10px;
 }
+
+.uploaded-logo-name {
+    display: inline-block;
+    margin: 7px 0 0 5px;
+    vertical-align: middle;
+}

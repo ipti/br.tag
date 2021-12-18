@@ -10,10 +10,16 @@ $(document).ready(function() {
         
         initial_date = stringToDate($(formIdentification+'initial_date').val());    
         final_date = stringToDate($(formIdentification+'final_date').val());
-        $('#SchoolIdentification_edcenso_uf_fk').val($('#SchoolIdentification_edcenso_uf_fk').val()).trigger('change');
+        if ($('#SchoolIdentification_edcenso_uf_fk').val() !== "") {
+            $('#SchoolIdentification_edcenso_uf_fk').val($('#SchoolIdentification_edcenso_uf_fk').val()).trigger('change');
+        }
     });
 });
 
 $(document).on("click", ".upload-logo-button", function() {
     $("#SchoolIdentification_logo_file_content").click();
+});
+
+$(document).on("change", "#SchoolIdentification_logo_file_content", function(e) {
+    $(".uploaded-logo-name").text(e.target.files[0].name);
 });
