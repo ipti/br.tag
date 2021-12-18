@@ -78,9 +78,9 @@
 
 .calendar-icon {
     position: absolute;
-    left: calc(50% - 9px);
-    top: 1px;
-    font-size: 20px !important;
+    left: calc(50% - 12px);
+    top: -2px;
+    font-size: 25px !important;
     z-index: 0;
 }
 
@@ -291,4 +291,12 @@ form {
 
 .alert-no-disciplines, .alert-no-students {
     display: none;
+}
+
+#SchoolIdentification_logo_file_content {
+    display: none;
+}
+
+.upload-logo-button {
+    margin-top: 10px;
 }

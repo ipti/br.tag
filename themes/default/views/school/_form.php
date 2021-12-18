@@ -50,9 +50,12 @@ $form = $this->beginWidget('CActiveForm', array(
                 <li id="tab-school-education"><a class="glyphicons book" href="#school-education"
                                                  data-toggle="tab"><i></i><?php echo Yii::t('default', 'Educational Data') ?>
                     </a></li>
-                <li id="tab-school-reports" class="hide-responsive">
-                    <a class="glyphicons book" href="#school-reports" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Relatórios') ?></a>
-                </li>
+                <?php if (!$modelSchoolIdentification->isNewRecord): ?>
+                    <li id="tab-school-reports" class="hide-responsive">
+                        <a class="glyphicons book" href="#school-reports"
+                           data-toggle="tab"><i></i><?php echo Yii::t('default', 'Relatórios') ?></a>
+                    </li>
+                <?php endif ?>
             </ul>
         </div>
         <div class="box-links-previous-next" class="">
@@ -61,7 +64,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <a data-toggle="tab"
                class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                 <i></i></a>
-                <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right', 'style' => 'display:none', 'type' => 'submit')); ?>
+            <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right', 'style' => 'display:none', 'type' => 'submit')); ?>
 
         </div>
         <div class="widget-body form-horizontal">
@@ -89,12 +92,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label')); ?>
                                 <div class="controls">
+                                    <button class="btn btn-icon glyphicons upload upload-logo-button" type="button"><i></i>Anexar</button>
                                     <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
                                 </div>
                             </div>
-                            <?php
-                            echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id' => $modelSchoolIdentification->inep_id)), 'logo', array('width' => 40, 'style' => 'display:block;margin: -10px 0 15px 145px'));
+                            <?php if ($modelSchoolIdentification->logo_file_name !== null) {
+                                echo CHtml::image(Yii::app()->controller->createUrl('school/displayLogo', array('id' => $modelSchoolIdentification->inep_id)), 'logo', array('width' => 40, 'style' => 'margin: -10px 0 15px 145px', 'class' => 'logo-preview'));
+                            }
                             ?>
                             <div class="control-group">
                                 <div class="controls">
@@ -325,7 +330,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <label
-                                    class="control-label"><?= Yii::t('default', 'Linked Organs'); ?>
+                                        class="control-label"><?= Yii::t('default', 'Linked Organs'); ?>
                                 </label>
 
                                 <div class="uniformjs margin-left" id="SchoolIdentification_linked_organ">
@@ -351,7 +356,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
 
                                 <label
-                                    class="control-label"><?= Yii::t('default', 'Regulation Organ'); ?>
+                                        class="control-label"><?= Yii::t('default', 'Regulation Organ'); ?>
                                 </label>
 
                                 <div class="uniformjs margin-left" id="SchoolIdentification_linked_organ">
@@ -377,7 +382,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolIdentification, 'private_school_organization_civil_society'); ?>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="span6">
                             <div class="control-group">
@@ -761,12 +766,12 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         </div>
                     </div>
-                    
+
                     <div class="row-fluid">
                         <div class=" span6 hide-responsive">
                             <div class="control-group">
                                 <label
-                                    class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
+                                        class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
 
                                 <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
@@ -883,10 +888,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_library']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_library', array('value' => 1, 'uncheckValue' => 0)); ?>
                                         Biblioteca
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_reading_room']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_reading_room', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['dependencies_reading_room']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_reading_room', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
                                     </label>
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_arts_room']; ?>
@@ -1019,7 +1024,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid  hide-responsive">
                         <div class="span4">
-                                        
+
                             <div class="control-group hide-responsive">
                                 <label class="control-label"><?php echo Yii::t('default', 'Potable Water'); ?></label>
 
@@ -1123,7 +1128,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span4">
                             <div class="control-group hide-responsive">
                                 <label
-                                    class="control-label"><?php echo Yii::t('default', 'Garbage Destination'); ?></label>
+                                        class="control-label"><?php echo Yii::t('default', 'Garbage Destination'); ?></label>
 
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -1155,7 +1160,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group hide-responsive">
                                 <label
-                                    class="control-label"><?php echo Yii::t('default', 'Garbage Treatment'); ?></label>
+                                        class="control-label"><?php echo Yii::t('default', 'Garbage Treatment'); ?></label>
 
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -1176,7 +1181,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -1373,7 +1378,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_material_teachingethnic'); ?>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class=" span4">
                             <div class="control-group hide-responsive">
@@ -1450,7 +1455,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group hide-responsive">
                                 <?php echo $form->labelEx($modelSchoolStructure, 'equipments_musical_instruments', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -1490,7 +1495,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_material_teachingrural'); ?>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class=" span4">
                             <div class="control-group hide-responsive">
@@ -1684,7 +1689,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group">
                                 <label
-                                    class="control-label"><?php echo Yii::t('default', 'Sociocultural Didactic Material'); ?></label>
+                                        class="control-label"><?php echo Yii::t('default', 'Sociocultural Didactic Material'); ?></label>
 
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -1712,7 +1717,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group" id="native_education_language">
                                 <label
-                                    class="control-label"><?php echo Yii::t('default', 'Native Education Language'); ?></label>
+                                        class="control-label"><?php echo Yii::t('default', 'Native Education Language'); ?></label>
 
                                 <div id="native_education_lenguage_none">
                                     <?php echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_native', array('value' => null, 'disabled' => 'disabled'));
@@ -1882,12 +1887,24 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
                 <div class="tab-pane" id="school-reports">
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1));?>">Movimentação Mensal Anos Iniciais</a></div>
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2));?>">Movimentação Mensal Anos Finais</a></div>
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 3));?>">Movimentação Mensal Educação Infantil</a></div>
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/reports', array('id' => $modelSchoolIdentification->inep_id));?>">Resumo Mensal de Frequência</a></div>
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1));?>">Histórico Ensino Regular</a></div>
-                   <div><a target="_blank" href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2));?>">Histórico Ensino EJA</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">Movimentação
+                            Mensal Anos Iniciais</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">Movimentação
+                            Mensal Anos Finais</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/reportsMonthlyTransaction', array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)); ?>">Movimentação
+                            Mensal Educação Infantil</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/reports', array('id' => $modelSchoolIdentification->inep_id)); ?>">Resumo
+                            Mensal de Frequência</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 1)); ?>">Histórico
+                            Ensino Regular</a></div>
+                    <div><a target="_blank"
+                            href="<?= @Yii::app()->createUrl('school/record', array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)); ?>">Histórico
+                            Ensino EJA</a></div>
                 </div>
                 <?php $this->endWidget(); ?>
             </div>
@@ -1896,9 +1913,9 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <?php
-    if(isset($_GET['censo']) && isset($_GET['id'])){
-       $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'scholl', 'dataId' => $_GET['id']));
-    }
+if (isset($_GET['censo']) && isset($_GET['id'])) {
+    $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'scholl', 'dataId' => $_GET['id']));
+}
 ?>
 
 <script type="text/javascript">

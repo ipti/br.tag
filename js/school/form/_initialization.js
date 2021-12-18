@@ -13,3 +13,7 @@ $(document).ready(function() {
         $('#SchoolIdentification_edcenso_uf_fk').val($('#SchoolIdentification_edcenso_uf_fk').val()).trigger('change');
     });
 });
+
+$(document).on("click", ".upload-logo-button", function() {
+    $("#SchoolIdentification_logo_file_content").click();
+});
