@@ -35,14 +35,14 @@ $this->breadcrumbs = array(
                     </a>
                 </div>
                 <div class="span2">
-                    <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport')?>" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport')?>" class="widget-stats" target="_blank">
                         <div><i class="fa fa-sort-numeric-asc fa-4x"></i></div>
                         <span class="report-title">Número de Alunos por Turma</span>
                         <div class="clearfix"></div>
                     </a>
                 </div>
                 <div class="span2">
-                    <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport')?>" class="widget-stats">
+                    <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport')?>" class="widget-stats" target="_blank">
                         <div><i class="fa fa-graduation-cap fa-4x"></i></div>
                         <span class="report-title">Professores por Turma</span>
                         <div class="clearfix"></div>
