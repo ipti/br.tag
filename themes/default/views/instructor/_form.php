@@ -67,7 +67,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
+                                    <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -512,7 +512,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area1', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
+                                                                    'prompt' => 'Selecione a Área de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=1'),
@@ -587,7 +587,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area2', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
+                                                                    'prompt' => 'Selecione a Área de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=2'),
@@ -659,7 +659,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area3', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
                                                                     'class' => 'select-search-off',
-                                                                    'prompt' => 'Selecione a Ýrea de Atuação',
+                                                                    'prompt' => 'Selecione a Área de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
                                                                         'url' => CController::createUrl('instructor/getCourses&tdid=3'),

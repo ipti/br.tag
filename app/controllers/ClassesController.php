@@ -303,9 +303,11 @@ class ClassesController extends Controller {
     public function actionFrequency() {
         $model = new Classes;
         $dataProvider = new CActiveDataProvider('Classes');
+        $classrooms = Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name'));
         $this->render('frequency', array(
             'dataProvider' => $dataProvider,
             'model' => $model,
+            'classrooms' => $classrooms
         ));
     }
 
