@@ -275,12 +275,12 @@ form {
     font-weight: bold;
 }
 
-.alert-no-calendar {
+.alert-incomplete-data {
     margin-top: 10px;
     display: none;
 }
 
-.no-disciplines-guide {
+.no-disciplines-guide, .disciplines-container {
     display: none;
 }
 
@@ -305,4 +305,12 @@ form {
     display: inline-block;
     margin: 7px 0 0 5px;
     vertical-align: middle;
+}
+
+.hidden-and-blocked-frequency {
+    cursor: not-allowed !important;
+}
+
+.hidden-and-blocked-frequency .nameDisciplineFrequency, .hidden-and-blocked-frequency .nameInstructorFrequency {
+    opacity: 0.2;
 }

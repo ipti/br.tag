@@ -7318,7 +7318,7 @@ li.active a {
   width: 150px !important;
 }
 
-#frequency > tbody > tr > td {
+#frequency > tbody > tr > .available-frequency {
   cursor: pointer;
 }
 

@@ -495,6 +495,8 @@ function addStudentBackward(
 }
 
 const dataFrequency = (index = 0) => {
+    var disciplineSelected = $("#disciplines").val();
+    var hasSchedules = false;
     let report = JSON.parse(window.localStorage.getItem("frequency")).report;
     let qdtDaysMonth = JSON.parse(window.localStorage.getItem("frequency"))
         .qdtDaysMonth;
@@ -502,7 +504,7 @@ const dataFrequency = (index = 0) => {
     $("#frequency").html("");
 
     let students = Object.keys(report);
-    content = "<thead>";
+    var content = "<thead>";
     content += "<tr> <th colspan=29>Aluno: " + students[index] + "</th> </tr>";
     content += "<tr>" + "<th>Dia</th>";
     for (i = 1; i <= qdtDaysMonth; i++) {
@@ -532,7 +534,8 @@ const dataFrequency = (index = 0) => {
 
                 content +=
                     "<td class='" +
-                    red +
+                    red + " available-frequency "
+                    + (disciplineSelected !== "Todas as disciplinas" && report[students[index]].shedules[d][h].disciplineId.toString() !== disciplineSelected ? "hidden-and-blocked-frequency" : "") +
                     "' data-student='" +
                     students[index] +
                     "' data-day='" +
@@ -557,6 +560,9 @@ const dataFrequency = (index = 0) => {
                     "</td>";
             } else {
                 content += "<td></td>";
+            }
+            if (report[students[index]].shedules !== undefined) {
+                hasSchedules = true;
             }
         }
 
@@ -583,6 +589,10 @@ const dataFrequency = (index = 0) => {
     }
 
     $("#buttonsNexrPrev").append(buttons);
+
+    hasSchedules
+        ? $(".alert-incomplete-data").hide()
+        : $(".alert-incomplete-data").show();
 };
 
 $(document).on("click", ".buttonNextPrev", function () {
@@ -590,70 +600,102 @@ $(document).on("click", ".buttonNextPrev", function () {
 });
 
 $(document).on("click", "#frequency > tbody > tr > td", function () {
-    let obj = $(this);
+    if (!$(this).hasClass("hidden-and-blocked-frequency") && $(this).children().length) {
+        let obj = $(this);
+        jQuery.ajax({
+            type: "POST",
+            url: getClassesURLSave,
+            cache: false,
+            data: {
+                day: $(this).data("day"),
+                month: $(this).data("month"),
+                schedule: $(this).data("schedule"),
+                discipline: $(this).data("discipline_fk"),
+                student: $(this).data("student_fk"),
+                classroom: $("#classroom").val(),
+            },
+            success: function (response) {
+                if (response) {
+                    if (response == 1) {
+                        let store = JSON.parse(window.localStorage.getItem("frequency"));
+                        if (obj.hasClass("red")) {
+                            $.each(store.report[obj.data("student")].faults, function(index, item) {
+                                if (Number(item.day) == Number(obj.data("day")) && Number(item.schedule) == Number(obj.data("schedule"))) {
+                                    store.report[obj.data("student")].faults.splice(index, 1);
+                                }
+                            });
+                            obj.removeClass("red");
+                        } else {
+                            store.report[obj.data("student")].faults.push({
+                                day: obj.data("day"),
+                                classtype: "",
+                                schedule: obj.data("schedule"),
+                            });
+                            obj.addClass("red");
+                        }
 
-    jQuery.ajax({
-        type: "POST",
-        url: getClassesURLSave,
-        cache: false,
-        data: {
-            day: $(this).data("day"),
-            month: $(this).data("month"),
-            schedule: $(this).data("schedule"),
-            discipline: $(this).data("discipline_fk"),
-            student: $(this).data("student_fk"),
-            classroom: $("#classroom").val(),
-        },
-        success: function (response) {
-            if (response) {
-                if (response == 1) {
-                    let store = JSON.parse(window.localStorage.getItem("frequency"));
-                    if (obj.hasClass("red")) {
-                        $.each(store.report[obj.data("student")].faults, function(index, item) {
-                            if (Number(item.day) == Number(obj.data("day")) && Number(item.schedule) == Number(obj.data("schedule"))) {
-                                store.report[obj.data("student")].faults.splice(index, 1);
-                            }
-                        });
-                        obj.removeClass("red");
-                    } else {
-                        store.report[obj.data("student")].faults.push({
-                            day: obj.data("day"),
-                            classtype: "",
-                            schedule: obj.data("schedule"),
-                        });
-                        obj.addClass("red");
+                        window.localStorage.setItem("frequency", JSON.stringify(store));
                     }
-
-                    window.localStorage.setItem("frequency", JSON.stringify(store));
                 }
-            }
-        },
-    });
+            },
+        });
+    }
 });
 
 $("#classesSearch").on("click", function () {
-    jQuery.ajax({
-        type: "GET",
-        url: getClassesURL,
-        cache: false,
-        data: {
-            classroom: $("#classroom").val(),
-            month: $("#month").val(),
-            disciplines: $("#disciplines").val(),
-        },
-        success: function (response) {
-            var data = JSON.parse(response);
-            if (data.valid) {
-                if (response) {
-                    window.localStorage.setItem("frequency", response);
-                    dataFrequency();
-                    $("#widget-frequency").show();
-                    $(".alert-no-calendar").hide();
+    if ($("#classroom").val() !== "" && $("#month").val() !== "") {
+        $(".alert-no-classroom-and-month").hide();
+        jQuery.ajax({
+            type: "GET",
+            url: getClassesURL,
+            cache: false,
+            data: {
+                classroom: $("#classroom").val(),
+                month: $("#month").val(),
+            },
+            success: function (response) {
+                var data = JSON.parse(response);
+                if (data.valid) {
+                    if (response) {
+                        window.localStorage.setItem("frequency", response);
+                        dataFrequency();
+                        $("#widget-frequency").show();
+                    }
+                } else {
+                    $("#widget-frequency").hide();
+                    $("#buttonsNexrPrev").html("");
+                    $(".alert-incomplete-data").show();
                 }
-            } else {
-                $("#widget-frequency").hide();
-                $(".alert-no-calendar").show();
-            }
-        },
-    });
+            },
+        });
+    } else {
+        $(".alert-no-classroom-and-month").show();
+        $("#widget-frequency").hide();
+        $("#buttonsNexrPrev").html("");
+    }
+});
+
+$("#classroom").on("change", function () {
+    $("#disciplines").val("").trigger("change.select2");
+    if ($(this).val() !== "") {
+        if ($("#classroom > option:selected").attr("showdisciplines") === "1") {
+            $.ajax({
+                type: "POST",
+                url: "?r=classes/getDisciplines",
+                cache: false,
+                data: {
+                    classroom: $("#classroom").val(),
+                },
+                success: function (response) {
+                    $("#disciplines").val("").trigger
+                    $("#disciplines").html(response).show();
+                    $(".disciplines-container").show();
+                },
+            });
+        } else {
+            $(".disciplines-container").hide();
+        }
+    } else {
+        $(".disciplines-container").hide();
+    }
 });
