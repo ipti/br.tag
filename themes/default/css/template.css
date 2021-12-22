@@ -7169,7 +7169,7 @@ li.active a {
 }
 .pageA4H #header-report ul#info,
 .pageA4H #header-report ul#addinfo {
-  width: 1012px;
+  /*width: 1012px;*/
 }
 #header-report {
   border-bottom: 1px solid #000;
@@ -7184,8 +7184,8 @@ li.active a {
 }
 #header-report ul#info,
 #header-report ul#addinfo {
-  float: right;
-  width: 684px;
+  /*float: right;*/
+  /*width: 684px;*/
   margin: 0;
   overflow: hidden;
 }
