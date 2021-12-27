@@ -314,3 +314,7 @@ form {
 .hidden-and-blocked-frequency .nameDisciplineFrequency, .hidden-and-blocked-frequency .nameInstructorFrequency {
     opacity: 0.2;
 }
+
+.save-school-button {
+    display: none;
+}

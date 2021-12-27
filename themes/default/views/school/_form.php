@@ -26,8 +26,10 @@ $form = $this->beginWidget('CActiveForm', array(
             <a data-toggle="tab"
                class='hide-responsive btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                 <i></i></a>
-
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'hide-responsive btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-school-button"
+                    type="button">
+                <i></i> <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
         </div>
     </div>
 </div>
@@ -37,6 +39,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelSchoolIdentification); ?>
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
+        <div class="alert alert-error school-error no-show"></div>
         <div class="widget-head">
             <ul class="tab-school">
                 <li id="tab-school-indentify" class="active"><a class="glyphicons edit" href="#school-indentify"
@@ -64,7 +67,10 @@ $form = $this->beginWidget('CActiveForm', array(
             <a data-toggle="tab"
                class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                 <i></i></a>
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok pull-right', 'style' => 'display:none', 'type' => 'submit')); ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-school-button"
+                    type="button">
+                <i></i> <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
 
         </div>
         <div class="widget-body form-horizontal">
@@ -92,7 +98,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'logo_file_content', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <button class="btn btn-icon glyphicons upload upload-logo-button" type="button"><i></i>Anexar</button>
+                                    <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
+                                        <i></i>Anexar
+                                    </button>
                                     <span class="uploaded-logo-name"></span>
                                     <?php echo $form->fileField($modelSchoolIdentification, 'logo_file_content'); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'logo_file_content'); ?>
@@ -772,7 +780,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span6 hide-responsive">
                             <div class="control-group">
                                 <label
-                                        class="control-label"><?php echo Yii::t('default', 'Operation Location'); ?></label>
+                                        class="control-label required"><?php echo Yii::t('default', 'Operation Location'); ?> *</label>
 
                                 <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
