@@ -81,7 +81,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="modality">
-                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label required')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
                                     echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
@@ -211,7 +211,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Week Days'); ?></label>
+                                <label class="control-label required"><?php echo Yii::t('default', 'Week Days'); ?> *</label>
                                 <div class="uniformjs margin-left" id="Classroom_week_days">
                                     <table>
                                         <tr>

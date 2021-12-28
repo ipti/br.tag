@@ -241,6 +241,10 @@ $(formStructure + 'native_education').trigger('change');
 $(".save-school-button").click(function () {
     error = false;
     var message = "";
+    if ($("#SchoolIdentification_name").val() === "") {
+        error = true;
+        message += "Campo <b>Nome</b> é obrigatório.<br>";
+    }
     if ($("input#SchoolIdentification_inep_id").val() === "") {
         error = true;
         message += "Campo <b>Código do Inep</b> é obrigatório.<br>";
