@@ -239,7 +239,7 @@ $(formStructure + 'native_education').change(function () {
 $(formStructure + 'native_education').trigger('change');
 
 $(".save-school-button").click(function () {
-    error = false;
+    var error = false;
     var message = "";
     if ($("#SchoolIdentification_name").val() === "") {
         error = true;

@@ -7,7 +7,6 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/calendar.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js', CClientScript::POS_END);
@@ -24,8 +23,10 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
-            ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-classroom"
+                    type="button">
+                <i></i> <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
         </div>
     </div>
 </div>
@@ -39,6 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
+        <div class="alert alert-error classroom-error no-show"></div>
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
@@ -84,10 +86,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
+                                    echo $form->DropDownList($modelClassroom, 'modality', array(
                                         '1' => 'Ensino Regular',
                                         '2' => 'Educação Especial - Modalidade Substitutiva',
-                                        '3' => 'Educação de Jovens e Adultos (EJA)'), array('class' => 'select-search-off'));
+                                        '3' => 'Educação de Jovens e Adultos (EJA)'), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off'));
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
@@ -146,7 +148,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('class' => 'select-search-off', 'ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off', 'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -212,7 +214,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <label class="control-label required"><?php echo Yii::t('default', 'Week Days'); ?> *</label>
-                                <div class="uniformjs margin-left" id="Classroom_week_days">
+                                <div class="uniformjs" id="Classroom_week_days">
                                     <table>
                                         <tr>
                                             <td>S</td>
