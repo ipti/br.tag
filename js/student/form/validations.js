@@ -650,3 +650,46 @@ $(formEnrollment + 'school_admission_date').focusout(function () {
         removeError(id);
     }
 });
+
+$(".save-student").click(function () {
+    var error = false;
+    var message = "";
+    if ($("#StudentIdentification_name").val() === "") {
+        error = true;
+        message += "Campo <b>Nome</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_birthday").val() === "") {
+        error = true;
+        message += "Campo <b>Data de Nascimento</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_sex").val() === "") {
+        error = true;
+        message += "Campo <b>Sexo</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_color_race").val() === "") {
+        error = true;
+        message += "Campo <b>Cor / Raça</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_filiation").val() === "") {
+        error = true;
+        message += "Campo <b>Filiação</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_nationality").val() === "") {
+        error = true;
+        message += "Campo <b>Nacionalidade</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_edcenso_nation_fk").val() === "") {
+        error = true;
+        message += "Campo <b>País de origem</b> é obrigatório.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_residence_zone").val() === "") {
+        error = true;
+        message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
+    }
+    if (error) {
+        $(this).closest("form").find(".student-error").html(message).show();
+    } else {
+        $(this).closest("form").find(".student-error").hide();
+        $(this).closest("form").submit();
+    }
+});

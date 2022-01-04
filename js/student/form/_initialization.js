@@ -10,6 +10,7 @@ $(document).ready(function(){
         $("#tab-student-documents").hide();
         $(".control-group").hide();
         $(".required").parent().show();
+        $("#StudentEnrollment_classroom_fk").closest(".control-group").show();
     }
     $(".tab-student").show();
     $(".tab-content").show();

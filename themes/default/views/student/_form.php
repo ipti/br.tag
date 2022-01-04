@@ -31,7 +31,10 @@ $form = $this->beginWidget('CActiveForm', array(
                style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab"
                class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
-               <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-student"
+                    type="button">
+                <i></i> <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
         </div>
     </div>
 </div>
@@ -47,6 +50,7 @@ $form = $this->beginWidget('CActiveForm', array(
         echo $form->errorSummary($modelStudentIdentification);
         echo $form->errorSummary($modelStudentDocumentsAndAddress);
         ?>
+        <div class="alert alert-error student-error no-show"></div>
         <div class="widget-head">
             <ul class="tab-student" style="display:none">
                 <li id="tab-student-identify" class="active">
@@ -1099,7 +1103,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1'=>array('selected'=>true))), array("prompt" => "Selecione", 'class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1'=>array('selected'=>true)), "prompt" => "Selecione", 'class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'status'); ?>
                                 </div>
                             </div>
