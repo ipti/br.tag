@@ -595,8 +595,65 @@ $(formInstructorvariableData + 'scholarity').on('change', function() {
             $('.other_courses').attr('checked',false);
         }
     });
+});
 
-
-
-
-}); 
+$(".save-instructor").click(function () {
+    var error = false;
+    var message = "";
+    if ($("#InstructorIdentification_name").val() === "") {
+        error = true;
+        message += "Campo <b>Nome</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_birthday_date").val() === "") {
+        error = true;
+        message += "Campo <b>Data de Nascimento</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_sex").val() === "") {
+        error = true;
+        message += "Campo <b>Sexo</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_color_race").val() === "") {
+        error = true;
+        message += "Campo <b>Cor / Raça</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_filiation").val() === "") {
+        error = true;
+        message += "Campo <b>Filiação</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_nationality").val() === "") {
+        error = true;
+        message += "Campo <b>Nacionalidade</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorIdentification_edcenso_nation_fk").val() === "") {
+        error = true;
+        message += "Campo <b>País de origem</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorVariableData_scholarity").val() === "") {
+        error = true;
+        message += "Campo <b>Escolaridade</b> é obrigatório.<br>";
+    }
+    if ($("#InstructorDocumentsAndAddress_cep").val() !== "") {
+        if ($("#InstructorDocumentsAndAddress_address").val() === "") {
+            error = true;
+            message += "Com o CEP preenchido, o campo <b>Endereço</b> se torna obrigatório.<br>";
+        }
+        if ($("#InstructorDocumentsAndAddress_neighborhood").val() === "") {
+            error = true;
+            message += "Com o CEP preenchido, o campo <b>Bairro / Povoado</b> se torna obrigatório.<br>";
+        }
+        if ($("#InstructorDocumentsAndAddress_edcenso_uf_fk").val() === "") {
+            error = true;
+            message += "Com o CEP preenchido, o campo <b>Estado</b> se torna obrigatório.<br>";
+        }
+        if ($("#InstructorDocumentsAndAddress_edcenso_city_fk").val() === "") {
+            error = true;
+            message += "Com o CEP preenchido, o campo <b>Cidade</b> se torna obrigatório.<br>";
+        }
+    }
+    if (error) {
+        $(this).closest("form").find(".instructor-error").html(message).show();
+    } else {
+        $(this).closest("form").find(".instructor-error").hide();
+        $(this).closest("form").submit();
+    }
+});

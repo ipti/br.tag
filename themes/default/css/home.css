@@ -315,7 +315,7 @@ form {
     opacity: 0.2;
 }
 
-.save-school-button, .save-student {
+.save-school-button, .save-student, .save-instructor {
     display: none;
 }
 

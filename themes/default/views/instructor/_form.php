@@ -27,8 +27,10 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         <div class="buttons hide-responsive">
             <a  data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a  data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit'));
-            ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-instructor"
+                    type="button">
+                <i></i> <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
         </div>
     </div>
 </div>
@@ -47,6 +49,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         echo $form->errorSummary($modelInstructorVariableData);
         echo isset($error['variableData']) ? $error['variableData'] : '';
         ?>
+        <div class="alert alert-error instructor-error no-show"></div>
         <div class="widget-head">
             <ul class="tab-instructor">
                 <li id="tab-instructor-identify"class="active"><a class="glyphicons vcard" href="#instructor-identify" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Identification') ?></a></li>
