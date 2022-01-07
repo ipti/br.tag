@@ -322,3 +322,7 @@ form {
 #Classroom_week_days {
     margin-left: 144px;
 }
+
+.schedule-info {
+    padding: 3px !important;
+}

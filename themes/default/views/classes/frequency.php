@@ -70,7 +70,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     <?php endif ?>
     <div class="alert-no-classroom-and-month no-show alert alert-error">
-        Os Campos de Turma e Mês são obrigatórios
+        Os Campos de Turma e Mês são obrigatórios.
     </div>
     <div class="filter-bar margin-bottom-none">
         <div>
