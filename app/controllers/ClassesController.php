@@ -404,18 +404,17 @@ class ClassesController extends Controller
         foreach ($classes as $class) {
             $day = $class->day;
             if ($class->given_class == 1) {
-                $return[$day] = [];
-
+                if (!isset($return[$day])) {
+                    $return[$day] = [];
+                }
                 $classContents = $class->classContents;
                 foreach ($classContents as $classContent) {
                     $id = $classContent->contentFk->id;
                     $description = $classContent->contentFk->description;
-
                     $return[$day][$id] = $description;
                 }
             }
         }
-
         if ($return === []) {
             echo json_decode(null);
         } else {
