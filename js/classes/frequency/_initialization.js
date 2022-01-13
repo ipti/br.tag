@@ -693,7 +693,7 @@ $("#classroom").on("change", function () {
                 },
             });
         } else {
-            $(".disciplines-container").hide();
+            $(".disciplines-container").val("Todas as disciplinas").hide();
         }
     } else {
         $(".disciplines-container").hide();

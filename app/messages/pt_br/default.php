@@ -785,6 +785,7 @@ return array(
     //Autenticação
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
+    'instructor' => 'Professor',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
     

@@ -135,9 +135,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="alert-incomplete-data alert alert-warning display-hide">
         Para trazer um quadro de frequência com alunos e disciplinas, é preciso:
         <ul>
-            <li>existir um calendário atual com os eventos de início e fim de ano escolar cadastrados;</li>
-            <li>adicionar uma matriz curricular e, em seguida, gerar um quadro de horário;</li>
-            <li>matricular alunos à turma.</li>
+            <li>existir um <b>calendário</b> do ano presente, selecionado como atual, com os eventos de início e fim de ano escolar criados;</li>
+            <li>adicionar uma <b>matriz curricular</b>;</li>
+            <li>gerar um <b>quadro de horário</b>;</li>
+            <li>matricular <b>alunos</b> à turma.</li>
         </ul>
     </div>
     <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">

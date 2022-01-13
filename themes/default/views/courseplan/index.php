@@ -35,20 +35,27 @@
                                 'name' => 'name',
                                 'type' => 'raw',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
-                                'htmlOptions' => array('width' => '400px')
+                                'htmlOptions' => array('width' => '25%')
                             ),
                             array(
                                 'header' => Yii::t('default', 'Stage'),
                                 'name' => 'modality_fk',
                                 'type' => 'raw',
                                 'value' => '$data->modalityFk->name',
-                                'htmlOptions' => array('width' => '400px'),
+                                'htmlOptions' => array('width' => '25%'),
                             ),
                             array(
                                 'header' => Yii::t('default', 'Discipline'),
                                 'name' => 'discipline_fk',
                                 'value' => '$data->disciplineFk->name',
-                                'htmlOptions' => array('width' => '100px'),
+                                'htmlOptions' => array('width' => '20%'),
+                                'filter' => false
+                            ),
+                            array(
+                                'header' => Yii::t('default', 'Autor'),
+                                'name' => 'users_fk',
+                                'value' => '$data->usersFk->name',
+                                'htmlOptions' => array('width' => '25%'),
                                 'filter' => false
                             ),
                             array('class' => 'CButtonColumn', 'template' => '{delete}'),

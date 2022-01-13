@@ -1286,7 +1286,7 @@ body > .container-fluid.documentation {
 }
 
 /** Select de seleção de escolas **/
-#s2id_SchoolIdentification_inep_id a {
+#s2id_SchoolIdentification_inep_id a, #s2id_UsersSchool_school_fk a {
   background-color: #6988c0;
   box-shadow: 0 1px 0 #3a5689;
   -webkit-box-shadow: 0 1px 0 #3a5689;
@@ -1295,7 +1295,7 @@ body > .container-fluid.documentation {
   color: #fff;
   padding: 3px 10px;
 }
-#s2id_SchoolIdentification_inep_id .select2-arrow {
+#s2id_SchoolIdentification_inep_id .select2-arrow, #s2id_UsersSchool_school_fk .select2-arrow {
   background: inherit;
 }
 #select2-drop.school-dropdown {
@@ -1303,7 +1303,7 @@ body > .container-fluid.documentation {
   background: #363432;
   color: #c8c8c8;
 }
-#s2id_SchoolIdentification_inep_id.select2-dropdown-open a {
+#s2id_SchoolIdentification_inep_id.select2-dropdown-open a, #s2id_UsersSchool_school_fk.select2-dropdown-open a {
   background-color: #363432;
 }
 .school-dropdown .select2-results {
