@@ -97,11 +97,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <a class="glyphicons unshare"
                            href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
                     </li>
+                    <li id="menu-dashboard"
+                        class="<?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
+                        <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
+                    </li>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
-                        <li id="menu-dashboard"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
-                        </li>
                         <li id="menu-school"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=school") ? 'active' : '' ?>">
                             <?php
@@ -219,13 +219,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
         <!-- Content -->
         <div id="content">
-            <?php if (!(Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) && strpos($_SERVER['REQUEST_URI'], "?r=courseplan"))) : ?>
-                <ul class="breadcrumb hidden-print">
-                    <li class="breadcrumb-prev">
-                        <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
-                    </li>
-                </ul>
-            <?php endif ?>
+            <ul class="breadcrumb hidden-print">
+                <li class="breadcrumb-prev">
+                    <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
+                </li>
+            </ul>
             <?php echo $content; ?>
         </div>
         <!-- // Content END -->

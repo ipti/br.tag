@@ -495,7 +495,7 @@ function addStudentBackward(
 }
 
 const dataFrequency = (index = 0) => {
-    var disciplineSelected = $("#disciplines").val();
+    var disciplineSelected = $("#disciplines").is(":visible") ? $("#disciplines").val() : "";
     var hasSchedules = false;
     let report = JSON.parse(window.localStorage.getItem("frequency")).report;
     let qdtDaysMonth = JSON.parse(window.localStorage.getItem("frequency"))
@@ -535,7 +535,7 @@ const dataFrequency = (index = 0) => {
                 content +=
                     "<td class='" +
                     red + " available-frequency "
-                    + (disciplineSelected !== "Todas as disciplinas" && report[students[index]].shedules[d][h].disciplineId.toString() !== disciplineSelected ? "hidden-and-blocked-frequency" : "") +
+                    + (disciplineSelected === "-1" || (disciplineSelected !== "" && report[students[index]].shedules[d][h].disciplineId.toString() !== disciplineSelected) ? "hidden-and-blocked-frequency" : "") +
                     "' data-student='" +
                     students[index] +
                     "' data-day='" +
@@ -590,9 +590,14 @@ const dataFrequency = (index = 0) => {
 
     $("#buttonsNexrPrev").append(buttons);
 
-    hasSchedules
-        ? $(".alert-incomplete-data").hide()
-        : $(".alert-incomplete-data").show();
+    if (hasSchedules) {
+        $("#widget-frequency").show();
+        $(".alert-incomplete-data").hide();
+    } else {
+        $("#widget-frequency").hide();
+        $("#buttonsNexrPrev").html("");
+        $(".alert-incomplete-data").show();
+    }
 };
 
 $(document).on("click", ".buttonNextPrev", function () {
@@ -600,6 +605,7 @@ $(document).on("click", ".buttonNextPrev", function () {
 });
 
 $(document).on("click", "#frequency > tbody > tr > td", function () {
+    var cell = this;
     if (!$(this).hasClass("hidden-and-blocked-frequency") && $(this).children().length) {
         let obj = $(this);
         jQuery.ajax({
@@ -614,16 +620,19 @@ $(document).on("click", "#frequency > tbody > tr > td", function () {
                 student: $(this).data("student_fk"),
                 classroom: $("#classroom").val(),
             },
+            beforeSend: function () {
+                $(cell).css("pointer-events", "none");
+            },
             success: function (response) {
                 if (response) {
                     if (response == 1) {
                         let store = JSON.parse(window.localStorage.getItem("frequency"));
                         if (obj.hasClass("red")) {
-                            $.each(store.report[obj.data("student")].faults, function(index, item) {
-                                if (Number(item.day) == Number(obj.data("day")) && Number(item.schedule) == Number(obj.data("schedule"))) {
-                                    store.report[obj.data("student")].faults.splice(index, 1);
+                            for (var i = Object.keys(store.report[obj.data("student")].faults).length - 1; i >= 0; i--) {
+                                if (Number(store.report[obj.data("student")].faults[i].day) === Number(obj.data("day")) && Number(store.report[obj.data("student")].faults[i].schedule) === Number(obj.data("schedule"))) {
+                                    store.report[obj.data("student")].faults.splice(i, 1);
                                 }
-                            });
+                            }
                             obj.removeClass("red");
                         } else {
                             store.report[obj.data("student")].faults.push({
@@ -638,6 +647,9 @@ $(document).on("click", "#frequency > tbody > tr > td", function () {
                     }
                 }
             },
+            complete: function () {
+                $(cell).css("pointer-events", "auto");
+            }
         });
     }
 });
@@ -659,7 +671,6 @@ $("#classesSearch").on("click", function () {
                     if (response) {
                         window.localStorage.setItem("frequency", response);
                         dataFrequency();
-                        $("#widget-frequency").show();
                     }
                 } else {
                     $("#widget-frequency").hide();
@@ -687,13 +698,16 @@ $("#classroom").on("change", function () {
                     classroom: $("#classroom").val(),
                 },
                 success: function (response) {
-                    $("#disciplines").val("").trigger
-                    $("#disciplines").html(response).show();
+                    if (response == "") {
+                        $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
+                    } else {
+                        $("#disciplines").html(response).trigger("change.select2").show();
+                    }
                     $(".disciplines-container").show();
                 },
             });
         } else {
-            $(".disciplines-container").val("Todas as disciplinas").hide();
+            $(".disciplines-container").hide();
         }
     } else {
         $(".disciplines-container").hide();

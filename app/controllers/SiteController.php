@@ -46,8 +46,6 @@ class SiteController extends Controller
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl('site/login'));
-        } else if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $this->redirect(yii::app()->createUrl('courseplan'));
         }
 
         //$this->redirect(yii::app()->createUrl('student'));

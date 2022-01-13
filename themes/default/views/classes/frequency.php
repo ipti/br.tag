@@ -82,16 +82,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             showdisciplines="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                 <?php endforeach; ?>
             </select>
-            <!--            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(-->
-            <!--                'key' => 'id',-->
-            <!--                'class' => 'select-search-on',-->
-            <!--                'prompt' => 'Selecione a turma',-->
-            <!--                'ajax' => array(-->
-            <!--                    'type' => 'POST',-->
-            <!--                    'url' => CController::createUrl('classes/getDisciplines'),-->
-            <!--                    'update' => '#disciplines',-->
-            <!--            )));-->
-
         </div>
 
         <div>
@@ -121,7 +111,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
                 'class' => 'select-search-on',
-                'prompt' => 'Todas as disciplinas',
             ));
             ?>
         </div>

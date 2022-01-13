@@ -5,7 +5,7 @@
  *
  */
 function generateGradesForm(data) {
-    if (data !== null && !$.isEmptyObject(data)) {
+    if (data !== null && !$.isEmptyObject(data.students)) {
         $(".alert-no-students").hide();
         $('.select2-container-active').removeClass('select2-container-active');
         $(':focus').blur();
@@ -29,22 +29,21 @@ function generateGradesForm(data) {
                 cycle: false
             };
         }
-        $.each(data, function (i, v) {
+        $.each(data.students, function (i, v) {
             var id = v.enrollment_id;
             var name = i.length > 21 ? i.substring(0, 18) + "..." : i;
             var full_name = i;
-            if (i !== 'stage') {
-                addStudentOnMenu(id, name);
-                addStudentTable(id, full_name, grades_needed);
-                $(".no-disciplines-guide").show();
-                $.each(v.disciplines, function (i, v) {
-                    var discipline_id = i;
-                    var discipline = v;
-                    addStudentGrades(id, discipline_id, discipline, grades_needed);
-                });
-                addFieldsByFrequency(id, v.school_days, v.workload, grades_needed);
-                addFrequencyByExam(id, v.frequencies, grades_needed);
-            }
+            addStudentOnMenu(id, name);
+            addStudentTable(data, id, full_name, grades_needed);
+            $(".no-disciplines-guide").show();
+            $.each(v.disciplines, function (i, v) {
+                var discipline_id = i;
+                var discipline = v;
+                addStudentGrades(data, id, discipline_id, discipline, grades_needed);
+            });
+            addFieldsByFrequency(id, v.school_days, v.workload, grades_needed);
+            addFrequencyByExam(id, v.frequencies, grades_needed);
+            data.isInstructor ? $(".shared-rows").hide() : "";
         });
         $("#save").show();
         $(".classroom .students li").first().addClass('active');
@@ -128,7 +127,7 @@ function addStudentOnMenu(id, name) {
         + '</li>');
 }
 
-function addStudentTable(id, name, fields) {
+function addStudentTable(data, id, name, fields) {
     var notas = "";
     var recuperacao = "";
     var final = fields.final ? '<th class="center" scope="col">Final</th>' : "";
@@ -156,7 +155,7 @@ function addStudentTable(id, name, fields) {
     $(".grades .tab-content").append(
         '<div class="tab-pane" id="tab' + id + '">'
         + '<h6>' + name + '</h6>'
-        + '<table class="grade-table table table-bordered table-striped">'
+        + '<table class="grade-table table table-bordered ' + (data.isInstructor ? "" : "table-striped") + '">'
         + '<col>'
         + '<colgroup span="4"></colgroup>'
         + '<colgroup span="4"></colgroup>'
@@ -181,8 +180,8 @@ function addStudentTable(id, name, fields) {
         + '</div>');
 }
 
-function addStudentGrades(id, discipline_id, discipline, fields) {
-    var tbody = "<tr>";
+function addStudentGrades(data, id, discipline_id, discipline, fields) {
+    var tbody = "<tr class='" + (data.isInstructor && !Number(discipline.isInstructorsDiscipline) ? "no-show" : "") + "'>";
     var numN = fields.notas;
     var numR = fields.recuperacao;
     var isCycle = fields.cycle;
@@ -232,7 +231,7 @@ function addStudentGrades(id, discipline_id, discipline, fields) {
 
 function addFieldsByFrequency(id, school_days, workload, fields) {
     var countRemainingColumnsToFill = fields.recuperacao + (fields.final ? 1 : 0) + (fields.cycle ? 0 : 2) + 3;
-    var tbody = "<tr>";
+    var tbody = "<tr class='shared-rows'>";
     tbody += '<td class="discipline-name">Dias Letivos</td>';
     for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
         if (i < 4) {
@@ -244,7 +243,7 @@ function addFieldsByFrequency(id, school_days, workload, fields) {
         }
     }
     tbody += "</tr>";
-    tbody += "<tr>";
+    tbody += "<tr class='shared-rows'>";
     tbody += '<td class="discipline-name">Carga Horária</td>';
     for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
         if (i < 4) {
@@ -261,7 +260,7 @@ function addFieldsByFrequency(id, school_days, workload, fields) {
 
 function addFrequencyByExam(id, frequencies, fields) {
     var countRemainingColumnsToFill = fields.recuperacao + (fields.final ? 1 : 0) + (fields.cycle ? 0 : 2) + 3;
-    var tbody = "<tr>";
+    var tbody = "<tr class='shared-rows'>";
     tbody += '<td class="discipline-name">Número de faltas</td>';
     for (var i = 0; i < 4 + countRemainingColumnsToFill; i++) {
         if (i < 4) {
