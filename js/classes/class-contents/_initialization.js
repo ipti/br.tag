@@ -33,6 +33,7 @@ $('#classesSearch').on('click', function () {
     } else {
         $(".alert-no-classroom-and-month").show();
         $("#widget-class-contents").hide();
+        $("#print, #save").hide();
     }
 });
 
