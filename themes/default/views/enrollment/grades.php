@@ -41,7 +41,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
         <div class="filter-bar margin-bottom-none">
             <div>
-                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
                 <?php
                 echo CHtml::dropDownList('classroom', '', $classrooms, array(
                     'key' => 'id',
