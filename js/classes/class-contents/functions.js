@@ -36,7 +36,7 @@ function createTable(data, contents) {
     $('#widget-class-contents').show();
     $('#class-contents').show();
     $('#month_text').html($('#month').find('option:selected').text());
-    $('#discipline_text').html($('#disciplines').find('option:selected').text());
+    $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
 }
 
 var addContent = function () {
