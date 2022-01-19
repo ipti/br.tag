@@ -8,7 +8,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
-$cs->registerCssFile($baseUrl . '/css/template.min.css');
+$cs->registerCssFile($baseUrl . '/css/template.css');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
@@ -30,7 +30,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="offset5 span6 login-input">
                 <div class="inner">
                     <form method="post" action="index.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left&amp;style=style-light">
-                        <label class="strong"><?php echo INSTANCE ?></label>
+                        <h4 class="strong instance"><?php echo INSTANCE ?></h4>
                         <label class="strong">Usuário</label>
                         <?php echo $form->textField($model, 'username', array('class' => 'input-block-level')); ?>
                         <?php echo $form->error($model, 'username'); ?>
@@ -65,7 +65,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));
                         // @done S1 - Alinhar o checkbox com os inputs
                         ?>
-                        <div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 4px 0 0"value="remember-me">Lembrar-me</label></div>
+                        <div class="uniformjs"><label class="checkbox" ><input type="checkbox" style="margin: 4px 6px 0 0"value="remember-me">Lembrar-me</label></div>
                         <div class="row-fluid">
                             <div class="offset7 span5 center">
                                 <?php echo CHtml::submitButton('Login', array('class' => 'btn btn-block btn-primary')); ?>

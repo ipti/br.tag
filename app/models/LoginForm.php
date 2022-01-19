@@ -38,6 +38,8 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			'rememberMe'=>Yii::t('default','Remember me next time'),
+            'username' => 'Usuário',
+            'password' => 'Senha',
 		);
 	}
 
