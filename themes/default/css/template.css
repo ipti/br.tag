@@ -8686,7 +8686,10 @@ li.active a {
 
 .instance {
     text-align: center;
-    margin-bottom: 15px;
+    padding: 8px 10px;
+    color: white;
+    margin: -20px -20px 20px;
+    background: #496cad;
 }
 
 .input-block-level.error {
