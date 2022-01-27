@@ -172,8 +172,8 @@ preenchidos";
 
                     $user = new Users();
                     $user->name = $modelInstructorIdentification->name;
-                    $user->username = strtolower(explode(' ', trim($modelInstructorIdentification->name))[0]) . "." . str_replace("/", "", $modelInstructorIdentification->birthday_date);
-                    $user->password = md5("professor");
+                    $user->username = $modelInstructorDocumentsAndAddress->cpf;
+                    $user->password = md5(str_replace("/", "", $modelInstructorIdentification->birthday_date));
                     if ($user->save()) {
                         $userSchool = new UsersSchool();
                         $userSchool->user_fk = $user->id;

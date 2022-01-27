@@ -285,12 +285,12 @@ $(formInstructorIdentification + 'deficiency_type_intelectual_disability').on('c
 
 var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 
+$(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').on('change', function() {
     var id = '#' + $(this).attr("id");
 
-    $(id).val($(id).val().toUpperCase());
 
-    if (!validateCpf($(id).val())) {
+    if (!validateCpf($(id).cleanVal())) {
         $(id).attr('value', '');
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
@@ -604,6 +604,10 @@ $(".save-instructor").click(function () {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";
     }
+    if ($("#InstructorDocumentsAndAddress_cpf").val() === "") {
+        error = true;
+        message += "Campo <b>Nº do CPF</b> é obrigatório.<br>";
+    }
     if ($("#InstructorIdentification_birthday_date").val() === "") {
         error = true;
         message += "Campo <b>Data de Nascimento</b> é obrigatório.<br>";
@@ -654,6 +658,7 @@ $(".save-instructor").click(function () {
         $(this).closest("form").find(".instructor-error").html(message).show();
     } else {
         $(this).closest("form").find(".instructor-error").hide();
+        $(formDocumentsAndAddress + "cpf").unmask();
         $(this).closest("form").submit();
     }
 });
