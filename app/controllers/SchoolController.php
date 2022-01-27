@@ -1,6 +1,7 @@
 <?php
 
-class SchoolController extends Controller {
+class SchoolController extends Controller
+{
 
     //@done s1 - Recuperar endereço pelo CEP
     /**
@@ -14,7 +15,8 @@ class SchoolController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
         );
@@ -25,7 +27,8 @@ class SchoolController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update',
@@ -42,7 +45,8 @@ class SchoolController extends Controller {
         );
     }
 
-    public function actionUpdateCityDependencies() {
+    public function actionUpdateCityDependencies()
+    {
         $school = new SchoolIdentification();
         $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
 
@@ -55,7 +59,8 @@ class SchoolController extends Controller {
     }
 
     //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
-    public function actionUpdateUfDependencies() {
+    public function actionUpdateUfDependencies()
+    {
         $school = new SchoolIdentification();
         $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
 
@@ -78,14 +83,15 @@ class SchoolController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionGetCities($Uf = null) {
+    public function actionGetCities($Uf = null)
+    {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
         $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int)$school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
         $result = CHtml::tag('option', array('value' => ""), 'Selecione a cidade', true);
@@ -96,7 +102,8 @@ class SchoolController extends Controller {
         return $result;
     }
 
-    public function actionGetDistricts($CITY = null) {
+    public function actionGetDistricts($CITY = null)
+    {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
@@ -119,7 +126,8 @@ class SchoolController extends Controller {
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $this->render('view', array(
             'modelSchoolIdentification' => $this->loadModel($id, $this->SCHOOL_IDENTIFICATION),
             'modelSchoolStructure' => $this->loadModel($id, $this->SCHOOL_STRUCTURE),
@@ -130,9 +138,11 @@ class SchoolController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $modelSchoolIdentification = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
+        $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
@@ -165,6 +175,12 @@ class SchoolController extends Controller {
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
+                            $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
+                            $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
+                            $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
+                            $schoolStagesConceptGrades->save();
+                        }
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "C", $modelSchoolIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
                         $this->redirect(array('index'));
@@ -186,7 +202,8 @@ class SchoolController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $modelSchoolIdentification = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
 
@@ -211,12 +228,12 @@ class SchoolController extends Controller {
             $modelSchoolStructure->attributes = $_POST[$this->SCHOOL_STRUCTURE];
 
 
-            if(!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])){
+            if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
                 $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');
                 $modelSchoolIdentification->logo_file_name = $file->name;
                 $modelSchoolIdentification->logo_file_type = $file->type;
                 $modelSchoolIdentification->logo_file_content = file_get_contents($file->tempName);
-            }else{
+            } else {
                 $modelSchoolIdentification->logo_file_content = $file_content_tmp;
             }
 
@@ -225,6 +242,22 @@ class SchoolController extends Controller {
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
+
+                        if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
+                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk and edcenso_stage_vs_modality_fk not in (:edcenso_stage_vs_modality_fk)", ["school_fk" => $modelSchoolIdentification->inep_id, "edcenso_stage_vs_modality_fk" => implode(",", $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"])]);
+                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
+                                $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
+                                if ($schoolStagesConceptGrades == null) {
+                                    $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
+                                    $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
+                                    $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
+                                    $schoolStagesConceptGrades->save();
+                                }
+                            }
+                        } else {
+                            SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk", ["school_fk" => $modelSchoolIdentification->inep_id]);
+                        }
+
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
                         $this->redirect(array('index'));
@@ -246,7 +279,8 @@ class SchoolController extends Controller {
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         if ($this->loadModel($id, $this->SCHOOL_STRUCTURE)->delete() && $this->loadModel($id, $this->SCHOOL_IDENTIFICATION)->delete()) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso!'));
             $this->redirect(array('index'));
@@ -258,14 +292,15 @@ class SchoolController extends Controller {
     /**
      * Lists all models.
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $filter = new SchoolIdentification('search');
         $filter->unsetAttributes();  // clear any default values
         if (isset($_GET['SchoolIdentification'])) {
             $filter->attributes = $_GET['SchoolIdentification'];
         }
         $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => array(
-                'pageSize' => 12,
+            'pageSize' => 12,
         )));
         $this->render('index', array(
             'dataProvider' => $dataProvider,
@@ -276,7 +311,8 @@ class SchoolController extends Controller {
     /**
      * Manages all models.
      */
-    public function actionAdmin() {
+    public function actionAdmin()
+    {
         $modelSchoolIdentification = new SchoolIdentification('search');
         $modelSchoolIdentification->unsetAttributes();  // clear any default values
         $modelSchoolStructure = new SchoolStructure('search');
@@ -298,7 +334,8 @@ class SchoolController extends Controller {
      * If the data model is not found, an HTTP exception will be raised.
      * @param integer the ID of the model to be loaded
      */
-    public function loadModel($id, $model) {
+    public function loadModel($id, $model)
+    {
 
         $return = null;
 
@@ -306,6 +343,12 @@ class SchoolController extends Controller {
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
+            $array = [];
+            $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
+            foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {
+                array_push($array, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
+            }
+            $return->stages_concept_grades = $array;
         }
 
         if ($return === null)
@@ -313,64 +356,68 @@ class SchoolController extends Controller {
         return $return;
     }
 
-    public function actionDisplayLogo($id){
-        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+    public function actionDisplayLogo($id)
+    {
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $this->renderPartial('logo', array(
-            'model'=>$model
+            'model' => $model
         ));
     }
 
-    public function actionReports($id){
+    public function actionReports($id)
+    {
         $this->layout = "reports";
-        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $this->render('MonthlySummary', array(
-            'model'=>$model
+            'model' => $model
         ));
     }
 
-    public function actionReportsMonthlyTransaction($id, $type){
+    public function actionReportsMonthlyTransaction($id, $type)
+    {
         $this->layout = "reports";
-        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $title = '';
 
         switch ($type) {
             case 1:
                 $title = "ENSINO FUNDAMENTAL - ANOS INICIAIS";
-            break;
-            
+                break;
+
             case 2:
                 $title = "ENSINO FUNDAMENTAL - ANOS FINAIS";
-            break;
+                break;
             case 3:
                 $title = "EDUCAÇÃO INFANTIL - PRÉ-ESCOLA";
-            break;
+                break;
         }
 
         $this->render('MonthlyTransaction', array(
-            'model'=>$model,
+            'model' => $model,
             'type' => $type,
             'title' => $title
         ));
     }
 
-    public function actionRecord($id, $type){
+    public function actionRecord($id, $type)
+    {
         $this->layout = "reports";
-        $model=$this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
+        $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $title = '';
 
         switch ($type) {
             case 1:
                 $title = "Hitórico Ensino Regular";
-            break;
-            
+                break;
+
             case 2:
                 $title = "Histórico Ensino EJA";
-            break;
-            break;
+                break;
+                break;
         }
 
         $this->render('Record', array(
-            'model'=>$model,
+            'model' => $model,
             'type' => $type,
             'title' => $title
         ));
@@ -380,7 +427,8 @@ class SchoolController extends Controller {
      * Performs the AJAX validation.
      * @param CModel the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'school') {
             echo CActiveForm::validate($model);
             Yii::app()->end();

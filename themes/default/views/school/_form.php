@@ -780,7 +780,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span6 hide-responsive">
                             <div class="control-group">
                                 <label
-                                        class="control-label required"><?php echo Yii::t('default', 'Operation Location'); ?> *</label>
+                                        class="control-label required"><?php echo Yii::t('default', 'Operation Location'); ?>
+                                    *</label>
 
                                 <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
@@ -1889,6 +1890,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_inexistent']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <?php echo $form->labelEx($modelSchoolStructure, 'stages_concept_grades', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->dropDownList($modelSchoolStructure, 'stages_concept_grades', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('multiple' => true, 'prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on multiselect')); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'stages_concept_grades'); ?>
+                                    <div class="add-stages-options">Adicionar: <span class="add-fundamental-menor">Fundamental Menor</span></div>
                                 </div>
                             </div>
 

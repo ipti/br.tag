@@ -746,7 +746,7 @@ class EnrollmentController extends Controller
                         $return["students"][$studentName]['disciplines'][$disciplineId]['school_days'] = $school_days;
                     }
                 }
-                $return['stage'] = $stage;
+                $return['isConcept'] = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => Yii::app()->user->school, ":edcenso_stage_vs_modality_fk" => $stage]) !== null;
             }
             echo json_encode($return);
         }

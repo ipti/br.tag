@@ -12,9 +12,8 @@ function generateGradesForm(data) {
         $(".students ul li").remove();
         $(".grades .tab-content .tab-pane").remove();
         $(".classroom").show();
-        var stage = data.stage;
         var grades_needed;
-        if (stage >= 14 && stage <= 16) {
+        if (data.isConcept) {
             grades_needed = {
                 notas: 4,
                 recuperacao: 0,
@@ -194,9 +193,9 @@ function addStudentGrades(data, id, discipline_id, discipline, fields) {
             tbody += '<td class="center"><select name="grade[' + id + '][' + discipline_id + '][' + i + ']" '
                 + 'class="grade-dropdown">'
                 + '<option value=""></option>'
-                + '<option value="0" ' + ((discipline["n" + (i + 1)] === "0") ? 'selected' : '') + '>Insatisfatório</option>'
-                + '<option value="5" ' + ((discipline["n" + (i + 1)] === "5") ? 'selected' : '') + '>Satisfatório</option>'
-                + '<option value="10" ' + ((discipline["n" + (i + 1)] === "10") ? 'selected' : '') + '>Muito Satisfatório</option>'
+                + '<option value="0" ' + (discipline["n" + (i + 1)] !== "" ? ((Number(discipline["n" + (i + 1)]) >= 0 && Number(discipline["n" + (i + 1)]) < 5) ? 'selected' : '') : '') + '>Insatisfatório</option>'
+                + '<option value="5" ' + (discipline["n" + (i + 1)] !== "" ? ((Number(discipline["n" + (i + 1)]) >= 5 && Number(discipline["n" + (i + 1)]) < 10) ? 'selected' : '') : '') + '>Satisfatório</option>'
+                + '<option value="10" ' + (discipline["n" + (i + 1)] !== "" ? ((Number(discipline["n" + (i + 1)]) === 10) ? 'selected' : '') : '') + '>Muito Satisfatório</option>'
                 + '</select></td>"';
         }
     }

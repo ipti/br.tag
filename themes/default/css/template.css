@@ -8705,6 +8705,17 @@ li.active a {
     color: #f5f5f5;
 }
 
+.add-stages-options {
+    font-size: 11px;
+    width: 220px;
+    text-align: right;
+}
+
+.add-stages-options span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 @media (max-width: 480px) {
     .table-responsive {
         display: block;
