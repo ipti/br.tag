@@ -9,6 +9,7 @@
      * @property integer $stage
      *
      * The followings are the available model relations:
+     * @property SchoolStagesConceptGrades[] $schoolStagesConceptGrades
      * @property StudentEnrollment[] $studentEnrollments
      */
     class EdcensoStageVsModality extends CActiveRecord {
@@ -121,6 +122,7 @@
             // NOTE: you may need to adjust the relation name and the related
             // class name for the relations automatically generated below.
             return [
+                'schoolStagesConceptGrades' => array(self::HAS_MANY, 'SchoolStagesConceptGrades', 'edcenso_stage_vs_modality_fk'),
                 'studentEnrollments' => [self::HAS_MANY, 'StudentEnrollment', 'edcenso_stage_vs_modality_fk'],
             ];
         }

@@ -8696,6 +8696,15 @@ li.active a {
     border-color: red;
 }
 
+.username {
+    display: inline-block;
+    font-size: 20px;
+    float: right;
+    margin-right: 20px;
+    line-height: 40px;
+    color: #f5f5f5;
+}
+
 @media (max-width: 480px) {
     .table-responsive {
         display: block;
@@ -8810,5 +8819,13 @@ li.active a {
 
     #LoginForm_year {
         min-width: 100px;
+    }
+
+    .navbar.main .appbrand {
+        width: 130px;
+    }
+
+    .username {
+        float: left;
     }
 }

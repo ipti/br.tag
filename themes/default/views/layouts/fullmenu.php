@@ -84,6 +84,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 </div>
             </li>
         </ul>
+        <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
     </div>
     <!-- Top navbar END -->
 
