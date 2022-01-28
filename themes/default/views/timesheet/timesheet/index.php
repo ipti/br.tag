@@ -68,7 +68,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 ]
             ]); ?>
         </div>
-        <div class="schedule-info">
+        <div class="schedule-info display-hide">
             <button class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
                 <i></i><?= yii::t('timesheetModule.timesheet', "Generate timesheet") ?>
             </button>

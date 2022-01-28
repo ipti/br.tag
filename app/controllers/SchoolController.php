@@ -343,12 +343,32 @@ class SchoolController extends Controller
             $return = SchoolIdentification::model()->findByPk($id);
         } else if ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
-            $array = [];
+            $stagesConceptGradesArray = [];
             $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
             foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {
-                array_push($array, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
+                array_push($stagesConceptGradesArray, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
             }
-            $return->stages_concept_grades = $array;
+            $return->stages_concept_grades = $stagesConceptGradesArray;
+            $sharedSchoolInedIdArray = [];
+            if ($return->shared_school_inep_id_1 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_1);
+            }
+            if ($return->shared_school_inep_id_2 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_2);
+            }
+            if ($return->shared_school_inep_id_3 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_1);
+            }
+            if ($return->shared_school_inep_id_4 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_4);
+            }
+            if ($return->shared_school_inep_id_5 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_5);
+            }
+            if ($return->shared_school_inep_id_6 != null) {
+                array_push($sharedSchoolInedIdArray, $return->shared_school_inep_id_6);
+            }
+            $return->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
         }
 
         if ($return === null)
