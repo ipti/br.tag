@@ -365,10 +365,10 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
 
                                 <label
-                                        class="control-label"><?= Yii::t('default', 'Regulation Organ'); ?>
+                                        class="control-label required"><?= Yii::t('default', 'Regulation Organ'); ?> *
                                 </label>
 
-                                <div class="uniformjs margin-left" id="SchoolIdentification_linked_organ">
+                                <div class="uniformjs margin-left" id="SchoolIdentification_regulation_organ">
                                     <label class="checkbox">
                                         <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
                                         <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_federal', array('value' => 1, 'uncheckValue' => 0)); ?>

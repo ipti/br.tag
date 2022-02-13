@@ -1,7 +1,7 @@
 <?php
 class Register10
 {
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 
@@ -11,7 +11,7 @@ class Register10
 
         $attributes['id'] = $attributes['school_inep_id_fk'];
 
-        $aliases = EdcensoAlias::model()->findAllByAttributes(['year' => 2021, 'register' => '10']);
+        $aliases = EdcensoAlias::model()->findAllByAttributes(['year' => $year, 'register' => '10']);
         foreach ($aliases as $alias) {
             $register[$alias->corder] = $alias->default;
         }
@@ -177,13 +177,13 @@ class Register10
 
         foreach ($attributes as $column => $value) {
             if ($value === '') {
-                $alias = EdcensoAlias::model()->findByAttributes(['year' => 2021, 'register' => '10', 'attr' => $column]);
+                $alias = EdcensoAlias::model()->findByAttributes(['year' => $year, 'register' => '10', 'attr' => $column]);
                 $attributes[$column] = $alias->default;
             }
         }
 
         foreach ($attributes as $column => $value) {
-            $alias = EdcensoAlias::model()->findByAttributes(['year' => 2021, 'register' => '10', 'attr' => $column]);
+            $alias = EdcensoAlias::model()->findByAttributes(['year' => $year, 'register' => '10', 'attr' => $column]);
             if (isset($alias->corder)) {
                 $register[$alias->corder] = $value;
             }

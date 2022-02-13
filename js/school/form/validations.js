@@ -269,6 +269,10 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Localização</b> é obrigatório.<br>";
     }
+    if ($("#SchoolIdentification_id_difflocation").val() === "") {
+        error = true;
+        message += "Campo <b>Localização diferenciada</b> é obrigatório.<br>";
+    }
     if ($("#SchoolIdentification_offer_or_linked_unity").val() === "") {
         error = true;
         message += "Campo <b>Unidade vinculada de Educação Básica ou ofertante de Ensino Superior</b> é obrigatório.<br>";
@@ -276,6 +280,23 @@ $(".save-school-button").click(function () {
     if (!$("#SchoolStructure_operation_location input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Local de Funcionamento</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$("#SchoolIdentification_regulation_organ input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Esfera do Órgão Regulador</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (($("#SchoolIdentification_administrative_dependence").val() == "1" || $("#SchoolIdentification_administrative_dependence").val() == "2" || $("#SchoolIdentification_administrative_dependence").val() == "3")
+        && !$("#SchoolIdentification_linked_organ input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Órgão ao qual a escola pública está vinculada</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if ($("#SchoolIdentification_inep_head_school").val() !== "" && $("#SchoolIdentification_ies_code").val() !== "") {
+        error = true;
+        message += "Apenas um dos campos <b>Código da Escola Sede</b> e <b>Código da IES</b> deve ser preenchido.";
+    }
+    if (($("#SchoolIdentification_phone_number").val() !== "" || $("#SchoolIdentification_other_phone_number").val() !== "") && $("#SchoolIdentification_ddd").val() === "") {
+        error = true;
+        message += "Quando um dos campos de telefone é preenchido, o campo <b>DDD</b> se torna obrigatório.";
     }
     if (error) {
         $(this).closest("form").find(".school-error").html(message).show();

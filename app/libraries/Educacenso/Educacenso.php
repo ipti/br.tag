@@ -15,39 +15,39 @@ class Educacenso
         include __DIR__ . '/Register99.php';
     }
 
-    private function register00()
+    private function register00($year)
     {
-        $this->registers['00'] = Register00::export();
+        $this->registers['00'] = Register00::export($year);
     }
 
-    private function register10()
+    private function register10($year)
     {
-        $this->registers['10'] = Register10::export();
+        $this->registers['10'] = Register10::export($year);
     }
 
-    private function register20()
+    private function register20($year)
     {
-        $this->registers['20'] = Register20::export();
+        $this->registers['20'] = Register20::export($year);
     }
 
-    private function register30()
+    private function register30($year)
     {
-        $this->registers['30'] = Register30::export();
+        $this->registers['30'] = Register30::export($year);
     }
 
-    private function register40()
+    private function register40($year)
     {
-        $this->registers['40'] = Register40::export();
+        $this->registers['40'] = Register40::export($year);
     }
 
-    private function register50()
+    private function register50($year)
     {
-        $this->registers['50'] = Register50::export();
+        $this->registers['50'] = Register50::export($year);
     }
 
-    private function register60()
+    private function register60($year)
     {
-        $this->registers['60'] = Register60::export();
+        $this->registers['60'] = Register60::export($year);
     }
 
     private function register99()
@@ -55,15 +55,15 @@ class Educacenso
         $this->registers['99'] = Register99::export();
     }
 
-    public function exportar()
+    public function exportar($year)
     {
-        $this->register00();
-        $this->register10();
-        $this->register20();
-        $this->register30();
-        $this->register40();
-        $this->register50();
-        $this->register60();
+        $this->register00($year);
+        $this->register10($year);
+        $this->register20($year);
+        $this->register30($year);
+        $this->register40($year);
+        $this->register50($year);
+        $this->register60($year);
         $this->register99();
 
         $lines = [];

@@ -85,7 +85,7 @@ return array(
     'Linked Army' => 'Secretaria Segurança / Forças Armadas',
     'Linked health' => 'Secretaria / Ministério da Saúde',
     'LInked other' => 'outro órgão da administração pública',
-    'Linked Organs' => 'Órgãos que a escola está vinculada',
+    'Linked Organs' => 'Órgão ao qual a escola pública está vinculada',
     'Regulation Organ' => 'Esfera do Órgão regulador',
     'Regulation Organ Federal' => 'Órgão Federal',
     'Regulation Organ State' => 'Órgão Estadual',

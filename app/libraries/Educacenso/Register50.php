@@ -1,7 +1,7 @@
 <?php
 class Register50
 {
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 
@@ -34,7 +34,7 @@ class Register50
 
                 $teaching['register_type'] = '50';
                 $teaching['instructor_fk'] = $id;
-                $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '50', 'year' => 2021]);
+                $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '50', 'year' => $year]);
                 foreach ($aliases as $kord => $ord) {
                     $register[$ord->corder] = $ord->default;
                 }
@@ -69,7 +69,7 @@ class Register50
                 }
 
                 foreach ($teaching as $key => $attr) {
-                    $alias = EdcensoAlias::model()->findByAttributes(['register' => '50', 'attr' => $key, 'year' => 2021]);
+                    $alias = EdcensoAlias::model()->findByAttributes(['register' => '50', 'attr' => $key, 'year' => $year]);
                     if (isset($alias->corder)) {
                         $register[$alias->corder] = $attr;
                     }

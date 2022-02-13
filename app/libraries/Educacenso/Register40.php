@@ -1,7 +1,7 @@
 <?php
 class Register40
 {
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 

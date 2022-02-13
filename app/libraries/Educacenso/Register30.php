@@ -119,11 +119,11 @@ class Register30
         return $students;
     }
 
-    private static function exportStudentIdentification($student, $register)
+    private static function exportStudentIdentification($student, $register, $year)
     {
         $student['register_type'] = '30';
 
-        $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '301', 'year' => 2021]);
+        $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '301', 'year' => $year]);
         foreach ($aliases as $kord => $ord) {
             $register[$ord->corder] = $ord->default;
         }
@@ -206,7 +206,7 @@ class Register30
         }
 
         foreach ($student as $key => $attr) {
-            $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => 2021]);
+            $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
                     $register[15] = $attr;
@@ -219,7 +219,7 @@ class Register30
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register)
+    private static function exportStudentDocuments($student, $register, $year)
     {
         $student['register_type'] = '30';
 
@@ -302,7 +302,7 @@ class Register30
         }
 
         foreach ($student as $key => $attr) {
-            $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => 2021]);
+            $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
                     $register[43] = $attr;
@@ -315,11 +315,11 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorIdentification($instructor, $register)
+    private static function exportInstructorIdentification($instructor, $register, $year)
     {
         $instructor['register_type'] = '30';
 
-        $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '302', 'year' => 2021]);
+        $aliases = EdcensoAlias::model()->findAllByAttributes(['register' => '302', 'year' => $year]);
         foreach ($aliases as $kord => $ord) {
             $register[$ord->corder] = $ord->default;
         }
@@ -352,7 +352,7 @@ class Register30
         $instructor['email'] = '';
 
         foreach ($instructor as $key => $attr) {
-            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => 2021]);
+            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
                     $register[15] = $attr;
@@ -365,7 +365,7 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorDocuments($instructor, $register)
+    private static function exportInstructorDocuments($instructor, $register, $year)
     {
         $instructor['register_type'] = '30';
 
@@ -389,7 +389,7 @@ class Register30
         $instructor['edcenso_city_fk'] = '';
 
         foreach ($instructor as $key => $attr) {
-            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => 2021]);
+            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 if ($key == 'edcenso_city_fk') {
                     $register[43] = $attr;
@@ -402,7 +402,7 @@ class Register30
         return $register;
     }
 
-    private static function exportInstructorVariable($instructor, $register)
+    private static function exportInstructorVariable($instructor, $register, $year)
     {
         $instructor['register_type'] = '30';
 
@@ -503,7 +503,7 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => 2021]);
+            $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
                 $register[$alias->corder] = $attr;
             }
@@ -515,7 +515,7 @@ class Register30
         return $register;
     }
 
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 
@@ -531,8 +531,8 @@ class Register30
         foreach ($students as $student) {
             $register = [];
 
-            $register = self::exportStudentIdentification($student['identification'], $register);
-            $register = self::exportStudentDocuments($student['documents'], $register);
+            $register = self::exportStudentIdentification($student['identification'], $register, $year);
+            $register = self::exportStudentDocuments($student['documents'], $register, $year);
 
             if (!empty($student['identification']['birthday'])) {
                 list($dia, $mes, $ano) = explode('/', $student['identification']['birthday']);
@@ -586,9 +586,9 @@ class Register30
 
             $register = [];
 
-            $register = self::exportInstructorIdentification($instructor['identification'], $register);
-            $register = self::exportInstructorDocuments($instructor['documents'], $register);
-            $register = self::exportInstructorVariable($instructor['variable'], $register);
+            $register = self::exportInstructorIdentification($instructor['identification'], $register, $year);
+            $register = self::exportInstructorDocuments($instructor['documents'], $register, $year);
+            $register = self::exportInstructorVariable($instructor['variable'], $register, $year);
 
             ksort($register);
             array_push($registers, implode('|', $register));

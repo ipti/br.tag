@@ -96,7 +96,7 @@ class SchoolIdentification extends AltActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity', 'required'),
+            array('name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity, id_difflocation', 'required'),
             array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly'=>true),
             array('register_type, ddd', 'length', 'max'=>2),
             array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),

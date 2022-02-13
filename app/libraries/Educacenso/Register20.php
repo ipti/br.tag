@@ -65,7 +65,7 @@ class Register20
         return $disciplines;
     }
 
-    public static function export()
+    public static function export($year)
     {
         $registers = [];
 
@@ -164,7 +164,7 @@ class Register20
 
             foreach ($attributes as $i => $attr) {
                 if ($attr == '') {
-                    $ordem = EdcensoAlias::model()->findByAttributes(['year' => 2021, 'register' => '20', 'attr' => $i]);
+                    $ordem = EdcensoAlias::model()->findByAttributes(['year' => $year, 'register' => '20', 'attr' => $i]);
                     $attributes[$i] = $ordem->default;
                 }
             }
@@ -173,7 +173,7 @@ class Register20
                 $attributes = [];
             } else {
                 foreach ($attributes as $column => $value) {
-                    $alias = EdcensoAlias::model()->findByAttributes(['year' => 2021, 'register' => '20', 'attr' => $column]);
+                    $alias = EdcensoAlias::model()->findByAttributes(['year' => $year, 'register' => '20', 'attr' => $column]);
                     if (isset($alias->corder)) {
                         $register[$alias->corder] = $value;
                     }
