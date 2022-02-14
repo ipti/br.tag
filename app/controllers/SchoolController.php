@@ -240,7 +240,8 @@ class SchoolController extends Controller
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate()) {
-                if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
+                if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
+                    || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
 
                         if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {

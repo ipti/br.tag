@@ -298,10 +298,75 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Quando um dos campos de telefone é preenchido, o campo <b>DDD</b> se torna obrigatório.";
     }
+    if ($("#SchoolStructure_operation_location_building").is(":checked") && $("#SchoolStructure_building_occupation_situation").val() === "") {
+        error = true;
+        message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Forma de Ocupação do Prédio</b> se torna obrigatório.";
+    }
+    if (!$(".water-supply-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Suprimento de Água</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".energy-supply-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Suprimento de Energia</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".sewage-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Esgoto</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".garbage_destination_container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Destino do Lixo</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".garbage-treatment-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Tratamento do Lixo</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".dependencies-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Dependências</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".accessbility-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Acessibilidade</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if ($("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_classroom_count").val() === "" || $("#SchoolStructure_classroom_count").val() === 0 || $("#SchoolStructure_classroom_count").val() > 9999)) {
+        error = true;
+        message += "Quando o Local de Funcionamento é um Prédio Escolar, o campo <b>Nº de Salas de Aula</b> é obrigatório. Informe um número válido.";
+    }
+    if (!$("#SchoolStructure_operation_location_building").is(":checked") && ($("#SchoolStructure_dependencies_outside_roomspublic").val() === "" || $("#SchoolStructure_dependencies_outside_roomspublic").val() === 0 || $("#SchoolStructure_dependencies_outside_roomspublic").val() > 9999)) {
+        error = true;
+        message += "Quando o Local de Funcionamento não é um Prédio Escolar, o campo <b>Nº de Salas utilizadas fora do prédio</b> é obrigatório. Informe um número válido.";
+    }
+    if (Number($("#SchoolStructure_dependencies_climate_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
+        error = true;
+        message += "O <b>Nº de Salas Climatizadas</b> não pode ser maior que a soma que o <b>Nº de Salas de Aula</b> e <b>Nº de Salas utilizadas fora do prédio</b>.";
+    }
+    if (Number($("#SchoolStructure_dependencies_acessibility_roomspublic").val()) > (Number($("#SchoolStructure_classroom_count").val()) + Number($("#SchoolStructure_dependencies_outside_roomspublic").val()))) {
+        error = true;
+        message += "O <b>Nº de Salas com Acessibilidade</b> não pode ser maior que a soma que o <b>Nº de Salas de Aula</b> e <b>Nº de Salas utilizadas fora do prédio</b>.";
+    }
+    if (!$(".equipments-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Equipamentos existentes na escola para uso técnico e administrativo</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if (!$(".internet-access-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Acesso à Internet</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if ($("#SchoolStructure_internet_access_connected_desktop").is(":checked") &&
+        (($("#SchoolStructure_equipments_qtd_desktop").val() === "0" || $("#SchoolStructure_equipments_qtd_desktop").val() == "") &&
+            ($("#SchoolStructure_equipments_qtd_notebookstudent").val() === "0" || $("#SchoolStructure_equipments_qtd_notebookstudent").val() == "") &&
+            ($("#SchoolStructure_equipments_qtd_tabletstudent").val() === "0" || $("#SchoolStructure_equipments_qtd_tabletstudent").val() == ""))) {
+        error = true;
+        message += "Quando o campo é <b>Computadores, Notebooks e Tablets da Escola</b> é preenchido, é preciso inserir alguma quantidade nos campos <b>Computadores de mesa (desktop)</b>, <b>Notebooks de Uso Estudantil</b> ou <b>Tablets de Uso Estudantil</b>.";
+    }
     if (error) {
         $(this).closest("form").find(".school-error").html(message).show();
     } else {
         $(this).closest("form").find(".school-error").hide();
+        $("#school input").removeAttr("disabled");
+        $("#school select").removeAttr("disabled").trigger("change.select2");
         $(this).closest("form").submit();
     }
 });
