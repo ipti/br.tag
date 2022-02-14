@@ -111,9 +111,68 @@ $(document).on("change", ".equipments-container input[type=checkbox]", function 
 });
 
 $(document).on("change", ".internet-access-container input[type=checkbox]", function () {
-    if ($(this).attr("id") !== "SchoolStructure_internet_access_inexistent") {
-        $("#SchoolStructure_internet_access_inexistent").prop("checked", false);
+    if ($(this).is(":checked")) {
+        if ($(this).attr("id") !== "SchoolStructure_internet_access_inexistent") {
+            $("#SchoolStructure_internet_access_inexistent").prop("checked", false);
+        } else {
+            $("#SchoolStructure_internet_access_broadband").prop("checked", false).attr("disabled", "disabled");
+            $(".internet-access-container input[type=checkbox]").not("#SchoolStructure_internet_access_inexistent").prop("checked", false);
+        }
+    }
+    if (!$("#SchoolStructure_internet_access_inexistent").is(":checked")) {
+        $("#SchoolStructure_internet_access_broadband").removeAttr("disabled");
+    }
+});
+$("#SchoolStructure_internet_access_inexistent").trigger("change");
+
+$(document).on("change", "#SchoolStructure_internet_access_local_wireless", function () {
+    if (!$(this).is(":checked")) {
+        $("#SchoolStructure_internet_access_connected_personaldevice").prop("checked", false).attr("disabled", "disabled");
     } else {
-        $(".internet-access-container input[type=checkbox]").not("#SchoolStructure_internet_access_inexistent").prop("checked", false);
+        $("#SchoolStructure_internet_access_connected_personaldevice").removeAttr("disabled");
+    }
+});
+$("#SchoolStructure_internet_access_local_wireless").trigger("change");
+
+$(document).on("change", ".internet-access-local-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "SchoolStructure_internet_access_local_inexistet") {
+        $("#SchoolStructure_internet_access_local_inexistet").prop("checked", false);
+    } else {
+        $(".internet-access-local-container input[type=checkbox]").not("#SchoolStructure_internet_access_local_inexistet").prop("checked", false);
+    }
+});
+
+$(document).on("change", ".equipments-material-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "SchoolStructure_instruments_inexistent") {
+        $("#SchoolStructure_instruments_inexistent").prop("checked", false);
+    } else {
+        $(".equipments-material-container input[type=checkbox]").not("#SchoolStructure_instruments_inexistent").prop("checked", false);
+    }
+});
+
+$(document).on("change", "#SchoolStructure_select_adimission", function () {
+    if ($(this).is(":checked")) {
+        $(".booking-container input[type=checkbox]").removeAttr("disabled");
+        $(".booking-container").find(".control-label").addClass("required").html("Reserva de vagas por sistema de cotas *");
+    } else {
+        $(".booking-container input[type=checkbox]").prop("checked", false).attr("disabled", "disabled");
+        $(".booking-container").find(".control-label").removeClass("required").html("Reserva de vagas por sistema de cotas");
+    }
+});
+$("#SchoolStructure_select_adimission").trigger("change");
+
+$(document).on("change", ".booking-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "SchoolStructure_booking_enrollment_inexistent") {
+        $("#SchoolStructure_booking_enrollment_inexistent").prop("checked", false);
+    } else {
+        $(".booking-container input[type=checkbox]").not("#SchoolStructure_booking_enrollment_inexistent").prop("checked", false);
+    }
+});
+
+$(document).on("change", ".board-organ-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "SchoolStructure_board_organ_inexistent") {
+        $("#SchoolStructure_board_organ_inexistent").prop("checked", false);
+    } else {
+        $(".board-organ-container input[type=checkbox]").not("#SchoolStructure_board_organ_inexistent").prop("checked", false);
     }
 });

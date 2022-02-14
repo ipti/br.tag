@@ -655,6 +655,7 @@ $(".save-instructor").click(function () {
         }
     }
     if (error) {
+        $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".instructor-error").html(message).show();
     } else {
         $(this).closest("form").find(".instructor-error").hide();

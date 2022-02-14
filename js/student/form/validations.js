@@ -687,6 +687,7 @@ $(".save-student").click(function () {
         message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
     }
     if (error) {
+        $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".student-error").html(message).show();
     } else {
         $(this).closest("form").find(".student-error").hide();

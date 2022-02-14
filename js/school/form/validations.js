@@ -361,7 +361,28 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Quando o campo é <b>Computadores, Notebooks e Tablets da Escola</b> é preenchido, é preciso inserir alguma quantidade nos campos <b>Computadores de mesa (desktop)</b>, <b>Notebooks de Uso Estudantil</b> ou <b>Tablets de Uso Estudantil</b>.";
     }
+    if (!$(".internet-access-local-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Rede Local</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if ($("#SchoolStructure_feeding").val() === "") {
+        error = true;
+        message += "Campo <b>Alimentação para os Alunos</b> é obrigatório.<br>";
+    }
+    if (!$(".equipments-material-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Instrumentos materiais, socioculturais e/ou pedagógicos em uso na escola para o desenvolvimento de atividades de ensino aprendizagem</b> é obrigatório. Selecione ao menos uma opção.";
+    }
+    if ($("#SchoolStructure_select_adimission").is(":checked") && !$(".booking-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Quando o <b>Exame de Seleção</b> realiza processo seletivo, o campo <b>Reserva de vagas por sistema de cotas</b> se torna obrigatório. Selecione ao menos uma opção";
+    }
+    if (!$(".board-organ-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Órgãos em Funcionamento na Escola</b> é obrigatório. Selecione ao menos uma opção.";
+    }
     if (error) {
+        $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".school-error").html(message).show();
     } else {
         $(this).closest("form").find(".school-error").hide();

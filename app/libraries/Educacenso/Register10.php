@@ -76,88 +76,103 @@ class Register10
         }
 
         //todo: fazer inexistent pra dependencies (é muito campo)
-        //todo: fazer regras de segurança do 110 ao 115
 
+        if ($attributes['classroom_count'] == '0') {
+            $attributes['classroom_count'] = null;
+        }
+        if ($attributes['dependencies_outside_roomspublic'] == '0') {
+            $attributes['dependencies_outside_roomspublic'] = null;
+        }
+        if ($attributes['dependencies_climate_roomspublic'] == '0') {
+            $attributes['dependencies_climate_roomspublic'] = null;
+        }
+        if ($attributes['dependencies_acessibility_roomspublic'] == '0') {
+            $attributes['dependencies_acessibility_roomspublic'] = null;
+        }
+
+        if ($attributes['equipments_dvd'] == '0') {
+            $attributes['equipments_dvd'] = null;
+        }
+        if ($attributes['equipments_stereo_system'] == '0') {
+            $attributes['equipments_stereo_system'] = null;
+        }
+        if ($attributes['equipments_tv'] == '0') {
+            $attributes['equipments_tv'] = null;
+        }
+        if ($attributes['equipments_qtd_blackboard'] == '0') {
+            $attributes['equipments_qtd_blackboard'] = null;
+        }
+        if ($attributes['equipments_overhead_projector'] == '0') {
+            $attributes['equipments_overhead_projector'] = null;
+        }
+
+        if ($attributes['equipments_qtd_desktop'] == '0') {
+            $attributes['equipments_qtd_desktop'] = null;
+        }
+        if ($attributes['equipments_qtd_notebookstudent'] == '0') {
+            $attributes['equipments_qtd_notebookstudent'] = null;
+        }
+        if ($attributes['equipments_qtd_tabletstudent'] == '0') {
+            $attributes['equipments_qtd_tabletstudent'] = null;
+        }
         if ($attributes['equipments_qtd_desktop'] == null && $attributes['equipments_qtd_notebookstudent'] == null && $attributes['equipments_qtd_tabletstudent'] == null) {
             $attributes['internet_access_connected_desktop'] = '0';
+            if ($attributes['equipments_computer'] == '0') {
+                $attributes['internet_access_local_cable'] = '';
+                $attributes['internet_access_local_wireless'] = '';
+                $attributes['internet_access_local_inexistet'] = '';
+            }
         }
 
-        if ($attributes['equipments_multimedia_collection'] == '') {
-            $attributes['equipments_multimedia_collection'] = '0';
+        if ($attributes['internet_access_local_wireless'] != '1') {
+            $attributes['internet_access_connected_personaldevice'] = '0';
         }
 
-        if ($attributes['equipments_toys_early'] == '') {
-            $attributes['equipments_toys_early'] = '0';
+        if ($attributes['internet_access_inexistent'] == '1') {
+            $attributes['internet_access_broadband'] = '';
         }
 
-        if ($attributes['equipments_scientific_materials'] == '') {
-            $attributes['equipments_scientific_materials'] = '0';
+        if ($attributes['workers_administrative_assistant'] == '0') {
+            $attributes['workers_administrative_assistant'] = null;
+        }
+        if ($attributes['workers_service_assistant'] == '0') {
+            $attributes['workers_service_assistant'] = null;
+        }
+        if ($attributes['workers_librarian'] == '0') {
+            $attributes['workers_librarian'] = null;
+        }
+        if ($attributes['workers_firefighter'] == '0') {
+            $attributes['workers_firefighter'] = null;
+        }
+        if ($attributes['workers_coordinator_shift'] == '0') {
+            $attributes['workers_coordinator_shift'] = null;
+        }
+        if ($attributes['workers_speech_therapist'] == '0') {
+            $attributes['workers_speech_therapist'] = null;
+        }
+        if ($attributes['workers_nutritionist'] == '0') {
+            $attributes['workers_nutritionist'] = null;
+        }
+        if ($attributes['workers_psychologist'] == '0') {
+            $attributes['workers_psychologist'] = null;
+        }
+        if ($attributes['workers_cooker'] == '0') {
+            $attributes['workers_cooker'] = null;
+        }
+        if ($attributes['workers_support_professionals'] == '0') {
+            $attributes['workers_support_professionals'] = null;
+        }
+        if ($attributes['workers_school_secretary'] == '0') {
+            $attributes['workers_school_secretary'] = null;
+        }
+        if ($attributes['workers_security_guards'] == '0') {
+            $attributes['workers_security_guards'] = null;
+        }
+        if ($attributes['workers_monitors'] == '0') {
+            $attributes['workers_monitors'] = null;
         }
 
-        if ($attributes['equipments_equipment_amplification'] == '') {
-            $attributes['equipments_equipment_amplification'] = '0';
-        }
-
-        if ($attributes['equipments_musical_instruments'] == '') {
-            $attributes['equipments_musical_instruments'] = '0';
-        }
-
-        if ($attributes['equipments_educational_games'] == '') {
-            $attributes['equipments_educational_games'] = '0';
-        }
-
-        if ($attributes['equipments_material_cultural'] == '') {
-            $attributes['equipments_material_cultural'] = '0';
-        }
-
-        if ($attributes['equipments_material_sports'] == '') {
-            $attributes['equipments_material_sports'] = '0';
-        }
-
-        if ($attributes['equipments_material_teachingindian'] == '') {
-            $attributes['equipments_material_teachingindian'] = '0';
-        }
-
-        if ($attributes['equipments_material_teachingethnic'] == '') {
-            $attributes['equipments_material_teachingethnic'] = '0';
-        }
-
-        if ($attributes['equipments_material_teachingrural'] == '') {
-            $attributes['equipments_material_teachingrural'] = '0';
-        }
-
-        if ($attributes['native_education'] == '') {
-            $attributes['native_education'] = '0';
-        }
-
-        if ($attributes['board_organ_association_parent'] == '') {
-            $attributes['board_organ_association_parent'] = '0';
-        }
-
-        if ($attributes['board_organ_association_parentinstructors'] == '') {
-            $attributes['board_organ_association_parentinstructors'] = '0';
-        }
-
-        if ($attributes['board_organ_board_school'] == '') {
-            $attributes['board_organ_board_school'] = '0';
-        }
-
-        if ($attributes['board_organ_student_guild'] == '') {
-            $attributes['board_organ_student_guild'] = '0';
-        }
-
-        if ($attributes['board_organ_others'] == '') {
-            $attributes['board_organ_others'] = '0';
-        }
-
-        if ($attributes['board_organ_inexistent'] == '') {
-            $attributes['board_organ_inexistent'] = '0';
-        }
-
-        if ($attributes['ppp_updated'] == '') {
-            $attributes['ppp_updated'] = '0';
-        }
-
+        $attributes['native_education'] = 0;
         if ($attributes['native_education'] != 1) {
             $attributes['native_education_language_native'] = '';
             $attributes['native_education_language_portuguese'] = '';
@@ -173,6 +188,22 @@ class Register10
             $attributes['booking_enrollment_disabled_person'] = '';
             $attributes['booking_enrollment_others'] = '';
             $attributes['booking_enrollment_inexistent'] = '';
+        } else {
+            if ($attributes['booking_enrollment_inexistent'] == '1') {
+                $attributes['booking_enrollment_self_declaredskin'] = '0';
+                $attributes['booking_enrollment_income'] = '0';
+                $attributes['booking_enrollment_public_school'] = '0';
+                $attributes['booking_enrollment_disabled_person'] = '0';
+                $attributes['booking_enrollment_others'] = '0';
+            }
+        }
+
+        if ($attributes['board_organ_inexistent'] == '1') {
+            $attributes['board_organ_association_parent'] = '0';
+            $attributes['board_organ_association_parentinstructors'] = '0';
+            $attributes['board_organ_board_school'] = '0';
+            $attributes['board_organ_student_guild'] = '0';
+            $attributes['board_organ_others'] = '0';
         }
 
         $classrooms = Classroom::model()->with([
@@ -194,6 +225,14 @@ class Register10
                     $attributes["dependencies_prysical_disability_bathroom"] == 1 || $attributes["dependencies_child_bathroom"] == 1 ||
                     $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
                         ? 1 : 0;
+            } else if ($edcensoAlias->corder == 131) {
+                if ($attributes["workers_administrative_assistant"] == null && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
+                    && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null
+                    && $attributes["workers_nutritionist"] == null && $attributes["workers_psychologist"] == null && $attributes["workers_cooker"] == null
+                    && $attributes["workers_support_professionals"] == null && $attributes["workers_school_secretary"] == null && $attributes["workers_security_guards"] == null
+                    && $attributes["workers_monitors"] == null) {
+                    $register[$edcensoAlias->corder] = 1;
+                }
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
                 if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {

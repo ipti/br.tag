@@ -116,6 +116,7 @@ $(".save-classroom").click(function () {
         message += "Campo <b>Dias da semana</b> é obrigatório. Selecione ao menos um dia.";
     }
     if (error) {
+        $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".classroom-error").html(message).show();
     } else {
         $(this).closest("form").find(".classroom-error").hide();
