@@ -24,6 +24,20 @@ $(document).on("change", "#SchoolIdentification_administrative_dependence", func
 });
 $("#SchoolIdentification_administrative_dependence").trigger("change");
 
+$(document).on("change", "#SchoolIdentification_offer_or_linked_unity", function () {
+    if ($(this).val() === "1") {
+        $("#SchoolIdentification_inep_head_school").removeAttr("disabled").closest(".control-group").find(".control-label").addClass("required").html("Código da Escola Sede *");
+        $("#SchoolIdentification_ies_code").val("").attr("disabled", "disabled").closest(".control-group").find(".control-label").removeClass("required").html("Código da IES");
+    } else if ($(this).val() === "2") {
+        $("#SchoolIdentification_inep_head_school").val("").attr("disabled", "disabled").closest(".control-group").find(".control-label").removeClass("required").html("Código da Escola Sede");
+        $("#SchoolIdentification_ies_code").removeAttr("disabled").closest(".control-group").find(".control-label").addClass("required").html("Código da IES *");
+    } else {
+        $("#SchoolIdentification_inep_head_school").val("").attr("disabled", "disabled").closest(".control-group").find(".control-label").removeClass("required").html("Código da Escola Sede");
+        $("#SchoolIdentification_ies_code").val("").attr("disabled", "disabled").closest(".control-group").find(".control-label").removeClass("required").html("Código da IES");
+    }
+});
+$("#SchoolIdentification_offer_or_linked_unity").trigger("change");
+
 $(document).on("change", "#SchoolStructure_shared_building_with_school", function () {
     $(this).is(":checked")
         ? $("#SchoolStructure_shared_school_inep_id_1").removeAttr("disabled").trigger("change.select2")

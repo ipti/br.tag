@@ -226,6 +226,7 @@ class Register10
                     $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
                         ? 1 : 0;
             } else if ($edcensoAlias->corder == 131) {
+                $register[$edcensoAlias->corder] = null;
                 if ($attributes["workers_administrative_assistant"] == null && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
                     && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null
                     && $attributes["workers_nutritionist"] == null && $attributes["workers_psychologist"] == null && $attributes["workers_cooker"] == null
