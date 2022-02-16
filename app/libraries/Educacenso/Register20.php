@@ -73,7 +73,7 @@ class Register20
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         foreach ($classrooms as $iclass => $attributes) {
-            if (count($attributes->instructorTeachingDatas) >= 1 || count($attributes->studentEnrollments) >= 1) {
+            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
 
                 $register = [];
 
