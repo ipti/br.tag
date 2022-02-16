@@ -115,6 +115,14 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Dias da semana</b> é obrigatório. Selecione ao menos um dia.";
     }
+    if ($("#Classroom_pedagogical_mediation_type").val() === "") {
+        error = true;
+        message += "Campo <b>Tipo de Mediação Didático-Pedagógica</b> é obrigatório.<br>";
+    }
+    if (!$(".assistance-types-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Campo <b>Tipos de Atendimento</b> é obrigatório. Selecione ao menos uma opção.";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".classroom-error").html(message).show();
@@ -122,6 +130,8 @@ $(".save-classroom").click(function () {
         $(this).closest("form").find(".classroom-error").hide();
         $('#teachingData').val(JSON.stringify(teachingData));
         $('#disciplines').val(JSON.stringify(disciplines));
+        $("#classroom input").removeAttr("disabled");
+        $("#classroom select").removeAttr("disabled").trigger("change.select2");
         $(this).closest('form').submit();
     }
 });

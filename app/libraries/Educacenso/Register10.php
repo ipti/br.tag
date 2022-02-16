@@ -206,18 +206,6 @@ class Register10
             $attributes['board_organ_others'] = '0';
         }
 
-        $classrooms = Classroom::model()->with([
-            'edcensoStageVsModalityFk' => [
-                'select' => false,
-                'joinType' => 'INNER JOIN',
-                'condition' => 'edcensoStageVsModalityFk.stage IN (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41, 56)',
-            ]
-        ])->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
-
-        if (count($classrooms) == 0) {
-            $attributes['basic_education_cycle_organized'] = '';
-        }
-
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             if ($edcensoAlias->corder == 43) {
