@@ -10,6 +10,7 @@ class Register00
 
         $attributes = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->attributes;
 
+        $attributes['situation'] = '1';
         if ($attributes['situation'] == '1') {
             $attributes['regulation'] = '2';
             $attributes['initial_date'] = '25/02/' . $year;

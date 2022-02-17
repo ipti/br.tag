@@ -35,9 +35,9 @@ class Educacenso
         $this->registers['30'] = Register30::export($year);
     }
 
-    private function register40($year)
+    private function register40()
     {
-        $this->registers['40'] = Register40::export($year);
+        $this->registers['40'] = Register40::export();
     }
 
     private function register50($year)
@@ -61,7 +61,7 @@ class Educacenso
         $this->register10($year);
         $this->register20($year);
         $this->register30($year);
-        $this->register40($year);
+        $this->register40();
         $this->register50($year);
         $this->register60($year);
         $this->register99();

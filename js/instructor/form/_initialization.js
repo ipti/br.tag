@@ -58,3 +58,4 @@ $("#InstructorIdentification_deficiency").change(function(){
         $("#InstructorIdentification_deficiencies").parent(".control-group").hide();
     }
 });
+$("#InstructorIdentification_deficiency").trigger("change");
