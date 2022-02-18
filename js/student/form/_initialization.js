@@ -1,9 +1,3 @@
-jQuery(function($) {
-    $(formIdentification + 'filiation').trigger('change');
-    $(formIdentification + 'nationality').trigger('change');
-    $(formIdentification + 'deficiency').trigger('change');
-});
-
 $(document).ready(function(){
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
@@ -51,15 +45,6 @@ $(document).ready(function(){
 
 $('.heading-buttons').css('width', $('#content').width());
 
-$(document).on("submit", "#student", function(){
-    $(formIdentification + "responsable_telephone").unmask();
-    $(formIdentification + "responsable_cpf").unmask();
-    $(formIdentification + "filiation_1_cpf").unmask();
-    $(formIdentification + "filiation_2_cpf").unmask();
-    $(formDocumentsAndAddress + "cpf").unmask();
-    $(formDocumentsAndAddress + "cep").unmask();
-});
-
 function getUrlVars() {
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -67,3 +52,11 @@ function getUrlVars() {
     });
     return vars;
 }
+
+$(document).on("change", ".resources-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "StudentIdentification_resource_none") {
+        $("#StudentIdentification_resource_none").prop("checked", false);
+    } else {
+        $(".resources-container input[type=checkbox]").not("#StudentIdentification_resource_none").prop("checked", false);
+    }
+});

@@ -229,21 +229,6 @@ class Register30
     {
         $student['register_type'] = '30';
 
-        if (empty($student['address'])) {
-            $student['edcenso_uf_fk'] = '';
-            $student['number'] = '';
-            $student['complement'] = '';
-            $student['neighborhood'] = '';
-        }
-
-        if (empty($student['cep'])) {
-            $student['address'] = '';
-            $student['edcenso_uf_fk'] = '';
-            $student['number'] = '';
-            $student['complement'] = '';
-            $student['neighborhood'] = '';
-        }
-
         if (empty($student['cep']) && isset($student['edcenso_city_fk'])) {
             $student['edcenso_city_fk'] = '';
         }
@@ -253,44 +238,11 @@ class Register30
             $student['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
-        if (!empty($student['cep']) && !isset($student['edcenso_uf_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-            $student['edcenso_uf_fk'] = $school->edcenso_uf_fk;
-        }
-
         $student['civil_register_enrollment_number'] = strtoupper($student['civil_register_enrollment_number']);
 
-        if ($student['civil_certification'] == 1) {
-            if (empty($student['civil_certification_type'])) {
-                $student['civil_certification_type'] = '1';
-            }
+        if ($student['civil_certification'] != 2) {
             $student['civil_register_enrollment_number'] = '';
-        } else if ($student['civil_certification'] == 2) {
-            $student['civil_certification_type'] = '';
-            $student['civil_certification_term_number'] = '';
-            $student['civil_certification_sheet'] = '';
-            $student['civil_certification_book'] = '';
-            $student['civil_certification_date'] = '';
         } else {
-            $student['civil_register_enrollment_number'] = '';
-            $student['civil_certification_type'] = '';
-            $student['civil_certification_term_number'] = '';
-            $student['civil_certification_sheet'] = '';
-            $student['civil_certification_book'] = '';
-            $student['civil_certification_date'] = '';
-        }
-
-        if (empty($student['civil_certification'])) {
-            $student['civil_certification_type'] = '';
-        }
-
-        if (empty($student['rg_number'])) {
-            $student['rg_number_edcenso_organ_id_emitter_fk'] = '';
-            $student['rg_number_edcenso_uf_fk'] = '';
-            $student['rg_number_expediction_date'] = '';
-        }
-
-        if ($student['civil_certification'] == '2') {
             $cert = substr($student['civil_register_enrollment_number'], 0, 30);
             $testX = str_split($student['civil_register_enrollment_number']);
 
@@ -303,9 +255,11 @@ class Register30
             $student['civil_register_enrollment_number'] = $cert . '' . $certDv;
         }
 
-        if (empty($student['cpf']) && empty($student['civil_register_enrollment_number'])) {
-            $student['no_document_desc'] = 2;
+        if ($student["residence_zone"] == "1" && $student["diff_location"] == "1") {
+            $student["diff_location"] = "";
         }
+
+        $student["id_email"] = '';
 
         foreach ($student as $key => $attr) {
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '301', 'attr' => $key, 'year' => $year]);
@@ -379,10 +333,8 @@ class Register30
     {
         $instructor['register_type'] = '30';
 
-        if (empty($instructor['cep'])) {
-            $instructor['address'] = '';
+        if (empty($instructor['cep']) && isset($instructor['edcenso_city_fk'])) {
             $instructor['edcenso_city_fk'] = '';
-            $instructor['edcenso_uf_fk'] = '';
         }
 
         if (!empty($instructor['cep']) && !isset($instructor['edcenso_city_fk'])) {
@@ -390,13 +342,14 @@ class Register30
             $instructor['edcenso_city_fk'] = $school->edcenso_city_fk;
         }
 
-        if (!empty($instructor['cep']) && !isset($instructor['edcenso_uf_fk'])) {
-            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-            $instructor['edcenso_uf_fk'] = $school->edcenso_uf_fk;
+        if (empty($instructor['area_of_residence'])) {
+            $register[43] = '1';
+            if ($instructor['documents']['diff_location'] == '1') {
+                $register[44] = '';
+            }
+        } else if ($instructor["area_of_residence"] == "1" && $instructor["diff_location"] == "1") {
+            $instructor["diff_location"] = "";
         }
-
-        $instructor['cep'] = '';
-        $instructor['edcenso_city_fk'] = '';
 
         foreach ($instructor as $key => $attr) {
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
@@ -420,18 +373,6 @@ class Register30
             $instructor['scholarity'] = '7';
         }
 
-        $course1 = EdcensoCourseOfHigherEducation::model()->findByPk($instructor['high_education_course_code_1_fk']);
-        if ($course1->degree == 'Licenciatura') {
-            $instructor['high_education_formation_1'] = '';
-        }
-        $course2 = EdcensoCourseOfHigherEducation::model()->findByPk($instructor['high_education_course_code_2_fk']);
-        if ($course2->degree == 'Licenciatura') {
-            $instructor['high_education_formation_2'] = '';
-        }
-        if (isset($instructor['high_education_course_code_1_fk']) && empty($instructor['high_education_institution_code_1_fk'])) {
-            $instructor['high_education_institution_code_1_fk'] = '9999999';
-        }
-
         $setothers = false;
         foreach ($instructor as $i => $attr) {
             $pos = strstr($i, 'other_courses_');
@@ -445,21 +386,56 @@ class Register30
                 }
             }
         }
-
         if ($setothers) {
             $instructor['other_courses_none'] = '0';
         } else {
             $instructor['other_courses_none'] = '1';
         }
 
-        if ($instructor['high_education_situation_1'] == '2') {
+        $hasCourse1 = false;
+        $hasCourse2 = false;
+        if (empty($instructor['high_education_course_code_1_fk'])
+            || (isset($instructor['high_education_course_code_1_fk'])
+                && (empty($instructor['high_education_situation_1']) || $instructor['high_education_situation_1'] == '2' || empty($instructor['high_education_final_year_1'])))) {
             $instructor['scholarity'] = 7;
-        }
-
-        if ($instructor['scholarity'] == 7) {
-            $instructor['high_education_situation_1'] = '1';
         } else {
-            $instructor['high_education_situation_1'] = '';
+            $hasCourse1 = true;
+            if (empty($instructor['high_education_institution_code_1_fk'])) {
+                $instructor['high_education_institution_code_1_fk'] = '9999999';
+            }
+        }
+        if ($hasCourse1) {
+            if (isset($instructor['high_education_course_code_2_fk'])
+                && $instructor['high_education_course_code_2_fk'] !== $instructor['high_education_course_code_1_fk']
+                && $instructor['high_education_situation_2'] == '1'
+                && !empty($instructor['high_education_final_year_2'])) {
+                $hasCourse2 = true;
+                if (empty($instructor['high_education_institution_code_2_fk'])) {
+                    $instructor['high_education_institution_code_2_fk'] = '9999999';
+                }
+            } else {
+                $instructor['high_education_course_code_2_fk'] = '';
+                $instructor['high_education_final_year_2'] = '';
+                $instructor['high_education_institution_code_2_fk'] = '';
+                $instructor['high_education_course_code_3_fk'] = '';
+                $instructor['high_education_final_year_3'] = '';
+                $instructor['high_education_institution_code_3_fk'] = '';
+            }
+        }
+        if ($hasCourse2) {
+            if (isset($instructor['high_education_course_code_3_fk'])
+                && $instructor['high_education_course_code_3_fk'] !== $instructor['high_education_course_code_1_fk']
+                && $instructor['high_education_course_code_3_fk'] !== $instructor['high_education_course_code_2_fk']
+                && $instructor['high_education_situation_3'] == '1'
+                && !empty($instructor['high_education_final_year_3'])) {
+                if (empty($instructor['high_education_institution_code_3_fk'])) {
+                    $instructor['high_education_institution_code_3_fk'] = '9999999';
+                }
+            } else {
+                $instructor['high_education_course_code_3_fk'] = '';
+                $instructor['high_education_final_year_3'] = '';
+                $instructor['high_education_institution_code_3_fk'] = '';
+            }
         }
 
         if ($instructor['scholarity'] != 6) {
@@ -467,20 +443,14 @@ class Register30
             $instructor['high_education_course_code_1_fk'] = '';
             $instructor['high_education_final_year_1'] = '';
             $instructor['high_education_institution_code_1_fk'] = '';
+            $instructor['high_education_course_code_2_fk'] = '';
+            $instructor['high_education_final_year_2'] = '';
+            $instructor['high_education_institution_code_2_fk'] = '';
+            $instructor['high_education_course_code_3_fk'] = '';
+            $instructor['high_education_final_year_3'] = '';
+            $instructor['high_education_institution_code_3_fk'] = '';
         } else {
             $instructor['post_graduation_none'] = '1';
-        }
-
-        if (empty($instructor['high_education_course_code_1_fk']) || empty($instructor['high_education_final_year_1'])) {
-            $instructor['high_education_formation_1'] = '';
-        }
-
-        if ($instructor['high_education_situation_2'] == 2 || empty($instructor['high_education_situation_2'])) {
-            $instructor['high_education_formation_2'] = '';
-        }
-
-        if ($instructor['high_education_situation_3'] == 2 || empty($instructor['high_education_situation_3'])) {
-            $instructor['high_education_formation_3'] = '';
         }
 
         foreach ($instructor as $key => $attr) {
@@ -515,48 +485,8 @@ class Register30
             $register = self::exportStudentIdentification($student['identification'], $register, $year);
             $register = self::exportStudentDocuments($student['documents'], $register, $year);
 
-            if (!empty($student['identification']['birthday'])) {
-                list($dia, $mes, $ano) = explode('/', $student['identification']['birthday']);
-                $date = new DateTime("{$ano}-{$mes}-{$dia}");
-                $now = new DateTime();
-                $interval = $now->diff($date);
-                $idade = $interval->y;
-
-                foreach ($student['enrollments'] as $studentEnrollment) {
-                    // O aluno não pode ter mais de 50 anos e pertencer as etapas abaixo
-                    if ($idade > 50 && in_array($studentEnrollment['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 41])) {
-                        $register[7] = '';
-                    }
-
-                    // O aluno não pode ter mais de 58 anos e pertencer as etapas abaixo
-                    if ($idade > 58 && in_array($studentEnrollment['edcenso_stage_vs_modality_fk'], [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39])) {
-                        $register[7] = '';
-                    }
-
-                    // O aluno não pode ter menos de 13 anos e pertencer as etapas abaixo
-                    if ($idade < 13 && in_array($studentEnrollment['edcenso_stage_vs_modality_fk'], [40])) {
-                        $register[7] = '';
-                    }
-
-                    // O aluno não pode ter mais de 75 anos e pertencer as etapas abaixo
-                    if ($idade > 75 && in_array($studentEnrollment['edcenso_stage_vs_modality_fk'], [40])) {
-                        $register[7] = '';
-                    }
-
-                    // O aluno não pode ter mais de 94 anos e pertencer as etapas abaixo
-                    if ($idade > 94 && in_array($studentEnrollment['edcenso_stage_vs_modality_fk'], [67, 68, 69, 70, 71, 72, 73, 74])) {
-                        $register[7] = '';
-                    }
-                }
-            }
-
-            // Deve ser preenchido com o valor 1 caso a modalidade da turma seja preenchida com o valor 2 (Educação Especial)
             if ($student['classroom']['modality'] == 2) {
                 $register[16] = 1;
-            }
-
-            if ($student["identification"]["edcenso_nation_fk"] != '76') {
-                $register[44] = '';
             }
 
             ksort($register);
@@ -574,15 +504,6 @@ class Register30
             $register = self::exportInstructorIdentification($instructor['identification'], $register, $year);
             $register = self::exportInstructorDocuments($instructor['documents'], $register, $year);
             $register = self::exportInstructorVariable($instructor['variable'], $register, $year);
-
-            if ($instructor["identification"]["edcenso_nation_fk"] == '76') {
-                if (empty($instructor['documents']['area_of_residence'])) {
-                    $register[43] = '1';
-                }
-            } else {
-                $register[43] = '1';
-                $register[44] = '';
-            }
 
             ksort($register);
             array_push($registers, implode('|', $register));

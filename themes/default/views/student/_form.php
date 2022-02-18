@@ -431,8 +431,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                            <div class="control-group deficiencies-container">
+                                <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?> *</label>
                                 <div class="uniformjs margin-left" id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
@@ -476,7 +476,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </label>
                                 </div>
                             </div>
-                            <div class="control-group hide-responsive">
+                            <div class="control-group hide-responsive resources-container">
                                 <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
@@ -992,7 +992,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Área onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
                                     <div class="controls">                    
                                         <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
                                     </div>

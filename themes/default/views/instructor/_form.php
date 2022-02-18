@@ -204,8 +204,8 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 </div>
                             </div>
 
-                            <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?></label>
+                            <div class="control-group deficiencies-container">
+                                <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?> *</label>
                                 <div class="uniformjs margin-left" id="InstructorIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php
@@ -353,7 +353,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group hide-responsive">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 1 => 'Não reside em área de localização diferenciada', 2 => 'Ýrea onde se localiza comunidade remanescente de quilombos', 3 => 'Terra indígena', 4 => 'Ýrea de assentamento'), array("class" => "select-search-on")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
                                     <div class="controls">                    
                                         <?php echo $form->error($modelInstructorDocumentsAndAddress, 'diff_location'); ?>
                                     </div>
