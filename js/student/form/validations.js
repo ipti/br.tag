@@ -735,6 +735,26 @@ $(".save-student").click(function () {
         error = true;
         message += "Quando o campo <b>Filiação</b> é selecionado como 'Pai e/ou Mãe', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
     }
+    if ($("#StudentEnrollment_public_transport").is(":checked") && $("#StudentEnrollment_transport_responsable_government").val() === "") {
+        error = true;
+        message += "Quando o campo <b>Transporte escolar público</b> é marcado, o campo <b>Poder público responsável pelo transporte escolar</b> é obrigatório.<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked") && !$("#transport_type input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Quando o campo <b>Transporte escolar público</b> é marcado, o campo <b>Tipo de Transporte</b> é obrigatório. Selecione ao menos uma opção<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked")
+        && ($("#StudentEnrollment_vehicle_type_van").is(":checked") && $("#StudentEnrollment_vehicle_type_microbus").is(":checked") && $("#StudentEnrollment_vehicle_type_bus").is(":checked")
+            && $("#StudentEnrollment_vehicle_type_bike").is(":checked") && $("#StudentEnrollment_vehicle_type_animal_vehicle").is(":checked") && $("#StudentEnrollment_vehicle_type_other_vehicle").is(":checked"))) {
+        error = true;
+        message += "Não pode marcar todos os seguintes campos: <b>Van / Kombis</b>, <b>Microônibus</b>, <b>Ônibus</b>, <b>Bicicleta</b>, <b>Tração animal</b> e <b>Rodoviário - Outro</b>. Desmarque algumas dessas opções.<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked")
+        && ($("#StudentEnrollment_vehicle_type_waterway_boat_5").is(":checked") && $("#StudentEnrollment_vehicle_type_waterway_boat_5_15").is(":checked")
+            && $("#StudentEnrollment_vehicle_type_waterway_boat_15_35").is(":checked") && $("#StudentEnrollment_vehicle_type_waterway_boat_35").is(":checked"))) {
+        error = true;
+        message += "Não pode marcar todos os seguintes campos: <b>Embarcação - Capacidade de até 5 alunos</b>, <b>Embarcação - Entre 5 a 15 alunos</b>, <b>Embarcação - Entre 15 a 35 alunos</b> e <b>Embarcação - Acima de 35 alunos</b>. Desmarque algumas dessas opções.<br>";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".student-error").html(message).show();

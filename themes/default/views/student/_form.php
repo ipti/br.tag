@@ -1142,14 +1142,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="transport_responsable">
-                                <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'transport_responsable_government'); ?>
                                 </div>
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
-                                <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?></label>
+                                <label class="control-label required"><?php echo Yii::t('default', 'Transport Type'); ?> *</label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
