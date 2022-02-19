@@ -141,11 +141,6 @@ class EnrollmentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $transoption = '';
-        foreach ($model->transportOptions() as $key => $option) {
-            $setrans = 'if($model->' . $key . ' == 1){$transoption = "' . $key . '";};';
-            eval($setrans);
-        }
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
             $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
@@ -153,14 +148,6 @@ class EnrollmentController extends Controller
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
-                foreach ($model->transportOptions() as $key => $option) {
-                    $unsetrans = '$model->' . $key . '=' . '0;';
-                    eval($unsetrans);
-                }
-                if (!empty($_POST['StudentEnrollment']['transport_type'])) {
-                    $transportset = '$model->' . $_POST['StudentEnrollment']['transport_type'] . '=' . '1;';
-                    eval($transportset);
-                }
 
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
@@ -172,7 +159,6 @@ class EnrollmentController extends Controller
 
         $this->render('update', array(
             'model' => $model,
-            'transoption' => $transoption
         ));
     }
 

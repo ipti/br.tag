@@ -4,7 +4,7 @@
  * @var $form CActiveForm
  * @var $cs CClientScript
  *
-*/
+ */
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
@@ -19,7 +19,7 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientSc
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
-        ));
+));
 ?>
 
 <div class="row-fluid">
@@ -30,7 +30,8 @@ $form = $this->beginWidget('CActiveForm', array(
                class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
                style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab"
-               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
+               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
+                <i></i></a>
             <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-student"
                     type="button">
                 <i></i> <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -64,7 +65,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </a>
                 </li>
                 <li id="tab-student-address">
-                    <a class="glyphicons home" href="#student-address"    data-toggle="tab">
+                    <a class="glyphicons home" href="#student-address" data-toggle="tab">
                         <i></i><?php echo Yii::t('default', 'Address') ?>
                     </a>
                 </li>
@@ -82,8 +83,9 @@ $form = $this->beginWidget('CActiveForm', array(
                        class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
                        style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     <a data-toggle="tab"
-                       class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?><i></i></a>
-                       <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'pull-right btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
+                       class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
+                        <i></i></a>
+                    <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'pull-right btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
                 </div>
                 <!-- Tab content -->
                 <!-- Tab Student Identify -->
@@ -100,10 +102,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Student Full Name'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'name'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Student Full Name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
                             </div>
 
@@ -113,10 +115,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Birthday') . ' ' . Yii::t('help', 'Date'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Birthday') . ' ' . Yii::t('help', 'Date'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
                                 </div>
                             </div>
 
@@ -172,10 +174,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_1'); ?>
                                 </div>
                             </div>
 
@@ -219,10 +221,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100, "disabled" => "disabled")); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Full name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentIdentification, 'filiation_2'); ?>
                                 </div>
                             </div>
 
@@ -266,9 +268,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off'), array('ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('student/getnations'),
-                                            'update' => '#StudentIdentification_edcenso_nation_fk'
+                                        'type' => 'POST',
+                                        'url' => CController::createUrl('student/getnations'),
+                                        'update' => '#StudentIdentification_edcenso_nation_fk'
                                     )));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
@@ -316,7 +318,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
 
-                        </div>                        
+                        </div>
                         <div class=" span6">
                             <div class="separator"></div>
                             <div class="control-group">
@@ -324,9 +326,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                                 </div>
                             </div>
@@ -347,7 +349,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentIdentification, 'responsable'); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_telephone', array('class' => 'control-label')); ?>
                                 <div class="controls">
@@ -356,7 +358,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group" style="<?php echo (isset($modelStudentIdentification->responsable_name)) ? '': 'display:none';?>" id="responsable_name">
+                            <div class="control-group"
+                                 style="<?php echo (isset($modelStudentIdentification->responsable_name)) ? '' : 'display:none'; ?>"
+                                 id="responsable_name">
                                 <?php echo $form->labelEx($modelStudentIdentification, 'responsable_name', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'responsable_name', array('size' => 60, 'maxlength' => 100)); ?>
@@ -432,7 +436,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group deficiencies-container">
-                                <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?> *</label>
+                                <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                                    *</label>
                                 <div class="uniformjs margin-left" id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
@@ -533,10 +538,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
                                 <div class="uniformjs margin-left">
                                     <?php foreach ($vaccines as $vaccine): ?>
-                                    <label class="checkbox">
-                                        <?= $vaccine->name; ?>
-                                        <?php echo CHtml::activeCheckBox($vaccine,"vaccine_id[]",array('checked'=>in_array($vaccine->id, $studentVaccinesSaves), 'value'=>$vaccine->id, 'uncheckValue' => null));  ?>
-                                    </label>
+                                        <label class="checkbox">
+                                            <?= $vaccine->name; ?>
+                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null)); ?>
+                                        </label>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -550,38 +555,40 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="widget widget-scroll margin-bottom-none"
                                  data-toggle="collapse-widget" data-scroll-height="223px"
                                  data-collapse-closed="false">
-                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos Entregues
-                                        <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i></h4></div>
+                                <div class="widget-head"><h4 class="heading glyphicons nameplate"><i></i>Documentos
+                                        Entregues
+                                        <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i>
+                                    </h4></div>
                                 <div class="widget-body in" style="height: auto;">
                                     <div class="control-group" id="received">
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_cc)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_address)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
                                             </label>
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_photo)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_nis)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
                                             </label>
                                         </div>
                                         <div class="span3">
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
                                             </label>
                                             <label class="checkbox">
                                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0,'checked'=>($modelStudentDocumentsAndAddress->id=="")?'checked':$modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
+                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
                                             </label>
                                         </div>
                                     </div>
@@ -592,7 +599,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row-fluid">
                         <div class=" span6">
-
 
 
                             <div class="widget widget-scroll margin-bottom-none"
@@ -648,9 +654,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
+                                                    class="btn-action single glyphicons circle_question_mark"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
 
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
                                         </div>
@@ -696,7 +702,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 'control-label')); ?>
                                         <div class="controls">
                                             <?php
-                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name')+array('7177'=>'OUTROS'), array("prompt" => "Selecione um cartório",
+                                            echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name') + array('7177' => 'OUTROS'), array("prompt" => "Selecione um cartório",
                                                 "class" => "select-search-on nationality-sensitive br", "disabled" => "disabled"));
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
@@ -751,10 +757,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cns', array('size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
-                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
+                                                    class="btn-action single glyphicons circle_question_mark"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'cns'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -776,10 +782,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
-                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
+                                                    class="btn-action single glyphicons circle_question_mark"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -802,10 +808,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.'); ?>"><i></i></span>
-                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
+                                                    class="btn-action single glyphicons circle_question_mark"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.'); ?>"><i></i></span>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
                                         </div>
                                     </div>
 
@@ -833,10 +839,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'rg_number_expediction_date', array('size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
                                             <span
-                                                class="btn-action single glyphicons circle_question_mark"
-                                                data-toggle="tooltip" data-placement="top"
-                                                data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
-                                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
+                                                    class="btn-action single glyphicons circle_question_mark"
+                                                    data-toggle="tooltip" data-placement="top"
+                                                    data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
+                                            <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -854,7 +860,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 'control-label')); ?>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null=> "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off')); ?>
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off')); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
                                         </div>
                                     </div>
@@ -907,10 +913,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ));
                                     ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
                                 </div>
                             </div>
 
@@ -919,10 +925,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'address'); ?>
                                 </div>
                             </div>
 
@@ -931,10 +937,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'number'); ?>
                                 </div>
                             </div>
 
@@ -943,10 +949,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'complement'); ?>
                                 </div>
                             </div>
 
@@ -955,10 +961,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
                                     <span
-                                        class="btn-action single glyphicons circle_question_mark"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
-                                        <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
+                                            class="btn-action single glyphicons circle_question_mark"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                                 </div>
                             </div>
 
@@ -993,10 +999,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
-                                    <div class="controls">                    
+                                    <div class="controls">
                                         <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1053,7 +1059,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             "5" => "Profissional",
                                             "6" => "EJA",
                                             "7" => "Outros",
-                                                ), array(
+                                        ), array(
                                             'class' => 'select-search-off',
                                             'ajax' => array(
                                                 'type' => 'POST',
@@ -1068,7 +1074,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                     <div class="controls">
                                         <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on')); ?>
-                                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
+                                        <span style="margin: 0;"
+                                              class="btn-action single glyphicons circle_question_mark"
+                                              data-toggle="tooltip" data-placement="top"
+                                              data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span>
                                         <?php echo $form->error($modelEnrollment, 'edcenso_stage_vs_modality_fk'); ?>
                                     </div>
                                 </div>
@@ -1083,14 +1092,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1'=>array('selected'=>true)), "prompt" => "Selecione", 'class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'status'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("3" => "Não recebe", "1" => "Em hospital", "2" => "Em domicílio"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
@@ -1149,7 +1158,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
-                                <label class="control-label required"><?php echo Yii::t('default', 'Transport Type'); ?> *</label>
+                                <label class="control-label required"><?php echo Yii::t('default', 'Transport Type'); ?>
+                                    *</label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
@@ -1248,14 +1258,14 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span11">
                             <?php
-                                $error = $modelEnrollment->getErrors('enrollment_id');
-                                if(count($error) > 0){
+                            $error = $modelEnrollment->getErrors('enrollment_id');
+                            if (count($error) > 0) {
 
-                             ?>
+                                ?>
                                 <div class="alert alert-error">
                                     <?php echo $error[0]; ?>
                                 </div>
-                            <?php }  ?>
+                            <?php } ?>
                             <div id="enrollment" class="widget widget-scroll margin-bottom-none table-responsive">
                                 <div class="widget-head">
                                     <h4 class="heading glyphicons book_open">
@@ -1267,7 +1277,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <thead>
                                         <tr>
                                             <td style="text-align: center !important;">Escola</td>
-                                            <td style="text-align: center">Atualizar Ficha de  Matrícula</td>
+                                            <td style="text-align: center">Atualizar Ficha de Matrícula</td>
                                             <td style="text-align: center">Ano</td>
                                             <td style="text-align: center">Formulários</td>
                                             <td style="text-align: center; width: 15%;">Cancelar Matrícula</td>
@@ -1280,23 +1290,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tr>
                                                 <td><?php echo $me->schoolInepIdFk->name ?></td>
                                                 <td style="text-align: center">
-                                                    <?php  if( $me->classroomFk->school_year >= date('Y')){?>
-                                                        <a href='<?php  echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id));?>'>
-                                                            <i class="fa fa-pencil" style="color:#496cad; padding-right: 1%" ></i>
+                                                    <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                        <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
+                                                            <i class="fa fa-pencil"
+                                                               style="color:#496cad; padding-right: 1%"></i>
                                                             <?php echo $me->classroomFk->name ?>
-                                                        
+
                                                         </a>
-                                                    <?php }else{ ?>
-                                                        <p  title="Não é possível atualizar a Matrícula do ano anterior">
+                                                    <?php } else { ?>
+                                                        <p title="Não é possível atualizar a Matrícula do ano anterior">
                                                             <?php echo $me->classroomFk->name ?><br/>
                                                             (<?php echo @$me->edcensoStageVsModalityFk->name ?>)
                                                         </p>
-                                                    <?php }  ?>
+                                                    <?php } ?>
                                                 </td>
                                                 <td style="text-align: center"><?php echo $me->classroomFk->school_year ?></td>
                                                 <?php
                                                 $type;
-                                                if(@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
+                                                if (@isset($me->classroomFk->edcensoStageVsModalityFk->stage)) {
                                                     switch ($me->classroomFk->edcensoStageVsModalityFk->stage) {
                                                         // FALTA O CASO DE NECESSIDADES ESPECIAIS - ANALISAR COMO PODE SER TRATADO
 
@@ -1338,16 +1349,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <?php
                                                         $forms = unserialize(FORMS);
                                                         foreach ($forms as $form) {
-                                                            $link = Yii::app()->createUrl('forms/'.$form['action'], array('type'=>$type, 'enrollment_id' => $me->id));
-                                                            echo "<li><a target='_blank' href=".$link.">".$form['name']."</a></li>";
+                                                            $link = Yii::app()->createUrl('forms/' . $form['action'], array('type' => $type, 'enrollment_id' => $me->id));
+                                                            echo "<li><a target='_blank' href=" . $link . ">" . $form['name'] . "</a></li>";
                                                         }
-                                                        if($me->classroomFk->school_year == date('Y')){
+                                                        if ($me->classroomFk->school_year == date('Y')) {
                                                             $date = date('Y-m-d');
                                                             $quizs = Quiz::model()->findAll('status=1 AND init_date <=:init_date AND final_date >=:final_date', [':init_date' => $date, ':final_date' => $date]);
-                                                            if(count($quizs) > 0){
+                                                            if (count($quizs) > 0) {
                                                                 foreach ($quizs as $quiz) {
-                                                                    $link = Yii::app()->createUrl('quiz/default/answer', array('quizId'=>$quiz->id, 'studentId' => $me->studentFk->id));
-                                                                    echo "<li><a target='_blank' href=".$link.">".$quiz->name."</a></li>";
+                                                                    $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
+                                                                    echo "<li><a target='_blank' href=" . $link . ">" . $quiz->name . "</a></li>";
                                                                 }
                                                             }
 
@@ -1355,13 +1366,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         ?>
                                                 </td>
                                                 <td style="text-align: center">
-                                                    <?php  if( $me->classroomFk->school_year >= date('Y')){?>
-                                                        <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i class="fa fa-trash-o"></i></a>
-                                                    <?php }else{ ?>
-                                                        <i class="fa fa-minus" title="Não é possível cancelar a Matrícula do ano anterior"></i>
-                                                    <?php }  ?>
+                                                    <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
+                                                        <a href='<?php echo @Yii::app()->createUrl('enrollment/delete', array('id' => $me->id)) ?>'><i
+                                                                    class="fa fa-trash-o"></i></a>
+                                                    <?php } else { ?>
+                                                        <i class="fa fa-minus"
+                                                           title="Não é possível cancelar a Matrícula do ano anterior"></i>
+                                                    <?php } ?>
                                                     </a>
-                                                </td>                                            </tr>
+                                                </td>
+                                            </tr>
                                             <?php
                                         }
                                         ?>
@@ -1379,9 +1393,9 @@ $form = $this->beginWidget('CActiveForm', array(
 </div>
 
 <?php
-    if(isset($_GET['censo']) && isset($_GET['id'])){
-       $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
-    }
+if (isset($_GET['censo']) && isset($_GET['id'])) {
+    $this->widget('application.widgets.AlertCensoWidget', array('prefix' => 'student', 'dataId' => $_GET['id']));
+}
 ?>
 
 <script type="text/javascript">

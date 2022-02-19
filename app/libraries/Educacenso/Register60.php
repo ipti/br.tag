@@ -61,7 +61,7 @@ class Register60
                     }
                 }
 
-                if ($classroom->schooling != '1' || $classroom->pedagogical_mediation_type != '1' || ($classroom->diff_location != '0' && $classroom->diff_location != '1')) {
+                if ($classroom->schooling != '1' || $classroom->pedagogical_mediation_type != '1' || ($classroom->diff_location != '0' && $classroom->diff_location != '1' && $classroom->diff_location != null)) {
                     $enrollment['another_scholarization_place'] = '';
                 }
 
