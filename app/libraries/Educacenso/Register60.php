@@ -61,11 +61,43 @@ class Register60
                     }
                 }
 
-                if ($classroom->schooling != '1' || $classroom->pedagogical_mediation_type != '1' || ($classroom->diff_location != '0' && $classroom->diff_location != '1' && $classroom->diff_location != null)) {
+                //um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
+                $pedagogicalMediationType = $classroom->pedagogical_mediation_type == null ? '1' : $classroom->pedagogical_mediation_type;
+                $aee = $classroom->aee;
+                $complementaryActivity = $classroom->complementary_activity;
+                $schooling = $classroom->schooling;
+                $diffLocation = $classroom->diff_location;
+                if ($pedagogicalMediationType != '1') {
+                    $schooling = '1';
+                    $aee = '0';
+                    $complementaryActivity = '0';
+                }
+                if ($aee == '1') {
+                    $schooling = '0';
+                    $complementaryActivity = '0';
+                }
+                if ($classroom->complementary_activity_type_1 == null && $classroom->complementary_activity_type_2 == null && $classroom->complementary_activity_type_3 == null
+                    && $classroom->complementary_activity_type_4 == null && $classroom->complementary_activity_type_5 == null && $classroom->complementary_activity_type_6 == null) {
+                    $complementaryActivity = '0';
+                }
+                if ($pedagogicalMediationType != '1' && $pedagogicalMediationType != '2') {
+                    $diffLocation = '';
+                } else if ($diffLocation == null) {
+                    $diffLocation = '0';
+                }
+                if ($classroom->modality == '3') {
+                    $complementaryActivity = '0';
+                }
+                if ($complementaryActivity == '0' && $schooling == '0' && $aee == '0') {
+                    $schooling = '1';
+                }
+                // fim
+
+                if ($schooling != '1' || $pedagogicalMediationType != '1' || ($diffLocation != '0' && $diffLocation != '1')) {
                     $enrollment['another_scholarization_place'] = '';
                 }
 
-                if (($classroom->pedagogical_mediation_type != '1' && $classroom->pedagogical_mediation_type != '2') || $classroom->schooling != '1') {
+                if (($pedagogicalMediationType != '1' && $pedagogicalMediationType != '2') || $schooling != '1') {
                     $enrollment['public_transport'] = '';
                     $enrollment['transport_responsable_government'] = '';
                     $enrollment['vehicle_type_bike'] = '';
