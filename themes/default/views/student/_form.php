@@ -1191,10 +1191,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_waterway_boat_35']; ?>
                                         <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_waterway_boat_35', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     </label>
-                                    <label class="checkbox">
-                                        <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_metro_or_train']; ?>
-                                        <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_metro_or_train', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
                                 </div>
                             </div>
                             <div class="control-group" id="">
