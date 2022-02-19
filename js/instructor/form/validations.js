@@ -395,6 +395,8 @@ $('#InstructorVariableData_high_education_initial_year_1, \n\
         var data = new Date();
         if (!anoMinMax(2002, data.getFullYear(), this.value)) {
             $(this).attr('value', '');
+        } else {
+            $(this).attr('value', '');
         }
     }
 });
@@ -406,6 +408,8 @@ $('#InstructorVariableData_high_education_final_year_1,\n\
         if (!anoMinMax(1941, data.getFullYear(), this.value)) {
             $(this).attr('value', '');
         }
+    } else {
+        $(this).attr('value', '');
     }
 });
 
@@ -462,21 +466,21 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
     } else {
 
         $("#instructorVariableData").hide();
-        $(formInstructorvariableData + 'high_education_situation_1').add().attr('disabled', 'disabled');
+        $(formInstructorvariableData + 'high_education_situation_1').val("").attr('disabled', 'disabled').trigger("change");
         $(formInstructorvariableData + 'high_education_formation_1').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_course_code_1_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_institution_code_1_fk').add().attr('disabled', 'disabled');
 
-        $(formInstructorvariableData + 'high_education_situation_2').add().attr('disabled', 'disabled');
+        $(formInstructorvariableData + 'high_education_situation_2').val("").attr('disabled', 'disabled').trigger("change");
         $(formInstructorvariableData + 'high_education_formation_2').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_course_code_2_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_institution_code_2_fk').add().attr('disabled', 'disabled');
 
-        $(formInstructorvariableData + 'high_education_situation_3').add().attr('disabled', 'disabled');
+        $(formInstructorvariableData + 'high_education_situation_3').val("").attr('disabled', 'disabled').trigger("change");
         $(formInstructorvariableData + 'high_education_formation_3').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_course_code_3_fk').add().attr('disabled', 'disabled');
         $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled', 'disabled');
@@ -508,38 +512,88 @@ $(formInstructorvariableData + 'scholarity').on('change', function () {
 
     }
 
-    $(formInstructorvariableData + 'high_education_situation_1').on('change', function () {
-        if ($(this).val() == 1) { // Concluído
-            $(formInstructorvariableData + 'high_education_initial_year_1').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled');
-        } else { // Em Andamento
-            $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled');
-            $(formInstructorvariableData + 'high_education_final_year_1').add().attr('disabled', 'disabled');
-        }
+    $(formInstructorvariableData + 'high_education_initial_year_1').mask("0000");
+    $(formInstructorvariableData + 'high_education_final_year_1').mask("0000");
+    $(formInstructorvariableData + 'high_education_initial_year_2').mask("0000");
+    $(formInstructorvariableData + 'high_education_final_year_2').mask("0000");
+    $(formInstructorvariableData + 'high_education_initial_year_3').mask("0000");
+    $(formInstructorvariableData + 'high_education_final_year_3').mask("0000");
 
+    $(formInstructorvariableData + 'high_education_situation_1').on('change', function () {
+        if ($(this).val() == "") {
+            $("#tab-instructor-data2").addClass("disabled");
+            $(formInstructorvariableData + 'high_education_initial_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 1");
+            $(formInstructorvariableData + 'high_education_final_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 1");
+            $(formInstructorvariableData + 'high_education_formation_1').prop("checked", false).attr('disabled', 'disabled');
+            $('#high_education_course_area1').val("").attr("disabled", "disabled").trigger("change.select2");
+            $(formInstructorvariableData + 'high_education_course_code_1_fk').val("").attr("disabled", "disabled").trigger("change.select2").closest(".control-group").find(".control-label").removeClass("required").html("Código do Curso Superior 1");
+            $(formInstructorvariableData + 'high_education_institution_code_1_fk').closest(".control-group").hide();
+        } else {
+            $("#tab-instructor-data2").removeClass("disabled");
+            $(formInstructorvariableData + 'high_education_formation_1').removeAttr('disabled');
+            $('#high_education_course_area1').removeAttr('disabled');
+            $(formInstructorvariableData + 'high_education_course_code_1_fk').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Código do Curso Superior 1 *");
+            $(formInstructorvariableData + 'high_education_institution_code_1_fk').closest(".control-group").show();
+            if ($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 1");
+                $(formInstructorvariableData + 'high_education_final_year_1').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 1 *");
+            } else { // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_1').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 1 *");
+                $(formInstructorvariableData + 'high_education_final_year_1').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 1");
+            }
+        }
     });
+    $(formInstructorvariableData + 'high_education_situation_1').trigger("change");
 
     $(formInstructorvariableData + 'high_education_situation_2').on('change', function () {
-        if ($(this).val() == 1) { // Concluído
-            $(formInstructorvariableData + 'high_education_initial_year_2').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled');
-        } else { // Em Andamento
-            $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled');
-            $(formInstructorvariableData + 'high_education_final_year_2').add().attr('disabled', 'disabled');
+        if ($(this).val() == "") {
+            $("#tab-instructor-data3").addClass("disabled");
+            $(formInstructorvariableData + 'high_education_initial_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 2");
+            $(formInstructorvariableData + 'high_education_final_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 2");
+            $(formInstructorvariableData + 'high_education_formation_2').prop("checked", false).attr('disabled', 'disabled');
+            $('#high_education_course_area2').val("").attr("disabled", "disabled").trigger("change.select2");
+            $(formInstructorvariableData + 'high_education_course_code_2_fk').val("").attr("disabled", "disabled").trigger("change.select2").closest(".control-group").find(".control-label").removeClass("required").html("Código do Curso Superior 2");
+            $(formInstructorvariableData + 'high_education_institution_code_2_fk').closest(".control-group").hide();
+        } else {
+            $("#tab-instructor-data3").removeClass("disabled");
+            $(formInstructorvariableData + 'high_education_formation_2').removeAttr('disabled');
+            $('#high_education_course_area2').removeAttr('disabled');
+            $(formInstructorvariableData + 'high_education_course_code_2_fk').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Código do Curso Superior 2 *");
+            $(formInstructorvariableData + 'high_education_institution_code_2_fk').closest(".control-group").show();
+            if ($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 2");
+                $(formInstructorvariableData + 'high_education_final_year_2').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 2 *");
+            } else { // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_2').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 2 *");
+                $(formInstructorvariableData + 'high_education_final_year_2').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 2");
+            }
         }
-
     });
+    $(formInstructorvariableData + 'high_education_situation_2').trigger("change");
 
     $(formInstructorvariableData + 'high_education_situation_3').on('change', function () {
-        if ($(this).val() == 1) { // Concluído
-            $(formInstructorvariableData + 'high_education_initial_year_3').add().attr('disabled', 'disabled');
-            $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled');
-        } else { // Em Andamento
-            $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled');
-            $(formInstructorvariableData + 'high_education_final_year_3').add().attr('disabled', 'disabled');
+        if ($(this).val() == "") {
+            $(formInstructorvariableData + 'high_education_initial_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 3");
+            $(formInstructorvariableData + 'high_education_final_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 3");
+            $(formInstructorvariableData + 'high_education_formation_3').prop("checked", false).attr('disabled', 'disabled');
+            $('#high_education_course_area3').val("").attr("disabled", "disabled").trigger("change.select2");
+            $(formInstructorvariableData + 'high_education_course_code_3_fk').val("").attr("disabled", "disabled").trigger("change.select2").closest(".control-group").find(".control-label").removeClass("required").html("Código do Curso Superior 3");
+            $(formInstructorvariableData + 'high_education_institution_code_3_fk').closest(".control-group").hide();
+        } else {
+            $(formInstructorvariableData + 'high_education_formation_3').removeAttr('disabled');
+            $('#high_education_course_area3').removeAttr('disabled');
+            $(formInstructorvariableData + 'high_education_course_code_3_fk').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Código do Curso Superior 3 *");
+            $(formInstructorvariableData + 'high_education_institution_code_3_fk').closest(".control-group").show();
+            if ($(this).val() == 1) { // Concluído
+                $(formInstructorvariableData + 'high_education_initial_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Início do Curso Superior 3");
+                $(formInstructorvariableData + 'high_education_final_year_3').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Conclusão do Curso Superior 3 *");
+            } else { // Em Andamento
+                $(formInstructorvariableData + 'high_education_initial_year_3').removeAttr('disabled').closest(".control-group").find(".control-label").addClass("required").html("Ano de Início do Curso Superior 3 *");
+                $(formInstructorvariableData + 'high_education_final_year_3').val("").attr('disabled', 'disabled').closest(".control-group").find(".control-label").removeClass("required").html("Ano de Conclusão do Curso Superior 3");
+            }
         }
-
     });
+    $(formInstructorvariableData + 'high_education_situation_3').trigger("change");
 
     $(formInstructorvariableData + 'high_education_course_code_1_fk').on('change', function () {
         var course = $(formInstructorvariableData + 'high_education_course_code_1_fk option:selected').text();
@@ -685,6 +739,28 @@ $(".save-instructor").click(function () {
     if ($("#InstructorIdentification_filiation").val() === '1' && ($("#InstructorIdentification_filiation_1").val() === "" && $("#InstructorIdentification_filiation_2").val() === "")) {
         error = true;
         message += "Quando o campo <b>Filiação</b> é selecionado como 'Declarado', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
+    }
+    var variableData1Filled = false;
+    if (($("#InstructorVariableData_high_education_situation_1").val() === "1" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === ""))
+        || $("#InstructorVariableData_high_education_situation_1").val() === "2" && ($("#InstructorVariableData_high_education_course_code_1_fk").val() === "" || $("#InstructorVariableData_high_education_initial_year_1").val() === "" || $("#InstructorVariableData_high_education_institution_code_1_fk").val() === "")) {
+        error = true;
+        message += "Preencha os campos obrigatórios do <b>Curso 1</b>.<br>";
+    } else if ($("#InstructorVariableData_high_education_situation_1").val() !== "") {
+        variableData1Filled = true;
+    }
+    if (($("#InstructorVariableData_high_education_situation_2").val() === "1" && ($("#InstructorVariableData_high_education_course_code_2_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_2").val() === "" || $("#InstructorVariableData_high_education_institution_code_2_fk").val() === ""))
+        || $("#InstructorVariableData_high_education_situation_2").val() === "2" && ($("#InstructorVariableData_high_education_course_code_2_fk").val() === "" || $("#InstructorVariableData_high_education_initial_year_2").val() === "" || $("#InstructorVariableData_high_education_institution_code_2_fk").val() === "")) {
+        error = true;
+        message += "Preencha os campos obrigatórios do <b>Curso 2</b>.<br>";
+    }
+    if (($("#InstructorVariableData_high_education_situation_3").val() === "1" && ($("#InstructorVariableData_high_education_course_code_3_fk").val() === "" || $("#InstructorVariableData_high_education_final_year_3").val() === "" || $("#InstructorVariableData_high_education_institution_code_3_fk").val() === ""))
+        || $("#InstructorVariableData_high_education_situation_3").val() === "2" && ($("#InstructorVariableData_high_education_course_code_3_fk").val() === "" || $("#InstructorVariableData_high_education_initial_year_3").val() === "" || $("#InstructorVariableData_high_education_institution_code_3_fk").val() === "")) {
+        error = true;
+        message += "Preencha os campos obrigatórios do <b>Curso 3</b>.<br>";
+    }
+    if ($("#InstructorVariableData_scholarity").val() === '6' && !variableData1Filled) {
+        error = true;
+        message += "Quando o campo <b>Escolaridade</b> é selecionado como 'Superior', deve-se preencher pelo menos o <b>Curso 1</b>.<br>";
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");

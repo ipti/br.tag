@@ -463,7 +463,7 @@ preenchidos";
         ]);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', ['value' => NULL], 'Selecione o Curso', TRUE);
+        echo CHtml::tag('option', ['value' => ''], 'Selecione o Curso', TRUE);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), TRUE);
         }

@@ -509,7 +509,7 @@ class Register30
             array_push($registers, implode('|', $register));
         }
 
-        array_push($registers, '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
+        array_push($registers, '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||1|3|1|76|2800670|0|||||||||||||||||||||||||||||6||145F01|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
 
         return $registers;
     }

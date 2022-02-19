@@ -8716,6 +8716,11 @@ li.active a {
     cursor: pointer;
 }
 
+#instructorVariableData .tab-instructordata > li.disabled {
+    pointer-events: none;
+    background: #CCCCCC;
+}
+
 @media (max-width: 480px) {
     .table-responsive {
         display: block;
