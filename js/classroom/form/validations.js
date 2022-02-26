@@ -113,7 +113,7 @@ $(".save-classroom").click(function () {
     }
     if (!$("#Classroom_week_days input[type=checkbox]:checked").length) {
         error = true;
-        message += "Campo <b>Dias da semana</b> é obrigatório. Selecione ao menos um dia.";
+        message += "Campo <b>Dias da semana</b> é obrigatório. Selecione ao menos um dia.<br>";
     }
     if ($("#Classroom_pedagogical_mediation_type").val() === "") {
         error = true;
@@ -121,7 +121,7 @@ $(".save-classroom").click(function () {
     }
     if (!$(".assistance-types-container input[type=checkbox]:checked").length) {
         error = true;
-        message += "Campo <b>Tipos de Atendimento</b> é obrigatório. Selecione ao menos uma opção.";
+        message += "Campo <b>Tipos de Atendimento</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");

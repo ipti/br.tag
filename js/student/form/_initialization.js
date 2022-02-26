@@ -39,8 +39,6 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_gifted").is(":checked")) {
         $(formIdentification + "deficiency_type_intelectual_disability").attr("disabled", "disabled");
     }
-
-
 });
 
 $('.heading-buttons').css('width', $('#content').width());
@@ -63,7 +61,7 @@ $(document).on("change", ".resources-container input[type=checkbox]", function (
 
 $(document).on("change", "#StudentEnrollment_public_transport", function () {
     if ($(this).is(":checked")) {
-        $("#transport_responsable, #transport_type").show();
+        $("#transport_responsable, #transport_type").show().find(".control-label").addClass("required");
     } else {
         $("#StudentEnrollment_transport_responsable_government").val("").trigger("change.select2");
         $("#transport_type input[type=checkbox]:checked").prop("checked", false);

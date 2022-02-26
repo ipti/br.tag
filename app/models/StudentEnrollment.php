@@ -173,7 +173,7 @@ class StudentEnrollment extends AltActiveRecord
             'unified_class' => Yii::t('default', 'Unified Class'),
             'edcenso_stage_vs_modality_fk' => Yii::t('default', 'Edcenso Stage Vs Modality Fk'),
             'another_scholarization_place' => Yii::t('default', 'Another Scholarization Place'),
-            'public_transport' => Yii::t('default', 'Public Transport'),
+            'public_transport' => Yii::t('default', 'Public Transport') . " *",
             'transport_responsable_government' => Yii::t('default', 'Transport Responsable Government') . " *",
             'vehicle_type_van' => Yii::t('default', 'Vehicle Type Van'),
             'vehicle_type_microbus' => Yii::t('default', 'Vehicle Type Microbus'),
