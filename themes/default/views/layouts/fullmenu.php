@@ -147,7 +147,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                         </li>
                     <?php endif ?>
-                    <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)): ?>
                         <li id="menu-plans"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons book_open"
@@ -168,7 +167,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             <a class="glyphicons list"
                                href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                         </li>
-                    <?php endif ?>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
                         <li id="menu-lunch"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
