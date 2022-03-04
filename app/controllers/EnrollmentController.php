@@ -141,11 +141,6 @@ class EnrollmentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $transoption = '';
-        foreach ($model->transportOptions() as $key => $option) {
-            $setrans = 'if($model->' . $key . ' == 1){$transoption = "' . $key . '";};';
-            eval($setrans);
-        }
         if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
             $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
@@ -153,14 +148,6 @@ class EnrollmentController extends Controller
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
-                foreach ($model->transportOptions() as $key => $option) {
-                    $unsetrans = '$model->' . $key . '=' . '0;';
-                    eval($unsetrans);
-                }
-                if (!empty($_POST['StudentEnrollment']['transport_type'])) {
-                    $transportset = '$model->' . $_POST['StudentEnrollment']['transport_type'] . '=' . '1;';
-                    eval($transportset);
-                }
 
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
@@ -172,7 +159,6 @@ class EnrollmentController extends Controller
 
         $this->render('update', array(
             'model' => $model,
-            'transoption' => $transoption
         ));
     }
 
@@ -746,7 +732,7 @@ class EnrollmentController extends Controller
                         $return["students"][$studentName]['disciplines'][$disciplineId]['school_days'] = $school_days;
                     }
                 }
-                $return['stage'] = $stage;
+                $return['isConcept'] = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => Yii::app()->user->school, ":edcenso_stage_vs_modality_fk" => $stage]) !== null;
             }
             echo json_encode($return);
         }

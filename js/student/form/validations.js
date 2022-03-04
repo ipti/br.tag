@@ -23,7 +23,7 @@ $(formIdentification + 'nis').focusout(function () {
 var SPMaskBehavior = function (val) {
     return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
 };
-var spOptions = {    
+var spOptions = {
     onKeyPress: function (val, e, field, options) {
         field.mask(SPMaskBehavior.apply({}, arguments), options);
     },
@@ -31,7 +31,7 @@ var spOptions = {
 };
 
 $(formIdentification + 'responsable_telephone').mask(SPMaskBehavior, spOptions);
-$(formIdentification + 'responsable_telephone').focusout(function() {
+$(formIdentification + 'responsable_telephone').focusout(function () {
     var id = '#' + $(this).attr("id");
     var phone = $(id).cleanVal();
     if (phone.length !== 11 && phone.length !== 10) {
@@ -101,6 +101,7 @@ $(formIdentification + 'birthday').focusout(function () {
 });
 
 $(formIdentification + 'filiation').change(function () {
+    var simple = getUrlVars()['simple'];
     $(formIdentification + 'filiation_1').attr("disabled", "disabled");
     $(formIdentification + 'filiation_1_rg').attr("disabled", "disabled");
     $(formIdentification + 'filiation_1_cpf').attr("disabled", "disabled");
@@ -111,35 +112,34 @@ $(formIdentification + 'filiation').change(function () {
     $(formIdentification + 'filiation_2_cpf').attr("disabled", "disabled");
     $(formIdentification + 'filiation_2_scholarity').attr("disabled", "disabled");
     $(formIdentification + 'filiation_2_job').attr("disabled", "disabled");
-
     if ($(formIdentification + 'filiation').val() == 1) {
-        $(formIdentification + 'filiation_1').removeAttr("disabled");
+        $(formIdentification + 'filiation_1').removeAttr("disabled").closest(".control-group").show();
         $(formIdentification + 'filiation_1_rg').removeAttr("disabled");
         $(formIdentification + 'filiation_1_cpf').removeAttr("disabled");
         $(formIdentification + 'filiation_1_scholarity').removeAttr("disabled");
         $(formIdentification + 'filiation_1_job').removeAttr("disabled");
-        $(formIdentification + 'filiation_2').removeAttr("disabled");
+        $(formIdentification + 'filiation_2').removeAttr("disabled").closest(".control-group").show();
         $(formIdentification + 'filiation_2_rg').removeAttr("disabled");
         $(formIdentification + 'filiation_2_cpf').removeAttr("disabled");
         $(formIdentification + 'filiation_2_scholarity').removeAttr("disabled");
         $(formIdentification + 'filiation_2_job').removeAttr("disabled");
-    }
-    else {
-        $(formIdentification + 'filiation_1').val("");
+    } else {
+        $(formIdentification + 'filiation_1').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
         $(formIdentification + 'filiation_1_rg').val("");
         $(formIdentification + 'filiation_1_cpf').val("");
         $(formIdentification + 'filiation_1_scholarity').val("");
         $(formIdentification + 'filiation_1_job').val("");
-        $(formIdentification + 'filiation_2').val("");
+        $(formIdentification + 'filiation_2').val("").closest(".control-group").css("display", simple === "1" ? "none" : "block");
         $(formIdentification + 'filiation_2_rg').val("");
         $(formIdentification + 'filiation_2_cpf').val("");
         $(formIdentification + 'filiation_2_scholarity').val("");
         $(formIdentification + 'filiation_2_job').val("");
     }
 });
+$(formIdentification + 'filiation').trigger('change');
 
 $(formIdentification + 'filiation_1, '
-        + formIdentification + 'filiation_2').focusout(function () {
+    + formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     var ret = validateNamePerson(($(id).val()));
@@ -162,21 +162,34 @@ $(formIdentification + 'nationality').change(function () {
     var nationality = ".nationality-sensitive";
     var br = nationality + ".br";
     var nobr = nationality + ".no-br";
+    var simple = getUrlVars()['simple'];
     $(nationality).attr("disabled", "disabled");
     if ($(this).val() == 3) {
         $(nobr).removeAttr("disabled");
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').select2('readonly', false);
-        $(formIdentification + 'edcenso_uf_fk').val("");
-        $(formIdentification + 'edcenso_city_fk').val("");
+        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2");
+        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2");
+        $(formIdentification + 'edcenso_uf_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').closest(".control-group").css("display", simple === "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
     } else if ($(this).val() == "") {
         $(formIdentification + 'edcenso_nation_fk').val(null).trigger('change').attr("disabled", "disabled");
         $(nationality).attr("disabled", "disabled");
+        $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
+        $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
     } else {
         $(formIdentification + 'edcenso_nation_fk').val(76).trigger('change').removeAttr("disabled").select2('readonly', true);
         $(br).removeAttr("disabled");
         $(formDocumentsAndAddress + 'civil_certification').trigger("change");
+        if ($(this).val() == "1") {
+            $(formIdentification + 'edcenso_uf_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Estado *");
+            $(formIdentification + 'edcenso_city_fk').removeAttr("disabled").closest(".control-group").show().find(".control-label").addClass("required").html("Cidade *");
+        } else {
+            $(formIdentification + 'edcenso_uf_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Estado");
+            $(formIdentification + 'edcenso_city_fk').val("").trigger("change.select2").attr("disabled", "disabled").closest(".control-group").css("display", simple == "1" ? "none" : "block").find(".control-label").removeClass("required").html("Cidade");
+        }
     }
 });
+$(formIdentification + 'nationality').trigger("change");
 
 var deficiency = formIdentification + "deficiency";                             //17
 
@@ -194,20 +207,22 @@ var dtRettS = formIdentification + 'deficiency_type_rett_syndrome';             
 var dtChild = formIdentification + 'deficiency_type_childhood_disintegrative_disorder'; //29
 var dtGifte = formIdentification + 'deficiency_type_gifted';                    //30
 var allDeficiency = dtBlind + ',' + dtLowVi + ',' + dtDeafn + ',' + dtDisab + ',' + dtDeafB + ',' + dtGifte + ',' + dtPhisi + ',' +
-        dtIntel + ',' + dtMulti + ',' + dtAutis + ',' + dtAspen + ',' + dtRettS + ',' + dtChild;
+    dtIntel + ',' + dtMulti + ',' + dtAutis + ',' + dtAspen + ',' + dtRettS + ',' + dtChild;
 var defLessGifited = dtBlind + ',' + dtLowVi + ',' + dtDeafn + ',' + dtDisab + ',' + dtDeafB + ',' + dtPhisi + ',' +
-        dtIntel + ',' + dtMulti + ',' + dtAutis + ',' + dtAspen + ',' + dtRettS + ',' + dtChild;
+    dtIntel + ',' + dtMulti + ',' + dtAutis + ',' + dtAspen + ',' + dtRettS + ',' + dtChild;
 
 var rAidLec = formIdentification + 'resource_aid_lector';                       //31
 var rAidTra = formIdentification + 'resource_aid_transcription';                //32
 var rIntGui = formIdentification + 'resource_interpreter_guide';                //33
 var rIntLib = formIdentification + 'resource_interpreter_libras';               //34
 var rLipRea = formIdentification + 'resource_lip_reading';                      //35
-var rZoom16 = formIdentification + 'resource_zoomed_test_16';                   //36
-var rZoom20 = formIdentification + 'resource_zoomed_test_20';                   //37
+var rZoom18 = formIdentification + 'resource_zoomed_test_18';                   //36
 var rZoom24 = formIdentification + 'resource_zoomed_test_24';                   //38
 var rBraile = formIdentification + 'resource_braille_test';                     //39
-var allResource = rAidLec + ',' + rAidTra + ',' + rIntGui + ',' + rIntLib + ',' + rLipRea + ',' + rZoom16 + ',' + rZoom20 + ',' + rZoom24 + ',' + rBraile;
+var rProLan = formIdentification + 'resource_proof_language';                     //39
+var rCdAudi = formIdentification + 'resource_cd_audio';                     //39
+var rVidLib = formIdentification + 'resource_video_libras';                     //39
+var allResource = rAidLec + ',' + rAidTra + ',' + rIntGui + ',' + rIntLib + ',' + rLipRea + ',' + rZoom18 + ',' + rZoom24 + ',' + rBraile + ',' + rProLan + "," + rCdAudi + "," + rVidLib;
 
 var rNone = formIdentification + 'resource_none';                               //40
 
@@ -228,7 +243,7 @@ if (countDeficiency > 1) {
     $(formIdentification + 'deficiency_type_multiple_disabilities').attr('checked', 'checked');
 }
 
-$(formIdentification + 'deficiency_type_blindness').on('click', function() {
+$(formIdentification + 'deficiency_type_blindness').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -244,7 +259,7 @@ $(formIdentification + 'deficiency_type_blindness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+        if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')) {
             $(formIdentification + 'deficiency_type_deafness').removeAttr('disabled');
             $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
         }
@@ -252,7 +267,7 @@ $(formIdentification + 'deficiency_type_blindness').on('click', function() {
     }
 });
 
-$(formIdentification + 'deficiency_type_low_vision').on('click', function() {
+$(formIdentification + 'deficiency_type_low_vision').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -267,16 +282,16 @@ $(formIdentification + 'deficiency_type_low_vision').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        if (!$(formIdentification + 'deficiency_type_deafness').is(':checked')){
+        if (!$(formIdentification + 'deficiency_type_deafness').is(':checked')) {
             $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
-            if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')){
+            if (!$(formIdentification + 'deficiency_type_disability_hearing').is(':checked')) {
                 $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
             }
         }
     }
 });
 
-$(formIdentification + 'deficiency_type_deafness').on('click', function() {
+$(formIdentification + 'deficiency_type_deafness').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -293,7 +308,7 @@ $(formIdentification + 'deficiency_type_deafness').on('click', function() {
         if (countDeficiency < 2) {
             $(formIdentification + 'deficiency_type_multiple_disabilities').removeAttr('checked', 'checked');
         }
-        if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')){
+        if (!$(formIdentification + 'deficiency_type_low_vision').is(':checked')) {
             $(formIdentification + 'deficiency_type_blindness').removeAttr('disabled');
             $(formIdentification + 'deficiency_type_deafblindness').removeAttr('disabled');
         }
@@ -301,7 +316,7 @@ $(formIdentification + 'deficiency_type_deafness').on('click', function() {
     }
 });
 
-$(formIdentification + 'deficiency_type_disability_hearing').on('click', function() {
+$(formIdentification + 'deficiency_type_disability_hearing').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -324,7 +339,7 @@ $(formIdentification + 'deficiency_type_disability_hearing').on('click', functio
         }
     }
 });
-$(formIdentification + 'deficiency_type_deafblindness').on('click', function() {
+$(formIdentification + 'deficiency_type_deafblindness').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -350,7 +365,7 @@ $(formIdentification + 'deficiency_type_deafblindness').on('click', function() {
     }
 });
 
-$(formIdentification + 'deficiency_type_phisical_disability').on('click', function() {
+$(formIdentification + 'deficiency_type_phisical_disability').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -364,7 +379,7 @@ $(formIdentification + 'deficiency_type_phisical_disability').on('click', functi
     }
 });
 
-$(formIdentification + 'deficiency_type_intelectual_disability').on('click', function() {
+$(formIdentification + 'deficiency_type_intelectual_disability').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -381,7 +396,7 @@ $(formIdentification + 'deficiency_type_intelectual_disability').on('click', fun
     }
 });
 
-$(formIdentification + 'deficiency_type_autism').on('click', function() {
+$(formIdentification + 'deficiency_type_autism').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -396,7 +411,7 @@ $(formIdentification + 'deficiency_type_autism').on('click', function() {
 
 });
 
-$(formIdentification + 'deficiency_type_aspenger_syndrome').on('click', function() {
+$(formIdentification + 'deficiency_type_aspenger_syndrome').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -410,7 +425,7 @@ $(formIdentification + 'deficiency_type_aspenger_syndrome').on('click', function
     }
 });
 
-$(formIdentification + 'deficiency_type_rett_syndrome').on('click', function() {
+$(formIdentification + 'deficiency_type_rett_syndrome').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -424,7 +439,7 @@ $(formIdentification + 'deficiency_type_rett_syndrome').on('click', function() {
     }
 });
 
-$(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').on('click', function() {
+$(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -438,7 +453,7 @@ $(formIdentification + 'deficiency_type_childhood_disintegrative_disorder').on('
     }
 });
 
-$(formIdentification + 'deficiency_type_gifted').on('click', function() {
+$(formIdentification + 'deficiency_type_gifted').on('click', function () {
     if ($(this).is(':checked')) {
         countDeficiency += 1;
         if (countDeficiency > 1) {
@@ -498,13 +513,25 @@ $('#resource_type ' + rNone).change(function () {
 $(deficiency).change(function () {
     if ($(this).is(":checked")) {
         $(allDeficiency).removeAttr('disabled');
-        $("#StudentIdentification_deficiencies").parent(".control-group").show();
+        $("#StudentIdentification_deficiencies").parent(".control-group").show().find(".control-label").addClass("required");
+        $("#StudentIdentification_deficiency_type_blindness").trigger("change");
+        $(".resources-container").show();
     } else {
         countDeficiency = 0;
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
-        //$(allResource).attr('disabled', "disabled");
         $("#StudentIdentification_deficiencies").parent(".control-group").hide();
-        //$("#resource_type").hide();
+        $("#StudentIdentification_resource_aid_lector").closest(".control-group").hide();
+        $(".resources-container").hide();
+        $(".resources-container input[type=checkbox]").prop("checked", false);
+    }
+});
+$(deficiency).trigger('change');
+
+$(".deficiencies-container input[type=checkbox]").change(function () {
+    if ($(".deficiencies-container input[type=checkbox]").not("#StudentIdentification_deficiency_type_gifted").is(":checked")) {
+        $(".resources-container").find(".control-label").addClass("required").html("Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) *");
+    } else {
+        $(".resources-container").find(".control-label").removeClass("required").html("Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)");
     }
 });
 
@@ -588,13 +615,13 @@ $(formDocumentsAndAddress + 'rg_number').focusout(function () {
 $(formDocumentsAndAddress + 'civil_certification').change(function () {
 
     var oldDocuments = $(formDocumentsAndAddress + 'civil_certification_type'
-            + ', ' + formDocumentsAndAddress + 'civil_certification_term_number'
-            + ', ' + formDocumentsAndAddress + 'civil_certification_sheet'
-            + ', ' + formDocumentsAndAddress + 'civil_certification_book'
-            + ', ' + formDocumentsAndAddress + 'civil_certification_date'
-            + ', ' + formDocumentsAndAddress + 'notary_office_uf_fk'
-            + ', ' + formDocumentsAndAddress + 'notary_office_city_fk'
-            + ', ' + formDocumentsAndAddress + 'edcenso_notary_office_fk');
+        + ', ' + formDocumentsAndAddress + 'civil_certification_term_number'
+        + ', ' + formDocumentsAndAddress + 'civil_certification_sheet'
+        + ', ' + formDocumentsAndAddress + 'civil_certification_book'
+        + ', ' + formDocumentsAndAddress + 'civil_certification_date'
+        + ', ' + formDocumentsAndAddress + 'notary_office_uf_fk'
+        + ', ' + formDocumentsAndAddress + 'notary_office_city_fk'
+        + ', ' + formDocumentsAndAddress + 'edcenso_notary_office_fk');
 
     var newDocument = $(formDocumentsAndAddress + 'civil_register_enrollment_number');
 
@@ -626,7 +653,6 @@ $(formDocumentsAndAddress + 'rg_number_expediction_date, ' + formDocumentsAndAdd
         removeError(id);
     }
 });
-
 
 
 $(formIdentification + 'responsable').on('change', function () {
@@ -686,10 +712,63 @@ $(".save-student").click(function () {
         error = true;
         message += "Campo <b>Localização / Zona de residência</b> é obrigatório.<br>";
     }
+    if ($("#StudentIdentification_nationality").val() === "1" && $("#StudentIdentification_edcenso_uf_fk").val() === "") {
+        error = true;
+        message += "Campo <b>Estado</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_nationality").val() === "1" && $("#StudentIdentification_edcenso_city_fk").val() === "") {
+        error = true;
+        message += "Campo <b>Cidade</b> é obrigatório.<br>";
+    }
+    if ($("#StudentIdentification_deficiency").is(":checked") && !$(".deficiencies-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Como o campo <b>Deficiência</b> foi preenchido, deve-se preencher pelo menos um <b>Tipo de deficiência</b>.<br>";
+    }
+    if ($(".deficiencies-container input[type=checkbox]").not("#StudentIdentification_deficiency_type_gifted").is(":checked") && !$(".resources-container input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Quando o campo <b>Tipos de Deficiência</b> (exceto a última opção) for preenchido, o campo <b>Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)</b> se torna obrigatório. Selecione ao menos uma opção.<br>";
+    }
+    if ($("#StudentDocumentsAndAddress_residence_zone").val() === "1" && $("#StudentDocumentsAndAddress_diff_location").val() === "1") {
+        error = true;
+        message += "Quando o campo <b>Localização / Zona de residência</b> é selecionado 'Urbano', o campo <b>Localização Diferenciada</b> não pode ser uma área de assentamento.<br>";
+    }
+    if ($("#StudentIdentification_filiation").val() === '1' && ($("#StudentIdentification_filiation_1").val() === "" && $("#StudentIdentification_filiation_2").val() === "")) {
+        error = true;
+        message += "Quando o campo <b>Filiação</b> é selecionado como 'Pai e/ou Mãe', pelo menos um dos campos <b>Nome Completo da Mãe</b> ou <b>Nome Completo do Pai</b> devem ser preenchidos.<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked") && $("#StudentEnrollment_transport_responsable_government").val() === "") {
+        error = true;
+        message += "Quando o campo <b>Transporte escolar público</b> é marcado, o campo <b>Poder público responsável pelo transporte escolar</b> é obrigatório.<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked") && !$("#transport_type input[type=checkbox]:checked").length) {
+        error = true;
+        message += "Quando o campo <b>Transporte escolar público</b> é marcado, o campo <b>Tipo de Transporte</b> é obrigatório. Selecione ao menos uma opção<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked")
+        && ($("#StudentEnrollment_vehicle_type_van").is(":checked") && $("#StudentEnrollment_vehicle_type_microbus").is(":checked") && $("#StudentEnrollment_vehicle_type_bus").is(":checked")
+            && $("#StudentEnrollment_vehicle_type_bike").is(":checked") && $("#StudentEnrollment_vehicle_type_animal_vehicle").is(":checked") && $("#StudentEnrollment_vehicle_type_other_vehicle").is(":checked"))) {
+        error = true;
+        message += "Não pode marcar todos os seguintes campos: <b>Van / Kombis</b>, <b>Microônibus</b>, <b>Ônibus</b>, <b>Bicicleta</b>, <b>Tração animal</b> e <b>Rodoviário - Outro</b>. Desmarque algumas dessas opções.<br>";
+    }
+    if ($("#StudentEnrollment_public_transport").is(":checked")
+        && ($("#StudentEnrollment_vehicle_type_waterway_boat_5").is(":checked") && $("#StudentEnrollment_vehicle_type_waterway_boat_5_15").is(":checked")
+            && $("#StudentEnrollment_vehicle_type_waterway_boat_15_35").is(":checked") && $("#StudentEnrollment_vehicle_type_waterway_boat_35").is(":checked"))) {
+        error = true;
+        message += "Não pode marcar todos os seguintes campos: <b>Embarcação - Capacidade de até 5 alunos</b>, <b>Embarcação - Entre 5 a 15 alunos</b>, <b>Embarcação - Entre 15 a 35 alunos</b> e <b>Embarcação - Acima de 35 alunos</b>. Desmarque algumas dessas opções.<br>";
+    }
     if (error) {
+        $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".student-error").html(message).show();
     } else {
         $(this).closest("form").find(".student-error").hide();
+        $(formIdentification + "responsable_telephone").unmask();
+        $(formIdentification + "responsable_cpf").unmask();
+        $(formIdentification + "filiation_1_cpf").unmask();
+        $(formIdentification + "filiation_2_cpf").unmask();
+        $(formDocumentsAndAddress + "cpf").unmask();
+        $(formDocumentsAndAddress + "cep").unmask();
+        $("#student input").removeAttr("disabled");
+        $("#student select").removeAttr("disabled").trigger("change.select2");
         $(this).closest("form").submit();
     }
 });

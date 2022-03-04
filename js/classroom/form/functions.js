@@ -274,3 +274,11 @@ uInstructor.on('change', atualizarListadeDisciplinas);
 
 $(document).on('click','.deleteTeachingData',removeTeachingData);
 $("#addTeachingData").on('click', addTeachingData);
+
+$(document).on("change", ".assistance-types-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "Classroom_aee") {
+        $("#Classroom_aee").prop("checked", false);
+    } else {
+        $(".assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
+    }
+});

@@ -69,7 +69,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, cpf', 'required'),
+			array('school_inep_id_fk, cpf, area_of_residence', 'required'),
 			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk, diff_location', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, cep', 'length', 'max'=>8),

@@ -160,8 +160,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group" id="aee2">
-                                <label class="control-label"><?php echo Yii::t('default', 'Assistence Types'); ?></label>
+                            <div class="control-group assistance-types-container" id="aee2">
+                                <label class="control-label required"><?php echo Yii::t('default', 'Assistence Types'); ?> *</label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
@@ -322,7 +322,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
