@@ -1,0 +1,8 @@
+INSERT INTO `auth_item` (`name`, `type`, `description`, `bizrule`, `data`)
+VALUES ('instructor', '2', '', NULL, 'N;');
+
+ALTER TABLE `instructor_identification`
+ADD `users_fk` INT(11) NULL;
+
+ALTER TABLE `instructor_identification`
+ADD FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

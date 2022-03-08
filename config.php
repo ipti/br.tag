@@ -1,19 +1,24 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG',false);
-define("TAG_VERSION",'2.11.0');
+define("TAG_VERSION",'2.12');
 define("BOARD_MSG",'
 		
 		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>17/08/2021 - TAG VERSÃO 2.11.7.20:</strong>
+		<strong>08/03/2022 - TAG VERSÃO 2.12:</strong>
 		<br>
 		<ul>
-		    <li>Adptação do Censo 2021</li>
+		    <li>Novas Atualizações</li>
 				<ul>
-					<li>Novos campos adicionados</li>
-					<li>Exportação dos dados</li>
-					<li>Importação dos dados</li>
+					<li>Correção de Campos</li>
+					<li>Melhoria Visual</li>
+					<li>Diário Eletrônico</li>
+					<li>Login de Professor</li>
+					<li>Novas Unidades de Medida da Merenda Escolar (KG e ML)</li>
+					<li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)</li>
+					<li>Gerenciamento de Etapas para Notas por Conceito</li>
+					<li>Aprimoramento da Função Calendário Escolar</li>
 				</ul>
         	</ul>
 	</div>');

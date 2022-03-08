@@ -1,0 +1,29 @@
+CREATE TABLE `school_stages_concept_grades` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `school_fk` INT NOT NULL,
+  `edcenso_stage_vs_modality_fk` INT NOT NULL
+) ENGINE='InnoDB';
+
+ALTER TABLE `school_stages_concept_grades`
+CHANGE `school_fk` `school_fk` VARCHAR(8) NOT NULL AFTER `id`;
+
+ALTER TABLE `school_stages_concept_grades`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `school_stages_concept_grades`
+CHANGE `school_fk` `school_fk` VARCHAR(8) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `id`,
+COLLATE 'utf8_unicode_ci';
+
+SET FOREIGN_KEY_CHECKS=OFF;
+ALTER TABLE `school_stages_concept_grades`
+ADD FOREIGN KEY (`school_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=ON;
+
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 14 FROM school_identification;
+
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 15 FROM school_identification;
+
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 16 FROM school_identification;
