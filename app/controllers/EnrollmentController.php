@@ -174,7 +174,7 @@ class EnrollmentController extends Controller
         if ($model->delete()) {
             Log::model()->saveAction("enrollment", $model->id, "D", $model->studentFk->name . "|" . $model->classroomFk->name);
             Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de " . $model->studentFk->name . " foi excluída com sucesso!"));
-            $this->redirect(Yii::app()->request->urlReferrer);
+            $this->redirect(array('student/index'));
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
