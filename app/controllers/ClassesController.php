@@ -472,9 +472,6 @@ class ClassesController extends Controller
             $saturday_school = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and year(c.start_date) = $curyear and year(c.end_date) = $curyear and calendar_event_type_fk  = 301;")->queryAll();
             $is_first_to_thrid_year = Yii::app()->db->createCommand("select count(id) as status from classroom where id = $classroom;")->queryAll();
 
-            $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
-            $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
-
             $return = array('days' => array(), 'no_school' => array(), 'students' => array(), 'weekly_schedule' => array(), 'special_days' => array(), 'saturday_school' => array(), 'is_first_to_third_year' => $is_first_to_thrid_year[0]['status']);
 
             $classes_days = array();

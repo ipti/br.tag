@@ -1,6 +1,27 @@
-function changeNameLength(name, limit) {
-    return name.length > limit ? name.substring(0, limit - 3) + "..." : name;
-}
+$(document).on("change", "#classroom_fk", function () {
+    var select = this;
+    $(select).attr("disabled", "disabled");
+    $.ajax({
+        url: getTimesheetURL,
+        type: "POST",
+        data: {
+            cid: $(this).val()
+        },
+        beforeSend: function () {
+            $(".alert").addClass("display-hide");
+            $(".loading-timesheet").css("display", "inline-block");
+            $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+            $(".btn-generate-timesheet").attr("disabled", "disabled");
+        },
+    }).success(function (result) {
+        getTimesheet(result);
+    }).complete(function () {
+        $(".loading-timesheet").hide();
+        $(".table-container").css("opacity", 1).css("pointer-events", "auto");
+        $(select).removeAttr("disabled");
+        $(".btn-generate-timesheet").removeAttr("disabled");
+    });
+});
 
 function getTimesheet(data) {
     data = $.parseJSON(data);
@@ -13,80 +34,152 @@ function getTimesheet(data) {
     } else if (!data.valid) {
         if (data.error == "curricularMatrix") {
             $(".alert").removeClass("display-hide");
+            $(".schedule-info").addClass("display-hide");
         }
     } else {
         $(".table-container").show();
         $("#turn").show();
-        generateTimesheet(data.schedules);
+        buildTimesheet(data.schedules);
     }
 }
 
 $(document).on("click", ".btn-generate-timesheet", function () {
+    if ($(".tables-timesheet").is(":visible") && $(".table-month tbody td").children().length) {
+        $("#generateAnotherTimesheet").modal("show");
+    } else {
+        generateTimesheet();
+    }
+});
+
+$(document).on("click", ".confirm-timesheet-generation", function () {
+    generateTimesheet();
+});
+
+function generateTimesheet() {
     var classroom = $("select.classroom-id").val();
     $.ajax({
         url: generateTimesheetURL,
         type: "POST",
         data: {
             classroom: classroom
-        }
+        },
+        beforeSend: function () {
+            $(".loading-timesheet").css("display", "inline-block");
+            $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+        },
     }).success(function (result) {
         getTimesheet(result);
+    }).complete(function () {
+        $(".loading-timesheet").hide();
+        $(".table-container").css("opacity", 1).css("pointer-events", "auto");
     });
-});
+}
 
-function generateTimesheet(data) {
-    var i = 0;
-    var turn = 0;
-    $(".table-timesheet tr td")
-        .children()
-        .remove();
-    $.each(data, function (weekDay, schedules) {
-        $.each(schedules, function (schedule, info) {
-            if (i == 0) {
-                if (info.turn == 0) turn = "Manhã";
-                if (info.turn == 1) turn = "Tarde";
-                if (info.turn == 2) turn = "Noite";
-                i++;
-            }
-            var discipline = changeNameLength(info.disciplineName, 20);
-            var instructor = changeNameLength(info.instructorInfo.name, 30);
-            var icons = "";
-            if (info.instructorInfo.unavailable)
-                icons +=
-                    "<i title='Horário indisponível para o instrutor.' class='unavailability-icon fa fa-times-circle darkred'></i>";
-            if (info.instructorInfo.countConflicts > 1)
-                icons +=
-                    "<i title='Instrutor possui " +
-                    info.instructorInfo.countConflicts +
-                    " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
+function buildTimesheet(data) {
+    $(".tables-timesheet tbody tr td").children().remove();
+    var turn = "";
+    $.each(data, function (month, days) {
+        $.each(days, function (day, schedules) {
+            $.each(schedules, function (schedule, info) {
+                if (turn === "") {
+                    if (info.turn == 0) turn = "Manhã";
+                    if (info.turn == 1) turn = "Tarde";
+                    if (info.turn == 2) turn = "Noite";
+                }
+                var discipline = changeNameLength(info.disciplineName, 30);
+                // var instructor = changeNameLength(info.instructorInfo.name, 30);
 
-            $(
-                ".table-timesheet tr#h" + schedule + " td[week_day=" + weekDay + "]"
-            ).html(
-                "<div schedule='" +
-                info.id +
-                "' class='schedule-block'>" +
-                "<p class='discipline-name' discipline_id='" +
-                info.disciplineId +
-                "' title='" +
-                info.disciplineName +
-                "'>" +
-                discipline +
-                "</p>" +
-                "<p class='instructor-name' instructor_id='" +
-                info.instructorInfo.id +
-                "' title='" +
-                info.instructorInfo.name +
-                "'>" +
-                instructor +
-                "<i class='fa fa-pencil edit-instructor'></i></p>" +
-                icons +
-                "</div>"
-            );
+                // var icons = "";
+                // if (info.instructorInfo.unavailable)
+                //     icons +=
+                //         "<i title='Horário indisponível para o instrutor.' class='unavailability-icon fa fa-times-circle darkred'></i>";
+                // if (info.instructorInfo.countConflicts > 1)
+                //     icons +=
+                //         "<i title='Instrutor possui " +
+                //         info.instructorInfo.countConflicts +
+                //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
+
+                $(".tables-timesheet table[month=" + month + "] tbody tr[schedule=" + schedule + "] td[day=" + day + "]").html(
+                    "<div schedule='" + info.id + "' class='schedule-block'>" +
+                    "<p class='discipline-name' discipline_id='" + info.disciplineId + "' title='" + info.disciplineName + "'>" + discipline + "</p>" +
+                    // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
+                    // instructor +
+                    // "<i class='fa fa-pencil edit-instructor'></i></p>" +
+                    // icons +
+                    "</div>"
+                );
+            });
         });
     });
-
     $("#turn").text(turn);
+}
+
+function changeNameLength(name, limit) {
+    return name.length > limit ? name.substring(0, limit - 3) + "..." : name;
+}
+
+$(document).on("click", ".tables-timesheet td", function () {
+    if ($(this).hasClass("schedule-selected")) {
+        $(this).removeClass("schedule-selected");
+        $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
+    } else {
+        //Já selecionou algum diferente do primeiro e da mesma semana
+        if ($(".tables-timesheet").find(".schedule-selected").length > 0) {
+            var firstSelected = $(".tables-timesheet").find(".schedule-selected");
+            var secondSelected = $(this);
+
+            if ((!firstSelected.find(".schedule-block").length && !secondSelected.find(".schedule-block").length) || !secondSelected.hasClass("schedule-available")) {
+                firstSelected.removeClass("schedule-selected");
+                $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
+            } else {
+                var firstSchedule = {
+                    month: firstSelected.closest("table").attr("month"),
+                    day: firstSelected.attr("day"),
+                    week_day: firstSelected.attr("week_day"),
+                    schedule: firstSelected.closest("tr").attr("schedule")
+                };
+                var secondSchedule = {
+                    month: secondSelected.closest("table").attr("month"),
+                    day: secondSelected.attr("day"),
+                    week_day: secondSelected.attr("week_day"),
+                    schedule: secondSelected.closest("tr").attr("schedule")
+                };
+                changeSchedule(firstSchedule, secondSchedule);
+            }
+        } else {
+            //Primeira seleção
+            $(this).addClass("schedule-selected");
+            var week = $(this).attr("week");
+            $(this).closest("table").find("td[week=" + week + "]").not(this).addClass("schedule-available");
+        }
+    }
+});
+
+function changeSchedule(firstSchedule, secondSchedule) {
+    $.ajax({
+        url: changeSchedulesURL,
+        type: "POST",
+        data: {
+            classroomId: $("select.classroom-id").val(),
+            firstSchedule: firstSchedule,
+            secondSchedule: secondSchedule,
+            replicate: $(".replicate-actions").is(":checked")
+        }, beforeSend: function () {
+            $(".loading-timesheet").css("display", "inline-block");
+            $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+            $(".classroom_fk").attr("disabled", "disabled");
+            $(".btn-generate-timesheet").attr("disabled", "disabled");
+        },
+    }).success(function (result) {
+        $(".schedule-selected").removeClass("schedule-selected");
+        $(".schedule-available").removeClass("schedule-available");
+
+    }).complete(function () {
+        $(".loading-timesheet").hide();
+        $(".table-container").css("opacity", 1).css("pointer-events", "auto");
+        $(".classroom_fk").removeAttr("disabled");
+        $(".btn-generate-timesheet").removeAttr("disabled");
+    });
 }
 
 $(document).on("click", ".schedule-selected .instructor-name", function () {
@@ -128,72 +221,6 @@ $(document).on("click", "#change-instructor-button", function () {
     });
 });
 
-$(document).on("click", ".table-timesheet td", function () {
-    if ($(this).hasClass("schedule-selected")) {
-        $(this).removeClass("schedule-selected");
-    } else {
-        //Já selecionou algum
-        if ($(".table-timesheet").find(".schedule-selected").length > 0) {
-            var firstSelected = $(".table-timesheet").find(".schedule-selected");
-            var secondSelected = $(this);
-
-            if (!firstSelected.find(".schedule-block").length && !secondSelected.find(".schedule-block").length) {
-                firstSelected.removeClass("schedule-selected");
-            } else {
-                var firstSchedule = null;
-                var secondSchedule = null;
-
-                if (firstSelected.find(".schedule-block").length > 0) {
-                    firstSchedule = {
-                        id: firstSelected.find(".schedule-block").attr("schedule")
-                    };
-                } else {
-                    firstSchedule = {
-                        id: null,
-                        week_day: firstSelected.attr("week_day"),
-                        schedule: firstSelected
-                            .parent()
-                            .attr("id")
-                            .replace("h", "")
-                    };
-                }
-                if (secondSelected.find(".schedule-block").length > 0) {
-                    secondSchedule = {
-                        id: secondSelected.find(".schedule-block").attr("schedule")
-                    };
-                } else {
-                    secondSchedule = {
-                        id: null,
-                        week_day: secondSelected.attr("week_day"),
-                        schedule: secondSelected
-                            .parent()
-                            .attr("id")
-                            .replace("h", "")
-                    };
-                }
-                changeSchedule(firstSchedule, secondSchedule);
-            }
-        } else {
-            //Primeira seleção
-            $(this).addClass("schedule-selected");
-        }
-    }
-});
-
 $(document).on("click", "#add-instructors-disciplines-button", function () {
     $("#add-instructors-disciplines-form").submit();
 });
-
-function changeSchedule(firstSchedule, secondSchedule) {
-    $.ajax({
-        url: changeSchedulesURL,
-        type: "POST",
-        data: {
-            firstSchedule: firstSchedule,
-            secondSchedule: secondSchedule
-        }
-    }).success(function (result) {
-        getTimesheet(result);
-        $(".schedule-selected").removeClass("schedule-selected");
-    });
-}
