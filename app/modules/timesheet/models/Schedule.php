@@ -9,6 +9,7 @@
 	 * @property integer $discipline_fk
 	 * @property integer $classroom_fk
 	 * @property integer $week_day
+     * @property integer $week
 	 * @property integer $schedule
      * @property integer $day
      * @property integer $month
@@ -34,8 +35,8 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['discipline_fk, classroom_fk, week_day, schedule, turn, day, month', 'required'],
-				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn, day, month', 'numerical', 'integerOnly' => TRUE],
+				['discipline_fk, classroom_fk, week_day, schedule, turn, day, month, week', 'required'],
+				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn, day, month, week', 'numerical', 'integerOnly' => TRUE],
 				// The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
 				[

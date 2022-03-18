@@ -70,16 +70,17 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <div class="span12">
             <span id="turn"></span>
             <div class="span12 checkbox replicate-actions-container">
-                <input type="checkbox" class="replicate-actions" checked> Replicar alterações para todas as semanas
+                <input type="checkbox" class="replicate-actions" checked> Replicar alterações para todas as semanas subsequentes
             </div>
             <div class="clear"></div>
             <div class="tables-timesheet">
                 <?php for ($month = 1; $month <= 12; $month++): ?>
                     <div class="table-responsive">
-                        <table month="<?= $month ?>" class="table-timesheet table-month table table-bordered table-striped table-hover">
+                        <table month="<?= $month ?>"
+                               class="table-timesheet table-month table table-bordered table-striped table-hover">
                             <thead>
                             <tr>
-                                <th class="table-title instance"
+                                <th class="table-title"
                                     colspan="<?= $daysPerMonth[$month]["daysCount"] + 1 ?>"><?= yii::t('timesheetModule.index', $daysPerMonth[$month]["monthName"]) ?></th>
                             </tr>
                             <tr>
@@ -90,7 +91,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                             </tr>
                             </thead>
                             <tbody>
-                            <?php for ($i = 1; $i <= 7; $i++): ?>
+                            <?php for ($i = 1; $i <= 10; $i++): ?>
                                 <tr schedule="<?= $i ?>">
                                     <th><?= $i ?>º</th>
                                     <?php
@@ -136,7 +137,9 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
     </div>
     <div class="alert alert-warning display-hide">
-        <span>Para conseguir gerar um quadro de horário para essa turma, crie uma matriz curricular com disciplinas diversas e com a mesma etapa da turma selecionada.</span>
+        Para conseguir gerar um quadro de horário para essa turma:
+        <br>1- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.
+        <br>2- cadastre <b>disciplinas com professores na turma</b> selecionada.
     </div>
 </div>
 

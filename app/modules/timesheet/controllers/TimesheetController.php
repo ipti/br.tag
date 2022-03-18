@@ -250,7 +250,7 @@ class TimesheetController extends Controller
         if ($curricularMatrix != null) {
             Schedule::model()->deleteAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
 
-            $schedulesQuantity = 7;
+            $schedulesQuantity = 10;
             $turn = 0;
 
             if ($classroom->initial_hour < 12) {
@@ -324,10 +324,10 @@ class TimesheetController extends Controller
             $i = 0;
             /** @var CurricularMatrix $cm */
             foreach ($curricularMatrix as $cm) {
-                $needed = $cm->credits;
                 $disciplines[$i] = [
                     "discipline" => $cm->discipline_fk, "instructor" => NULL, "credits" => $cm->credits
                 ];
+//                $needed = $cm->credits;
 //                if (count($instructors) > 0) {
 //                    $indexArray = array();
 //	                for ($idx = 0; $idx < count($instructors); $idx++) {
@@ -347,7 +347,7 @@ class TimesheetController extends Controller
 
             $schedules = [];
 
-            for ($i = 0; $i < $schedulesQuantity; $i++) {
+            for ($i = 1; $i <= $schedulesQuantity; $i++) {
                 foreach ($weekDays as $wk) {
                     $schedule = new Schedule();
                     $schedule->week_day = $wk;
@@ -402,6 +402,7 @@ class TimesheetController extends Controller
                             $sc->classroom_fk = $classroomId;
                             $sc->day = $date->format("d");
                             $sc->month = $date->format("m");
+                            $sc->week = $date->format("W");
                             $sc->week_day = $schedule->week_day;
                             $sc->schedule = $schedule->schedule;
                             $sc->turn = $turn;
@@ -419,10 +420,52 @@ class TimesheetController extends Controller
 
     public function actionChangeSchedules()
     {
-        if (isset($_POST["firstSchedule"], $_POST["secondSchedule"])) {
+        if ($_POST["replicate"]) {
+            $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
+            if ($weekOfTheChange == null) {
+                $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
+            }
+            for ($week = $weekOfTheChange["week"]; $week <= 53; $week++) {
+                $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["firstSchedule"]["week_day"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
+                $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["secondSchedule"]["week_day"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
+                if ($firstSchedule != null && $secondSchedule != null) {
+                    $tmpDay = $secondSchedule->day;
+                    $secondSchedule->day = $firstSchedule->day;
+                    $firstSchedule->day = $tmpDay;
+
+                    $tmpMonth = $secondSchedule->month;
+                    $secondSchedule->month = $firstSchedule->month;
+                    $firstSchedule->month = $tmpMonth;
+
+                    $tmpWeekDay = $secondSchedule->week_day;
+                    $secondSchedule->week_day = $firstSchedule->week_day;
+                    $firstSchedule->week_day = $tmpWeekDay;
+
+                    $tmpSchedule = $secondSchedule->schedule;
+                    $secondSchedule->schedule = $firstSchedule->schedule;
+                    $firstSchedule->schedule = $tmpSchedule;
+
+                    $firstSchedule->save();
+                    $secondSchedule->save();
+                } else if ($firstSchedule == null && $secondSchedule != null) {
+                    $secondSchedule->day = (new DateTime())->setISODate(Yii::app()->user->year, $week, $_POST["firstSchedule"]["week_day"])->format('j');
+                    $secondSchedule->month = (new DateTime())->setISODate(Yii::app()->user->year, $week)->format('m');
+                    $secondSchedule->week_day = $_POST["firstSchedule"]["week_day"];
+                    $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
+                    $secondSchedule->save();
+                } else if ($firstSchedule != null && $secondSchedule == null) {
+                    $firstSchedule->day = (new DateTime())->setISODate(Yii::app()->user->year, $week, $_POST["secondSchedule"]["week_day"])->format('j');
+                    $firstSchedule->month = (new DateTime())->setISODate(Yii::app()->user->year, $week)->format('m');
+                    $firstSchedule->week_day = $_POST["secondSchedule"]["week_day"];
+                    $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
+                    $firstSchedule->save();
+                } else {
+                    break;
+                }
+            }
+        } else {
             $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
             $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
-
             if ($firstSchedule != null && $secondSchedule != null) {
                 $tmpDay = $secondSchedule->day;
                 $secondSchedule->day = $firstSchedule->day;
@@ -455,9 +498,8 @@ class TimesheetController extends Controller
                 $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
                 $firstSchedule->save();
             }
-            $this->actionGetTimesheet($_POST["classroomId"]);
         }
-
+        $this->actionGetTimesheet($_POST["classroomId"]);
     }
 
     public function actionGetInstructors()

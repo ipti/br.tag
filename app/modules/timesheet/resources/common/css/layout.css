@@ -187,6 +187,9 @@ table.table-timesheet td {
 
 .table-title {
     text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
 }
 
 .table-responsive {

@@ -98,7 +98,7 @@ function buildTimesheet(data) {
                 //         "<i title='Instrutor possui " +
                 //         info.instructorInfo.countConflicts +
                 //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
-
+                console.log(month, day, schedule)
                 $(".tables-timesheet table[month=" + month + "] tbody tr[schedule=" + schedule + "] td[day=" + day + "]").html(
                     "<div schedule='" + info.id + "' class='schedule-block'>" +
                     "<p class='discipline-name' discipline_id='" + info.disciplineId + "' title='" + info.disciplineName + "'>" + discipline + "</p>" +
@@ -163,7 +163,7 @@ function changeSchedule(firstSchedule, secondSchedule) {
             classroomId: $("select.classroom-id").val(),
             firstSchedule: firstSchedule,
             secondSchedule: secondSchedule,
-            replicate: $(".replicate-actions").is(":checked")
+            replicate: $(".replicate-actions").is(":checked") ? 1 : 0
         }, beforeSend: function () {
             $(".loading-timesheet").css("display", "inline-block");
             $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
@@ -171,6 +171,7 @@ function changeSchedule(firstSchedule, secondSchedule) {
             $(".btn-generate-timesheet").attr("disabled", "disabled");
         },
     }).success(function (result) {
+        getTimesheet(result);
         $(".schedule-selected").removeClass("schedule-selected");
         $(".schedule-available").removeClass("schedule-available");
 
