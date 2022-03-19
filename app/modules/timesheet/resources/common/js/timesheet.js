@@ -1,26 +1,31 @@
 $(document).on("change", "#classroom_fk", function () {
-    var select = this;
-    $(select).attr("disabled", "disabled");
-    $.ajax({
-        url: getTimesheetURL,
-        type: "POST",
-        data: {
-            cid: $(this).val()
-        },
-        beforeSend: function () {
-            $(".alert").addClass("display-hide");
-            $(".loading-timesheet").css("display", "inline-block");
-            $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
-            $(".btn-generate-timesheet").attr("disabled", "disabled");
-        },
-    }).success(function (result) {
-        getTimesheet(result);
-    }).complete(function () {
-        $(".loading-timesheet").hide();
-        $(".table-container").css("opacity", 1).css("pointer-events", "auto");
-        $(select).removeAttr("disabled");
-        $(".btn-generate-timesheet").removeAttr("disabled");
-    });
+    if ($(this).val() !== "") {
+        var select = this;
+        $(select).attr("disabled", "disabled");
+        $.ajax({
+            url: getTimesheetURL,
+            type: "POST",
+            data: {
+                cid: $(this).val()
+            },
+            beforeSend: function () {
+                $(".alert").addClass("display-hide");
+                $(".loading-timesheet").css("display", "inline-block");
+                $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+                $(".btn-generate-timesheet").attr("disabled", "disabled");
+            },
+        }).success(function (result) {
+            getTimesheet(result);
+        }).complete(function () {
+            $(".loading-timesheet").hide();
+            $(".table-container").css("opacity", 1).css("pointer-events", "auto");
+            $(select).removeAttr("disabled");
+            $(".btn-generate-timesheet").removeAttr("disabled");
+        });
+    } else {
+        $(".schedule-info").addClass("display-hide");
+        $(".table-container").hide();
+    }
 });
 
 function getTimesheet(data) {
@@ -28,13 +33,15 @@ function getTimesheet(data) {
     $(".alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
-    $(".table-container").hide();
+    $(".tables-timesheet tbody tr td").children().remove();
+    $(".table-container").show();
     if (data.valid == null) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error == "curricularMatrix" || data.error == "calendar") {
             $(".alert").removeClass("display-hide");
             $(".schedule-info").addClass("display-hide");
+            $(".table-container").hide();
         }
     } else {
         $(".table-container").show();
@@ -65,18 +72,19 @@ function generateTimesheet() {
         },
         beforeSend: function () {
             $(".loading-timesheet").css("display", "inline-block");
+            $(".btn-generate-timesheet").attr("disabled", "disabled");
             $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
         },
     }).success(function (result) {
         getTimesheet(result);
     }).complete(function () {
         $(".loading-timesheet").hide();
+        $(".btn-generate-timesheet").removeAttr("disabled");
         $(".table-container").css("opacity", 1).css("pointer-events", "auto");
     });
 }
 
 function buildTimesheet(data) {
-    $(".tables-timesheet tbody tr td").children().remove();
     var turn = "";
     $.each(data, function (month, days) {
         $.each(days, function (day, schedules) {

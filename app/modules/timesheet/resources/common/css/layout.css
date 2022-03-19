@@ -240,3 +240,7 @@ table.table-timesheet td {
     display: inline-block;
     padding: 0 1px;
 }
+
+.dayname-row th {
+    font-weight: lighter !important;
+}

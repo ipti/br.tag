@@ -60,7 +60,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
         <div class="schedule-info display-hide">
             <button class="btn btn-primary btn-icon glyphicons circle_plus btn-generate-timesheet">
-                <i></i><?= yii::t('timesheetModule.timesheet', "Generate timesheet") ?>
+                <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
             </button>
         </div>
         <i class="loading-timesheet fa fa-spin fa-spinner"></i>
@@ -91,11 +91,20 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     <th>
                                         <?php foreach ($calendarEvents[$month][$day] as $calendarEventType): ?>
                                             <div class="calendar-timesheet-icon calendar-<?= $calendarEventType["color"] ?>">
-                                                <i data-toggle="tooltip" data-placement="bottom" data-original-title="<?= yii::t('timesheetModule.timesheet', $calendarEventType["name"]); ?>"
+                                                <i data-toggle="tooltip" data-placement="bottom"
+                                                   data-original-title="<?= yii::t('timesheetModule.timesheet', $calendarEventType["name"]); ?>"
                                                    class="fa <?= $calendarEventType["icon"] ?>"></i>
                                             </div>
                                         <?php endforeach; ?>
                                     </th>
+                                <?php endfor; ?>
+                            </tr>
+                            <tr class="dayname-row">
+                                <th></th>
+                                <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
+                                <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
+                                    <th><?= $dayNameFirstLetter[$weekDayCount] ?></th>
+                                    <?php $weekDayCount = $weekDayCount == 6 ? 0 : ++$weekDayCount; ?>
                                 <?php endfor; ?>
                             </tr>
                             <tr>

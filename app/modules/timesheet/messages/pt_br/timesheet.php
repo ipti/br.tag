@@ -3,7 +3,7 @@ return [
     "Timesheet" => "Quadro de Horários",
     "Instructors" => "Professores",
     "Select a Classroom" => "Selecione uma Turma",
-    "Generate timesheet" => "Gerar Quadro de Horário",
+    "Generate automatic timesheet" => "Gerar Quadro Automático",
     "Change Instructor" => "Trocar Instrutor",
     "Instructor" => "Instrutor",
     "Cancel" => "Cancelar",

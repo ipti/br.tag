@@ -68,6 +68,7 @@ class TimesheetController extends Controller
         }
         $this->render('index', array(
             "daysPerMonth" => $daysPerMonth,
+            "dayNameFirstLetter" => ["D", "S", "T", "Q", "Q", "S", "S"],
             "calendarTypes" => $calendarTypes,
             "calendarEvents" => $calendarEventsArray
 
@@ -188,8 +189,8 @@ class TimesheetController extends Controller
 
     public function actionGetTimesheet($classroomId = NULL)
     {
-        $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
-        $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
+        $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
+        $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
 
         if (is_array($firstDay) && is_array($lastDay)) {
             if ($classroomId == NULL) {
@@ -205,7 +206,6 @@ class TimesheetController extends Controller
             if ($classroomId != "") {
                 /** @var Schedule[] $schedules */
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
-                $response = [];
                 if (count($schedules) == 0) {
                     if ($hasMatrix) {
                         $response = ["valid" => FALSE];
@@ -415,15 +415,30 @@ class TimesheetController extends Controller
                 }
 
                 if ($discipline !== null) {
-                    $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
-                    $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
+                    $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 102) and c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1;")->queryAll();
+                    $unavailableDaysArray = [];
+                    foreach ($unavailableEvents as $unavailableEvent) {
+                        $startDate = new DateTime($unavailableEvent["start_date"]);
+                        $endDate = new DateTime($unavailableEvent["end_date"]);
+                        $endDate->modify('+1 day');
+                        $interval = DateInterval::createFromDateString('1 day');
+                        $period = new DatePeriod($startDate, $interval, $endDate);
+                        foreach ($period as $date) {
+                            if (!in_array($date, $unavailableDaysArray)) {
+                                array_push($unavailableDaysArray, $date);
+                            }
+                        }
+                    }
+
+                    $firstDay = Yii::app()->db->createCommand("select ce.start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
+                    $lastDay = Yii::app()->db->createCommand("select ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
                     $firstDay = new DateTime($firstDay["start_date"]);
                     $lastDay = new DateTime($lastDay["end_date"]);
                     $lastDay->modify('+1 day');
                     $interval = DateInterval::createFromDateString('1 day');
                     $period = new DatePeriod($firstDay, $interval, $lastDay);
                     foreach ($period as $date) {
-                        if ($schedule->week_day == date("w", strtotime($date->format("Y-m-d")))) {
+                        if ($schedule->week_day == date("w", strtotime($date->format("Y-m-d"))) && !in_array($date, $unavailableDaysArray)) {
                             $sc = new Schedule();
                             $sc->discipline_fk = $discipline;
                             $sc->classroom_fk = $classroomId;
@@ -448,77 +463,14 @@ class TimesheetController extends Controller
     public function actionChangeSchedules()
     {
         $changes = [];
-        if ($_POST["replicate"]) {
-            $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
-            if ($weekOfTheChange == null) {
-                $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
-            }
-            for ($week = $weekOfTheChange["week"]; $week <= 53; $week++) {
-                $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["firstSchedule"]["week_day"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
-                $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["secondSchedule"]["week_day"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
-                if ($firstSchedule != null && $secondSchedule != null) {
-                    array_push($changes, [
-                        "firstSchedule" => ["day" => $firstSchedule->day, "month" => $firstSchedule->month, "schedule" => $firstSchedule->schedule],
-                        "secondSchedule" => ["day" => $secondSchedule->day, "month" => $secondSchedule->month, "schedule" => $secondSchedule->schedule]
-                    ]);
-
-                    $tmpDay = $secondSchedule->day;
-                    $secondSchedule->day = $firstSchedule->day;
-                    $firstSchedule->day = $tmpDay;
-
-                    $tmpMonth = $secondSchedule->month;
-                    $secondSchedule->month = $firstSchedule->month;
-                    $firstSchedule->month = $tmpMonth;
-
-                    $tmpWeekDay = $secondSchedule->week_day;
-                    $secondSchedule->week_day = $firstSchedule->week_day;
-                    $firstSchedule->week_day = $tmpWeekDay;
-
-                    $tmpSchedule = $secondSchedule->schedule;
-                    $secondSchedule->schedule = $firstSchedule->schedule;
-                    $firstSchedule->schedule = $tmpSchedule;
-
-                    $firstSchedule->save();
-                    $secondSchedule->save();
-                } else if ($firstSchedule != null || $secondSchedule != null) {
-                    $firstScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["firstSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["firstSchedule"]["day"]);
-                    $secondScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["secondSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["secondSchedule"]["day"]);
-                    $daysDiff = $firstScheduleDate->diff($secondScheduleDate)->format('%r%a');
-                    if ($secondSchedule != null) {
-                        $date = new Datetime(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $secondSchedule->day);
-                        $date->modify($daysDiff . " day");
-
-                        array_push($changes, [
-                            "firstSchedule" => ["day" => $date->format('j'), "month" => $date->format('m'), "schedule" => $_POST["firstSchedule"]["schedule"]],
-                            "secondSchedule" => ["day" => $secondSchedule->day, "month" => $secondSchedule->month, "schedule" => $secondSchedule->schedule]
-                        ]);
-
-                        $secondSchedule->day = $date->format('j');
-                        $secondSchedule->month = $date->format('m');
-                        $secondSchedule->week_day = $_POST["firstSchedule"]["week_day"];
-                        $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
-                        $secondSchedule->save();
-                    } else {
-                        $date = new Datetime(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $firstSchedule->day);
-                        $date->modify($daysDiff . " day");
-
-                        array_push($changes, [
-                            "firstSchedule" => ["day" => $firstSchedule->day, "month" => $firstSchedule->month, "schedule" => $firstSchedule->schedule],
-                            "secondSchedule" => ["day" => $date->format('j'), "month" => $date->format('n'), "schedule" => $_POST["secondSchedule"]["schedule"]]
-                        ]);
-
-                        $firstSchedule->day = $date->format('j');
-                        $firstSchedule->month = $date->format('n');
-                        $firstSchedule->week_day = $_POST["secondSchedule"]["week_day"];
-                        $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
-                        $firstSchedule->save();
-                    }
-                }
-            }
-            echo json_encode(["valid" => true, "changes" => $changes]);
-        } else {
-            $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
-            $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
+        $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
+        if ($weekOfTheChange == null) {
+            $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
+        }
+        $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange["week"];
+        for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
+            $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["firstSchedule"]["week_day"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
+            $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["secondSchedule"]["week_day"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
             if ($firstSchedule != null && $secondSchedule != null) {
                 array_push($changes, [
                     "firstSchedule" => ["day" => $firstSchedule->day, "month" => $firstSchedule->month, "schedule" => $firstSchedule->schedule],
@@ -543,31 +495,42 @@ class TimesheetController extends Controller
 
                 $firstSchedule->save();
                 $secondSchedule->save();
-            } else if ($firstSchedule == null && $secondSchedule != null) {
-                array_push($changes, [
-                    "firstSchedule" => ["day" => $_POST["firstSchedule"]["day"], "month" => $_POST["firstSchedule"]["month"], "schedule" => $_POST["firstSchedule"]["schedule"]],
-                    "secondSchedule" => ["day" => $secondSchedule->day, "month" => $secondSchedule->month, "schedule" => $secondSchedule->schedule]
-                ]);
+            } else if ($firstSchedule != null || $secondSchedule != null) {
+                $firstScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["firstSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["firstSchedule"]["day"]);
+                $secondScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["secondSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["secondSchedule"]["day"]);
+                $daysDiff = $firstScheduleDate->diff($secondScheduleDate)->format('%r%a');
+                if ($secondSchedule != null) {
+                    $date = new Datetime(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $secondSchedule->day);
+                    $date->modify($daysDiff . " day");
 
-                $secondSchedule->day = $_POST["firstSchedule"]["day"];
-                $secondSchedule->month = $_POST["firstSchedule"]["month"];
-                $secondSchedule->week_day = $_POST["firstSchedule"]["week_day"];
-                $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
-                $secondSchedule->save();
-            } else if ($firstSchedule != null && $secondSchedule == null) {
-                array_push($changes, [
-                    "firstSchedule" => ["day" => $firstSchedule->day, "month" => $firstSchedule->month, "schedule" => $firstSchedule->schedule],
-                    "secondSchedule" => ["day" => $_POST["secondSchedule"]["day"], "month" => $_POST["secondSchedule"]["month"], "schedule" => $_POST["secondSchedule"]["schedule"]]
-                ]);
+                    array_push($changes, [
+                        "firstSchedule" => ["day" => $date->format('j'), "month" => $date->format('m'), "schedule" => $_POST["firstSchedule"]["schedule"]],
+                        "secondSchedule" => ["day" => $secondSchedule->day, "month" => $secondSchedule->month, "schedule" => $secondSchedule->schedule]
+                    ]);
 
-                $firstSchedule->day = $_POST["secondSchedule"]["day"];
-                $firstSchedule->month = $_POST["secondSchedule"]["month"];
-                $firstSchedule->week_day = $_POST["secondSchedule"]["week_day"];
-                $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
-                $firstSchedule->save();
+                    $secondSchedule->day = $date->format('j');
+                    $secondSchedule->month = $date->format('m');
+                    $secondSchedule->week_day = $_POST["firstSchedule"]["week_day"];
+                    $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
+                    $secondSchedule->save();
+                } else {
+                    $date = new Datetime(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $firstSchedule->day);
+                    $date->modify($daysDiff . " day");
+
+                    array_push($changes, [
+                        "firstSchedule" => ["day" => $firstSchedule->day, "month" => $firstSchedule->month, "schedule" => $firstSchedule->schedule],
+                        "secondSchedule" => ["day" => $date->format('j'), "month" => $date->format('n'), "schedule" => $_POST["secondSchedule"]["schedule"]]
+                    ]);
+
+                    $firstSchedule->day = $date->format('j');
+                    $firstSchedule->month = $date->format('n');
+                    $firstSchedule->week_day = $_POST["secondSchedule"]["week_day"];
+                    $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
+                    $firstSchedule->save();
+                }
             }
-            echo json_encode(["valid" => true, "changes" => $changes]);
         }
+        echo json_encode(["valid" => true, "changes" => $changes]);
     }
 
     public function actionGetInstructors()
