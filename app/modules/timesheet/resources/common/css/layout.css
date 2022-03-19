@@ -128,7 +128,7 @@ table.table-timesheet td {
     line-height: initial !important;
     margin-bottom: 0 !important;
     padding-left: 0 !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
 }
 
 .unavailability-icon {
@@ -224,4 +224,19 @@ table.table-timesheet td {
 
 .table-month tbody td {
     cursor: pointer;
+}
+
+.line {
+    border-top: 1px solid #ccc;
+    width: 72%;
+    margin: 5px 5px 10px;
+}
+
+.calendar-icons {
+    height: 25px;
+}
+
+.calendar-timesheet-icon {
+    display: inline-block;
+    padding: 0 1px;
 }

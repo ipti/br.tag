@@ -70,10 +70,12 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <div class="span12">
             <span id="turn"></span>
             <div class="span12 checkbox replicate-actions-container">
-                <input type="checkbox" class="replicate-actions" checked> Replicar alterações para todas as semanas subsequentes
+                <input type="checkbox" class="replicate-actions" checked> Replicar alterações para todas as semanas
+                subsequentes
             </div>
             <div class="clear"></div>
             <div class="tables-timesheet">
+                <?php $lastMonthWeek = 1; ?>
                 <?php for ($month = 1; $month <= 12; $month++): ?>
                     <div class="table-responsive">
                         <table month="<?= $month ?>"
@@ -83,6 +85,19 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                 <th class="table-title"
                                     colspan="<?= $daysPerMonth[$month]["daysCount"] + 1 ?>"><?= yii::t('timesheetModule.index', $daysPerMonth[$month]["monthName"]) ?></th>
                             </tr>
+                            <tr class="calendar-icons">
+                                <th></th>
+                                <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
+                                    <th>
+                                        <?php foreach ($calendarEvents[$month][$day] as $calendarEventType): ?>
+                                            <div class="calendar-timesheet-icon calendar-<?= $calendarEventType["color"] ?>">
+                                                <i data-toggle="tooltip" data-placement="bottom" data-original-title="<?= yii::t('timesheetModule.timesheet', $calendarEventType["name"]); ?>"
+                                                   class="fa <?= $calendarEventType["icon"] ?>"></i>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </th>
+                                <?php endfor; ?>
+                            </tr>
                             <tr>
                                 <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
                                 <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
@@ -91,21 +106,26 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                             </tr>
                             </thead>
                             <tbody>
-                            <?php for ($i = 1; $i <= 10; $i++): ?>
-                                <tr schedule="<?= $i ?>">
-                                    <th><?= $i ?>º</th>
+                            <?php for ($schedule = 1; $schedule <= 10; $schedule++): ?>
+                                <tr schedule="<?= $schedule ?>">
+                                    <th><?= $schedule ?>º</th>
                                     <?php
                                     $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"];
-                                    $week = 1;
+                                    $week = $lastMonthWeek;
                                     ?>
                                     <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
                                         <td day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
-                                        <?php if ($weekDayCount == 6) {
+                                        <?php
+                                        if ($weekDayCount == 6) {
                                             $weekDayCount = 0;
                                             $week++;
                                         } else {
                                             $weekDayCount++;
-                                        } ?>
+                                        }
+                                        if ($day == $daysPerMonth[$month]["daysCount"] && $schedule == 10) {
+                                            $lastMonthWeek = $week;
+                                        }
+                                        ?>
                                     <?php endfor; ?>
                                 </tr>
                             <?php endfor; ?>
@@ -134,12 +154,28 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <i class="fa fa-times-circle darkred"></i>
                 <span>Horário indisponível para o instrutor.</span>
             </div>
+            <div class="clear"></div>
+            <div class="line"></div>
+            <?php
+            $html = '';
+            foreach ($calendarTypes as $calendarType) {
+                /**@var $type CalendarEventType */
+                $html .= '<div class="span3 calendar-subtitles calendar-' . $calendarType->color . '">'
+                    . '<i class="fa ' . $calendarType->icon . '"></i>&nbsp;'
+                    . '<span>' . yii::t('timesheetModule.timesheet', $calendarType->name) . '</span>'
+                    . '</div>';
+
+
+            }
+            echo $html; ?>
         </div>
     </div>
     <div class="alert alert-warning display-hide">
         Para conseguir gerar um quadro de horário para essa turma:
-        <br>1- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.
-        <br>2- cadastre <b>disciplinas com professores na turma</b> selecionada.
+        <br>1- crie um <b>calendário</b> para o ano presente, selecionado como atual, com os eventos de início e fim de
+        ano escolar registrados;</li>
+        <br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;
+        <br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.
     </div>
 </div>
 

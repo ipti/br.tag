@@ -32,7 +32,7 @@ function getTimesheet(data) {
     if (data.valid == null) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
-        if (data.error == "curricularMatrix") {
+        if (data.error == "curricularMatrix" || data.error == "calendar") {
             $(".alert").removeClass("display-hide");
             $(".schedule-info").addClass("display-hide");
         }
@@ -98,7 +98,6 @@ function buildTimesheet(data) {
                 //         "<i title='Instrutor possui " +
                 //         info.instructorInfo.countConflicts +
                 //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
-                console.log(month, day, schedule)
                 $(".tables-timesheet table[month=" + month + "] tbody tr[schedule=" + schedule + "] td[day=" + day + "]").html(
                     "<div schedule='" + info.id + "' class='schedule-block'>" +
                     "<p class='discipline-name' discipline_id='" + info.disciplineId + "' title='" + info.disciplineName + "'>" + discipline + "</p>" +
@@ -150,7 +149,7 @@ $(document).on("click", ".tables-timesheet td", function () {
             //Primeira seleção
             $(this).addClass("schedule-selected");
             var week = $(this).attr("week");
-            $(this).closest("table").find("td[week=" + week + "]").not(this).addClass("schedule-available");
+            $(this).closest(".tables-timesheet").find("td[week=" + week + "]").not(this).addClass("schedule-available");
         }
     }
 });
@@ -170,8 +169,16 @@ function changeSchedule(firstSchedule, secondSchedule) {
             $(".classroom_fk").attr("disabled", "disabled");
             $(".btn-generate-timesheet").attr("disabled", "disabled");
         },
-    }).success(function (result) {
-        getTimesheet(result);
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            $.each(data.changes, function () {
+                var firstScheduleBlock = $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").children();
+                var secondScheduleBlock = $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").children();
+                $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").html(secondScheduleBlock);
+                $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
+            });
+        }
         $(".schedule-selected").removeClass("schedule-selected");
         $(".schedule-available").removeClass("schedule-available");
 
