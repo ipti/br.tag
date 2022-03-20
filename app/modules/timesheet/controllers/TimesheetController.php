@@ -240,7 +240,7 @@ class TimesheetController extends Controller
                         ];
 //                    }
 
-                        $response["schedules"][$schedule->month][$schedule->day][$schedule->schedule] = [
+                        $response["schedules"][$schedule->month][$schedule->schedule][$schedule->day] = [
                             "id" => $schedule->id,
                             "instructorId" => $schedule->instructor_fk,
                             "instructorInfo" => $instructorInfo,

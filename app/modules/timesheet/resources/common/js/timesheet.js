@@ -28,28 +28,6 @@ $(document).on("change", "#classroom_fk", function () {
     }
 });
 
-function getTimesheet(data) {
-    data = $.parseJSON(data);
-    $(".alert").addClass("display-hide");
-    $(".schedule-info").removeClass("display-hide");
-    $("#turn").hide();
-    $(".tables-timesheet tbody tr td").children().remove();
-    $(".table-container").show();
-    if (data.valid == null) {
-        $(".schedule-info").addClass("display-hide");
-    } else if (!data.valid) {
-        if (data.error == "curricularMatrix" || data.error == "calendar") {
-            $(".alert").removeClass("display-hide");
-            $(".schedule-info").addClass("display-hide");
-            $(".table-container").hide();
-        }
-    } else {
-        $(".table-container").show();
-        $("#turn").show();
-        buildTimesheet(data.schedules);
-    }
-}
-
 $(document).on("click", ".btn-generate-timesheet", function () {
     if ($(".tables-timesheet").is(":visible") && $(".table-month tbody td").children().length) {
         $("#generateAnotherTimesheet").modal("show");
@@ -84,41 +62,84 @@ function generateTimesheet() {
     });
 }
 
-function buildTimesheet(data) {
-    var turn = "";
-    $.each(data, function (month, days) {
-        $.each(days, function (day, schedules) {
-            $.each(schedules, function (schedule, info) {
-                if (turn === "") {
-                    if (info.turn == 0) turn = "Manhã";
-                    if (info.turn == 1) turn = "Tarde";
-                    if (info.turn == 2) turn = "Noite";
-                }
-                var discipline = changeNameLength(info.disciplineName, 30);
-                // var instructor = changeNameLength(info.instructorInfo.name, 30);
+function getTimesheet(data) {
+    data = $.parseJSON(data);
+    $(".alert").addClass("display-hide");
+    $(".schedule-info").removeClass("display-hide");
+    $("#turn").hide();
+    $(".table-container").show();
+    if (data.valid == null) {
+        $(".schedule-info").addClass("display-hide");
+    } else if (!data.valid) {
+        if (data.error == "curricularMatrix" || data.error == "calendar") {
+            $(".alert").removeClass("display-hide");
+            $(".schedule-info").addClass("display-hide");
+            $(".table-container").hide();
+        } else {
+            $(".tables-timesheet tbody tr td").children().remove();
+        }
+    } else {
+        $(".tables-timesheet tbody").children().remove();
+        var turn = "";
+        var lastMonthWeek = 1;
+        for (var month = 1; month <= 12; month++) {
+            var html = "";
 
-                // var icons = "";
-                // if (info.instructorInfo.unavailable)
-                //     icons +=
-                //         "<i title='Horário indisponível para o instrutor.' class='unavailability-icon fa fa-times-circle darkred'></i>";
-                // if (info.instructorInfo.countConflicts > 1)
-                //     icons +=
-                //         "<i title='Instrutor possui " +
-                //         info.instructorInfo.countConflicts +
-                //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
-                $(".tables-timesheet table[month=" + month + "] tbody tr[schedule=" + schedule + "] td[day=" + day + "]").html(
-                    "<div schedule='" + info.id + "' class='schedule-block'>" +
-                    "<p class='discipline-name' discipline_id='" + info.disciplineId + "' title='" + info.disciplineName + "'>" + discipline + "</p>" +
-                    // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
-                    // instructor +
-                    // "<i class='fa fa-pencil edit-instructor'></i></p>" +
-                    // icons +
-                    "</div>"
-                );
-            });
-        });
-    });
-    $("#turn").text(turn);
+            for (var schedule = 1; schedule <= 10; schedule++) {
+                var weekDayCount = Number($(".table-month[month=" + month + "]").attr("first-day-weekday"));
+                var week = lastMonthWeek;
+                html += "<tr schedule='" + schedule + "'><th>" + schedule + "º</th>";
+
+                for (var day = 1; day <= Number($(".table-month[month=" + month + "]").attr("days-count")); day++) {
+                    if (data.schedules[month] !== undefined && data.schedules[month][schedule] !== undefined && data.schedules[month][schedule][day] !== undefined) {
+                        if (turn === "") {
+                            if (data.schedules[month][schedule][day].turn === "0") turn = "Manhã";
+                            if (data.schedules[month][schedule][day].turn === "1") turn = "Tarde";
+                            if (data.schedules[month][schedule][day].turn === "2") turn = "Noite";
+                        }
+                        var discipline = changeNameLength(data.schedules[month][schedule][day].disciplineName, 30);
+                        // var instructor = changeNameLength(info.instructorInfo.name, 30);
+
+                        // var icons = "";
+                        // if (info.instructorInfo.unavailable)
+                        //     icons +=
+                        //         "<i title='Horário indisponível para o instrutor.' class='unavailability-icon fa fa-times-circle darkred'></i>";
+                        // if (info.instructorInfo.countConflicts > 1)
+                        //     icons +=
+                        //         "<i title='Instrutor possui " +
+                        //         info.instructorInfo.countConflicts +
+                        //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
+                        html += "" +
+                            "<td day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
+                            "<div schedule='" + data.schedules[month][schedule][day].id + "' class='schedule-block'>" +
+                            "<p class='discipline-name' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
+                            // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
+                            // instructor +
+                            // "<i class='fa fa-pencil edit-instructor'></i></p>" +
+                            // icons +
+                            "</div>" +
+                            "</td>";
+                    } else {
+                        html += "<td day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'></td>";
+                    }
+
+                    if (weekDayCount === 6) {
+                        weekDayCount = 0;
+                        week++;
+                    } else {
+                        weekDayCount++;
+                    }
+                    if (day === Number($(".table-month[month=" + month + "]").attr("days-count")) && schedule === 10) {
+                        lastMonthWeek = week;
+                    }
+                }
+                html += "</tr>";
+            }
+            $(".tables-timesheet table[month=" + month + "] tbody").html(html);
+        }
+        $("#turn").text(turn).show();
+        $(".table-container").show();
+    }
 }
 
 function changeNameLength(name, limit) {

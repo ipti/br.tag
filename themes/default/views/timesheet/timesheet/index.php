@@ -78,7 +78,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <?php $lastMonthWeek = 1; ?>
                 <?php for ($month = 1; $month <= 12; $month++): ?>
                     <div class="table-responsive">
-                        <table month="<?= $month ?>"
+                        <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>" first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>"
                                class="table-timesheet table-month table table-bordered table-striped table-hover">
                             <thead>
                             <tr>
@@ -107,7 +107,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     <?php $weekDayCount = $weekDayCount == 6 ? 0 : ++$weekDayCount; ?>
                                 <?php endfor; ?>
                             </tr>
-                            <tr>
+                            <tr class="day-row">
                                 <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
                                 <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
                                     <th><?= $day ?></th>
