@@ -102,6 +102,7 @@ function getTimesheet(data) {
                 html += "<tr schedule='" + schedule + "'><th>" + schedule + "º</th>";
 
                 for (var day = 1; day <= Number($(".table-month[month=" + month + "]").attr("days-count")); day++) {
+                    var unavailableDay = data.unavailableDays[month] !== undefined && $.inArray(day.toString(), data.unavailableDays[month]) !== -1;
                     if (data.schedules[month] !== undefined && data.schedules[month][schedule] !== undefined && data.schedules[month][schedule][day] !== undefined) {
                         if (turn === "") {
                             if (data.schedules[month][schedule][day].turn === "0") turn = "Manhã";
@@ -121,7 +122,7 @@ function getTimesheet(data) {
                         //         info.instructorInfo.countConflicts +
                         //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
                         html += "" +
-                            "<td day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
+                            "<td class='" + (unavailableDay ? "schedule-unavailable" : "") + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
                             "<div schedule='" + data.schedules[month][schedule][day].id + "' class='schedule-block'>" +
                             "<p class='discipline-name' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
                             // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
@@ -131,7 +132,7 @@ function getTimesheet(data) {
                             "</div>" +
                             "</td>";
                     } else {
-                        html += "<td day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'></td>";
+                        html += "<td class='" + (unavailableDay ? "schedule-unavailable" : "") + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'></td>";
                     }
 
                     if (weekDayCount === 6) {
@@ -161,8 +162,7 @@ $(document).on("click", ".tables-timesheet td", function () {
     if ($(this).hasClass("schedule-selected")) {
         $(this).removeClass("schedule-selected");
         $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
-        $(".schedule-remove").remove();
-        $(".schedule-add").remove();
+        $(".schedule-remove, .schedule-add").remove();
     } else {
         //Já selecionou algum diferente do primeiro e da mesma semana
         if ($(".tables-timesheet").find(".schedule-selected").length > 0) {
@@ -172,7 +172,7 @@ $(document).on("click", ".tables-timesheet td", function () {
             if ((!firstSelected.find(".schedule-block").length && !secondSelected.find(".schedule-block").length) || !secondSelected.hasClass("schedule-available")) {
                 firstSelected.removeClass("schedule-selected");
                 $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
-                $(".schedule-add").remove();
+                $(".schedule-remove, .schedule-add").remove();
             } else {
                 var firstSchedule = {
                     month: firstSelected.closest("table").attr("month"),
@@ -188,10 +188,10 @@ $(document).on("click", ".tables-timesheet td", function () {
                 };
                 swapSchedule(firstSchedule, secondSchedule);
             }
-        } else {
+        } else if (!$(this).hasClass("schedule-unavailable")) {
             //Primeira seleção
             $(this).addClass("schedule-selected");
-            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]").not(this).addClass("schedule-available");
+            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]:not(.schedule-unavailable)").not(this).addClass("schedule-available");
             if ($(this).find(".schedule-block").length) {
                 $(this).append("<i class='schedule-remove fa fa-remove'></i>");
             } else {

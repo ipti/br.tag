@@ -127,7 +127,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     $week = $lastMonthWeek;
                                     ?>
                                     <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                        <td day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
+                                        <td class="<?= ($unavailableDays[$month] != null && in_array($day, $unavailableDays[$month]) ? "schedule-unavailable" : "") ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
                                         <?php
                                         if ($weekDayCount == 6) {
                                             $weekDayCount = 0;
