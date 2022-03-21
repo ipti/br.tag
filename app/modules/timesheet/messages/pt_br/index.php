@@ -16,4 +16,6 @@ return [
     "November" => "Novembro",
     "December" => "Dezembro",
     "Generate Another Timesheet" => "Gerar outro Quadro de Horário",
+    "Add Schedule" => "Adicionar Horário",
+    "Add" => "Adicionar",
 ];

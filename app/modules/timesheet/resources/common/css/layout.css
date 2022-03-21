@@ -159,20 +159,21 @@ table.table-timesheet td {
     text-align: center;
 }
 
-.table-timesheet td:hover:not(.schedule-selected){
-    background-color: rgba(173, 216, 230, 0.5)!important;
+.table-timesheet td:hover:not(.schedule-selected) {
+    background-color: rgba(173, 216, 230, 0.5) !important;
     opacity: 1 !important;
 }
 
-.schedule-selected, .schedule-selected:hover{
-    background-color: rgba(173, 216, 230, 1)!important;
+.schedule-selected, .schedule-selected:hover {
+    background-color: rgba(173, 216, 230, 1) !important;
 }
 
-.schedule-selected .instructor-name:hover{
+.schedule-selected .instructor-name:hover {
     background-color: #f8f8f8 !important;
 }
-.schedule-selected .instructor-name:hover .edit-instructor{
-    display: inline-block!important;
+
+.schedule-selected .instructor-name:hover .edit-instructor {
+    display: inline-block !important;
 }
 
 .schedule-available {
@@ -180,9 +181,9 @@ table.table-timesheet td {
     opacity: 0.8;
 }
 
-.edit-instructor{
-    float:right;
-    display: none!important;
+.edit-instructor {
+    float: right;
+    display: none !important;
 }
 
 .table-title {
@@ -224,6 +225,7 @@ table.table-timesheet td {
 
 .table-month tbody td {
     cursor: pointer;
+    position: relative;
 }
 
 .line {
@@ -243,4 +245,34 @@ table.table-timesheet td {
 
 .dayname-row th {
     font-weight: lighter !important;
+}
+
+.schedule-remove {
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    padding: 2px 3px;
+    background: white;
+    color: darkred;
+    border-radius: 8px;
+}
+
+.schedule-add {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2px 3px;
+    background: white;
+    color: green;
+    border-radius: 8px;
+}
+
+.schedule-remove:hover, .schedule-add:hover {
+    background: #333;
+    color: white;
+}
+
+.modal-add-schedule-discipline-container {
+    margin-bottom: 10px;
 }

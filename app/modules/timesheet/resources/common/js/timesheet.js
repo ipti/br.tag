@@ -9,13 +9,24 @@ $(document).on("change", "#classroom_fk", function () {
                 cid: $(this).val()
             },
             beforeSend: function () {
-                $(".alert").addClass("display-hide");
+                $(".loading-alert").addClass("display-hide");
                 $(".loading-timesheet").css("display", "inline-block");
                 $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
                 $(".btn-generate-timesheet").attr("disabled", "disabled");
             },
-        }).success(function (result) {
-            getTimesheet(result);
+        }).success(function (data) {
+            data = JSON.parse(data);
+            getTimesheet(data);
+            var html = "<option></option>";
+            $.each(data.disciplines, function () {
+                html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
+            });
+            $(".modal-add-schedule-discipline").html(html);
+            $(".modal-add-schedule-discipline").select2('destroy');
+            $(".modal-add-schedule-discipline").select2({
+                placeholder: "Selecione a Disciplina...",
+                width: "100%"
+            });
         }).complete(function () {
             $(".loading-timesheet").hide();
             $(".table-container").css("opacity", 1).css("pointer-events", "auto");
@@ -53,8 +64,9 @@ function generateTimesheet() {
             $(".btn-generate-timesheet").attr("disabled", "disabled");
             $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
         },
-    }).success(function (result) {
-        getTimesheet(result);
+    }).success(function (data) {
+        data = JSON.parse(data);
+        getTimesheet(data);
     }).complete(function () {
         $(".loading-timesheet").hide();
         $(".btn-generate-timesheet").removeAttr("disabled");
@@ -63,8 +75,7 @@ function generateTimesheet() {
 }
 
 function getTimesheet(data) {
-    data = $.parseJSON(data);
-    $(".alert").addClass("display-hide");
+    $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
     $(".table-container").show();
@@ -72,7 +83,7 @@ function getTimesheet(data) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error == "curricularMatrix" || data.error == "calendar") {
-            $(".alert").removeClass("display-hide");
+            $(".loading-alert").removeClass("display-hide");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else {
@@ -150,6 +161,8 @@ $(document).on("click", ".tables-timesheet td", function () {
     if ($(this).hasClass("schedule-selected")) {
         $(this).removeClass("schedule-selected");
         $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
+        $(".schedule-remove").remove();
+        $(".schedule-add").remove();
     } else {
         //Já selecionou algum diferente do primeiro e da mesma semana
         if ($(".tables-timesheet").find(".schedule-selected").length > 0) {
@@ -159,6 +172,7 @@ $(document).on("click", ".tables-timesheet td", function () {
             if ((!firstSelected.find(".schedule-block").length && !secondSelected.find(".schedule-block").length) || !secondSelected.hasClass("schedule-available")) {
                 firstSelected.removeClass("schedule-selected");
                 $(".tables-timesheet").find(".schedule-available").removeClass("schedule-available");
+                $(".schedule-add").remove();
             } else {
                 var firstSchedule = {
                     month: firstSelected.closest("table").attr("month"),
@@ -172,18 +186,123 @@ $(document).on("click", ".tables-timesheet td", function () {
                     week_day: secondSelected.attr("week_day"),
                     schedule: secondSelected.closest("tr").attr("schedule")
                 };
-                changeSchedule(firstSchedule, secondSchedule);
+                swapSchedule(firstSchedule, secondSchedule);
             }
         } else {
             //Primeira seleção
             $(this).addClass("schedule-selected");
-            var week = $(this).attr("week");
-            $(this).closest(".tables-timesheet").find("td[week=" + week + "]").not(this).addClass("schedule-available");
+            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]").not(this).addClass("schedule-available");
+            if ($(this).find(".schedule-block").length) {
+                $(this).append("<i class='schedule-remove fa fa-remove'></i>");
+            } else {
+                $(this).append("<i class='schedule-add fa fa-plus'></i>");
+            }
         }
     }
 });
 
-function changeSchedule(firstSchedule, secondSchedule) {
+$(document).on("click", ".schedule-remove", function (e) {
+    e.stopPropagation();
+    var schedule = {
+        month: $(this).closest("table").attr("month"),
+        day: $(this).closest("td").attr("day"),
+        week_day: $(this).closest("td").attr("week_day"),
+        schedule: $(this).closest("tr").attr("schedule")
+    };
+    $.ajax({
+        url: removeScheduleURL,
+        type: "POST",
+        data: {
+            classroomId: $("select.classroom-id").val(),
+            schedule: schedule,
+            replicate: $(".replicate-actions").is(":checked") ? 1 : 0
+        }, beforeSend: function () {
+            $(".loading-timesheet").css("display", "inline-block");
+            $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+            $(".classroom_fk").attr("disabled", "disabled");
+            $(".btn-generate-timesheet").attr("disabled", "disabled");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            $.each(data.removes, function () {
+                $("table[month=" + this.month + "] tr[schedule=" + this.schedule + "] td[day=" + this.day + "]").children().remove();
+            });
+        }
+        $(".schedule-remove").remove();
+        $(".schedule-selected").removeClass("schedule-selected");
+        $(".schedule-available").removeClass("schedule-available");
+
+    }).complete(function () {
+        $(".loading-timesheet").hide();
+        $(".table-container").css("opacity", 1).css("pointer-events", "auto");
+        $(".classroom_fk").removeAttr("disabled");
+        $(".btn-generate-timesheet").removeAttr("disabled");
+    });
+});
+
+$(document).on("click", ".schedule-add", function (e) {
+    e.stopPropagation();
+    $(".add-schedule-alert").addClass("no-show");
+    $(".modal-replicate-actions").prop("checked", $(".replicate-actions").is(":checked"));
+    $(".add-schedule-month").val($(this).closest("table").attr("month"));
+    $(".add-schedule-day").val($(this).closest("td").attr("day"));
+    $(".add-schedule-weekday").val($(this).closest("td").attr("week_day"));
+    $(".add-schedule-schedule").val($(this).closest("tr").attr("schedule"));
+    $(".modal-add-schedule-discipline").val("").trigger("change.select2");
+    $("#addSchedule").modal("show");
+});
+
+$(document).on("click", ".btn-add-schedule", function () {
+    if ($("select.modal-add-schedule-discipline").val() !== "") {
+        $(".add-schedule-alert").addClass("no-show");
+        $("#addSchedule").modal("hide");
+        $.ajax({
+            url: addScheduleURL,
+            type: "POST",
+            data: {
+                classroomId: $("select.classroom-id").val(),
+                disciplineId: $("select.modal-add-schedule-discipline").val(),
+                schedule: {
+                    month: $(".add-schedule-month").val(),
+                    day: $(".add-schedule-day").val(),
+                    week_day: $(".add-schedule-weekday").val(),
+                    schedule: $(".add-schedule-schedule").val()
+                },
+                replicate: $(".modal-replicate-actions").is(":checked") ? 1 : 0
+            }, beforeSend: function () {
+                $(".loading-timesheet").css("display", "inline-block");
+                $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
+                $(".classroom_fk").attr("disabled", "disabled");
+                $(".btn-generate-timesheet").attr("disabled", "disabled");
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            if (data.valid) {
+                $.each(data.adds, function () {
+                    var discipline = changeNameLength(this.disciplineName, 30);
+                    $(".table-month[month=" + this.month + "] tbody").find("tr[schedule=" + this.schedule + "]").find("td[day=" + this.day + "]").html("" +
+                        "<div schedule='" + this.id + "' class='schedule-block'>" +
+                        "<p class='discipline-name' discipline_id='" + this.disciplineId + "' title='" + this.disciplineName + "'>" + discipline + "</p>" +
+                        "</div>"
+                    );
+                });
+            }
+            $(".schedule-add").remove();
+            $(".schedule-selected").removeClass("schedule-selected");
+            $(".schedule-available").removeClass("schedule-available");
+        }).complete(function () {
+            $(".loading-timesheet").hide();
+            $(".table-container").css("opacity", 1).css("pointer-events", "auto");
+            $(".classroom_fk").removeAttr("disabled");
+            $(".btn-generate-timesheet").removeAttr("disabled");
+        });
+    } else {
+        $(".add-schedule-alert").removeClass("no-show");
+    }
+});
+
+function swapSchedule(firstSchedule, secondSchedule) {
     $.ajax({
         url: changeSchedulesURL,
         type: "POST",
@@ -208,9 +327,9 @@ function changeSchedule(firstSchedule, secondSchedule) {
                 $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
             });
         }
+        $(".schedule-remove, .schedule-add").remove();
         $(".schedule-selected").removeClass("schedule-selected");
         $(".schedule-available").removeClass("schedule-available");
-
     }).complete(function () {
         $(".loading-timesheet").hide();
         $(".table-container").css("opacity", 1).css("pointer-events", "auto");
@@ -252,8 +371,9 @@ $(document).on("click", "#change-instructor-button", function () {
             schedule: $("#change-instructor-schedule").val(),
             instructor: $("#change-instructor-id").val()
         }
-    }).success(function (result) {
-        getTimesheet(result);
+    }).success(function (data) {
+        data = JSON.parse(data);
+        getTimesheet(data);
         $("#change-instructor-modal").modal("hide");
     });
 });

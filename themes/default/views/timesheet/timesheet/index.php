@@ -10,10 +10,13 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
 $cs->registerScript("vars",
     "var getTimesheetURL = '" . $this->createUrl("getTimesheet") . "'; " .
+    "var removeScheduleURL = '" . $this->createUrl("removeSchedule") . "'; " .
+    "var addScheduleURL = '" . $this->createUrl("addSchedule") . "'; " .
     "var generateTimesheetURL = '" . $this->createUrl("generateTimesheet") . "'; " .
     "var changeSchedulesURL = '" . $this->createUrl("changeSchedules") . "'; " .
     "var getInstructorsUrl = '" . $this->createUrl("getInstructors") . "'; " .
     "var changeInstructorUrl = '" . $this->createUrl("changeInstructor") . "'; ", CClientScript::POS_HEAD);
+
 $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'));
 ?>
 
@@ -78,7 +81,8 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <?php $lastMonthWeek = 1; ?>
                 <?php for ($month = 1; $month <= 12; $month++): ?>
                     <div class="table-responsive">
-                        <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>" first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>"
+                        <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>"
+                               first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>"
                                class="table-timesheet table-month table table-bordered table-striped table-hover">
                             <thead>
                             <tr>
@@ -179,7 +183,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             echo $html; ?>
         </div>
     </div>
-    <div class="alert alert-warning display-hide">
+    <div class="loading-alert alert alert-warning display-hide">
         Para conseguir gerar um quadro de horário para essa turma:
         <br>1- crie um <b>calendário</b> para o ano presente, selecionado como atual, com os eventos de início e fim de
         ano escolar registrados;</li>
@@ -327,3 +331,41 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="addSchedule" tabindex="-1" role="dialog"
+     aria-labelledby="Add Schedule">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("timesheetModule.index", "Add Schedule") ?></h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="add-schedule-alert alert alert-error">Selecione uma disciplina.</div>
+                    <input type="hidden" class="add-schedule-month">
+                    <input type="hidden" class="add-schedule-day">
+                    <input type="hidden" class="add-schedule-weekday">
+                    <input type="hidden" class="add-schedule-schedule">
+                    <div class="modal-add-schedule-discipline-container">
+                        <select class="modal-add-schedule-discipline"></select>
+                    </div>
+                    <div class="checkbox modal-replicate-actions-container">
+                        <input type="checkbox" class="modal-replicate-actions" checked> Replicar alterações para todas
+                        as semanas
+                        subsequentes
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal"><?= yii::t("timesheetModule.index", "Cancel") ?></button>
+                    <button type="button"
+                            class="btn btn-primary btn-add-schedule"><?= yii::t("timesheetModule.index", "Add") ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

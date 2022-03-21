@@ -201,6 +201,10 @@ class TimesheetController extends Controller
             $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [
                 ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school
             ]);
+            $response["disciplines"] = [];
+            foreach ($curricularMatrix as $cm) {
+                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name]);
+            }
             $hasMatrix = $curricularMatrix != null;
 
             if ($classroomId != "") {
@@ -208,14 +212,14 @@ class TimesheetController extends Controller
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
                 if (count($schedules) == 0) {
                     if ($hasMatrix) {
-                        $response = ["valid" => FALSE];
+                        $response["valid"] = FALSE;
                     } else {
-                        $response = ["valid" => FALSE, "error" => "curricularMatrix"];
+                        $response["valid"] = FALSE;
+                        $response["error"] = "curricularMatrix";
                     }
                 } else {
-                    $response = [
-                        "valid" => TRUE, "schedules" => [],
-                    ];
+                    $response["valid"] = TRUE;
+                    $response["schedules"] = [];
                     foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {
 //                        $response["schedules"][$schedule->month] = [];
@@ -251,7 +255,7 @@ class TimesheetController extends Controller
                     }
                 }
             } else {
-                $response = ["valid" => NULL];
+                $response["valid"] = NULL;
             }
         } else {
             $response = ["valid" => FALSE, "error" => "calendar"];
@@ -442,8 +446,8 @@ class TimesheetController extends Controller
                             $sc = new Schedule();
                             $sc->discipline_fk = $discipline;
                             $sc->classroom_fk = $classroomId;
-                            $sc->day = $date->format("d");
-                            $sc->month = $date->format("m");
+                            $sc->day = $date->format("j");
+                            $sc->month = $date->format("n");
                             $sc->week = $date->format("W");
                             $sc->week_day = $schedule->week_day;
                             $sc->schedule = $schedule->schedule;
@@ -498,13 +502,13 @@ class TimesheetController extends Controller
             } else if ($firstSchedule != null || $secondSchedule != null) {
                 $firstScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["firstSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["firstSchedule"]["day"]);
                 $secondScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["secondSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["secondSchedule"]["day"]);
-                $daysDiff = $firstScheduleDate->diff($secondScheduleDate)->format('%r%a');
                 if ($secondSchedule != null) {
+                    $daysDiff = $secondScheduleDate->diff($firstScheduleDate)->format('%r%a');
                     $date = new Datetime(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $secondSchedule->day);
                     $date->modify($daysDiff . " day");
 
                     array_push($changes, [
-                        "firstSchedule" => ["day" => $date->format('j'), "month" => $date->format('m'), "schedule" => $_POST["firstSchedule"]["schedule"]],
+                        "firstSchedule" => ["day" => $date->format('j'), "month" => $date->format('n'), "schedule" => $_POST["firstSchedule"]["schedule"]],
                         "secondSchedule" => ["day" => $secondSchedule->day, "month" => $secondSchedule->month, "schedule" => $secondSchedule->schedule]
                     ]);
 
@@ -514,6 +518,7 @@ class TimesheetController extends Controller
                     $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
                     $secondSchedule->save();
                 } else {
+                    $daysDiff = $firstScheduleDate->diff($secondScheduleDate)->format('%r%a');
                     $date = new Datetime(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $firstSchedule->day);
                     $date->modify($daysDiff . " day");
 
@@ -531,6 +536,64 @@ class TimesheetController extends Controller
             }
         }
         echo json_encode(["valid" => true, "changes" => $changes]);
+    }
+
+    public function actionRemoveSchedule()
+    {
+        $removes = [];
+        $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["schedule"]["day"], 'month' => $_POST["schedule"]["month"], 'schedule' => $_POST["schedule"]["schedule"]));
+        $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange["week"];
+        for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
+            $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
+            if ($schedule != null) {
+                array_push($removes, ["day" => $schedule->day, "month" => $schedule->month, "schedule" => $schedule->schedule]);
+                $schedule->delete();
+            }
+        }
+        echo json_encode(["valid" => true, "removes" => $removes]);
+    }
+
+    public function actionAddSchedule()
+    {
+        $adds = [];
+
+        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
+        $turn = $classroom->initial_hour < 12 ? 0 : ($classroom->initial_hour >= 12 && $classroom->initial_hour < 19 ? 1 : 2);
+
+        $lastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
+        $date = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
+
+        $weekOfTheChange = $date->format("W");
+        $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange;
+        for ($week = $weekOfTheChange; $week <= $weekLimit; $week++) {
+            if ($date->format("Y-m-d") <= $lastDay["end_date"]) {
+                $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
+                if ($schedule == null) {
+                    $schedule = new Schedule();
+                    $schedule->discipline_fk = $_POST["disciplineId"];
+                    $schedule->classroom_fk = $_POST["classroomId"];
+                    $schedule->day = $date->format("j");
+                    $schedule->month = $date->format("n");
+                    $schedule->week = $week;
+                    $schedule->week_day = $_POST["schedule"]["week_day"];
+                    $schedule->schedule = $_POST["schedule"]["schedule"];
+                    $schedule->turn = $turn;
+                    $schedule->save();
+                    array_push($adds, [
+                        "id" => $schedule->id,
+                        "day" => $schedule->day,
+                        "month" => $schedule->month,
+                        "schedule" => $schedule->schedule,
+                        "disciplineId" => $schedule->discipline_fk,
+                        "disciplineName" => $schedule->disciplineFk->name,
+                    ]);
+                }
+                $date->modify("+7 days");
+            } else {
+                break;
+            }
+        }
+        echo json_encode(["valid" => true, "adds" => $adds]);
     }
 
     public function actionGetInstructors()
