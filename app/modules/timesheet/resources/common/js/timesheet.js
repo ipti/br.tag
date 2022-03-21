@@ -253,6 +253,16 @@ $(document).on("click", ".schedule-add", function (e) {
     $("#addSchedule").modal("show");
 });
 
+$(document).on("click", ".replicate-actions-container", function (e) {
+    if (e.target === this) {
+        $(this).find(".replicate-actions-checkbox").prop("checked", !$(this).find(".replicate-actions-checkbox").is(":checked")).trigger("change");
+    }
+});
+
+$(document).on("change", ".replicate-actions-checkbox", function (e) {
+    $(".replicate-actions-checkbox").prop("checked", $(this).is(":checked"));
+});
+
 $(document).on("click", ".btn-add-schedule", function () {
     if ($("select.modal-add-schedule-discipline").val() !== "") {
         $(".add-schedule-alert").addClass("no-show");
@@ -300,6 +310,12 @@ $(document).on("click", ".btn-add-schedule", function () {
     } else {
         $(".add-schedule-alert").removeClass("no-show");
     }
+});
+
+$(document).on('click', ".cancel-add-schedule", function () {
+    $(".schedule-add").remove();
+    $(".schedule-selected").removeClass("schedule-selected");
+    $(".schedule-available").removeClass("schedule-available");
 });
 
 function swapSchedule(firstSchedule, secondSchedule) {

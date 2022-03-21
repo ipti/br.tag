@@ -72,8 +72,8 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
     <div class="row-fluid table-container">
         <div class="span12">
             <span id="turn"></span>
-            <div class="span12 checkbox replicate-actions-container">
-                <input type="checkbox" class="replicate-actions" checked> Replicar alterações para todas as semanas
+            <div class="checkbox replicate-actions-container">
+                <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações para todas as semanas
                 subsequentes
             </div>
             <div class="clear"></div>
@@ -337,7 +337,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                <button type="button" class="cancel-add-schedule close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"
                     id="myModalLabel"><?= yii::t("timesheetModule.index", "Add Schedule") ?></h4>
@@ -353,13 +353,13 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                         <select class="modal-add-schedule-discipline"></select>
                     </div>
                     <div class="checkbox modal-replicate-actions-container">
-                        <input type="checkbox" class="modal-replicate-actions" checked> Replicar alterações para todas
+                        <input type="checkbox" class="replicate-actions-checkbox modal-replicate-actions" checked> Replicar alterações para todas
                         as semanas
                         subsequentes
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
+                    <button type="button" class="cancel-add-schedule btn btn-default"
                             data-dismiss="modal"><?= yii::t("timesheetModule.index", "Cancel") ?></button>
                     <button type="button"
                             class="btn btn-primary btn-add-schedule"><?= yii::t("timesheetModule.index", "Add") ?></button>

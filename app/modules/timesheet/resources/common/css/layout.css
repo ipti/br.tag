@@ -155,7 +155,7 @@ table.table-timesheet td {
     display: block;
     font-size: 30px;
     font-weight: bold;
-    margin: 20px 0 0;
+    margin: 20px 0 30px;
     text-align: center;
 }
 
@@ -219,8 +219,17 @@ table.table-timesheet td {
 }
 
 .replicate-actions-container {
-    display: none;
-    margin: 15px 0 0px 0px !important;
+    display: block;
+    position: fixed;
+    top: 126px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #333;
+    z-index: 1000;
+    padding: 10px 10px 10px 30px !important;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
 }
 
 .table-month tbody td {
