@@ -407,7 +407,7 @@ class TimesheetController extends Controller
             $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
         }
         $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange["week"];
-        $unavailableSchedulesToPurge = [];
+        $schedulesToCheckUnavailability = [];
         for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
             $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["firstSchedule"]["week_day"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
             $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["secondSchedule"]["week_day"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
@@ -435,6 +435,9 @@ class TimesheetController extends Controller
 
                 $firstSchedule->save();
                 $secondSchedule->save();
+
+                array_push($schedulesToCheckUnavailability, $firstSchedule);
+                array_push($schedulesToCheckUnavailability, $secondSchedule);
             } else if ($firstSchedule != null || $secondSchedule != null) {
                 $firstScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["firstSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["firstSchedule"]["day"]);
                 $secondScheduleDate = new Datetime(Yii::app()->user->year . "-" . str_pad($_POST["secondSchedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["secondSchedule"]["day"]);
@@ -453,6 +456,8 @@ class TimesheetController extends Controller
                     $secondSchedule->week_day = $_POST["firstSchedule"]["week_day"];
                     $secondSchedule->schedule = $_POST["firstSchedule"]["schedule"];
                     $secondSchedule->save();
+
+                    array_push($schedulesToCheckUnavailability, $secondSchedule);
                 } else {
                     $daysDiff = $firstScheduleDate->diff($secondScheduleDate)->format('%r%a');
                     $date = new Datetime(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . $firstSchedule->day);
@@ -468,15 +473,18 @@ class TimesheetController extends Controller
                     $firstSchedule->week_day = $_POST["secondSchedule"]["week_day"];
                     $firstSchedule->schedule = $_POST["secondSchedule"]["schedule"];
                     $firstSchedule->save();
+
+                    array_push($schedulesToCheckUnavailability, $firstSchedule);
                 }
             }
         }
         $unavailableDays = $this->getUnavailableDays(true);
-//        foreach($unavailableSchedulesToRemove as $unavailableScheduleToRemove) {
-//            if (in_array(Yii::app()->user->year . "", ,$unavailableDays)) {
-//                $unavailableScheduleToRemove->delete();
-//            }
-//        }
+        foreach ($schedulesToCheckUnavailability as $scheduleToCheckUnavailability) {
+            $dateStr = Yii::app()->user->year . "-" . str_pad($scheduleToCheckUnavailability->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($scheduleToCheckUnavailability->day, 2, "0", STR_PAD_LEFT);
+            if (in_array($dateStr, $unavailableDays)) {
+                $scheduleToCheckUnavailability->delete();
+            }
+        }
         echo json_encode(["valid" => true, "changes" => $changes]);
     }
 

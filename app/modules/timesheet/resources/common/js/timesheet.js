@@ -326,6 +326,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                 $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").html(secondScheduleBlock);
                 $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
             });
+            $("td.schedule-unavailable").children().remove();
         }
         $(".schedule-remove, .schedule-add").remove();
         $(".schedule-selected").removeClass("schedule-selected");
