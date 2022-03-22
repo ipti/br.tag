@@ -164,7 +164,7 @@ table.table-timesheet td {
     opacity: 1 !important;
 }
 
-.schedule-selected, .schedule-selected:hover {
+.tables-timesheet .table-month .schedule-selected, .schedule-selected:hover {
     background-color: rgba(173, 216, 230, 1) !important;
 }
 
@@ -176,9 +176,18 @@ table.table-timesheet td {
     display: inline-block !important;
 }
 
+.tables-timesheet .hard-unavailable {
+    background: #aaa !important;
+    cursor: default;
+}
+
+.tables-timesheet .soft-unavailable {
+    background: #ddd !important;
+}
+
 .schedule-available {
-    background-color: #ddd !important;
-    opacity: 0.8;
+    background-color: #eee !important;
+    opacity: 0.7;
 }
 
 .edit-instructor {
@@ -284,9 +293,4 @@ table.table-timesheet td {
 
 .modal-add-schedule-discipline-container {
     margin-bottom: 10px;
-}
-
-.tables-timesheet .schedule-unavailable {
-    background: #aaa !important;
-    cursor: default;
 }
