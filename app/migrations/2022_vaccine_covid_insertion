@@ -1,0 +1,12 @@
+ALTER TABLE `vaccine`
+ADD `code` varchar(10) COLLATE 'utf8_general_ci' NULL AFTER `name`,
+CHANGE `updated_at` `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`;
+
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (dose única)', 'c19du', NULL, now(), now());
+
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (primeira dose)', 'c19pd', NULL, now(), now());
+
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (segunda dose)', 'c19sd', NULL, now(), now());

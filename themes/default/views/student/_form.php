@@ -536,11 +536,11 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group hide-responsive" id="vaccine">
                                 <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
-                                <div class="uniformjs margin-left">
+                                <div class="uniformjs margin-left vaccines-container">
                                     <?php foreach ($vaccines as $vaccine): ?>
                                         <label class="checkbox">
                                             <?= $vaccine->name; ?>
-                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null)); ?>
+                                            <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
                                         </label>
                                     <?php endforeach; ?>
                                 </div>

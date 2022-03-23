@@ -1,0 +1,14 @@
+delete from schedule;
+
+ALTER TABLE `schedule`
+CHANGE `week_day` `day` int(11) NOT NULL AFTER `classroom_fk`,
+ADD `month` int(11) NOT NULL AFTER `day`;
+
+ALTER TABLE `schedule`
+ADD `week_day` int(11) NOT NULL AFTER `month`;
+
+ALTER TABLE `schedule`
+ADD `week` int(11) NOT NULL AFTER `month`;
+
+ALTER TABLE `schedule`
+ADD `unavailable` int(11) NOT NULL;
