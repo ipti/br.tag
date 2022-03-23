@@ -103,7 +103,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     </th>
                                 <?php endfor; ?>
                             </tr>
-                            <tr class="dayname-row">
+                            <tr class="dayname-row"><!--vtnc-->
                                 <th></th>
                                 <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
                                 <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
