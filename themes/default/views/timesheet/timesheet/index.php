@@ -103,7 +103,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     </th>
                                 <?php endfor; ?>
                             </tr>
-                            <tr class="dayname-row"><!--vtnc-->
+                            <tr class="dayname-row">
                                 <th></th>
                                 <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
                                 <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
@@ -127,7 +127,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     $week = $lastMonthWeek;
                                     ?>
                                     <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                        <td class="<?= ($unavailableDays[$month] != null && in_array($day, $unavailableDays[$month]) ? "schedule-unavailable" : "") ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
+                                        <?php
+                                        $hardUnavailableDay = isset($hardUnavailableDays[$month]) && in_array($day, $hardUnavailableDays[$month]);
+                                        $softUnavailableDay = isset($softUnavailableDays[$month]) && in_array($day, $softUnavailableDays[$month]);
+                                        ?>
+                                        <td class="<?= $hardUnavailableDay ? "hard-unavailable" : "" ?><?= $softUnavailableDay ? "soft-unavailable" : "" ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
                                         <?php
                                         if ($weekDayCount == 6) {
                                             $weekDayCount = 0;
