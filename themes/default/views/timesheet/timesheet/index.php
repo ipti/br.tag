@@ -76,6 +76,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações para todas as semanas
                 subsequentes
             </div>
+            <div class="workloads-container">
+                <i class="fa fa-chevron-right workloads-activator"></i>
+                <i class="fa fa-exclamation-triangle workloads-overflow"></i>
+                <div class="workloads"></div>
+            </div>
             <div class="clear"></div>
             <div class="tables-timesheet">
                 <?php $lastMonthWeek = 1; ?>

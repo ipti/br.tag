@@ -166,7 +166,7 @@ class TimesheetController extends Controller
             ]);
             $response["disciplines"] = [];
             foreach ($curricularMatrix as $cm) {
-                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name]);
+                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workload" => $cm->workload]);
             }
             $hasMatrix = $curricularMatrix != null;
 

@@ -18,8 +18,8 @@ $(document).on("change", "#classroom_fk", function () {
             data = JSON.parse(data);
             getTimesheet(data);
             var html = "<option></option>";
-            $.each(data.disciplines, function () {
-                html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
+            $.each(data.disciplines, function (index, value) {
+                html += "<option value='" + index + "'>" + value.disciplineName + "</option>";
             });
             $(".modal-add-schedule-discipline").html(html);
             $(".modal-add-schedule-discipline").select2('destroy');
@@ -88,6 +88,7 @@ function getTimesheet(data) {
             $(".table-container").hide();
         } else {
             $(".tables-timesheet tbody tr td").children().remove();
+            calculateWorkload(data.disciplines);
         }
     } else {
         $(".tables-timesheet tbody").children().remove();
@@ -124,8 +125,8 @@ function getTimesheet(data) {
                         //         " conflitos neste horário.' class='fa fa-exclamation-triangle conflict-icon darkgoldenrod'></i>";
                         html += "" +
                             "<td class='" + (hardUnavailableDay ? "hard-unavailable" : "") + (softUnavailableDay ? "soft-unavailable" : "") + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
-                            "<div schedule='" + data.schedules[month][schedule][day].id + "' class='schedule-block'>" +
-                            "<p class='discipline-name' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
+                            "<div schedule='" + data.schedules[month][schedule][day].id + "' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "'class='schedule-block'>" +
+                            "<p class='discipline-name' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
                             // "<p class='instructor-name' instructor_id='" + info.instructorInfo.id + "' title='" + info.instructorInfo.name + "'>" +
                             // instructor +
                             // "<i class='fa fa-pencil edit-instructor'></i></p>" +
@@ -150,9 +151,37 @@ function getTimesheet(data) {
             }
             $(".tables-timesheet table[month=" + month + "] tbody").html(html);
         }
+        calculateWorkload(data.disciplines);
         $("#turn").text(turn).show();
         $(".table-container").show();
     }
+}
+
+function calculateWorkload(disciplines) {
+    var hasOverflow = false;
+    disciplines = sortResults(disciplines, "disciplineName", true);
+    var html = "";
+    $.each(disciplines, function (index, value) {
+        var workloadUsed = Number($(".tables-timesheet tbody").find("td:not(.soft-unavailable)").find(".schedule-block[discipline_id=" + index + "]").length);
+        var workloadTotal = Number(value.workload);
+        if (!hasOverflow) {
+            hasOverflow = workloadUsed > workloadTotal;
+        }
+        html += "<div class='workload " + (hasOverflow ? "workload-overflowed" : "") + "' discipline-id='" + index + "'><label>" + value.disciplineName + "</label><span class='workload-used'>" + workloadUsed + "</span><span class='workload-total'>/" + workloadTotal + "</span></div>";
+    });
+    $(".workloads").html(html);
+    hasOverflow ? $(".workloads-overflow").show() : $(".workloads-overflow").hide();
+}
+
+function sortResults(array, prop, asc) {
+    array.sort(function (a, b) {
+        if (asc) {
+            return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+        } else {
+            return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+        }
+    });
+    return array;
 }
 
 function changeNameLength(name, limit) {
@@ -233,7 +262,6 @@ $(document).on("click", ".schedule-remove", function (e) {
         $(".schedule-remove").remove();
         $(".schedule-selected").removeClass("schedule-selected");
         $(".schedule-available").removeClass("schedule-available");
-
     }).complete(function () {
         $(".loading-timesheet").hide();
         $(".table-container").css("opacity", 1).css("pointer-events", "auto");
@@ -293,8 +321,8 @@ $(document).on("click", ".btn-add-schedule", function () {
                 $.each(data.adds, function () {
                     var discipline = changeNameLength(this.disciplineName, 30);
                     $(".table-month[month=" + this.month + "] tbody").find("tr[schedule=" + this.schedule + "]").find("td[day=" + this.day + "]").html("" +
-                        "<div schedule='" + this.id + "' class='schedule-block'>" +
-                        "<p class='discipline-name' discipline_id='" + this.disciplineId + "' title='" + this.disciplineName + "'>" + discipline + "</p>" +
+                        "<div schedule='" + this.id + "' discipline_id='" + this.disciplineId + "' class='schedule-block'>" +
+                        "<p class='discipline-name' title='" + this.disciplineName + "'>" + discipline + "</p>" +
                         "</div>"
                     );
                 });
@@ -355,6 +383,16 @@ function swapSchedule(firstSchedule, secondSchedule) {
         $(".btn-generate-timesheet").removeAttr("disabled");
     });
 }
+
+$(document).on("click", ".workloads-activator", function () {
+    if ($(".workloads-activator").hasClass("fa-chevron-right")) {
+        $(".workloads-activator").addClass("fa-chevron-left").removeClass("fa-chevron-right");
+        $(".workloads").show();
+    } else {
+        $(".workloads-activator").addClass("fa-chevron-right").removeClass("fa-chevron-left");
+        $(".workloads").hide();
+    }
+});
 
 $(document).on("click", ".schedule-selected .instructor-name", function () {
     var instructorId = $(this).attr("instructor_id");

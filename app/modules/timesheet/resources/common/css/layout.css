@@ -227,20 +227,6 @@ table.table-timesheet td {
     text-align: justify;
 }
 
-.replicate-actions-container {
-    display: block;
-    position: fixed;
-    top: 126px;
-    right: 10px;
-    background: #fff;
-    border: 1px solid #333;
-    z-index: 1000;
-    padding: 10px 10px 10px 30px !important;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    cursor: pointer;
-}
-
 .table-month tbody td {
     cursor: pointer;
     position: relative;
@@ -293,4 +279,70 @@ table.table-timesheet td {
 
 .modal-add-schedule-discipline-container {
     margin-bottom: 10px;
+}
+
+.replicate-actions-container {
+    display: block;
+    position: fixed;
+    top: 126px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #333;
+    z-index: 1000;
+    padding: 10px 10px 10px 30px !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+
+.replicate-actions-container:hover {
+    background: #eee;
+}
+
+.workloads-container {
+    display: block;
+    position: fixed;
+    top: 180px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.workloads-activator {
+    background: #fff;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+    font-size: 20px !important;
+    border-bottom-right-radius: 6px;
+}
+
+.workloads-container .workloads-overflow {
+    color: red;
+    position: absolute;
+    right: 41px;
+    top: 29px;
+    background: white;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 15px;
+    display: none;
+}
+
+.workloads-activator:hover {
+    background: #eee;
+}
+
+.workloads {
+    position: fixed;
+    top: 180px;
+    right: 80px;
+    background: #fff;
+    border: 1px solid;
+    z-index: 1000;
+    width: 314px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: none;
 }
