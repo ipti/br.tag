@@ -341,8 +341,54 @@ table.table-timesheet td {
     background: #fff;
     border: 1px solid;
     z-index: 1000;
-    width: 314px;
+    width: 295px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     display: none;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.workloads-title {
+    text-align: center;
+    padding: 8px 0px;
+    color: white;
+    margin: -10px -10px 10px;
+    font-weight: bold;
+    background: #496cad;
+}
+
+.workload {
+    font-size: 14px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.workload:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.workload-discipline {
+    display: inline-block;
+    width: 80%;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.workload-numbers {
+    display: inline-block;
+    width: 20%;
+    font-style: italic;
+    text-align: right;
+}
+
+.workload-red {
+    color: darkred;
+}
+
+.workload-green {
+    color: green;
 }

@@ -166,7 +166,7 @@ class TimesheetController extends Controller
             ]);
             $response["disciplines"] = [];
             foreach ($curricularMatrix as $cm) {
-                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workload" => $cm->workload]);
+                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload]);
             }
             $hasMatrix = $curricularMatrix != null;
 
@@ -208,6 +208,11 @@ class TimesheetController extends Controller
                             "countConflicts" => 0
                         ];
 //                    }
+
+                        if (!$schedule->unavailable) {
+                            $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
+                            $response["disciplines"][$cmKey]["workloadUsed"]++;
+                        }
 
                         $response["schedules"][$schedule->month][$schedule->schedule][$schedule->day] = [
                             "id" => $schedule->id,
@@ -440,6 +445,7 @@ class TimesheetController extends Controller
     public function actionChangeSchedules()
     {
         $changes = [];
+        $disciplines = [];
         $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["firstSchedule"]["day"], 'month' => $_POST["firstSchedule"]["month"], 'schedule' => $_POST["firstSchedule"]["schedule"]));
         if ($weekOfTheChange == null) {
             $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["secondSchedule"]["day"], 'month' => $_POST["secondSchedule"]["month"], 'schedule' => $_POST["secondSchedule"]["schedule"]));
@@ -472,8 +478,25 @@ class TimesheetController extends Controller
                 $secondSchedule->schedule = $firstSchedule->schedule;
                 $firstSchedule->schedule = $tmpSchedule;
 
-                $firstSchedule->unavailable = in_array(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($firstSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays) ? 1 : 0;
-                $secondSchedule->unavailable = in_array(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($secondSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays) ? 1 : 0;
+                $firstScheduleUnavailable = in_array(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($firstSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays);
+                $secondScheduleUnavailable = in_array(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($secondSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays);
+//                if (($firstScheduleUnavailable && !$secondScheduleUnavailable) || ($firstScheduleUnavailable && !$secondScheduleUnavailable)) {
+//                    $firstScheduleKey = array_search($firstSchedule->discipline_fk, array_column($disciplines, 'disciplineId'));
+//                    if ($firstScheduleKey === false) {
+//                        array_push($disciplines, ["disciplineId" => $firstSchedule->discipline_fk, "workloadUsed" => $firstScheduleUnavailable && !$secondScheduleUnavailable ? -1 : 1]);
+//                    } else {
+//                        $disciplines[$firstScheduleKey]["workloadUsed"] = $disciplines[$firstScheduleKey]["workloadUsed"] + ($firstScheduleUnavailable && !$secondScheduleUnavailable ? -1 : 1);
+//                    }
+//                    $secondScheduleKey = array_search($secondSchedule->discipline_fk, array_column($disciplines, 'disciplineId'));
+//                    if ($secondScheduleKey === false) {
+//                        array_push($disciplines, ["disciplineId" => $secondSchedule->discipline_fk, "workloadUsed" => $firstScheduleUnavailable && !$secondScheduleUnavailable ? 1 : -1]);
+//                    } else {
+//                        $disciplines[$secondScheduleKey]["workloadUsed"] = $disciplines[$secondScheduleKey]["workloadUsed"] + ($firstScheduleUnavailable && !$secondScheduleUnavailable ? 1 : -1);
+//                    }
+//                }
+
+                $firstSchedule->unavailable = $firstScheduleUnavailable ? 1 : 0;
+                $secondSchedule->unavailable = $secondScheduleUnavailable ? 1 : 0;
 
                 $firstSchedule->save();
                 $secondSchedule->save();
@@ -529,27 +552,55 @@ class TimesheetController extends Controller
                 $scheduleToCheckUnavailability->delete();
             }
         }
-        echo json_encode(["valid" => true, "changes" => $changes]);
+
+
+//        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
+//        $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [
+//            ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school
+//        ]);
+//        foreach ($curricularMatrix as $cm) {
+//            array_push($disciplines, ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload]);
+//        }
+//        $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $_POST["classroomId"]]);
+//        foreach ($schedules as $schedule) {
+//            if (!$schedule->unavailable) {
+//                $cmKey = array_search($schedule["discipline_fk"], array_column($disciplines, 'disciplineId'));
+//                $disciplines[$cmKey]["workloadUsed"]++;
+//            }
+//        }
+
+        echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $disciplines]);
     }
 
     public function actionRemoveSchedule()
     {
         $removes = [];
+        $disciplines = [];
+
         $weekOfTheChange = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'day' => $_POST["schedule"]["day"], 'month' => $_POST["schedule"]["month"], 'schedule' => $_POST["schedule"]["schedule"]));
         $weekLimit = $_POST["replicate"] ? 53 : $weekOfTheChange["week"];
         for ($week = $weekOfTheChange["week"]; $week <= $weekLimit; $week++) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'week' => $week, 'week_day' => $_POST["schedule"]["week_day"], 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {
                 array_push($removes, ["day" => $schedule->day, "month" => $schedule->month, "schedule" => $schedule->schedule]);
+                if (!$schedule->unavailable) {
+                    $key = array_search($schedule->discipline_fk, array_column($disciplines, 'disciplineId'));
+                    if ($key === false) {
+                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -1]);
+                    } else {
+                        $disciplines[$key]["workloadUsed"]--;
+                    }
+                }
                 $schedule->delete();
             }
         }
-        echo json_encode(["valid" => true, "removes" => $removes]);
+        echo json_encode(["valid" => true, "removes" => $removes, "disciplines" => $disciplines]);
     }
 
     public function actionAddSchedule()
     {
         $adds = [];
+        $disciplines = [];
 
         $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
         $turn = $classroom->initial_hour < 12 ? 0 : ($classroom->initial_hour >= 12 && $classroom->initial_hour < 19 ? 1 : 2);
@@ -572,7 +623,17 @@ class TimesheetController extends Controller
                     $schedule->week = $week;
                     $schedule->week_day = $_POST["schedule"]["week_day"];
                     $schedule->schedule = $_POST["schedule"]["schedule"];
-                    $schedule->unavailable = in_array($date->format("Y-m-d"), $softUnavailableDays) ? 1 : 0;
+                    if (in_array($date->format("Y-m-d"), $softUnavailableDays)) {
+                        $schedule->unavailable = 1;
+                    } else {
+                        $schedule->unavailable = 0;
+                        $key = array_search($_POST["disciplineId"], array_column($disciplines, 'disciplineId'));
+                        if ($key === false) {
+                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => 1]);
+                        } else {
+                            $disciplines[$key]["workloadUsed"]++;
+                        }
+                    }
                     $schedule->turn = $turn;
                     $schedule->save();
                     array_push($adds, [
@@ -590,7 +651,7 @@ class TimesheetController extends Controller
                 break;
             }
         }
-        echo json_encode(["valid" => true, "adds" => $adds]);
+        echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
     }
 
     public function actionGetInstructorDisciplines($id)

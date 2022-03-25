@@ -79,7 +79,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             <div class="workloads-container">
                 <i class="fa fa-chevron-right workloads-activator"></i>
                 <i class="fa fa-exclamation-triangle workloads-overflow"></i>
-                <div class="workloads"></div>
+                <div class="workloads"><div class="workloads-title">Carga Horária</div></div>
             </div>
             <div class="clear"></div>
             <div class="tables-timesheet">

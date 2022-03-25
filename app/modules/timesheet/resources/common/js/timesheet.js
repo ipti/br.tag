@@ -18,8 +18,8 @@ $(document).on("change", "#classroom_fk", function () {
             data = JSON.parse(data);
             getTimesheet(data);
             var html = "<option></option>";
-            $.each(data.disciplines, function (index, value) {
-                html += "<option value='" + index + "'>" + value.disciplineName + "</option>";
+            $.each(data.disciplines, function () {
+                html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
             });
             $(".modal-add-schedule-discipline").html(html);
             $(".modal-add-schedule-discipline").select2('destroy');
@@ -88,7 +88,7 @@ function getTimesheet(data) {
             $(".table-container").hide();
         } else {
             $(".tables-timesheet tbody tr td").children().remove();
-            calculateWorkload(data.disciplines);
+            calculateWorkload(data.disciplines, false);
         }
     } else {
         $(".tables-timesheet tbody").children().remove();
@@ -151,26 +151,49 @@ function getTimesheet(data) {
             }
             $(".tables-timesheet table[month=" + month + "] tbody").html(html);
         }
-        calculateWorkload(data.disciplines);
+        calculateWorkload(data.disciplines, false);
         $("#turn").text(turn).show();
         $(".table-container").show();
     }
 }
 
-function calculateWorkload(disciplines) {
+function calculateWorkload(disciplines, increment) {
     var hasOverflow = false;
-    disciplines = sortResults(disciplines, "disciplineName", true);
-    var html = "";
-    $.each(disciplines, function (index, value) {
-        var workloadUsed = Number($(".tables-timesheet tbody").find("td:not(.soft-unavailable)").find(".schedule-block[discipline_id=" + index + "]").length);
-        var workloadTotal = Number(value.workload);
-        if (!hasOverflow) {
-            hasOverflow = workloadUsed > workloadTotal;
-        }
-        html += "<div class='workload " + (hasOverflow ? "workload-overflowed" : "") + "' discipline-id='" + index + "'><label>" + value.disciplineName + "</label><span class='workload-used'>" + workloadUsed + "</span><span class='workload-total'>/" + workloadTotal + "</span></div>";
-    });
-    $(".workloads").html(html);
-    hasOverflow ? $(".workloads-overflow").show() : $(".workloads-overflow").hide();
+    if (!increment) {
+        disciplines = sortResults(disciplines, "disciplineName", true);
+        var html = "";
+        $.each(disciplines, function () {
+            var workloadUsed = Number(this.workloadUsed);
+            var workloadTotal = Number(this.workloadTotal);
+            if (!hasOverflow) {
+                hasOverflow = workloadUsed > workloadTotal;
+            }
+            var workloadColor = workloadUsed > workloadTotal ? "workload-red" : (workloadUsed === workloadTotal ? "workload-green" : "");
+            html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div></div>";
+        });
+        $(".workloads").find(".workload").remove();
+        $(".workloads").append(html);
+    } else {
+        $.each(disciplines, function () {
+            var workload = $(".workload[discipline-id=" + this.disciplineId + "]");
+            var workloadUsed = Number(workload.find(".workload-used").text()) + Number(this.workloadUsed);
+            var workloadTotal = Number(workload.find(".workload-total").text());
+            if (!hasOverflow) {
+                hasOverflow = workloadUsed > workloadTotal;
+            }
+            workloadUsed > workloadTotal
+                ? workload.addClass("workload-red").removeClass("workload-green")
+                : (workloadUsed === workloadTotal ? workload.addClass("workload-green").removeClass("workload-red") : workload.removeClass("workload-red").removeClass("workload-green"));
+            workload.find(".workload-used").text(workloadUsed);
+        });
+    }
+    if (hasOverflow) {
+        $(".workloads-overflow").show();
+        $(".workloads-activator").addClass("fa-chevron-left").removeClass("fa-chevron-right");
+        $(".workloads").show();
+    } else {
+        $(".workloads-overflow").hide();
+    }
 }
 
 function sortResults(array, prop, asc) {
@@ -258,6 +281,7 @@ $(document).on("click", ".schedule-remove", function (e) {
             $.each(data.removes, function () {
                 $("table[month=" + this.month + "] tr[schedule=" + this.schedule + "] td[day=" + this.day + "]").children().remove();
             });
+            calculateWorkload(data.disciplines, true);
         }
         $(".schedule-remove").remove();
         $(".schedule-selected").removeClass("schedule-selected");
@@ -326,6 +350,7 @@ $(document).on("click", ".btn-add-schedule", function () {
                         "</div>"
                     );
                 });
+                calculateWorkload(data.disciplines, true);
             }
             $(".schedule-add").remove();
             $(".schedule-selected").removeClass("schedule-selected");
@@ -372,6 +397,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                 $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
             });
             $("td.hard-unavailable").children().remove();
+            calculateWorkload(data.disciplines, false);
         }
         $(".schedule-remove, .schedule-add").remove();
         $(".schedule-selected").removeClass("schedule-selected");
