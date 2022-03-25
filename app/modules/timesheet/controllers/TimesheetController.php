@@ -478,25 +478,8 @@ class TimesheetController extends Controller
                 $secondSchedule->schedule = $firstSchedule->schedule;
                 $firstSchedule->schedule = $tmpSchedule;
 
-                $firstScheduleUnavailable = in_array(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($firstSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays);
-                $secondScheduleUnavailable = in_array(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($secondSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays);
-//                if (($firstScheduleUnavailable && !$secondScheduleUnavailable) || ($firstScheduleUnavailable && !$secondScheduleUnavailable)) {
-//                    $firstScheduleKey = array_search($firstSchedule->discipline_fk, array_column($disciplines, 'disciplineId'));
-//                    if ($firstScheduleKey === false) {
-//                        array_push($disciplines, ["disciplineId" => $firstSchedule->discipline_fk, "workloadUsed" => $firstScheduleUnavailable && !$secondScheduleUnavailable ? -1 : 1]);
-//                    } else {
-//                        $disciplines[$firstScheduleKey]["workloadUsed"] = $disciplines[$firstScheduleKey]["workloadUsed"] + ($firstScheduleUnavailable && !$secondScheduleUnavailable ? -1 : 1);
-//                    }
-//                    $secondScheduleKey = array_search($secondSchedule->discipline_fk, array_column($disciplines, 'disciplineId'));
-//                    if ($secondScheduleKey === false) {
-//                        array_push($disciplines, ["disciplineId" => $secondSchedule->discipline_fk, "workloadUsed" => $firstScheduleUnavailable && !$secondScheduleUnavailable ? 1 : -1]);
-//                    } else {
-//                        $disciplines[$secondScheduleKey]["workloadUsed"] = $disciplines[$secondScheduleKey]["workloadUsed"] + ($firstScheduleUnavailable && !$secondScheduleUnavailable ? 1 : -1);
-//                    }
-//                }
-
-                $firstSchedule->unavailable = $firstScheduleUnavailable ? 1 : 0;
-                $secondSchedule->unavailable = $secondScheduleUnavailable ? 1 : 0;
+                $firstSchedule->unavailable = in_array(Yii::app()->user->year . "-" . str_pad($firstSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($firstSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays) ? 1 : 0;
+                $secondSchedule->unavailable = in_array(Yii::app()->user->year . "-" . str_pad($secondSchedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($secondSchedule->day, 2, "0", STR_PAD_LEFT), $softUnavailableDays) ? 1 : 0;
 
                 $firstSchedule->save();
                 $secondSchedule->save();
@@ -553,21 +536,13 @@ class TimesheetController extends Controller
             }
         }
 
-
-//        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
-//        $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [
-//            ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school
-//        ]);
-//        foreach ($curricularMatrix as $cm) {
-//            array_push($disciplines, ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload]);
-//        }
-//        $schedules = Schedule::model()->findAll("classroom_fk = :classroom", [":classroom" => $_POST["classroomId"]]);
-//        foreach ($schedules as $schedule) {
-//            if (!$schedule->unavailable) {
-//                $cmKey = array_search($schedule["discipline_fk"], array_column($disciplines, 'disciplineId'));
-//                $disciplines[$cmKey]["workloadUsed"]++;
-//            }
-//        }
+        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
+        $disciplines = Yii::app()->db->createCommand(
+            " select schedule.discipline_fk as disciplineId, edcenso_discipline.name as disciplineName, count(distinct schedule.id) as workloadUsed, curricular_matrix.workload as workloadTotal from schedule " .
+            " join curricular_matrix on curricular_matrix.discipline_fk = schedule.discipline_fk " .
+            " join edcenso_discipline on edcenso_discipline.id = schedule.discipline_fk " .
+            " where curricular_matrix.stage_fk = " . $classroom->edcenso_stage_vs_modality_fk . " and curricular_matrix.school_fk = " . Yii::app()->user->school . " and schedule.unavailable = 0 " .
+            " group by schedule.discipline_fk ")->queryAll();
 
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $disciplines]);
     }
