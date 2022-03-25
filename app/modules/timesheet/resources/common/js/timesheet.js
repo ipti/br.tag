@@ -178,14 +178,12 @@ function calculateWorkload(disciplines, increment) {
             var workload = $(".workload[discipline-id=" + this.disciplineId + "]");
             var workloadUsed = Number(workload.find(".workload-used").text()) + Number(this.workloadUsed);
             var workloadTotal = Number(workload.find(".workload-total").text());
-            if (!hasOverflow) {
-                hasOverflow = workloadUsed > workloadTotal;
-            }
             workloadUsed > workloadTotal
                 ? workload.addClass("workload-red").removeClass("workload-green")
                 : (workloadUsed === workloadTotal ? workload.addClass("workload-green").removeClass("workload-red") : workload.removeClass("workload-red").removeClass("workload-green"));
             workload.find(".workload-used").text(workloadUsed);
         });
+        hasOverflow = $(".workloads").find(".workload.workload-red").length;
     }
     if (hasOverflow) {
         $(".workloads-overflow").show();
