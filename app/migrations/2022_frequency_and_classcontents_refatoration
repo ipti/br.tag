@@ -1,0 +1,32 @@
+ALTER TABLE `class_faults`
+DROP FOREIGN KEY `fk_class_faults_1`;
+
+ALTER TABLE `class_faults`
+DROP INDEX `fk_class_faults_1`;
+
+ALTER TABLE `class_faults`
+DROP `class_fk`,
+CHANGE `schedule` `schedule_fk` int(11) NOT NULL AFTER `student_fk`;
+
+TRUNCATE TABLE `class_faults`;
+
+ALTER TABLE `class_faults`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_has_content`
+DROP FOREIGN KEY `fk_class_has_content_1`;
+
+ALTER TABLE `class_has_content`
+DROP INDEX `fk_class_has_content_1_idx`;
+
+ALTER TABLE `class_has_content`
+CHANGE `class_fk` `schedule_fk` int NOT NULL AFTER `id`;
+
+TRUNCATE TABLE `class_has_content`;
+
+ALTER TABLE `class_has_content`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DROP TABLE `class_class_objective`;
+
+DROP TABLE `class`;
