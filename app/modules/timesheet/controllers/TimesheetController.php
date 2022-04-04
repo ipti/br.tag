@@ -538,22 +538,14 @@ class TimesheetController extends Controller
 
         $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
         $workloads = Yii::app()->db->createCommand(
-            " select edcenso_discipline.id as disciplineId, edcenso_discipline.name as disciplineName, 0 as workloadUsed, curricular_matrix.workload as workloadTotal from curricular_matrix " .
+            " select " .
+            " edcenso_discipline.id as disciplineId, " .
+            " edcenso_discipline.name as disciplineName, " .
+            " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
+            " curricular_matrix.workload as workloadTotal " .
+            " from curricular_matrix " .
             " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
             " where curricular_matrix.stage_fk = " . $classroom->edcenso_stage_vs_modality_fk . " and curricular_matrix.school_fk = " . Yii::app()->user->school)->queryAll();
-        $schedules = Yii::app()->db->createCommand(
-            " select schedule.discipline_fk as disciplineId, count(schedule.id) as workloadUsed from schedule " .
-            " where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 " .
-            " group by disciplineId")->queryAll();
-        foreach ($workloads as &$workload) {
-            foreach ($schedules as $schedule) {
-                if ($workload["disciplineId"] == $schedule["disciplineId"]) {
-                    $workload["workloadUsed"] = $schedule["workloadUsed"];
-                    break;
-                }
-            }
-        }
-
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
 

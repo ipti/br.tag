@@ -71,7 +71,7 @@ class ClassesController extends Controller
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         }
         $this->render('classContents', array(
-            'model' => new Classes,
+            'model' => new Classes(),
             'classrooms' => $classrooms
         ));
     }
@@ -96,7 +96,6 @@ class ClassesController extends Controller
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         }
         $this->render('frequency', array(
-            'model' => new Classes(),
             'classrooms' => $classrooms
         ));
     }

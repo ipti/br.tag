@@ -15,8 +15,6 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 ?>
 
-<?php echo $form->errorSummary($model); ?>
-
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Frequency'); ?><span> | Marcar apenas faltas.</span>

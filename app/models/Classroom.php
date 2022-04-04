@@ -76,7 +76,6 @@
  * @property integer $calendar_fk
  *
  * The followings are the available model relations:
- * @property Classes[] $classes
  * @property ClassBoard[] $classBoards
  * @property Calendar $calendarFk
  * @property SchoolIdentification $schoolInepFk
@@ -137,7 +136,6 @@ class Classroom extends AltActiveRecord {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'classes' => array(self::HAS_MANY, 'Classes', 'classroom_fk'),
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
@@ -273,96 +271,6 @@ class Classroom extends AltActiveRecord {
             ),
         ));
     }
-
-    /**
-     * @param int $disciplineId
-     * @return Classes[]
-     */
-    public function getGivenClassesByDiscipline($disciplineId){
-        $classes = [];
-        foreach($this->classes as $class){
-            if($class->given_class == 1 && $class->discipline_fk == $disciplineId){
-                array_push($classes, $class);
-            }
-        }
-        return $classes;
-    }
-
-    public function getSchoolDaysByExam($exam){
-        /* @var $schoolConfiguration SchoolConfiguration */
-        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
-        $schoolDays = 0;
-        switch ($exam) {
-            case 1:
-                $initial = new DateTime("01/01/" . yii::app()->user->year);
-                $final = new DateTime($schoolConfiguration->exam1);
-                break;
-            case 2:
-                $initial = new DateTime($schoolConfiguration->exam1);
-                $final = new DateTime($schoolConfiguration->exam2);
-                break;
-            case 3:
-                $initial = new DateTime($schoolConfiguration->exam2);
-                $final = new DateTime($schoolConfiguration->exam3);
-                break;
-            case 4:
-                $initial = new DateTime($schoolConfiguration->exam3);
-                $final = new DateTime($schoolConfiguration->exam4);
-                break;
-            default:
-                return [];
-        }
-
-        $dateIndex = new DateTime("1-1-".yii::app()->user->year);
-        foreach ($this->classes as $class) {
-            $date = new DateTime($class->day."-".$class->month."-".yii::app()->user->year);
-            if ($date > $initial && $date <= $final && $class->given_class == 1) {
-                if($dateIndex->format("d-m") == "1-1")
-                    $schoolDays++;
-                else{
-                    if($dateIndex != $date){
-                        $dateIndex = $date;
-                        $schoolDays++;
-                    }
-                }
-            }
-        }
-        return $schoolDays;
-    }
-    public function getWorkingHoursByExam($exam){
-        /* @var $schoolConfiguration SchoolConfiguration */
-        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
-        $workingHours = 0;
-        switch ($exam) {
-            case 1:
-                $initial = new DateTime("01/01/" . yii::app()->user->year);
-                $final = new DateTime($schoolConfiguration->exam1);
-                break;
-            case 2:
-                $initial = new DateTime($schoolConfiguration->exam1);
-                $final = new DateTime($schoolConfiguration->exam2);
-                break;
-            case 3:
-                $initial = new DateTime($schoolConfiguration->exam2);
-                $final = new DateTime($schoolConfiguration->exam3);
-                break;
-            case 4:
-                $initial = new DateTime($schoolConfiguration->exam3);
-                $final = new DateTime($schoolConfiguration->exam4);
-                break;
-            default:
-                return [];
-        }
-
-        foreach ($this->classes as $class) {
-            $date = new DateTime($class->day."-".$class->month."-".yii::app()->user->year);
-            if ($date > $initial && $date <= $final && $class->given_class == 1) {
-                $workingHours++;
-            }
-        }
-        return $workingHours;
-    }
-
 
     public function getWorkingDaysByDiscipline($discipline){
         /* @var $schoolConfiguration SchoolConfiguration */

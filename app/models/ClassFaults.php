@@ -5,13 +5,12 @@
  *
  * The followings are the available columns in table 'class_faults':
  * @property integer $id
- * @property integer $class_fk
+ * @property integer $schedule_fk
  * @property integer $student_fk
- * @property integer $schedule
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property Classes $classFk
+ * @property Schedule $scheduleFk
  * @property StudentEnrollment $studentFk
  */
 class ClassFaults extends CActiveRecord
@@ -51,11 +50,11 @@ class ClassFaults extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('class_fk, student_fk, schedule', 'required'),
-			array('class_fk, student_fk, schedule', 'numerical', 'integerOnly'=>true),
+			array('schedule_fk, student_fk', 'required'),
+			array('schedule_fk, student_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, class_fk, student_fk, schedule', 'safe', 'on'=>'search'),
+			array('id, schedule_fk, student_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,7 +66,7 @@ class ClassFaults extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classFk' => array(self::BELONGS_TO, 'Classes', 'class_fk'),
+			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
 			'studentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'student_fk'),
 		);
 	}
@@ -79,9 +78,8 @@ class ClassFaults extends CActiveRecord
 	{
 		return array(
 			'id' => Yii::t('default', 'ID'),
-			'class_fk' => Yii::t('default', 'Class Fk'),
+			'schedule_fk' => Yii::t('default', 'Schedule Fk'),
 			'student_fk' => Yii::t('default', 'Student Fk'),
-			'schedule' => Yii::t('default', 'Schedule'),
 		);
 	}
 
@@ -97,9 +95,8 @@ class ClassFaults extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('class_fk',$this->class_fk);
+		$criteria->compare('schedule_fk',$this->schedule_fk);
 		$criteria->compare('student_fk',$this->student_fk);
-		$criteria->compare('schedule',$this->schedule);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
