@@ -69,8 +69,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <div class="alert-no-classroom-and-month no-show alert alert-error">
-        Os Campos de Turma e Mês são obrigatórios.
+    <div class="alert-required-fields no-show alert alert-error">
+        Os Campos com * são obrigatórios.
     </div>
     <div class="filter-bar margin-bottom-none">
         <div>
@@ -106,7 +106,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ?>
         </div>
         <div class="disciplines-container">
-            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
             <?php
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
@@ -121,15 +121,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
 
-    <div class="alert-incomplete-data alert alert-warning display-hide">
-        Para trazer um quadro de frequência com alunos e disciplinas, é preciso:
-        <ul>
-            <li>existir um <b>calendário</b> do ano presente, selecionado como atual, com os eventos de início e fim de ano escolar criados;</li>
-            <li>adicionar uma <b>matriz curricular</b>;</li>
-            <li>gerar um <b>quadro de horário</b>;</li>
-            <li>matricular <b>alunos</b> à turma.</li>
-        </ul>
-    </div>
+    <div class="alert-incomplete-data alert alert-warning display-hide"></div>
     <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
         <div class="widget-head">
             <h4 class="heading" id="frequency-student-name" style="text-align: center; float: none"></h4>
@@ -150,7 +142,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <?php //@done s2 - inabilitar checkbox quando vier checado    ?>
     <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
     <?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
+    var getClassesForFrequencyURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
     var getClassesURLSave = "<?php echo Yii::app()->createUrl('classes/saveFrequency') ?>";
 
 </script>
