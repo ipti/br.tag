@@ -117,19 +117,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
                 <i></i></a>
         </div>
+        <i class="loading-frequency fa fa-spin fa-spinner"></i>
     </div>
 
     <div class="alert-incomplete-data alert alert-warning display-hide"></div>
-    <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
-        <div class="widget-head">
-            <h4 class="heading" id="frequency-student-name" style="text-align: center; float: none"></h4>
-        </div>
-        <div class="table-scroll">
-            <table id="frequency" class="table table-bordered table-striped">
-            </table>
-        </div>
-    </div>
-    <div id="buttonsNexrPrev"></div>
+    <div id="frequency-container"></div>
     <?php $this->endWidget(); ?>
 </div>
 

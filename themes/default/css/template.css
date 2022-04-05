@@ -8721,6 +8721,54 @@ li.active a {
     background: #CCCCCC;
 }
 
+#frequency-container {
+    margin-top: 20px;
+}
+
+.table-frequency .table-title {
+    text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
+}
+
+.table-frequency .checkbox-row input[type=checkbox] {
+    -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+    box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+}
+
+.table-frequency thead th, .table-frequency tbody th {
+    text-align: center;
+}
+
+#frequency-container .table-frequency thead .dayname-row th, #frequency-container .table-frequency thead .schedule-row th {
+    font-weight: lighter;
+}
+
+.table-frequency .student-name {
+    font-style: italic;
+}
+
+.frequency-checkbox-container {
+    cursor: pointer;
+    text-align: center !important;
+}
+
+.frequency-checkbox {
+    width: 20px !important;
+    height: 20px;
+    margin-top: 0px !important;
+}
+
+.innerLR .loading-frequency {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+
 @media (max-width: 480px) {
     .table-responsive {
         display: block;

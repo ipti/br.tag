@@ -548,134 +548,76 @@ $(document).on("click", "#frequency > tbody > tr > td", function () {
 
 $("#classesSearch").on("click", function () {
     if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
-        $(".alert-required-fields").hide();
+        $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
             type: "POST",
             url: getClassesForFrequencyURL,
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                showDisciplines: $("#classroom").attr("showdisciplines"),
+                showDisciplines: $("#classroom option:selected").attr("showdisciplines"),
                 discipline: $("#disciplines").val(),
                 month: $("#month").val(),
+            },
+            beforeSend: function () {
+                $(".loading-frequency").css("display", "inline-block");
+                $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+                $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
             },
             success: function (response) {
                 var data = JSON.parse(response);
                 if (data.valid) {
-                        /*
-                        var disciplineSelected = $("#disciplines").is(":visible") ? $("#disciplines").val() : "";
-                        var hasSchedules = false;
-                        let report = JSON.parse(window.localStorage.getItem("frequency")).report;
-                        let qdtDaysMonth = JSON.parse(window.localStorage.getItem("frequency"))
-                            .qdtDaysMonth;
-
-                        $("#frequency").html("");
-
-                        let students = Object.keys(report);
-                        var content = "<thead>";
-                        content += "<tr> <th colspan=29>Aluno: " + students[index] + "</th> </tr>";
-                        content += "<tr>" + "<th>Dia</th>";
-                        for (i = 1; i <= qdtDaysMonth; i++) {
-                            content += "<th>" + i + "</th>";
-                        }
-                        content += "</tr>";
-                        content += "</thead>";
-                        content += "<tbody>";
-                        for (h = 0; h <= 9; h++) {
-                            content += "<tr>";
-                            content += "<th>" + (h + 1) + "º Horário</th>";
-
-                            for (d = 1; d <= qdtDaysMonth; d++) {
-                                if (
-                                    report[students[index]]?.shedules &&
-                                    report[students[index]].shedules[d] != undefined &&
-                                    report[students[index]].shedules[d][h] != null
-                                ) {
-                                    let red = "";
-
-                                    report[students[index]].faults.forEach(function (item) {
-                                        if (parseInt(item.day) == d && parseInt(item.schedule) == h + 1) {
-                                            red = "red";
-                                            return true;
-                                        }
-                                    });
-
-                                    content +=
-                                        "<td class='" +
-                                        red + " available-frequency "
-                                        + (disciplineSelected === "-1" || (disciplineSelected !== "" && report[students[index]].shedules[d][h].disciplineId.toString() !== disciplineSelected) ? "hidden-and-blocked-frequency" : "") +
-                                        "' data-student='" +
-                                        students[index] +
-                                        "' data-day='" +
-                                        d +
-                                        "' data-schedule='" +
-                                        (h + 1) +
-                                        "' data-student_fk='" +
-                                        report[students[index]].id +
-                                        "' data-discipline_fk='" +
-                                        report[students[index]].shedules[d][h].disciplineId +
-                                        "' data-classroom='" +
-                                        $("#classroom").val() +
-                                        "' data-month='" +
-                                        report[students[index]].month +
-                                        "'>" +
-                                        "<p class='nameDisciplineFrequency'>" +
-                                        report[students[index]].shedules[d][h].disciplineName +
-                                        "</p>" +
-                                        "<p class='nameInstructorFrequency'>" +
-                                        report[students[index]].shedules[d][h]["instructorInfo"].name +
-                                        "</p>" +
-                                        "</td>";
-                                } else {
-                                    content += "<td></td>";
-                                }
-                                if (report[students[index]].shedules !== undefined) {
-                                    hasSchedules = true;
-                                }
-                            }
-
-                            content += "</tr>";
-                        }
-                        content += "</tbody>";
-                        $("#frequency").append(content);
-                        $("#buttonsNexrPrev").html("");
-
-                        let buttons = "";
-
-                        if (index > 0) {
-                            buttons +=
-                                "<a id='prev-student' data-page=" +
-                                (index - 1) +
-                                " class='buttonNextPrev btn btn-icon btn-small btn-primary glyphicons left_arrow mr-15'>Aluno anteior<i></i></a>";
-                        }
-
-                        if (index != students.length - 1) {
-                            buttons +=
-                                "<a id='next-student' data-page=" +
-                                (index + 1) +
-                                " class='buttonNextPrev btn btn-icon btn-small btn-primary glyphicons right_arrow'>Próximo aluno<i></i></a>";
-                        }
-
-                        $("#buttonsNexrPrev").append(buttons);
-
-                        if (hasSchedules) {
-                            $("#widget-frequency").show();
-                            $(".alert-incomplete-data").hide();
-                        } else {
-                            $("#widget-frequency").hide();
-                            $("#buttonsNexrPrev").html("");
-                            $(".alert-incomplete-data").show();
-                        }
-                        */
+                    var html = "";
+                    html += "" +
+                        "<table class='table-frequency table table-bordered table-striped table-hover'>" +
+                        "<thead>" +
+                        "<tr><th class='table-title' colspan='" + (Object.keys(data.students[0].schedules).length + 1) + "'>" + $('#disciplines').select2('data').text + "</th></tr>";
+                    var daynameRow = "";
+                    var dayRow = "";
+                    var scheduleRow = "";
+                    var checkboxRow = "";
+                    $.each(data.students[0].schedules, function () {
+                        dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
+                        daynameRow += "<th>" + this.week_day + "</th>";
+                        scheduleRow += "<th>" + this.schedule + "º Horário</th>";
+                        checkboxRow += "<th class='frequency-checkbox-container'><input class='frequency-checkbox' type='checkbox' classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "'></th>";
+                    });
+                    html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr><tr class='schedule-row'><th></th>" + scheduleRow + "</tr><tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "</thead><tbody>";
+                    $.each(data.students, function (indexStudent, student) {
+                        html += "<tr><td class='student-name'>" + student.studentName + "</td>";
+                        $.each(student.schedules, function (indexSchedule, schedule) {
+                            html += "<td class='frequency-checkbox-container'><input class='frequency-checkbox' type='checkbox' " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "'></td>";
+                        });
+                        html += "</tr>";
+                    });
+                    html += "</tbody></table>";
+                    $("#frequency-container").html(html).show();
                 } else {
-                    $("#widget-frequency").hide();
+                    $("#frequency-container").hide();
                     $(".alert-incomplete-data").html(data.error).show();
                 }
+            },
+            complete: function (response) {
+                $(".loading-frequency").hide();
+                $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+                $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
             },
         });
     } else {
         $(".alert-required-fields").show();
-        $("#widget-frequency, .alert-incomplete-data").hide();
+        $("#frequency-container, .alert-incomplete-data").hide();
+    }
+});
+
+function pad(str, max) {
+    str = str.toString();
+    return str.length < max ? pad("0" + str, max) : str;
+}
+
+$(document).on("click", ".frequency-checkbox-container", function (e) {
+    if (e.target === this) {
+        $(this).find(".frequency-checkbox").prop("checked", !$(this).find(".frequency-checkbox").is(":checked")).trigger("change");
     }
 });
 
@@ -705,4 +647,34 @@ $("#classroom").on("change", function () {
     } else {
         $(".disciplines-container").hide();
     }
+});
+
+$(document).on("change", ".frequency-checkbox", function () {
+    var checkbox = this;
+    $.ajax({
+        type: "POST",
+        url: "?r=classes/saveFrequency",
+        cache: false,
+        data: {
+            classroomId: $(this).attr("classroomId"),
+            day: $(this).attr("day"),
+            month: $(this).attr("month"),
+            schedule: $(this).attr("schedule"),
+            studentId: $(this).attr("studentId"),
+            fault: $(this).is(":checked") ? 1 : 0
+        },
+        beforeSend: function () {
+            $(".loading-frequency").css("display", "inline-block");
+            $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
+            $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
+        },
+        complete: function (response) {
+            if ($(checkbox).attr("studentId") === undefined) {
+                $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "]").prop("checked", $(checkbox).is(":checked"));
+            }
+            $(".loading-frequency").hide();
+            $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+            $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
+        },
+    });
 });
