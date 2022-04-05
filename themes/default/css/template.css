@@ -8755,6 +8755,11 @@ li.active a {
     text-align: center !important;
 }
 
+.frequency-checkbox-container.disabled {
+    background: #ddd !important;
+    cursor: not-allowed;
+}
+
 .frequency-checkbox {
     width: 20px !important;
     height: 20px;
@@ -8768,6 +8773,8 @@ li.active a {
     margin-top: 7px;
     margin-left: 10px;
 }
+
+
 
 @media (max-width: 480px) {
     .table-responsive {

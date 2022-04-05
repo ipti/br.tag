@@ -77,7 +77,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <option>Selecione a turma</option>
                 <?php foreach ($classrooms as $classroom): ?>
                     <option value="<?= $classroom->id ?>"
-                            showdisciplines="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                 <?php endforeach; ?>
             </select>
         </div>

@@ -69,6 +69,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <i class="loading-timesheet fa fa-spin fa-spinner"></i>
     </div>
     <hr/>
+    <div class="loading-alert alert alert-warning display-hide"></div>
     <div class="row-fluid table-container">
         <div class="span12">
             <span id="turn"></span>
@@ -191,13 +192,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             }
             echo $html; ?>
         </div>
-    </div>
-    <div class="loading-alert alert alert-warning display-hide">
-        Para conseguir gerar um quadro de horário para essa turma:
-        <br>1- crie um <b>calendário</b> para o ano presente, selecionado como atual, com os eventos de início e fim de
-        ano escolar registrados;</li>
-        <br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;
-        <br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.
     </div>
 </div>
 
