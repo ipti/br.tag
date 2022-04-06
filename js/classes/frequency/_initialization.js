@@ -68,11 +68,6 @@ $("#classesSearch").on("click", function () {
     }
 });
 
-function pad(str, max) {
-    str = str.toString();
-    return str.length < max ? pad("0" + str, max) : str;
-}
-
 $(document).on("click", ".frequency-checkbox-container", function (e) {
     if (e.target === this && !$(this).hasClass("disabled")) {
         $(this).find(".frequency-checkbox").prop("checked", !$(this).find(".frequency-checkbox").is(":checked")).trigger("change");

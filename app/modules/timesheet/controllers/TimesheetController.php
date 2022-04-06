@@ -85,10 +85,9 @@ class TimesheetController extends Controller
     {
         $unavailableDays = [];
         if ($level == "hard") {
-            $eventSQL = $level == "all" ? "(ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 102)" : "(ce.calendar_event_type_fk = 102)";
             $firstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk = 1000;")->queryRow();
             $lastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1 and calendar_event_type_fk  = 1001;")->queryRow();
-            $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where " . $eventSQL . " and c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1;")->queryAll();
+            $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) where ce.calendar_event_type_fk = 102 and c.school_fk = " . Yii::app()->user->school . " and YEAR(c.start_date) = " . Yii::app()->user->year . " and c.actual = 1;")->queryAll();
             $unavailableEventsArray = [];
             foreach ($unavailableEvents as $unavailableEvent) {
                 $startDate = new DateTime($unavailableEvent["start_date"]);
@@ -145,8 +144,6 @@ class TimesheetController extends Controller
                     }
                 }
             }
-        } else {
-
         }
         return $unavailableDays;
     }
@@ -186,7 +183,12 @@ class TimesheetController extends Controller
                     $response["valid"] = TRUE;
                     $response["hardUnavailableDays"] = $this->getUnavailableDays(false, "hard");
                     $response["softUnavailableDays"] = $this->getUnavailableDays(false, "soft");
-                    $response["frequencyUnavailableDays"] = $this->getUnavailableDays(false, "frequency");
+
+                    $lastClassFaultDay = Yii::app()->db->createCommand("select s.* from class_faults as cf join schedule as s on cf.schedule_fk = s.id where s.classroom_fk = " . $classroomId . " order by month DESC, day DESC limit 1")->queryRow();
+                    if ($lastClassFaultDay != false) {
+                        $response["frequencyUnavailableLastDay"] = ["month" => $lastClassFaultDay["month"], "day" => $lastClassFaultDay["day"]];
+                    }
+
                     $response["schedules"] = [];
                     foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {

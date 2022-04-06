@@ -181,6 +181,11 @@ table.table-timesheet td {
     cursor: default;
 }
 
+.tables-timesheet .frequency-unavailable {
+    background: beige !important;
+    cursor: default;
+}
+
 .tables-timesheet .soft-unavailable {
     background: #ddd !important;
 }
