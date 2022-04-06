@@ -1,35 +1,27 @@
-function createNoDaysTable() {
-    $('#class-contents > thead').html('<tr><th class="center">Preencha a frequência primeiro.</th></tr>');
-    $('#class-contents > tbody').html('');
-    $('#widget-class-contents').show();
-    $('#class-contents').show();
-    return true;
-}
-
 function createTable(data, contents) {
+    $("#class-contents").attr("classroom", $("#classroom").val()).attr("month", $("#month").val()).attr("discipline", $("#disciplines").val()).attr("fundamentalmaior", $("#classroom option:selected").attr("fundamentalmaior"));
     $('#class-contents > thead').html('<tr><th class="center" style="text-align:center">Dias</th><th>Conteúdo ministrado em sala de aula</th></tr>');
     $('#class-contents > tbody').html('');
-
-    var month = $('#month').val();
-    var year = new Date().getFullYear();
-    var maxDays = new Date(year, month, 0).getDate();
 
     var options = "";
     $.each(contents, function (index, value) {
         options += '<option value="' + index + '">' + value + '</option>';
     });
 
-    $.each(data, function (day, content) {
+    $.each(data.classContents, function (day, classContent) {
         var head = '<th class="center vmiddle contents-day">'+((day < 10)? '0' : '') + day + '</th>';
         var body = '<td>'
-                + '<select id="day[' + day + ']" name="day[' + day + '][]" class="contents-select vmiddle" multiple="yes">'
+                + '<select id="day[' + day + ']" name="day[' + day + '][]" class="contents-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
                 + options
                 + '</select>'
                 + '</td>';
-        $('#class-contents > tbody').append('<tr class="center">' + head + body + '</tr>');
-        $.each(content, function (i, v) {
-            $('.contents-select').last().children('[value=' + i + ']').attr('selected', 'selected');
-        });
+        $('#class-contents > tbody').append('' +
+            '<tr class="center day-row" day="' + day + '">' + head + body + '</tr>');
+        if (classContent.contents !== undefined) {
+            $.each(classContent.contents, function (i, v) {
+                $('.contents-select').last().children('[value=' + i + ']').attr('selected', 'selected');
+            });
+        }
     });
 
     $('.contents-select').select2();
@@ -44,7 +36,7 @@ var addContent = function () {
     var description = $('#add-content-description').val().toUpperCase();
     $.ajax({
         type: 'POST',
-        url: saveContentURL,
+        url: "?r=classes/saveContent",
         cache: false,
         data: {'name':name, 'description':description},
         success: function(data) {

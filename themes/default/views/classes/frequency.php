@@ -124,15 +124,3 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div id="frequency-container"></div>
     <?php $this->endWidget(); ?>
 </div>
-
-
-<script>
-
-    <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina   ?>
-    <?php //@done s2 - inabilitar checkbox quando vier checado    ?>
-    <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
-    <?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesForFrequencyURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
-    var getClassesURLSave = "<?php echo Yii::app()->createUrl('classes/saveFrequency') ?>";
-
-</script>

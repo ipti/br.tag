@@ -8766,7 +8766,7 @@ li.active a {
     margin-top: 0px !important;
 }
 
-.innerLR .loading-frequency {
+.innerLR .loading-frequency, .innerLR .loading-class-contents {
     display: none;
     font-size: 20px;
     vertical-align: middle;

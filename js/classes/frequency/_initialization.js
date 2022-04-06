@@ -4,7 +4,7 @@ $("#classesSearch").on("click", function () {
         var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
         jQuery.ajax({
             type: "POST",
-            url: getClassesForFrequencyURL,
+            url: "?r=classes/getFrequency",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
