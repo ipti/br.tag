@@ -228,7 +228,7 @@ $this->breadcrumbs = array(
                                     echo CHtml::dropDownList('classroom2', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on',
-                                        'prompt' => 'Todas as turma',
+                                        'prompt' => 'Todas as turmas',
                                         'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classes/getDisciplines'),
