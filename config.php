@@ -28,7 +28,7 @@ define("BOARD_MSG", '
 				<ul>
 					<li>Quadro de Horário Remodelado</li>
 					<li>Frequência Remodelada</li>
-					<li>Relatórios do Bolsa Família Corrigido</li>
+					<li>Relatório do Bolsa Família Corrigido</li>
 				</ul>
         	</ul>
 	</div>');
