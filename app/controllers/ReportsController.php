@@ -620,6 +620,53 @@ class ReportsController extends Controller
 
         $groupByClassroom = [];
 
+
+        //FUNDAMENTAL MENOR
+        $arrFields = [":year" => $year, ":school" => Yii::app()->user->school];
+        $conditions = " AND c.school_inep_fk = :school";
+        if (isset($_GET['id']) && !empty($_GET['id'])) {
+            $conditions .= " AND c.id = :id_classroom ";
+            $arrFields[':id_classroom'] = $_GET['id'];
+        }
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = "c";
+        $criteria->join = "join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk";
+        $criteria->condition = "c.school_year = :year and svm.id >= 14 and svm.id <= 16 " . $conditions;
+        $criteria->params = $arrFields;
+        $criteria->order = "c.name";
+        $classrooms = Classroom::model()->findAll($criteria);
+        foreach ($classrooms as $classroom) {
+            $days = [];
+            $faultDays = [];
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month >= :monthI and month <= :monthF and unavailable = 0", ["classroom_fk" => $classroom->id, ":monthI" => $monthI, ":monthF" => $monthF]);
+            foreach ($schedules as $schedule) {
+                if (!isset($days[$schedule->month])) {
+                    $days[$schedule->month] = [];
+                }
+                if (!in_array($schedule->day, $days[$schedule->month])) {
+                    array_push($days[$schedule->month], $schedule->day);
+                }
+                foreach ($schedule->classFaults as $classFault) {
+                    if (!isset($faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
+                        $faultDays[$classFault->studentFk->studentFk->name][$schedule->month] = [];
+                    }
+                    if (!in_array($schedule->day, $faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
+                        array_push($faultDays[$classFault->studentFk->studentFk->name][$schedule->month], $schedule->day);
+                    }
+                }
+            }
+            foreach ($classroom->studentEnrollments as $studentEnrollment) {
+                for ($i = $monthI; $i <= $monthF; $i++) {
+                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                }
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["birthday"] = $studentEnrollment->studentFk->birthday;
+            }
+        }
+
+
         //FUNDAMENTAL MAIOR
         $arrFields = [":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school];
         $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school";
@@ -667,76 +714,20 @@ class ReportsController extends Controller
             . $conditions,
             $arrFields);
         $command->group = "c.id, t.month, si.id, cf.faults";
-        $command->order = "student, month";
+        $command->order = "c.name, student, month";
         $query = $command->queryAll();
 
-        $report = [];
-        foreach ($query as $v) {
-            $classroom = $v['classroom'];
-            $student = $v['student'];
-            $month = $v['month'];
-            $birthday = $v['birthday'];
-            $nis = $v['nis'] !== "" && $v['nis'] !== null ? $v['nis'] : "Não Informado";
-            $count = isset($v['count']) ? $v['count'] : 0;
-            $faults = isset($v['faults']) ? $v['faults'] : 0;
+        foreach ($query as $result) {
+            if ($result['student'] != null) {
+                $count = isset($result['count']) ? $result['count'] : 0;
+                $faults = isset($result['faults']) ? $result['faults'] : 0;
+                $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . "%";
 
-            $report[$student]['Classes'][$month] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . "%";
-
-            $report[$student]['Info']['Classroom'] = $classroom;
-            $report[$student]['Info']['NIS'] = $nis;
-            $report[$student]['Info']['birthday'] = $birthday;
-        }
-        foreach ($report as $name => $c) {
-            $groupByClassroom[$c['Info']['Classroom']][$name] = $c;
-            for ($i = $monthI; $i <= $monthF; $i++) {
-                $groupByClassroom[$c['Info']['Classroom']][$name]['Classes'][$i] = isset($c['Classes'][$i]) ? $c['Classes'][$i] : ('N/A');
+                $groupByClassroom[$result['classroom']][$result['student']]['Info']['Classroom'] = $result['classroom'];
+                $groupByClassroom[$result['classroom']][$result['student']]['Info']['NIS'] = $result['nis'] !== "" && $result['nis'] !== null ? $result['nis'] : "Não Informado";
+                $groupByClassroom[$result['classroom']][$result['student']]['Info']['birthday'] = $result['birthday'];
             }
         }
-
-        //FUNDAMENTAL MENOR
-        $arrFields = [":year" => $year, ":school" => Yii::app()->user->school];
-        $conditions = " AND c.school_inep_fk = :school";
-        if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $conditions .= " AND c.id = :id_classroom ";
-            $arrFields[':id_classroom'] = $_GET['id'];
-        }
-
-        $criteria = new CDbCriteria;
-        $criteria->alias = "c";
-        $criteria->join = "join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk";
-        $criteria->condition = "c.school_year = :year and svm.id >= 14 and svm.id <= 16 " . $conditions;
-        $criteria->params = $arrFields;
-        $classrooms = Classroom::model()->findAll($criteria);
-        foreach ($classrooms as $classroom) {
-            $days = [];
-            $faultDays = [];
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month >= :monthI and month <= :monthF and unavailable = 0", ["classroom_fk" => $classroom->id, ":monthI" => $monthI, ":monthF" => $monthF]);
-            foreach ($schedules as $schedule) {
-                if (!isset($days[$schedule->month])) {
-                    $days[$schedule->month] = [];
-                }
-                if (!in_array($schedule->day, $days[$schedule->month])) {
-                    array_push($days[$schedule->month], $schedule->day);
-                }
-                foreach ($schedule->classFaults as $classFault) {
-                    if (!isset($faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
-                        $faultDays[$classFault->studentFk->studentFk->name][$schedule->month] = [];
-                    }
-                    if (!in_array($schedule->day, $faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
-                        array_push($faultDays[$classFault->studentFk->studentFk->name][$schedule->month], $schedule->day);
-                    }
-                }
-            }
-            foreach ($classroom->studentEnrollments as $studentEnrollment) {
-                for ($i = $monthI; $i <= $monthF; $i++) {
-                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
-                }
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["birthday"] = $studentEnrollment->studentFk->birthday;
-            }
-        }
-
 
         $this->render('BFReport', array(
             'reports' => $groupByClassroom,

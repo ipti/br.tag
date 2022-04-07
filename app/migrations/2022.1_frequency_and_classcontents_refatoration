@@ -30,3 +30,7 @@ ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE O
 DROP TABLE `class_class_objective`;
 
 DROP TABLE `class`;
+
+ALTER TABLE `class_faults`
+DROP FOREIGN KEY `fk_class_faults_2`,
+ADD FOREIGN KEY (`student_fk`) REFERENCES `student_enrollment` (`student_fk`) ON DELETE CASCADE ON UPDATE CASCADE;
