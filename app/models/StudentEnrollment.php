@@ -274,13 +274,11 @@ class StudentEnrollment extends AltActiveRecord
      */
     public function getFaultsByDiscipline($disciplineId)
     {
-        /* @var $class Classes */
-        /* @var $discipline EdcensoDiscipline */
         $faults = [];
         foreach ($this->classFaults as $fault) {
-            $class = $fault->classFk;
+            $class = $fault->scheduleFk;
             $discipline = $class->disciplineFk;
-            if ($discipline->id == $disciplineId && $class->given_class == 1) {
+            if ($discipline->id == $disciplineId) {
                 array_push($faults, $fault);
             }
         }
@@ -312,8 +310,8 @@ class StudentEnrollment extends AltActiveRecord
                 return [];
         }
         foreach ($this->classFaults as $fault) {
-            $date = new DateTime($fault->classFk->day."-".$fault->classFk->month."-".yii::app()->user->year);
-            if ($date > $initial && $date <= $final && $fault->classFk->given_class == 1) {
+            $date = new DateTime($fault->scheduleFk->day."-".$fault->scheduleFk->month."-".yii::app()->user->year);
+            if ($date > $initial && $date <= $final) {
                 array_push($faults,$fault);
             }
         }

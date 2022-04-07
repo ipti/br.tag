@@ -138,7 +138,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                     <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <b>Cidade: </b><span class="adddress_city"><?= $data['adddress_city'] ?></span>&nbsp;&nbsp;&nbsp;
                     <b>UF: </b><span class="address_uf"><?= $data['address_uf'] ?></span>&nbsp;&nbsp;&nbsp;
-                    <b>CEP: </b><IDENTIFICAÇÃOspan class="cep"><?= $data['cep'] ?></span>
+                    <b>CEP: </b><span class="cep"><?= $data['cep'] ?></span>
                 </div>
             </td>
         </tr>

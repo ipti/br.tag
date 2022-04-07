@@ -60,15 +60,15 @@ class ManagementschoolController extends CController
 	public function actionLoadClassroomInfos($sid,$cid){
 		$results = null;
 		if($cid == "all"){
-			$sql = "SELECT distinct cs.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
-					join class cs on (cs.classroom_fk = c.id)
-					left join edcenso_discipline d on (cs.discipline_fk = d.id)
+			$sql = "SELECT distinct sc.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
+					join schedule sc on (sc.classroom_fk = c.id)
+					left join edcenso_discipline d on (sc.discipline_fk = d.id)
 				where school_inep_fk = :sid and school_year = :year;";
 			$results = yii::app()->db->createCommand($sql)->queryAll(true,[":sid"=>$sid, ":year"=>yii::app()->user->year]);
 		}else if(!empty($cid)) {
-			$sql = "SELECT distinct cs.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
-					join class cs on (cs.classroom_fk = :cid)
-					left join edcenso_discipline d on (cs.discipline_fk = d.id);";
+			$sql = "SELECT distinct sc.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
+					join schedule sc on (sc.classroom_fk = :cid)
+					left join edcenso_discipline d on (sc.discipline_fk = d.id);";
 			$results = yii::app()->db->createCommand($sql)->queryAll(true,[":cid"=>$cid]);
 		}else{
 			return false;
@@ -81,16 +81,16 @@ class ManagementschoolController extends CController
 		$cFilter = ($cid != "all" ? "and cr.id = :cid " : " ");
 		$mFilter = ($mid != "all" ? "and month = :mid " : " ");
 		$dFilter = ($did == "all" ? " " : ($did == "-1" ? " and d.id is null " : "and d.id  = :did "));
-		$sql = "Select cr.id cid, cr.name cname, day, month,  d.id did, IFNULL(d.name,'Disciplinas Fundamental Menor') dname, count(cf.class_fk) as faults from class c
-					left join class_faults cf on (c.id = cf.class_fk)
-					join classroom cr on (cr.id = c.classroom_fk)
+		$sql = "Select cr.id cid, cr.name cname, day, month,  d.id did, IFNULL(d.name,'Disciplinas Fundamental Menor') dname, count(cf.id) as faults from schedule sc
+					left join class_faults cf on (sc.id = cf.schedule_fk)
+					join classroom cr on (cr.id = sc.classroom_fk)
 					left join edcenso_discipline d on (discipline_fk = d.id)
 					where cr.school_year = :year and cr.school_inep_fk = :sid
 					$cFilter
 					$mFilter
 					$dFilter
-				group by c.day, c.month, c.discipline_fk
-				order by c.month, c.day, c.discipline_fk;";
+				group by sc.day, sc.month, sc.discipline_fk
+				order by sc.month, sc.day, sc.discipline_fk;";
 		$i = 0;
 		$params = [":sid" => $sid,":year" => yii::app()->user->year,];
 		($cid != "all" ? $params[":cid"] = $cid : $i );

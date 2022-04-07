@@ -12,3 +12,6 @@ ADD `week` int(11) NOT NULL AFTER `month`;
 
 ALTER TABLE `schedule`
 ADD `unavailable` int(11) NOT NULL;
+
+ALTER TABLE `schedule`
+ADD `fkid` varchar(40) NULL;

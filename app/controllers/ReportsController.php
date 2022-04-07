@@ -589,7 +589,7 @@ class ReportsController extends Controller {
         $year = date('Y');
         
         $arrFields = [":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school];
-        $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.given_class = 1 AND c.school_inep_fk = :school";
+        $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school";
         
         if(isset($_GET['id']) && !empty($_GET['id'])){
             $conditions .= " AND c.id = :id_classroom ";
@@ -598,15 +598,15 @@ class ReportsController extends Controller {
 
         /*
         select c.name classroom, si.name student, si.nis nis, si.birthday, t.month, count(*) count , cf.faults
-        from class t
+        from schedule t
         left join classroom c on c.id = t.classroom_fk
         left join student_enrollment se on se.classroom_fk = t.classroom_fk
         left join student_identification si on se.student_fk = si.id
         left join (
-            SELECT class.classroom_fk, class.month, student_fk, count(*) faults
+            SELECT schedule.classroom_fk, schedule.month, student_fk, count(*) faults
             FROM class_faults cf
-            left join class on class.id = class_fk
-            group by student_fk, class.month, class.classroom_fk) cf
+            left join schedule on schedule.id = schedule_fk
+            group by student_fk, schedule.month, schedule.classroom_fk) cf
         on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month)
         where c.school_year = 2013
             AND t.month >= 1
@@ -619,16 +619,16 @@ class ReportsController extends Controller {
         $command = Yii::app()->db->createCommand();
         //day é um armengo, se colocar colunas que não estão na tabela o count não aparece na array
         $command->select = 'c.name classroom, si.name student, sd.nis nis, si.birthday, t.month, count(*) count , cf.faults ';
-        $command->from = 'class t ';
+        $command->from = 'schedule t ';
         $command->join  ='left join classroom c on c.id = t.classroom_fk ';
         $command->join .='left join student_enrollment se on se.classroom_fk = t.classroom_fk ';
         $command->join .='left join student_identification si on se.student_fk = si.id ';
         $command->join .='left join student_documents_and_address sd on sd.id = si.id ';
         $command->join .='left join (
-            SELECT class.classroom_fk, class.month, student_fk, count(*) faults 
+            SELECT schedule.classroom_fk, schedule.month, student_fk, count(*) faults 
             FROM class_faults cf
-            left join class on class.id = class_fk
-            group by student_fk, class.month,class.classroom_fk) cf 
+            left join schedule on schedule.id = schedule_fk
+            group by student_fk, schedule.month,schedule.classroom_fk) cf 
         on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
         $command->where('c.school_year = :year '
                 . $conditions,
