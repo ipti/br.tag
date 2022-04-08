@@ -9,7 +9,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js', CClientScript::POS_END);
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);

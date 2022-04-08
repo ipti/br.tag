@@ -32,7 +32,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.0" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet"
@@ -237,7 +237,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js"></script>
+<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=1.0"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>

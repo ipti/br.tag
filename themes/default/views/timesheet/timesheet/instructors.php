@@ -6,7 +6,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/instructors.js', CClientScript::POS_END);
 $cs->registerScript("vars", "
 	var getInstructorsDisciplinesURL = '" . $this->createUrl('timesheet/getInstructorDisciplines') . "';

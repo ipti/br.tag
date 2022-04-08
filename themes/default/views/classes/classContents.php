@@ -4,8 +4,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));

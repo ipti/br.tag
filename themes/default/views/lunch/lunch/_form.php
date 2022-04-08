@@ -7,7 +7,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/lunch.js', CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(

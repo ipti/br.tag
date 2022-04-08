@@ -8,7 +8,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
-$cs->registerCssFile($baseUrl . '/css/template.css');
+$cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',

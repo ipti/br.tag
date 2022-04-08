@@ -9,7 +9,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $setActiveUrl = Yii::app()->createUrl("/calendar/default/setActive");
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/others.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('calendarModule.others', 'Other Calendars'));
 ?>

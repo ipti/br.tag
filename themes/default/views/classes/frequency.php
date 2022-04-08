@@ -4,7 +4,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
