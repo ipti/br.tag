@@ -21,7 +21,7 @@ define("BOARD_MSG", '
 					<li>Aprimoramento da Função Calendário Escolar</li>
 				</ul>
         	</ul>
-        	<strong>xx/xx/2022 - TAG VERSÃO 2.12.1:</strong>
+        	<strong>11/04/2022 - TAG VERSÃO 2.12.1:</strong>
 		<br>
         	<ul>
 		    <li>Novas Atualizações</li>
