@@ -384,18 +384,17 @@ class ReportsController extends Controller
                 where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
                 order by name";
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
-                from (((instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk)
-                join instructor_variable_data as iv on iv.id = id.id) join classroom as c on i.school_inep_id_fk = c.school_inep_fk)
-                WHERE  c.school_inep_fk = " . $_GET['id'] . " AND c.school_year = " . $this->year . " AND i.role = 2 order by id.name";
-
-        $professor = Yii::app()->db->createCommand($sql1)->queryAll();
+        foreach($classrooms as &$classroom) {
+            $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
+                from instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk
+                join instructor_variable_data as iv on iv.id = id.id join classroom as c on i.classroom_id_fk = c.id
+                WHERE c.id = " . $classroom["id"] . " AND i.role = 2 order by id.name";
+            $classroom["professors"] = Yii::app()->db->createCommand($sql1)->queryAll();
+        }
 
         $this->render('EducationalAssistantPerClassroomReport', array(
             'school' => $school,
-            'professor' => $professor,
-            'classroom' => $classrooms
+            'classrooms' => $classrooms
         ));
     }
 
