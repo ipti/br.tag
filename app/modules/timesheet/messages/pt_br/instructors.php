@@ -1,9 +1,9 @@
 <?php
 return [
-	"Instructors" => "Instrutores",
-	"Add Instructors" => "Adicionar Instrutores",
+	"Instructors" => "Professores",
+	"Add Instructors" => "Adicionar Professores",
 	"Add Unavailability" => "Adicionar Indisponibilidade",
-	"Add Disciplines" => "Adicionar Disciplinas",
+	"Add Disciplines" => "Disciplina",
 	"Timesheets" => "Quadro de Horários",
 
 	"Select a Instructor" => "Selecione um Instrutor",
@@ -18,7 +18,7 @@ return [
 	"Week Day" => "Dia da Semana",
 	"new unavailability" => "nova indisponibilidade",
 
-	"Add Instructors Disciplines" => "Adicionar Disciplinas aos Instrutores",
+	"Add Instructors Disciplines" => "Adicionar Disciplinas aos Professores",
 	"Stages" => "Estágios",
 	"Disciplines" => "Disciplinas",
 	"new discipline/stage" => "nova disciplina/estagio",

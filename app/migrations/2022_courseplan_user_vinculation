@@ -1,0 +1,8 @@
+ALTER TABLE `course_plan`
+ADD `user_fk` INT NULL AFTER `discipline_fk`;
+
+ALTER TABLE `course_plan`
+CHANGE `user_fk` `users_fk` INT(11) NULL AFTER `discipline_fk`;
+
+ALTER TABLE `course_plan`
+ADD FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

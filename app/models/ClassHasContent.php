@@ -1,16 +1,16 @@
 <?php
 
 /**
- * This is the model class for table "class_class_objective".
+ * This is the model class for table "class_has_content".
  *
- * The followings are the available columns in table 'class_class_objective':
+ * The followings are the available columns in table 'class_has_content':
  * @property integer $id
- * @property integer $class_fk
+ * @property integer $schedule_fk
  * @property integer $content_fk
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property Class $classFk
+ * @property Schedule $scheduleFk
  * @property ClassResources $contentFk
  */
 class ClassHasContent extends CActiveRecord
@@ -40,11 +40,11 @@ class ClassHasContent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('class_fk, content_fk', 'required'),
-			array('id, class_fk, content_fk', 'numerical', 'integerOnly'=>true),
+			array('schedule_fk, content_fk', 'required'),
+			array('id, schedule_fk, content_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, class_fk, content_fk', 'safe', 'on'=>'search'),
+			array('id, schedule_fk, content_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +56,7 @@ class ClassHasContent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classFk' => array(self::BELONGS_TO, 'Classes', 'class_fk'),
+			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
 			'contentFk' => array(self::BELONGS_TO, 'ClassResources', 'content_fk'),
 		);
 	}
@@ -68,7 +68,7 @@ class ClassHasContent extends CActiveRecord
 	{
 		return array(
 			'id' =>  Yii::t('default', 'ID'),
-			'class_fk' =>  Yii::t('default', 'Class Fk'),
+			'schedule_fk' =>  Yii::t('default', 'Schedule Fk'),
 			'content_fk' =>  Yii::t('default', 'Resource Fk'),
 		);
 	}
@@ -92,7 +92,7 @@ class ClassHasContent extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('class_fk',$this->class_fk);
+		$criteria->compare('schedule_fk',$this->schedule_fk);
 		$criteria->compare('content_fk',$this->content_fk);
 
 		return new CActiveDataProvider($this, array(

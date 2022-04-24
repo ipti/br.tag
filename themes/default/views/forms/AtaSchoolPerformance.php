@@ -124,7 +124,7 @@ function valorPorExtenso( $valor = 0){
         </div>
         <br>
         <br>
-        <p style="text-align: justify;"><?php echo valorPorExtenso($report["day"])?> do mês de <b><?php echo $report["month"]?></b> do ano de <b><?php echo $report["year"]?></b>. 
+        <p style="text-align: justify;"><?php echo valorPorExtenso($report["day"])?> do mês de <b><?php echo Yii::t('default', $report["month"]) ?></b> do ano de <b><?php echo $report["year"]?></b>. 
             Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <b><?php echo $report["serie"]?></b>, turma <b><?php echo $report["name"]?></b>,
             turno <b><?php echo $report["turn"]?></b> do <b><?php echo $report["ensino"]?></b> deste estabelecimento, com a Carga Horária anual de _________ horas 
         e um total de _________ dias letivos, conforme os resultados abaixo.</p>

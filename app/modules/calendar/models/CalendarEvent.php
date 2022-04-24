@@ -18,6 +18,8 @@
  */
 class CalendarEvent extends CActiveRecord
 {
+    public $url;
+
 	/**
 	 * @return string the associated database table name
 	 */

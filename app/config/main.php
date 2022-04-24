@@ -42,6 +42,9 @@ return array(
     ),
     // application components
     'components' => array(
+        'assetManager' => array(
+            'forceCopy' => YII_DEBUG
+        ),
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
@@ -99,9 +102,9 @@ return array(
         ),
         // uncomment the following to use a MySQL database
         'db2' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=com.escola10',
+            'connectionString' => 'mysql:host=mariadb-s6vhx-mariadb.mariadb-s6vhx.svc.cluster.local;dbname=com.escola10',
             'emulatePrepare' => true,
-            'username' => 'user.tag',
+            'username' => 'admin',
             'password' => '123456',
             'charset' => 'utf8',
             'class'   => 'CDbConnection'

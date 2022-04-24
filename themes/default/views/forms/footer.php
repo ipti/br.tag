@@ -20,7 +20,7 @@ echo "<div style='font-size:9px;line-height: 9px;text-align: center;' id='rodape
 $cod= $cod."-".$div1;
 echo "<br>";
 echo "<p>Documento autenticado digitalmente pelo sistema de informação TAG em: ". date('d/m/Y - H:i')."h e deve ser conferido na Internet no 
- endereço http://verificador.escola10.com</p>Código de Verificação: $cod";
+ endereço http://verificador.tag.ong.br</p>Código de Verificação: $cod";
 echo "</div>";
 
 ?>

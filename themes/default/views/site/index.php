@@ -56,8 +56,6 @@
 
 	/** @var Calendar $calendar */
 	$calendar = Calendar::model()->find("school_fk = :school and actual = 1", [":school" => Yii::app()->user->school]);
-	$start = new DateTime($calendar->start_date);
-	$end = new DateTime($calendar->end_date);
 	$events = [];
 	for ($i = 1; $i <= 12; $i++) {
 		$events[$i] = [];
@@ -85,14 +83,14 @@
 	</div>
 </div>
 <div class="innerLR eggs">
-	<!--<div class="alert alert-success">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Mural de Avisos:</strong>
-		<br>
-		- Novos formulários incluídos: Guia de Transferência, Declaração, Ata de Rendimento
-	</div>-->
+
 	<?php echo BOARD_MSG; ?>
-	
+
+
+
+
+
+
 	<div class="row-fluid">
 		<div class="span9">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
@@ -153,10 +151,6 @@
 								$beforeContent = "<span class='change-event' data-toggle='modal' data-target='#myChangeEvent' data-id='-1' data-year='$y'  data-month='$m' data-day='$day' >";
 								if ($day < 10) {
 									$content = "0";
-								}
-								if (isInInterval($start, $start, $day, $m) || isInInterval($end, $end, $day, $m)) {
-									$class .= " calendar-black ";
-									$beforeContent .= "<i class=' calendar-icon fa fa-circle'></i>";
 								}
 								foreach ($events[$m] as $event) {
 									/** @var $event CalendarEvent */
@@ -219,12 +213,6 @@
 					<div class="widget-body events in" style="height: auto;">
 						<span class="actual-date"><strong>Data atual:</strong> <?= $date->format("d/m") ?></span>
 						<?php
-							if ($start->format("n") == $m && $start != $end) :
-								?>
-								<span class="calendar-event"><i
-										class="fa fa-circle calendar-black"></i><?= $start->format("d/m") . ": Início do Período Letivo" ?></span>
-								<?php
-							endif;
 							foreach ($events[$m] as $event) :
 								$eventStart = new DateTime($event->start_date);
 								$eventEnd = new DateTime($event->end_date);
@@ -233,14 +221,9 @@
 								$eventDate = ($eventStart == $eventEnd ? $eventStart : $eventStart . " - " . $eventEnd);
 								?>
 								<span class="calendar-event"><i
-										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": " . $event->name ?></span>
+										class="fa <?= $event->calendarEventTypeFk->icon . " calendar-" . $event->calendarEventTypeFk->color ?>"></i><?= $eventDate . ": <b>" . $event->name . "</b> (" . yii::t('default', $event->calendarEventTypeFk->name) . ")" ?></span>
 								<?php
 							endforeach;
-							if ($end->format("n") == $m && $start != $end) :
-								?>
-								<span class="calendar-event"><i
-										class="fa fa-circle calendar-black"></i><?= $end->format("d/m") . ": Término do Período Letivo" ?></span>
-							<?php endif;
 						?>
 					</div>
 				</div>

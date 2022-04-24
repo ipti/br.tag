@@ -1,0 +1,25 @@
+ALTER TABLE `calendar_event_type`
+ADD `unique_day` TINYINT(1) NOT NULL;
+
+INSERT INTO `calendar_event_type` (`name`, `icon`, `color`, `copyable`, `unique_day`)
+VALUES ('Beginning of the School Year', 'fa-circle', 'green', '0', '1');
+
+INSERT INTO `calendar_event_type` (`name`, `icon`, `color`, `copyable`, `unique_day`)
+VALUES ('End of the School Year', 'fa-circle', 'red', '0', '1');
+
+ALTER TABLE `calendar`
+CHANGE `school_year` `title` VARCHAR(50) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `id`;
+
+INSERT INTO calendar_event (NAME, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable)
+SELECT 'Início do Ano Escolar', CONCAT(start_date, ' 00:00:00'), CONCAT(start_date, ' 00:00:00'), id, (SELECT id FROM calendar_event_type WHERE NAME = 'Beginning of the School Year'), 0 FROM calendar;
+
+INSERT INTO calendar_event (NAME, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable)
+SELECT 'Fim do Ano Escolar', CONCAT(end_date, ' 00:00:00'), CONCAT(end_date, ' 00:00:00'), id, (SELECT id FROM calendar_event_type WHERE NAME = 'End of the School Year'), 0 FROM calendar;
+
+UPDATE calendar
+SET start_date = CONCAT(DATE_FORMAT(start_date, '%Y-'), '01-01');
+
+UPDATE calendar
+SET end_date = CONCAT(DATE_FORMAT(end_date, '%Y-'), '12-31');
+UPDATE calendar_event_type SET id = 1000 WHERE NAME = 'Beginning of the School Year';
+UPDATE calendar_event_type SET id = 1001 WHERE NAME = 'End of the School Year';

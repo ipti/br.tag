@@ -15,7 +15,7 @@ class FormsController extends Controller {
                     'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
                     'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
                     'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
-                    'TransferForm','GetTransferFormInformation'),
+                    'TransferForm','GetTransferFormInformation', 'StudentStatementAttended'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -213,6 +213,137 @@ class FormsController extends Controller {
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         echo json_encode($result);
+    }
+
+    public function actionStatementAttended($enrollment_id) {
+
+        $this->layout = "reports";
+        $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class, svm.*, c.modality, c.school_year, svm.stage stage, svm.id class"
+            . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
+            . " WHERE se.id = " . $enrollment_id . ";";
+        $data = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        $modality = array(
+            '1' => 'Ensino Regular',
+            '2' => 'Educação Especial - Modalidade Substitutiva',
+            '3' => 'Educação de Jovens e Adultos (EJA)'
+        );
+        
+        $c = '';
+        switch ($data['class']) {
+            case '4':
+                $c = '1º';
+                break;
+            case '5':
+                $c = '2º';
+                break;
+            case '6':
+                $c = '3º';
+                break;
+            case '7':
+                $c = '4º';
+                break;
+            case '8':
+                $c = '5º';
+                break;
+            case '9':
+                $c = '6º';
+                break;
+            case '10':
+                $c = '7º';
+                break;
+            case '11':
+                $c = '8º';
+                break;
+            case '14':
+                $c = '1º';
+                break;
+            case '15':
+                $c = '2º';
+                break;
+            case '16':
+                $c = '3º';
+                break;
+            case '17':
+                $c = '4º';
+                break;
+            case '18':
+                $c = '5º';
+                break;
+            case '19':
+                $c = '6º';
+                break;
+            case '20':
+                $c = '7º';
+                break;
+            case '21':
+                $c = '8º';
+                break;
+            case '41':
+                $c = '9º';
+                break;
+            case '35':
+                $c = '1º';
+                break;
+            case '36':
+                $c = '2º';
+                break;
+            case '37':
+                $c = '3º';
+                break;
+            case '38':
+                $c = '4º';
+                break;
+        }
+        
+        $descCategory = '';
+        switch ($data['stage']) {
+            case '1':
+                $descCategory = "na Educação Infantil";
+                break;
+            case '3':
+                $descCategory = "no " . $c . " Ano do Ensino Fundamental";
+                break;
+            case '4':
+                $descCategory = "no " . $c . " Ano do Ensino Médio";
+                break;
+        }
+        $this->render('StudentStatementAttended', array(
+            'student' => $data,
+            'modality' => $modality,
+            'descCategory' => $descCategory
+        ));
+    }
+
+    public function actionWarningTerm($enrollment_id) {
+
+        $this->layout = "reports";
+        $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class, svm.*, c.modality, c.school_year, svm.stage stage, svm.id class"
+            . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
+            . " WHERE se.id = " . $enrollment_id . ";";
+        $data = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = ".$enrollment_id;
+        $data = Yii::app()->db->createCommand($sql)->queryRow();
+        
+        $turn = '';
+        switch ($data['turn']) {
+            case 'M':
+                $turn = 'M';
+                break;
+            case 'T':
+                $turn = 'Vespertino';
+                break;
+            case 'N':
+                $turn = 'Noturno';
+                break;
+            
+        }
+        
+        $this->render('WarningTerm', array(
+            'student' => $data,
+            'turn' => $turn
+        ));
     }
 
     public function actionIndex() {

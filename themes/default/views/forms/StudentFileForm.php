@@ -11,7 +11,6 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
 ?>
 
 
-
 <div id="body-students-file-form" class="pageA4V">
     <?php
 
@@ -126,15 +125,15 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <div class="span12"><b>01 - Nome do(a) aluno(a):</b>&nbsp;<span class="name"><?= $data['name'] ?></span></div>
                 <br>
                 <div class="span4"><b>Data&nbsp;de&nbsp;nascimento:</b>&nbsp;<span class="birthday"><?= $data['birthday'] ?></span></div>
-                <div class="span4"><b>ID:</b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
-                <div class="span4"><b>NIS:</b><span class="nis"><?= $data['nis'] ?> </span></div>
+                <div class="span4"><b>ID: </b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
+                <div class="span4"><b>NIS: </b><span class="nis"><?= $data['nis'] ?> </span></div>
 
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span4"><b>03 - Naturalidade:</b></div>
-                <div class="span8"><b>Município:</b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?> </div>
+                <div class="span8"><b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?> </div>
                 <div class="span12">
                     <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <b>Cidade: </b><span class="adddress_city"><?= $data['adddress_city'] ?></span>&nbsp;&nbsp;&nbsp;
@@ -351,7 +350,100 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
     </table>
 </div>
 
+<?php if(GLOGALGROUP != 1){?>
+    <div class='container-report mt-30 mb-30'>
+    <table class="table-border">
+      <tr class="blue-background titleBig text-center">
+        <th colspan="8">Controle de Matrícula e Rematrícula</th>
+      </tr>
+      <tr>
+        <th>Ano Letivo</th>
+        <th>Data da Matrícula</th>
+        <th>Nível/Ano/Série</th>
+        <th>Etapa Modalidade*</th>
+        <th>Turno</th>
+        <th>Situação Final do(a) Aluno(a)</th>
+        <th>Assinatura do(a) Responsável pela Matrícula</th>
+        <th>Assinatura dos Pais ou Responsável</th>
+      </tr>
+      <? for($i=1; $i <= 12; $i++): ?>
+        <tr>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+          <td><div class="contentEditable no-border" contenteditable="true"></div></td>
+        </tr>
+      <? endfor; ?>
+    </table>
+  </div>
+</div>
+<?php } ?>
 <style>
+
+    .container-report {
+        width: 980px;
+        margin: auto;
+    }
+
+    .container-report:after {
+        clear: both;
+    }
+
+    .container-report:before, .container-report:after {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+
+    .mt-60 {
+        margin-top: 60px;
+    }
+
+    .mt-30 {
+        margin-top: 30px;
+    }
+
+    .mb-30 {
+        margin-bottom: 60px;
+    }
+
+    .blue-background {
+        background-color: #C6D9F1;
+    }
+
+    .contentEditable {
+        padding: 5px;
+    }
+    
+
+    .titleBig {
+        font-size: 15px;
+        line-height: 25px;
+        font-weight: bold;
+    }
+    
+    .text-uppercase {
+        text-transform: uppercase;
+    }
+    
+    .table-border, .table-border th, .table-border td {
+       border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .table-border td, .table-border th {
+        padding: 8px;
+    }
+    
+    .table-border { 
+        width: 100%;
+        page-break-inside:auto
+    }
+
     @media screen{
         .pageA4V{width:980px; height:1400px; margin:0 auto;}
         .pageA4H{width:1400px; height:810px; margin:0 auto;}
@@ -405,5 +497,27 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             background-position:center center;
             background-size: 100% 100%, auto;
         }
+
+        .blue-background {
+          -webkit-print-color-adjust: exact;
+          background-color: #C6D9F1 !important;
+        }
+
+        #body-students-file-form {
+            page-break-after: always;
+        }
+
+        .titleBig {
+            border-right: 1px solid black !important;
+        }
+
+        .legend {
+            line-height: 40px;
+        }
+
+        .btn-print {
+            border-top: 1px solid black !important;
+        }
+
     }
 </style>

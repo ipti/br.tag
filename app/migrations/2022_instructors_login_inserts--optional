@@ -1,0 +1,18 @@
+ALTER TABLE `users`
+ADD `instructor` INT(11) NULL;
+
+INSERT INTO users (name, username, password, active, instructor)
+SELECT name, cpf, md5(REPLACE(birthday_date, '/', '')), 1, instructor_identification.id from instructor_identification
+join instructor_documents_and_address on instructor_identification.id = instructor_documents_and_address.id
+where cpf is not null and cpf != '';
+
+INSERT INTO auth_assignment (itemname, userid, bizrule, DATA)
+SELECT 'instructor', id, NULL, 'N;' FROM users WHERE instructor IS NOT NULL;
+
+UPDATE instructor_identification ii SET ii.users_fk = (SELECT id FROM users WHERE users.instructor = ii.id);
+
+INSERT INTO users_school (school_fk, user_fk)
+SELECT school_inep_id_fk, users_fk FROM instructor_identification where users_fk is not null;
+
+ALTER TABLE `users`
+DROP `instructor`;

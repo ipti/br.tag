@@ -1,4 +1,4 @@
-<div id="mainPage" class="main">
+<div id="mainPage" class="main container-instructor">
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor Identifications'));
     $contextDesc = Yii::t('default', 'Available actions that may be taken on InstructorIdentification.');
@@ -7,15 +7,25 @@
     );
     ?>
 
-    <div class="row-fluid">
+    <div class="row-fluid box-instructor">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
-            <div class="buttons span7">
+            <div class="buttons span7 hide-responsive">
                 <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="btn btn-primary btn-icon glyphicons envelope"><i></i> Atualizar e-mails</a>
                 <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
             </div>
         </div>
-    </div>
+        <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Menu
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>"><i></i> Atualizar e-mails</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('instructor/create')?>"><i></i> Adicionar professor</a></li>
+            </ul>
+        </div>
+    </div> 
 
     <div class="innerLR">
         <?php if (Yii::app()->user->hasFlash('success')): ?>

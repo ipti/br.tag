@@ -9,6 +9,7 @@
  * @property string $icon
  * @property string $color
  * @property integer $copyable
+ * @property integer $unique_day
  *
  * The followings are the available model relations:
  * @property CalendarEvent[] $calendarEvents
@@ -31,12 +32,12 @@ class CalendarEventType extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, icon, color, copyable', 'required'),
-			array('copyable', 'numerical', 'integerOnly'=>true),
+			array('name, icon, color, copyable, unique_day', 'required'),
+			array('copyable, unique_day', 'numerical', 'integerOnly'=>true),
 			array('name, icon, color', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, icon, color, copyable', 'safe', 'on'=>'search'),
+			array('id, name, icon, color, copyable, unique_day', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -63,6 +64,7 @@ class CalendarEventType extends CActiveRecord
 			'icon' => yii::t('calendarModule.labels','Icon'),
 			'color' => yii::t('calendarModule.labels','Color'),
 			'copyable' => yii::t('calendarModule.labels','Copyable'),
+            'unique_day' => yii::t('calendarModule.labels','Unique Day')
 		);
 	}
 
@@ -89,6 +91,7 @@ class CalendarEventType extends CActiveRecord
 		$criteria->compare('icon',$this->icon,true);
 		$criteria->compare('color',$this->color,true);
 		$criteria->compare('copyable',$this->copyable);
+        $criteria->compare('unique_day',$this->unique_day);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

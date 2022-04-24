@@ -1,0 +1,6 @@
+CREATE TABLE `edcenso_alias`( `register` INT, `corder` INT, `attr` VARCHAR(180), `desc` VARCHAR(180), `default` VARCHAR(180) );
+
+INSERT INTO `edcenso_alias` (register,corder,attr)
+SELECT '00', ORDINAL_POSITION,COLUMN_NAME
+FROM `information_schema`.columns WHERE table_name = 'school_identification' 
+AND table_schema = 'io.escola.se';

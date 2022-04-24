@@ -23,7 +23,7 @@
                     'actions' => ['index', 'view'], 'users' => ['*'],
                 ], [
                     'allow', // allow authenticated user to perform 'create' and 'update' actions
-                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual'],
+                    'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle'],
                     'users' => ['@'],
                 ], [
                     'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -50,6 +50,8 @@
             $copyFrom = isset($_POST['copy']) ? $_POST['copy'] : NULL;
             if ($attributes != NULL) {
                 $calendar->attributes = $attributes;
+                $calendar->start_date = $_POST["Calendar"]["base_year"] . "-01-01";
+                $calendar->end_date = $_POST["Calendar"]["base_year"] . "-12-31";
                 $calendar->school_fk = Yii::app()->user->school;
                 if ($calendar->validate()) {
                     $calendar->save();
@@ -103,8 +105,11 @@
                             }
                         }
                     }
-                    Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->school_year);
+                    Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'School Calendar created successfully!'));
+                    $calendar->actual == 1
+                        ? header("location:" . yii::app()->createUrl("/calendar/default/index"))
+                        : header("location:" . yii::app()->createUrl("/calendar/default/others"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -117,10 +122,15 @@
             $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : NULL;
             if ($attributes != NULL) {
                 $event->attributes = $attributes;
+                if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
+                    $event->end_date = $event->start_date;
+                    CalendarEvent::model()->deleteAllByAttributes("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                }
                 if ($event->validate()) {
                     $event->save();
-                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    header("location:" . yii::app()->createUrl("/calendar/default/index"));
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -130,8 +140,8 @@
             ]);
         }
 
-        public function actionEvent($id) {
-            $event = CalendarEvent::model()->findByPk($id);
+        public function actionEvent() {
+            $event = CalendarEvent::model()->findByPk($_POST["id"]);
             echo json_encode($event->attributes);
         }
 
@@ -148,11 +158,18 @@
                     $event = CalendarEvent::model()->findByPk($attributes["id"]);
                     $event->attributes = $attributes;
                 }
-
+                if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
+                    $event->end_date = $event->start_date;
+                    $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
+                    if ($start_scholar_year_date->id !== $event->id) {
+                        $start_scholar_year_date->delete();
+                    }
+                }
                 if ($event->validate()) {
                     $event->save();
-                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->school_year);
+                    Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
                     Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
+                    $this->redirect($attributes["url"]);
                 } else {
                     Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
                 }
@@ -160,7 +177,13 @@
             $this->render('index', [
                 "modelCalendar" => $this->loadModel($event->calendar_fk), "modelEvent" => new CalendarEvent()
             ]);
+        }
 
+        public function actionDeleteEvent() {
+            $event = CalendarEvent::model()->findByPk($_POST['CalendarEvent']["id"]);
+            Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
+            $event->delete();
+            $this->redirect($_POST['CalendarEvent']["url"]);
         }
 
         public function actionOthers() {
@@ -193,6 +216,13 @@
             header("location:" . yii::app()->createUrl("/calendar/default/others"));
         }
 
+        public function actionRemoveCalendar() {
+            $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
+            Log::model()->saveAction("calendar", $calendar->id, "D", $calendar->title);
+            $calendar->delete();
+            header("location:" . yii::app()->createUrl("/calendar/default/others"));
+        }
+
         public function loadModel($id) {
             $model = Calendar::model()->findByPk($id);
             if ($model === NULL) {
@@ -202,4 +232,11 @@
             return $model;
         }
 
+        public function actionEditCalendarTitle() {
+            $calendar = Calendar::model()->findByPk($_POST["Calendar"]["id"]);
+            Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
+            $calendar->title = $_POST["Calendar"]["title"];
+            $calendar->save();
+            $this->redirect($_POST["Calendar"]["url"]);
+        }
     }

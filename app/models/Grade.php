@@ -14,7 +14,7 @@
  * @property double $recovery_grade3
  * @property double $recovery_grade4
  * @property double $recovery_final_grade
- * @property integer $disciplne_fk
+ * @property integer $discipline_fk
  * @property integer $enrollment_fk
  * @property string $fkid
  *

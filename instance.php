@@ -1,12 +1,14 @@
 <?php
 $_FORMS[0] = array('name'=>'Ficha de Matrícula','action'=>'StudentFileForm');
 $_FORMS[1] = array('name'=>'Declaração de Matrícula','action'=>'EnrollmentDeclarationReport');
-$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
-$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
+//$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
+//$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
 $_FORMS[4] = array('name'=>'Declaração de Aluno','action'=>'StudentsDeclarationReport');
 $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferForm');
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
-$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+$_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
+$_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
+@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
 $_GLOBALGROUP = 0;
 switch ($domain) {
     case 'propria':
@@ -21,13 +23,17 @@ switch ($domain) {
         $instance = 'SANTA LUZIA DO ITANHY';
         $db = 'io.escola.se.santaluzia';
         break;
+    case 'santaluzia3':
+        $instance = 'SANTA LUZIA DO ITANHY - 3';
+        $db = 'br.ong.tag.santaluzia3';
+        break;
     case 'santaluzia2':
         $instance = 'SANTA LUZIA DO ITANHY - 2';
         $db = 'io.escola.se.santaluzia2';
         break;
     case 'edeziosouza':
         $instance = 'EDEZIO SOUZA - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.edeziosouza';
+        $db = 'br.ong.tag.santaluzia.edesiosouza';
         break;
     case 'adelsonsilveira':
         $instance = 'ADELSON SILVEIRA - SANTA LUZIA';
@@ -35,7 +41,7 @@ switch ($domain) {
         break;
      case 'acrisiocruz':
         $instance = 'ACRISIO CRUZ - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.acrisiocruz';
+        $db = 'br.ong.tag.santaluzia.acrisiocruz';
         break;
      case 'souteloribeiro':
         $instance = 'SOUTELO RIBEIRO - SANTA LUZIA';
@@ -43,15 +49,15 @@ switch ($domain) {
         break;
      case 'valquirialuiza':
         $instance = 'VALQUIRIA LUIZA - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.valquirialuiza';
+        $db = 'br.ong.tag.santaluzia.valquiria';
         break;
      case 'edmarjose':
         $instance = 'EDMAR JOSÉ - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.edmarjose';
+        $db = 'br.ong.tag.santaluzia.edmarjose';
         break;
      case 'josevicente':
         $instance = 'JOSÉ VICENTE - SANTA LUZIA';
-        $db = 'io.escola.se.santaluzia.josevicente';
+        $db = 'br.ong.tag.santaluzia.josevicente';
         break;  
     case 'ilhadasflores':
         $instance = 'ILHA DAS FLORES';
@@ -93,6 +99,62 @@ switch ($domain) {
         $instance = 'CANHOBA';
         $db = 'io.escola.se.canhoba';
         break;
+    case 'laranjeiras':
+        $instance = 'LARANJEIRAS';
+        $db = 'io.escola.se.laranjeiras';
+        break;
+    case 'saosebastiao':
+        $instance = 'SÃO SEBASTIÃO';
+        $db = 'io.escola.pa.saosebastiao';
+        break;
+    case 'padrecarvalho':
+        $instance = 'PADRE CARVALHO';
+        $db = 'io.escola.mg.padrecarvalho';
+        break;
+    case 'presidentejuscelino':
+        $instance = 'PRESIDENTE JUSCELINO';
+        $db = 'io.escola.ma.presidentejuscelino';
+        break;
+    case 'nossasenhoradasdores':
+        $instance = 'NOSSA SENHORA DAS DORES';
+        $db = 'io.escola.se.nossasenhoradasdores';
+        break;
+    case 'santarosadelima':
+        $instance = 'SANTA ROSA DE LIMA';
+        $db = 'io.escola.se.santarosadelima';
+        break;
+    case 'umari':
+        $instance = 'UMARI';
+        $db = 'io.escola.ce.umari';
+        break;
+    case 'icatu':
+        $instance = 'ICATU';
+        $db = 'io.escola.ma.icatu';
+        break;
+    case 'josenopolis':
+        $instance = 'JOSENOPOLIS';
+        $db = 'io.escola.mg.josenopolis';
+        break;
+    case 'nossasenhoraaparecida':
+        $instance = 'NOSSA SENHORA APARECIDA';
+        $db = 'io.escola.se.nossasenhoraaparecida';
+        break;
+    case 'nossasenhoraaparecida':
+        $instance = 'NOSSA SENHORA DAS DORES';
+        $db = 'io.escola.se.nossasenhoradasdores';
+        break;
+    case 'itabi':
+        $instance = 'ITABI';
+        $db = 'io.escola.se.itabi';
+        break;
+    case 'campodobrito':
+        $instance = 'CAMPO DO BRITO';
+        $db = 'io.escola.se.campodobrito';
+        break;
+    case 'saomigueldoaleixo':
+        $instance = 'SÃO MIGUEL DO ALEIXO';
+        $db = 'io.escola.se.saomigueldoaleixo';
+        break;
     case 'telha':
         $instance = 'TELHA';
         $db = 'io.escola.se.telha';
@@ -112,6 +174,10 @@ switch ($domain) {
     case 'romeuaguiar':
         $instance = 'ROMEU DE AGUIAR';
         $db = 'io.escola.se.malhada.romeuaguiar';
+        break;
+    case 'indiaroba':
+        $instance = 'INDIAROBA';
+        $db = 'io.escola.se.indiaroba';
         break;
     case 'geminiano':
         $_GLOBALGROUP = 1;
@@ -182,21 +248,42 @@ switch ($domain) {
         $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
         $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
         $instance = 'DEMONSTRAÇÃO';
-        $db = 'io.escola.se.demo';
+        $db = 'io.escola.demo';
+        break;
+    case 'cloc':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'CLOC';
+        $db = 'io.escola.cloc';
+        break;
+    case 'bacabeira':
+        $_GLOBALGROUP = 1;
+        $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReportBoquim');
+        $_FORMS[7] = array('name'=>'Ficha de Notas - Ciclo','action'=>'EnrollmentGradesReportBoquimCiclo');
+        $instance = 'BACABEIRA';
+        $db = 'br.ong.tag.maranhao.bacabeira';
+        break;
+    case 'dev':
+        $instance = 'DEV';
+        $db = 'br.ong.tag.maranhao.bacabeira';
         break;
     default:
         $instance = 'SERGIPE';
-        $db = 'io.escola.se';
+        $db = 'io.escola.demo';
         break;
 }
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
+$HOST = getenv("HOST_DB_TAG");
+$USER = getenv("USER_DB_TAG");
+$PWD = getenv("PWD_DB_TAG");
 define ("DBCONFIG", serialize (array(
-    'connectionString' => "mysql:host=localhost;dbname=$db",
+    'connectionString' => "mysql:host=$HOST;dbname=$db",
     'emulatePrepare' => true,
-    'username' => 'user.tag',
-    'password' => '123456',
+    'username' => $USER,
+    'password' => $PWD,
     'charset' => 'utf8',
 )));
 define('INSTANCE',$instance);

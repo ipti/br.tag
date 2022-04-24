@@ -15,6 +15,7 @@ class UserIdentity extends CUserIdentity
             foreach ($names as $n) {
                 $pass .= $n[0];
             }
+            //var_dump($pass);exit;
             return strtoupper($pass);
         }
         return "";

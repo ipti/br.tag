@@ -369,7 +369,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ?>
 
 
-                <span>
+                <span id="box-obs">
                     <br>
                     OBS: <textarea id="obs" placeholder="Digite aqui sua observação."></textarea>
                 </span>
@@ -472,6 +472,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             text-transform: uppercase;
 
         }
-
+        
     }
 </style>

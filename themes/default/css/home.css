@@ -78,9 +78,9 @@
 
 .calendar-icon {
     position: absolute;
-    left: calc(50% - 9px);
-    top: 1px;
-    font-size: 20px !important;
+    left: calc(50% - 12px);
+    top: -2px;
+    font-size: 25px !important;
     z-index: 0;
 }
 
@@ -105,7 +105,8 @@
 }
 
 .modal-title {
-    padding-top: 6px !important;
+    font-size: 20px;
+    padding-top: 5px !important;
 }
 
 form {
@@ -198,7 +199,7 @@ form {
 }
 
 .eggs .glyphicons {
-    padding: 7px 0 0 40px;
+    padding: 7px 0 0 45px;
 }
 
 .log-date {
@@ -272,4 +273,56 @@ form {
 
 .checkcolor {
     font-weight: bold;
+}
+
+.alert-incomplete-data {
+    margin-top: 10px;
+    display: none;
+}
+
+.no-disciplines-guide, .disciplines-container {
+    display: none;
+}
+
+.no-disciplines-link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.alert-no-disciplines, .alert-no-students {
+    display: none;
+}
+
+#SchoolIdentification_logo_file_content {
+    display: none;
+}
+
+.upload-logo-button {
+    margin-top: 10px;
+}
+
+.uploaded-logo-name {
+    display: inline-block;
+    margin: 7px 0 0 5px;
+    vertical-align: middle;
+}
+
+.hidden-and-blocked-frequency {
+    cursor: not-allowed !important;
+}
+
+.hidden-and-blocked-frequency .nameDisciplineFrequency, .hidden-and-blocked-frequency .nameInstructorFrequency {
+    opacity: 0.2;
+}
+
+.save-school-button, .save-student, .save-instructor {
+    display: none;
+}
+
+#Classroom_week_days {
+    margin-left: 144px;
+}
+
+.schedule-info {
+    padding: 3px !important;
 }

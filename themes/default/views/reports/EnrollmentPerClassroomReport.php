@@ -173,6 +173,22 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
                 . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
                 . "</tr>";
+        }else if($key >=40 && $key <60){
+            $r40 .= "<tr>". "<td style='text-align: center;'>" . ($key + 1) . "</td>"
+                . "<td>" . $r['name'] . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'M' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['sex'] == 'F' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
+                . "<td style='text-align: center;'>" . $r['city'] .'/'.@$r['uf']."</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['admission_type'] == '4' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . (($r['admission_type'] == '2' || $r['admission_type'] == '3') ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '0' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '1' ? 'X' : '') . "</td>"
+                . "<td style='text-align: center;'>" . ($r['situation'] == '2' ? 'X' : '') . "</td>"
+                . "<td>" . $r['address'] . (strlen($r['number']) != 0 ? ", " . $r['number'] : '') . "</td>"
+                . "</tr>";
         }else{
             $r60 .= "<tr>"."<td style='text-align: center;'>" . ($key + 1) . "</td>"
                 . "<td>" . $r['name'] . "</td>"
@@ -293,9 +309,12 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
 <br>
     <p style="margin: 0 auto; text-align: right; width:600px">
         <?php
+        setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
+        setlocale(LC_TIME, "pt_BR.UTF-8");
         $time = time();
         $monthName = strftime("%B", $time);
-        echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." de ".ucfirst($monthName)." de ".date("Y")
+        echo ucwords(strtolower($school->edcensoCityFk->name)) .", ". date("d")." De ".ucfirst($monthName)." de ".date("Y")
         ?>.
     </p>
 <div style="margin: 20px auto 0; text-align:center; width: 1000px">

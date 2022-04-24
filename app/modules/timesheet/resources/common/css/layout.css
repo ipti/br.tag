@@ -60,7 +60,7 @@ form {
 }
 
 .schedule {
-    width: 100px;
+    width: 1px;
 }
 
 .available {
@@ -128,6 +128,7 @@ table.table-timesheet td {
     line-height: initial !important;
     margin-bottom: 0 !important;
     padding-left: 0 !important;
+    font-size: 11px !important;
 }
 
 .unavailability-icon {
@@ -152,27 +153,247 @@ table.table-timesheet td {
 
 #turn {
     display: block;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
-    margin: 20px 0;
+    margin: 20px 0 30px;
+    text-align: center;
 }
 
-.table-timesheet td:hover:not(.schedule-selected){
-    background-color: rgba(173, 216, 230, 0.5)!important;
+.table-timesheet td:hover:not(.schedule-selected) {
+    background-color: rgba(173, 216, 230, 0.5) !important;
+    opacity: 1 !important;
 }
 
-.schedule-selected, .schedule-selected:hover{
-    background-color: rgba(173, 216, 230, 1)!important;
+.tables-timesheet .table-month .schedule-selected, .schedule-selected:hover {
+    background-color: rgba(173, 216, 230, 1) !important;
 }
 
-.schedule-selected .instructor-name:hover{
+.schedule-selected .instructor-name:hover {
     background-color: #f8f8f8 !important;
 }
-.schedule-selected .instructor-name:hover .edit-instructor{
-    display: inline-block!important;
+
+.schedule-selected .instructor-name:hover .edit-instructor {
+    display: inline-block !important;
 }
 
-.edit-instructor{
-    float:right;
-    display: none!important;
+.tables-timesheet .hard-unavailable {
+    background: #aaa !important;
+    cursor: default;
+}
+
+.tables-timesheet .frequency-unavailable {
+    background: beige !important;
+    cursor: default;
+}
+
+.tables-timesheet .soft-unavailable {
+    background: #ddd !important;
+}
+
+.schedule-available {
+    background-color: #eee !important;
+    opacity: 0.7;
+}
+
+.edit-instructor {
+    float: right;
+    display: none !important;
+}
+
+.table-title {
+    text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
+}
+
+.table-responsive {
+    margin-bottom: 20px !important;
+}
+
+.table-month thead th, .table-month tbody th {
+    text-align: center;
+}
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+}
+
+.innerLR .loading-timesheet {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: 7px;
+    margin-left: 5px;
+}
+
+#generateAnotherTimesheet .modal-body {
+    text-align: justify;
+}
+
+.table-month tbody td {
+    cursor: pointer;
+    position: relative;
+}
+
+.line {
+    border-top: 1px solid #ccc;
+    width: 72%;
+    margin: 5px 5px 10px;
+}
+
+.calendar-icons {
+    height: 25px;
+}
+
+.calendar-timesheet-icon {
+    display: inline-block;
+    padding: 0 1px;
+}
+
+.dayname-row th {
+    font-weight: lighter !important;
+}
+
+.schedule-remove {
+    position: absolute;
+    top: -1px;
+    right: 0px;
+    padding: 2px 3px;
+    background: white;
+    color: darkred;
+    border-radius: 8px;
+}
+
+.schedule-add {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2px 3px;
+    background: white;
+    color: green;
+    border-radius: 8px;
+}
+
+.schedule-remove:hover, .schedule-add:hover {
+    background: #333;
+    color: white;
+}
+
+.modal-add-schedule-discipline-container {
+    margin-bottom: 10px;
+}
+
+.replicate-actions-container {
+    display: block;
+    position: fixed;
+    top: 126px;
+    right: 10px;
+    background: #fff;
+    border: 1px solid #333;
+    z-index: 1000;
+    padding: 10px 10px 10px 30px !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+}
+
+.replicate-actions-container:hover {
+    background: #eee;
+}
+
+.workloads-container {
+    display: block;
+    position: fixed;
+    top: 180px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.workloads-activator {
+    background: #fff;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    cursor: pointer;
+    font-size: 20px !important;
+    border-bottom-right-radius: 6px;
+}
+
+.workloads-container .workloads-overflow {
+    color: red;
+    position: absolute;
+    right: 41px;
+    top: 29px;
+    background: white;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 15px;
+    display: none;
+}
+
+.workloads-activator:hover {
+    background: #eee;
+}
+
+.workloads {
+    position: fixed;
+    top: 180px;
+    right: 80px;
+    background: #fff;
+    border: 1px solid;
+    z-index: 1000;
+    width: 295px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: none;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.workloads-title {
+    text-align: center;
+    padding: 8px 0px;
+    color: white;
+    margin: -10px -10px 10px;
+    font-weight: bold;
+    background: #496cad;
+}
+
+.workload {
+    font-size: 14px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.workload:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.workload-discipline {
+    display: inline-block;
+    width: 80%;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.workload-numbers {
+    display: inline-block;
+    width: 20%;
+    font-style: italic;
+    text-align: right;
+}
+
+.workload-red {
+    color: darkred;
+}
+
+.workload-green {
+    color: green;
 }

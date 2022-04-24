@@ -18,14 +18,17 @@
  * @property integer $edcenso_uf_fk
  * @property integer $edcenso_city_fk
  * @property string $fkid
+ * @property integer $diff_location
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
-class InstructorDocumentsAndAddress extends CActiveRecord
+class InstructorDocumentsAndAddress extends AltActiveRecord
 {
+	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -43,15 +46,20 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 	{
 		return 'instructor_documents_and_address';
 	}
-        
+        /*
         public function behaviors() {
+        if($this->scenario != self::SCENARIO_IMPORT){
             return [
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
+
         }
+        return [];
+
+    }*/
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -61,8 +69,8 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk', 'required'),
-			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk', 'numerical', 'integerOnly'=>true),
+			array('school_inep_id_fk, cpf, area_of_residence', 'required'),
+			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk, diff_location', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, cep', 'length', 'max'=>8),
 			array('inep_id', 'length', 'max'=>12),
@@ -111,6 +119,7 @@ class InstructorDocumentsAndAddress extends CActiveRecord
 			'neighborhood' => Yii::t('default', 'Neighborhood'),
 			'edcenso_uf_fk' => Yii::t('default', 'Edcenso Uf Fk'),
 			'edcenso_city_fk' => Yii::t('default', 'Edcenso City Fk'),
+			'diff_location' => Yii::t('default', 'Diff Location'),
 		);
 	}
 

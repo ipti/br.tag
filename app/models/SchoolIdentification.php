@@ -65,6 +65,7 @@
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  * @property EdcensoDistrict $edcensoDistrictFk
+ * @property SchoolStagesConceptGrades[] $schoolStagesConceptGrades
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  * @property StudentEnrollment[] $studentEnrollments
  * @property StudentIdentification[] $studentIdentifications
@@ -95,12 +96,12 @@ class SchoolIdentification extends AltActiveRecord {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('inep_id, cep, address, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity', 'required'),
-            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation', 'numerical', 'integerOnly'=>true),
+            array('name, inep_id, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, offer_or_linked_unity, id_difflocation', 'required'),
+            array('manager_role, situation, edcenso_uf_fk, edcenso_city_fk, edcenso_district_fk, administrative_dependence, location, private_school_category, public_contract, private_school_business_or_individual, private_school_syndicate_or_association, private_school_ong_or_oscip, private_school_non_profit_institutions, private_school_s_system, offer_or_linked_unity, regulation, id_difflocation, linked_mec, linked_army, linked_helth, linked_other, regulation_organ, regulation_organ_federal, regulation_organ_state, regulation_organ_municipal, private_school_organization_civil_society, manager_contract_type', 'numerical', 'integerOnly'=>true),
             array('register_type, ddd', 'length', 'max'=>2),
             array('inep_id, cep, public_phone_number, fax_number, inep_head_school', 'length', 'max'=>8),
             array('manager_cpf', 'length', 'max'=>11),
-            array('manager_name, name, address, logo_file_name', 'length', 'max'=>100),
+            array('manager_name, name, address, logo_file_name, manager_access_criterion', 'length', 'max'=>100),
             array('manager_email, address_neighborhood, email, logo_file_type', 'length', 'max'=>50),
             array('initial_date, final_date, address_number', 'length', 'max'=>10),
             array('latitude, longitude, address_complement', 'length', 'max'=>20),
@@ -127,6 +128,7 @@ class SchoolIdentification extends AltActiveRecord {
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'edcensoDistrictFk' => array(self::BELONGS_TO, 'EdcensoDistrict', 'edcenso_district_fk'),
+            'schoolStagesConceptGrades' => array(self::HAS_MANY, 'SchoolStagesConceptGrades', 'school_fk'),
             'studentDocumentsAndAddresses' => array(self::HAS_MANY, 'StudentDocumentsAndAddress', 'school_inep_id_fk'),
             'studentEnrollments' => array(self::HAS_MANY, 'StudentEnrollment', 'school_inep_id_fk'),
             'studentIdentifications' => array(self::HAS_MANY, 'StudentIdentification', 'school_inep_id_fk'),
@@ -183,6 +185,18 @@ class SchoolIdentification extends AltActiveRecord {
             'regulation' => Yii::t('default', 'Regulation'),
             'act_of_acknowledgement' => Yii::t('default', 'Act of acknowledgement'),
             'logo_file_content' => Yii::t('default', 'Logo'),
+            'id_difflocation' => Yii::t('default', 'Id difflocation'),
+            'linked_mec' => Yii::t('default', 'Linked MEC'),
+            'linked_army' => Yii::t('default', 'Linked Army'),
+            'linked_helth' => Yii::t('default', 'Linked health'),
+            'linked_other' => Yii::t('default', 'LInked other'),
+            'regulation_organ' => Yii::t('default', 'Regulation Organ'),
+            'regulation_organ_federal' => Yii::t('default', 'Regulation Organ Federal'),
+            'regulation_organ_state' => Yii::t('default', 'Regulation Organ State'),
+            'regulation_organ_municipal' => Yii::t('default', 'Regulation Organ Municipal'),
+            'private_school_organization_civil_society' => Yii::t('default', 'Organization Civil Society'),
+            'manager_access_criterion' => Yii::t('default', 'Manager Access Criterion'),
+            'manager_contract_type' => Yii::t('default', 'Manager Contract Type'),
         );
     }
 

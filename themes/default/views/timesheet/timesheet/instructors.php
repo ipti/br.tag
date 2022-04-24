@@ -6,7 +6,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/instructors.js', CClientScript::POS_END);
 $cs->registerScript("vars", "
 	var getInstructorsDisciplinesURL = '" . $this->createUrl('timesheet/getInstructorDisciplines') . "';
@@ -45,10 +45,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
             <button data-toggle="modal" data-target="#add-instructors-unavailability-modal"
                     class="btn btn-primary btn-icon glyphicons circle_plus">
                 <i></i><?= yii::t('timesheetModule.instructors', "Add Unavailability") ?>
-            </button>
-            <button data-toggle="modal" data-target="#add-instructors-disciplines-modal"
-                    class="btn btn-primary btn-icon glyphicons circle_plus">
-                <i></i><?= yii::t('timesheetModule.instructors', "Add Disciplines") ?>
             </button>
             <a href="<?= yii::app()->createUrl("timesheet/timesheet/index") ?>"
                class="btn btn-primary btn-icon glyphicons calendar">
@@ -276,75 +272,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.instructors', 'Instructor
                     <?= yii::t("timesheetModule.instructors", "Cancel") ?>
                 </button>
                 <button type="button" class="btn btn-primary" id="add-instructors-unavailability-button">
-                    <?= yii::t("timesheetModule.instructors", "Add") ?>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="add-instructors-disciplines-modal" tabindex="-1" role="dialog"
-     aria-labelledby="<?= Yii::t("timesheetModule.instructors", "Add Instructors Disciplines") ?>">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"
-                        aria-label="<?= Yii::t("timesheetModule.instructors", "Close") ?>">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    <?= Yii::t("timesheetModule.instructors", "Add Instructors Disciplines") ?>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form id="add-instructors-disciplines-form" method="POST"
-                      action="<?= $this->createUrl('timesheet/addInstructorsDisciplines') ?>">
-                    <div class="row-fluid">
-                        <div class=" span12">
-                            <?= CHtml::label(Yii::t("timesheetModule.instructors", "Instructors"), "add-instructors-unavailability-ids", ['class' => 'control-label']); ?>
-                            <?= CHtml::dropDownList("add-instructors-disciplines-ids", "", CHtml::listData(InstructorIdentification::model()->findAll(["order"=>"name"]), 'id', 'name'), [
-                                "class" => "select-search-on span12", "multiple" => "multiple"
-                            ]) ?>
-                        </div>
-                    </div>
-                    <br>
-
-                    <div class="row-fluid" id="add-instructors-disciplines">
-                        <div class="row-fluid">
-                            <div class=" span6">
-                                <?= CHtml::label(Yii::t("timesheetModule.instructors", "Stages"), "", ['class' => 'control-label']); ?>
-                            </div>
-                            <div class=" span5">
-                                <?= CHtml::label(Yii::t("timesheetModule.instructors", "Disciplines"), "", ['class' => 'control-label']); ?>
-                            </div>
-                        </div>
-                        <div class="row-fluid add-instructors-disciplines" id="add-instructors-disciplines_0">
-                            <div class=" span6">
-                                <?= CHtml::dropDownList("add-instructors-disciplines-stage[0]", "", CHtml::listData(EdcensoStageVsModality::getAll(), 'id', 'name'), [
-                                    "class" => "select-search-on span12", "multiple" => "multiple"
-                                ]) ?>
-                            </div>
-                            <div class=" span5">
-                                <?= CHtml::dropDownList("add-instructors-disciplines-discipline[0]", "", CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), [
-                                    "class" => "select-search-on span12", "multiple" => "multiple"
-                                ]) ?>
-                            </div>
-                        </div>
-                        <div class=" span12">
-                            <?= CHtml::link("+ " . Yii::t("timesheetModule.instructors", "new discipline/stage"), "#", [
-                                "id" => "add-discipline", 'class' => 'control-label'
-                            ]); ?>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <?= yii::t("timesheetModule.instructors", "Cancel") ?>
-                </button>
-                <button type="button" class="btn btn-primary" id="add-instructors-disciplines-button">
                     <?= yii::t("timesheetModule.instructors", "Add") ?>
                 </button>
             </div>

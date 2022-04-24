@@ -57,7 +57,7 @@
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode3Fk
  * @property EdcensoIes $highEducationInstitutionCode3Fk
  */
-class InstructorVariableData extends CActiveRecord
+class InstructorVariableData extends AltActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -76,7 +76,7 @@ class InstructorVariableData extends CActiveRecord
 	{
 		return 'instructor_variable_data';
 	}
-
+/*
         public function behaviors() {
             return [
                 'afterSave'=>[
@@ -85,7 +85,7 @@ class InstructorVariableData extends CActiveRecord
                 ],
             ];
         }
-        
+        */
 	/**
 	 * @return array validation rules for model attributes.
 	 */

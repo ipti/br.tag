@@ -8,18 +8,29 @@
     );
     ?>
 
-    <div class="row-fluid">
+    <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
             <div class="buttons span9">
                 <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Relatório Professores/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Professores/Turma</a>
             </div>
         </div>
     </div>
-
+    
     <div class="innerLR">
+        <div class="btn-group pull-right responsive-menu">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Menu
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class=""><i></i> Adicionar turma</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class=""><i></i>Relatório Alunos/Turma</a></li>
+                <li><a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class=""><i></i>Relatório Professores/Turma</a></li>
+            </ul>
+        </div>
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
@@ -54,6 +65,7 @@
                                 'htmlOptions' => array('width' => '200px'),
                                 'filter' => false
                             ),
+                            array('class' => 'CButtonColumn', 'template' => '{update}'),
                             array('class' => 'CButtonColumn', 'template' => '{delete}'),
                         ),
                     ));

@@ -102,7 +102,7 @@
 			$students = StudentIdentification::model()->findAll($filterStudent);
 			$classrooms = Classroom::model()->findAll($filterClassroom);
 
-			$updateFKID = "UPDATE `class` as c
+			$updateFKID = "UPDATE `schedule` as c
             SET `fkid` = CONCAT((select school_inep_fk from classroom as cr where cr.id = c.classroom_fk),';',c.id)
             WHERE true;
             UPDATE `class_board` as c
@@ -111,16 +111,16 @@
             UPDATE `class_faults` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk
-                            from class as cs
+                            from schedule as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
-                            where cs.id = c.class_fk),';',c.id)
+                            where cs.id = c.schedule_fk),';',c.id)
             WHERE true;
             UPDATE `class_has_content` as c
             SET `fkid` = CONCAT(
                     (select cr.school_inep_fk
-                            from class as cs
+                            from schedule as cs
                     join classroom as cr on (cs.classroom_fk = cr.id)
-                            where cs.id = c.class_fk),';',c.id)
+                            where cs.id = c.schedule_fk),';',c.id)
             WHERE true;
             UPDATE `classroom` as c
             SET `fkid` = CONCAT(c.school_inep_fk,';',c.id)
@@ -334,8 +334,8 @@
 			//student[fkid][documents][attributes]
 			$classrooms = isset($json['classroom']) ? $json['classroom'] : [];
 			//classroom[fkid][attributes]
-			//classroom[fkid][classes][fkid][attributes]
-			//classroom[fkid][classes][fkid][faults][fkid][attributes]
+			//classroom[fkid][schedule][fkid][attributes]
+			//classroom[fkid][schedule][fkid][faults][fkid][attributes]
 			//classroom[fkid][classboards][fkid][attributes]
 			//classroom[fkid][enrollments][fkid][attributes]
 			$exit = "";
@@ -385,9 +385,9 @@
 			$this->createMultipleInsertOnDuplicateKeyUpdate($classroomModel, $classroomValues)->query();
 
 
-			//classroom[fkid][classes][fkid][attributes]
+			//classroom[fkid][schedules][fkid][attributes]
 			$classesValues = [];
-			$classesModel = Classes::model();
+			$classesModel = Schedule::model();
 			foreach ($classrooms as $classroom) {
 				foreach ($classroom['classes'] as $class) {
 					$myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
@@ -436,7 +436,7 @@
 			$this->createMultipleInsertOnDuplicateKeyUpdate($enrollmentsModel, $enrollmentsValues)->query();
 
 
-			//classroom[fkid][classes][fkid][faults][fkid][attributes]
+			//classroom[fkid][schedule][fkid][faults][fkid][attributes]
 			$faultsValues = [];
 			$faultsModel = ClassFaults::model();
 			foreach ($classrooms as $classroom) {
@@ -455,11 +455,11 @@
 							}
 							$myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollmentFkid]);
 							$fault['attributes']['id'] = NULL;
-							$fault['attributes']['class_fk'] = $myClass->id;
+							$fault['attributes']['schedule_fk'] = $myClass->id;
 							$fault['attributes']['student_fk'] = $myEnrollment->student_fk;
 						} else {
 							$fault['attributes']['id'] = $myFault->id;
-							$fault['attributes']['class_fk'] = $myFault->class_fk;
+							$fault['attributes']['schedule_fk'] = $myFault->schedule_fk;
 							$fault['attributes']['student_fk'] = $myFault->student_fk;
 						}
 						array_push($faultsValues, $fault['attributes']);
