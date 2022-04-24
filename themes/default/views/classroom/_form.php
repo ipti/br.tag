@@ -7,7 +7,6 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/calendar.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js', CClientScript::POS_END);
@@ -24,8 +23,10 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . ($modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('id' => 'enviar_essa_bagaca', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
-            ?>
+            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-classroom"
+                    type="button">
+                <i></i> <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            </button>
         </div>
     </div>
 </div>
@@ -39,6 +40,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="widget widget-tabs border-bottom-none">
 
         <?php echo $form->errorSummary($modelClassroom); ?>
+        <div class="alert alert-error classroom-error no-show"></div>
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active" ><a class="glyphicons adress_book" href="#classroom" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?></a></li>
@@ -81,13 +83,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="modality">
-                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label required')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'modality', array(null => 'Selecione a modalidade',
+                                    echo $form->DropDownList($modelClassroom, 'modality', array(
                                         '1' => 'Ensino Regular',
                                         '2' => 'Educação Especial - Modalidade Substitutiva',
-                                        '3' => 'Educação de Jovens e Adultos (EJA)'), array('class' => 'select-search-off'));
+                                        '3' => 'Educação de Jovens e Adultos (EJA)'), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off'));
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'modality'); ?>
                                 </div>
@@ -146,7 +148,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(null => 'Selecione o tipo de atendimento', 0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('class' => 'select-search-off', 'ajax' => array(
+                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off', 'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
                                             'success' => "function(data){
@@ -158,8 +160,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="control-group" id="aee2">
-                                <label class="control-label"><?php echo Yii::t('default', 'Assistence Types'); ?></label>
+                            <div class="control-group assistance-types-container" id="aee2">
+                                <label class="control-label required"><?php echo Yii::t('default', 'Assistence Types'); ?> *</label>
                                 <div class="uniformjs margin-left">
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
@@ -211,8 +213,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label"><?php echo Yii::t('default', 'Week Days'); ?></label>
-                                <div class="uniformjs margin-left" id="Classroom_week_days">
+                                <label class="control-label required"><?php echo Yii::t('default', 'Week Days'); ?> *</label>
+                                <div class="uniformjs" id="Classroom_week_days">
                                     <table>
                                         <tr>
                                             <td>S</td>
@@ -225,12 +227,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <td><span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Week days'); ?>"><i></i></span></td>
                                         </tr>
                                         <tr>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array("checked" => "checked", 'value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
+                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
                                             <td></td>
                                         </tr>
@@ -320,7 +322,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>

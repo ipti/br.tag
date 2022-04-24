@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'calendar':
  * @property integer $id
- * @property string $school_year
+ * @property string $title
  * @property string $start_date
  * @property string $end_date
  * @property integer $actual
@@ -17,6 +17,10 @@
  * @property Classroom[] $classrooms
  */
 class Calendar extends CActiveRecord{
+
+    public $base_year;
+    public $url;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -31,13 +35,13 @@ class Calendar extends CActiveRecord{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_year, start_date, end_date, actual, school_fk', 'required'),
+			array('title, start_date, end_date, actual, school_fk', 'required'),
 			array('actual', 'numerical', 'integerOnly'=>true),
-			array('school_year', 'length', 'max'=>10),
+			array('title', 'length', 'max'=>50),
 			array('school_fk', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, school_year, start_date, end_date, actual, school_fk', 'safe', 'on'=>'search'),
+			array('id, title, start_date, end_date, actual, school_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,7 +64,7 @@ class Calendar extends CActiveRecord{
 	public function attributeLabels(){
 		return array(
 			'id' => yii::t('calendarModule.labels', 'ID'),
-			'school_year' => yii::t('calendarModule.labels','School Year'),
+			'title' => yii::t('calendarModule.labels','Title'),
 			'start_date' => yii::t('calendarModule.labels','Start Date'),
 			'end_date' => yii::t('calendarModule.labels','End Date'),
 			'actual' => yii::t('calendarModule.labels','Actual'),
@@ -86,7 +90,7 @@ class Calendar extends CActiveRecord{
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('school_year',$this->school_year,true);
+		$criteria->compare('title',$this->title,true);
 		$criteria->compare('start_date',$this->start_date,true);
 		$criteria->compare('end_date',$this->end_date,true);
 		$criteria->compare('actual',$this->actual);

@@ -1,6 +1,7 @@
 <?php
 
-class CourseplanController extends Controller {
+class CourseplanController extends Controller
+{
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -11,7 +12,8 @@ class CourseplanController extends Controller {
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array(
             'accessControl', // perform access control for CRUD operations
             'postOnly + delete', // we only allow deletion via POST request
@@ -23,7 +25,8 @@ class CourseplanController extends Controller {
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
@@ -39,7 +42,8 @@ class CourseplanController extends Controller {
     /**
      * Sabe the Course Plan, and yours course classes.
      */
-    public function actionSave($data, $id = null) {
+    public function actionSave($data, $id = null)
+    {
         $coursePlan = isset($data['CoursePlan']) ? $data['CoursePlan'] : null;
         $courseClasses = isset($data['course-class']) ? $data['course-class'] : [];
         $saved = true;
@@ -52,12 +56,13 @@ class CourseplanController extends Controller {
             } else {
                 $newCoursePlan = new CoursePlan;
                 $newCoursePlan->school_inep_fk = Yii::app()->user->school;
+                $newCoursePlan->users_fk = Yii::app()->user->loginInfos->id;
                 $logSituation = "C";
             }
             $newCoursePlan->attributes = $coursePlan;
             if ($newCoursePlan->validate()) {
                 $saved = $saved && $newCoursePlan->save();
-                foreach($newCoursePlan->courseClasses as $class){
+                foreach ($newCoursePlan->courseClasses as $class) {
                     $class->delete();
                 }
                 foreach ($courseClasses as $i => $courseClass) {
@@ -126,7 +131,8 @@ class CourseplanController extends Controller {
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      */
-    public function actionCreate($data = null) {
+    public function actionCreate($data = null)
+    {
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave($_POST);
         }
@@ -175,7 +181,8 @@ class CourseplanController extends Controller {
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
      */
-    public function actionUpdate($id, $data = null) {
+    public function actionUpdate($id, $data = null)
+    {
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave($_POST, $id);
         }
@@ -183,25 +190,25 @@ class CourseplanController extends Controller {
         $coursePlan = $this->loadModel($id);
         if ($data == null) {
             $courseClasses = [];
-            foreach($coursePlan->courseClasses as $courseClass){
+            foreach ($coursePlan->courseClasses as $courseClass) {
                 $order = $courseClass->order;
                 $courseClasses[$order] = [];
                 $courseClasses[$order]['objective'] = $courseClass->objective;
                 $courseClasses[$order]['type'] = [];
                 $courseClasses[$order]['content'] = [];
                 $courseClasses[$order]['resource'] = [];
-                $i=0;
-                foreach ($courseClass->courseClassHasClassResources as $classHasResource){
+                $i = 0;
+                foreach ($courseClass->courseClassHasClassResources as $classHasResource) {
                     $resource = ClassResources::model()->findByPk($classHasResource->class_resource_fk);
-                    
-                    if($resource->type == ClassResources::TYPE){
+
+                    if ($resource->type == ClassResources::TYPE) {
                         array_push($courseClasses[$order]['type'], $resource->id);
                     }
-                    if($resource->type == ClassResources::CONTENT){
+                    if ($resource->type == ClassResources::CONTENT) {
                         array_push($courseClasses[$order]['content'], $resource->id);
                     }
-                    if($resource->type == ClassResources::RESOURCE){
-                        if($i === 0) {
+                    if ($resource->type == ClassResources::RESOURCE) {
+                        if ($i === 0) {
                             $courseClasses[$order]['resource'][$i] = [];
                         }
                         $courseClasses[$order]['resource'][$i]['value'] = $resource->id;
@@ -209,7 +216,7 @@ class CourseplanController extends Controller {
                         $i++;
                     }
                 }
-                
+
             }
         } else {
             $courseClasses = $data['courseClasses'];
@@ -249,7 +256,8 @@ class CourseplanController extends Controller {
     /**
      * Delete model.
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $coursePlan = $this->loadModel($id);
         if ($coursePlan->delete()) {
             Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
@@ -259,12 +267,21 @@ class CourseplanController extends Controller {
             throw new CHttpException(404, 'A página requisitada não existe.');
         }
     }
-    
+
     /**
      * Lists all models.
      */
-    public function actionIndex() {
-        $dataProvider = new CActiveDataProvider('CoursePlan');
+    public function actionIndex()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+            $dataProvider = new CActiveDataProvider('CoursePlan');
+        } else {
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => array(
+                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
+                ),
+            ));
+        }
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
@@ -277,7 +294,8 @@ class CourseplanController extends Controller {
      * @return CoursePlan the loaded model
      * @throws CHttpException
      */
-    public function loadModel($id) {
+    public function loadModel($id)
+    {
         $model = CoursePlan::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -288,7 +306,8 @@ class CourseplanController extends Controller {
      * Performs the AJAX validation.
      * @param CoursePlan $model the model to be validated
      */
-    protected function performAjaxValidation($model) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-plan-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();

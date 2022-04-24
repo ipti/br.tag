@@ -96,7 +96,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo CHtml::label( Yii::t('default','Role'), 'Role', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php 
-                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name','name');
+                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 and name <> "instructor" order by name'), 'name','name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default',$value);
                                     }

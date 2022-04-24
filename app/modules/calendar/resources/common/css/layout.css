@@ -1,24 +1,36 @@
 
-.text-right {text-align: right !important;} /*For right align*/
-.text-left {text-align: left !important;} /*For left align*/
-.text-center {text-align: center !important;} /*For center align*/
+.text-right {
+    text-align: right !important;
+}
 
-.calendar a, .calendar a:hover, .calendar a:visited, .accordion-toggle a{
+/*For right align*/
+.text-left {
+    text-align: left !important;
+}
+
+/*For left align*/
+.text-center {
+    text-align: center !important;
+}
+
+/*For center align*/
+
+.calendar a, .calendar a:hover, .calendar a:visited, .accordion-toggle a {
     text-decoration: none !important;
     cursor: pointer;
     color: inherit;
 }
 
-.modal-dialog form{
+.modal-dialog form {
     margin-bottom: 0;
 }
 
-.span1-7{
+.span1-7 {
     width: 12.63157894736842% !important;
-    position:relative;
+    position: relative;
 }
 
-.calendar-header{
+.calendar-header {
     background-color: rgb(149, 171, 211);
     color: #FFFFFF;
     font-weight: bold;
@@ -27,72 +39,77 @@
     height: 27px;
 }
 
-.start-calendar{
+.start-calendar {
     background: #598b58;
     color: white;
 }
 
-.sunday .calendar-text{
+.sunday .calendar-text {
     color: #ff0000;
 }
 
-.calendar-yellow{
+.calendar-yellow {
     color: #d9d303;
 }
+
 .calendar-red {
     color: #ff0000;
 }
+
 .calendar-green {
     color: #26cb24;
 }
-.calendar-blue{
+
+.calendar-blue {
     color: #0081c2;
 }
-.calendar-purple{
+
+.calendar-purple {
     color: #9700f6
 }
-.calendar-black{
+
+.calendar-black {
     color: #333333;
 }
-.calendar-pink{
+
+.calendar-pink {
     color: pink;
 }
 
-.calendar-icon{
+.calendar-icon {
     position: absolute;
     left: calc(50% - 9px);
     top: 1px;
-    font-size: 20px!important;
+    font-size: 20px !important;
     z-index: 0;
 }
-.calendar-icon+.calendar-text{
+
+.calendar-icon + .calendar-text {
     font-weight: 600 !important;
     color: white !important;
     text-shadow: 0px 0px 2px #000 !important;
 }
 
-
-.calendar-text{
+.calendar-text {
     position: absolute;
-    font-size: 12px!important;
+    font-size: 12px !important;
     left: calc(50% - 8px);
 }
 
-.calendar-subtitles span{
-    color:black;
+.calendar-subtitles span {
+    color: black;
 }
 
-
-.modal, .modal-dialog, .modal-content, .modal-header{
+.modal, .modal-dialog, .modal-content, .modal-header {
     border-radius: 5px 5px 0px 0px !important;
 }
 
-.modal-title{
-    padding-top: 6px!important;
+.modal-title {
+    padding-top: 6px !important;
 }
 
-form{
-    margin: 0!important;
+form {
+    margin: 0 !important;
 }
 
 .divider {
@@ -103,10 +120,59 @@ form{
     height: 10px;
 }
 
-.accordion-toggle:hover{
-    background-color: #b3b3b3!important;
+.accordion-toggle:hover {
+    background-color: #b3b3b3 !important;
 }
 
-.accordion-toggle{
-    width: calc(100% - 20px)!important;
+.accordion-toggle {
+    width: calc(100% - 20px) !important;
+}
+
+.change-active {
+    padding: 0 10px;
+}
+
+.remove-calendar {
+    padding: 0 5px;
+}
+
+.change-active .fa-check {
+    color: green;
+}
+
+.change-active .fa-history {
+    color: darkgoldenrod;
+}
+
+.change-active:hover .fa-check, .change-active:hover .fa-history, .remove-calendar:hover .fa-remove {
+    color: #333;
+}
+
+.remove-calendar .fa-remove {
+    color: darkred;
+}
+
+.actual-calendar-checkbox {
+    margin: 3px 0 15px 0;
+}
+
+.calendar-title-container {
+    padding: 5px 5px;
+    text-align: center;
+}
+
+.calendar-title-container span {
+    color: #333;
+    padding: 0 2px;
+}
+
+.edit-calendar-title {
+    margin-left: 10px;
+    font-size: 14px;
+    color: darkgoldenrod;
+    cursor: pointer;
+}
+
+.edit-calendar-title:hover {
+    color: #333;
 }

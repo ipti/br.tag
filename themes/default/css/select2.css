@@ -388,11 +388,9 @@ disabled look for disabled choices in the results dropdown
 
 .select2-container.select2-container-disabled .select2-choice {
     background-color: #f4f4f4;
-    background-color: #fff;
     background-image: none;
     border: 1px solid #ddd;
-    border: none;
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .select2-container.select2-container-disabled .select2-choice .select2-arrow {

@@ -22,12 +22,16 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>  
-        <div class="buttons span9">            
-            <a id="add-content" class='btn btn-icon btn-success'><i class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Content') ?></a>
+        <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
+        <div class="buttons span9">
+            <a id="add-content" class='btn btn-icon btn-success'><i
+                        class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Content') ?></a>
 
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
-            <a id="save" class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?><i></i></a>
+            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
+                <i></i></a>
+            <a id="save"
+               class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?>
+                <i></i></a>
         </div>
     </div>
 </div>
@@ -37,21 +41,27 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 <table class="table table-bordered table-striped visible-print">
     <tr>
-        <th>Escola:</th>    <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
+        <th>Escola:</th>
+        <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
     <tr>
     <tr>
-        <th>Estado:</th>    <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-        <th>Municipio:</th> <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
-        <th>Endereço:</th>  <td colspan="2"><?php echo $school->address ?></td>
+        <th>Estado:</th>
+        <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+        <th>Municipio:</th>
+        <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
+        <th>Endereço:</th>
+        <td colspan="2"><?php echo $school->address ?></td>
     <tr>
     <tr>
-        <th>Localização:</th><td colspan="2"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-        <th>Dependência Administrativa:</th><td colspan="4"><?php
+        <th>Localização:</th>
+        <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+        <th>Dependência Administrativa:</th>
+        <td colspan="4"><?php
             $ad = $school->administrative_dependence;
-            echo ($ad == 1 ? "FEDERAL" :
-                    ($ad == 2 ? "ESTADUAL" :
-                            ($ad == 3 ? "MUNICIPAL" :
-                                    "PRIVADA" )));
+            echo($ad == 1 ? "FEDERAL" :
+                ($ad == 2 ? "ESTADUAL" :
+                    ($ad == 3 ? "MUNICIPAL" :
+                        "PRIVADA")));
             ?></td>
     <tr>
 </table>
@@ -64,24 +74,22 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
+    <div class="alert-no-classroom-and-month no-show alert alert-error">
+        Os Campos de Turma e Mês são obrigatórios.
+    </div>
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label')); ?>
-            <?php
-            echo CHtml::dropDownList('classroom', '', CHtml::listData(Classroom::model()->findAll(array('condition'=>'school_inep_fk=' . Yii::app()->user->school . ' && school_year = ' . Yii::app()->user->year,'order' => 'name')), 'id', 'name'), array(
-                'key' => 'id',
-                'class' => 'select-search-on',
-                'prompt' => 'Selecione a turma',
-                'ajax' => array(
-                    'type' => 'POST',
-                    'url' => CController::createUrl('classes/getDisciplines'),
-                    'update' => '#disciplines',
-            )));
-            ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
+            <select class="select-search-on" id="classroom" name="classroom">
+                <option>Selecione a turma</option>
+                <?php foreach ($classrooms as $classroom): ?>
+                    <option value="<?= $classroom->id ?>"
+                            showdisciplines="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-
-        <div>    
-            <?php echo CHtml::label(yii::t('default', 'Month'), 'month', array('class' => 'control-label')); ?>
+        <div>
+            <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label required')); ?>
             <?php
             echo CHtml::dropDownList('month', '', array(1 => 'Janeiro',
                 2 => 'Fevereiro',
@@ -101,20 +109,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ));
             ?>
         </div>
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Disciplines'), 'disciplines', array('class' => 'control-label')); ?>
+        <div class="disciplines-container">
+            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label')); ?>
             <?php
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
                 'class' => 'select-search-on',
-                'prompt' => 'Todas as disciplinas',
             ));
             ?>
         </div>
         <div class="pull-right">
-            <a id="classesSearch" class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?><i></i></a>
+            <a id="classesSearch"
+               class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
+                <i></i></a>
         </div>
-
 
 
     </div>
@@ -126,49 +134,49 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <thead>
             </thead>
             <tbody>
-                <tr>
-                    <td class="center">1</td>
-                </tr>
+            <tr>
+                <td class="center">1</td>
+            </tr>
             </tbody>
         </table>
     </div>
 </div>
-    <?php $this->endWidget(); ?>
+<?php $this->endWidget(); ?>
 
-    <!-- Modal -->
-    <div id="add-content-form" class="hide" title="<?php echo Yii::t('default', 'Add Content'); ?>">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::textField('add-content-name', ''); ?>
-                    </div>
+<!-- Modal -->
+<div id="add-content-form" class="hide" title="<?php echo Yii::t('default', 'Add Content'); ?>">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="control-group">
+                <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', array('class' => 'control-label')); ?>
+                <div class="controls">
+                    <?php echo CHtml::textField('add-content-name', ''); ?>
                 </div>
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::textField('add-content-description', ''); ?>
-                    </div>
+            </div>
+            <div class="control-group">
+                <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', array('class' => 'control-label')); ?>
+                <div class="controls">
+                    <?php echo CHtml::textField('add-content-description', ''); ?>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 <script>
 
-<?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina    ?>
-<?php //@done s2 - inabilitar checkbox quando vier checado     ?>
-<?php //@done s2 - desabilitar a coluna ao clicar em falta do professor    ?>
-<?php //@done s2 - reabilitar apenas os que não estão checados     ?>
+    <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina    ?>
+    <?php //@done s2 - inabilitar checkbox quando vier checado     ?>
+    <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor    ?>
+    <?php //@done s2 - reabilitar apenas os que não estão checados     ?>
     var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
     var getContentsURL = "<?php echo Yii::app()->createUrl('classes/getContents') ?>";
     var saveContentURL = "<?php echo Yii::app()->createUrl('classes/saveContent')?>";
-    
+
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
-    
+
     var myAddContentForm;
 
 </script>

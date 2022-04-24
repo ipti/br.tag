@@ -1,3 +1,5 @@
+$('.modal').modal({backdrop: 'static', show: false, keyboard: false});
+
 $(function () {
   // Sidebar menu collapsibles
   $("#menu .collapse")

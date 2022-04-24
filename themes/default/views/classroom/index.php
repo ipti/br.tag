@@ -13,8 +13,8 @@
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
             <div class="buttons span9">
                 <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Relatório Alunos/Turma</a>
-                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i>Relatório Professores/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Alunos/Turma</a>
+                <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="btn btn-primary btn-icon glyphicons circle_plus" target="_blank"><i></i>Relatório Professores/Turma</a>
             </div>
         </div>
     </div>

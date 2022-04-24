@@ -12,6 +12,8 @@
  *
  * The followings are the available model relations:
  * @property AuthItem[] $authItems
+ * @property CoursePlan[] $coursePlans
+ * @property InstructorIdentification[] $instructorIdentifications
  * @property UsersSchool[] $usersSchools
  */
 class Users extends CActiveRecord
@@ -52,6 +54,8 @@ class Users extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'authItems' => array(self::MANY_MANY, 'auth_item', 'auth_assignment(userid, itemname)'),
+            'coursePlans' => array(self::HAS_MANY, 'CoursePlan', 'users_fk'),
+            'instructorIdentifications' => array(self::HAS_MANY, 'InstructorIdentification', 'users_fk'),
 			'usersSchools' => array(self::HAS_MANY, 'UsersSchool', 'user_fk'),
 		);
 	}

@@ -1,0 +1,58 @@
+ALTER TABLE `school_structure`
+ADD `dependencies_professional_specific_lab` tinyint(1) NULL AFTER `dependencies_laundry`,
+ADD `dependencies_vocational_education_workshop` tinyint(1) NULL AFTER `dependencies_professional_specific_lab`;
+
+update school_structure set dependencies_professional_specific_lab = 0, dependencies_vocational_education_workshop = 0;
+
+ALTER TABLE `school_structure`
+ADD `equipments_inexistent` tinyint(1) NULL AFTER `equipments_scanner`;
+
+update school_structure set equipments_satellite_dish = 0 where equipments_satellite_dish is null;
+update school_structure set equipments_computer = 0 where equipments_computer is null;
+update school_structure set equipments_copier= 0 where equipments_copier is null;
+update school_structure set equipments_printer= 0 where equipments_printer is null;
+update school_structure set equipments_multifunctional_printer= 0 where equipments_multifunctional_printer is null;
+update school_structure set equipments_scanner  = 0 where equipments_scanner is null;
+
+update school_structure set equipments_satellite_dish = 1 where equipments_satellite_dish > 0;
+update school_structure set equipments_computer = 1 where equipments_computer  > 0;
+update school_structure set equipments_copier= 1 where equipments_copier > 0;
+update school_structure set equipments_printer= 1 where equipments_printer > 0;
+update school_structure set equipments_multifunctional_printer= 1 where equipments_multifunctional_printer > 0;
+update school_structure set equipments_scanner  = 1 where equipments_scanner > 0;
+
+update school_structure set equipments_inexistent = 0;
+
+update school_structure set equipments_inexistent = 1 where
+equipments_satellite_dish = 0 and
+equipments_computer = 0 and
+equipments_copier= 0 and
+equipments_printer= 0 and
+equipments_multifunctional_printer= 0 and
+equipments_scanner  = 0;
+
+ALTER TABLE `school_structure`
+ADD `equipments_qtd_desktop` smallint(4) NULL AFTER `equipments_qtd_blackboard`;
+
+ALTER TABLE `school_structure`
+ADD `equipments_material_professional_education` tinyint(1) NULL AFTER `equipments_material_cultural`,
+ADD `instruments_inexistent` tinyint(1) NULL AFTER `equipments_material_teachingrural`;
+
+update school_structure set equipments_material_professional_education = 0;
+
+update school_structure set instruments_inexistent = 0;
+
+update school_structure set instruments_inexistent = 1 where
+equipments_multimedia_collection= 0 and
+equipments_toys_early= 0 and
+equipments_scientific_materials= 0 and
+equipments_equipment_amplification= 0 and
+equipments_musical_instruments= 0 and
+equipments_educational_games= 0 and
+equipments_material_cultural= 0 and
+equipments_material_sports= 0 and
+equipments_material_teachingindian= 0 and
+equipments_material_teachingethnic= 0 and
+equipments_material_teachingrural= 0;
+
+ALTER TABLE student_enrollment ALTER another_scholarization_place SET DEFAULT 1;

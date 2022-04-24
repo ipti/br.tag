@@ -16,17 +16,6 @@ $(document).ready(function() {
         }});
     $(form+"complementary_activity_type_1").val($.parseJSON(jsonCompActv));
 });   
-   
-   
-////////////////////////////////////////////////
-// Submit Form                                //
-////////////////////////////////////////////////
-$('#enviar_essa_bagaca').click(function() { 
-    $('#teachingData').val(JSON.stringify(teachingData)); 
-    $('#disciplines').val(JSON.stringify(disciplines));
-    $('form').submit();
-});
-
 
 //Ao clicar ENTER no formulário adicionar aula
 $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function(e) {

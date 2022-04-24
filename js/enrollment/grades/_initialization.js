@@ -1,22 +1,36 @@
-
 $('#classroom').change(function () {
-    $.ajax({
-        type: 'POST',
-        url: getGradesUrl,
-        cache: false,
-        data: {classroom: $("#classroom").val()},
-        beforeSend:function(){
-            $(".classroom").hide();
-        },
-        success: function (data) {
-            data = jQuery.parseJSON(data);
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: 'POST',
+            url: getGradesUrl,
+            cache: false,
+            data: {classroom: $("#classroom").val()},
+            beforeSend: function () {
+                $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+            },
+            success: function (data) {
+                data = jQuery.parseJSON(data);
 
+                if (data.isInstructor) {
+                    $(".alert-no-disciplines").html('Para exibir as disciplinas, é preciso que algum gestor escolar adicione a matriz curricular da disciplina e lhe vincule a essa disciplina.');
+                } else {
+                    $(".alert-no-disciplines").html(
+                        'Para fazer aparecer as disciplinas, é necessário inseri-las na matriz curricular e cadastrar disciplinas com professores na turma selecionada. Para este último passo:' +
+                        '<br>1- acesse o menu "Turmas" e selecione a turma desejada;' +
+                        '<br>2- acesse a segunda aba "Professores";' +
+                        '<br>3- Clique no botão Adicionar Professor/Disciplina e realize os cadastros.');
+                }
 
-            generateGradesForm(data);
-            $('select.grade-dropdown').select2();
-            $(".classroom").show();
-        },
-    });
+                generateGradesForm(data);
+                $('select.grade-dropdown').select2({
+                    allowClear: true,
+                    placeholder: "Selecione..."
+                });
+            },
+        });
+    } else {
+        $(".classroom, .no-disciplines-guide, .alert-no-disciplines, .alert-no-students, #save").hide();
+    }
 });
 
 $("#save").on("click", function () {
@@ -64,14 +78,13 @@ $(document).on("keyup", "input.frequency-fields", function (e) {
         if (val.match(grade) === null) {
             val = "";
         }
-        if (val > 366){
+        if (val > 366) {
 
             val = 366;
         }
     }
     this.value = val;
 });
-
 
 
 $(document).on("keyup", "*[class^='dias-letivos']", function (e) {
@@ -84,7 +97,7 @@ $(document).on("keyup", "*[class^='dias-letivos']", function (e) {
         if (val.match(grade) === null) {
             val = "";
         }
-        if (val > 366){
+        if (val > 366) {
 
             val = 366;
         }
@@ -103,7 +116,7 @@ $(document).on("keyup", "*[class^='school-days-group']", function (e) {
         if (val.match(grade) === null) {
             val = "";
         }
-        if (val > 366){
+        if (val > 366) {
 
             val = 366;
         }
@@ -121,7 +134,7 @@ $(document).on("keyup", "*[class^='carga-horaria']", function (e) {
         if (val.match(grade) === null) {
             val = "";
         }
-        if (val > 8784){
+        if (val > 8784) {
 
             val = 8784;
         }
@@ -147,3 +160,6 @@ $(document).on("keyup", "input.frequency-percentage", function (e) {
     this.value = val;
 });
 
+$(document).on("click", ".no-disciplines-link", function () {
+    $(".alert-no-disciplines").toggle();
+});

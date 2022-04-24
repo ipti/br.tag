@@ -9,8 +9,12 @@
 	 * @property integer $discipline_fk
 	 * @property integer $classroom_fk
 	 * @property integer $week_day
+     * @property integer $week
 	 * @property integer $schedule
+     * @property integer $day
+     * @property integer $month
 	 * @property integer $turn
+     * @property integer $unavailable
 	 *
 	 * The followings are the available model relations:
 	 * @property Classroom $classroomFk
@@ -32,8 +36,8 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['discipline_fk, classroom_fk, week_day, schedule, turn', 'required'],
-				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn', 'numerical', 'integerOnly' => TRUE],
+				['discipline_fk, classroom_fk, week_day, schedule, turn, day, month, week, unavailable', 'required'],
+				['instructor_fk, discipline_fk, classroom_fk, week_day, schedule, turn, day, month, week, unavailable', 'numerical', 'integerOnly' => TRUE],
 				// The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
 				[

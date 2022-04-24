@@ -54,7 +54,7 @@ class ClassroomController extends Controller {
         $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
         $result = array('html' => '', 'val' => '');
 
-        $result['html'] = CHtml::tag('option', array('value' => null), CHtml::encode('Selecione o tipo de atendimento'), true);
+        $result['html'] = CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione o Tipo de Atendimento'), true);
         if ($schoolStructure != null) {
 
             $encode = array(
@@ -110,7 +110,7 @@ class ClassroomController extends Controller {
         $data = EdcensoComplementaryActivityType::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => 'null'), CHtml::encode('Selecione a atividade complementar'), true);
+        echo CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione a atividade complementar'), true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
@@ -141,7 +141,7 @@ class ClassroomController extends Controller {
         $modality = $at != 4 || $at != 5;
 
         $where = '';
-        $result['Modality'] = CHtml::tag('option', array('value' => null), CHtml::encode('Selecione a modalidade'), true);
+        $result['Modality'] = CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione a Modalidade'), true);
 
         if ($result['MaisEdu']) {
             $where = '(id<4 || id>38) && id!=38 && id!=41 && id!=56';
@@ -165,7 +165,7 @@ class ClassroomController extends Controller {
 
         $data = CHtml::listData($data, 'id', 'name');
 
-        $result['Stage'] = CHtml::tag('option', array('value' => null), 'Selecione o estágio vs modalidade', true);
+        $result['Stage'] = CHtml::tag('option', array('value' => ''), 'Selecione a Etapa de Ensino', true);
 
         foreach ($data as $value => $name) {
             $result['Stage'] .= CHtml::tag('option', array('value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value ? "selected" : "deselected" => $classroom->edcenso_stage_vs_modality_fk == $value ? "selected" : "deselected"), CHtml::encode($name), true);

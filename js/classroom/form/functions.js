@@ -264,8 +264,8 @@ function updateAssistanceTypeDependencies(data){
  */
 function updateTime(data){
     data = jQuery.parseJSON(data);
-	$("#Classroom_initial_time").val( data.first.substring(0, 5));
-	$("#Classroom_final_time").val(data.last.substring(0, 5));
+	$("#Classroom_initial_time").val(data.first !== null ? data.first.substring(0, 5) : $("#Classroom_initial_time").val());
+	$("#Classroom_final_time").val(data.last !== null ? data.last.substring(0, 5) : $("#Classroom_final_time").val());
 }
 
 
@@ -274,3 +274,11 @@ uInstructor.on('change', atualizarListadeDisciplinas);
 
 $(document).on('click','.deleteTeachingData',removeTeachingData);
 $("#addTeachingData").on('click', addTeachingData);
+
+$(document).on("change", ".assistance-types-container input[type=checkbox]", function () {
+    if ($(this).attr("id") !== "Classroom_aee") {
+        $("#Classroom_aee").prop("checked", false);
+    } else {
+        $(".assistance-types-container input[type=checkbox]").not("#Classroom_aee").prop("checked", false);
+    }
+});
