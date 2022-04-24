@@ -43,14 +43,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
     <div class="span12">
         <h3 class="heading-mosaic"><?= yii::t('timesheetModule.timesheet', 'Timesheet') ?></h3>
         <div class="buttons span9">
-            <!--            <button data-toggle="modal" data-target="#add-instructors-disciplines-modal"-->
-            <!--                    class="btn btn-primary btn-icon glyphicons circle_plus">-->
-            <!--                <i></i>--><? //= yii::t('timesheetModule.instructors', "Add Disciplines") ?>
-            <!--            </button>-->
-            <!--            <a href="--><? //= yii::app()->createUrl("timesheet/timesheet/instructors") ?><!--"-->
-            <!--               class="btn btn-primary btn-icon glyphicons nameplate">-->
-            <!--                <i></i>--><? //= yii::t('timesheetModule.timesheet', "Instructors") ?>
-            <!--            </a>-->
         </div>
     </div>
 </div>

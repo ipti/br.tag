@@ -17,16 +17,18 @@ $(document).on("change", "#classroom_fk", function () {
         }).success(function (data) {
             data = JSON.parse(data);
             getTimesheet(data);
-            var html = "<option></option>";
-            $.each(data.disciplines, function () {
-                html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
-            });
-            $(".modal-add-schedule-discipline").html(html);
-            $(".modal-add-schedule-discipline").select2('destroy');
-            $(".modal-add-schedule-discipline").select2({
-                placeholder: "Selecione a Disciplina...",
-                width: "100%"
-            });
+            if (data.disciplines !== undefined) {
+                var html = "<option></option>";
+                $.each(data.disciplines, function () {
+                    html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
+                });
+                $(".modal-add-schedule-discipline").html(html);
+                $(".modal-add-schedule-discipline").select2('destroy');
+                $(".modal-add-schedule-discipline").select2({
+                    placeholder: "Selecione a Disciplina...",
+                    width: "100%"
+                });
+            }
         }).complete(function () {
             $(".loading-timesheet").hide();
             $(".table-container").css("opacity", 1).css("pointer-events", "auto");

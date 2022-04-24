@@ -416,7 +416,8 @@ return array(
     'Schooling' => 'Escolarização',
     'Classroom Diff Location' => 'Local de Funcionamento Diferenciado',
     'Course' => 'Curso',
-    'Assistence Types' => 'Tipos de Atendimento',
+    'Assistence Types' => 'Tipo de Atendimento',
+    'Differentiated Operating Place' => 'Local de Funcionamento Diferenciado',
     'Complementary Activity' => 'Atividade Complementar',
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
     

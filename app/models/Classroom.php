@@ -173,7 +173,7 @@ class Classroom extends AltActiveRecord
             'week_days_thursday' => Yii::t('default', 'Week Days Thursday'),
             'week_days_friday' => Yii::t('default', 'Week Days Friday'),
             'week_days_saturday' => Yii::t('default', 'Week Days Saturday'),
-            'assistance_type' => Yii::t('default', 'Assistance Type'),
+            'assistance_type' => Yii::t('default', 'Differentiated Operating Place'),
             'mais_educacao_participator' => Yii::t('default', 'Mais Educacao Participator'),
             'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1'),
             'complementary_activity_type_2' => Yii::t('default', 'Complementary Activity Type 2'),
