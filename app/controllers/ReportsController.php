@@ -133,6 +133,24 @@ class ReportsController extends Controller {
             'report' => $result,
         ));
     }
+    public function actionStudentSpecialFood()
+    {
+        $school_id = Yii::app()->user->school;
+        $school = SchoolIdentification::model()->findByPk($school_id);
+        $ano = Yii::app()->user->year;
+        $sql1 = "SELECT *, d.name as nome_aluno
+                    FROM student_enrollment a 
+                    JOIN classroom b ON(a.`classroom_fk`=b.id) 
+                    JOIN student_documents_and_address c ON(a.`student_fk`=c.`id`) 
+                    JOIN student_identification d ON(c.`id`=d.`id`) 
+                    WHERE b.`school_inep_fk` =" . $school_id . " and b.school_year=" . $ano . " AND (a.status = 1 OR a.status IS NULL) AND 
+                    (received_cc = 0 OR received_address = 0 OR received_photo = 0 
+                    OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
+        $result = Yii::app()->db->createCommand($sql1)->queryAll();
+        $this->render('StudentSpecialFood', array(
+            'report' => $result,
+        ));
+    }
     public function actionStudentPerClassroom($id){
         $this->layout = "reports";
         $sql = "SELECT * FROM classroom_enrollment

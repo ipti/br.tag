@@ -167,6 +167,13 @@ $this->breadcrumbs = array(
                     <div class="clearfix"></div>
                 </a>
             </div>
+            <div class="span2">
+                <a href="<?php echo Yii::app()->createUrl('reports/studentspecialfood')?>" class="widget-stats" target="_blank">
+                    <span class="glyphicons fast_food"><i></i></span>
+                    <span class="txt">Alunos - Cardápios Especiais</span>
+                    <div class="clearfix"></div>
+                </a>
+            </div>
         </div>
         <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
             <div class="modal-dialog" role="document">
