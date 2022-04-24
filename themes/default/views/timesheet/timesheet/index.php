@@ -6,8 +6,8 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
+$cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js?v=1.0', CClientScript::POS_END);
 $cs->registerScript("vars",
     "var getTimesheetURL = '" . $this->createUrl("getTimesheet") . "'; " .
     "var removeScheduleURL = '" . $this->createUrl("removeSchedule") . "'; " .
@@ -69,12 +69,18 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <i class="loading-timesheet fa fa-spin fa-spinner"></i>
     </div>
     <hr/>
+    <div class="loading-alert alert alert-warning display-hide"></div>
     <div class="row-fluid table-container">
         <div class="span12">
             <span id="turn"></span>
             <div class="checkbox replicate-actions-container">
                 <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações para todas as semanas
                 subsequentes
+            </div>
+            <div class="workloads-container">
+                <i class="fa fa-chevron-right workloads-activator"></i>
+                <i class="fa fa-exclamation-triangle workloads-overflow"></i>
+                <div class="workloads"><div class="workloads-title">Carga Horária</div></div>
             </div>
             <div class="clear"></div>
             <div class="tables-timesheet">
@@ -127,7 +133,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                                     $week = $lastMonthWeek;
                                     ?>
                                     <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                        <td class="<?= ($unavailableDays[$month] != null && in_array($day, $unavailableDays[$month]) ? "schedule-unavailable" : "") ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
+                                        <?php
+                                        $hardUnavailableDay = isset($hardUnavailableDays[$month]) && in_array($day, $hardUnavailableDays[$month]);
+                                        $softUnavailableDay = isset($softUnavailableDays[$month]) && in_array($day, $softUnavailableDays[$month]);
+                                        ?>
+                                        <td class="<?= $hardUnavailableDay ? "hard-unavailable" : "" ?><?= $softUnavailableDay ? "soft-unavailable" : "" ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
                                         <?php
                                         if ($weekDayCount == 6) {
                                             $weekDayCount = 0;
@@ -182,13 +192,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             }
             echo $html; ?>
         </div>
-    </div>
-    <div class="loading-alert alert alert-warning display-hide">
-        Para conseguir gerar um quadro de horário para essa turma:
-        <br>1- crie um <b>calendário</b> para o ano presente, selecionado como atual, com os eventos de início e fim de
-        ano escolar registrados;</li>
-        <br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;
-        <br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.
     </div>
 </div>
 

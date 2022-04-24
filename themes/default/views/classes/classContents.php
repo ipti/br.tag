@@ -4,8 +4,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
@@ -17,8 +17,6 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 
 ?>
-
-<?php echo $form->errorSummary($model); ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
@@ -74,8 +72,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <div class="alert-no-classroom-and-month no-show alert alert-error">
-        Os Campos de Turma e Mês são obrigatórios.
+    <div class="alert-save no-show alert alert-success">
+        Aulas ministradas atualizadas com sucesso!
+    </div>
+    <div class="alert-required-fields no-show alert alert-error">
+        Os campos com * são obrigatórios.
     </div>
     <div class="filter-bar margin-bottom-none">
         <div>
@@ -84,7 +85,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <option>Selecione a turma</option>
                 <?php foreach ($classrooms as $classroom): ?>
                     <option value="<?= $classroom->id ?>"
-                            showdisciplines="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            fundamentalmaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -110,7 +111,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ?>
         </div>
         <div class="disciplines-container">
-            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
             <?php
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
@@ -123,7 +124,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
                 <i></i></a>
         </div>
-
+        <i class="loading-class-contents fa fa-spin fa-spinner"></i>
 
     </div>
     <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
@@ -165,14 +166,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 
 <script>
-
-    <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina    ?>
-    <?php //@done s2 - inabilitar checkbox quando vier checado     ?>
-    <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor    ?>
-    <?php //@done s2 - reabilitar apenas os que não estão checados     ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClasses') ?>";
-    var getContentsURL = "<?php echo Yii::app()->createUrl('classes/getContents') ?>";
-    var saveContentURL = "<?php echo Yii::app()->createUrl('classes/saveContent')?>";
 
     var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";

@@ -17,11 +17,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php
             $html = "";
             $nameClassroom = [];
-            foreach ($reports as $classroom => $report) {
-                $html .= "<tr><th colspan='3'>{$classroom}</th><tr>";
-                foreach ($report as $name => $r) {
-                  
-                    $html .= "<tr>"
+            if (!empty($reports)) {
+                foreach ($reports as $classroom => $report) {
+                    $html .= "<tr><th colspan='3'>{$classroom}</th><tr>";
+                    foreach ($report as $name => $r) {
+
+                        $html .= "<tr>"
                             . "<td rowspan='4' colspan='1'>"
                             . $name
                             . "<br> Nascimento: " . $r['Info']['birthday']
@@ -31,13 +32,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . "<th>Mês:</th>"
                             . "<th>Frequência:</th>"
                             . "</tr>";
-                    foreach ($r['Classes'] as $month => $classes) {
-                        setlocale(LC_ALL, NULL);
-                        setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
-                        $time = mktime(0, 0, 0, $month);
-                        $monthName = strftime("%B", $time);
-                        
-                        $html .= "<tr>"
+                        foreach ($r['Classes'] as $month => $classes) {
+                            setlocale(LC_ALL, NULL);
+                            setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
+                            $time = mktime(0, 0, 0, $month);
+                            $monthName = strftime("%B", $time);
+
+                            $html .= "<tr>"
                                 . "<td class='center'>"
                                 . $monthName
                                 . "</td>"
@@ -45,10 +46,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                                 . $classes
                                 . "</td>"
                                 . "</tr>";
+                        }
+                        $html .= "<tr><td colspan='3'></td></tr>";
+
                     }
-                    $html .= "<tr><td colspan='3'></td></tr>";
-                    
                 }
+            } else {
+                $html .= "<div class='no-enrollments'>Não há alunos matriculados na turma.</div>";
             }
             echo $html;
             ?>

@@ -677,6 +677,23 @@ $(formEnrollment + 'school_admission_date').focusout(function () {
     }
 });
 
+$(document).on("change", ".vaccine-checkbox", function () {
+    if ($(".vaccines-container").find(".vaccine-checkbox[code=c19du]").is(":checked")) {
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19pd]").prop("checked", false).attr("disabled", "disabled");
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19sd]").prop("checked", false).attr("disabled", "disabled");
+    } else {
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19pd]").removeAttr("disabled");
+    }
+    if ($(".vaccines-container").find(".vaccine-checkbox[code=c19pd]").is(":checked")) {
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19du]").prop("checked", false).attr("disabled", "disabled");
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19sd]").removeAttr("disabled");
+    } else {
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19sd]").prop("checked", false).attr("disabled", "disabled");
+        $(".vaccines-container").find(".vaccine-checkbox[code=c19du]").removeAttr("disabled");
+    }
+});
+$(".vaccine-checkbox").trigger("change");
+
 $(".save-student").click(function () {
     var error = false;
     var message = "";

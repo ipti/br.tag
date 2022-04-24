@@ -53,7 +53,7 @@ $r = $imob = 0;
         <!--<link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap-select.css" rel="stylesheet" />-->
 
         <!-- Main Theme Stylesheet :: CSS -->
-        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.0" rel="stylesheet" type="text/css" />
 
         <!-- Glyphicons Font Icons -->
         <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css" />
@@ -68,7 +68,7 @@ $r = $imob = 0;
 
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
 
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js" ></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=1.0" ></script>
 
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/uniform.js" ></script>
 

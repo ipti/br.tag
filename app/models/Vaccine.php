@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'student_enrollment':
  * @property integer $id
  * @property string $name
+ * @property string $code
  */
 class Vaccine extends AltActiveRecord
 {
@@ -40,6 +41,7 @@ class Vaccine extends AltActiveRecord
         return array(
             array('name', 'required'),
             array('name', 'length', 'max'=>100),
+            array('code', 'length', 'max'=>10),
         );
     }
 
@@ -50,7 +52,8 @@ class Vaccine extends AltActiveRecord
     {
         return array(
             'id' => Yii::t('default', 'ID'),
-            'name' => Yii::t('default', 'Name')
+            'name' => Yii::t('default', 'Name'),
+            'code' => Yii::t('default', 'Code')
         );
     }
 }

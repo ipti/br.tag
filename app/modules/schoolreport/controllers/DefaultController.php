@@ -115,10 +115,10 @@ class DefaultController extends CController{
             $classroom = $enrollment->classroomFk;
             $frequency = [];
             $classesList = Yii::app()->db->createCommand(
-                "select month, discipline_fk, ed.name discipline_name, classroom_fk, count(schedule) classes from class
-                  LEFT JOIN edcenso_discipline ed ON ed.id = class.discipline_fk
-                  WHERE given_class = 1 AND classroom_fk = :cid
-                  GROUP BY classroom_fk, discipline_fk,  month;"
+                "select month, discipline_fk, ed.name discipline_name, classroom_fk, count(schedule.id) classes from schedule
+                  LEFT JOIN edcenso_discipline ed ON ed.id = schedule.discipline_fk
+                  WHERE unavailable = 0 AND classroom_fk = :cid
+                  GROUP BY classroom_fk, discipline_fk, month;"
             )->queryAll(true, [":cid"=>$classroom->id]);
 
             foreach ($classesList as $c) {
@@ -136,9 +136,9 @@ class DefaultController extends CController{
                 }
 				$did_query = $did == -1 ? 'IS NULL' : "= $did";
                 $f = Yii::app()->db->createCommand(
-                    "select  month, discipline_fk, se.classroom_fk cid, se.id eid, count(cf.schedule) faults from class_faults cf
-                      join class c on c.id = cf.class_fk
-                      join student_enrollment se ON se.student_fk = cf.student_fk AND c.classroom_fk = se.classroom_fk
+                    "select  month, discipline_fk, se.classroom_fk cid, se.id eid, count(cf.id) faults from class_faults cf
+                      join schedule sc on sc.id = cf.schedule_fk
+                      join student_enrollment se ON se.student_fk = cf.student_fk AND sc.classroom_fk = se.classroom_fk
                       where se.id = :eid
                       and discipline_fk $did_query
                       and month = :month

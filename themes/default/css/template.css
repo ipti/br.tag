@@ -8483,6 +8483,18 @@ li.active a {
     text-align: center;
 }
 
+.pageA4H .no-enrollments {
+    text-align: center;
+    border: 1px solid;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    margin: 20px auto 30px;
+    padding: 10px;
+    width: fit-content;
+    font-size: 20px;
+}
+
 .pageA4H #header-report ul#info,
 .pageA4H #header-report ul#addinfo {
     /*width: 1012px;*/
@@ -8720,6 +8732,61 @@ li.active a {
     pointer-events: none;
     background: #CCCCCC;
 }
+
+#frequency-container {
+    margin-top: 20px;
+}
+
+.table-frequency .table-title {
+    text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
+}
+
+.table-frequency .checkbox-row input[type=checkbox] {
+    -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+    -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+    box-shadow: 0px 0px 0px 1px rgba(0,0,0,1);
+}
+
+.table-frequency thead th, .table-frequency tbody th {
+    text-align: center;
+}
+
+#frequency-container .table-frequency thead .dayname-row th, #frequency-container .table-frequency thead .schedule-row th {
+    font-weight: lighter;
+}
+
+.table-frequency .student-name {
+    font-style: italic;
+}
+
+.frequency-checkbox-container {
+    cursor: pointer;
+    text-align: center !important;
+}
+
+.frequency-checkbox-container.disabled {
+    background: #ddd !important;
+    cursor: not-allowed;
+}
+
+.frequency-checkbox {
+    width: 20px !important;
+    height: 20px;
+    margin-top: 0px !important;
+}
+
+.innerLR .loading-frequency, .innerLR .loading-class-contents {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+
+
 
 @media (max-width: 480px) {
     .table-responsive {

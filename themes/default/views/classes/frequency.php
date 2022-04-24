@@ -4,7 +4,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
@@ -14,8 +14,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
 ));
 ?>
-
-<?php echo $form->errorSummary($model); ?>
 
 <div class="row-fluid hidden-print">
     <div class="span12">
@@ -69,8 +67,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php echo Yii::app()->user->getFlash('success') ?>
         </div>
     <?php endif ?>
-    <div class="alert-no-classroom-and-month no-show alert alert-error">
-        Os Campos de Turma e Mês são obrigatórios.
+    <div class="alert-required-fields no-show alert alert-error">
+        Os Campos com * são obrigatórios.
     </div>
     <div class="filter-bar margin-bottom-none">
         <div>
@@ -79,7 +77,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <option>Selecione a turma</option>
                 <?php foreach ($classrooms as $classroom): ?>
                     <option value="<?= $classroom->id ?>"
-                            showdisciplines="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
+                            fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -106,7 +104,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             ?>
         </div>
         <div class="disciplines-container">
-            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required')); ?>
             <?php
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
@@ -119,38 +117,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
                 <i></i></a>
         </div>
+        <i class="loading-frequency fa fa-spin fa-spinner"></i>
     </div>
 
-    <div class="alert-incomplete-data alert alert-warning display-hide">
-        Para trazer um quadro de frequência com alunos e disciplinas, é preciso:
-        <ul>
-            <li>existir um <b>calendário</b> do ano presente, selecionado como atual, com os eventos de início e fim de ano escolar criados;</li>
-            <li>adicionar uma <b>matriz curricular</b>;</li>
-            <li>gerar um <b>quadro de horário</b>;</li>
-            <li>matricular <b>alunos</b> à turma.</li>
-        </ul>
-    </div>
-    <div class="widget" id="widget-frequency" style="display:none; margin-top: 8px;">
-        <div class="widget-head">
-            <h4 class="heading" id="frequency-student-name" style="text-align: center; float: none"></h4>
-        </div>
-        <div class="table-scroll">
-            <table id="frequency" class="table table-bordered table-striped">
-            </table>
-        </div>
-    </div>
-    <div id="buttonsNexrPrev"></div>
+    <div class="alert-incomplete-data alert alert-warning display-hide"></div>
+    <div id="frequency-container"></div>
     <?php $this->endWidget(); ?>
 </div>
-
-
-<script>
-
-    <?php //@done s2 - não mostrar "Selecione a disciplina" como disciplina   ?>
-    <?php //@done s2 - inabilitar checkbox quando vier checado    ?>
-    <?php //@done s2 - desabilitar a coluna ao clicar em falta do professor   ?>
-    <?php //@done s2 - reabilitar apenas os que não estão checados    ?>
-    var getClassesURL = "<?php echo Yii::app()->createUrl('classes/getClassesForFrequency') ?>";
-    var getClassesURLSave = "<?php echo Yii::app()->createUrl('classes/saveFrequency') ?>";
-
-</script>
