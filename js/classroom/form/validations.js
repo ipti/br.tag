@@ -107,10 +107,6 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Horário Final</b> é obrigatório.<br>";
     }
-    if ($("#Classroom_assistance_type").val() === "") {
-        error = true;
-        message += "Campo <b>Tipo de Atendimento</b> é obrigatório.<br>";
-    }
     if (!$("#Classroom_week_days input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Dias da semana</b> é obrigatório. Selecione ao menos um dia.<br>";
@@ -122,6 +118,14 @@ $(".save-classroom").click(function () {
     if (!$(".assistance-types-container input[type=checkbox]:checked").length) {
         error = true;
         message += "Campo <b>Tipos de Atendimento</b> é obrigatório. Selecione ao menos uma opção.<br>";
+    }
+    if ($("#Classroom_complementary_activity").is(":checked") && $("#Classroom_complementary_activity_type_1").val() === null) {
+        error = true;
+        message += "Campo <b>Atividades Complementares</b> é obrigatório.<br>";
+    }
+    if (($("#Classroom_pedagogical_mediation_type").val() === "1" || $("#Classroom_pedagogical_mediation_type").val() === "2") && $("#Classroom_diff_location").val() === "") {
+        error = true;
+        message += "Campo <b>Local de Funcionamento Diferenciado</b> é obrigatório.<br>";
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
