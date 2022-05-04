@@ -6,10 +6,10 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js', CClientScript::POS_END);
 
 
@@ -142,24 +142,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-
-
-                            <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', array(0 => '', 1 => '', 2 => '', 3 => '', 4 => '', 5 => ''), array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off', 'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('classroom/updateassistancetypedependencies'),
-                                            'success' => "function(data){
-                                                updateAssistanceTypeDependencies(data);
-                                                }",
-                                    )));
-                                    ?> 
-                                    <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
-                                </div>
-                            </div>
-
                             <div class="control-group assistance-types-container" id="aee2">
                                 <label class="control-label required"><?php echo Yii::t('default', 'Assistence Types'); ?> *</label>
                                 <div class="uniformjs margin-left">
@@ -181,7 +163,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                             <div class="control-group" id="complementary_activity">
-                                <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?>
                                     <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
@@ -312,20 +294,20 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'diff_location', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'diff_location', array(null => 'Selecione a localização', 0 => 'A turma não está em local de funcionamento diferenciado', 1 => 'Sala anexa', 2 => 'Unidade de atendimento socioeducativo', 3 => 'Unidade prisional'), array("class" => "select-search-on")); ?>
-                                    <div class="controls">                    
-                                        <?php echo $form->error($modelClassroom, 'diff_location'); ?>
-                                    </div>
-                                </div> 
-                            </div>
-
-                            <div class="control-group">
                                 <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group" id="diff_location_container">
+                                <?php echo $form->labelEx($modelClassroom, 'diff_location', array('class' => 'control-label required')); ?>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelClassroom, 'diff_location', array(null => 'Selecione a localização', 0 => 'A turma não está em local de funcionamento diferenciado', 1 => 'Sala anexa', 2 => 'Unidade de atendimento socioeducativo', 3 => 'Unidade prisional'), array("class" => "select-search-on")); ?>
+                                    <div class="controls">
+                                        <?php echo $form->error($modelClassroom, 'diff_location'); ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
