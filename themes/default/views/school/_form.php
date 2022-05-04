@@ -132,20 +132,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
-                                <div class="controls">
-                                    <?php
-                                    $criteria = new CDbCriteria();
-                                    $criteria->select = 't.*';
-                                    //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
-                                    //$criteria->condition = 'city.edcenso_uf_fk = ';
-                                    $criteria->order = 'name';
-                                    echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
-                                    <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <?php echo $form->labelEx($modelSchoolIdentification, 'administrative_dependence', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelSchoolIdentification, 'administrative_dependence', array(null => 'Selecione a dependencia administrativa', 1 => 'Federal', 2 => 'Estadual', 3 => 'Municipal', 4 => 'Privada'), array('class' => 'select-search-off')); ?>
@@ -462,6 +448,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelSchoolIdentification, 'edcenso_district_fk', CHtml::listData(EdcensoDistrict::model()->findAllByAttributes(array('edcenso_city_fk' => $modelSchoolIdentification->edcenso_city_fk), array('order' => 'name')), 'code', 'name'), array('prompt' => 'Selecione um distrito', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_district_fk'); ?>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos ?>
+                                <?php echo $form->labelEx($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php
+                                    $criteria = new CDbCriteria();
+                                    $criteria->select = 't.*';
+                                    //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                    //$criteria->condition = 'city.edcenso_uf_fk = ';
+                                    $criteria->order = 'name';
+                                    echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
