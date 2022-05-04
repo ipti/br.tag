@@ -457,8 +457,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     $criteria = new CDbCriteria();
                                     $criteria->select = 't.*';
-                                    //$criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
-                                    //$criteria->condition = 'city.edcenso_uf_fk = ';
+                                    $criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                    $criteria->condition = 'city.edcenso_uf_fk = "' . $modelSchoolIdentification->edcenso_uf_fk . '"';
                                     $criteria->order = 'name';
                                     echo $form->dropDownList($modelSchoolIdentification, 'edcenso_regional_education_organ_fk', CHtml::listData(EdcensoRegionalEducationOrgan::model()->findAll($criteria), 'code', 'name'), array('prompt' => 'Selecione o órgão', 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($modelSchoolIdentification, 'edcenso_regional_education_organ_fk'); ?>
