@@ -1,6 +1,6 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-define("TAG_VERSION", '2.12');
+define("TAG_VERSION", '2.12.1');
 define("BOARD_MSG", '
 		
 		<div class="alert alert-warning">
