@@ -152,10 +152,6 @@ form {
     color: darkred;
 }
 
-.actual-calendar-checkbox {
-    margin: 3px 0 15px 0;
-}
-
 .calendar-title-container {
     padding: 5px 5px;
     text-align: center;
@@ -175,4 +171,17 @@ form {
 
 .edit-calendar-title:hover {
     color: #333;
+}
+
+.stages-container {
+    margin-bottom: 10px;
+}
+
+.add-stages-options {
+    width: 100% !important;
+    margin-bottom: -15px;
+}
+
+.stages-container .select2-search-choice {
+    font-size: 12px
 }

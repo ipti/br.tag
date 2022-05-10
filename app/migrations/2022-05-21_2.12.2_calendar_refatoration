@@ -1,0 +1,30 @@
+delete from calendar;
+delete from schedule;
+
+ALTER TABLE `calendar`
+DROP FOREIGN KEY `school_calendar`;
+
+ALTER TABLE `calendar`
+DROP `actual`,
+DROP `school_fk`;
+
+ALTER TABLE `calendar_event`
+ADD `school_fk` int NULL;
+
+ALTER TABLE `calendar_event`
+CHANGE `school_fk` `school_fk` varchar(8) NULL AFTER `copyable`;
+
+ALTER TABLE `calendar_event`
+ADD FOREIGN KEY (`school_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `calendar_stages` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `calendar_fk` int NOT NULL,
+  `stage_fk` int NOT NULL
+);
+
+ALTER TABLE `calendar_stages`
+ADD FOREIGN KEY (`calendar_fk`) REFERENCES `calendar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `calendar_stages`
+ADD FOREIGN KEY (`stage_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

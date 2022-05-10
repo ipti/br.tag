@@ -11,10 +11,7 @@ return [
     "Name" => "Nome *",
     "Copyable" => "Copiável",
     "Event Type" => "Tipo do Evento *",
-    "Base Year" => "Ano Base",
-    "Base Year Required" => "Ano Base *",
-
-
+    "Stages" => "Etapas *",
 
 
     'January' => 'Janeiro',

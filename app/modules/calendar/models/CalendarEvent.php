@@ -11,14 +11,15 @@
  * @property integer $calendar_fk
  * @property integer $calendar_event_type_fk
  * @property integer $copyable
+ * @property string $school_fk
  *
  * The followings are the available model relations:
+ * @property SchoolIdentification $schoolFk
  * @property Calendar $calendarFk
  * @property CalendarEventType $calendarEventTypeFk
  */
 class CalendarEvent extends CActiveRecord
 {
-    public $url;
 
 	/**
 	 * @return string the associated database table name
@@ -35,14 +36,15 @@ class CalendarEvent extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
-		return array(
-			array('name, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable', 'required'),
-			array('calendar_fk, calendar_event_type_fk, copyable', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
-			array('id, name, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable', 'safe', 'on'=>'search'),
-		);
+        return array(
+            array('name, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable', 'required'),
+            array('calendar_fk, calendar_event_type_fk, copyable', 'numerical', 'integerOnly'=>true),
+            array('name', 'length', 'max'=>50),
+            array('school_fk', 'length', 'max'=>8),
+            // The following rule is used by search().
+            // @todo Please remove those attributes that should not be searched.
+            array('id, name, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable, school_fk', 'safe', 'on'=>'search'),
+        );
 	}
 
 	/**
@@ -53,8 +55,9 @@ class CalendarEvent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
-			'calendarEventTypeFk' => array(self::BELONGS_TO, 'CalendarEventType', 'calendar_event_type_fk'),
+            'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
+            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
+            'calendarEventTypeFk' => array(self::BELONGS_TO, 'CalendarEventType', 'calendar_event_type_fk'),
 		);
 	}
 
@@ -71,6 +74,7 @@ class CalendarEvent extends CActiveRecord
 			'calendar_fk' => yii::t('calendarModule.labels','Calendar'),
 			'calendar_event_type_fk' => yii::t('calendarModule.labels','Event Type'),
 			'copyable' => yii::t('calendarModule.labels','Copyable'),
+            'school_fk' => 'School Fk',
 		);
 	}
 
@@ -99,6 +103,7 @@ class CalendarEvent extends CActiveRecord
 		$criteria->compare('calendar_fk',$this->calendar_fk);
 		$criteria->compare('calendar_event_type_fk',$this->calendar_event_type_fk);
 		$criteria->compare('copyable',$this->copyable);
+        $criteria->compare('school_fk',$this->school_fk,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

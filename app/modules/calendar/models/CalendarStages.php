@@ -1,28 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "calendar".
+ * This is the model class for table "calendar_stages".
  *
- * The followings are the available columns in table 'calendar':
+ * The followings are the available columns in table 'calendar_stages':
  * @property integer $id
- * @property string $title
- * @property string $start_date
- * @property string $end_date
+ * @property integer $calendar_fk
+ * @property integer $stage_fk
  *
  * The followings are the available model relations:
- * @property CalendarEvent[] $calendarEvents
- * @property CalendarStages[] $calendarStages
- * @property Classroom[] $classrooms
+ * @property Calendar $calendarFk
+ * @property EdcensoStageVsModality $stageFk
  */
-class Calendar extends CActiveRecord
+class CalendarStages extends CActiveRecord
 {
-
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'calendar';
+        return 'calendar_stages';
     }
 
     /**
@@ -33,11 +30,11 @@ class Calendar extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('title, start_date, end_date', 'required'),
-            array('title', 'length', 'max' => 50),
+            array('calendar_fk, stage_fk', 'required'),
+            array('calendar_fk, stage_fk', 'numerical', 'integerOnly'=>true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, start_date, end_date, actual, school_fk', 'safe', 'on' => 'search'),
+            array('id, calendar_fk, stage_fk', 'safe', 'on'=>'search'),
         );
     }
 
@@ -49,9 +46,8 @@ class Calendar extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'calendarEvents' => array(self::HAS_MANY, 'CalendarEvent', 'calendar_fk'),
-            'calendarStages' => array(self::HAS_MANY, 'CalendarStages', 'calendar_fk'),
-            'classrooms' => array(self::HAS_MANY, 'Classroom', 'calendar_fk'),
+            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
+            'stageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'),
         );
     }
 
@@ -61,10 +57,9 @@ class Calendar extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => yii::t('calendarModule.labels', 'ID'),
-            'title' => yii::t('calendarModule.labels', 'Title'),
-            'start_date' => yii::t('calendarModule.labels', 'Start Date'),
-            'end_date' => yii::t('calendarModule.labels', 'End Date'),
+            'id' => 'ID',
+            'calendar_fk' => 'Calendar Fk',
+            'stage_fk' => 'Stage Fk',
         );
     }
 
@@ -84,41 +79,25 @@ class Calendar extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria=new CDbCriteria;
 
-        $criteria->compare('id', $this->id);
-        $criteria->compare('title', $this->title, true);
-        $criteria->compare('start_date', $this->start_date, true);
-        $criteria->compare('end_date', $this->end_date, true);
+        $criteria->compare('id',$this->id);
+        $criteria->compare('calendar_fk',$this->calendar_fk);
+        $criteria->compare('stage_fk',$this->stage_fk);
 
         return new CActiveDataProvider($this, array(
-            'criteria' => $criteria,
+            'criteria'=>$criteria,
         ));
-    }
-
-    public function getCopyableEvents()
-    {
-        /** @var $event CalendarEvent */
-        $events = $this->calendarEvents;
-        $copyables = [];
-        foreach ($events as $event) {
-            if ($event->copyable && $event->calendarEventTypeFk->copyable) {
-                array_push($copyables, $event);
-            }
-        }
-        return $copyables;
     }
 
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Calendar the static model class
+     * @return CalendarStages the static model class
      */
-    public static function model($className = __CLASS__)
+    public static function model($className=__CLASS__)
     {
         return parent::model($className);
     }
-
-
 }

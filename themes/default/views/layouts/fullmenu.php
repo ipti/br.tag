@@ -45,7 +45,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link rel='stylesheet' type='text/css'
           href='<?php echo Yii::app()->theme->baseUrl; ?>/css/jquery-ui-1.9.2.custom.min.css'/>
     <link rel='stylesheet' type='text/css' href='<?php echo Yii::app()->theme->baseUrl; ?>/css/font-awesome.min.css'/>
-    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/home.css?v=1.0"/>
 </head>
 <body>
 <!-- Main Container Fluid -->
