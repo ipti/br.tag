@@ -16,12 +16,13 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?= yii::t('calendarModule.index', 'Calendar') ?></h3>
-
-        <div class="buttons span9">
-            <button class="btn btn-primary btn-icon glyphicons circle_plus new-calendar-button">
-                <i></i><?= yii::t('calendarModule.index', "New Calendar") ?>
-            </button>
-        </div>
+        <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+            <div class="buttons span9">
+                <button class="btn btn-primary btn-icon glyphicons circle_plus new-calendar-button">
+                    <i></i><?= yii::t('calendarModule.index', "New Calendar") ?>
+                </button>
+            </div>
+        <?php } ?>
     </div>
 </div>
 <div class="innerLR home">

@@ -37,6 +37,7 @@
     font-size: 16px;
     padding-top: 3px;
     height: 27px;
+    margin-bottom: 10px;
 }
 
 .start-calendar {
@@ -121,19 +122,25 @@ form {
 }
 
 .accordion-toggle:hover {
-    background-color: #b3b3b3 !important;
+    background-color: lightgray !important;
+    color: white !important;
 }
 
 .accordion-toggle {
     width: calc(100% - 20px) !important;
+    border: 1px solid #ccc;
+}
+
+.accordion-toggle a {
+    font-size: 14px;
 }
 
 .change-active {
     padding: 0 10px;
 }
 
-.remove-calendar {
-    padding: 0 5px;
+.remove-calendar, .show-stages {
+    padding: 0 10px;
 }
 
 .change-active .fa-check {
@@ -144,17 +151,24 @@ form {
     color: darkgoldenrod;
 }
 
-.change-active:hover .fa-check, .change-active:hover .fa-history, .remove-calendar:hover .fa-remove {
+.change-active:hover .fa-check, .change-active:hover .fa-history {
     color: #333;
 }
 
-.remove-calendar .fa-remove {
+.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o {
+    color: white;
+}
+
+.remove-calendar .fa-remove, .show-stages .fa-question-circle-o {
     color: darkred;
+    font-size: 16px;
+    margin-top: 6px;
 }
 
 .calendar-title-container {
-    padding: 5px 5px;
-    text-align: center;
+    padding: 0 2px;
+    margin-bottom: 30px;
+    text-align: right;
 }
 
 .calendar-title-container span {
@@ -163,9 +177,9 @@ form {
 }
 
 .edit-calendar-title {
-    margin-left: 10px;
-    font-size: 14px;
-    color: darkgoldenrod;
+    margin-left: 5px;
+    font-size: 14px !important;
+    color: darkred;
     cursor: pointer;
 }
 
@@ -184,4 +198,71 @@ form {
 
 .stages-container .select2-search-choice {
     font-size: 12px
+}
+
+#calendars {
+    margin-top: 10px;
+}
+
+#calendars .accordion-inner {
+    padding-top: 15px;
+}
+
+.calendar-subtitles-title {
+    margin: 10px 0 20px 1.0526315789473683%;
+}
+
+.accordion-group {
+    position: relative;
+}
+
+.floating-stages-container {
+    position: fixed;
+    top: 136px;
+    right: 90px;
+    background: #fff;
+    border: 1px solid;
+    z-index: 1000;
+    width: 295px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.stages-container-title {
+    padding: 6px 0 6px 10px;
+    color: white;
+    margin: -10px -10px 10px;
+    font-weight: bold;
+    background: #496cad;
+}
+
+.stage-container {
+    font-size: 14px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px dashed #ccc;
+    display: inline-block;
+    font-weight: bold;
+    width: 100%;
+}
+
+.stage-container:last-of-type {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.close-stages-container {
+    position: absolute;
+    top: 4px;
+    color: white;
+    right: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.close-stages-container:hover {
+    color: black
 }

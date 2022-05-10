@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle', 'ShowStages'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -197,6 +197,11 @@ class DefaultController extends Controller
         Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
         $calendar->title = $_POST["Calendar"]["title"];
         $calendar->save();
-        $this->redirect($_POST["Calendar"]["url"]);
+        header("location:" . yii::app()->createUrl("/calendar/default/index"));
+    }
+
+    public function actionShowStages() {
+        $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = " . $_POST["id"] . " order by edcenso_stage_vs_modality.name")->queryAll();
+        echo json_encode($result);
     }
 }

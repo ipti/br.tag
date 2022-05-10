@@ -1,3 +1,63 @@
+$(document).on("click", ".new-calendar-button", function () {
+    $(".error-calendar-event").hide();
+    $(".create-calendar-title, #copy").val("");
+    $("#stages").val(null).trigger("change.select2");
+    $("#myNewCalendar").modal("show");
+});
+
+$(document).on("click", ".create-calendar", function () {
+    var form = $(this).closest("form");
+    if (form.find(".create-calendar-title").val() === "" || form.find("#stages").val() === null) {
+        form.find(".alert").html("Campos com * são obrigatórios.").show();
+    } else {
+        form.find(".alert").hide();
+        $.ajax({
+            url: "?r=calendar/default/create",
+            type: "POST",
+            data: {
+                title: $(".create-calendar-title").val(),
+                stages: $("#stages").val(),
+                copyFrom: $("#copy").val()
+            },
+            beforeSend: function () {
+                $("#myNewCalendar .modal-body").css("opacity", 0.3);
+                $(".create-calendar").attr("disabled", "disabled");
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            if (!data.valid) {
+                form.find(".alert").html(data.error).show();
+                $("#myNewCalendar .modal-body").css("opacity", 1);
+                $(".create-calendar").removeAttr("disabled");
+            } else {
+                window.location.reload();
+            }
+        });
+    }
+});
+
+$(document).on("click", ".edit-calendar-title", function () {
+    $("#edit-calendar-title-modal").find("#Calendar_id").val($(this).closest(".calendar-container").find("div.calendar").attr("data-id"));
+    $("#edit-calendar-title-modal").find("#Calendar_title").val($(this).parent().children(".calendar-title").text());
+    $("#edit-calendar-title-modal").modal("show");
+});
+
+$(document).on("click", ".edit-calendar-title-button", function () {
+    var form = $(this).closest("form");
+    if (form.find("#Calendar_title").val() === "") {
+        form.find(".alert").html("Preencha o campo abaixo.").show();
+    } else {
+        form.find(".alert").hide();
+        form.submit();
+    }
+});
+
+$(document).on("click", ".remove-calendar", function (e) {
+    e.stopPropagation();
+    $("#calendar_removal_id").val($(this).data('id'));
+    $("#removeCalendar").modal("show");
+});
+
 $(document).on("click", ".change-event", function () {
     $("#myChangeEvent").find(".selected-calendar-current-year").val($(this).closest(".calendar").data("year"));
     $(".error-calendar-event").hide();
@@ -9,7 +69,7 @@ $(document).on("click", ".change-event", function () {
     var eventStartDate = $(this).data('year') + "-" + (m > 9 ? m : "0" + m) + "-" + (d > 9 ? d : "0" + d);
     var eventEndDate = $(this).data('year') + "-" + (m > 9 ? m : "0" + m) + "-" + (d > 9 ? d : "0" + d)
     var eventTypeFk = "";
-    var eventCopyable = "0";
+    var eventCopyable = "1";
 
     var url = GET_EVENT_URL;
 
@@ -55,51 +115,6 @@ $(document).on("click", ".change-event", function () {
     $("#myChangeEvent").modal("show");
 });
 
-$(document).on("click", ".new-event", function () {
-    $("#myNewEvent").find(".selected-calendar-current-year").val($("div.calendar").data("year"));
-    $(".error-calendar-event").hide();
-});
-
-$(document).on("click", ".new-calendar-button", function () {
-    $(".error-calendar-event").hide();
-    $(".create-calendar-title, #copy").val("");
-    $("#stages").val(null).trigger("change.select2");
-    $("#myNewCalendar").modal("show");
-});
-
-$(document).on("click", ".create-calendar", function () {
-    var form = $(this).closest("form");
-    if (form.find(".create-calendar-title").val() === "" || form.find("#stages").val() === null) {
-        form.find(".alert").html("Campos com * são obrigatórios.").show();
-    } else {
-        form.find(".alert").hide();
-        $.ajax({
-            url: "?r=calendar/default/create",
-            type: "POST",
-            data: {
-                title: $(".create-calendar-title").val(),
-                stages: $("#stages").val(),
-                copyFrom: $("#copy").val()
-            },
-            beforeSend: function () {
-                $("#myNewCalendar .modal-body").css("opacity", 0.3);
-                $("*").css("cursor", "wait");
-                $(".create-calendar").attr("disabled", "disabled");
-            },
-        }).success(function (data) {
-            data = JSON.parse(data);
-            if (!data.valid) {
-                form.find(".alert").html(data.error).show();
-                $("#myNewCalendar .modal-body").css("opacity", 1);
-                $("*").css("cursor", "auto");
-                $(".create-calendar").removeAttr("disabled");
-            } else {
-                window.location.reload();
-            }
-        });
-    }
-});
-
 $(document).on("click", ".save-event", function (e) {
     var form = $(this).closest("form");
     if (form.find("#CalendarEvent_name").val() === "" || form.find("#CalendarEvent_start_date").val() === "" || form.find("#CalendarEvent_end_date").val() === "" || form.find("#CalendarEvent_calendar_event_type_fk").val() === "") {
@@ -114,24 +129,39 @@ $(document).on("click", ".save-event", function (e) {
     }
 });
 
-$(document).on("click", ".edit-calendar-title", function () {
-    $("#edit-calendar-title-modal").find("#Calendar_id").val($(this).closest(".calendar-container").find("div.calendar").attr("data-id"));
-    $("#edit-calendar-title-modal").find("#Calendar_title").val($(this).parent().children(".calendar-title").text());
-    $("#edit-calendar-title-modal").modal("show");
-});
-
-$(document).on("click", ".edit-calendar-title-button", function () {
-    var form = $(this).closest("form");
-    if (form.find("#Calendar_title").val() === "") {
-        form.find(".alert").html("Preencha o campo abaixo.").show();
+$(document).on("click", ".show-stages", function (e) {
+    var icon = this;
+    e.stopPropagation();
+    if (!$(icon).closest(".accordion-group").find(".floating-stages-container").length) {
+        $(".floating-stages-container").remove();
+        $.ajax({
+            url: "?r=calendar/default/showStages",
+            type: "POST",
+            data: {
+                id: $(icon).data('id')
+            },
+            beforeSend: function () {
+                $(icon).css("pointer-events", "none").find("i").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-question-circle-o");
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            var html = "<div class='floating-stages-container'><div class='stages-container-title'>" + $(icon).closest(".accordion-group").find(".accordion-title").text() + "</div>";
+            $.each(data, function () {
+                html += "<div class='stage-container'>" + this.name + "</div>";
+            });
+            html += '<i class="close-stages-container fa fa-remove"></i></div>';
+            $(icon).closest(".accordion-group").append(html);
+        }).complete(function () {
+            $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-question-circle-o");
+        });
     } else {
-        form.find(".alert").hide();
-        form.submit();
+        $(".floating-stages-container").remove();
     }
+
 });
 
-$(document).on("click", ".remove-calendar", function () {
-    $("#calendar_removal_id").val($(this).data('id'));
+$(document).on("click", ".close-stages-container", function () {
+    $(".floating-stages-container").remove();
 });
 
 $(document).on("click", ".add-fundamental-menor", function () {
