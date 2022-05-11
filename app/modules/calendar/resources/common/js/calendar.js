@@ -166,7 +166,28 @@ $(document).on("click", ".save-event", function (e) {
             },
         }).success(function (data) {
             data = JSON.parse(data);
-            window.location.reload();
+            if (data.valid) {
+                var calendar = $(".calendar-container[data-id=" + $("#CalendarEvent_calendar_fk").val() + "]");
+                if (data.uniqueDayToDelete !== null) {
+                    var uniqueDay = $("a.change-event[data-id=" + data.uniqueDayToDelete.id + "]");
+                    uniqueDay.attr("data-id", "-1").removeAttr("data-toggle").removeAttr("data-placement").removeAttr("data-original-title");
+                    uniqueDay.parent().removeClass("calendar-" + data.uniqueDayToDelete.color);
+                    uniqueDay.find(".calendar-icon").remove();
+                }
+                var oldEventDays = $("a.change-event[data-id=" + data.eventId + "]");
+                oldEventDays.attr("data-id", "-1").removeAttr("data-toggle").removeAttr("data-placement").removeAttr("data-original-title");
+                oldEventDays.parent().removeClass("calendar-" + data.color);
+                oldEventDays.find(".calendar-icon").remove();
+                $.each(data.datesToFill, function() {
+                    var date = calendar.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]");
+                    date.attr("data-id", data.eventId).attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", data.eventName);
+                    date.parent().addClass("calendar-" + data.color);
+                    date.children(".calendar-icon").remove();
+                    date.prepend("<i class='calendar-icon fa " + data.icon + "'></i>");
+                    $("#myChangeEvent").modal("hide");
+                });
+                $('[data-toggle="tooltip"]').tooltip({container: "body"});
+            }
         }).complete(function () {
             $("#myChangeEvent .modal-body").css("opacity", 1).css("pointer-events", "auto");
             $("#myChangeEvent button").removeAttr("disabled");

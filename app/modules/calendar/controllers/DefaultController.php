@@ -118,17 +118,39 @@ class DefaultController extends Controller
         $event->end_date = $_POST["endDate"];
         $event->calendar_event_type_fk = $_POST["eventTypeFk"];
         $event->copyable = $_POST["copyable"] ? 1 : 0;
+        $uniqueDayToDelete = null;
         if (CalendarEventType::model()->findByPk($_POST["eventTypeFk"])->unique_day === "1") {
             $event->end_date = $event->start_date;
             $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $_POST["calendarFk"], "calendar_event_type_fk" => $_POST["eventTypeFk"]]);
             if ($start_scholar_year_date->id !== $event->id) {
+                $uniqueDayToDelete = ["id" => $start_scholar_year_date->id, "color" => $start_scholar_year_date->calendarEventTypeFk->color];
                 $start_scholar_year_date->delete();
             }
         }
         $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
         $event->save();
         Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
-        echo json_encode(["valid" => true]);
+
+        $start = new DateTime($event->start_date);
+        $end = new DateTime($event->end_date);
+        $end->modify('+1 day');
+        $interval = DateInterval::createFromDateString('1 day');
+        $period = new DatePeriod($start, $interval, $end);
+        $datesToFill = [];
+        foreach($period as $dt) {
+            array_push($datesToFill, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j")]);
+        }
+        $calendarEventType = CalendarEventType::model()->findByPk($_POST["eventTypeFk"]);
+
+        echo json_encode([
+            "valid" => true,
+            "datesToFill" => $datesToFill,
+            "color" => $calendarEventType->color,
+            "icon" => $calendarEventType->icon,
+            "eventId" => $event->id,
+            "eventName" => $event->name,
+            "uniqueDayToDelete" => $uniqueDayToDelete
+        ]);
     }
 
     public function actionDeleteEvent()

@@ -112,7 +112,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>
                     <div class="row-fluid">
-                        <div class="span12 calendar-container">
+                        <div class="span12 calendar-container" data-id="<?= $calendar->id ?>">
                             <?php for ($i = 0; $i < 3; $i++): ?>
                                 <div class="row-fluid calendar"
                                      data-year="<?= date('Y', strtotime($calendar->start_date)) ?>"
