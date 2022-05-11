@@ -47,7 +47,8 @@ if (!function_exists('isInInterval')) {
     }
 }
 
-function sortTranslatedName($a, $b) {
+function sortTranslatedName($a, $b)
+{
     return strcmp(yii::t('calendarModule.labels', $a->name), yii::t('calendarModule.labels', $b->name));
 }
 
@@ -89,12 +90,15 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <div class="accordion-heading">
                 <div class="accordion-toggle" data-toggle="collapse" data-parent="#calendars"
                      href="#collapse<?= $calendar->id ?>">
-                    <a class="accordion-title span12">
-                        <?= $calendar->title ?>
-                    </a>
+                    <a class="accordion-title span12"><?= $calendar->title ?></a>
                     <span class="text-right pull-right remove-calendar" data-toggle="tooltip" data-placement="top"
                           data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>
+                            </span>
+                    <span class="text-right pull-right edit-calendar-title" data-toggle="tooltip" data-placement="top"
+                          data-original-title="<?= yii::t('index', 'Editar Título do Calendário') ?>"
+                          data-id="<?= $calendar->id ?>">
+                                <i class="fa fa-edit"></i>
                             </span>
                     <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
                           data-original-title="Visualizar Etapas do Calendário" data-id="<?= $calendar->id ?>">
@@ -104,14 +108,11 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             </div>
             <div id="collapse<?= $calendar->id ?>" class="accordion-body collapse">
                 <div class="accordion-inner">
+                    <div class="centered-loading-gif">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </div>
                     <div class="row-fluid">
                         <div class="span12 calendar-container">
-                            <div class="calendar-title-container">
-                                <h4><?= yii::t("calendarModule.labels", "Title") . ": <span class='calendar-title'>" . $calendar->title ?></span>
-                                    <i data-toggle="tooltip" data-placement="bottom"
-                                       data-original-title="<?= yii::t('index', 'Editar Título do Calendário') ?>"
-                                       class="edit-calendar-title fa fa-edit"></i></h4>
-                            </div>
                             <?php for ($i = 0; $i < 3; $i++): ?>
                                 <div class="row-fluid calendar"
                                      data-year="<?= date('Y', strtotime($calendar->start_date)) ?>"
@@ -251,6 +252,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     ),
                 ));
                 ?>
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
                 <div class="modal-body">
                     <div class="error-calendar-event alert alert-error no-show"></div>
                     <div class="row-fluid">
@@ -323,6 +327,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     ),
                 ));
                 ?>
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
                 <div class="modal-body">
                     <div class="error-calendar-event alert alert-error no-show"></div>
                     <div class="row-fluid">
@@ -371,6 +378,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     ),
                 ));
                 ?>
+                <div class="centered-loading-gif">
+                    <i class="fa fa-spin fa-spinner"></i>
+                </div>
                 <div class="modal-body">
                     <div class="error-calendar-event alert alert-error no-show"></div>
                     <div class="row-fluid">
@@ -403,7 +413,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                             <?= chtml::label(yii::t("calendarModule.labels", "Event Type"), "title", array('class' => 'control-label required')); ?>
                             <div class="form-control">
                                 <select class="span6" id="CalendarEvent_calendar_event_type_fk">
-                                    <option>Selecione o tipo</option>
+                                    <option value="">Selecione o tipo</option>
                                     <?php foreach ($types as $type) : ?>
                                         <option value="<?= $type->id ?>"><?= yii::t('calendarModule.labels', $type->name) ?></option>
                                     <?php endforeach; ?>
@@ -422,7 +432,8 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                 </div>
 
                 <div class="modal-footer">
-                    <?= CHtml::button(yii::t("calendarModule.index", "Delete Event"), array('class' => 'btn btn-danger pull-left remove-event-button', 'submit' => array('/calendar/default/deleteEvent'))); ?>
+                    <button type="button"
+                            class="btn btn-danger pull-left remove-event-button"><?= yii::t("calendarModule.index", "Delete Event") ?></button>
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                     <button type="button"

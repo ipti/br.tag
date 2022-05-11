@@ -72,7 +72,6 @@ class DefaultController extends Controller
                 /** @var $calendarBase Calendar */
                 $calendarBase = Calendar::model()->findByPk($_POST["copyFrom"]);
                 $events = $calendarBase->getCopyableEvents();
-
                 foreach ($events as $event) {
                     $calendarStart = new DateTime($calendar->start_date);
                     $eventStart = new DateTime($event->start_date);
@@ -100,30 +99,6 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionCreateEvent()
-    {
-        $event = new CalendarEvent();
-        $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : NULL;
-        if ($attributes != NULL) {
-            $event->attributes = $attributes;
-            if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
-                $event->end_date = $event->start_date;
-                CalendarEvent::model()->deleteAllByAttributes("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
-            }
-            if ($event->validate()) {
-                $event->save();
-                Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
-                Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
-                header("location:" . yii::app()->createUrl("/calendar/default/index"));
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
-            }
-        }
-        $this->render('index', [
-            "modelCalendar" => $this->loadModel($event->calendar_fk), "modelEvent" => new CalendarEvent()
-        ]);
-    }
-
     public function actionEvent()
     {
         $event = CalendarEvent::model()->findByPk($_POST["id"]);
@@ -133,44 +108,36 @@ class DefaultController extends Controller
     public function actionChangeEvent()
     {
         /** @var CalendarEvent $event */
-        $attributes = isset($_POST['CalendarEvent']) ? $_POST['CalendarEvent'] : NULL;
-        if ($attributes != NULL) {
-            $event = NULL;
-            if ($attributes["id"] == -1) {
-                $event = new CalendarEvent();
-                $event->attributes = $attributes;
-                $event->setAttribute("id", NULL);
-            } else {
-                $event = CalendarEvent::model()->findByPk($attributes["id"]);
-                $event->attributes = $attributes;
-            }
-            if (CalendarEventType::model()->findByPk($attributes["calendar_event_type_fk"])->unique_day === "1") {
-                $event->end_date = $event->start_date;
-                $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $attributes["calendar_fk"], "calendar_event_type_fk" => $attributes["calendar_event_type_fk"]]);
-                if ($start_scholar_year_date->id !== $event->id) {
-                    $start_scholar_year_date->delete();
-                }
-            }
-            if ($event->validate()) {
-                $event->save();
-                Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
-                Yii::app()->user->setFlash('success', Yii::t('calendarModule.index', 'Event created successfully!'));
-                $this->redirect($attributes["url"]);
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('calendarModule.index', 'Something went wrong!'));
+        $event = CalendarEvent::model()->findByPk($_POST["id"]);
+        if ($event == null) {
+            $event = new CalendarEvent();
+        }
+        $event->calendar_fk = $_POST["calendarFk"];
+        $event->name = $_POST["name"];
+        $event->start_date = $_POST["startDate"];
+        $event->end_date = $_POST["endDate"];
+        $event->calendar_event_type_fk = $_POST["eventTypeFk"];
+        $event->copyable = $_POST["copyable"] ? 1 : 0;
+        if (CalendarEventType::model()->findByPk($_POST["eventTypeFk"])->unique_day === "1") {
+            $event->end_date = $event->start_date;
+            $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $_POST["calendarFk"], "calendar_event_type_fk" => $_POST["eventTypeFk"]]);
+            if ($start_scholar_year_date->id !== $event->id) {
+                $start_scholar_year_date->delete();
             }
         }
-        $this->render('index', [
-            "modelCalendar" => $this->loadModel($event->calendar_fk), "modelEvent" => new CalendarEvent()
-        ]);
+        $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
+        $event->save();
+        Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
+        echo json_encode(["valid" => true]);
     }
 
     public function actionDeleteEvent()
     {
-        $event = CalendarEvent::model()->findByPk($_POST['CalendarEvent']["id"]);
+        $event = CalendarEvent::model()->findByPk($_POST["id"]);
+        $color = $event->calendarEventTypeFk->color;
         Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
         $event->delete();
-        $this->redirect($_POST['CalendarEvent']["url"]);
+        echo json_encode(["valid" => true, "id" => $_POST["id"], "color" => $color]);
     }
 
     public function actionRemoveCalendar()
@@ -200,7 +167,8 @@ class DefaultController extends Controller
         header("location:" . yii::app()->createUrl("/calendar/default/index"));
     }
 
-    public function actionShowStages() {
+    public function actionShowStages()
+    {
         $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = " . $_POST["id"] . " order by edcenso_stage_vs_modality.name")->queryAll();
         echo json_encode($result);
     }

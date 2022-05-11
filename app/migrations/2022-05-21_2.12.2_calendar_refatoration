@@ -28,3 +28,6 @@ ADD FOREIGN KEY (`calendar_fk`) REFERENCES `calendar` (`id`) ON DELETE CASCADE O
 
 ALTER TABLE `calendar_stages`
 ADD FOREIGN KEY (`stage_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `calendar_event_type`
+DROP `copyable`;

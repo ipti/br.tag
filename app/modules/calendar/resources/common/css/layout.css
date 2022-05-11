@@ -139,7 +139,7 @@ form {
     padding: 0 10px;
 }
 
-.remove-calendar, .show-stages {
+.remove-calendar, .show-stages, .edit-calendar-title {
     padding: 0 10px;
 }
 
@@ -155,36 +155,14 @@ form {
     color: #333;
 }
 
-.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o {
+.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar-title:hover .fa-edit {
     color: white;
 }
 
-.remove-calendar .fa-remove, .show-stages .fa-question-circle-o {
+.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar-title .fa-edit {
     color: darkred;
     font-size: 16px;
     margin-top: 6px;
-}
-
-.calendar-title-container {
-    padding: 0 2px;
-    margin-bottom: 30px;
-    text-align: right;
-}
-
-.calendar-title-container span {
-    color: #333;
-    padding: 0 2px;
-}
-
-.edit-calendar-title {
-    margin-left: 5px;
-    font-size: 14px !important;
-    color: darkred;
-    cursor: pointer;
-}
-
-.edit-calendar-title:hover {
-    color: #333;
 }
 
 .stages-container {
@@ -193,7 +171,7 @@ form {
 
 .add-stages-options {
     width: 100% !important;
-    margin-bottom: -15px;
+    margin-bottom: -10px;
 }
 
 .stages-container .select2-search-choice {
@@ -219,7 +197,7 @@ form {
 .floating-stages-container {
     position: fixed;
     top: 136px;
-    right: 90px;
+    right: 130px;
     background: #fff;
     border: 1px solid;
     z-index: 1000;
@@ -264,5 +242,15 @@ form {
 }
 
 .close-stages-container:hover {
-    color: black
+    color: black;
+}
+
+.centered-loading-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    z-index: 1;
+    display: none;
 }

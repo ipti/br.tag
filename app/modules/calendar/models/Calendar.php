@@ -102,7 +102,7 @@ class Calendar extends CActiveRecord
         $events = $this->calendarEvents;
         $copyables = [];
         foreach ($events as $event) {
-            if ($event->copyable && $event->calendarEventTypeFk->copyable) {
+            if ($event->copyable) {
                 array_push($copyables, $event);
             }
         }
