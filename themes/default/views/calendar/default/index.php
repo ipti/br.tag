@@ -26,15 +26,6 @@ $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
     </div>
 </div>
 <div class="innerLR home">
-    <?php if (Yii::app()->user->hasFlash('success')): ?>
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="alert alert-success">
-                    <?php echo Yii::app()->user->getFlash('success') ?>
-                </div>
-            </div>
-        </div>
-    <?php endif ?>
     <?php
     $this->widget('calendar.components.calendarWidget', [
         'calendar' => $calendar

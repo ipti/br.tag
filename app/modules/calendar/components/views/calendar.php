@@ -59,9 +59,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
 
 ?>
 
-<?php if ($calendars == null): ?>
-    <div class="alert alert-warning">Nenhum Calendário cadastrado para <?= Yii::app()->user->year ?>.</div>
-<?php endif; ?>
+<div class="no-calendars-alert alert alert-warning <?= $calendars == null ? "" : "no-show" ?>">Nenhum Calendário cadastrado para <?= Yii::app()->user->year ?>.</div>
 <div class="accordion" id="calendars">
     <?php foreach ($calendars as $calendar): ?>
         <?php
@@ -104,7 +102,8 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                             </span>
                     <span class="text-right pull-right change-calendar-status" data-toggle="tooltip"
                           data-placement="top"
-                          data-original-title="<?= $calendar->available ? "Indisponibilizar Calendário" : "Disponibilizar Calendário" ?>" data-id="<?= $calendar->id ?>">
+                          data-original-title="<?= $calendar->available ? "Indisponibilizar Calendário" : "Disponibilizar Calendário" ?>"
+                          data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-eye<?= $calendar->available ? "" : "-slash" ?>"></i>
                             </span>
                     <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
@@ -485,7 +484,8 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         </div>
     </div>
 
-    <div class="modal fade" id="changeCalendarStatus" tabindex="-1" role="dialog" aria-labelledby="Change Calendar Status">
+    <div class="modal fade" id="changeCalendarStatus" tabindex="-1" role="dialog"
+         aria-labelledby="Change Calendar Status">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -502,7 +502,8 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         <div class="alert alert-error no-show"></div>
                         <div class="row-fluid">
                             <?= yii::t("calendarModule.index", "Are you sure?") ?>
-                            <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id" value=""/>
+                            <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id"
+                                   value=""/>
                         </div>
                     </div>
 

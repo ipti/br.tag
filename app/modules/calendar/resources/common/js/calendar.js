@@ -101,6 +101,9 @@ $(document).on("click", ".remove-calendar-button", function () {
         data = JSON.parse(data);
         if (data.valid) {
             $(".calendar-container[data-id=" + $("#calendar_removal_id").val() + "]").closest(".accordion-group").remove();
+            $("#calendars").children().length
+                ? $(".no-calendars-alert").show()
+                : $(".no-calendars-alert").hide();
             $("#removeCalendar").modal("hide");
         } else {
             $("#removeCalendar").find(".alert").html(data.error).show();

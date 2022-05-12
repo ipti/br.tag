@@ -93,7 +93,6 @@ class DefaultController extends Controller
                 }
             }
             Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
-            Yii::app()->user->setFlash('success', "Calendário Escolar criado com sucesso!");
             echo json_encode(["valid" => true]);
         } else {
             echo json_encode(["valid" => false, "error" => $error]);
