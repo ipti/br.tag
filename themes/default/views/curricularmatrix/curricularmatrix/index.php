@@ -8,8 +8,8 @@
 	$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 	$cs = Yii::app()->getClientScript();
-	$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-	$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js', CClientScript::POS_END);
+	$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
+	$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.0', CClientScript::POS_END);
 	$cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 	$this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 ?>

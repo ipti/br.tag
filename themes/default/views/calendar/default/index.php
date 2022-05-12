@@ -8,7 +8,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/index.js', CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('calendarModule.index', 'Calendar'));
 ?>

@@ -9,7 +9,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $getEventUrl = Yii::app()->createUrl("/calendar/default/event");
 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/common/js/calendar.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/calendar.js?v=1.0', CClientScript::POS_END);
 $cs->registerScript("vars", "
 var GET_EVENT_URL = '$getEventUrl';
 ", CClientScript::POS_BEGIN);
@@ -76,13 +76,15 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         $events = [];
         for ($i = 1; $i <= 12; $i++) $events[$i] = [];
         foreach ($calendar->calendarEvents as $event) {
-            $start_event = new DateTime($event->start_date);
-            $end_event = new DateTime($event->end_date);
-            $mStart = $start_event->format('n');
-            $mEnd = $end_event->format('n');
+            if ($event->school_fk == null || $event->school_fk == Yii::app()->user->school) {
+                $start_event = new DateTime($event->start_date);
+                $end_event = new DateTime($event->end_date);
+                $mStart = $start_event->format('n');
+                $mEnd = $end_event->format('n');
 
-            for ($i = $mStart; $i <= $mEnd; $i++) {
-                $events[$i][] = $event;
+                for ($i = $mStart; $i <= $mEnd; $i++) {
+                    $events[$i][] = $event;
+                }
             }
         }
         ?>

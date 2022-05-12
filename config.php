@@ -1,36 +1,35 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-define("TAG_VERSION", '2.12.1');
+define("TAG_VERSION", '2.12.2');
 define("BOARD_MSG", '
 		
-		<div class="alert alert-warning">
+		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<strong>08/03/2022 - TAG VERSÃO 2.12.0:</strong>
 		<br>
-		<ul>
-		    <li>Novas Atualizações</li>
-				<ul>
-					<li>Correção de Campos</li>
-					<li>Melhoria Visual</li>
-					<li>Diário Eletrônico</li>
-					<li>Login de Professor</li>
-					<li>Novas Unidades de Medida da Merenda Escolar (KG e ML)</li>
-					<li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)</li>
-					<li>Gerenciamento de Etapas para Notas por Conceito</li>
-					<li>Aprimoramento da Função Calendário Escolar</li>
-				</ul>
-        	</ul>
-        	<strong>11/04/2022 - TAG VERSÃO 2.12.1:</strong>
+        <ul>
+            <li>Correção de Campos</li>
+            <li>Melhoria Visual</li>
+            <li>Diário Eletrônico</li>
+            <li>Login de Professor</li>
+            <li>Novas Unidades de Medida da Merenda Escolar (KG e ML)</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)</li>
+            <li>Gerenciamento de Etapas para Notas por Conceito</li>
+            <li>Aprimoramento da Função Calendário Escolar</li>
+        </ul>
+        <strong>11/04/2022 - TAG VERSÃO 2.12.1:</strong>
 		<br>
-        	<ul>
-		    <li>Novas Atualizações</li>
-				<ul>
-					<li>Quadro de Horário Remodelado</li>
-					<li>Frequência Remodelada</li>
-					<li>Relatório do Bolsa Família Corrigido</li>
-				</ul>
-        	</ul>
+        <ul>
+            <li>Quadro de Horário Remodelado</li>
+            <li>Frequência Remodelada</li>
+            <li>Relatório do Bolsa Família Corrigido</li>
+        </ul>
+        <strong>21/05/2022 - TAG VERSÃO 2.12.2:</strong>
+		<br>
+        <ul>
+            <li>Calendário Remodelado</li>
+        </ul>
 	</div>');
 if (YII_DEBUG) {
     defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 3);
