@@ -66,13 +66,16 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <div class="span12">
             <span id="turn"></span>
             <div class="checkbox replicate-actions-container">
-                <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações para todas as semanas
+                <input type="checkbox" class="replicate-actions-checkbox replicate-actions" checked> Replicar alterações
+                para todas as semanas
                 subsequentes
             </div>
             <div class="workloads-container">
                 <i class="fa fa-chevron-right workloads-activator"></i>
                 <i class="fa fa-exclamation-triangle workloads-overflow"></i>
-                <div class="workloads"><div class="workloads-title">Carga Horária</div></div>
+                <div class="workloads">
+                    <div class="workloads-title">Carga Horária</div>
+                </div>
             </div>
             <div class="clear"></div>
             <div class="tables-timesheet">
@@ -90,15 +93,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                             <tr class="calendar-icons">
                                 <th></th>
                                 <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                    <th>
-                                        <?php foreach ($calendarEvents[$month][$day] as $calendarEventType): ?>
-                                            <div class="calendar-timesheet-icon calendar-<?= $calendarEventType["color"] ?>">
-                                                <i data-toggle="tooltip" data-placement="bottom"
-                                                   data-original-title="<?= yii::t('timesheetModule.timesheet', $calendarEventType["name"]); ?>"
-                                                   class="fa <?= $calendarEventType["icon"] ?>"></i>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </th>
+                                    <th icon-month="<?= $month ?>" icon-day="<?= $day ?>"></th>
                                 <?php endfor; ?>
                             </tr>
                             <tr class="dayname-row">
@@ -117,33 +112,6 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                             </tr>
                             </thead>
                             <tbody>
-                            <?php for ($schedule = 1; $schedule <= 10; $schedule++): ?>
-                                <tr schedule="<?= $schedule ?>">
-                                    <th><?= $schedule ?>º</th>
-                                    <?php
-                                    $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"];
-                                    $week = $lastMonthWeek;
-                                    ?>
-                                    <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++): ?>
-                                        <?php
-                                        $hardUnavailableDay = isset($hardUnavailableDays[$month]) && in_array($day, $hardUnavailableDays[$month]);
-                                        $softUnavailableDay = isset($softUnavailableDays[$month]) && in_array($day, $softUnavailableDays[$month]);
-                                        ?>
-                                        <td class="<?= $hardUnavailableDay ? "hard-unavailable" : "" ?><?= $softUnavailableDay ? "soft-unavailable" : "" ?>" day="<?= $day ?>" week="<?= $week ?>" week_day="<?= $weekDayCount ?>"></td>
-                                        <?php
-                                        if ($weekDayCount == 6) {
-                                            $weekDayCount = 0;
-                                            $week++;
-                                        } else {
-                                            $weekDayCount++;
-                                        }
-                                        if ($day == $daysPerMonth[$month]["daysCount"] && $schedule == 10) {
-                                            $lastMonthWeek = $week;
-                                        }
-                                        ?>
-                                    <?php endfor; ?>
-                                </tr>
-                            <?php endfor; ?>
                             </tbody>
                         </table>
                     </div>
@@ -158,19 +126,11 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
 
             <div class="row-fluid">
                 <div class="span12">
-                    <h4>Legenda</h4>
+                    <div class="calendar-subtitles-title">
+                        <h4>Legenda</h4>
+                    </div>
                 </div>
             </div>
-            <div class="span12">
-                <i class="fa fa-exclamation-triangle darkgoldenrod"></i>
-                <span>Instrutor possui n conflitos neste horário.</span>
-            </div>
-            <div class="span12">
-                <i class="fa fa-times-circle darkred"></i>
-                <span>Horário indisponível para o instrutor.</span>
-            </div>
-            <div class="clear"></div>
-            <div class="line"></div>
             <?php
             $html = '';
             foreach ($calendarTypes as $calendarType) {
@@ -348,7 +308,8 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                         <select class="modal-add-schedule-discipline"></select>
                     </div>
                     <div class="checkbox modal-replicate-actions-container">
-                        <input type="checkbox" class="replicate-actions-checkbox modal-replicate-actions" checked> Replicar alterações para todas
+                        <input type="checkbox" class="replicate-actions-checkbox modal-replicate-actions" checked>
+                        Replicar alterações para todas
                         as semanas
                         subsequentes
                     </div>

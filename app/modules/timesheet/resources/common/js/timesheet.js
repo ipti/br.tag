@@ -86,7 +86,7 @@ function getTimesheet(data) {
     } else if (!data.valid) {
         if (data.error === "curricularMatrix" || data.error === "calendar") {
             $(".loading-alert").removeClass("display-hide").html("Para conseguir gerar um quadro de horário para essa turma:" +
-                "<br>1- crie um <b>calendário</b> para o ano presente, selecionado como atual, com os eventos de início e fim de ano escolar registrados;" +
+                "<br>1- crie um <b>calendário</b> para o ano presente, contemplando a etapa da turma selecionada, com os eventos de início e fim de ano escolar registrados;" +
                 "<br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;" +
                 "<br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.");
             $(".schedule-info").addClass("display-hide");
@@ -94,14 +94,19 @@ function getTimesheet(data) {
         } else if (data.error === "frequencyFilled") {
             $(".loading-alert").removeClass("display-hide").html("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência.");
             $("#turn").show();
-        } else {
-            $(".tables-timesheet tbody tr td").children().remove();
-            calculateWorkload(data.disciplines, false);
         }
     } else {
         $(".tables-timesheet tbody").children().remove();
+        $(".calendar-icons th").children().remove();
         var turn = "";
         var lastMonthWeek = 1;
+        $.each(data.calendarEvents, function () {
+            $(".calendar-icons th[icon-month=" + this.month + "][icon-day=" + this.day + "]").append(
+                '<div class="calendar-timesheet-icon calendar-' + this.color + '">' +
+                '<i data-toggle="tooltip" data-placement="bottom" data-original-title="' + this.name + '" class="fa ' + this.icon + '"></i>' +
+                '</div>'
+            );
+        });
         for (var month = 1; month <= 12; month++) {
             var html = "";
 
@@ -162,7 +167,7 @@ function getTimesheet(data) {
                 html += "</tr>";
             }
             $(".tables-timesheet table[month=" + month + "] tbody").html(html);
-            $(".frequency-unavailable").tooltip({container: 'body'});
+            $('[data-toggle="tooltip"]').tooltip({container: "body"});
         }
         calculateWorkload(data.disciplines, false);
         $("#turn").text(turn).show();

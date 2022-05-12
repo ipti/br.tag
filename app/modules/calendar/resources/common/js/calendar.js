@@ -217,6 +217,7 @@ $(document).on("click", ".show-stages", function (e) {
             });
             html += '<i class="close-stages-container fa fa-remove"></i></div>';
             $(icon).closest(".accordion-group").append(html);
+            $(".floating-stages-container").css("top", $(icon).closest(".accordion-group").offset().top);
         }).complete(function () {
             $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-question-circle-o");
         });

@@ -243,6 +243,10 @@ table.table-timesheet td {
     margin: 5px 5px 10px;
 }
 
+.calendar-subtitles-title {
+    margin: 10px 0 20px 1.0526315789473683%;
+}
+
 .calendar-icons {
     height: 25px;
 }
