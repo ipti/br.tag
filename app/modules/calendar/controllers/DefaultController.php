@@ -26,7 +26,7 @@ class DefaultController extends Controller
                 'actions' => ['index', 'view'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle', 'ShowStages'],
+                'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual', 'RemoveCalendar', 'DeleteEvent', 'editCalendarTitle', 'ShowStages', 'changeCalendarStatus'],
                 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -61,6 +61,7 @@ class DefaultController extends Controller
             $calendar->title = $_POST["title"];
             $calendar->start_date = Yii::app()->user->year . "-01-01";
             $calendar->end_date = Yii::app()->user->year . "-12-31";
+            $calendar->available = 0;
             $calendar->save();
             foreach ($_POST["stages"] as $stage) {
                 $calendarStage = new CalendarStages();
@@ -107,67 +108,112 @@ class DefaultController extends Controller
 
     public function actionChangeEvent()
     {
+        $result = Yii::app()->db->createCommand("
+            select count(s.id) as qtd from schedule s 
+            join classroom cr on s.classroom_fk = cr.id 
+            join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+            join calendar c on cs.calendar_fk = c.id
+            where c.id = " . $_POST["calendarFk"])->queryRow();
+        $isHardUnavailableEvent = $_POST["eventTypeFk"] == 1000 || $_POST["eventTypeFk"] == 1001 || $_POST["eventTypeFk"] == 102;
+        $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101;
+        $isPreviousDate = strtotime($_POST["startDate"]) < strtotime('now');
+
         /** @var CalendarEvent $event */
         $event = CalendarEvent::model()->findByPk($_POST["id"]);
         if ($event == null) {
             $event = new CalendarEvent();
+        } else {
+            $isHardUnavailableEvent = !$isHardUnavailableEvent ? $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102 : $isHardUnavailableEvent;
+            $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 : $isSoftUnavailableEvent;
+            $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
         }
-        $event->calendar_fk = $_POST["calendarFk"];
-        $event->name = $_POST["name"];
-        $event->start_date = $_POST["startDate"];
-        $event->end_date = $_POST["endDate"];
-        $event->calendar_event_type_fk = $_POST["eventTypeFk"];
-        $event->copyable = $_POST["copyable"] ? 1 : 0;
-        $uniqueDayToDelete = null;
-        if (CalendarEventType::model()->findByPk($_POST["eventTypeFk"])->unique_day === "1") {
-            $event->end_date = $event->start_date;
-            $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $_POST["calendarFk"], "calendar_event_type_fk" => $_POST["eventTypeFk"]]);
-            if ($start_scholar_year_date->id !== $event->id) {
-                $uniqueDayToDelete = ["id" => $start_scholar_year_date->id, "color" => $start_scholar_year_date->calendarEventTypeFk->color];
-                $start_scholar_year_date->delete();
+        if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
+            echo json_encode(["valid" => false, "error" => "Não se pode alterar eventos de férias, início ou fim de ano escolar quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+        } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            echo json_encode(["valid" => false, "error" => "Não se pode alterar eventos de feriados com datas anteriores à atual quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+        } else {
+            $event->calendar_fk = $_POST["calendarFk"];
+            $event->name = $_POST["name"];
+            $event->start_date = $_POST["startDate"];
+            $event->end_date = $_POST["endDate"];
+            $event->calendar_event_type_fk = $_POST["eventTypeFk"];
+            $event->copyable = $_POST["copyable"] ? 1 : 0;
+            $uniqueDayToDelete = null;
+            if (CalendarEventType::model()->findByPk($_POST["eventTypeFk"])->unique_day === "1") {
+                $event->end_date = $event->start_date;
+                $start_scholar_year_date = CalendarEvent::model()->find("calendar_fk = :calendar_fk and calendar_event_type_fk = :calendar_event_type_fk", ["calendar_fk" => $_POST["calendarFk"], "calendar_event_type_fk" => $_POST["eventTypeFk"]]);
+                if ($start_scholar_year_date->id !== $event->id) {
+                    $uniqueDayToDelete = ["id" => $start_scholar_year_date->id, "color" => $start_scholar_year_date->calendarEventTypeFk->color];
+                    $start_scholar_year_date->delete();
+                }
             }
-        }
-        $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
-        $event->save();
-        Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
+            $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
+            $event->save();
+            Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
 
-        $start = new DateTime($event->start_date);
-        $end = new DateTime($event->end_date);
-        $end->modify('+1 day');
-        $interval = DateInterval::createFromDateString('1 day');
-        $period = new DatePeriod($start, $interval, $end);
-        $datesToFill = [];
-        foreach($period as $dt) {
-            array_push($datesToFill, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j")]);
-        }
-        $calendarEventType = CalendarEventType::model()->findByPk($_POST["eventTypeFk"]);
+            $start = new DateTime($event->start_date);
+            $end = new DateTime($event->end_date);
+            $end->modify('+1 day');
+            $interval = DateInterval::createFromDateString('1 day');
+            $period = new DatePeriod($start, $interval, $end);
+            $datesToFill = [];
+            foreach ($period as $dt) {
+                array_push($datesToFill, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j")]);
+            }
+            $calendarEventType = CalendarEventType::model()->findByPk($_POST["eventTypeFk"]);
 
-        echo json_encode([
-            "valid" => true,
-            "datesToFill" => $datesToFill,
-            "color" => $calendarEventType->color,
-            "icon" => $calendarEventType->icon,
-            "eventId" => $event->id,
-            "eventName" => $event->name,
-            "uniqueDayToDelete" => $uniqueDayToDelete
-        ]);
+            echo json_encode([
+                "valid" => true,
+                "datesToFill" => $datesToFill,
+                "color" => $calendarEventType->color,
+                "icon" => $calendarEventType->icon,
+                "eventId" => $event->id,
+                "eventName" => $event->name,
+                "uniqueDayToDelete" => $uniqueDayToDelete
+            ]);
+        }
     }
 
     public function actionDeleteEvent()
     {
+        $result = Yii::app()->db->createCommand("
+            select count(s.id) as qtd from schedule s 
+            join classroom cr on s.classroom_fk = cr.id 
+            join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+            join calendar c on cs.calendar_fk = c.id
+            where c.id = " . $_POST["calendarId"])->queryRow();
         $event = CalendarEvent::model()->findByPk($_POST["id"]);
-        $color = $event->calendarEventTypeFk->color;
-        Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
-        $event->delete();
-        echo json_encode(["valid" => true, "id" => $_POST["id"], "color" => $color]);
+        $isHardUnavailableEvent = $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102;
+        $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101;
+        $isPreviousDate = strtotime($event->start_date) < strtotime('now');
+        if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
+            echo json_encode(["valid" => false, "error" => "Não se pode remover eventos de férias, início ou fim de ano escolar quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+        } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            echo json_encode(["valid" => false, "error" => "Não se pode remover eventos de feriados com datas anteriores à atual quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+        } else {
+            $color = $event->calendarEventTypeFk->color;
+            Log::model()->saveAction("calendar", $event->calendar_fk, "U", $event->calendarFk->title);
+            $event->delete();
+            echo json_encode(["valid" => true, "id" => $_POST["id"], "color" => $color]);
+        }
     }
 
     public function actionRemoveCalendar()
     {
-        $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
-        Log::model()->saveAction("calendar", $calendar->id, "D", $calendar->title);
-        $calendar->delete();
-        header("location:" . yii::app()->createUrl("/calendar/default/index"));
+        $result = Yii::app()->db->createCommand("
+            select count(s.id) as qtd from schedule s 
+            join classroom cr on s.classroom_fk = cr.id 
+            join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+            join calendar c on cs.calendar_fk = c.id
+            where c.id = " . $_POST["calendar_removal_id"])->queryRow();
+        if ((int)$result["qtd"] > 0) {
+            echo json_encode(["valid" => false, "error" => "Não se pode remover calendários quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+        } else {
+            $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
+            Log::model()->saveAction("calendar", $calendar->id, "D", $calendar->title);
+            $calendar->delete();
+            echo json_encode(["valid" => true]);
+        }
     }
 
     public function loadModel($id)
@@ -193,5 +239,27 @@ class DefaultController extends Controller
     {
         $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = " . $_POST["id"] . " order by edcenso_stage_vs_modality.name")->queryAll();
         echo json_encode($result);
+    }
+
+    public function actionChangeCalendarStatus()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+            $result = Yii::app()->db->createCommand("
+            select count(s.id) as qtd from schedule s 
+            join classroom cr on s.classroom_fk = cr.id 
+            join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+            join calendar c on cs.calendar_fk = c.id
+            where c.id = " . $_POST["id"])->queryRow();
+            $calendar = Calendar::model()->findByPk($_POST["id"]);
+            if (!$calendar->available || (int)$result["qtd"] == 0) {
+                $calendar->available = $calendar->available ? 0 : 1;
+                $calendar->save();
+                echo json_encode(["valid" => true, "available" => $calendar->available]);
+            } else {
+                echo json_encode(["valid" => false, "error" => "Não se pode indisponibilizar calendários quando  quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
+            }
+        } else {
+            echo json_encode(["valid" => false, "error" => "Apenas administradores podem disponibilizar ou indisponibilizar calendários."]);
+        }
     }
 }

@@ -86,7 +86,7 @@ function getTimesheet(data) {
     } else if (!data.valid) {
         if (data.error === "curricularMatrix" || data.error === "calendar") {
             $(".loading-alert").removeClass("display-hide").html("Para conseguir gerar um quadro de horário para essa turma:" +
-                "<br>1- crie um <b>calendário</b> para o ano presente, contemplando a etapa da turma selecionada, com os eventos de início e fim de ano escolar registrados;" +
+                "<br>1- disponibilize um <b>calendário</b> contemplando a etapa da turma selecionada, com os eventos de início e fim de ano escolar registrados;" +
                 "<br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;" +
                 "<br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.");
             $(".schedule-info").addClass("display-hide");

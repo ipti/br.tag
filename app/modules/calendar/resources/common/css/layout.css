@@ -139,7 +139,7 @@ form {
     padding: 0 10px;
 }
 
-.remove-calendar, .show-stages, .edit-calendar-title {
+.remove-calendar, .show-stages, .edit-calendar-title, .change-calendar-status {
     padding: 0 10px;
 }
 
@@ -155,11 +155,11 @@ form {
     color: #333;
 }
 
-.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar-title:hover .fa-edit {
+.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar-title:hover .fa-edit, .change-calendar-status:hover .fa {
     color: white;
 }
 
-.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar-title .fa-edit {
+.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar-title .fa-edit, .change-calendar-status .fa {
     color: darkred;
     font-size: 16px;
     margin-top: 6px;
@@ -196,7 +196,7 @@ form {
 
 .floating-stages-container {
     position: fixed;
-    right: 130px;
+    right: 165px;
     background: #fff;
     border: 1px solid;
     z-index: 1000;
@@ -252,4 +252,8 @@ form {
     font-size: 40px;
     z-index: 1;
     display: none;
+}
+
+.error-calendar-event {
+    text-align: justify;
 }

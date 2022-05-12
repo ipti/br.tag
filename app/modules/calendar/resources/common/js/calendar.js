@@ -64,12 +64,41 @@ $(document).on("click", ".remove-calendar", function (e) {
     $("#removeCalendar").modal("show");
 });
 
+$(document).on("click", ".remove-calendar-button", function () {
+    $("#removeCalendar").find(".alert").hide();
+    $.ajax({
+        url: "?r=calendar/default/removeCalendar",
+        type: "POST",
+        data: {
+            calendar_removal_id: $("#calendar_removal_id").val(),
+        },
+        beforeSend: function () {
+            $("#removeCalendar .centered-loading-gif").show();
+            $("#removeCalendar .modal-body").css("opacity", 0.3).css("pointer-events", "none");
+            $("#removeCalendar button").attr("disabled", "disabled");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            $(".calendar-container[data-id=" + $("#calendar_removal_id").val() + "]").closest(".accordion-group").remove();
+            $("#removeCalendar").modal("hide");
+        } else {
+            $("#removeCalendar").find(".alert").html(data.error).show();
+        }
+    }).complete(function () {
+        $("#removeCalendar .centered-loading-gif").hide();
+        $("#removeCalendar .modal-body").css("opacity", 1).css("pointer-events", "auto");
+        $("#removeCalendar button").removeAttr("disabled");
+    });
+});
+
 $(document).on("click", ".remove-event-button", function () {
     $.ajax({
         url: "?r=calendar/default/deleteEvent",
         type: "POST",
         data: {
             id: $("#CalendarEvent_id").val(),
+            calendarId: $("#CalendarEvent_calendar_fk").val()
         },
         beforeSend: function () {
             $("#myChangeEvent .centered-loading-gif").show();
@@ -84,6 +113,8 @@ $(document).on("click", ".remove-event-button", function () {
             eventDays.parent().removeClass("calendar-" + data.color);
             eventDays.find(".calendar-icon").remove();
             $("#myChangeEvent").modal("hide");
+        } else {
+            $("#myChangeEvent").find(".alert").html(data.error).show();
         }
     }).complete(function () {
         $("#myChangeEvent .centered-loading-gif").hide();
@@ -161,6 +192,7 @@ $(document).on("click", ".save-event", function (e) {
                 copyable: $("#CalendarEvent_copyable").is(":checked")
             },
             beforeSend: function () {
+                $("#myChangeEvent .centered-loading-gif").show();
                 $("#myChangeEvent .modal-body").css("opacity", 0.3).css("pointer-events", "none");
                 $("#myChangeEvent button").attr("disabled", "disabled");
             },
@@ -178,7 +210,7 @@ $(document).on("click", ".save-event", function (e) {
                 oldEventDays.attr("data-id", "-1").removeAttr("data-toggle").removeAttr("data-placement").removeAttr("data-original-title");
                 oldEventDays.parent().removeClass("calendar-" + data.color);
                 oldEventDays.find(".calendar-icon").remove();
-                $.each(data.datesToFill, function() {
+                $.each(data.datesToFill, function () {
                     var date = calendar.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]");
                     date.attr("data-id", data.eventId).attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", data.eventName);
                     date.parent().addClass("calendar-" + data.color);
@@ -187,8 +219,11 @@ $(document).on("click", ".save-event", function (e) {
                     $("#myChangeEvent").modal("hide");
                 });
                 $('[data-toggle="tooltip"]').tooltip({container: "body"});
+            } else {
+                form.find(".alert").html(data.error).show();
             }
         }).complete(function () {
+            $("#myChangeEvent .centered-loading-gif").hide();
             $("#myChangeEvent .modal-body").css("opacity", 1).css("pointer-events", "auto");
             $("#myChangeEvent button").removeAttr("disabled");
         });
@@ -229,6 +264,46 @@ $(document).on("click", ".show-stages", function (e) {
 
 $(document).on("click", ".close-stages-container", function () {
     $(".floating-stages-container").remove();
+});
+
+$(document).on("click", ".change-calendar-status", function (e) {
+    e.stopPropagation();
+    $("#changeCalendarStatus").find(".alert").hide();
+    $("#changeCalendarStatus").find(".modal-title").text($(this).find("i").hasClass("fa-eye") ? "Indisponibilizar Calendário" : "Disponibilizar Calendário");
+    $("#changeCalendarStatus").find("#calendar-change-status-id").val($(this).data('id'));
+    $("#changeCalendarStatus").modal("show");
+});
+
+$(document).on("click", ".change-calendar-status-button", function () {
+    $("#changeCalendarStatus").find(".alert").hide();
+    $.ajax({
+        url: "?r=calendar/default/changeCalendarStatus",
+        type: "POST",
+        data: {
+            id: $("#calendar-change-status-id").val(),
+        },
+        beforeSend: function () {
+            $("#changeCalendarStatus .centered-loading-gif").show();
+            $("#changeCalendarStatus .modal-body").css("opacity", 0.3).css("pointer-events", "none");
+            $("#changeCalendarStatus button").attr("disabled", "disabled");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            var icon = $(".change-calendar-status[data-id=" + $("#calendar-change-status-id").val() + "]");
+            data.available
+                ? icon.attr("data-original-title", "Indisponibilizar Calendário").find("i").removeClass("fa-eye-slash").addClass("fa-eye")
+                : icon.attr("data-original-title", "Disponibilizar Calendário").find("i").removeClass("fa-eye").addClass("fa-eye-slash");
+            $(icon).tooltip({container: "body"});
+            $("#changeCalendarStatus").modal("hide");
+        } else {
+            $("#changeCalendarStatus").find(".alert").html(data.error).show();
+        }
+    }).complete(function () {
+        $("#changeCalendarStatus .centered-loading-gif").hide();
+        $("#changeCalendarStatus .modal-body").css("opacity", 1).css("pointer-events", "auto");
+        $("#changeCalendarStatus button").removeAttr("disabled");
+    });
 });
 
 $(document).on("click", ".add-fundamental-menor", function () {

@@ -100,6 +100,11 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
                             </span>
+                    <span class="text-right pull-right change-calendar-status" data-toggle="tooltip"
+                          data-placement="top"
+                          data-original-title="<?= $calendar->available ? "Indisponibilizar Calendário" : "Disponibilizar Calendário" ?>" data-id="<?= $calendar->id ?>">
+                                <i class="fa fa-eye<?= $calendar->available ? "" : "-slash" ?>"></i>
+                            </span>
                     <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
                           data-original-title="Visualizar Etapas do Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-question-circle-o"></i>
@@ -456,7 +461,11 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         id="myModalLabel"><?= yii::t("calendarModule.index", "Remove Calendar") ?></h4>
                 </div>
                 <form method="post">
+                    <div class="centered-loading-gif">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </div>
                     <div class="modal-body">
+                        <div class="alert alert-error no-show"></div>
                         <div class="row-fluid">
                             <?= yii::t("calendarModule.index", "Are you sure?") ?>
                             <input type="hidden" name="calendar_removal_id" id="calendar_removal_id" value="-1"/>
@@ -466,7 +475,40 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                        <?= CHtml::button(yii::t("calendarModule.index", "Confirm"), array('class' => 'btn btn-primary', 'submit' => array('/calendar/default/removeCalendar'))); ?>
+                        <button type="button"
+                                class="btn btn-primary remove-calendar-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="changeCalendarStatus" tabindex="-1" role="dialog" aria-labelledby="Change Calendar Status">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"
+                        id="myModalLabel"></h4>
+                </div>
+                <form method="post">
+                    <div class="centered-loading-gif">
+                        <i class="fa fa-spin fa-spinner"></i>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-error no-show"></div>
+                        <div class="row-fluid">
+                            <?= yii::t("calendarModule.index", "Are you sure?") ?>
+                            <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                        <button type="button"
+                                class="btn btn-primary change-calendar-status-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
                     </div>
                 </form>
             </div>

@@ -10,7 +10,7 @@ return [
     "Save" => "Salvar",
     "Edit Calendar Title" => "Editar Título do Calendário",
     "Remove Calendar" => "Remover Calendário",
-    "Are you sure?" => "Você tem certeza disso?",
+    "Are you sure?" => "Você tem certeza?",
     "Confirm" => "Confirmar",
     "Calendars" => "Calendários",
 ];
