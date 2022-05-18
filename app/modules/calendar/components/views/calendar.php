@@ -9,7 +9,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $getEventUrl = Yii::app()->createUrl("/calendar/default/event");
 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/common/js/calendar.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/calendar.js?v=1.1', CClientScript::POS_END);
 $cs->registerScript("vars", "
 var GET_EVENT_URL = '$getEventUrl';
 ", CClientScript::POS_BEGIN);
@@ -234,286 +234,287 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             </div>
         </div>
     <?php endforeach; ?>
+</div>
 
-    <div class="modal fade" id="myNewCalendar" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel"><?= yii::t("calendarModule.index", "New Calendar") ?></h4>
+<div class="modal fade" id="myNewCalendar" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("calendarModule.index", "New Calendar") ?></h4>
+            </div>
+            <?php
+            /* @var $form CActiveForm */
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'createCalendar',
+                'action' => '?r=/calendar/default/create',
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                    'validateOnSubmit' => true,
+                ),
+                'htmlOptions' => array(
+                    'class' => 'form-vertical',
+                ),
+            ));
+            ?>
+            <div class="centered-loading-gif">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <div class="modal-body">
+                <div class="error-calendar-event alert alert-error no-show"></div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "title", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <input type="text" class="create-calendar-title span12">
+                        </div>
+                    </div>
                 </div>
-                <?php
-                /* @var $form CActiveForm */
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'createCalendar',
-                    'action' => '?r=/calendar/default/create',
-                    'enableClientValidation' => true,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                    ),
-                    'htmlOptions' => array(
-                        'class' => 'form-vertical',
-                    ),
-                ));
-                ?>
+                <div class="row-fluid stages-container">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Stages"), "stages", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
+                                "multiple" => "multiple", "class" => "select-search-on span12"
+                            ]) ?>
+                            <div class="add-stages-options">Atalho: <span class="add-fundamental-menor">Fundamental Menor</span>
+                                | <span class="add-fundamental-maior">Fundamental Maior</span> | <span
+                                        class="remove-stages">Remover</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
+                        <div class="form-control">
+                            <?= chtml::dropDownList("copy", "",
+                                chtml::listData(Calendar::model()->findAll(), "id", "title"),
+                                array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'), 'class' => 'span9')) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                <button type="button"
+                        class="btn btn-primary create-calendar"><?= yii::t("calendarModule.index", "Save") ?></button>
+            </div>
+            <?php
+            $this->endWidget();
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-calendar-title-modal" tabindex="-1" role="dialog"
+     aria-labelledby="Edit Calendar Title">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("calendarModule.index", "Edit Calendar Title") ?></h4>
+            </div>
+            <?php
+            /* @var $form CActiveForm */
+            $editCalendar = new Calendar();
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'createCalendar',
+                'action' => '?r=/calendar/default/editCalendarTitle',
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                    'validateOnSubmit' => true,
+                ),
+                'htmlOptions' => array(
+                    'class' => 'form-vertical',
+                ),
+            ));
+            ?>
+            <div class="centered-loading-gif">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <div class="modal-body">
+                <div class="error-calendar-event alert alert-error no-show"></div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "copy", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <?= $form->hiddenField($editCalendar, "id") ?>
+                            <?= $form->textField($editCalendar, "title", ['class' => 'span12']) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                <button type="button"
+                        class="btn btn-primary edit-calendar-title-button"><?= yii::t("calendarModule.index", "Save") ?></button>
+            </div>
+            <?php
+            $this->endWidget();
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myChangeEvent" tabindex="-1" role="dialog" aria-labelledby="Change Event">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("calendarModule.index", "Change Event") ?></h4>
+            </div>
+            <?php
+            /* @var $form CActiveForm */
+            $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'createEvent',
+                'action' => '?r=/calendar/default/changeEvent',
+                'enableClientValidation' => true,
+                'clientOptions' => array(
+                    'validateOnSubmit' => true,
+                ),
+                'htmlOptions' => array(
+                    'class' => 'form-vertical',
+                ),
+            ));
+            ?>
+            <div class="centered-loading-gif">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <div class="modal-body">
+                <div class="error-calendar-event alert alert-error no-show"></div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Name"), "title", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <input type="hidden" class="selected-calendar-current-year">
+                            <input type="hidden" id="CalendarEvent_id">
+                            <input type="hidden" id="CalendarEvent_calendar_fk">
+                            <input type="text" id="CalendarEvent_name" class="span12">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Start Date"), "title", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <input type="date" id="CalendarEvent_start_date" class="span12">
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <?= chtml::label(yii::t("calendarModule.labels", "End Date"), "title", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <input type="date" id="CalendarEvent_end_date" class="span12">
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <?= chtml::label(yii::t("calendarModule.labels", "Event Type"), "title", array('class' => 'control-label required')); ?>
+                        <div class="form-control">
+                            <select class="span6" id="CalendarEvent_calendar_event_type_fk">
+                                <option value="">Selecione o tipo</option>
+                                <?php foreach ($types as $type) : ?>
+                                    <option value="<?= $type->id ?>"><?= yii::t('calendarModule.labels', $type->name) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="span12 checkbox">
+                            <input type="checkbox" id="CalendarEvent_copyable" value="1"
+                                   checked><?= yii::t("calendarModule.labels", "Copyable"); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-danger pull-left remove-event-button"><?= yii::t("calendarModule.index", "Delete Event") ?></button>
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                <button type="button"
+                        class="btn btn-primary save-event"><?= yii::t("calendarModule.index", "Save") ?></button>
+            </div>
+            <?php
+            $this->endWidget();
+            ?>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="removeCalendar" tabindex="-1" role="dialog" aria-labelledby="Remove Calendar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"><?= yii::t("calendarModule.index", "Remove Calendar") ?></h4>
+            </div>
+            <form method="post">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
                 <div class="modal-body">
-                    <div class="error-calendar-event alert alert-error no-show"></div>
+                    <div class="alert alert-error no-show"></div>
                     <div class="row-fluid">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "title", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <input type="text" class="create-calendar-title span12">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid stages-container">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Stages"), "stages", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                                    "multiple" => "multiple", "class" => "select-search-on span12"
-                                ]) ?>
-                                <div class="add-stages-options">Atalho: <span class="add-fundamental-menor">Fundamental Menor</span>
-                                    | <span class="add-fundamental-maior">Fundamental Maior</span> | <span
-                                            class="remove-stages">Remover</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
-                            <div class="form-control">
-                                <?= chtml::dropDownList("copy", "",
-                                    chtml::listData(Calendar::model()->findAll(), "id", "title"),
-                                    array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'), 'class' => 'span9')) ?>
-                            </div>
-                        </div>
+                        <?= yii::t("calendarModule.index", "Are you sure?") ?>
+                        <input type="hidden" name="calendar_removal_id" id="calendar_removal_id" value="-1"/>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                     <button type="button"
-                            class="btn btn-primary create-calendar"><?= yii::t("calendarModule.index", "Save") ?></button>
+                            class="btn btn-primary remove-calendar-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
                 </div>
-                <?php
-                $this->endWidget();
-                ?>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="edit-calendar-title-modal" tabindex="-1" role="dialog"
-         aria-labelledby="Edit Calendar Title">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel"><?= yii::t("calendarModule.index", "Edit Calendar Title") ?></h4>
-                </div>
-                <?php
-                /* @var $form CActiveForm */
-                $editCalendar = new Calendar();
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'createCalendar',
-                    'action' => '?r=/calendar/default/editCalendarTitle',
-                    'enableClientValidation' => true,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                    ),
-                    'htmlOptions' => array(
-                        'class' => 'form-vertical',
-                    ),
-                ));
-                ?>
+<div class="modal fade" id="changeCalendarStatus" tabindex="-1" role="dialog"
+     aria-labelledby="Change Calendar Status">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel"></h4>
+            </div>
+            <form method="post">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
                 <div class="modal-body">
-                    <div class="error-calendar-event alert alert-error no-show"></div>
+                    <div class="alert alert-error no-show"></div>
                     <div class="row-fluid">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "copy", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <?= $form->hiddenField($editCalendar, "id") ?>
-                                <?= $form->textField($editCalendar, "title", ['class' => 'span12']) ?>
-                            </div>
-                        </div>
+                        <?= yii::t("calendarModule.index", "Are you sure?") ?>
+                        <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id"
+                               value=""/>
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                     <button type="button"
-                            class="btn btn-primary edit-calendar-title-button"><?= yii::t("calendarModule.index", "Save") ?></button>
+                            class="btn btn-primary change-calendar-status-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
                 </div>
-                <?php
-                $this->endWidget();
-                ?>
-            </div>
+            </form>
         </div>
     </div>
-
-    <div class="modal fade" id="myChangeEvent" tabindex="-1" role="dialog" aria-labelledby="Change Event">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel"><?= yii::t("calendarModule.index", "Change Event") ?></h4>
-                </div>
-                <?php
-                /* @var $form CActiveForm */
-                $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'createEvent',
-                    'action' => '?r=/calendar/default/changeEvent',
-                    'enableClientValidation' => true,
-                    'clientOptions' => array(
-                        'validateOnSubmit' => true,
-                    ),
-                    'htmlOptions' => array(
-                        'class' => 'form-vertical',
-                    ),
-                ));
-                ?>
-                <div class="centered-loading-gif">
-                    <i class="fa fa-spin fa-spinner"></i>
-                </div>
-                <div class="modal-body">
-                    <div class="error-calendar-event alert alert-error no-show"></div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Name"), "title", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <input type="hidden" class="selected-calendar-current-year">
-                                <input type="hidden" id="CalendarEvent_id">
-                                <input type="hidden" id="CalendarEvent_calendar_fk">
-                                <input type="text" id="CalendarEvent_name" class="span12">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Start Date"), "title", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <input type="date" id="CalendarEvent_start_date" class="span12">
-                            </div>
-                        </div>
-                        <div class="span6">
-                            <?= chtml::label(yii::t("calendarModule.labels", "End Date"), "title", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <input type="date" id="CalendarEvent_end_date" class="span12">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <?= chtml::label(yii::t("calendarModule.labels", "Event Type"), "title", array('class' => 'control-label required')); ?>
-                            <div class="form-control">
-                                <select class="span6" id="CalendarEvent_calendar_event_type_fk">
-                                    <option value="">Selecione o tipo</option>
-                                    <?php foreach ($types as $type) : ?>
-                                        <option value="<?= $type->id ?>"><?= yii::t('calendarModule.labels', $type->name) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <div class="span12 checkbox">
-                                <input type="checkbox" id="CalendarEvent_copyable" value="1"
-                                       checked><?= yii::t("calendarModule.labels", "Copyable"); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button"
-                            class="btn btn-danger pull-left remove-event-button"><?= yii::t("calendarModule.index", "Delete Event") ?></button>
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                    <button type="button"
-                            class="btn btn-primary save-event"><?= yii::t("calendarModule.index", "Save") ?></button>
-                </div>
-                <?php
-                $this->endWidget();
-                ?>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="removeCalendar" tabindex="-1" role="dialog" aria-labelledby="Remove Calendar">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel"><?= yii::t("calendarModule.index", "Remove Calendar") ?></h4>
-                </div>
-                <form method="post">
-                    <div class="centered-loading-gif">
-                        <i class="fa fa-spin fa-spinner"></i>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-error no-show"></div>
-                        <div class="row-fluid">
-                            <?= yii::t("calendarModule.index", "Are you sure?") ?>
-                            <input type="hidden" name="calendar_removal_id" id="calendar_removal_id" value="-1"/>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                        <button type="button"
-                                class="btn btn-primary remove-calendar-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="changeCalendarStatus" tabindex="-1" role="dialog"
-         aria-labelledby="Change Calendar Status">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"
-                        id="myModalLabel"></h4>
-                </div>
-                <form method="post">
-                    <div class="centered-loading-gif">
-                        <i class="fa fa-spin fa-spinner"></i>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-error no-show"></div>
-                        <div class="row-fluid">
-                            <?= yii::t("calendarModule.index", "Are you sure?") ?>
-                            <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id"
-                                   value=""/>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                        <button type="button"
-                                class="btn btn-primary change-calendar-status-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+</div>
