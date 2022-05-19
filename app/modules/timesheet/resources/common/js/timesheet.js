@@ -84,11 +84,12 @@ function getTimesheet(data) {
     if (data.valid == null) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
-        if (data.error === "curricularMatrix" || data.error === "calendar") {
-            $(".loading-alert").removeClass("display-hide").html("Para conseguir gerar um quadro de horário para essa turma:" +
-                "<br>1- disponibilize um <b>calendário</b> contemplando a etapa da turma selecionada, com os eventos de início e fim de ano escolar registrados;" +
-                "<br>2- crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada;" +
-                "<br>3- cadastre <b>disciplinas com professores na turma</b> selecionada.");
+        if (data.error === "curricularMatrix") {
+            $(".loading-alert").removeClass("display-hide").html("Crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.");
+            $(".schedule-info").addClass("display-hide");
+            $(".table-container").hide();
+        } else if (data.error === "calendar") {
+            $(".loading-alert").removeClass("display-hide").html("Disponibilize um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "frequencyFilled") {
