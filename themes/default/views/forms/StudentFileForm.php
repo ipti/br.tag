@@ -195,18 +195,21 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span5">
+                <div class="span4">
                     <b>09 - RG: </b><span class="rg"><?= $data['rg'] ?></span>
                 </div>
-                <div class="span5">
+                <div class="span4">
                     <b>10 - CPF: </b><span class="cpf"><?= $data['cpf'] ?></span>
+                </div>
+                <div class="span4">
+                    <b>11 - CNS: </b><span class="cns"><?= $data['cns'] ?></span>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12" >
-                    <b>11 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
+                    <b>12 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
                 </div>
                 <div class="span4">
                     <b>RG: </b><span class="responsable_rg"><?= $data['responsable_rg'] ?></span>
@@ -221,14 +224,14 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>12 - Grau de escolaridade do responsável:</b>
+                <div class="span10"><b>13 - Grau de escolaridade do responsável:</b>
                     <br><span class="responsable_scholarity"><?= $data['responsable_scholarity'] ?></span>
                 </<div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>13 - Profissão do responsável: </b>
+                <div class="span10"><b>14 - Profissão do responsável: </b>
                     <br><span class="responsable_job"><?= $data['responsable_job'] ?></span>
                 </div>
             </td>
@@ -243,7 +246,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <?php if(GLOGALGROUP != 1){?>
             <tr>
                 <td>
-                    <div class="span12"><b>14 - Matrícula do aluno: </b></div>
+                    <div class="span12"><b>15 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
                     <div class="span4"><b>Série: </b><span><?= $enrollment->classroomFk->name ?></span></div>
@@ -254,7 +257,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         <?php }?>
         <tr>
             <td>
-                <div class="span10"><b>15 - Documentos(s) que habilita(m) matrícula no segmento: </b>
+                <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
                     <!--CORRIGIR AQUI--->
                     <!--<div class="received_documents"></div>-->
                     <br>
@@ -265,13 +268,13 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>16 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
+                <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>17 - Situação do aluno na série/etapa: </b>
+                <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
@@ -290,7 +293,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>18 - Situação do Aluno no ano Anterior: </b></div>
+                <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
                 <br><div class="span3 padding-5" style="margin-right: -20px;">
                     <b>☐</b> Não Frequentou
                     <br><b>☐</b> Reprovado
@@ -314,7 +317,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             </td>
         </tr>-->
         <tr><td>
-                <div class="span12"><b>19 - Portador de Necessidades Especiais? </b></div>
+                <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
                 <br>
                 <div class="span2"><b>☐</b> Sim</div>
                 <div class="span2"><b>☐</b> Não</div>
@@ -323,7 +326,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>20 - Participa do Programa Bolsa Família? </b></div>
+                <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
                 <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
                 <div class="span4"><b>☐</b> Bolsa Família</div>
                 <div class="span4"><b>☐</b> PETI</div>
@@ -335,14 +338,14 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>21 - Utiliza transporte escolar? </b>
+                <div class="span10"><b>22 - Utiliza transporte escolar? </b>
                     <br><span class="public_transport"><?= $data['public_transport'] ?></span>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>22 - Restrição alimentar ou alergia a: </b>
+                <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
                     <br><span class="food_restrictions"><?= $data['food_restrictions'] ?></span>
                 </div>
             </td>
