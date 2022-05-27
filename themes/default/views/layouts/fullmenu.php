@@ -32,7 +32,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css"/>
-    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.0" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.1" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet"
