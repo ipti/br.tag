@@ -200,7 +200,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($model, 'public_transport', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($model, 'public_transport', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->checkBox($model, 'public_transport', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <?php echo $form->error($model, 'public_transport'); ?>
