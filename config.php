@@ -6,6 +6,13 @@ define("BOARD_MSG", '
 		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
+		<strong>18/06/2022 - TAG VERSÃO 2.12.3:</strong>
+		<br>
+        <ul>
+            <li>Responsividade no Diário Eletrônico</li>
+            <li>Melhorias no quadro de horário e Calendário Escolar</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)-V4</li>
+        </ul>
 		<strong>08/03/2022 - TAG VERSÃO 2.12.0:</strong>
 		<br>
         <ul>
