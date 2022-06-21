@@ -69,7 +69,7 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk, cpf, area_of_residence', 'required'),
+			array('school_inep_id_fk', 'required'),
 			array('area_of_residence, edcenso_uf_fk, edcenso_city_fk, diff_location', 'numerical', 'integerOnly'=>true),
 			array('register_type', 'length', 'max'=>2),
 			array('school_inep_id_fk, cep', 'length', 'max'=>8),
@@ -110,8 +110,8 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 			'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
 			'inep_id' => Yii::t('default', 'Inep'),
 			'id' => Yii::t('default', 'ID'),
-			'cpf' => Yii::t('default', 'Cpf'),
-			'area_of_residence' => Yii::t('default', 'Area Of Residence'),
+			'cpf' => Yii::t('default', 'Cpf') . " *",
+			'area_of_residence' => Yii::t('default', 'Area Of Residence') . " *",
 			'cep' => Yii::t('default', 'Cep'),
 			'address' => Yii::t('default', 'Address'),
 			'address_number' => Yii::t('default', 'Address Number'),

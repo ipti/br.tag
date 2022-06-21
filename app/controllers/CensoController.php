@@ -2573,69 +2573,141 @@ class CensoController extends Controller
 
     }
 
-    public function readFileImport()
+    public function actionExport()
     {
-        set_time_limit(0);
-        ignore_user_abort();
-        $path = Yii::app()->basePath;
-        //Se não passar parametro, o valor será predefinido
-        if (empty($_FILES['file']['name'])) {
-            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
+        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
+        $Educacenso = new Educacenso;
+        $export = $Educacenso->exportar(date("Y"));
+
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $export);
+
+        if ($result) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } else {
-            $myfile = $_FILES['file'];
-            $uploadfile = $path . '/import/' . basename($myfile['name']);
-            move_uploaded_file($myfile['tmp_name'], $uploadfile);
-            $fileDir = $uploadfile;
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
 
+        return $this->redirect(array('validate'));
 
-        $mode = 'r';
+//        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+//        $this->normalizeField2019($school->register_type, $school->attributes);
+//        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
+//        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
+//        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+//        foreach ($classrooms as $iclass => $classroom) {
+//            $log['classrooms'][$iclass] = $classroom->attributes;
+//            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+//                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
+//                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+//                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+//                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
+//                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
+//                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+//                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+//                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+//                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
+//                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+//                    } else {
+//                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+//                    }
+//                    $variabledata->id = $teachingData->instructorFk->id;
+//                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
+//                    $variabledata->school_inep_id_fk = $school->inep_id;
+//                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
+//                } else {
+//
+//                }
+//                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
+//                $teachingData->school_inep_id_fk = $school->inep_id;
+//                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
+//            }
+//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+//                if (!isset($log['students'][$enrollment->student_fk])) {
+//                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+//                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
+//                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
+//                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+//                }
+//                $enrollment->school_inep_id_fk = $school->inep_id;
+//                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+//            }
+//        }
+//        foreach ($log['classrooms'] as $classroom) {
+//            $this->normalizeField2019($classroom['register_type'], $classroom);
+//        }
+//        foreach ($log['instructors'] as $instructor) {
+//            $id = (String)'90' . $instructor['identification']['id'];
+//            $instructor['identification']['id'] = $id;
+//            $instructor['documents']['id'] = $id;
+//            $instructor['variable']['id'] = $id;
+//            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
+//            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
+//            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
+//            foreach ($instructor['teaching'] as $teaching) {
+//                $teaching['instructor_fk'] = $id;
+//                $this->normalizeField2019($teaching['register_type'], $teaching);
+//            }
+//        }
+//        foreach ($log['students'] as $student) {
+//            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
+//            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
+//            foreach ($student['enrollments'] as $enrollment) {
+//                $this->normalizeField2019($enrollment['register_type'], $enrollment);
+//            }
+//        }
+//        //ksort($this->tmpexp['c'][5076]);
+//        //print_r($this->tmpexp['c'][5076]);exit;
+//
+//        foreach ($this->tmpexp as $kpos => $pos) {
+//            foreach ($pos as $kline => $line) {
+//                ksort($line);
+//                $this->export[$kpos] .= implode('|', $line);
+//                $this->export[$kpos] .= "\n";
+//            }
+//        }
+//        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
+//        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
+//        $this->export["i"] .= '99|';
+//
+//        ksort($this->export);
+//        foreach ($this->export as $key => $txtexport) {
+//            $export .= $txtexport;
+//        }
+//        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+//
+//        Yii::import('ext.FileManager.fileManager');
+//        $fm = new fileManager();
+//        $result = $fm->write($fileDir, $export);
+//
+//        if ($result) {
+//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+//        } else {
+//            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+//        }
+//        $this->redirect(array('validate'));
+    }
 
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == FALSE) {
-            die('O arquivo não existe.');
+    public function actionDownloadExportFile()
+    {
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        if (file_exists($fileDir)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            $this->render('index');
         }
 
-        $registerLines = [];
-
-        //Inicializa o contador de linhas
-        $lineCount = [];
-        $lineCount['00'] = 0;
-        $lineCount['10'] = 0;
-        $lineCount['20'] = 0;
-        $lineCount['30'] = 0;
-        $lineCount['40'] = 0;
-        $lineCount['50'] = 0;
-        $lineCount['51'] = 0;
-        $lineCount['60'] = 0;
-        $lineCount['70'] = 0;
-        $lineCount['80'] = 0;
-
-        //Pega campos do arquivo
-        while (TRUE) {
-            //Próxima linha do arquivo
-            $fileLine = fgets($file);
-            if ($fileLine == NULL) {
-                break;
-            }
-
-            //Tipo do registro são os 2 primeiros caracteres
-            $regType = $fileLine[0] . $fileLine[1];
-            //Querba a linha nos caracteres |
-            $lineFields_Aux = explode("|", $fileLine);
-            $lineFields = [];
-
-            //Troca os campos vazios por 'null'
-            foreach ($lineFields_Aux as $key => $field) {
-                $value = !(isset($field)) ? '' : trim($field);
-                $lineFields[$key] = $value;
-            }
-
-            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
-            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
-        }
-        return $registerLines;
     }
 
     public function actionReadFileImportIneps()
@@ -2779,6 +2851,71 @@ class CensoController extends Controller
         return count($result) ? current($result)->corder : null;
     }
 
+    public function readFileImport()
+    {
+        set_time_limit(0);
+        ignore_user_abort();
+        $path = Yii::app()->basePath;
+        //Se não passar parametro, o valor será predefinido
+        if (empty($_FILES['file']['name'])) {
+            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
+        } else {
+            $myfile = $_FILES['file'];
+            $uploadfile = $path . '/import/' . basename($myfile['name']);
+            move_uploaded_file($myfile['tmp_name'], $uploadfile);
+            $fileDir = $uploadfile;
+        }
+
+
+        $mode = 'r';
+
+        //Abre o arquivo
+        $file = fopen($fileDir, $mode);
+        if ($file == FALSE) {
+            die('O arquivo não existe.');
+        }
+
+        $registerLines = [];
+
+        //Inicializa o contador de linhas
+        $lineCount = [];
+        $lineCount['00'] = 0;
+        $lineCount['10'] = 0;
+        $lineCount['20'] = 0;
+        $lineCount['30'] = 0;
+        $lineCount['40'] = 0;
+        $lineCount['50'] = 0;
+        $lineCount['51'] = 0;
+        $lineCount['60'] = 0;
+        $lineCount['70'] = 0;
+        $lineCount['80'] = 0;
+
+        //Pega campos do arquivo
+        while (TRUE) {
+            //Próxima linha do arquivo
+            $fileLine = fgets($file);
+            if ($fileLine == NULL) {
+                break;
+            }
+
+            //Tipo do registro são os 2 primeiros caracteres
+            $regType = $fileLine[0] . $fileLine[1];
+            //Querba a linha nos caracteres |
+            $lineFields_Aux = explode("|", $fileLine);
+            $lineFields = [];
+
+            //Troca os campos vazios por 'null'
+            foreach ($lineFields_Aux as $key => $field) {
+                $value = !(isset($field)) ? '' : trim($field);
+                $lineFields[$key] = $value;
+            }
+
+            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
+            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+        }
+        return $registerLines;
+    }
+
     public function updateImport($register, $lines, CActiveRecord $model, $fieldsUpdate)
     {
 
@@ -2818,143 +2955,6 @@ class CensoController extends Controller
         $this->updateImport(40, $lines['40'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'address_number', 'complement', 'neighborhood', 'cep']);
         $this->updateImport(60, $lines['60'], StudentIdentification::model(), ['name', 'birthday', 'filiation_1', 'filiation_2']);
         $this->updateImport(70, $lines['70'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'number', 'complement', 'neighborhood', 'cep']);
-
-    }
-
-    public function actionExport()
-    {
-        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
-        $Educacenso = new Educacenso;
-        $export = $Educacenso->exportar(date("Y"));
-
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-
-        Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
-        $result = $fm->write($fileDir, $export);
-
-        if ($result) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
-        }
-
-        return $this->redirect(array('validate'));
-
-//        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($school->register_type, $school->attributes);
-//        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
-//        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
-//        foreach ($classrooms as $iclass => $classroom) {
-//            $log['classrooms'][$iclass] = $classroom->attributes;
-//            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-//                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
-//                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
-//                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-//                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-//                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
-//                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-//                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-//                    } else {
-//                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-//                    }
-//                    $variabledata->id = $teachingData->instructorFk->id;
-//                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
-//                    $variabledata->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
-//                } else {
-//
-//                }
-//                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
-//                $teachingData->school_inep_id_fk = $school->inep_id;
-//                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
-//            }
-//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-//                if (!isset($log['students'][$enrollment->student_fk])) {
-//                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
-//                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
-//                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
-//                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
-//                }
-//                $enrollment->school_inep_id_fk = $school->inep_id;
-//                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
-//            }
-//        }
-//        foreach ($log['classrooms'] as $classroom) {
-//            $this->normalizeField2019($classroom['register_type'], $classroom);
-//        }
-//        foreach ($log['instructors'] as $instructor) {
-//            $id = (String)'90' . $instructor['identification']['id'];
-//            $instructor['identification']['id'] = $id;
-//            $instructor['documents']['id'] = $id;
-//            $instructor['variable']['id'] = $id;
-//            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
-//            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
-//            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
-//            foreach ($instructor['teaching'] as $teaching) {
-//                $teaching['instructor_fk'] = $id;
-//                $this->normalizeField2019($teaching['register_type'], $teaching);
-//            }
-//        }
-//        foreach ($log['students'] as $student) {
-//            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
-//            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
-//            foreach ($student['enrollments'] as $enrollment) {
-//                $this->normalizeField2019($enrollment['register_type'], $enrollment);
-//            }
-//        }
-//        //ksort($this->tmpexp['c'][5076]);
-//        //print_r($this->tmpexp['c'][5076]);exit;
-//
-//        foreach ($this->tmpexp as $kpos => $pos) {
-//            foreach ($pos as $kline => $line) {
-//                ksort($line);
-//                $this->export[$kpos] .= implode('|', $line);
-//                $this->export[$kpos] .= "\n";
-//            }
-//        }
-//        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
-//        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
-//        $this->export["i"] .= '99|';
-//
-//        ksort($this->export);
-//        foreach ($this->export as $key => $txtexport) {
-//            $export .= $txtexport;
-//        }
-//        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-//
-//        Yii::import('ext.FileManager.fileManager');
-//        $fm = new fileManager();
-//        $result = $fm->write($fileDir, $export);
-//
-//        if ($result) {
-//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
-//        } else {
-//            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
-//        }
-//        $this->redirect(array('validate'));
-    }
-
-    public function actionDownloadExportFile()
-    {
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-        if (file_exists($fileDir)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($fileDir));
-            readfile($fileDir);
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
-            $this->render('index');
-        }
 
     }
 

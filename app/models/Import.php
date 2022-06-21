@@ -170,13 +170,15 @@ class Import extends CModel{
 			$classroomModel = new Classroom();
 			
 			foreach ($fields as $field) {
-				$columnName = $field->attr;
-				$collumnOrder = $field->corder -1;
+			    if ($field->attr !== "id") {
+                    $columnName = $field->attr;
+                    $collumnOrder = $field->corder -1;
 
-				if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)){
-					$classroomModel->{$columnName} = utf8_encode($line[$collumnOrder]);
-					$hasModified = true;
-				}
+                    if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)){
+                        $classroomModel->{$columnName} = utf8_encode($line[$collumnOrder]);
+                        $hasModified = true;
+                    }
+                }
 			}
 
 			if($hasModified){
@@ -213,26 +215,29 @@ class Import extends CModel{
 		$studentDocumentModel = new StudentDocumentsAndAddress();
 		
 		foreach ($fields as $field) {
-			$columnName = $field->attr;
-			$collumnOrder = $field->corder -1;
-			$modelType = $field->stable;
+            if ($field->attr !== "id") {
+                $columnName = $field->attr;
+                $collumnOrder = $field->corder - 1;
+                $modelType = $field->stable;
 
-			if(is_null($modelType)){
-				continue;
-			}
+                if (is_null($modelType)) {
+                    continue;
+                }
 
-			$model = $modelType == self::STUDENT_IDENTIFICATION ? $studentIdentificationModel : $studentDocumentModel;
+                $model = $modelType == self::STUDENT_IDENTIFICATION ? $studentIdentificationModel : $studentDocumentModel;
 
-			if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())){
-				$model->{$columnName} = utf8_encode($line[$collumnOrder]);
-			}
+                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
+                    $model->{$columnName} = utf8_encode($line[$collumnOrder]);
+                }
+            }
 		}
 
 		$studentIdentificationModel->send_year = $this->year;
 		$studentDocumentModel->school_inep_id_fk = $studentIdentificationModel->school_inep_id_fk;
 		if($studentIdentificationModel->validate() && $studentDocumentModel->validate()){
 			if($studentIdentificationModel->save(false)){
-				$studentDocumentModel->student_fk = $studentIdentificationModel->id;
+                $studentDocumentModel->student_fk = $studentIdentificationModel->inep_id;
+				$studentDocumentModel->id = $studentIdentificationModel->id;
 				$studentDocumentModel->save();
 				return;
 			}
@@ -249,24 +254,27 @@ class Import extends CModel{
 		$instructorDocumentModel = new InstructorDocumentsAndAddress(InstructorDocumentsAndAddress::SCENARIO_IMPORT);
 		
 		foreach ($fields as $field) {
-			$columnName = $field->attr;
-			$collumnOrder = $field->corder -1;
-			$modelType = $field->stable;
+            if ($field->attr !== "id") {
+                $columnName = $field->attr;
+                $collumnOrder = $field->corder - 1;
+                $modelType = $field->stable;
 
-			if(is_null($modelType)){
-				continue;
-			}
+                if (is_null($modelType)) {
+                    continue;
+                }
 
-			$model = $modelType == self::INSTRUCTOR_IDENTIFICATION ? $instructorIdentificationModel : $instructorDocumentModel;
+                $model = $modelType == self::INSTRUCTOR_IDENTIFICATION ? $instructorIdentificationModel : $instructorDocumentModel;
 
-			if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())){
-				$model->{$columnName} = utf8_encode($line[$collumnOrder]);
-			}
+                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
+                    $model->{$columnName} = utf8_encode($line[$collumnOrder]);
+                }
+            }
 		}
 
 		$instructorDocumentModel->school_inep_id_fk = $instructorIdentificationModel->school_inep_id_fk;
 		if($instructorIdentificationModel->validate() && $instructorDocumentModel->validate()){
 			if($instructorIdentificationModel->save(false)){
+                $instructorDocumentModel->id = $instructorIdentificationModel->id;
 				$instructorDocumentModel->save();
 				return;
 			}
@@ -343,13 +351,15 @@ class Import extends CModel{
 			$instructorTeachingModel = new InstructorTeachingData(InstructorTeachingData::SCENARIO_IMPORT);
 			
 			foreach ($fields as $field) {
-				$columnName = $field->attr;
-				$collumnOrder = $field->corder -1;
+                if ($field->attr !== "instructor_fk") {
+                    $columnName = $field->attr;
+                    $collumnOrder = $field->corder - 1;
 
-				if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)){
-					$instructorTeachingModel->{$columnName} = utf8_encode($line[$collumnOrder]);
-					$hasModified = true;
-				}
+                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                        $instructorTeachingModel->{$columnName} = utf8_encode($line[$collumnOrder]);
+                        $hasModified = true;
+                    }
+                }
 			}
 
 			if($hasModified){
@@ -397,13 +407,15 @@ class Import extends CModel{
 			$studentEnrollmentModel = new StudentEnrollment();
 			
 			foreach ($fields as $field) {
-				$columnName = $field->attr;
-				$collumnOrder = $field->corder -1;
+                if ($field->attr !== "student_fk") {
+                    $columnName = $field->attr;
+                    $collumnOrder = $field->corder - 1;
 
-				if(isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)){
-					$studentEnrollmentModel->{$columnName} = utf8_encode($line[$collumnOrder]);
-					$hasModified = true;
-				}
+                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                        $studentEnrollmentModel->{$columnName} = utf8_encode($line[$collumnOrder]);
+                        $hasModified = true;
+                    }
+                }
 			}
 
 			if($hasModified){
