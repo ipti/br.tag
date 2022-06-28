@@ -1,0 +1,2 @@
+ALTER TABLE `student_documents_and_address`
+ADD `consent_form` tinyint(1) NULL;
