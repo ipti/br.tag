@@ -90,7 +90,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 14, 'maxlength' => 14)); ?>
                                     <span class="btn-action single glyphicons circle_question_mark"
@@ -289,7 +289,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="separator"></div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label')); ?>
+                                <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'area_of_residence', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->DropDownlist($modelInstructorDocumentsAndAddress, 'area_of_residence', array(null => "Selecione uma localização", 1 => 'URBANA', 2 => 'RURAL'), array("class" => "select-search-off")); ?>
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'area_of_residence'); ?>
