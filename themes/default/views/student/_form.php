@@ -591,6 +591,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
                                             </label>
                                         </div>
+                                        <?php if (INSTANCE == "CLOC"): ?>
+                                            <div class="span3">
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
+                                                </label>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

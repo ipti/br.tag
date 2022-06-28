@@ -1557,20 +1557,17 @@ class CensoController extends Controller
             } else {
                 $linha .= $s['id'] . "|";
             }
+
             if ($s['cpf'] == null) {
                 $linha .= "|";
             } else {
                 $linha .= $s['cpf'] . "|";
             }
+
             if ($s['civil_register_enrollment_number'] == null) {
                 $linha .= "|";
             } else {
                 $linha .= $s['civil_register_enrollment_number'] . "|";
-            }
-            if ($s['nis'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['nis'] . "|";
             }
 
             $s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
@@ -1601,7 +1598,7 @@ class CensoController extends Controller
             }
 
             if ($s['edcenso_city_fk'] == null) {
-                $linha .= "2802106|";
+                $linha .= "2806305|";
             } else {
                 $linha .= $s['edcenso_city_fk'] . "|";
             }
@@ -1615,7 +1612,7 @@ class CensoController extends Controller
     {
         $year = Yii::app()->user->year;
         $id = Yii::app()->user->school;
-        $sql = "SELECT DISTINCT si.id,si.school_inep_id_fk ,sd.cpf,sd.civil_register_enrollment_number,sd.nis, si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
+        $sql = "SELECT DISTINCT si.id,si.school_inep_id_fk ,sd.cpf,sd.civil_register_enrollment_number, si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
 			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
 			JOIN student_documents_and_address as sd on(si.id=sd.id)
 			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
