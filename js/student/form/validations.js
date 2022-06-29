@@ -618,7 +618,7 @@ $(formDocumentsAndAddress + 'civil_register_enrollment_number').removeAttr("maxl
         X: {pattern: /[xX0-9]/}
     }
 });
-$(formDocumentsAndAddress + 'civil_register_enrollment_number').focusout(function() {
+$(formDocumentsAndAddress + 'civil_register_enrollment_number').focusout(function () {
     checkCivilRegisterEnrollmentNumberValidity($(formDocumentsAndAddress + 'civil_register_enrollment_number'));
 });
 
@@ -632,17 +632,21 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
             addError(id, "O campo, quando preenchido, deve ter 32 caracteres.");
             valid = false;
         }
-        var year = value.substring(10, 14);
-        if (year > new Date().getFullYear()) {
-            addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.");
-            valid = false;
-        }
-        var birthday = $(formIdentification + 'birthday').cleanVal();
-        if (birthday !== "" && birthday.length === 8) {
-            var birthdayYear = birthday.substring(4, 8);
-            if (year < birthdayYear) {
-                addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.");
+        if (valid) {
+            var year = value.substring(10, 14);
+            if (year > new Date().getFullYear()) {
+                addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.");
                 valid = false;
+            }
+        }
+        if (valid) {
+            var birthday = $(formIdentification + 'birthday').cleanVal();
+            if (birthday !== "" && birthday.length === 8) {
+                var birthdayYear = birthday.substring(4, 8);
+                if (year < birthdayYear) {
+                    addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.");
+                    valid = false;
+                }
             }
         }
     }
