@@ -1,0 +1,5 @@
+delete from schedule;
+TRUNCATE TABLE `class_faults`;
+TRUNCATE TABLE `class_has_content`;
+DROP TABLE `class_class_objective`;
+DROP TABLE `class`;

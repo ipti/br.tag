@@ -1,0 +1,683 @@
+create table vaccine(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description text,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+create table student_vaccine(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_id int,
+  vaccine_id int,
+  FOREIGN KEY (vaccine_id) REFERENCES vaccine(id),
+  FOREIGN KEY (student_id) REFERENCES student_identification(id)
+);
+
+
+ALTER TABLE `school_identification`
+ADD COLUMN `private_school_organization_civil_society` TINYINT(1) NULL AFTER `private_school_s_system`,
+ADD COLUMN `regulation_organ_federal` TINYINT(1) NULL AFTER `regulation_organ`,
+ADD COLUMN `regulation_organ_state` TINYINT(1) NULL AFTER `regulation_organ_federal`,
+ADD COLUMN `regulation_organ_municipal` TINYINT(1) NULL AFTER `regulation_organ_state`;
+
+
+ALTER TABLE `school_structure`
+ADD COLUMN `provide_potable_water` TINYINT(1) NULL AFTER `consumed_water_type`,
+ADD COLUMN `dependencies_student_repose_room` TINYINT(1) NULL AFTER `dependencies_refectory`;
+
+ALTER TABLE `classroom`
+ADD COLUMN `complementary_activity` TINYINT(1) NULL AFTER `schooling`,
+ADD COLUMN `aee` TINYINT(1) NULL AFTER `complementary_activity`;
+
+ALTER TABLE `instructor_teaching_data`
+ADD COLUMN `discipline_14_fk` INT(11) NULL AFTER `discipline_13_fk`,
+ADD COLUMN `discipline_15_fk` INT(11) NULL AFTER `discipline_14_fk`;
+
+ALTER TABLE `student_enrollment`
+ADD COLUMN `multi` INT(11) NULL AFTER `another_scholarization_place`,
+CHANGE COLUMN `aee_cognitive_functions` `aee_cognitive_functions` TINYINT(1) NULL AFTER `multi`,
+CHANGE COLUMN `aee_autonomous_life` `aee_autonomous_life` TINYINT(1) NULL AFTER `aee_cognitive_functions`,
+CHANGE COLUMN `aee_curriculum_enrichment` `aee_curriculum_enrichment` TINYINT(1) NULL AFTER `aee_autonomous_life`,
+CHANGE COLUMN `aee_accessible_teaching` `aee_accessible_teaching` TINYINT(1) NULL AFTER `aee_curriculum_enrichment`,
+CHANGE COLUMN `aee_libras` `aee_libras` TINYINT(1) NULL AFTER `aee_accessible_teaching`,
+CHANGE COLUMN `aee_portuguese` `aee_portuguese` TINYINT(1) NULL AFTER `aee_libras`,
+CHANGE COLUMN `aee_soroban` `aee_soroban` TINYINT(1) NULL AFTER `aee_portuguese`,
+CHANGE COLUMN `aee_braille` `aee_braille` TINYINT(1) NULL AFTER `aee_soroban`,
+CHANGE COLUMN `aee_mobility_techniques` `aee_mobility_techniques` TINYINT(1) NULL AFTER `aee_braille`,
+CHANGE COLUMN `aee_caa` `aee_caa` TINYINT(1) NULL AFTER `aee_mobility_techniques`,
+CHANGE COLUMN `aee_optical_nonoptical` `aee_optical_nonoptical` TINYINT(1) NULL AFTER `aee_caa`;
+
+ALTER TABLE `school_identification`
+ADD COLUMN `manager_access_criterion` VARCHAR(100) NULL AFTER `manager_email`,
+ADD COLUMN `manager_contract_type` SMALLINT(6) NULL AFTER `manager_access_criterion`;
+
+ALTER TABLE `classroom` CHANGE `aee_braille_system_education` `aee_braille` TINYINT(1) NULL,
+ CHANGE `aee_optical_and_non_optical_resources` `aee_optical_nonoptical` TINYINT(1) NULL, CHANGE `aee_mental_processes_development_strategies` `aee_cognitive_functions` TINYINT(1) NULL, CHANGE `aee_mobility_and_orientation_techniques` `aee_mobility_techniques` TINYINT(1) NULL, CHANGE `aee_caa_use_education` `aee_caa` TINYINT(1) NULL, CHANGE `aee_curriculum_enrichment_strategy` `aee_curriculum_enrichment` TINYINT(1) NULL, CHANGE `aee_soroban_use_education` `aee_soroban` TINYINT(1) NULL, CHANGE `aee_usability_and_functionality_of_computer_accessible_education` `aee_accessible_teaching` TINYINT(1) NULL, CHANGE `aee_teaching_of_Portuguese_language_written_modality` `aee_portuguese` TINYINT(1) NULL, CHANGE `aee_strategy_for_school_environment_autonomy` `aee_autonomous_life` TINYINT(1) NULL;
+
+
+
+ALTER TABLE `classroom`
+DROP COLUMN `schooling`,
+DROP COLUMN `diff_location`,
+DROP COLUMN `course`;
+
+ALTER TABLE `instructor_documents_and_address`
+DROP COLUMN `diff_location`;
+
+ALTER TABLE `instructor_identification`
+DROP COLUMN `deficiency_type_autism`,
+DROP COLUMN `deficiency_type_gifted`;
+
+ALTER TABLE `school_identification`
+DROP COLUMN `id_difflocation`,
+DROP COLUMN `linked_mec`,
+DROP COLUMN `linked_army`,
+DROP COLUMN `linked_helth`,
+DROP COLUMN `linked_other`,
+DROP COLUMN `regulation_organ`;
+
+ALTER TABLE `school_structure`
+DROP COLUMN `building_otherschool`,
+DROP COLUMN `energy_supply_generator_alternative`,
+DROP COLUMN `sewage_fossa_common`,
+DROP COLUMN `garbage_destination_public`,
+DROP COLUMN `supply_food`,
+DROP COLUMN `treatment_garbage_parting_garbage`,
+DROP COLUMN `treatment_garbage_resuse`,
+DROP COLUMN `traetment_garbage_inexistent`,
+DROP COLUMN `dependencies_bathroom_workes`,
+DROP COLUMN `dependencies_pool`,
+DROP COLUMN `dependencies_arts_room`,
+DROP COLUMN `dependencies_music_room`,
+DROP COLUMN `dependencies_dance_room`,
+DROP COLUMN `dependencies_multiuse_room`,
+DROP COLUMN `dependencies_yardzao`,
+DROP COLUMN `dependencies_vivarium`,
+DROP COLUMN `dependencies_outside_roomspublic`,
+DROP COLUMN `dependencies_indoor_roomspublic`,
+DROP COLUMN `dependencies_climate_roomspublic`,
+DROP COLUMN `dependencies_acessibility_roomspublic`,
+DROP COLUMN `acessability_handrails_guardrails`,
+DROP COLUMN `acessability_elevator`,
+DROP COLUMN `acessability_tactile_floor`,
+DROP COLUMN `acessability_doors_80cm`,
+DROP COLUMN `acessability_ramps`,
+DROP COLUMN `acessability_sound_signaling`,
+DROP COLUMN `acessability_tactile_singnaling`,
+DROP COLUMN `acessability_visual_signaling`,
+DROP COLUMN `acessabilty_inexistent`,
+DROP COLUMN `equipments_scanner`,
+DROP COLUMN `equipments_qtd_blackboard`,
+DROP COLUMN `equipments_qtd_notebookstudent`,
+DROP COLUMN `equipments_qtd_tabletstudent`,
+DROP COLUMN `equipments_multimedia_collection`,
+DROP COLUMN `equipments_toys_early`,
+DROP COLUMN `equipments_scientific_materials`,
+DROP COLUMN `equipments_equipment_amplification`,
+DROP COLUMN `equipments_musical_instruments`,
+DROP COLUMN `equipments_educational_games`,
+DROP COLUMN `equipments_material_cultural`,
+DROP COLUMN `equipments_material_sports`,
+DROP COLUMN `equipments_material_teachingindian`,
+DROP COLUMN `equipments_material_teachingethnic`,
+DROP COLUMN `equipments_material_teachingrural`,
+DROP COLUMN `internet_access_administrative`,
+DROP COLUMN `internet_access_educative_process`,
+DROP COLUMN `internet_access_student`,
+DROP COLUMN `internet_access_community`,
+DROP COLUMN `internet_access_inexistent`,
+DROP COLUMN `internet_access_connected_personaldevice`,
+DROP COLUMN `internet_access_connected_desktop`,
+DROP COLUMN `internet_access_broadband`,
+DROP COLUMN `internet_access_local_cable`,
+DROP COLUMN `internet_access_local_wireless`,
+DROP COLUMN `internet_access_local_inexistet`,
+DROP COLUMN `workers_administrative_assistant`,
+DROP COLUMN `workers_service_assistant`,
+DROP COLUMN `workers_librarian`,
+DROP COLUMN `workers_firefighter`,
+DROP COLUMN `workers_coordinator_shift`,
+DROP COLUMN `workers_speech_therapist`,
+DROP COLUMN `workers_nutritionist`,
+DROP COLUMN `workers_psychologist`,
+DROP COLUMN `workers_cooker`,
+DROP COLUMN `workers_support_professionals`,
+DROP COLUMN `workers_school_secretary`,
+DROP COLUMN `workers_security_guards`,
+DROP COLUMN `workers_monitors`,
+DROP COLUMN `org_teaching_series_year`,
+DROP COLUMN `org_teaching_semester_periods`,
+DROP COLUMN `org_teaching_elementary_cycle`,
+DROP COLUMN `org_teaching_non_serialgroups`,
+DROP COLUMN `org_teaching_modules`,
+DROP COLUMN `org_teaching_regular_alternation`,
+DROP COLUMN `edcenso_native_languages_fk2`,
+DROP COLUMN `edcenso_native_languages_fk3`,
+DROP COLUMN `select_adimission`,
+DROP COLUMN `booking_enrollment_self_declaredskin`,
+DROP COLUMN `booking_enrollment_income`,
+DROP COLUMN `booking_enrollment_public_school`,
+DROP COLUMN `booking_enrollment_disabled_person`,
+DROP COLUMN `booking_enrollment_others`,
+DROP COLUMN `booking_enrollment_inexistent`,
+DROP COLUMN `website`,
+DROP COLUMN `community_integration`,
+DROP COLUMN `space_schoolenviroment`,
+DROP COLUMN `ppp_updated`,
+DROP COLUMN `board_organ_association_parent`,
+DROP COLUMN `board_organ_association_parentinstructors`,
+DROP COLUMN `board_organ_board_school`,
+DROP COLUMN `board_organ_student_guild`,
+DROP COLUMN `board_organ_others`,
+DROP COLUMN `board_organ_inexistent`;
+
+ALTER TABLE `student_documents_and_address`
+DROP COLUMN `diff_location`;
+
+ALTER TABLE `student_enrollment`
+DROP COLUMN `aee_cognitive_functions`,
+DROP COLUMN `aee_autonomous_life`,
+DROP COLUMN `aee_curriculum_enrichment`,
+DROP COLUMN `aee_accessible_teaching`,
+DROP COLUMN `aee_libras`,
+DROP COLUMN `aee_portuguese`,
+DROP COLUMN `aee_soroban`,
+DROP COLUMN `aee_braille`,
+DROP COLUMN `aee_mobility_techniques`,
+DROP COLUMN `aee_caa`,
+DROP COLUMN `aee_optical_nonoptical`;
+
+ALTER TABLE `student_identification`
+DROP COLUMN `id_email`,
+DROP COLUMN `resource_zoomed_test_18`,
+DROP COLUMN `resource_cd_audio`,
+DROP COLUMN `resource_proof_language`,
+DROP COLUMN `resource_video_libras`,
+DROP COLUMN `scholarity`,
+DROP COLUMN `no_documents_desc`;
+
+
+ALTER TABLE `school_identification`
+ADD COLUMN `id_difflocation` SMALLINT(4) NULL AFTER `location`,
+ADD COLUMN `linked_mec` TINYINT(1) NULL AFTER `id_difflocation`,
+ADD COLUMN `linked_army` TINYINT(1) NULL AFTER `linked_mec`,
+ADD COLUMN `linked_helth` TINYINT(1) NULL AFTER `linked_army`,
+ADD COLUMN `linked_other` TINYINT(1) NULL AFTER `linked_helth`,
+ADD COLUMN `regulation_organ` SMALLINT(4) NULL AFTER `regulation`;
+
+ALTER TABLE `school_structure`
+ADD COLUMN `energy_supply_generator_alternative` TINYINT(1) NULL AFTER `energy_supply_public`,
+ADD COLUMN `sewage_fossa_common` TINYINT(1) NULL AFTER `sewage_fossa`,
+ADD COLUMN `garbage_destination_public` TINYINT(1) NULL AFTER `garbage_destination_bury`,
+ADD COLUMN `treatment_garbage_parting_garbage` TINYINT(1) NULL AFTER `garbage_destination_other`,
+ADD COLUMN `treatment_garbage_resuse` TINYINT(1) NULL AFTER `treatment_garbage_parting_garbage`,
+ADD COLUMN `traetment_garbage_inexistent` TINYINT(1) NULL AFTER `treatment_garbage_resuse`,
+ADD COLUMN `dependencies_bathroom_workes` TINYINT(1) NULL AFTER `dependencies_child_bathroom`,
+ADD COLUMN `dependencies_arts_room` TINYINT(1) NULL AFTER `dependencies_refectory`,
+ADD COLUMN `dependencies_music_room` TINYINT(1) NULL AFTER `dependencies_arts_room`,
+ADD COLUMN `dependencies_dance_room` TINYINT(1) NULL AFTER `dependencies_music_room`,
+ADD COLUMN `dependencies_multiuse_room` TINYINT(1) NULL AFTER `dependencies_dance_room`,
+ADD COLUMN `dependencies_yardzao` TINYINT(1) NULL AFTER `dependencies_multiuse_room`,
+ADD COLUMN `dependencies_vivarium` TINYINT(1) NULL AFTER `dependencies_yardzao`,
+ADD COLUMN `dependencies_pool` TINYINT(1) NULL AFTER `dependencies_uncovered_patio`,
+ADD COLUMN `acessability_handrails_guardrails` TINYINT(1) NULL AFTER `dependencies_none`,
+ADD COLUMN `acessability_elevator` TINYINT(1) NULL AFTER `acessability_handrails_guardrails`,
+ADD COLUMN `acessability_tactile_floor` TINYINT(1) NULL AFTER `acessability_elevator`,
+ADD COLUMN `acessability_doors_80cm` TINYINT(1) NULL AFTER `acessability_tactile_floor`,
+ADD COLUMN `acessability_ramps` TINYINT(1) NULL AFTER `acessability_doors_80cm`,
+ADD COLUMN `acessability_sound_signaling` TINYINT(1) NULL AFTER `acessability_ramps`,
+ADD COLUMN `acessability_tactile_singnaling` TINYINT(1) NULL AFTER `acessability_sound_signaling`,
+ADD COLUMN `acessability_visual_signaling` TINYINT(1) NULL AFTER `acessability_tactile_singnaling`,
+ADD COLUMN `acessabilty_inexistent` TINYINT(1) NULL AFTER `acessability_visual_signaling`,
+ADD COLUMN `dependencies_outside_roomspublic` SMALLINT(4) NULL AFTER `acessabilty_inexistent`,
+ADD COLUMN `dependencies_indoor_roomspublic` SMALLINT(4) NULL AFTER `dependencies_outside_roomspublic`,
+ADD COLUMN `dependencies_climate_roomspublic` SMALLINT(4) NULL AFTER `dependencies_indoor_roomspublic`,
+ADD COLUMN `dependencies_acessibility_roomspublic` SMALLINT(4) NULL AFTER `dependencies_climate_roomspublic`,
+ADD COLUMN `equipments_qtd_blackboard` SMALLINT(4) NULL AFTER `equipments_tv`,
+ADD COLUMN `equipments_qtd_notebookstudent` SMALLINT(4) NULL AFTER `equipments_qtd_blackboard`,
+ADD COLUMN `equipments_qtd_tabletstudent` SMALLINT(4) NULL AFTER `equipments_qtd_notebookstudent`,
+ADD COLUMN `equipments_scanner` TINYINT(1) NULL AFTER `equipments_multifunctional_printer`,
+ADD COLUMN `internet_access_administrative` TINYINT(1) NULL AFTER `internet_access`,
+ADD COLUMN `internet_access_educative_process` TINYINT(1) NULL AFTER `internet_access_administrative`,
+ADD COLUMN `internet_access_student` TINYINT(1) NULL AFTER `internet_access_educative_process`,
+ADD COLUMN `internet_access_community` TINYINT(1) NULL AFTER `internet_access_student`,
+ADD COLUMN `internet_access_inexistent` TINYINT(1) NULL AFTER `internet_access_community`,
+ADD COLUMN `internet_access_connected_personaldevice` TINYINT(1) NULL AFTER `internet_access_inexistent`,
+ADD COLUMN `internet_access_connected_desktop` TINYINT(1) NULL AFTER `internet_access_connected_personaldevice`,
+ADD COLUMN `internet_access_broadband` TINYINT(1) NULL AFTER `internet_access_connected_desktop`,
+ADD COLUMN `internet_access_local_cable` TINYINT(1) NULL AFTER `internet_access_broadband`,
+ADD COLUMN `internet_access_local_wireless` TINYINT(1) NULL AFTER `internet_access_local_cable`,
+ADD COLUMN `internet_access_local_inexistet` TINYINT(1) NULL AFTER `internet_access_local_wireless`,
+ADD COLUMN `workers_administrative_assistant` SMALLINT(6) NULL AFTER `bandwidth`,
+ADD COLUMN `workers_service_assistant` SMALLINT(6) NULL AFTER `workers_administrative_assistant`,
+ADD COLUMN `workers_librarian` SMALLINT(6) NULL AFTER `workers_service_assistant`,
+ADD COLUMN `workers_firefighter` SMALLINT(6) NULL AFTER `workers_librarian`,
+ADD COLUMN `workers_coordinator_shift` SMALLINT(6) NULL AFTER `workers_firefighter`,
+ADD COLUMN `workers_speech_therapist` SMALLINT(6) NULL AFTER `workers_coordinator_shift`,
+ADD COLUMN `workers_nutritionist` SMALLINT(6) NULL AFTER `workers_speech_therapist`,
+ADD COLUMN `workers_psychologist` SMALLINT(6) NULL AFTER `workers_nutritionist`,
+ADD COLUMN `workers_cooker` SMALLINT(6) NULL AFTER `workers_psychologist`,
+ADD COLUMN `workers_support_professionals` SMALLINT(6) NULL AFTER `workers_cooker`,
+ADD COLUMN `workers_school_secretary` SMALLINT(6) NULL AFTER `workers_support_professionals`,
+ADD COLUMN `workers_security_guards` SMALLINT(6) NULL AFTER `workers_school_secretary`,
+ADD COLUMN `workers_monitors` SMALLINT(6) NULL AFTER `workers_security_guards`,
+ADD COLUMN `org_teaching_series_year` TINYINT(1) NULL AFTER `feeding`,
+ADD COLUMN `org_teaching_semester_periods` TINYINT(1) NULL AFTER `org_teaching_series_year`,
+ADD COLUMN `org_teaching_elementary_cycle` TINYINT(1) NULL AFTER `org_teaching_semester_periods`,
+ADD COLUMN `org_teaching_non_serialgroups` TINYINT(1) NULL AFTER `org_teaching_elementary_cycle`,
+ADD COLUMN `org_teaching_modules` TINYINT(1) NULL AFTER `org_teaching_non_serialgroups`,
+ADD COLUMN `org_teaching_regular_alternation` TINYINT(1) NULL AFTER `org_teaching_modules`,
+ADD COLUMN `equipments_multimedia_collection` TINYINT(1) NULL AFTER `org_teaching_regular_alternation`,
+ADD COLUMN `equipments_toys_early` TINYINT(1) NULL AFTER `equipments_multimedia_collection`,
+ADD COLUMN `equipments_scientific_materials` TINYINT(1) NULL AFTER `equipments_toys_early`,
+ADD COLUMN `equipments_equipment_amplification` TINYINT(1) NULL AFTER `equipments_scientific_materials`,
+ADD COLUMN `equipments_musical_instruments` TINYINT(1) NULL AFTER `equipments_equipment_amplification`,
+ADD COLUMN `equipments_educational_games` TINYINT(1) NULL AFTER `equipments_musical_instruments`,
+ADD COLUMN `equipments_material_cultural` TINYINT(1) NULL AFTER `equipments_educational_games`,
+ADD COLUMN `equipments_material_sports` TINYINT(1) NULL AFTER `equipments_material_cultural`,
+ADD COLUMN `equipments_material_teachingindian` TINYINT(1) NULL AFTER `equipments_material_sports`,
+ADD COLUMN `equipments_material_teachingethnic` TINYINT(1) NULL AFTER `equipments_material_teachingindian`,
+ADD COLUMN `equipments_material_teachingrural` TINYINT(1) NULL AFTER `equipments_material_teachingethnic`,
+ADD COLUMN `edcenso_native_languages_fk2` INT(11) NULL AFTER `edcenso_native_languages_fk`,
+ADD COLUMN `edcenso_native_languages_fk3` INT(11) NULL AFTER `edcenso_native_languages_fk2`,
+ADD COLUMN `select_adimission` TINYINT(1) NULL AFTER `edcenso_native_languages_fk3`,
+ADD COLUMN `booking_enrollment_self_declaredskin` TINYINT(1) NULL AFTER `select_adimission`,
+ADD COLUMN `booking_enrollment_income` TINYINT(1) NULL AFTER `booking_enrollment_self_declaredskin`,
+ADD COLUMN `booking_enrollment_public_school` TINYINT(1) NULL AFTER `booking_enrollment_income`,
+ADD COLUMN `booking_enrollment_disabled_person` TINYINT(1) NULL AFTER `booking_enrollment_public_school`,
+ADD COLUMN `booking_enrollment_others` TINYINT(1) NULL AFTER `booking_enrollment_disabled_person`,
+ADD COLUMN `booking_enrollment_inexistent` TINYINT(1) NULL AFTER `booking_enrollment_others`,
+ADD COLUMN `website` TINYINT(1) NULL AFTER `booking_enrollment_inexistent`,
+ADD COLUMN `community_integration` TINYINT(1) NULL AFTER `website`,
+ADD COLUMN `space_schoolenviroment` TINYINT(1) NULL AFTER `community_integration`,
+ADD COLUMN `board_organ_association_parent` TINYINT(1) NULL AFTER `space_schoolenviroment`,
+ADD COLUMN `board_organ_association_parentinstructors` TINYINT(1) NULL AFTER `board_organ_association_parent`,
+ADD COLUMN `board_organ_board_school` TINYINT(1) NULL AFTER `board_organ_association_parentinstructors`,
+ADD COLUMN `board_organ_student_guild` TINYINT(1) NULL AFTER `board_organ_board_school`,
+ADD COLUMN `board_organ_others` TINYINT(1) NULL AFTER `board_organ_student_guild`,
+ADD COLUMN `board_organ_inexistent` TINYINT(1) NULL AFTER `board_organ_others`,
+ADD COLUMN `ppp_updated` TINYINT(1) NULL AFTER `board_organ_inexistent`,
+ADD COLUMN `building_otherschool` TINYINT(1) NULL AFTER `pedagogical_formation_by_alternance`,
+ADD COLUMN `supply_food` TINYINT(1) NULL AFTER `building_otherschool`;
+
+
+ALTER TABLE `classroom`
+ADD COLUMN `schooling` TINYINT(1) NULL AFTER `week_days_saturday`,
+ADD COLUMN `diff_location` SMALLINT(4) NULL AFTER `complementary_activity_type_6`,
+ADD COLUMN `discipline_protuguese_secondary_language` SMALLINT(6) NULL AFTER `discipline_sociology`,
+ADD COLUMN `discipline_curricular_stage` SMALLINT(6) NULL AFTER `discipline_protuguese_secondary_language`,
+ADD COLUMN `course` INT(11) NULL;
+
+ALTER TABLE `instructor_identification`
+ADD COLUMN `deficiency_type_autism` TINYINT(1) NULL AFTER `deficiency_type_multiple_disabilities`,
+ADD COLUMN `deficiency_type_gifted` TINYINT(1) NULL AFTER `deficiency_type_autism`;
+
+ALTER TABLE `instructor_documents_and_address`
+ADD COLUMN `diff_location` SMALLINT(4) NULL AFTER `area_of_residence`;
+
+ALTER TABLE `student_documents_and_address`
+ADD COLUMN `diff_location` SMALLINT(4) NULL AFTER `residence_zone`;
+
+ALTER TABLE `student_identification`
+ADD COLUMN `resource_zoomed_test_18` TINYINT(1) NULL AFTER `resource_zoomed_test_16`,
+ADD COLUMN `resource_cd_audio` TINYINT(1) NULL AFTER `resource_zoomed_test_24`,
+ADD COLUMN `resource_proof_language` TINYINT(1) NULL AFTER `resource_cd_audio`,
+ADD COLUMN `resource_video_libras` TINYINT(1) NULL AFTER `resource_proof_language`,
+ADD COLUMN `no_document_desc` SMALLINT(4) NULL,
+ADD COLUMN `scholarity` SMALLINT(4) NULL AFTER `no_document_desc`,
+ADD COLUMN `id_email` VARCHAR(255) NULL AFTER `scholarity`;
+
+ALTER TABLE `student_enrollment`
+ADD COLUMN `aee_cognitive_functions` TINYINT(1) NULL,
+ADD COLUMN `aee_autonomous_life` TINYINT(1) NULL,
+ADD COLUMN `aee_curriculum_enrichment` TINYINT(1) NULL,
+ADD COLUMN `aee_accessible_teaching` TINYINT(1) NULL,
+ADD COLUMN `aee_libras` TINYINT(1) NULL,
+ADD COLUMN `aee_portuguese` TINYINT(1) NULL,
+ADD COLUMN `aee_soroban` TINYINT(1) NULL,
+ADD COLUMN `aee_braille` TINYINT(1) NULL,
+ADD COLUMN `aee_mobility_techniques` TINYINT(1) NULL,
+ADD COLUMN `aee_caa` TINYINT(1) NULL,
+ADD COLUMN `aee_optical_nonoptical` TINYINT(1) NULL;
+
+
+
+ALTER TABLE `class_faults` DROP FOREIGN KEY `fk_class_faults_2`;
+ALTER TABLE `class_faults` DROP FOREIGN KEY `fk_class_faults_1`;
+
+ALTER TABLE `classroom`
+ADD COLUMN `schooling` TINYINT(1) NULL,
+ADD COLUMN `diff_location` SMALLINT(4) NULL,
+ADD COLUMN `course` INT(11) NULL;
+
+ALTER TABLE `instructor_documents_and_address`
+ADD COLUMN `diff_location` SMALLINT(4) NULL;
+
+ALTER TABLE `instructor_identification`
+ADD COLUMN `deficiency_type_autism` TINYINT(1) NULL,
+ADD COLUMN `deficiency_type_gifted` TINYINT(1) NULL;
+
+ALTER TABLE `school_identification`
+ADD COLUMN `id_difflocation` SMALLINT(4) NULL,
+ADD COLUMN `linked_mec` TINYINT(1) NULL,
+ADD COLUMN `linked_army` TINYINT(1) NULL,
+ADD COLUMN `linked_helth` TINYINT(1) NULL,
+ADD COLUMN `linked_other` TINYINT(1) NULL,
+ADD COLUMN `regulation_organ` SMALLINT(4) NULL;
+
+ALTER TABLE `school_structure`
+ADD COLUMN `building_otherschool` TINYINT(1) NULL,
+ADD COLUMN `energy_supply_generator_alternative` TINYINT(1) NULL,
+ADD COLUMN `sewage_fossa_common` TINYINT(1) NULL,
+ADD COLUMN `garbage_destination_public` TINYINT(1) NULL,
+ADD COLUMN `supply_food` TINYINT(1) NULL,
+ADD COLUMN `treatment_garbage_parting_garbage` TINYINT(1) NULL,
+ADD COLUMN `treatment_garbage_resuse` TINYINT(1) NULL,
+ADD COLUMN `traetment_garbage_inexistent` TINYINT(1) NULL,
+ADD COLUMN `dependencies_bathroom_workes` TINYINT(1) NULL,
+ADD COLUMN `dependencies_pool` TINYINT(1) NULL,
+ADD COLUMN `dependencies_arts_room` TINYINT(1) NULL,
+ADD COLUMN `dependencies_music_room` TINYINT(1) NULL,
+ADD COLUMN `dependencies_dance_room` TINYINT(1) NULL,
+ADD COLUMN `dependencies_multiuse_room` TINYINT(1) NULL,
+ADD COLUMN `dependencies_yardzao` TINYINT(1) NULL,
+ADD COLUMN `dependencies_vivarium` TINYINT(1) NULL,
+ADD COLUMN `dependencies_outside_roomspublic` SMALLINT(4) NULL,
+ADD COLUMN `dependencies_indoor_roomspublic` SMALLINT(4) NULL,
+ADD COLUMN `dependencies_climate_roomspublic` SMALLINT(4) NULL,
+ADD COLUMN `dependencies_acessibility_roomspublic` SMALLINT(4) NULL,
+ADD COLUMN `acessability_handrails_guardrails` TINYINT(1) NULL,
+ADD COLUMN `acessability_elevator` TINYINT(1) NULL,
+ADD COLUMN `acessability_tactile_floor` TINYINT(1) NULL,
+ADD COLUMN `acessability_doors_80cm` TINYINT(1) NULL,
+ADD COLUMN `acessability_ramps` TINYINT(1) NULL,
+ADD COLUMN `acessability_sound_signaling` TINYINT(1) NULL,
+ADD COLUMN `acessability_tactile_singnaling` TINYINT(1) NULL,
+ADD COLUMN `acessability_visual_signaling` TINYINT(1) NULL,
+ADD COLUMN `acessabilty_inexistent` TINYINT(1) NULL,
+ADD COLUMN `equipments_scanner` TINYINT(1) NULL,
+ADD COLUMN `equipments_qtd_blackboard` SMALLINT(6) NULL,
+ADD COLUMN `equipments_qtd_notebookstudent` SMALLINT(6) NULL,
+ADD COLUMN `equipments_qtd_tabletstudent` SMALLINT(6) NULL,
+ADD COLUMN `equipments_multimedia_collection` TINYINT(1) NULL,
+ADD COLUMN `equipments_toys_early` TINYINT(1) NULL,
+ADD COLUMN `equipments_scientific_materials` TINYINT(1) NULL,
+ADD COLUMN `equipments_equipment_amplification` TINYINT(1) NULL,
+ADD COLUMN `equipments_musical_instruments` TINYINT(1) NULL,
+ADD COLUMN `equipments_educational_games` TINYINT(1) NULL,
+ADD COLUMN `equipments_material_cultural` TINYINT(1) NULL,
+ADD COLUMN `equipments_material_sports` TINYINT(1) NULL,
+ADD COLUMN `equipments_material_teachingindian` TINYINT(1) NULL,
+ADD COLUMN `equipments_material_teachingethnic` TINYINT(1) NULL,
+ADD COLUMN `equipments_material_teachingrural` TINYINT(1) NULL,
+ADD COLUMN `internet_access_administrative` TINYINT(1) NULL,
+ADD COLUMN `internet_access_educative_process` TINYINT(1) NULL,
+ADD COLUMN `internet_access_student` TINYINT(1) NULL,
+ADD COLUMN `internet_access_community` TINYINT(1) NULL,
+ADD COLUMN `internet_access_inexistent` TINYINT(1) NULL,
+ADD COLUMN `internet_access_connected_personaldevice` TINYINT(1) NULL,
+ADD COLUMN `internet_access_connected_desktop` TINYINT(1) NULL,
+ADD COLUMN `internet_access_broadband` TINYINT(1) NULL,
+ADD COLUMN `internet_access_local_cable` TINYINT(1) NULL,
+ADD COLUMN `internet_access_local_wireless` TINYINT(1) NULL,
+ADD COLUMN `internet_access_local_inexistet` TINYINT(1) NULL,
+ADD COLUMN `workers_administrative_assistant` SMALLINT(6) NULL,
+ADD COLUMN `workers_service_assistant` SMALLINT(6) NULL,
+ADD COLUMN `workers_librarian` SMALLINT(6) NULL,
+ADD COLUMN `workers_firefighter` SMALLINT(6) NULL,
+ADD COLUMN `workers_coordinator_shift` SMALLINT(6) NULL,
+ADD COLUMN `workers_speech_therapist` SMALLINT(6) NULL,
+ADD COLUMN `workers_nutritionist` SMALLINT(6) NULL,
+ADD COLUMN `workers_psychologist` SMALLINT(6) NULL,
+ADD COLUMN `workers_cooker` SMALLINT(6) NULL,
+ADD COLUMN `workers_support_professionals` SMALLINT(6) NULL,
+ADD COLUMN `workers_school_secretary` SMALLINT(6) NULL,
+ADD COLUMN `workers_security_guards` SMALLINT(6) NULL,
+ADD COLUMN `workers_monitors` SMALLINT(6) NULL,
+ADD COLUMN `org_teaching_series_year` TINYINT(1) NULL,
+ADD COLUMN `org_teaching_semester_periods` TINYINT(1) NULL,
+ADD COLUMN `org_teaching_elementary_cycle` TINYINT(1) NULL,
+ADD COLUMN `org_teaching_non_serialgroups` TINYINT(1) NULL,
+ADD COLUMN `org_teaching_modules` TINYINT(1) NULL,
+ADD COLUMN `org_teaching_regular_alternation` TINYINT(1) NULL,
+ADD COLUMN `edcenso_native_languages_fk2` INT(11) NULL,
+ADD COLUMN `edcenso_native_languages_fk3` INT(11) NULL,
+ADD COLUMN `select_adimission` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_self_declaredskin` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_income` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_public_school` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_disabled_person` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_others` TINYINT(1) NULL,
+ADD COLUMN `booking_enrollment_inexistent` TINYINT(1) NULL,
+ADD COLUMN `website` TINYINT(1) NULL,
+ADD COLUMN `community_integration` TINYINT(1) NULL,
+ADD COLUMN `space_schoolenviroment` TINYINT(1) NULL,
+ADD COLUMN `ppp_updated` TINYINT(1) NULL,
+ADD COLUMN `board_organ_association_parent` TINYINT(1) NULL,
+ADD COLUMN `board_organ_association_parentinstructors` TINYINT(1) NULL,
+ADD COLUMN `board_organ_board_school` TINYINT(1) NULL,
+ADD COLUMN `board_organ_student_guild` TINYINT(1) NULL,
+ADD COLUMN `board_organ_others` TINYINT(1) NULL,
+ADD COLUMN `board_organ_inexistent` TINYINT(1) NULL;
+
+ALTER TABLE `student_documents_and_address`
+ADD COLUMN `diff_location` SMALLINT(4) NULL;
+
+ALTER TABLE `student_enrollment`
+ADD COLUMN `aee_cognitive_functions` TINYINT(1) NULL,
+ADD COLUMN `aee_autonomous_life` TINYINT(1) NULL,
+ADD COLUMN `aee_curriculum_enrichment` TINYINT(1) NULL,
+ADD COLUMN `aee_accessible_teaching` TINYINT(1) NULL,
+ADD COLUMN `aee_libras` TINYINT(1) NULL,
+ADD COLUMN `aee_portuguese` TINYINT(1) NULL,
+ADD COLUMN `aee_soroban` TINYINT(1) NULL,
+ADD COLUMN `aee_braille` TINYINT(1) NULL,
+ADD COLUMN `aee_mobility_techniques` TINYINT(1) NULL,
+ADD COLUMN `aee_caa` TINYINT(1) NULL,
+ADD COLUMN `aee_optical_nonoptical` TINYINT(1) NULL;
+
+ALTER TABLE `student_identification`
+ADD COLUMN `id_email` VARCHAR(255) NULL,
+ADD COLUMN `resource_zoomed_test_18` TINYINT(1) NULL,
+ADD COLUMN `resource_cd_audio` TINYINT(1) NULL,
+ADD COLUMN `resource_proof_language` TINYINT(1) NULL,
+ADD COLUMN `resource_video_libras` TINYINT(1) NULL,
+ADD COLUMN `scholarity` SMALLINT(4) NULL,
+ADD COLUMN `no_documents_desc` SMALLINT(4) NULL;
+
+-- ADICIONANDO COLUNA YEAR
+ALTER TABLE edcenso_alias ADD COLUMN year SMALLINT;
+
+ALTER TABLE `class_faults`
+DROP FOREIGN KEY `fk_class_faults_1`;
+
+ALTER TABLE `class_faults`
+DROP INDEX `fk_class_faults_1`;
+
+ALTER TABLE `class_faults`
+DROP `class_fk`,
+CHANGE `schedule` `schedule_fk` int(11) NOT NULL AFTER `student_fk`;
+
+ALTER TABLE `class_faults`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_has_content`
+DROP FOREIGN KEY `fk_class_has_content_1`;
+
+ALTER TABLE `class_has_content`
+DROP INDEX `fk_class_has_content_1_idx`;
+
+ALTER TABLE `class_has_content`
+CHANGE `class_fk` `schedule_fk` int NOT NULL AFTER `id`;
+
+ALTER TABLE `class_has_content`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_faults`
+DROP FOREIGN KEY `fk_class_faults_2`,
+ADD FOREIGN KEY (`student_fk`) REFERENCES `student_enrollment` (`student_fk`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `schedule`
+CHANGE `week_day` `day` int(11) NOT NULL AFTER `classroom_fk`,
+ADD `month` int(11) NOT NULL AFTER `day`;
+
+ALTER TABLE `schedule`
+ADD `week_day` int(11) NOT NULL AFTER `month`;
+
+ALTER TABLE `schedule`
+ADD `week` int(11) NOT NULL AFTER `month`;
+
+ALTER TABLE `schedule`
+ADD `unavailable` int(11) NOT NULL;
+
+ALTER TABLE `schedule`
+ADD `fkid` varchar(40) NULL;
+
+ALTER TABLE `vaccine`
+ADD `code` varchar(10) COLLATE 'utf8_general_ci' NULL AFTER `name`,
+CHANGE `updated_at` `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`;
+
+ALTER TABLE `calendar`
+DROP FOREIGN KEY `school_calendar`;
+
+ALTER TABLE `calendar`
+DROP `actual`,
+DROP `school_fk`;
+
+ALTER TABLE `calendar_event`
+ADD `school_fk` int NULL;
+
+ALTER TABLE `calendar_event`
+CHANGE `school_fk` `school_fk` varchar(8) NULL AFTER `copyable`;
+
+ALTER TABLE `calendar_event`
+ADD FOREIGN KEY (`school_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `calendar_stages` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `calendar_fk` int NOT NULL,
+  `stage_fk` int NOT NULL
+);
+
+ALTER TABLE `calendar_stages`
+ADD FOREIGN KEY (`calendar_fk`) REFERENCES `calendar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `calendar_stages`
+ADD FOREIGN KEY (`stage_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `calendar_event_type`
+DROP `copyable`;
+
+ALTER TABLE `calendar`
+ADD `available` tinyint NOT NULL;
+
+ALTER TABLE `calendar_event_type`
+ADD `unique_day` TINYINT(1) NOT NULL;
+
+ALTER TABLE `calendar`
+CHANGE `school_year` `title` VARCHAR(50) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `id`;
+
+UPDATE calendar
+SET start_date = CONCAT(DATE_FORMAT(start_date, '%Y-'), '01-01');
+
+UPDATE calendar
+SET end_date = CONCAT(DATE_FORMAT(end_date, '%Y-'), '12-31');
+UPDATE calendar_event_type SET id = 1000 WHERE NAME = 'Beginning of the School Year';
+UPDATE calendar_event_type SET id = 1001 WHERE NAME = 'End of the School Year';
+
+ALTER TABLE `course_plan`
+ADD `user_fk` INT NULL AFTER `discipline_fk`;
+
+ALTER TABLE `course_plan`
+CHANGE `user_fk` `users_fk` INT(11) NULL AFTER `discipline_fk`;
+
+ALTER TABLE `course_plan`
+ADD FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `school_structure`
+ADD `dependencies_professional_specific_lab` tinyint(1) NULL AFTER `dependencies_laundry`,
+ADD `dependencies_vocational_education_workshop` tinyint(1) NULL AFTER `dependencies_professional_specific_lab`;
+
+update school_structure set dependencies_professional_specific_lab = 0, dependencies_vocational_education_workshop = 0;
+
+ALTER TABLE `school_structure`
+ADD `equipments_inexistent` tinyint(1) NULL AFTER `equipments_scanner`;
+
+update school_structure set equipments_satellite_dish = 0 where equipments_satellite_dish is null;
+update school_structure set equipments_computer = 0 where equipments_computer is null;
+update school_structure set equipments_copier= 0 where equipments_copier is null;
+update school_structure set equipments_printer= 0 where equipments_printer is null;
+update school_structure set equipments_multifunctional_printer= 0 where equipments_multifunctional_printer is null;
+update school_structure set equipments_scanner  = 0 where equipments_scanner is null;
+
+update school_structure set equipments_satellite_dish = 1 where equipments_satellite_dish > 0;
+update school_structure set equipments_computer = 1 where equipments_computer  > 0;
+update school_structure set equipments_copier= 1 where equipments_copier > 0;
+update school_structure set equipments_printer= 1 where equipments_printer > 0;
+update school_structure set equipments_multifunctional_printer= 1 where equipments_multifunctional_printer > 0;
+update school_structure set equipments_scanner  = 1 where equipments_scanner > 0;
+
+update school_structure set equipments_inexistent = 0;
+
+update school_structure set equipments_inexistent = 1 where
+equipments_satellite_dish = 0 and
+equipments_computer = 0 and
+equipments_copier= 0 and
+equipments_printer= 0 and
+equipments_multifunctional_printer= 0 and
+equipments_scanner  = 0;
+
+ALTER TABLE `school_structure`
+ADD `equipments_qtd_desktop` smallint(4) NULL AFTER `equipments_qtd_blackboard`;
+
+ALTER TABLE `school_structure`
+ADD `equipments_material_professional_education` tinyint(1) NULL AFTER `equipments_material_cultural`,
+ADD `instruments_inexistent` tinyint(1) NULL AFTER `equipments_material_teachingrural`;
+
+update school_structure set equipments_material_professional_education = 0;
+
+update school_structure set instruments_inexistent = 0;
+
+update school_structure set instruments_inexistent = 1 where
+equipments_multimedia_collection= 0 and
+equipments_toys_early= 0 and
+equipments_scientific_materials= 0 and
+equipments_equipment_amplification= 0 and
+equipments_musical_instruments= 0 and
+equipments_educational_games= 0 and
+equipments_material_cultural= 0 and
+equipments_material_sports= 0 and
+equipments_material_teachingindian= 0 and
+equipments_material_teachingethnic= 0 and
+equipments_material_teachingrural= 0;
+
+ALTER TABLE student_enrollment ALTER another_scholarization_place SET DEFAULT 1;
+
+ALTER TABLE `instructor_identification`
+ADD `users_fk` INT(11) NULL;
+
+ALTER TABLE `instructor_identification`
+ADD FOREIGN KEY (`users_fk`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `school_stages_concept_grades` (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `school_fk` INT NOT NULL,
+  `edcenso_stage_vs_modality_fk` INT NOT NULL
+) ENGINE='InnoDB';
+
+ALTER TABLE `school_stages_concept_grades`
+CHANGE `school_fk` `school_fk` VARCHAR(8) NOT NULL AFTER `id`;
+
+ALTER TABLE `school_stages_concept_grades`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `school_stages_concept_grades`
+CHANGE `school_fk` `school_fk` VARCHAR(8) COLLATE 'utf8_unicode_ci' NOT NULL AFTER `id`,
+COLLATE 'utf8_unicode_ci';
+
+SET FOREIGN_KEY_CHECKS=OFF;
+ALTER TABLE `school_stages_concept_grades`
+ADD FOREIGN KEY (`school_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+SET FOREIGN_KEY_CHECKS=ON;
+
