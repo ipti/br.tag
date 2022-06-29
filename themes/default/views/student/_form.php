@@ -720,7 +720,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 'control-label')); ?>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('size' => 32, 'maxlength' => 32, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br span6")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                         </div>
                                     </div>

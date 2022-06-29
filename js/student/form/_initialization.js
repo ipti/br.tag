@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
     var simple = getUrlVars()['simple'];
     if (simple == '1') {

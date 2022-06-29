@@ -193,7 +193,7 @@ $(formIdentification + 'nationality').trigger("change");
 
 var deficiency = formIdentification + "deficiency";                             //17
 
-var dtBlind = formIdentification + 'deficiency_type_blindness';                 //18 
+var dtBlind = formIdentification + 'deficiency_type_blindness';                 //18
 var dtLowVi = formIdentification + 'deficiency_type_low_vision';                //19
 var dtDeafn = formIdentification + 'deficiency_type_deafness';                  //20
 var dtDisab = formIdentification + 'deficiency_type_disability_hearing';        //21
@@ -202,7 +202,7 @@ var dtPhisi = formIdentification + 'deficiency_type_phisical_disability';       
 var dtIntel = formIdentification + 'deficiency_type_intelectual_disability';    //24
 var dtMulti = formIdentification + 'deficiency_type_multiple_disabilities';     //25
 var dtAutis = formIdentification + 'deficiency_type_autism';                    //26
-var dtAspen = formIdentification + 'deficiency_type_aspenger_syndrome';         //27 
+var dtAspen = formIdentification + 'deficiency_type_aspenger_syndrome';         //27
 var dtRettS = formIdentification + 'deficiency_type_rett_syndrome';             //28
 var dtChild = formIdentification + 'deficiency_type_childhood_disintegrative_disorder'; //29
 var dtGifte = formIdentification + 'deficiency_type_gifted';                    //30
@@ -612,6 +612,50 @@ $(formDocumentsAndAddress + 'rg_number').focusout(function () {
     }
 });
 
+$(formDocumentsAndAddress + 'civil_register_enrollment_number').removeAttr("maxlength").mask("000000.00.00.0000.0.00000.000.0000000-XX", {
+    placeholder: "______.__.__.____._._____.___._______-__",
+    translation: {
+        X: {pattern: /[xX0-9]/}
+    }
+});
+$(formDocumentsAndAddress + 'civil_register_enrollment_number').focusout(function () {
+    checkCivilRegisterEnrollmentNumberValidity($(formDocumentsAndAddress + 'civil_register_enrollment_number'));
+});
+
+function checkCivilRegisterEnrollmentNumberValidity(element) {
+    $(element).val($(element).val().toUpperCase());
+    var id = '#' + $(element).attr("id");
+    var value = $(element).cleanVal();
+    var valid = true;
+    if (value !== "") {
+        if (value.length < 32) {
+            addError(id, "O campo, quando preenchido, deve ter 32 caracteres.");
+            valid = false;
+        }
+        if (valid) {
+            var year = value.substring(10, 14);
+            if (year > new Date().getFullYear()) {
+                addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.");
+                valid = false;
+            }
+        }
+        if (valid) {
+            var birthday = $(formIdentification + 'birthday').cleanVal();
+            if (birthday !== "" && birthday.length === 8) {
+                var birthdayYear = birthday.substring(4, 8);
+                if (year < birthdayYear) {
+                    addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.");
+                    valid = false;
+                }
+            }
+        }
+    }
+    if (valid) {
+        removeError(id);
+    }
+    return valid;
+}
+
 $(formDocumentsAndAddress + 'civil_certification').change(function () {
 
     var oldDocuments = $(formDocumentsAndAddress + 'civil_certification_type'
@@ -773,6 +817,10 @@ $(".save-student").click(function () {
         error = true;
         message += "Não pode marcar todos os seguintes campos: <b>Embarcação - Capacidade de até 5 alunos</b>, <b>Embarcação - Entre 5 a 15 alunos</b>, <b>Embarcação - Entre 15 a 35 alunos</b> e <b>Embarcação - Acima de 35 alunos</b>. Desmarque algumas dessas opções.<br>";
     }
+    if (!checkCivilRegisterEnrollmentNumberValidity($(formDocumentsAndAddress + 'civil_register_enrollment_number'))) {
+        error = true;
+        message += "Informe um <b>Nº de matrícula (Registro Civil - Certidão nova)</b> válido.";
+    }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
         $(this).closest("form").find(".student-error").html(message).show();
@@ -782,6 +830,7 @@ $(".save-student").click(function () {
         $(formIdentification + "responsable_cpf").unmask();
         $(formIdentification + "filiation_1_cpf").unmask();
         $(formIdentification + "filiation_2_cpf").unmask();
+        $(formDocumentsAndAddress + "civil_register_enrollment_number").unmask();
         $(formDocumentsAndAddress + "cpf").unmask();
         $(formDocumentsAndAddress + "cep").unmask();
         $("#student input").removeAttr("disabled");

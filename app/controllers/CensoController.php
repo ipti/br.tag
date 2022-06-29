@@ -736,6 +736,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("sex" => $result["erro"]));
 
         //campo 11, 12, 13
+        $result = $iiv->isNameValid($collumn['filiation_1'], 100, $instructor_documents_and_address["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
+        $result = $iiv->isNameValid($collumn['filiation_2'], 100, $instructor_documents_and_address["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
         $result = $iiv->validateFiliation($collumn['filiation'], $collumn['filiation_1'], $collumn['filiation_2'],
             $instructor_documents_and_address["cpf"], 100);
         if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
@@ -1058,7 +1062,7 @@ class CensoController extends Controller
         //campo 5
         $result = $stiv->isNameValid($collumn['name'], 100,
             $studentdocument["cpf"]);
-        //if(!$result["status"]) array_push($log, array("name"=>$result["erro"]));
+        if (!$result["status"]) array_push($log, array("name" => $result["erro"]));
 
         $year = Yii::app()->user->year;
         //campo 6
@@ -1074,6 +1078,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("sex" => $result["erro"]));
 
         //campo 9, 10, 11
+        $result = $stiv->isNameValid($collumn['filiation_1'], 100, $studentdocument["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
+        $result = $stiv->isNameValid($collumn['filiation_2'], 100, $studentdocument["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
         $result = $stiv->validateFiliation($collumn['filiation'], $collumn['filiation_1'], $collumn['filiation_2'],
             $studentdocument["cpf"], 100);
         if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
@@ -1208,9 +1216,9 @@ class CensoController extends Controller
         $student_inep_id_fk = $collumn["student_fk"];
         $log = array();
 
-        $field6012 = $studentident['nationality'];
+        $nationality = $studentident['nationality'];
 
-        $foreign = $sda->isAllowed($field6012, array("3"));
+        $foreign = $sda->isAllowed($nationality, array("3"));
         $field6006 = $collumn['birthday'];
         $field7005 = $collumn['rg_number'];
 
@@ -1218,7 +1226,7 @@ class CensoController extends Controller
         $date = date('d/m/Y');
 
         //$sda->isAllowed($collumn['civil_certification'], array("1", "2"));
-        $field7009 = $collumn['civil_certification'];
+        $civil_certification = $collumn['civil_certification'];
 
 
         //campo 1
@@ -1264,56 +1272,66 @@ class CensoController extends Controller
         $result = $sda->isAllowed($collumn['civil_certification'], array("1", "2"));
         //if(!$result["status"]) array_push($log, array("rg_number_expediction_date"=>$result["erro"]));
 
-
-        if (empty($collumn['cpf']) && empty($collumn['nis'])) {
-            //campo 10
-            $result = $sda->isCivilCertificationTypeValid($field7009, $field7005, $field6012, $field6006, $date);
-            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
-
-            //campo 11
-            $field7009 = $collumn['civil_certification'];
-
-            if ($field7009 == 1) {
-                $result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_term_number" => $result["erro"]));
-
-                //campo 12
-                $result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_sheet" => $result["erro"]));
-
-                //campo 13
-                $result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_book" => $result["erro"]));
-
-                //campo 14
-                $result = $sda->isDateValid($field6012, $collumn['civil_certification_date'], $field6006, $date, 1, 14);
-                if (!$result["status"]) array_push($log, array("civil_certification_date" => $result["erro"]));
-
-                //campo 15
-                $result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("notary_office_uf_fk" => $result["erro"]));
-
-                //campo 16
-                $result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("notary_office_city_fk" => $result["erro"]));
-
-                //campo 17
-                $result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("edcenso_notary_office_fk" => $result["erro"]));
-
-            } else {
-                //campo 18
-                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $field6012, $field7009);
+        if ($civil_certification == 2) {
+            if ($nationality == 1 || $nationality == 2) {
+                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $studentident['birthday']);
                 if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+            } else if ($collumn['civil_register_enrollment_number'] !== "") {
+                return array("status" => false, "erro" => "Como foi preenchido o nº de matrícula da certidão nova, a nacionalidade do aluno deveria ser brasileira, nascido no exterior ou não.");
             }
         }
+
+//        if (empty($collumn['cpf']) && empty($collumn['nis'])) {
+//            //campo 10
+//            $result = $sda->isCivilCertificationTypeValid($civil_certification, $field7005, $nationality, $field6006, $date);
+//            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
+//
+//            //campo 11
+//            $civil_certification = $collumn['civil_certification'];
+//
+//            if ($civil_certification == 1) {
+//                array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+////
+////                $result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_term_number" => $result["erro"]));
+////
+////                //campo 12
+////                $result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_sheet" => $result["erro"]));
+////
+////                //campo 13
+////                $result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_book" => $result["erro"]));
+////
+////                //campo 14
+////                $result = $sda->isDateValid($nationality, $collumn['civil_certification_date'], $field6006, $date, 1, 14);
+////                if (!$result["status"]) array_push($log, array("civil_certification_date" => $result["erro"]));
+////
+////                //campo 15
+////                $result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("notary_office_uf_fk" => $result["erro"]));
+////
+////                //campo 16
+////                $result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("notary_office_city_fk" => $result["erro"]));
+////
+////                //campo 17
+////                $result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("edcenso_notary_office_fk" => $result["erro"]));
+//
+//            } else {
+//                //campo 18
+//                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $nationality, $civil_certification);
+//                if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+//            }
+//        }
         //campo 19
         if (!empty($collumn['cpf'])) {
             $result = $sda->isCPFValid($collumn['cpf']);
             if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
         }
         //campo 20
-        $result = $sda->isPassportValid($collumn['foreign_document_or_passport'], $field6012);
+        $result = $sda->isPassportValid($collumn['foreign_document_or_passport'], $nationality);
         if (!$result["status"]) array_push($log, array("foreign_document_or_passport" => $result["erro"]));
 
         //campo 21
@@ -1548,71 +1566,11 @@ class CensoController extends Controller
         return $name;
     }
 
-    public function mountItemExport($itens)
-    {
-        $linha = "";
-        foreach ($itens as $s) {
-            if ($s['id'] == null) {
-                $linha .= "||";
-            } else {
-                $linha .= $s['id'] . "|";
-            }
-
-            if ($s['cpf'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['cpf'] . "|";
-            }
-
-            if ($s['civil_register_enrollment_number'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['civil_register_enrollment_number'] . "|";
-            }
-
-            $s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
-            if ($s['name'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['name']) . "|";
-            }
-
-            if ($s['birthday'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['birthday'] . "|";
-            }
-
-            $s['filiation_1'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_1']));
-            $s['filiation_2'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_2']));
-            if ($s['filiation_1'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['filiation_1']) . "|";
-            }
-
-            if ($s['filiation_2'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['filiation_2']) . "|";
-            }
-
-            if ($s['edcenso_city_fk'] == null) {
-                $linha .= "2806305|";
-            } else {
-                $linha .= $s['edcenso_city_fk'] . "|";
-            }
-
-            $linha .= "\n";
-        }
-        return $linha;
-    }
-
     public function actionExportWithoutInepid()
     {
         $year = Yii::app()->user->year;
         $id = Yii::app()->user->school;
-        $sql = "SELECT DISTINCT si.id,si.school_inep_id_fk ,sd.cpf,sd.civil_register_enrollment_number, si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
+        $sql = "SELECT DISTINCT si.id,si.school_inep_id_fk ,sd.cpf,sd.civil_register_enrollment_number,sd.nis, si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
 			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
 			JOIN student_documents_and_address as sd on(si.id=sd.id)
 			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
@@ -1662,6 +1620,91 @@ class CensoController extends Controller
             header('Content-Length: ' . filesize($fileDir));
             readfile($fileDir);
         }
+    }
+
+    public function mountItemExport($itens)
+    {
+        $linha = "";
+        foreach ($itens as $s) {
+            if ($s['id'] == null) {
+                $linha .= "||";
+            } else {
+                $linha .= $s['id'] . "|";
+            }
+
+            if ($s['cpf'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['cpf'] . "|";
+            }
+
+            if ($s['civil_register_enrollment_number'] == null) {
+                $linha .= "|";
+            } else {
+                $fill = true;
+                if (strlen($s['civil_register_enrollment_number']) != 32) {
+                    $fill = false;
+                }
+                if ($fill && strlen($s['civil_register_enrollment_number']) == 32) {
+                    for ($i = 0; $i <= strlen($s['civil_register_enrollment_number']) - 1; $i++) {
+                        $char = $s['civil_register_enrollment_number'][$i];
+                        if (($i < 30 && !is_numeric($char)) || ($i >= 30 && (!is_numeric($char) && strtoupper($char) != "X"))) {
+                            $fill = false;
+                            break;
+                        }
+                    }
+                }
+                if ($fill && substr($s['civil_register_enrollment_number'], 10, 4) > date("Y")) {
+                    $fill = false;
+                }
+                if ($fill && substr($s['civil_register_enrollment_number'], 10, 4) < substr($s['birthday'], 6, 4)) {
+                    $fill = false;
+                }
+                $linha .= $fill ? strtoupper($s['civil_register_enrollment_number']) . "|" : "|";
+            }
+
+            if ($s['nis'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['nis'] . "|";
+            }
+
+            $s['name'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['name'])));
+            if ($s['name'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['name']) . "|";
+            }
+
+            if ($s['birthday'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['birthday'] . "|";
+            }
+
+            $s['filiation_1'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['filiation_1'])));
+            $s['filiation_2'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['filiation_2'])));
+            if ($s['filiation_1'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['filiation_1']) . "|";
+            }
+
+            if ($s['filiation_2'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['filiation_2']) . "|";
+            }
+
+            if ($s['edcenso_city_fk'] == null) {
+                $linha .= "2802106|";
+            } else {
+                $linha .= $s['edcenso_city_fk'] . "|";
+            }
+
+            $linha .= "\n";
+        }
+        return $linha;
     }
 
     public function normalizeField2019($register, $attributes)
@@ -2570,141 +2613,69 @@ class CensoController extends Controller
 
     }
 
-    public function actionExport()
+    public function readFileImport()
     {
-        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
-        $Educacenso = new Educacenso;
-        $export = $Educacenso->exportar(date("Y"));
-
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-
-        Yii::import('ext.FileManager.fileManager');
-        $fm = new fileManager();
-        $result = $fm->write($fileDir, $export);
-
-        if ($result) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+        set_time_limit(0);
+        ignore_user_abort();
+        $path = Yii::app()->basePath;
+        //Se não passar parametro, o valor será predefinido
+        if (empty($_FILES['file']['name'])) {
+            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+            $myfile = $_FILES['file'];
+            $uploadfile = $path . '/import/' . basename($myfile['name']);
+            move_uploaded_file($myfile['tmp_name'], $uploadfile);
+            $fileDir = $uploadfile;
         }
 
-        return $this->redirect(array('validate'));
 
-//        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($school->register_type, $school->attributes);
-//        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
-//        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
-//        foreach ($classrooms as $iclass => $classroom) {
-//            $log['classrooms'][$iclass] = $classroom->attributes;
-//            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-//                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
-//                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
-//                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-//                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-//                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
-//                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-//                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-//                    } else {
-//                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-//                    }
-//                    $variabledata->id = $teachingData->instructorFk->id;
-//                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
-//                    $variabledata->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
-//                } else {
-//
-//                }
-//                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
-//                $teachingData->school_inep_id_fk = $school->inep_id;
-//                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
-//            }
-//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-//                if (!isset($log['students'][$enrollment->student_fk])) {
-//                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
-//                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
-//                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
-//                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
-//                }
-//                $enrollment->school_inep_id_fk = $school->inep_id;
-//                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
-//            }
-//        }
-//        foreach ($log['classrooms'] as $classroom) {
-//            $this->normalizeField2019($classroom['register_type'], $classroom);
-//        }
-//        foreach ($log['instructors'] as $instructor) {
-//            $id = (String)'90' . $instructor['identification']['id'];
-//            $instructor['identification']['id'] = $id;
-//            $instructor['documents']['id'] = $id;
-//            $instructor['variable']['id'] = $id;
-//            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
-//            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
-//            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
-//            foreach ($instructor['teaching'] as $teaching) {
-//                $teaching['instructor_fk'] = $id;
-//                $this->normalizeField2019($teaching['register_type'], $teaching);
-//            }
-//        }
-//        foreach ($log['students'] as $student) {
-//            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
-//            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
-//            foreach ($student['enrollments'] as $enrollment) {
-//                $this->normalizeField2019($enrollment['register_type'], $enrollment);
-//            }
-//        }
-//        //ksort($this->tmpexp['c'][5076]);
-//        //print_r($this->tmpexp['c'][5076]);exit;
-//
-//        foreach ($this->tmpexp as $kpos => $pos) {
-//            foreach ($pos as $kline => $line) {
-//                ksort($line);
-//                $this->export[$kpos] .= implode('|', $line);
-//                $this->export[$kpos] .= "\n";
-//            }
-//        }
-//        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
-//        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
-//        $this->export["i"] .= '99|';
-//
-//        ksort($this->export);
-//        foreach ($this->export as $key => $txtexport) {
-//            $export .= $txtexport;
-//        }
-//        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-//
-//        Yii::import('ext.FileManager.fileManager');
-//        $fm = new fileManager();
-//        $result = $fm->write($fileDir, $export);
-//
-//        if ($result) {
-//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
-//        } else {
-//            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
-//        }
-//        $this->redirect(array('validate'));
-    }
+        $mode = 'r';
 
-    public function actionDownloadExportFile()
-    {
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-        if (file_exists($fileDir)) {
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($fileDir));
-            readfile($fileDir);
-        } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
-            $this->render('index');
+        //Abre o arquivo
+        $file = fopen($fileDir, $mode);
+        if ($file == FALSE) {
+            die('O arquivo não existe.');
         }
 
+        $registerLines = [];
+
+        //Inicializa o contador de linhas
+        $lineCount = [];
+        $lineCount['00'] = 0;
+        $lineCount['10'] = 0;
+        $lineCount['20'] = 0;
+        $lineCount['30'] = 0;
+        $lineCount['40'] = 0;
+        $lineCount['50'] = 0;
+        $lineCount['51'] = 0;
+        $lineCount['60'] = 0;
+        $lineCount['70'] = 0;
+        $lineCount['80'] = 0;
+
+        //Pega campos do arquivo
+        while (TRUE) {
+            //Próxima linha do arquivo
+            $fileLine = fgets($file);
+            if ($fileLine == NULL) {
+                break;
+            }
+
+            //Tipo do registro são os 2 primeiros caracteres
+            $regType = $fileLine[0] . $fileLine[1];
+            //Querba a linha nos caracteres |
+            $lineFields_Aux = explode("|", $fileLine);
+            $lineFields = [];
+
+            //Troca os campos vazios por 'null'
+            foreach ($lineFields_Aux as $key => $field) {
+                $value = !(isset($field)) ? '' : trim($field);
+                $lineFields[$key] = $value;
+            }
+
+            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
+            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+        }
+        return $registerLines;
     }
 
     public function actionReadFileImportIneps()
@@ -2848,71 +2819,6 @@ class CensoController extends Controller
         return count($result) ? current($result)->corder : null;
     }
 
-    public function readFileImport()
-    {
-        set_time_limit(0);
-        ignore_user_abort();
-        $path = Yii::app()->basePath;
-        //Se não passar parametro, o valor será predefinido
-        if (empty($_FILES['file']['name'])) {
-            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
-        } else {
-            $myfile = $_FILES['file'];
-            $uploadfile = $path . '/import/' . basename($myfile['name']);
-            move_uploaded_file($myfile['tmp_name'], $uploadfile);
-            $fileDir = $uploadfile;
-        }
-
-
-        $mode = 'r';
-
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == FALSE) {
-            die('O arquivo não existe.');
-        }
-
-        $registerLines = [];
-
-        //Inicializa o contador de linhas
-        $lineCount = [];
-        $lineCount['00'] = 0;
-        $lineCount['10'] = 0;
-        $lineCount['20'] = 0;
-        $lineCount['30'] = 0;
-        $lineCount['40'] = 0;
-        $lineCount['50'] = 0;
-        $lineCount['51'] = 0;
-        $lineCount['60'] = 0;
-        $lineCount['70'] = 0;
-        $lineCount['80'] = 0;
-
-        //Pega campos do arquivo
-        while (TRUE) {
-            //Próxima linha do arquivo
-            $fileLine = fgets($file);
-            if ($fileLine == NULL) {
-                break;
-            }
-
-            //Tipo do registro são os 2 primeiros caracteres
-            $regType = $fileLine[0] . $fileLine[1];
-            //Querba a linha nos caracteres |
-            $lineFields_Aux = explode("|", $fileLine);
-            $lineFields = [];
-
-            //Troca os campos vazios por 'null'
-            foreach ($lineFields_Aux as $key => $field) {
-                $value = !(isset($field)) ? '' : trim($field);
-                $lineFields[$key] = $value;
-            }
-
-            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
-            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
-        }
-        return $registerLines;
-    }
-
     public function updateImport($register, $lines, CActiveRecord $model, $fieldsUpdate)
     {
 
@@ -2952,6 +2858,143 @@ class CensoController extends Controller
         $this->updateImport(40, $lines['40'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'address_number', 'complement', 'neighborhood', 'cep']);
         $this->updateImport(60, $lines['60'], StudentIdentification::model(), ['name', 'birthday', 'filiation_1', 'filiation_2']);
         $this->updateImport(70, $lines['70'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'number', 'complement', 'neighborhood', 'cep']);
+
+    }
+
+    public function actionExport()
+    {
+        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
+        $Educacenso = new Educacenso;
+        $export = $Educacenso->exportar(date("Y"));
+
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $export);
+
+        if ($result) {
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        }
+
+        return $this->redirect(array('validate'));
+
+//        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+//        $this->normalizeField2019($school->register_type, $school->attributes);
+//        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
+//        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
+//        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+//        foreach ($classrooms as $iclass => $classroom) {
+//            $log['classrooms'][$iclass] = $classroom->attributes;
+//            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+//                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
+//                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+//                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+//                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
+//                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
+//                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+//                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+//                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+//                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
+//                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+//                    } else {
+//                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+//                    }
+//                    $variabledata->id = $teachingData->instructorFk->id;
+//                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
+//                    $variabledata->school_inep_id_fk = $school->inep_id;
+//                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
+//                } else {
+//
+//                }
+//                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
+//                $teachingData->school_inep_id_fk = $school->inep_id;
+//                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
+//            }
+//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+//                if (!isset($log['students'][$enrollment->student_fk])) {
+//                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+//                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
+//                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
+//                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+//                }
+//                $enrollment->school_inep_id_fk = $school->inep_id;
+//                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+//            }
+//        }
+//        foreach ($log['classrooms'] as $classroom) {
+//            $this->normalizeField2019($classroom['register_type'], $classroom);
+//        }
+//        foreach ($log['instructors'] as $instructor) {
+//            $id = (String)'90' . $instructor['identification']['id'];
+//            $instructor['identification']['id'] = $id;
+//            $instructor['documents']['id'] = $id;
+//            $instructor['variable']['id'] = $id;
+//            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
+//            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
+//            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
+//            foreach ($instructor['teaching'] as $teaching) {
+//                $teaching['instructor_fk'] = $id;
+//                $this->normalizeField2019($teaching['register_type'], $teaching);
+//            }
+//        }
+//        foreach ($log['students'] as $student) {
+//            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
+//            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
+//            foreach ($student['enrollments'] as $enrollment) {
+//                $this->normalizeField2019($enrollment['register_type'], $enrollment);
+//            }
+//        }
+//        //ksort($this->tmpexp['c'][5076]);
+//        //print_r($this->tmpexp['c'][5076]);exit;
+//
+//        foreach ($this->tmpexp as $kpos => $pos) {
+//            foreach ($pos as $kline => $line) {
+//                ksort($line);
+//                $this->export[$kpos] .= implode('|', $line);
+//                $this->export[$kpos] .= "\n";
+//            }
+//        }
+//        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
+//        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
+//        $this->export["i"] .= '99|';
+//
+//        ksort($this->export);
+//        foreach ($this->export as $key => $txtexport) {
+//            $export .= $txtexport;
+//        }
+//        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+//
+//        Yii::import('ext.FileManager.fileManager');
+//        $fm = new fileManager();
+//        $result = $fm->write($fileDir, $export);
+//
+//        if ($result) {
+//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+//        } else {
+//            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+//        }
+//        $this->redirect(array('validate'));
+    }
+
+    public function actionDownloadExportFile()
+    {
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        if (file_exists($fileDir)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            $this->render('index');
+        }
 
     }
 
