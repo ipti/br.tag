@@ -736,6 +736,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("sex" => $result["erro"]));
 
         //campo 11, 12, 13
+        $result = $iiv->isNameValid($collumn['filiation_1'], 100, $instructor_documents_and_address["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
+        $result = $iiv->isNameValid($collumn['filiation_2'], 100, $instructor_documents_and_address["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
         $result = $iiv->validateFiliation($collumn['filiation'], $collumn['filiation_1'], $collumn['filiation_2'],
             $instructor_documents_and_address["cpf"], 100);
         if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
@@ -1058,7 +1062,7 @@ class CensoController extends Controller
         //campo 5
         $result = $stiv->isNameValid($collumn['name'], 100,
             $studentdocument["cpf"]);
-        //if(!$result["status"]) array_push($log, array("name"=>$result["erro"]));
+        if (!$result["status"]) array_push($log, array("name" => $result["erro"]));
 
         $year = Yii::app()->user->year;
         //campo 6
@@ -1074,6 +1078,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("sex" => $result["erro"]));
 
         //campo 9, 10, 11
+        $result = $stiv->isNameValid($collumn['filiation_1'], 100, $studentdocument["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
+        $result = $stiv->isNameValid($collumn['filiation_2'], 100, $studentdocument["cpf"]);
+        if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
         $result = $stiv->validateFiliation($collumn['filiation'], $collumn['filiation_1'], $collumn['filiation_2'],
             $studentdocument["cpf"], 100);
         if (!$result["status"]) array_push($log, array("filiation" => $result["erro"]));
@@ -1208,9 +1216,9 @@ class CensoController extends Controller
         $student_inep_id_fk = $collumn["student_fk"];
         $log = array();
 
-        $field6012 = $studentident['nationality'];
+        $nationality = $studentident['nationality'];
 
-        $foreign = $sda->isAllowed($field6012, array("3"));
+        $foreign = $sda->isAllowed($nationality, array("3"));
         $field6006 = $collumn['birthday'];
         $field7005 = $collumn['rg_number'];
 
@@ -1218,7 +1226,7 @@ class CensoController extends Controller
         $date = date('d/m/Y');
 
         //$sda->isAllowed($collumn['civil_certification'], array("1", "2"));
-        $field7009 = $collumn['civil_certification'];
+        $civil_certification = $collumn['civil_certification'];
 
 
         //campo 1
@@ -1264,56 +1272,66 @@ class CensoController extends Controller
         $result = $sda->isAllowed($collumn['civil_certification'], array("1", "2"));
         //if(!$result["status"]) array_push($log, array("rg_number_expediction_date"=>$result["erro"]));
 
-
-        if (empty($collumn['cpf']) && empty($collumn['nis'])) {
-            //campo 10
-            $result = $sda->isCivilCertificationTypeValid($field7009, $field7005, $field6012, $field6006, $date);
-            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
-
-            //campo 11
-            $field7009 = $collumn['civil_certification'];
-
-            if ($field7009 == 1) {
-                $result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_term_number" => $result["erro"]));
-
-                //campo 12
-                $result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_sheet" => $result["erro"]));
-
-                //campo 13
-                $result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("civil_certification_book" => $result["erro"]));
-
-                //campo 14
-                $result = $sda->isDateValid($field6012, $collumn['civil_certification_date'], $field6006, $date, 1, 14);
-                if (!$result["status"]) array_push($log, array("civil_certification_date" => $result["erro"]));
-
-                //campo 15
-                $result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("notary_office_uf_fk" => $result["erro"]));
-
-                //campo 16
-                $result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("notary_office_city_fk" => $result["erro"]));
-
-                //campo 17
-                $result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $field6012, $field7009);
-                if (!$result["status"]) array_push($log, array("edcenso_notary_office_fk" => $result["erro"]));
-
-            } else {
-                //campo 18
-                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $field6012, $field7009);
+        if ($civil_certification == 2) {
+            if ($nationality == 1 || $nationality == 2) {
+                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $studentident['birthday']);
                 if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+            } else if ($collumn['civil_register_enrollment_number'] !== "") {
+                return array("status" => false, "erro" => "Como foi preenchido o nº de matrícula da certidão nova, a nacionalidade do aluno deveria ser brasileira, nascido no exterior ou não.");
             }
         }
+
+//        if (empty($collumn['cpf']) && empty($collumn['nis'])) {
+//            //campo 10
+//            $result = $sda->isCivilCertificationTypeValid($civil_certification, $field7005, $nationality, $field6006, $date);
+//            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
+//
+//            //campo 11
+//            $civil_certification = $collumn['civil_certification'];
+//
+//            if ($civil_certification == 1) {
+//                array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+////
+////                $result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_term_number" => $result["erro"]));
+////
+////                //campo 12
+////                $result = $sda->isFieldValid(4, $collumn['civil_certification_sheet'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_sheet" => $result["erro"]));
+////
+////                //campo 13
+////                $result = $sda->isFieldValid(8, $collumn['civil_certification_book'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("civil_certification_book" => $result["erro"]));
+////
+////                //campo 14
+////                $result = $sda->isDateValid($nationality, $collumn['civil_certification_date'], $field6006, $date, 1, 14);
+////                if (!$result["status"]) array_push($log, array("civil_certification_date" => $result["erro"]));
+////
+////                //campo 15
+////                $result = $sda->isFieldValid(2, $collumn['notary_office_uf_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("notary_office_uf_fk" => $result["erro"]));
+////
+////                //campo 16
+////                $result = $sda->isFieldValid(7, $collumn['notary_office_city_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("notary_office_city_fk" => $result["erro"]));
+////
+////                //campo 17
+////                $result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $nationality, $civil_certification);
+////                if (!$result["status"]) array_push($log, array("edcenso_notary_office_fk" => $result["erro"]));
+//
+//            } else {
+//                //campo 18
+//                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $nationality, $civil_certification);
+//                if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+//            }
+//        }
         //campo 19
         if (!empty($collumn['cpf'])) {
             $result = $sda->isCPFValid($collumn['cpf']);
             if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
         }
         //campo 20
-        $result = $sda->isPassportValid($collumn['foreign_document_or_passport'], $field6012);
+        $result = $sda->isPassportValid($collumn['foreign_document_or_passport'], $nationality);
         if (!$result["status"]) array_push($log, array("foreign_document_or_passport" => $result["erro"]));
 
         //campo 21
@@ -1548,69 +1566,6 @@ class CensoController extends Controller
         return $name;
     }
 
-    public function mountItemExport($itens)
-    {
-        $linha = "";
-        foreach ($itens as $s) {
-            if ($s['id'] == null) {
-                $linha .= "||";
-            } else {
-                $linha .= $s['id'] . "|";
-            }
-            if ($s['cpf'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['cpf'] . "|";
-            }
-            if ($s['civil_register_enrollment_number'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['civil_register_enrollment_number'] . "|";
-            }
-            if ($s['nis'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['nis'] . "|";
-            }
-
-            $s['name'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['name']));
-            if ($s['name'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['name']) . "|";
-            }
-
-            if ($s['birthday'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['birthday'] . "|";
-            }
-
-            $s['filiation_1'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_1']));
-            $s['filiation_2'] = preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($s['filiation_2']));
-            if ($s['filiation_1'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['filiation_1']) . "|";
-            }
-
-            if ($s['filiation_2'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= strtoupper($s['filiation_2']) . "|";
-            }
-
-            if ($s['edcenso_city_fk'] == null) {
-                $linha .= "2802106|";
-            } else {
-                $linha .= $s['edcenso_city_fk'] . "|";
-            }
-
-            $linha .= "\n";
-        }
-        return $linha;
-    }
-
     public function actionExportWithoutInepid()
     {
         $year = Yii::app()->user->year;
@@ -1665,6 +1620,91 @@ class CensoController extends Controller
             header('Content-Length: ' . filesize($fileDir));
             readfile($fileDir);
         }
+    }
+
+    public function mountItemExport($itens)
+    {
+        $linha = "";
+        foreach ($itens as $s) {
+            if ($s['id'] == null) {
+                $linha .= "||";
+            } else {
+                $linha .= $s['id'] . "|";
+            }
+
+            if ($s['cpf'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['cpf'] . "|";
+            }
+
+            if ($s['civil_register_enrollment_number'] == null) {
+                $linha .= "|";
+            } else {
+                $fill = true;
+                if (strlen($s['civil_register_enrollment_number']) != 32) {
+                    $fill = false;
+                }
+                if ($fill && strlen($s['civil_register_enrollment_number']) == 32) {
+                    for ($i = 0; $i <= strlen($s['civil_register_enrollment_number']) - 1; $i++) {
+                        $char = $s['civil_register_enrollment_number'][$i];
+                        if (($i < 30 && !is_numeric($char)) || ($i >= 30 && (!is_numeric($char) && strtoupper($char) != "X"))) {
+                            $fill = false;
+                            break;
+                        }
+                    }
+                }
+                if ($fill && substr($s['civil_register_enrollment_number'], 10, 4) > date("Y")) {
+                    $fill = false;
+                }
+                if ($fill && substr($s['civil_register_enrollment_number'], 10, 4) < substr($s['birthday'], 6, 4)) {
+                    $fill = false;
+                }
+                $linha .= $fill ? strtoupper($s['civil_register_enrollment_number']) . "|" : "|";
+            }
+
+            if ($s['nis'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['nis'] . "|";
+            }
+
+            $s['name'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['name'])));
+            if ($s['name'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['name']) . "|";
+            }
+
+            if ($s['birthday'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= $s['birthday'] . "|";
+            }
+
+            $s['filiation_1'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['filiation_1'])));
+            $s['filiation_2'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['filiation_2'])));
+            if ($s['filiation_1'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['filiation_1']) . "|";
+            }
+
+            if ($s['filiation_2'] == null) {
+                $linha .= "|";
+            } else {
+                $linha .= strtoupper($s['filiation_2']) . "|";
+            }
+
+            if ($s['edcenso_city_fk'] == null) {
+                $linha .= "2802106|";
+            } else {
+                $linha .= $s['edcenso_city_fk'] . "|";
+            }
+
+            $linha .= "\n";
+        }
+        return $linha;
     }
 
     public function normalizeField2019($register, $attributes)
