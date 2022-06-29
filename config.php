@@ -1,40 +1,33 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-define("TAG_VERSION", '2.12.3');
+define("TAG_VERSION", '2.12.4');
 define("BOARD_MSG", '
 		
 		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>18/06/2022 - TAG VERSÃO 2.12.3:</strong>
+		<strong>20/06/2022: TAG Versão 2.12.4:</strong>
+		<br>
+        <ul>
+            <li>Correção de Bugs</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.5</li>
+        </ul>
+		<strong>08/03/2022 - 18/06/2022: TAG Versões Anteriores:</strong>
 		<br>
         <ul>
             <li>Responsividade no Diário Eletrônico</li>
             <li>Melhorias no quadro de horário e Calendário Escolar</li>
-            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)-V4</li>
-        </ul>
-		<strong>08/03/2022 - TAG VERSÃO 2.12.0:</strong>
-		<br>
-        <ul>
             <li>Correção de Campos</li>
             <li>Melhoria Visual</li>
             <li>Diário Eletrônico</li>
             <li>Login de Professor</li>
             <li>Novas Unidades de Medida da Merenda Escolar (KG e ML)</li>
-            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação)</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.4</li>
             <li>Gerenciamento de Etapas para Notas por Conceito</li>
             <li>Aprimoramento da Função Calendário Escolar</li>
-        </ul>
-        <strong>11/04/2022 - TAG VERSÃO 2.12.1:</strong>
-		<br>
-        <ul>
             <li>Quadro de Horário Remodelado</li>
             <li>Frequência Remodelada</li>
             <li>Relatório do Bolsa Família Corrigido</li>
-        </ul>
-        <strong>21/05/2022 - TAG VERSÃO 2.12.2:</strong>
-		<br>
-        <ul>
             <li>Calendário Remodelado</li>
         </ul>
 	</div>');

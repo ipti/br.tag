@@ -1,0 +1,59 @@
+ALTER TABLE schedule RENAME TO _unusedtable_schedule;
+ALTER TABLE class_faults RENAME TO _unusedtable_class_faults;
+ALTER TABLE class_has_content RENAME TO _unusedtable_class_has_content;
+ALTER TABLE class_class_objective RENAME TO _unusedtable_class_class_objective;
+ALTER TABLE `class` RENAME TO _unusedtable_class;
+
+CREATE TABLE `schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `instructor_fk` int(11) DEFAULT NULL,
+  `discipline_fk` int(11) NOT NULL,
+  `classroom_fk` int(11) NOT NULL,
+  `day` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `week` int(11) NOT NULL,
+  `week_day` int(11) NOT NULL,
+  `schedule` int(11) DEFAULT NULL,
+  `turn` int(11) DEFAULT NULL,
+  `unavailable` int(11) NOT NULL,
+  `fkid` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `schedule`
+ADD FOREIGN KEY (`instructor_fk`) REFERENCES `instructor_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `schedule`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `schedule`
+ADD FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `class_faults` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_fk` int(11) NOT NULL,
+  `schedule_fk` int(11) NOT NULL,
+  `fkid` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `class_faults`
+ADD FOREIGN KEY (`student_fk`) REFERENCES `student_enrollment` (`student_fk`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_faults`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `class_has_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `schedule_fk` int(11) NOT NULL,
+  `content_fk` int(11) NOT NULL,
+  `fkid` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `class_has_content`
+ADD FOREIGN KEY (`content_fk`) REFERENCES `class_resource` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `class_has_content`
+ADD FOREIGN KEY (`schedule_fk`) REFERENCES `schedule` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
