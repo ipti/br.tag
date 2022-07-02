@@ -11,7 +11,7 @@ RUN apk add --no-cache \
       && cd .. && rm -r musl-locales-master
 RUN mkdir assets
 RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf
-RUN sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 1200;" /etc/nginx/conf.d/default.conf
+RUN sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 1200;|g" /etc/nginx/conf.d/default.conf
 RUN chmod 777 /usr/local/bin/docker-run.sh
 RUN chown -R www-data:www-data /app \
 && chown -R www-data:www-data /app/assets
