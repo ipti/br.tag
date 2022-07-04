@@ -135,7 +135,7 @@ class SchoolIdentificationValidation extends Register
                 "O campo Endereço eletrônico (e-mail) do Gestor Escolar não pode ser maior que 50 caracteres");
         }
 
-        if (!preg_match("/^[-a-z0-9~!$%^&*_=+}{\\' ?]+(\.[-a - z0 - 9~!$%^&*_ = +}{\\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i", $manager_email)) {
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $manager_email)) {
             return array("status" => false, "erro" =>
                 "O campo Endereço eletrônico (e-mail) do Gestor Escolar  foi preenchido com um valor inválido.");
         }
@@ -315,22 +315,22 @@ class SchoolIdentificationValidation extends Register
     }
 
     //campo 14,campo 15,campo 16,campo 17,campo 18,campo 19,campo 20
-    function isAddressValid($address, $might_be_null, $allowed_lenght)
+    function isAddressValid($address, $allowed_lenght, $optional)
     {
         $regex = "/^[0-9 a-z.,-ºª ]/";
 
-        if (!$might_be_null) {
-            if (empty($address)) {
-                return array("status" => false, "erro" => "O campo de endereço não pode ser nulo.");
-            }
-        }
-        if (strlen($address) > $allowed_lenght || strlen($address) <= 0) {
+        if (!$optional && $address === "") {
             return array("status" => false, "erro" =>
-                "O campo de endereço - $address está com tamanho incorreto.");
+                "O campo endereço é obrigatório.");
+        }
+
+        if (strlen($address) > $allowed_lenght) {
+            return array("status" => false, "erro" =>
+                "O campo de endereço - $address - não pode ter mais de $allowed_lenght caracteres.");
         }
         if (!preg_match($regex, $address)) {
             return array("status" => false, "erro" =>
-                "O campo de endereço foi preenchido com caracteres inválidos");
+                "O campo de endereço - $address - foi preenchido com caracteres inválidos");
         }
 
         return array("status" => true, "erro" => "");
@@ -360,7 +360,7 @@ class SchoolIdentificationValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    function checkPhoneNumbers($ddd, $phones)
+    function checkPhoneNumbers($ddd, $phoneNumber, $otherPhoneNumber)
     {
         if ($ddd != '') {
             if (strlen($ddd) != 2) {
@@ -388,7 +388,7 @@ class SchoolIdentificationValidation extends Register
             return array("status" => false, "erro" => "Email com tamanho invalido");
         }
 
-        if (!preg_match("/^[-a-z0-9~!$%^&*_=+}{\\' ?]+(\.[-a - z0 - 9~!$%^&*_ = +}{\\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i",
+        if (!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i",
             $email)) {
             return array("status" => false, "erro" => "Email com formato invalido");
         }

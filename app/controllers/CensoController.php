@@ -133,25 +133,27 @@ class CensoController extends Controller
         $result = $siv->isCEPValid($collumn['cep']);
         if (!$result["status"]) array_push($log, array("cep" => $result["erro"]));
 
-        //campo 14
-        $might_be_null = true;
-        $might_not_be_null = false;
 
-
-        $result = $siv->isAddressValid($collumn['address'], $might_not_be_null, 100);
+        $result = $siv->isAddressValid($collumn['address'], 100, false);
         if (!$result["status"]) array_push($log, array("address" => $result["erro"]));
 
         //campo 15
-        $result = $siv->isAddressValid($collumn['address_number'], $might_be_null, 10);
-        if (!$result["status"]) array_push($log, array("address_number" => $result["erro"]));
+        if ($collumn['address_number'] !== "") {
+            $result = $siv->isAddressValid($collumn['address_number'], 10, true);
+            if (!$result["status"]) array_push($log, array("address_number" => $result["erro"]));
+        }
 
         //campo 16
-        $result = $siv->isAddressValid($collumn['address_complement'], $might_be_null, 20);
-        if (!$result["status"]) array_push($log, array("address_complement" => $result["erro"]));;
+        if ($collumn['address_complement'] !== "") {
+            $result = $siv->isAddressValid($collumn['address_complement'], 20, true);
+            if (!$result["status"]) array_push($log, array("address_complement" => $result["erro"]));;
+        }
 
         //campo 17
-        $result = $siv->isAddressValid($collumn['address_neighborhood'], $might_be_null, 50);
-        if (!$result["status"]) array_push($log, array("address_neighborhood" => $result["erro"]));
+        if ($collumn['address_neighborhood'] !== "") {
+            $result = $siv->isAddressValid($collumn['address_neighborhood'], 50, true);
+            if (!$result["status"]) array_push($log, array("address_neighborhood" => $result["erro"]));
+        }
 
         //campo 18
         /* @todo
@@ -172,11 +174,7 @@ class CensoController extends Controller
          * */
         //campo 21-25
 
-        $phones = array($collumn['phone_number'],
-            $collumn['public_phone_number'],
-            $collumn['other_phone_number'],
-            $collumn['fax_number']);
-        $result = $siv->checkPhoneNumbers($collumn['ddd'], $phones);
+        $result = $siv->checkPhoneNumbers($collumn['ddd'], $collumn['phone_number'], $collumn['other_phone_number']);
         if (!$result["status"]) array_push($log, array("phones" => $result["erro"]));
 
         //campo 26

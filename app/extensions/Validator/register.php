@@ -160,7 +160,7 @@ class Register
 
         $regex = "/^[a-zA-Z ]+$/";
         if (!preg_match($regex, $value)) {
-            return array("status" => false, "erro" => "'$value' contém caracteres inválidos. Letras minúsculas, números e/ou acentos não são permitidos.");
+            return array("status" => false, "erro" => "'$value' contém caracteres inválidos. Letras minúsculas, cedilhas, números e/ou acentos não são permitidos.");
         }
 
         return array("status" => true, "erro" => "");
