@@ -370,6 +370,13 @@ class CensoController extends Controller
         $result = $ssv->atLeastOne($garbage_destinations);
         if (!$result["status"]) array_push($log, array("Destino do lixo" => $result["erro"]));
 
+        $garbageTreatment = array($collumn["treatment_garbage_parting_garbage"],
+            $collumn["treatment_garbage_resuse"],
+            $collumn["garbage_destination_recycle"],
+            $collumn["traetment_garbage_inexistent"]);
+        $result = $ssv->atLeastOne($garbageTreatment);
+        if (!$result["status"]) array_push($log, array("Tratamento do lixo" => $result["erro"]));
+
         //campos 39 à 68
         $dependencies = array($collumn["dependencies_principal_room"],
             $collumn["dependencies_instructors_room"],
@@ -377,18 +384,16 @@ class CensoController extends Controller
             $collumn["dependencies_info_lab"],
             $collumn["dependencies_science_lab"],
             $collumn["dependencies_aee_room"],
+            $collumn["dependencies_bathroom_workes"],
+            $collumn["dependencies_pool"],
             $collumn["dependencies_indoor_sports_court"],
             $collumn["dependencies_outdoor_sports_court"],
             $collumn["dependencies_kitchen"],
             $collumn["dependencies_library"],
             $collumn["dependencies_reading_room"],
             $collumn["dependencies_playground"],
-            $collumn["dependencies_nursery"],
-            $collumn["dependencies_outside_bathroom"],
-            $collumn["dependencies_inside_bathroom"],
             $collumn["dependencies_child_bathroom"],
             $collumn["dependencies_prysical_disability_bathroom"],
-            $collumn["dependencies_physical_disability_support"],
             $collumn["dependencies_bathroom_with_shower"],
             $collumn["dependencies_refectory"],
             $collumn["dependencies_storeroom"],
@@ -397,12 +402,31 @@ class CensoController extends Controller
             $collumn["dependencies_covered_patio"],
             $collumn["dependencies_uncovered_patio"],
             $collumn["dependencies_student_accomodation"],
+            $collumn["dependencies_student_repose_room"],
             $collumn["dependencies_instructor_accomodation"],
             $collumn["dependencies_green_area"],
-            $collumn["dependencies_laundry"],
+            $collumn["dependencies_arts_room"],
+            $collumn["dependencies_music_room"],
+            $collumn["dependencies_dance_room"],
+            $collumn["dependencies_multiuse_room"],
+            $collumn["dependencies_yardzao"],
+            $collumn["dependencies_vivarium"],
+            $collumn["dependencies_vocational_education_workshop"],
             $collumn["dependencies_none"]);
         $result = $ssv->supply($dependencies);
-        if (!$result["status"]) array_push($log, array("dependencies" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Dependencias" => $result["erro"]));
+
+        $acessibility = array($collumn["acessability_handrails_guardrails"],
+            $collumn["acessability_elevator"],
+            $collumn["acessability_tactile_floor"],
+            $collumn["acessability_doors_80cm"],
+            $collumn["acessability_ramps"],
+            $collumn["acessability_sound_signaling"],
+            $collumn["acessability_tactile_singnaling"],
+            $collumn["acessability_visual_signaling"],
+            $collumn["acessabilty_inexistent"]);
+        $result = $ssv->atLeastOne($acessibility);
+        if (!$result["status"]) array_push($log, array("Acessibilidade" => $result["erro"]));
 
         //campo 69
         $result = $ssv->schoolsCount($collumn["operation_location_building"],
