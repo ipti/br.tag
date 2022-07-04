@@ -209,7 +209,7 @@ function validateNamePerson(personName){
         }
     }else{
         ret[0] = false;
-        ret[1] = "O campo aceita somente caracteres de A a Z. Tamanho mínimo: 1.";
+        ret[1] = "O campo aceita somente caracteres maiúsculos de A a Z, sem acentos. Tamanho mínimo: 1.";
         return ret;
     }
     ret[0] = true;

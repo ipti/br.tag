@@ -266,7 +266,12 @@ class CensoController extends Controller
         $result = $siv->iesCode($ies_code, $check[0]["status"], $collumn['offer_or_linked_unity']);
         if (!$result["status"]) array_push($log, array("ies_code" => $result["erro"]));
 
-        //Adicionando log da row
+        $result = $siv->isNotNullValid($collumn["id_difflocation"]);
+        if (!$result["status"]) array_push($log, array("id_difflocation" => $result["erro"]));
+
+        $result = $siv->isValidLinkedOrgan($collumn["administrative_dependence"], $collumn["linked_mec"], $collumn["linked_army"], $collumn["linked_helth"], $collumn["linked_other"]);
+        if (!$result["status"]) array_push($log, array("Orgao ao qual a escola publica esta vinculada" => $result["erro"]));
+
         return $log;
     }
 
@@ -338,32 +343,32 @@ class CensoController extends Controller
             $collumn["water_supply_river"],
             $collumn["water_supply_inexistent"]);
         $result = $ssv->supply($water_supplys);
-        if (!$result["status"]) array_push($log, array("water_supplys" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Suprimento de Agua" => $result["erro"]));
 
         //campos 26 à 29
         $energy_supplys = array($collumn["energy_supply_public"],
             $collumn["energy_supply_generator"],
-            $collumn["energy_supply_other"],
+            $collumn["energy_supply_generator_alternative"],
             $collumn["energy_supply_inexistent"]);
         $result = $ssv->supply($energy_supplys);
-        if (!$result["status"]) array_push($log, array("energy_supplys" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Suprimento de Energia" => $result["erro"]));
 
         //campos 30 à 32
         $sewages = array($collumn["sewage_public"],
             $collumn["sewage_fossa"],
+            $collumn["sewage_fossa_common"],
             $collumn["sewage_inexistent"]);
         $result = $ssv->supply($sewages);
-        if (!$result["status"]) array_push($log, array("sewages" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Esgoto" => $result["erro"]));
 
         //campos 33 à 38
         $garbage_destinations = array($collumn["garbage_destination_collect"],
             $collumn["garbage_destination_burn"],
+            $collumn["garbage_destination_public"],
             $collumn["garbage_destination_throw_away"],
-            $collumn["garbage_destination_recycle"],
-            $collumn["garbage_destination_bury"],
-            $collumn["garbage_destination_other"]);
+            $collumn["garbage_destination_bury"]);
         $result = $ssv->atLeastOne($garbage_destinations);
-        if (!$result["status"]) array_push($log, array("garbage_destinations" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Destino do lixo" => $result["erro"]));
 
         //campos 39 à 68
         $dependencies = array($collumn["dependencies_principal_room"],
@@ -412,20 +417,38 @@ class CensoController extends Controller
         $result = $ssv->isGreaterThan($collumn["used_classroom_count"], "0");
         if (!$result["status"]) array_push($log, array("used_classroom_count" => $result["erro"]));
 
-        //campo 84
-        $result = $ssv->pcCount($collumn["equipments_computer"],
-            $collumn["administrative_computers_count"]);
-        if (!$result["status"]) array_push($log, array("administrative_computers_count" => $result["erro"]));
-
-        //campo 85
-        $result = $ssv->pcCount($collumn["equipments_computer"],
-            $collumn["student_computers_count"]);
-        if (!$result["status"]) array_push($log, array("student_computers_count" => $result["erro"]));
-
         //campo 86
-        $result = $ssv->internetAccess($collumn["equipments_computer"],
-            $collumn["internet_access"]);
-        if (!$result["status"]) array_push($log, array("internet_access" => $result["erro"]));
+        $internetAccess = array($collumn["internet_access_administrative"],
+            $collumn["internet_access_educative_process"],
+            $collumn["internet_access_student"],
+            $collumn["internet_access_community"],
+            $collumn["internet_access_inexistent"]);
+        $result = $ssv->atLeastOne($internetAccess);
+        if (!$result["status"]) array_push($log, array("Acesso à Internet" => $result["erro"]));
+
+        $instruments = array($collumn["equipments_multimedia_collection"],
+            $collumn["equipments_toys_early"],
+            $collumn["equipments_scientific_materials"],
+            $collumn["equipments_equipment_amplification"],
+            $collumn["equipments_musical_instruments"],
+            $collumn["equipments_educational_games"],
+            $collumn["equipments_material_cultural"],
+            $collumn["equipments_material_sports"],
+            $collumn["equipments_material_teachingindian"],
+            $collumn["equipments_material_teachingethnic"],
+            $collumn["equipments_material_teachingrural"],
+            $collumn["instruments_inexistent"]);
+        $result = $ssv->atLeastOne($instruments);
+        if (!$result["status"]) array_push($log, array("Instrumentos, materiais socioculturais e/ou pedagogicos em uso na escola para o desenvolvimento de atividades de ensino aprendizagem" => $result["erro"]));
+
+        $functioningOrgans = array($collumn["board_organ_association_parent"],
+            $collumn["board_organ_association_parentinstructors"],
+            $collumn["board_organ_board_school"],
+            $collumn["board_organ_student_guild"],
+            $collumn["board_organ_others"],
+            $collumn["board_organ_inexistent"]);
+        $result = $ssv->atLeastOne($functioningOrgans);
+        if (!$result["status"]) array_push($log, array("Orgaos em Funcionamento na Escola" => $result["erro"]));
 
         //campo 87
         $result = $ssv->bandwidth($collumn["internet_access"],
@@ -445,72 +468,8 @@ class CensoController extends Controller
         $pedagogical_mediation_type = Yii::app()->db->createCommand($sql)->queryAll();
 
 
-        $result = $ssv->schoolFeeding($school["administrative_dependence"],
-            $collumn["feeding"],
-            $pedagogical_mediation_type[0]["number_of"]);
+        $result = $ssv->schoolFeeding($collumn["feeding"]);
         if (!$result["status"]) array_push($log, array("feeding" => $result["erro"]));
-
-        //campo 90
-        $sql = "SELECT 	COUNT(assistance_type) AS number_of
-			FROM 	classroom
-			WHERE 	assistance_type = '5' AND
-					school_inep_fk = '$school_inep_fk';";
-        $assistance_type = Yii::app()->db->createCommand($sql)->queryAll();
-
-
-        $modalities = array("modalities_regular" => $collumn["modalities_regular"],
-            "modalities_especial" => $collumn["modalities_especial"],
-            "modalities_eja" => $collumn["modalities_eja"],
-            "modalities_professional" => $collumn["modalities_professional"]);
-
-        $result = $ssv->aee($collumn["aee"], $collumn["complementary_activities"], $modalities,
-            $assistance_type[0]["number_of"]);
-        if (!$result["status"]) array_push($log, array("aee" => $result["erro"]));
-
-        //campo 91 - colocar o ano
-        $sql = "SELECT 	COUNT(assistance_type) AS number_of
-			FROM 	classroom
-			WHERE 	assistance_type = '4' AND
-					school_inep_fk = '$school_inep_fk';";
-        $assistance_type = Yii::app()->db->createCommand($sql)->queryAll();
-
-
-        $result = $ssv->aee($collumn["complementary_activities"], $collumn["aee"], $modalities,
-            $assistance_type[0]["number_of"]);
-        if (!$result["status"]) array_push($log, array("complementary_activities" => $result["erro"]));
-
-        //campo 92 à 95
-        $year = Yii::app()->user->year;
-        $sql = "SELECT  modalities, COUNT(se.student_fk) as number_of
-			FROM	edcenso_stage_vs_modality_complementary as esmc
-						INNER JOIN
-					classroom AS cr
-						ON esmc.fk_edcenso_stage_vs_modality = cr.edcenso_stage_vs_modality_fk
-						INNER JOIN
-					student_enrollment AS se
-						ON cr.id = se.classroom_fk
-			WHERE cr.school_year = '$year'
-			GROUP BY esmc.modalities;";
-        $are_there_students_by_modalitie = $this->areThereByModalitie($sql);
-        $sql = "SELECT  modalities, COUNT(itd.instructor_fk) as number_of
-		FROM	edcenso_stage_vs_modality_complementary as esmc
-					INNER JOIN
-				classroom AS cr
-					ON esmc.fk_edcenso_stage_vs_modality = cr.edcenso_stage_vs_modality_fk
-					INNER JOIN
-				instructor_teaching_data AS itd
-					ON cr.id = itd.classroom_id_fk
-		WHERE cr.school_year = '$year'
-		GROUP BY esmc.modalities;";
-        $are_there_instructors_by_modalitie = $this->areThereByModalitie($sql);
-
-
-        $result = $ssv->checkModalities($collumn["aee"],
-            $collumn["complementary_activities"],
-            $modalities,
-            $are_there_students_by_modalitie,
-            $are_there_instructors_by_modalitie);
-        if (!$result["status"]) array_push($log, array("modalities" => $result["erro"]));
 
         //campo 96
         $sql = "SELECT 	DISTINCT  COUNT(esm.id) AS number_of, cr.school_inep_fk
@@ -529,22 +488,9 @@ class CensoController extends Controller
             $collumn["different_location"]);
         if (!$result["status"]) array_push($log, array("different_location" => $result["erro"]));
 
-        //campo 98 à 100
-        $sociocultural_didactic_materials = array($collumn["sociocultural_didactic_material_none"],
-            $collumn["sociocultural_didactic_material_quilombola"],
-            $collumn["sociocultural_didactic_material_native"]);
-        $result = $ssv->materials($sociocultural_didactic_materials);
-        if (!$result["status"]) array_push($log, array("sociocultural_didactic_materials" => $result["erro"]));
-
         //101
         $result = $ssv->isAllowed($collumn["native_education"], array("0", "1"));
         if (!$result["status"]) array_push($log, array("native_education" => $result["erro"]));
-
-        //102 à 103
-        $native_education_languages = array($collumn["native_education_language_native"],
-            $collumn["native_education_language_portuguese"]);
-        $result = $ssv->languages($collumn["native_education"], $native_education_languages);
-        if (!$result["status"]) array_push($log, array("native_education_languages" => $result["erro"]));
 
         //104
         $result = $ssv->edcensoNativeLanguages($collumn["native_education_language_native"],
@@ -675,6 +621,13 @@ class CensoController extends Controller
             $column['discipline_others']);
         $result = $crv->isValidDiscipline($disciplinesArray, $column['pedagogical_mediation_type'], $column['assistance_type'], $column['edcenso_stage_vs_modality_fk']);
         if (!$result['status']) array_push($log, array('disciplines' => $result['erro']));
+
+        $result = $crv->isValidAttendanceType($column["schooling"], $column["complementary_activity"], $column["aee"]);
+        if (!$result['status']) array_push($log, array('schooling' => $result['erro']));
+
+        $result = $crv->isValidDiffLocation($column['pedagogical_mediation_type'], $column["diff_location"]);
+        if (!$result['status']) array_push($log, array('diff_location' => $result['erro']));
+
         return $log;
     }
 
@@ -1530,7 +1483,6 @@ class CensoController extends Controller
         $schoolstructurecolumn = $schoolstructure->attributes;
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn);
-        @$log['school']['validate']['identification'] = array_map('trim', $log['school']['validate']['identification']);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
         $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
         foreach ($classrooms as $iclass => $classroom) {

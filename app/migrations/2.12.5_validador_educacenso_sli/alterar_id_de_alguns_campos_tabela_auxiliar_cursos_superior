@@ -1,0 +1,13 @@
+update edcenso_course_of_higher_education set cod = '0113P012', name = 'Pedagogia - Bacharelado' where cod = '142C01';
+update edcenso_course_of_higher_education set cod = '0113P011', name = 'Pedagogia - Licenciatura' where cod = '142P01';
+update edcenso_course_of_higher_education set cod = '0114B011', name = 'Biologia formação de professor - Licenciatura' where cod = '145F01';
+update edcenso_course_of_higher_education set cod = '0114G011', name = 'Geografia formação de professor - Licenciatura' where cod = '145F10';
+update edcenso_course_of_higher_education set cod = '0114H011', name = 'História formação de professor - Licenciatura' where cod = '145F11';
+update edcenso_course_of_higher_education set cod = '0115L081', name = 'Letras línguas estrangeiras clássicas formação de professor - Licenciatura' where cod = '145F14';
+update edcenso_course_of_higher_education set cod = '0115L131', name = 'Letras português formação de professor - Licenciatura' where cod = '145F15';
+update edcenso_course_of_higher_education set cod = '0115L191', name = 'Letras português línguas estrangeiras clássicas formação de professor - Licenciatura' where cod = '145F17';
+update edcenso_course_of_higher_education set cod = '0114M011', name = 'Matemática formação de professor - Licenciatura' where cod = '145F18';
+update edcenso_course_of_higher_education set cod = '0114E031', name = 'Educação física formação de professor - Licenciatura' where cod = '146F15';
+update edcenso_course_of_higher_education set cod = '0111C012', name = 'Ciência da educação - Bacharelado' where cod = '146P01';
+update edcenso_course_of_higher_education set cod = '0511B012', name = 'Biologia - Bacharelado' where cod = '421C01';
+update edcenso_course_of_higher_education set cod = '0114E061', name = 'Ensino profissionalizante em área específica formação de professor - Licenciatura' where cod = '999990';

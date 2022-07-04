@@ -163,6 +163,9 @@ class Register20
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
                             $register[$edcensoAlias->corder] = '';
+                        } else if ($edcensoAlias->corder == 21 && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
+                            $register[21] = '0';
+                            $register[23] = '1';
                         }
                     } else if ($edcensoAlias->corder == 34 || $edcensoAlias->corder == 35 || $edcensoAlias->corder == 36 || $edcensoAlias->corder == 37 || $edcensoAlias->corder == 38 || $edcensoAlias->corder == 39) {
                         if ($attributes['edcenso_stage_vs_modality_fk'] == null || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
@@ -193,7 +196,6 @@ class Register20
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     }
-
                 }
 
                 array_push($registers, implode('|', $register));

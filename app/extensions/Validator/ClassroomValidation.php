@@ -501,5 +501,21 @@ class ClassroomValidation extends Register{
         }
         return $msg;
     }
+
+    public function isValidAttendanceType($schooling, $complementaryActivity, $aee) {
+        if ($schooling == null || $complementaryActivity == null || $aee == null) {
+            return array('status' => false, 'erro' => 'Atualize a turma.');
+        } else if ($schooling == '0' && $complementaryActivity == "0" && $aee == "0"){
+            return array('status' => false, 'erro' => 'Selecione ao menos uma opção em "Tipo de Atendimento".');
+        }
+        return array('status' => true, 'erro' => '');
+    }
+
+    public function isValidDiffLocation($pedagogicalMediationType, $diffLocation) {
+        if ($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2" && ($diffLocation == null)) {
+            return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial ou semipresencial, o campo se torna obrigatório');
+        }
+        return array('status' => true, 'erro' => '');
+    }
 }
 ?>
