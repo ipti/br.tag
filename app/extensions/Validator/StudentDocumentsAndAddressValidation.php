@@ -355,15 +355,13 @@ class StudentDocumentsAndAddressValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    //campo 22
     function isAreaOfResidenceValid($area_of_residence)
     {
         if ($area_of_residence != 1 && $area_of_residence != 2) {
-            return array("status" => false, "erro" => "O campo Localizacao/Area de Residencia  foi preenchido com valor inválido.");
+            return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //campo 23

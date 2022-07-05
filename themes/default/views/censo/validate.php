@@ -27,6 +27,9 @@
             display: none;
             margin-bottom: 10px;
         }
+        .ellipsis {
+            max-width: 100% !important;
+        }
     </style>
     <div class="clearfix"></div>
     <div class="widget widget-4 widget-tabs-icons-only widget-timeline margin-bottom-none">
@@ -43,7 +46,11 @@
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } ?>
-
+        <div>
+            <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>"
+               class="btn btn-primary btn-icon glyphicons refresh"><i></i> <?= Yii::t('default', 'Export Now') ?>
+            </a>
+        </div>
         <!-- Widget Heading END -->
         <?php
         $dataValidation = [];

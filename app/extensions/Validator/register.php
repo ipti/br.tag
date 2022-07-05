@@ -78,7 +78,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function moreThanOne($items)
+    function moreThanTwo($items)
     {
 
         $number_of_ones = 0;
@@ -86,7 +86,7 @@ class Register
             if ($items[$i] == "1")
                 $number_of_ones++;
         }
-        if ($number_of_ones < 1) {
+        if ($number_of_ones < 2) {
             return array("status" => false, "erro" => "Não há mais de um valor marcado");
         }
         return array("status" => true, "erro" => "");
@@ -340,7 +340,7 @@ class Register
         }
 
         if (preg_match('/(.)\1{3,}/', $value)) {
-            return array("status" => false, "erro" => "'$value' contém mais de 4 caracteres repetidos");
+            return array("status" => false, "erro" => "'$value' contém 4 ou mais caracteres repetidos");
         }
 
         return array("status" => true, "erro" => "");
@@ -416,13 +416,24 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function exclusiveDeficiency($deficiency, $excludingdeficiencies)
+    function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
     {
-
-        $result = $this->atLeastOne($excludingdeficiency);
-        if (!$result['status']) {
+        switch ($deficiencyName) {
+            case "Cegueira":
+                $excludingDeficiencyNames = "Baixa visão, surdez e surdocegueira";
+                break;
+            case "Baixa Visão":
+            case "Deficiência Auditiva":
+                $excludingDeficiencyNames = "Surdocegueira";
+                break;
+            case "Surdez":
+                $excludingDeficiencyNames = "Deficiência auditiva e surdocegueira";
+                break;
+        }
+        $result = $this->atLeastOne($excludingdeficiencies);
+        if ($result['status']) {
             if ($deficiency != "0") {
-                return array("status" => false, "erro" => "Valor $deficiency deveria ser 0");
+                return array("status" => false, "erro" => "Opção " . $deficiencyName . " é incompatível com o campo " . $excludingDeficiencyNames . ".");
             }
         }
 
@@ -439,21 +450,16 @@ class Register
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
             }
-
-            foreach ($excludingdeficiencies as $deficiency => $excluded) {
-                $result = $this->exclusiveDeficiency($deficiency, $excluded);
-                if (!$result['status']) {
-                    return array("status" => false, "erro" => $result['erro']);
+            foreach ($excludingdeficiencies as $arrayOfExcludingDeficiencies) {
+                foreach($arrayOfExcludingDeficiencies as $deficiencyName => $deficiencies) {
+                    foreach ($deficiencies as $deficiency => $excluded) {
+                        $result = $this->exclusiveDeficiency($deficiencyName, $deficiency, $excluded);
+                        if (!$result['status']) {
+                            return array("status" => false, "erro" => $result['erro']);
+                        }
+                    }
                 }
             }
-
-        } elseif ($hasdeficiency == "0") {
-            foreach ($deficiencies as $key => $value) {
-                if ($value != NULL) {
-                    return array("status" => false, "erro" => "Valor deveria ser nulo");
-                }
-            }
-
         }
 
         return array("status" => true, "erro" => "");
@@ -464,21 +470,15 @@ class Register
     {
 
         if ($hasdeficiency == "1") {
-            $result = $this->moreThanOne($deficiencies);
+            $result = $this->moreThanTwo($deficiencies);
             if ($result['status']) {
                 if ($multipleDeficiencies != "1") {
-                    return array("status" => false, "erro" => "Valor $multipleDeficiencies deveria ser 1 pois há multiplas deficiências");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' não foi selecionada, mas as deficiências combinadas acarretam em deficiência múltipla. Selecione esta opção ou mantenha apenas uma deficiência.");
                 }
             } else {
                 if ($multipleDeficiencies != "0") {
-                    return array("status" => false, "erro" => "Valor $multipleDeficiencies deveria ser 0 pois não há multiplas deficiências");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as deficiências informadas não acarretam em deficiência múltipla. Desmarque esta opção ou marque mais deficiências.");
                 }
-            }
-        } elseif ($hasdeficiency == "0") {
-
-            if ($multipleDeficiencies != null) {
-                return array("status" => false, "erro" => "multiplas dependências $multipleDeficiencies deveria ser nulo");
-
             }
         }
 
@@ -562,7 +562,14 @@ class Register
 
     }
 
+    function isAreaOfResidenceValid($area_of_residence)
+    {
+        if ($area_of_residence != 1 && $area_of_residence != 2) {
+            return array("status" => false, "erro" => "O campo é obrigatório.");
+        }
 
+        return array("status" => true, "erro" => "");
+    }
 }
 
 ?>

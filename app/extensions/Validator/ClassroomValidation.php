@@ -3,9 +3,10 @@ $DS = DIRECTORY_SEPARATOR;
 
 require_once(dirname(__FILE__) . $DS . "register.php");
 
-class ClassroomValidation extends Register{
+class ClassroomValidation extends Register
+{
 
-    public $modalities = [ 
+    public $modalities = [
         73 => ' Curso FIC integrado na modalidade EJA – Nível Fundamental (EJA integrada à Educação Profissional)',
         39 => ' Curso Técnico  - Concomitante',
         40 => ' Curso Técnico  - Subsequente',
@@ -70,12 +71,14 @@ class ClassroomValidation extends Register{
         38 => ' Ensino Médio - Normal/Magistério 4ª Série',
         66 => ' Segmento Técnico da EJA integrada'
     ];
-    
-    function __construct() {
+
+    function __construct()
+    {
     }
 
     //campos 4, 5
-    function checkLength($value, $max){
+    function checkLength($value, $max)
+    {
         if (trim($value) === '' || !isset($value)) {
             return array('status' => false, 'erro' => 'Valor eh nulo');
         }
@@ -86,10 +89,11 @@ class ClassroomValidation extends Register{
     }
 
     //campo 5
-    function isValidClassroomName($name){
+    function isValidClassroomName($name)
+    {
         $regex = "/^([0-9A-Z ª°º-])+$/";
         $length = $this->checkLength($name, 80);
-        if (!$length['status']){
+        if (!$length['status']) {
             return array('status' => false, 'erro' => $length['erro']);
         }
         if (!preg_match($regex, $name)) {
@@ -99,8 +103,9 @@ class ClassroomValidation extends Register{
     }
 
     //campo 6
-    function isValidMediation($mediation){
-        if (empty($mediation)){
+    function isValidMediation($mediation)
+    {
+        if (empty($mediation)) {
             return array('status' => false, 'erro' => 'O campo deve ser preenchido');
         }
         if (!in_array($mediation, array('1', '2', '3'))) {
@@ -110,11 +115,12 @@ class ClassroomValidation extends Register{
     }
 
     //campos 7 a 10
-    function isValidClassroomTime($initialHour, $initialMinute, $finalHour, $finalMinute, $mediation){
+    function isValidClassroomTime($initialHour, $initialMinute, $finalHour, $finalMinute, $mediation)
+    {
         $allowedHours = array('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23');
         $allowedMinutes = array('00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55');
 
-        if ($mediation != '1' ){
+        if ($mediation != '1') {
             if (!$this->isEmpty($initialHour) || !$this->isEmpty($initialMinute) || !$this->isEmpty($finalHour) || !$this->isEmpty($finalMinute)) {
                 return array('status' => false, 'erro' => 'Horario da turma deve ser vazio se nao for presencial');
             }
@@ -126,10 +132,10 @@ class ClassroomValidation extends Register{
             return array('status' => false, 'erro' => 'Horario da turma tem que ser preenchido se for presencial');
 
         }
-        if (strlen($initialHour) != 2 || strlen($initialMinute) != 2 || strlen($finalHour) != 2 || strlen($finalMinute) != 2){
+        if (strlen($initialHour) != 2 || strlen($initialMinute) != 2 || strlen($finalHour) != 2 || strlen($finalMinute) != 2) {
             return array('status' => false, 'erro' => 'Os campos devem possuir 2 caracteres');
         }
-        if (!in_array($initialHour, $allowedHours) || !in_array($initialMinute, $allowedMinutes) || !in_array($finalHour, $allowedHours) || !in_array($finalMinute, $allowedMinutes)){
+        if (!in_array($initialHour, $allowedHours) || !in_array($initialMinute, $allowedMinutes) || !in_array($finalHour, $allowedHours) || !in_array($finalMinute, $allowedMinutes)) {
             return array('status' => false, 'erro' => 'Horario contem valores invalidos');
         }
         if ($initialHour > $finalHour) {
@@ -142,24 +148,26 @@ class ClassroomValidation extends Register{
 
 
     //campos 11 a 17, 20 a 25
-    function atLeastOne($array){
+    function atLeastOne($array)
+    {
         $number_of_ones = 0;
-        for($i = 0; $i < sizeof($array); $i++){
-            if((strlen($array[$i]) == 1 && $array[$i] == '1') || strlen($array[$i]) == 5) {
+        for ($i = 0; $i < sizeof($array); $i++) {
+            if ((strlen($array[$i]) == 1 && $array[$i] == '1') || strlen($array[$i]) == 5) {
                 $number_of_ones++;
             }
         }
-        if($number_of_ones == 0){
+        if ($number_of_ones == 0) {
             return array('status' => false, 'erro' => 'Nenhum valor foi marcado');
         }
         return array('status' => true, 'erro' => '');
     }
 
     //campos 11 a 17
-    function areValidClassroomDays($days, $mediation){
+    function areValidClassroomDays($days, $mediation)
+    {
         $allowedValues = array('0', '1');
 
-        if ($mediation != '1'){
+        if ($mediation != '1') {
             foreach ($days as $day) {
                 $emptyDay = $this->isEmpty($day);
                 if (!$emptyDay['status']) {
@@ -168,8 +176,8 @@ class ClassroomValidation extends Register{
             }
             return array('status' => true, 'erro' => '');
         }
-        foreach ($days as $day){
-            if (strlen($day) != 1){
+        foreach ($days as $day) {
+            if (strlen($day) != 1) {
                 return array('status' => false, 'erro' => 'Os campos devem possuir 1 caractere');
             }
             if (!in_array($day, $allowedValues)) {
@@ -177,14 +185,15 @@ class ClassroomValidation extends Register{
             }
         }
         $atLeastOne = $this->atLeastOne($days);
-        if (!$atLeastOne['status']){
+        if (!$atLeastOne['status']) {
             return array('status' => false, 'erro' => $atLeastOne['erro']);
         }
         return array('status' => true, 'erro' => '');
     }
 
     //campo 18
-    function isValidAssistanceType($school_structure, $assistance_type, $mediation){
+    function isValidAssistanceType($school_structure, $assistance_type, $mediation)
+    {
         $allowedValues = array('0', '1', '2', '3', '4', '5');
         $complementary_activities = $school_structure['complementary_activities'];
         $operation_locations = array($school_structure['operation_location_building'],
@@ -200,67 +209,67 @@ class ClassroomValidation extends Register{
 
         $emptyAssistanceType = $this->isEmpty($assistance_type);
 
-        if ($emptyAssistanceType['status']){
+        if ($emptyAssistanceType['status']) {
             return array('status' => false, 'erro' => 'Deve ser preenchido');
         }
-        if (strlen($assistance_type) != '1'){
+        if (strlen($assistance_type) != '1') {
             return array('status' => false, 'erro' => 'O campo deve possuir 1 caractere');
         }
-        if (!in_array($assistance_type, $allowedValues)){
+        if (!in_array($assistance_type, $allowedValues)) {
             return array('status' => false, 'erro' => 'Tipo de atendimento contem valor invalido');
         }
-        for ($i = 0; $i < sizeof($operation_locations); $i++){
+        for ($i = 0; $i < sizeof($operation_locations); $i++) {
             if ($operation_locations[$i] == 1) {
                 switch ($i) {
                     case 0:
-                        if (!in_array($assistance_type, array(0, 1, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 1, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - predio escolar');
                         }
                         break;
                     case 1:
-                        if (!in_array($assistance_type, array(0, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - templo/igreja');
                         }
                         break;
                     case 2:
-                        if (!in_array($assistance_type, array(0, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - salas de empresa');
                         }
                         break;
                     case 3:
-                        if (!in_array($assistance_type, array(0, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - casa do professor');
                         }
                         break;
                     case 4:
-                        if (!in_array($assistance_type, array(0, 1, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 1, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - salas em outra escola');
                         }
                         break;
                     case 5:
-                        if (!in_array($assistance_type, array(0, 1, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 1, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - galpao/rancho/paiol/barracao');
                         }
                         break;
                     case 6:
-                        if (!in_array($assistance_type, array(2, 4, 5))){
+                        if (!in_array($assistance_type, array(2, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - atendimento socioeducativo');
                         }
                         break;
                     case 7:
-                        if (!in_array($assistance_type, array(3, 4, 5))){
+                        if (!in_array($assistance_type, array(3, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - unidade prisional');
                         }
                         break;
                     case 8:
-                        if (!in_array($assistance_type, array(0, 1, 4, 5))){
+                        if (!in_array($assistance_type, array(0, 1, 4, 5))) {
                             return array('status' => false, 'erro' => 'Viola regra local de funcionamento - outros');
                         }
                         break;
                 }
             }
         }
-        if ($complementary_activities == 0 && $assistance_type == 4){
+        if ($complementary_activities == 0 && $assistance_type == 4) {
             return array('status' => false, 'erro' => 'Tipo de atendimento nao pode ser "Atividade complementar" se a escola nao oferece essa atividade');
         }
         if ($aee == 0 && $assistance_type == 5) {
@@ -274,7 +283,8 @@ class ClassroomValidation extends Register{
     }
 
     //campo 19
-    function isValidMaisEducacaoParticipator($participator, $mediation, $administrative_dependence, $assistance_type, $modality, $stage){
+    function isValidMaisEducacaoParticipator($participator, $mediation, $administrative_dependence, $assistance_type, $modality, $stage)
+    {
         $allowedValues = array('0', '1');
         $checkStages = array('4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
             '20', '21', '22', '23', '24', '41', '25', '26', '27', '28', '29', '30', '31', '32', '33',
@@ -288,7 +298,7 @@ class ClassroomValidation extends Register{
             return array('status' => false, 'erro' => 'O campo nao foi preenchido');
         }
 
-        if (!$emptyParticipator['status'] && strlen($participator) != '1'){
+        if (!$emptyParticipator['status'] && strlen($participator) != '1') {
             return array('status' => false, 'erro' => 'O campo deve possuir 1 caractere');
         }
         if (!$emptyParticipator['status'] && !in_array($participator, $allowedValues)) {
@@ -306,7 +316,7 @@ class ClassroomValidation extends Register{
         if (($assistance_type == 1 || $assistance_type == 5) && !$emptyParticipator['status']) {
             return array('status' => false, 'erro' => 'Deve ser nulo se for hospitalar ou AEE');
         }
-        
+
         /*
         *   Ocultando validação pois amesma já está sendo tratada
         *   if (($modality == 3 || !(in_array($stage, $checkStages))) && !$emptyParticipator['status']) {
@@ -319,53 +329,46 @@ class ClassroomValidation extends Register{
 
 
     //campos 20 a 25
-    function isValidComplementaryActivityType($activities, $assistance_type){
+    function isValidComplementaryActivityType($activities, $complementaryActivity)
+    {
         $atLeastOne = $this->atLeastOne($activities);
 
-        if ($assistance_type == 4){
-            if (!$atLeastOne['status']){
-                return array('status' => false, 'erro' => 'Atividade nao foi informada');
+        if ($complementaryActivity == 1) {
+            if (!$atLeastOne['status']) {
+                return array('status' => false, 'erro' => 'Pelo menos uma atividade complementar deve ser inserida quando o tipo de atendimento "atividade complementar" for selecionado.');
             }
-        }
-
-        if (count(array_unique(array_diff($activities, array('')))) < count(array_diff($activities, array('')))){
-            return array('status' => false, 'erro' => 'Duplicatas');
-        }
-
-        if ($assistance_type != 4) {
-            foreach ($activities as $activity){
+        } else {
+            foreach ($activities as $activity) {
                 $emptyActivity = $this->isEmpty($activity);
                 if (!$emptyActivity['status']) {
-                    return array('status' => false, 'erro' => 'Nao pode ser preenchido se o tipo de atendimento for diferente de Atividade Complementar');
+                    return array('status' => false, 'erro' => 'Nao pode ser preenchido se o tipo de atendimento "Atividade Complementar" não for selecionado.');
                 }
             }
         }
-
-        //falta fazer regra 2
-
         return array('status' => true, 'erro' => '');
     }
 
     //campos 26 a 36
-    function isValidAEE($aeeArray, $assistance_type){
+    function isValidAEE($aeeArray, $assistance_type)
+    {
         $allowedValues = array('0', '1');
 
         foreach ($aeeArray as $aee) {
             $emptyAee = $this->isEmpty($aee);
             $result = boolval($aee);
-            if ($result && $assistance_type == 5){
+            if ($result && $assistance_type == 5) {
                 return array('status' => false, 'erro' => 'Deve ser preenchido quando tipo de atendimento for AEE');
             }
-            if (!$result && $assistance_type != 5){
+            if (!$result && $assistance_type != 5) {
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido se o tipo de atendimento for diferente de AEE');
             }
-            if (!$result && !in_array($aee, $allowedValues)){
+            if (!$result && !in_array($aee, $allowedValues)) {
                 return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
             }
         }
 
         $atLeastOne = $this->atLeastOne($aeeArray);
-        if (!$atLeastOne['status'] && $assistance_type == 5){
+        if (!$atLeastOne['status'] && $assistance_type == 5) {
             return array('status' => false, 'erro' => 'Nao podem ser todos 0');
         }
 
@@ -373,7 +376,8 @@ class ClassroomValidation extends Register{
     }
 
     //campo 37
-    function isValidModality($modality, $assistance_type, $schoolStructureModalities, $mediation){
+    function isValidModality($modality, $assistance_type, $schoolStructureModalities, $mediation)
+    {
         $allowedValues = array('1', '2', '3', '4');
         $emptyModality = $this->isEmpty($modality);
 
@@ -386,19 +390,19 @@ class ClassroomValidation extends Register{
         if (!$emptyModality['status'] && $assistance_type == 5) {
             return array('status' => false, 'erro' => 'Nao pode ser preenchido quando for AEE');
         }
-        if (!in_array($modality, $allowedValues)){
+        if (!in_array($modality, $allowedValues)) {
             return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
         }
-        if($modality == 1 && $schoolStructureModalities['modalities_regular'] != 1){
+        if ($modality == 1 && $schoolStructureModalities['modalities_regular'] != 1) {
             return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo não pode ser preenchido com 1 quando não for educacao regular'));
         }
-        if($modality == 2 && $schoolStructureModalities['modalities_especial'] != 1){
+        if ($modality == 2 && $schoolStructureModalities['modalities_especial'] != 1) {
             return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
-        if($modality == 3 && $schoolStructureModalities['modalities_eja'] != 1){
+        if ($modality == 3 && $schoolStructureModalities['modalities_eja'] != 1) {
             return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
-        if($modality == 4 && $schoolStructureModalities['modalities_professional'] != 1){
+        if ($modality == 4 && $schoolStructureModalities['modalities_professional'] != 1) {
             return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
         }
         if (!($modality == 2 || $modality == 3) && $mediation == 2) {
@@ -411,34 +415,35 @@ class ClassroomValidation extends Register{
     }
 
     //campo 38
-    function isValidStage($stage, $assistance_type, $mediation) {
-        $emptyStage = $this->isEmpty($stage);
-        if ($emptyStage['status'] && $assistance_type != 4 && $assistance_type != 5) {
-            return array('status' => false, 'erro' => 'O campo deve ser preenchido quando o tipo de atendimento nao for atividade complementar nem AEE');
+    function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
+    {
+        if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 67, 68, 69, 70, 71, 72, 73, 74))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o tipo de atendimento "Atividade Complementar" for selecionado.');
         }
-        if (!$emptyStage['status'] && ($assistance_type == 4 || $assistance_type == 5)) {
-            return array('status' => false, 'erro' => 'O campo nao pode ser preenchido quando o tipo de atendimento for atividade complementar ou AEE');
+        if ($modality == 1 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 35, 36, 37, 38, 41, 56))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Ensino Regular" for selecionada.');
         }
-
-        //falta fazer regras 4 e 5
-
-        if (($assistance_type == 2 || $assistance_type == 3) && in_array($stage, array(1, 2, 3, 56))) {
-            return array('status' => false, 'erro' => 'Nao pode ser educacao infantil quando o tipo de atendimento for unidade de internacao socioeducativa ou unidade prisional');
+        if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
+        }
+        if ($modality == 3 && !in_array($stage, array(69, 70, 71))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
         }
         if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('Deve ser preenchido com 69, 70, 71, 72 quando a mediacacao for semipresencial'));
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Semipresencial" for selecionada.');
         }
-        if ($mediation == 3 && !in_array($stage, array(30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68))) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('Deve ser preenchido com 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67 ou 68 quando a mediacao for educacao a distancia'));
+        if ($mediation == 3 && !in_array($stage, array(25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Educação a distância" for selecionada.');
         }
-
-        //fazer regras 9 e 10, que envolvem docentes do registro 51
-
+        if (($diffLocation == 2 || $diffLocation == 3) && in_array($stage, array(1, 2, 3, 56))) {
+            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o local de funcionamento diferenciado for "Unidade de atendimento socioeducativo" ou "Unidade prisional".');
+        }
         return array('status' => true, 'erro' => '');
     }
 
     //campo 39
-    function isValidProfessionalEducation($professionalEducation, $stage){
+    function isValidProfessionalEducation($professionalEducation, $stage)
+    {
         $emptyProfessionalEducation = $this->isEmpty($professionalEducation);
 
         if (strlen($professionalEducation) > 8) {
@@ -457,7 +462,8 @@ class ClassroomValidation extends Register{
         return array('status' => true, 'erro' => '');
     }
 
-    function isValidDiscipline($disciplineArray, $mediation, $assistance_type, $stage){
+    function isValidDiscipline($disciplineArray, $mediation, $assistance_type, $stage)
+    {
         $allowedValues = array(0, 1, 2);
         $mustFillOne = false;
 
@@ -465,15 +471,15 @@ class ClassroomValidation extends Register{
             $mustFillOne = true;
         }
 
-        foreach ($disciplineArray as $key => $discipline){
+        foreach ($disciplineArray as $key => $discipline) {
             $emptyDiscipline = $this->isEmpty($discipline);
-            if (strlen($discipline) > 1){
+            if (strlen($discipline) > 1) {
                 return array('status' => false, 'erro' => 'O campo deve ter apenas 1 caractere');
             }
-            if ($mustFillOne && $emptyDiscipline['status']){
+            if ($mustFillOne && $emptyDiscipline['status']) {
                 return array('status' => false, 'erro' => 'O campo deve ser preenchido quando o tipo de atendimento for diferente de 4 ou 5 e a etapa for diferente de 1, 2, 3 ou 65');
             }
-            if ((in_array($assistance_type, array(4, 5)) || in_array($stage, array(1, 2, 3, 65))) && !$emptyDiscipline['status']){
+            if ((in_array($assistance_type, array(4, 5)) || in_array($stage, array(1, 2, 3, 65))) && !$emptyDiscipline['status']) {
                 return array('status' => false, 'erro' => 'O campo deve ser nulo quando o tipo de atendimento for 4 ou 5 e a etapa for 1, 2, 3 ou 65');
             }
             if (!in_array($discipline, $allowedValues)) {
@@ -488,33 +494,49 @@ class ClassroomValidation extends Register{
         }
 
         $atLeastOne = $this->atLeastOne($disciplineArray);
-        if ($mustFillOne && !$atLeastOne['status']){
+        if ($mustFillOne && !$atLeastOne['status']) {
             return array('status' => false, 'erro' => 'Pelo menos uma disciplina/professor deve ser inserida na turma');
         }
         return array('status' => true, 'erro' => '');
     }
 
-    public function replaceCodeModalities($msg){
+    public function replaceCodeModalities($msg)
+    {
         foreach ($this->modalities as $key => $value) {
             $msg = str_replace($key, trim($value), $msg);
         }
         return $msg;
     }
 
-    public function isValidAttendanceType($schooling, $complementaryActivity, $aee) {
+    public function isValidAttendanceType($schooling, $complementaryActivity, $aee)
+    {
         if ($schooling == null || $complementaryActivity == null || $aee == null) {
             return array('status' => false, 'erro' => 'Atualize a turma.');
-        } else if ($schooling == '0' && $complementaryActivity == "0" && $aee == "0"){
+        } else if ($schooling == '0' && $complementaryActivity == "0" && $aee == "0") {
             return array('status' => false, 'erro' => 'Selecione ao menos uma opção em "Tipo de Atendimento".');
         }
         return array('status' => true, 'erro' => '');
     }
 
-    public function isValidDiffLocation($pedagogicalMediationType, $diffLocation) {
+    public function isValidDiffLocation($pedagogicalMediationType, $diffLocation)
+    {
         if ($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2" && ($diffLocation == null)) {
             return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial ou semipresencial, o campo se torna obrigatório');
         }
         return array('status' => true, 'erro' => '');
     }
+
+    public function isValidRoleForInstructor($instructorsTeachingData, $complementaryActivity)
+    {
+        if ($complementaryActivity == null || $complementaryActivity === "0") {
+            foreach ($instructorsTeachingData as $instructorTeachingData) {
+                if ($instructorTeachingData->role === "3") {
+                    return array('status' => false, 'erro' => 'O cargo de um professor não pode ser "Monitor" quando o campo da turma "Tipo de Atendimento - Atividade Complementar" não for selecionado.');
+                }
+            }
+        }
+        return array('status' => true, 'erro' => '');
+    }
 }
+
 ?>

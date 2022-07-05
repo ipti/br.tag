@@ -599,8 +599,8 @@ class CensoController extends Controller
         //campos 20 a 25
         $activities = array($column['complementary_activity_type_1'], $column['complementary_activity_type_2'], $column['complementary_activity_type_3'],
             $column['complementary_activity_type_4'], $column['complementary_activity_type_5'], $column['complementary_activity_type_6']);
-        $result = $crv->isValidComplementaryActivityType($activities, $column['assistance_type']);
-        if (!$result['status']) array_push($log, array('complementary_activity_types' => $result['erro']));
+        $result = $crv->isValidComplementaryActivityType($activities, $column['complementary_activity']);
+        if (!$result['status']) array_push($log, array('Atividades Complementares' => $result['erro']));
 
         //campos 26 a 36
         /*
@@ -627,7 +627,7 @@ class CensoController extends Controller
         //campo 38
 
         //abaixo: $column['stage'] ou $column['edcenso_stage_vs_modality_fk']?
-        $result = $crv->isValidStage($column['edcenso_stage_vs_modality_fk'], $column['assistance_type'], $column['pedagogical_mediation_type']);
+        $result = $crv->isValidStage($column['edcenso_stage_vs_modality_fk'], $column['complementary_activity'], $column['pedagogical_mediation_type'], $column["modality"], $column["diff_location"]);
         if (!$result['status']) array_push($log, array('stage' => $result['erro']));
 
         //campo 39
@@ -650,7 +650,9 @@ class CensoController extends Controller
         $result = $crv->isValidDiffLocation($column['pedagogical_mediation_type'], $column["diff_location"]);
         if (!$result['status']) array_push($log, array('diff_location' => $result['erro']));
 
-
+        $instructorsTeachingData = InstructorTeachingData::model()->findAll("classroom_id_fk = :classroom_id_fk", ["classroom_id_fk" => $column['id']]);
+        $result = $crv->isValidRoleForInstructor($instructorsTeachingData, $column["complementary_activity"]);
+        if (!$result['status']) array_push($log, array('Professores' => $result['erro']));
 
         return $log;
     }
@@ -694,10 +696,6 @@ class CensoController extends Controller
         //campo 6
         $result = $iiv->isEmailValid($collumn['email'], 100);
         if (!$result["status"]) array_push($log, array("email" => $result["erro"]));
-
-        //campo 7
-        $result = $iiv->isNull($collumn['nis']);
-        if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
 
         //campo 8
         $year = Yii::app()->user->year;
@@ -808,46 +806,8 @@ class CensoController extends Controller
         $result = $idav->isCPFValid($collumn['cpf']);
         if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
 
-        //campo 5
-        if (!empty($collumn['area_of_residence'])) {
-            //campo 6
-            $result = $idav->isAllowed($collumn['area_of_residence'], array("1", "2"));
-            if (!$result["status"]) array_push($log, array("area_of_residence" => $result["erro"]));
-
-            if (!empty($collumn['cep'])) {
-                //campo 7
-                $result = $idav->isCEPValid($collumn['cep']);
-                if (!$result["status"]) array_push($log, array("cep" => $result["erro"]));
-
-                //campo 8
-                $result = $idav->isAdressValid($collumn['address'], $collumn['cep'], 100);
-                if (!$result["status"]) array_push($log, array("address" => $result["erro"]));
-
-                //campo 9
-                $result = $idav->isAdressValid($collumn['address_number'], $collumn['cep'], 10);
-                if (!$result["status"]) array_push($log, array("address_number" => $result["erro"]));
-
-                //campo 10
-                if (!empty($collumn['complement'])) {
-                    $result = $idav->isAdressValid($collumn['complement'], $collumn['cep'], 20);
-                    if (!$result["status"]) array_push($log, array("complement" => $result["erro"]));
-                }
-                //campo 11
-                if (!empty($collumn['neighborhood'])) {
-                    $result = $idav->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
-                    if (!$result["status"]) array_push($log, array("neighborhood" => $result["erro"]));
-                }
-                //campo 12
-                $result = $idav->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
-                if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
-
-                //campo 13
-                $result = $idav->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
-                if (!$result["status"]) array_push($log, array("edcenso_city_fk" => $result["erro"]));
-            }
-
-        }
-
+        $result = $idav->isAreaOfResidenceValid($collumn['area_of_residence']);
+        if (!$result["status"]) array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
 
         return $log;
     }
@@ -1104,33 +1064,19 @@ class CensoController extends Controller
             $collumn['deficiency_type_deafblindness'],
             $collumn['deficiency_type_phisical_disability'],
             $collumn['deficiency_type_intelectual_disability'],
+            $collumn['deficiency_type_multiple_disabilities'],
             $collumn['deficiency_type_autism'],
-            $collumn['deficiency_type_aspenger_syndrome'],
-            $collumn['deficiency_type_rett_syndrome'],
-            $collumn['deficiency_type_childhood_disintegrative_disorder'],
             $collumn['deficiency_type_gifted']);
 
-        $excludingdeficiencies = array($collumn['deficiency_type_blindness'] =>
-            array($collumn['deficiency_type_low_vision'], $collumn['deficiency_type_deafness'],
-                $collumn['deficiency_type_deafblindness']),
-            $collumn['deficiency_type_low_vision'] =>
-                array($collumn['deficiency_type_deafblindness']),
-            $collumn['deficiency_type_deafness'] =>
-                array($collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_disability_hearing']),
-            $collumn['deficiency_type_disability_hearing'] =>
-                array($collumn['deficiency_type_deafblindness']),
-            $collumn['deficiency_type_autism'] =>
-                array($collumn['deficiency_type_aspenger_syndrome'], $collumn['deficiency_type_rett_syndrome'],
-                    $collumn['deficiency_type_childhood_disintegrative_disorder']),
-            $collumn['deficiency_type_aspenger_syndrome'] =>
-                array($collumn['deficiency_type_rett_syndrome'], $collumn['deficiency_type_childhood_disintegrative_disorder']),
-            $collumn['deficiency_type_rett_syndrome'] =>
-                array($collumn['deficiency_type_childhood_disintegrative_disorder']));
-        /*
-		$result = $stiv->checkDeficiencies($collumn['deficiency'], $deficiencies_whole, $excludingdeficiencies);
-		if(!$result["status"]) array_push($log, array("deficiencies"=>$result["erro"]));
-		*/
-        //campo 25
+        $excludingdeficiencies = [
+            ["Cegueira" => [$collumn['deficiency_type_blindness'] => [$collumn['deficiency_type_low_vision'], $collumn['deficiency_type_deafness'], $collumn['deficiency_type_deafblindness']]]],
+            ["Baixa Visão" => [$collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']]]],
+            ["Surdez" => [$collumn['deficiency_type_deafness'] => [$collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_deafblindness']]]],
+            ["Deficiência Auditiva" => [$collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]]]
+        ];
+
+        $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficiencies_whole, $excludingdeficiencies);
+        if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
 
         $deficiencies_sample = array($collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
@@ -1141,7 +1087,7 @@ class CensoController extends Controller
             $collumn['deficiency_type_intelectual_disability']);
 
         $result = $stiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies_sample);
-        //if(!$result["status"]) array_push($log, array("deficiency_type_multiple_disabilities"=>$result["erro"]));
+        if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
 
         //campo 30 à 39
         $sql = "SELECT  COUNT(si.id) AS status
@@ -1154,15 +1100,17 @@ class CensoController extends Controller
         $demandresources = Yii::app()->db->createCommand($sql)->queryAll();
 
         $resources = array($collumn['resource_aid_lector'],
+            $collumn['resource_aid_transcription'],
             $collumn['resource_interpreter_guide'],
             $collumn['resource_interpreter_libras'],
             $collumn['resource_lip_reading'],
-            $collumn['resource_zoomed_test_16'],
-            $collumn['resource_zoomed_test_20'],
+            $collumn['resource_zoomed_test_18'],
             $collumn['resource_zoomed_test_24'],
             $collumn['resource_braille_test'],
-            $collumn['resource_none'],
-            $collumn['resource_aid_transcription']);
+            $collumn['resource_proof_language'],
+            $collumn['resource_cd_audio'],
+            $collumn['resource_video_libras'],
+            $collumn['resource_none']);
 
         array_pop($deficiencies_whole);
         $result = $stiv->inNeedOfResources($deficiencies_whole,
@@ -1170,7 +1118,8 @@ class CensoController extends Controller
             $resources,
             $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_deafblindness']);
-        if (!$result["status"]) array_push($log, array("resources" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
+
         return $log;
     }
 
@@ -1317,48 +1266,9 @@ class CensoController extends Controller
             if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
         }
 
-        //campo 22
         $result = $sda->isAreaOfResidenceValid($collumn['residence_zone']);
-        if (!$result["status"]) array_push($log, array("residence_zone" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
 
-        if (!empty($collumn['area_of_residence'])) {
-            if (!empty($collumn['cep'])) {
-                //campo 23
-                $result = $sda->isCEPValid($collumn['cep']);
-                if (!$result["status"]) array_push($log, array("cep" => $result["erro"]));
-
-                //campo 24
-                $result = $sda->isAdressValid($collumn['address'], $collumn['cep'], 100);
-                if (!$result["status"]) array_push($log, array("address" => $result["erro"]));
-
-                if (!empty($collumn['number'])) {
-                    //campo 25
-                    $result = $sda->isAdressValid($collumn['number'], $collumn['cep'], 10);
-                    if (!$result["status"]) array_push($log, array("number" => $result["erro"]));
-                }
-
-                if (!empty($collumn['complement'])) {
-                    //campo 26
-                    $result = $sda->isAdressValid($collumn['complement'], $collumn['cep'], 20);
-                    if (!$result["status"]) array_push($log, array("complement" => $result["erro"]));
-                }
-
-                if (!empty($collumn['neighborhood'])) {
-                    //campo 27
-                    $result = $sda->isAdressValid($collumn['neighborhood'], $collumn['cep'], 50);
-                    if (!$result["status"]) array_push($log, array("neighborhood" => $result["erro"]));
-                }
-
-                //campo 28
-                $result = $sda->isAdressValid($collumn['edcenso_uf_fk'], $collumn['cep'], 2);
-                if (!$result["status"]) array_push($log, array("edcenso_uf_fk" => $result["erro"]));
-
-                //campo 29
-                $result = $sda->isAdressValid($collumn['edcenso_city_fk'], $collumn['cep'], 7);
-                if (!$result["status"]) array_push($log, array("edcenso_city_fk" => $result["erro"]));
-            }
-
-        }
         return $log;
     }
 
@@ -1495,6 +1405,10 @@ class CensoController extends Controller
 
         $result = $sev->studentEntryForm($collumn['student_entry_form'], $administrative_dependence, $edcenso_svm);
         if (!$result["status"]) array_push($log, array("student_entry_form" => $result["erro"]));
+
+        $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality"]);
+        if (!$result["status"]) array_push($log, array("Etapa de Ensino" => $result["erro"]));
+
         return $log;
     }
 
