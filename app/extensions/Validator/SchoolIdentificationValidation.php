@@ -572,7 +572,7 @@ class SchoolIdentificationValidation extends Register
                 return array("status" => false, "erro" => "Apenas números são permitidos");
             }
             if ($status != '1') {
-                return array("status" => false, "erro" => "IES deve ser existir, está ativa e ser da mesma dependência administrativa");
+                return array("status" => false, "erro" => "IES deve existir, estar ativa e ser da mesma dependência administrativa");
             }
         } else {
             if ($value != null) {

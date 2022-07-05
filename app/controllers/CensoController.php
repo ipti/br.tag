@@ -654,6 +654,17 @@ class CensoController extends Controller
         $result = $crv->isValidRoleForInstructor($instructorsTeachingData, $column["complementary_activity"]);
         if (!$result['status']) array_push($log, array('Professores' => $result['erro']));
 
+        $result = $crv->containsInstructors($instructorsTeachingData);
+        if (!$result['status']) array_push($log, array('Turma' => $result['erro']));
+
+        $result = $crv->isValidDisciplineForStage($column["edcenso_stage_vs_modality_fk"], $instructorsTeachingData);
+        if (!$result['status']) array_push($log, array('Disciplinas' => $result['erro']));
+
+        $studentsEnrollment = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $column['id']]);
+        $result = $crv->containsStudents($studentsEnrollment);
+        if (!$result['status']) array_push($log, array('Turma' => $result['erro']));
+
+
         return $log;
     }
 
@@ -1078,7 +1089,8 @@ class CensoController extends Controller
         $result = $stiv->checkDeficiencies($collumn['deficiency'], $deficiencies_whole, $excludingdeficiencies);
         if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
 
-        $deficiencies_sample = array($collumn['deficiency_type_blindness'],
+        $deficiencies_sample = array(
+            $collumn['deficiency_type_blindness'],
             $collumn['deficiency_type_low_vision'],
             $collumn['deficiency_type_deafness'],
             $collumn['deficiency_type_disability_hearing'],
@@ -1089,35 +1101,22 @@ class CensoController extends Controller
         $result = $stiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies_sample);
         if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
 
-        //campo 30 à 39
-        $sql = "SELECT  COUNT(si.id) AS status
-			FROM 	student_identification AS si
-						INNER JOIN
-					student_enrollment AS se
-						ON si.id = se.student_fk
-			WHERE 	se.edcenso_stage_vs_modality_fk in (16, 7, 18, 11, 41, 27, 28, 32, 33, 37, 38)
-					AND si.id = '$student_id';";
-        $demandresources = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $resources = array($collumn['resource_aid_lector'],
+        $resources = array(
+            $collumn['resource_aid_lector'],
             $collumn['resource_aid_transcription'],
             $collumn['resource_interpreter_guide'],
             $collumn['resource_interpreter_libras'],
             $collumn['resource_lip_reading'],
             $collumn['resource_zoomed_test_18'],
             $collumn['resource_zoomed_test_24'],
-            $collumn['resource_braille_test'],
-            $collumn['resource_proof_language'],
             $collumn['resource_cd_audio'],
+            $collumn['resource_proof_language'],
             $collumn['resource_video_libras'],
+            $collumn['resource_braille_test'],
             $collumn['resource_none']);
 
         array_pop($deficiencies_whole);
-        $result = $stiv->inNeedOfResources($deficiencies_whole,
-            $demandresources,
-            $resources,
-            $collumn['deficiency_type_blindness'],
-            $collumn['deficiency_type_deafblindness']);
+        $result = $stiv->inNeedOfResources($collumn['deficiency'],$deficiencies_whole, $resources);
         if (!$result["status"]) array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
 
         return $log;
@@ -1261,10 +1260,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("foreign_document_or_passport" => $result["erro"]));
 
         //campo 21
-        if (!empty($collumn['nis'])) {
-            $result = $sda->isNISValid($collumn['nis']);
-            if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
-        }
+//        if (!empty($collumn['nis'])) {
+//            $result = $sda->isNISValid($collumn['nis']);
+//            if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
+//        }
 
         $result = $sda->isAreaOfResidenceValid($collumn['residence_zone']);
         if (!$result["status"]) array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));

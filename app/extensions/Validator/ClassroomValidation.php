@@ -467,9 +467,9 @@ class ClassroomValidation extends Register
         $allowedValues = array(0, 1, 2);
         $mustFillOne = false;
 
-        if (!in_array($assistance_type, array(4, 5)) && !in_array($stage, array(1, 2, 3, 65))) {
-            $mustFillOne = true;
-        }
+//        if (!in_array($assistance_type, array(4, 5)) && !in_array($stage, array(1, 2, 3, 65))) {
+//            $mustFillOne = true;
+//        }
 
         foreach ($disciplineArray as $key => $discipline) {
             $emptyDiscipline = $this->isEmpty($discipline);
@@ -534,6 +534,54 @@ class ClassroomValidation extends Register
                     return array('status' => false, 'erro' => 'O cargo de um professor não pode ser "Monitor" quando o campo da turma "Tipo de Atendimento - Atividade Complementar" não for selecionado.');
                 }
             }
+        }
+        return array('status' => true, 'erro' => '');
+    }
+
+    public function isValidDisciplineForStage($stage, $instructorsTeachingData)
+    {
+        foreach ($instructorsTeachingData as $instructorTeachingData) {
+            if ($this->instructorHasDiscipline($instructorTeachingData, 25) && in_array($stage, [14, 15, 16, 17, 18, 69, 19, 20, 21, 41, 23, 22, 56, 70, 72, 73, 25, 26, 27, 28, 29, 71, 30, 31, 32, 33, 34, 74, 67, 39, 40, 64, 68])) {
+                return array('status' => false, 'erro' => 'A Disciplina "Disciplinas pedagógicas" não é compatível com a etapa de ensino nesta turma.');
+            }
+        }
+        return array('status' => true, 'erro' => '');
+    }
+
+    public function instructorHasDiscipline($instructorTeachingData, $disciplineFk)
+    {
+        if (
+            $instructorTeachingData->discipline_1_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_2_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_3_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_4_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_5_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_6_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_7_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_8_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_9_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_10_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_11_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_12_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_13_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_14_fk == $disciplineFk ||
+            $instructorTeachingData->discipline_15_fk == $disciplineFk
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public function containsInstructors($instructorsTeachingData) {
+        if ($instructorsTeachingData == null) {
+            return array('status' => false, 'erro' => 'A turma precisa de professores cadastrados.');
+        }
+        return array('status' => true, 'erro' => '');
+    }
+
+    public function containsStudents($studentsEnrollment) {
+        if ($studentsEnrollment == null) {
+            return array('status' => false, 'erro' => 'A turma precisa de alunos matriculados.');
         }
         return array('status' => true, 'erro' => '');
     }

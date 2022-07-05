@@ -396,11 +396,13 @@ $('#resource_type ' + rNone).change(function () {
     }
 });
 
-$(document).on("change", ".linked-deficiency", function () {
-    if ($('.linked-deficiency:checked').length > 1) {
-        $(formIdentification + "deficiency_type_multiple_disabilities").attr('checked', "checked");
-    } else {
-        $(formIdentification + "deficiency_type_multiple_disabilities").removeAttr('checked');
+$(document).on("change", ".linked-deficiency", function (evt, indirect) {
+    if (indirect === undefined) {
+        if ($('.linked-deficiency:checked').length > 1) {
+            $(formIdentification + "deficiency_type_multiple_disabilities").attr('checked', "checked");
+        } else {
+            $(formIdentification + "deficiency_type_multiple_disabilities").removeAttr('checked');
+        }
     }
 });
 
@@ -408,7 +410,7 @@ $(deficiency).change(function () {
     if ($(this).is(":checked")) {
         $(allDeficiency).removeAttr('disabled');
         $("#StudentIdentification_deficiencies").parent(".control-group").show().find(".control-label").addClass("required");
-        $("#StudentIdentification_deficiency_type_blindness").trigger("change");
+        $("#StudentIdentification_deficiency_type_blindness").trigger("change", [true]);
         $(".resources-container").show();
     } else {
         $(allDeficiency).attr('disabled', "disabled").removeAttr('checked');
@@ -427,7 +429,7 @@ $(".deficiencies-container input[type=checkbox]").change(function () {
         $(".resources-container").find(".control-label").removeClass("required").html("Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)");
     }
 });
-$(".deficiencies-container input[type=checkbox]").trigger('change');
+$(".deficiencies-container input[type=checkbox]").trigger('change', [true]);
 
 $(formDocumentsAndAddress + 'address').focusout(function () {
     var id = '#' + $(this).attr("id");
