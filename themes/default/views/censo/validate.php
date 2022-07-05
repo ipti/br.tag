@@ -44,7 +44,6 @@
             </div>
         <?php } ?>
 
-
         <!-- Widget Heading END -->
         <?php
         $dataValidation = [];

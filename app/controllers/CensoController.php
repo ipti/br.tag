@@ -175,7 +175,7 @@ class CensoController extends Controller
         //campo 21-25
 
         $result = $siv->checkPhoneNumbers($collumn['ddd'], $collumn['phone_number'], $collumn['other_phone_number']);
-        if (!$result["status"]) array_push($log, array("phones" => $result["erro"]));
+        if (!$result["status"]) array_push($log, array("DDD e Telefones" => $result["erro"]));
 
         //campo 26
         $result = $siv->isEmailValid($collumn['email']);
@@ -565,9 +565,9 @@ class CensoController extends Controller
         $result = $crv->checkLength($column['id'], 20);
         if (!$result['status']) array_push($log, array('id' => $result['erro']));
 
-        //campo 5
-        //$result = $crv->isValidClassroomName($column['name']);
-        //if (!$result['status']) array_push($log, array('name' => $result['erro']));
+//        campo 5
+        $result = $crv->isValidClassroomName($column['name']);
+        if (!$result['status']) array_push($log, array('name' => $result['erro']));
 
         //campo 6
         $result = $crv->isValidMediation($column['pedagogical_mediation_type']);
@@ -649,6 +649,8 @@ class CensoController extends Controller
 
         $result = $crv->isValidDiffLocation($column['pedagogical_mediation_type'], $column["diff_location"]);
         if (!$result['status']) array_push($log, array('diff_location' => $result['erro']));
+
+
 
         return $log;
     }

@@ -87,8 +87,7 @@ class ClassroomValidation extends Register{
 
     //campo 5
     function isValidClassroomName($name){
-        //$regex = "/^[ 0-9A-Zªº-]+$/";
-        $regex = "/[0-9A-Zªº-]+\s+[A-Za-z]+/";
+        $regex = "/^([0-9A-Z ª°º-])+$/";
         $length = $this->checkLength($name, 80);
         if (!$length['status']){
             return array('status' => false, 'erro' => $length['erro']);

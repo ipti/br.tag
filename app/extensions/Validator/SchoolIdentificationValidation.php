@@ -336,47 +336,26 @@ class SchoolIdentificationValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    //campo 21,22,23,24,25
-
-    function isPhoneValid($phone_number, $low_limit, $high_limit)
-    {
-
-        if (empty($phone_number)) {
-            return array("status" => false, "erro" => "Telefone vazio");
-        }
-        if (preg_match('/^(.)\1*$/', $phone_number)) {
-            return array("status" => false, "erro" => "Telefone $phone_number com padrao incorreto");
-        }
-
-        $len = strlen($phone_number);
-        if ($len < $low_limit || $len > $high_limit) {
-            return array("status" => false, "erro" => "Telefone $phone_number com tamanho incorreto");
-        }
-        if ($len == $high_limit) {
-            if (!(substr($phone_number, 0, 1) != '9')) {
-                return array("status" => false, "erro" => "Telefone $phone_number deveria iniciar com $high_limit");
-            }
-        }
-        return array("status" => true, "erro" => "");
-    }
-
     function checkPhoneNumbers($ddd, $phoneNumber, $otherPhoneNumber)
     {
-        if ($ddd != '') {
-            if (strlen($ddd) != 2) {
-                return array("status" => false, "erro" => "DDD incorreto");
-            }
-            $valid_numbers = 0;
-            foreach ($phones as $key => $phone_number) {
-                $result = $this->isPhoneValid($phone_number, 8, 9);
-                if ($result['status']) {
-                    $valid_numbers++;
-                }
-            }
-            if ($valid_numbers >= 1) {
-                return $result;
-                return array("status" => false, "erro" => "Um ou mais números de telefone são inválidos");
-            }
+        if ($ddd !== "" && $phoneNumber === "" && $otherPhoneNumber === "") {
+            return array("status" => false, "erro" => "Quando o DDD é prenchido, pelo menos um dos telefones também deve ser preenchido.");
+        } else if ($ddd === "" && ($phoneNumber !== "" || $otherPhoneNumber !== "")) {
+            return array("status" => false, "erro" => "Quando um dos telefones é preenchido, o DDD também deve ser preenchido.");
+        } else if ($ddd !== "" && strlen($ddd) != 2) {
+            return array("status" => false, "erro" => "DDD deve conter 2 caracteres.");
+        } else if ($phoneNumber !== "" && $otherPhoneNumber !== "" && ($phoneNumber === $otherPhoneNumber)) {
+            return array("status" => false, "erro" => "Os dois campos de números de telefone não podem ser iguais.");
+        } else if (($phoneNumber !== "" && (strlen($phoneNumber) < 8 || strlen($phoneNumber) > 9))
+            || ($otherPhoneNumber !== "" && (strlen($otherPhoneNumber) < 8 || strlen($otherPhoneNumber) > 9))) {
+            return array("status" => false, "erro" => "Os campos de telefone, quando preenchidos, devem conter 8 ou 9 caracteres.");
+        } else if (($phoneNumber !== "" && !is_numeric($phoneNumber)) || ($otherPhoneNumber !== "" && !is_numeric($otherPhoneNumber))) {
+            return array("status" => false, "erro" => "Apenas números podem ser informados.");
+        } else if (($phoneNumber !== "" && strlen($phoneNumber) === 9 && substr($phoneNumber, 0, 1) !== "9")
+            || ($otherPhoneNumber !== "" && strlen($otherPhoneNumber) === 9 && substr($otherPhoneNumber, 0, 1) !== "9")) {
+            return array("status" => false, "erro" => "Quando o telefone tiver 9 caracteres, o primeiro caractere deve ser o dígito 9.");
+        } else if (($phoneNumber !== "" && count(array_unique(str_split($phoneNumber)))) === 1 || ($otherPhoneNumber !== "" && count(array_unique(str_split($otherPhoneNumber))))) {
+            return array("status" => false, "erro" => "Os campos de telefone não podem ser a repetição de um mesmo algarismo.");
         }
         return array("status" => true, "erro" => "");
     }
@@ -612,7 +591,8 @@ class SchoolIdentificationValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    public function isValidLinkedOrgan($administrativeDependence, $linkedMec, $linkedArmy, $linkedHealth, $linkedOther) {
+    public function isValidLinkedOrgan($administrativeDependence, $linkedMec, $linkedArmy, $linkedHealth, $linkedOther)
+    {
         if ($administrativeDependence == "1" || $administrativeDependence == "2" || $administrativeDependence == "3") {
             if (($linkedMec == null || $linkedMec == "0") && ($linkedArmy == null || $linkedArmy == "0")
                 && ($linkedHealth == null || $linkedHealth == "0") && ($linkedOther == null || $linkedOther == "0")) {

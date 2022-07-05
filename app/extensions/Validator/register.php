@@ -339,12 +339,11 @@ class Register
             return array("status" => false, "erro" => "'$value' não contém mais que 2 palavras.");
         }
 
-        if (preg_match('/(\w)\1{5,}/', $value)) {
+        if (preg_match('/(.)\1{3,}/', $value)) {
             return array("status" => false, "erro" => "'$value' contém mais de 4 caracteres repetidos");
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //3011, 3012, 3013, 6009.6010, 6011
