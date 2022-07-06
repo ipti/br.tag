@@ -231,7 +231,6 @@ preenchidos";
         $saveInstructor = FALSE;
         $saveDocumentsAndAddress = FALSE;
         $saveVariableData = FALSE;
-
         //==================================
 
         $error[] = '';
@@ -514,13 +513,19 @@ preenchidos";
             $return = InstructorIdentification::model()->findByPk($id);
         } else if ($model == $this->InstructorDocumentsAndAddress) {
             if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
+                if ($return == null) {
+                    $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                }
             } else {
                 $return = InstructorDocumentsAndAddress::model()->findByPk($instructor_inepid_id);
             }
         } else if ($model == $this->InstructorVariableData) {
             if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
+                if ($return == null) {
+                    $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+                }
             } else {
                 $return = InstructorVariableData::model()->findByPk($instructor_inepid_id);
             }

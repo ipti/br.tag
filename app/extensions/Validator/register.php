@@ -60,7 +60,7 @@ class Register
                 $number_of_ones++;
         }
         if ($number_of_ones == 0) {
-            return array("status" => false, "erro" => "Não há nenhum valor marcado");
+            return array("status" => false, "erro" => "Selecione ao menos uma opção.");
         }
         return array("status" => true, "erro" => "");
     }
@@ -78,7 +78,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function moreThanOne($items)
+    function moreThanTwo($items)
     {
 
         $number_of_ones = 0;
@@ -86,7 +86,7 @@ class Register
             if ($items[$i] == "1")
                 $number_of_ones++;
         }
-        if ($number_of_ones < 1) {
+        if ($number_of_ones < 2) {
             return array("status" => false, "erro" => "Não há mais de um valor marcado");
         }
         return array("status" => true, "erro" => "");
@@ -110,7 +110,6 @@ class Register
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
             return array("status" => false, "erro" => "inep_id $inep_id não está entre os permitidos");
-
         }
 
         return array("status" => true, "erro" => "");
@@ -122,7 +121,7 @@ class Register
         if (is_numeric($value)) {
             $len = strlen($value);
             if ($len != $allowed_length) {
-                return array("status" => false, "erro" => "valor deveria ter $allowed_length caracteres ao invés de $len");
+                return array("status" => false, "erro" => "Campo deveria ter $allowed_length caracteres ao invés de $len.");
             }
         } else {
             $value = $this->ifNull($value);
@@ -160,7 +159,7 @@ class Register
 
         $regex = "/^[a-zA-Z ]+$/";
         if (!preg_match($regex, $value)) {
-            return array("status" => false, "erro" => "'$value' contém caracteres inválidos");
+            return array("status" => false, "erro" => "'$value' contém caracteres inválidos. Letras minúsculas, cedilhas, números e/ou acentos não são permitidos.");
         }
 
         return array("status" => true, "erro" => "");
@@ -176,7 +175,7 @@ class Register
             return array("status" => false, "erro" => "Número de caracteres maior que o permitido.");
         }
 
-        if ($value !== "") {
+        if ($value !== "" && $value !== null) {
             $result = $this->onlyAlphabet($value);
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
@@ -276,56 +275,58 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function isCPFValid($cpf)
+    function isCPFValid($cpfStr)
     {
-        $cpf = "$cpf";
-        if (strpos($cpf, "-") !== false) {
-            $cpf = str_replace("-", "", $cpf);
-        }
-        if (strpos($cpf, ".") !== false) {
-            $cpf = str_replace(".", "", $cpf);
-        }
-        $sum = 0;
-        $cpf = str_split($cpf);
-        $cpftrueverifier = array();
-        $cpfnumbers = array_splice($cpf, 0, 9);
-        $cpfdefault = array(10, 9, 8, 7, 6, 5, 4, 3, 2);
-        for ($i = 0; $i <= 8; $i++) {
-            $sum += $cpfnumbers[$i] * $cpfdefault[$i];
-        }
-        $sumresult = $sum % 11;
-        if ($sumresult < 2) {
-            $cpftrueverifier[0] = 0;
-        } else {
-            $cpftrueverifier[0] = 11 - $sumresult;
-        }
-        $sum = 0;
-        $cpfdefault = array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2);
-        $cpfnumbers[9] = $cpftrueverifier[0];
-        for ($i = 0; $i <= 9; $i++) {
-            $sum += $cpfnumbers[$i] * $cpfdefault[$i];
-        }
-        $sumresult = $sum % 11;
-        if ($sumresult < 2) {
-            $cpftrueverifier[1] = 0;
-        } else {
-            $cpftrueverifier[1] = 11 - $sumresult;
-        }
-        $returner = false;
-        if ($cpf == $cpftrueverifier) {
-            $returner = true;
-        }
-
-
-        $cpfver = array_merge($cpfnumbers, $cpf);
-
-        if (count(array_unique($cpfver)) == 1 || $cpfver == array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)) {
-
+        if ($cpfStr !== "") {
+            $cpf = "$cpfStr";
+            if (strpos($cpf, "-") !== false) {
+                $cpf = str_replace("-", "", $cpf);
+            }
+            if (strpos($cpf, ".") !== false) {
+                $cpf = str_replace(".", "", $cpf);
+            }
+            $sum = 0;
+            $cpf = str_split($cpf);
+            $cpftrueverifier = array();
+            $cpfnumbers = array_splice($cpf, 0, 9);
+            $cpfdefault = array(10, 9, 8, 7, 6, 5, 4, 3, 2);
+            for ($i = 0; $i <= 8; $i++) {
+                $sum += $cpfnumbers[$i] * $cpfdefault[$i];
+            }
+            $sumresult = $sum % 11;
+            if ($sumresult < 2) {
+                $cpftrueverifier[0] = 0;
+            } else {
+                $cpftrueverifier[0] = 11 - $sumresult;
+            }
+            $sum = 0;
+            $cpfdefault = array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2);
+            $cpfnumbers[9] = $cpftrueverifier[0];
+            for ($i = 0; $i <= 9; $i++) {
+                $sum += $cpfnumbers[$i] * $cpfdefault[$i];
+            }
+            $sumresult = $sum % 11;
+            if ($sumresult < 2) {
+                $cpftrueverifier[1] = 0;
+            } else {
+                $cpftrueverifier[1] = 11 - $sumresult;
+            }
             $returner = false;
+            if ($cpf == $cpftrueverifier) {
+                $returner = true;
+            }
 
-        }
-        if (!$returner) {
-            return array("status" => false, "erro" => "'$cpf' inválido.");
+
+            $cpfver = array_merge($cpfnumbers, $cpf);
+
+            if (count(array_unique($cpfver)) == 1 || $cpfver == array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)) {
+
+                $returner = false;
+
+            }
+            if (!$returner) {
+                return array("status" => false, "erro" => "'$cpfStr' inválido.");
+            }
         }
         return array("status" => true, "erro" => "");
     }
@@ -337,12 +338,11 @@ class Register
             return array("status" => false, "erro" => "'$value' não contém mais que 2 palavras.");
         }
 
-        if (preg_match('/(\w)\1{5,}/', $value)) {
-            return array("status" => false, "erro" => "'$value' contém mais de 4 caracteres repetidos");
+        if (preg_match('/(.)\1{3,}/', $value)) {
+            return array("status" => false, "erro" => "'$value' contém 4 ou mais caracteres repetidos");
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //3011, 3012, 3013, 6009.6010, 6011
@@ -415,13 +415,24 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function exclusiveDeficiency($deficiency, $excludingdeficiencies)
+    function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
     {
-
-        $result = $this->atLeastOne($excludingdeficiency);
-        if (!$result['status']) {
+        switch ($deficiencyName) {
+            case "Cegueira":
+                $excludingDeficiencyNames = "Baixa visão, surdez e surdocegueira";
+                break;
+            case "Baixa Visão":
+            case "Deficiência Auditiva":
+                $excludingDeficiencyNames = "Surdocegueira";
+                break;
+            case "Surdez":
+                $excludingDeficiencyNames = "Deficiência auditiva e surdocegueira";
+                break;
+        }
+        $result = $this->atLeastOne($excludingdeficiencies);
+        if ($result['status']) {
             if ($deficiency != "0") {
-                return array("status" => false, "erro" => "Valor $deficiency deveria ser 0");
+                return array("status" => false, "erro" => "Opção " . $deficiencyName . " é incompatível com o campo " . $excludingDeficiencyNames . ".");
             }
         }
 
@@ -438,21 +449,16 @@ class Register
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
             }
-
-            foreach ($excludingdeficiencies as $deficiency => $excluded) {
-                $result = $this->exclusiveDeficiency($deficiency, $excluded);
-                if (!$result['status']) {
-                    return array("status" => false, "erro" => $result['erro']);
+            foreach ($excludingdeficiencies as $arrayOfExcludingDeficiencies) {
+                foreach($arrayOfExcludingDeficiencies as $deficiencyName => $deficiencies) {
+                    foreach ($deficiencies as $deficiency => $excluded) {
+                        $result = $this->exclusiveDeficiency($deficiencyName, $deficiency, $excluded);
+                        if (!$result['status']) {
+                            return array("status" => false, "erro" => $result['erro']);
+                        }
+                    }
                 }
             }
-
-        } elseif ($hasdeficiency == "0") {
-            foreach ($deficiencies as $key => $value) {
-                if ($value != NULL) {
-                    return array("status" => false, "erro" => "Valor deveria ser nulo");
-                }
-            }
-
         }
 
         return array("status" => true, "erro" => "");
@@ -463,21 +469,15 @@ class Register
     {
 
         if ($hasdeficiency == "1") {
-            $result = $this->moreThanOne($deficiencies);
+            $result = $this->moreThanTwo($deficiencies);
             if ($result['status']) {
                 if ($multipleDeficiencies != "1") {
-                    return array("status" => false, "erro" => "Valor $multipleDeficiencies deveria ser 1 pois há multiplas deficiências");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' não foi selecionada, mas as deficiências combinadas acarretam em deficiência múltipla. Selecione esta opção ou mantenha apenas uma deficiência.");
                 }
             } else {
                 if ($multipleDeficiencies != "0") {
-                    return array("status" => false, "erro" => "Valor $multipleDeficiencies deveria ser 0 pois não há multiplas deficiências");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as deficiências informadas não acarretam em deficiência múltipla. Desmarque esta opção ou marque mais deficiências.");
                 }
-            }
-        } elseif ($hasdeficiency == "0") {
-
-            if ($multipleDeficiencies != null) {
-                return array("status" => false, "erro" => "multiplas dependências $multipleDeficiencies deveria ser nulo");
-
             }
         }
 
@@ -561,7 +561,14 @@ class Register
 
     }
 
+    function isAreaOfResidenceValid($area_of_residence)
+    {
+        if ($area_of_residence != 1 && $area_of_residence != 2) {
+            return array("status" => false, "erro" => "O campo é obrigatório.");
+        }
 
+        return array("status" => true, "erro" => "");
+    }
 }
 
 ?>

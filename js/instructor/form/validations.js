@@ -1,4 +1,4 @@
-$(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filiation_1').on('focusout', function () {
+$(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filiation_1,' + formInstructorIdentification + 'filiation_2').on('focusout', function () {
     var id = '#' + $(this).attr("id");
 
     $(this).val($(this).val().toUpperCase());

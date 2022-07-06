@@ -332,10 +332,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
+                            $roleName = [null, "Professor", "Auxiliar", "Monitor", "Intérprete"];
+                            $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
                                 $disciplines = ClassroomController::teachingDataDiscipline2array($model);
-                                $teachingDataList .= "<li instructor='" . $model->instructor_fk . "'><span>" . $model->instructorFk->name . "</span>"
+                                $teachingDataList .= "<li instructor='" . $model->instructor_fk . "'><span>" . $model->instructorFk->name . "</span><span> - " . $roleName[$model->role] . "</span>"
                                         . '<a  href="#" class="deleteTeachingData delete" title="Excluir">
                                               </a>';
                                 $teachingDataList .= "<ul>";

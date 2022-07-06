@@ -86,12 +86,6 @@ class SchoolStructureValidation extends Register{
 
 		$len = sizeof($supply_locations);
 
-		$result = $this->checkRangeOfArray($supply_locations, array("0", "1"));
-		if(!$result["status"]){
-			return array("status"=>false,"erro"=>$result["erro"]);
-
-		}
-
 		$result = $this->atLeastOne($supply_locations);
 		if(!$result["status"]){
 			return array("status"=>false,"erro"=>$result["erro"]);
@@ -140,32 +134,6 @@ class SchoolStructureValidation extends Register{
 		return array("status"=>true,"erro"=>"");
 	}
 
-	//84, 85
-	function pcCount($collun82, $value){
-		if($collun82 != null){
-			$result = $this->isGreaterThan(strlen($value), "4");
-			if($result["status"]){
-				return array("status"=>false,"erro"=>"Valor $value maior que 4 dígitos");
-			}
-			$result = $this->isGreaterThan($value, "0");
-			if(!$result["status"]){
-				return array("status"=>false,"erro"=>$result["erro"]);
-			}
-
-			if($value > $collun82){
-				return array("status"=>false,"erro"=>"Valor $value é maior que o permitido");
-			}
-			
-		}else{
-			if($value != null) {
-				return array("status"=>false,"erro"=>"Coluna 82 é nulo. Valor $value deve ser nulo");
-			}
-		}
-		return array("status"=>true,"erro"=>"");
-		
-		
-	}
-
 	//86
 	function internetAccess($collun, $value){
 
@@ -195,57 +163,11 @@ class SchoolStructureValidation extends Register{
 	}
 
 	//89
-	function schoolFeeding($collun1028, $value, $collun206){
+	function schoolFeeding($value){
 
-		if(in_array($collun1028, array("1", "2", "3"))){
-			if($value == "1"){
-				if($collun206 <= "0"){
-					return array("status"=>false,
-									"erro"=>"Ao menos um Campo 6 do registro 20 
-												para esta escola deve ser 1 ou 2");
-				}
-			}else{
-				$value = $this->ifNull($value);
-				return array("status"=>false,
-								"erro"=>"Valor $value deve ser 1 pois a coluna está entre os valores supostos");
-			}
-		}else{
-			if($value != "0"){
-				return array("status"=>false,
-								"erro"=>"Valor $value deveria ser 0 
-											pois a coluna não está entre os valores supostos");
-			}
-		}
-
-		return array("status"=>true,"erro"=>"");
-	}
-
-	//90, 91
-	function aee($value, $collun, $modalities, $collun2018){
-
-		if(!in_array($value, array("0", "1", "2"))){
-			return array("status"=>false, "erro"=>"Valor $value não está entre os valores permitidos");
-		}else{
-			if($value == "1" || $value == "2"){
-				if($collun2018 <= 0){
-					return array("status"=>false, 
-									"erro"=>"Já que valor à $value.
-												Coluna 18 de valor $collun2018 do registro 20 está incorreta");
-				}
-			}
-			if($value == "2"){
-				if($collun != 0){
-					return array("status"=>false, 
-									"erro"=>"Já que valor 2 a outra coluna de valor $collun deveria ser 0");
-				}
-				foreach ($modalities as $key => $value) {
-					if($value != null){
-						return array("status"=>false, "erro"=>"Valor deveria ser nulo");
-					}
-				}
-			}
-		}
-
+		if ($value === null) {
+            return array("status"=>false, "erro"=>"Campo obrigatório.");
+        }
 		return array("status"=>true,"erro"=>"");
 	}
 

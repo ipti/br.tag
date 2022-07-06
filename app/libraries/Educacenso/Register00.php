@@ -10,6 +10,10 @@ class Register00
 
         $attributes = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->attributes;
 
+        if ($attributes["address_complement"] !== "" && $attributes["address_complement"] !== null) {
+            $attributes["address_complement"] = strtoupper($attributes["address_complement"]);
+        }
+
         $attributes['situation'] = '1';
         if ($attributes['situation'] == '1') {
             $attributes['regulation'] = '2';

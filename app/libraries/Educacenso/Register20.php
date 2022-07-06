@@ -4,10 +4,10 @@ class Register20
 {
     private static function sanitizeString($string)
     {
-        $what = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º'];
-        $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'E', 'I', 'O', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', ''];
+        $wh = ['ä', 'ã', 'à', 'á', 'â', 'ê', 'ë', 'è', 'é', 'ï', 'ì', 'í', 'ö', 'õ', 'ò', 'ó', 'ô', 'ü', 'ù', 'ú', 'û', 'À', 'Á', 'É', 'Í', 'Ó', 'Ú', 'ñ', 'Ñ', 'ç', 'Ç', ' ', '-', '(', ')', ',', ';', ':', '|', '!', '"', '#', '$', '%', '&', '/', '=', '?', '~', '^', '>', '<', 'ª', 'º', '°'];
+        $by = ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'A', 'A', 'E', 'I', 'O', 'U', 'n', 'n', 'c', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '', '', ''];
 
-        return str_replace($what, $by, $string);
+        return str_replace($wh, $by, $string);
     }
 
     private static function fixName($name)
@@ -163,6 +163,9 @@ class Register20
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
                             $register[$edcensoAlias->corder] = '';
+                        } else if ($edcensoAlias->corder == 21 && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
+                            $register[21] = '0';
+                            $register[23] = '1';
                         }
                     } else if ($edcensoAlias->corder == 34 || $edcensoAlias->corder == 35 || $edcensoAlias->corder == 36 || $edcensoAlias->corder == 37 || $edcensoAlias->corder == 38 || $edcensoAlias->corder == 39) {
                         if ($attributes['edcenso_stage_vs_modality_fk'] == null || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
@@ -182,6 +185,9 @@ class Register20
                         } else if ($register[34] == '0' && $register[35] == '0' && $register[36] == '0' && $register[37] == '0' && $edcensoAlias->corder == 38 && !in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68])) {
                             $register[38] = '0';
                             $register[39] = '1';
+                        } else if ($register[34] == '0' && $register[35] == '0' && $register[36] == '0' && $register[37] == '0' && $register[38] == '0' && $edcensoAlias->corder == 39 && !in_array($attributes['edcenso_stage_vs_modality_fk'], [19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68])) {
+                            $register[39] = '0';
+                            $register[34] = '1';
                         }
                     } else if ($edcensoAlias->corder == 73) {
                         if ($attributes["schooling"] == "0"
@@ -193,7 +199,6 @@ class Register20
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     }
-
                 }
 
                 array_push($registers, implode('|', $register));
