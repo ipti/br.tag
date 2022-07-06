@@ -417,6 +417,9 @@ class ClassroomValidation extends Register
     //campo 38
     function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
     {
+        if (in_array($stage, [43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61])) {
+            return array('status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.');
+        }
         if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 67, 68, 69, 70, 71, 72, 73, 74))) {
             return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o tipo de atendimento "Atividade Complementar" for selecionado.');
         }

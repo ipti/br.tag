@@ -110,7 +110,6 @@ class Register
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
             return array("status" => false, "erro" => "inep_id $inep_id não está entre os permitidos");
-
         }
 
         return array("status" => true, "erro" => "");
@@ -122,7 +121,7 @@ class Register
         if (is_numeric($value)) {
             $len = strlen($value);
             if ($len != $allowed_length) {
-                return array("status" => false, "erro" => "valor deveria ter $allowed_length caracteres ao invés de $len");
+                return array("status" => false, "erro" => "Campo deveria ter $allowed_length caracteres ao invés de $len.");
             }
         } else {
             $value = $this->ifNull($value);

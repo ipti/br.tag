@@ -253,15 +253,7 @@ class CensoController extends Controller
             if (!$result["status"]) array_push($log, array("inep_head_school" => $result["erro"]));
         }
         //campo 42
-        $ies_code = $collumn['ies_code'];
-        $administrative_dependence = $collumn['administrative_dependence'];
-        $sql = "SELECT 	COUNT(id) AS status
-			FROM 	edcenso_ies
-			WHERE 	id = '$ies_code' AND working_status = 'ATIVA'
-					AND administrative_dependency_code = '$administrative_dependence';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $result = $siv->iesCode($ies_code, $check[0]["status"], $collumn['offer_or_linked_unity']);
+        $result = $siv->iesCode($collumn['ies_code'], $collumn['administrative_dependence'], $collumn['offer_or_linked_unity']);
         if (!$result["status"]) array_push($log, array("ies_code" => $result["erro"]));
 
         $result = $siv->isNotNullValid($collumn["id_difflocation"]);
@@ -814,8 +806,10 @@ class CensoController extends Controller
         $result = $idav->isNotGreaterThan($collumn['id'], 20);
         if (!$result["status"]) array_push($log, array("id" => $result["erro"]));
 
-        $result = $idav->isCPFValid($collumn['cpf']);
-        if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
+        if (!empty($collumn['cpf'])) {
+            $result = $idav->isCPFValid($collumn['cpf']);
+            if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
+        }
 
         $result = $idav->isAreaOfResidenceValid($collumn['area_of_residence']);
         if (!$result["status"]) array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
@@ -977,7 +971,7 @@ class CensoController extends Controller
         return $log;
     }
 
-    public function validateStudentIdentification($collumn, $studentdocument)
+    public function validateStudentIdentification($collumn, $studentdocument, $classroom)
     {
 
         $sql = "SELECT inep_id FROM school_identification;";
@@ -1000,8 +994,10 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("school_inep_id_fk" => $result["erro"]));
 
         //campo 3
-        $result = $stiv->isNumericOfSize(12, $collumn['inep_id']);
-        //if(!$result["status"]) array_push($log, array("inep_id"=>$result["erro"]));
+        if ($collumn['inep_id'] != "" && $collumn['inep_id'] != null) {
+            $result = $stiv->isNumericOfSize(12, $collumn['inep_id']);
+            if (!$result["status"]) array_push($log, array("inep_id" => $result["erro"]));
+        }
 
         //campo 4
         $result = $stiv->isNotGreaterThan($collumn['id'], 20);
@@ -1014,7 +1010,7 @@ class CensoController extends Controller
 
         $year = Yii::app()->user->year;
         //campo 6
-        $result = $stiv->validateBirthday($collumn['birthday'], 1910, $year);
+        $result = $stiv->validateBirthday($collumn['birthday'], 1910, $year, $classroom["edcenso_stage_vs_modality_fk"]);
         if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
 
         //campo 7
@@ -1116,7 +1112,7 @@ class CensoController extends Controller
             $collumn['resource_none']);
 
         array_pop($deficiencies_whole);
-        $result = $stiv->inNeedOfResources($collumn['deficiency'],$deficiencies_whole, $resources);
+        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources);
         if (!$result["status"]) array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
 
         return $log;
@@ -1390,7 +1386,6 @@ class CensoController extends Controller
 			 */
         }
 
-
         //24
 
         $sql = "SELECT se.administrative_dependence
@@ -1438,12 +1433,12 @@ class CensoController extends Controller
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                 if (!isset($log['student'][$enrollment->student_fk]['info'])) {
                     $log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
-                    $log['student'][$enrollment->student_fk]['validate']['identification'] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes);
+                    $log['student'][$enrollment->student_fk]['validate']['identification'] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
                     @$log['student'][$enrollment->student_fk]['validate']['documents'] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
                 }
                 $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
                 $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
+                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes, $enrollment->studentFk->attributes);
             }
         }
         $this->render('validate', ['log' => $log]);

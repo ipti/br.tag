@@ -562,7 +562,7 @@ class SchoolIdentificationValidation extends Register
     }
 
     //42
-    function iesCode($value, $status, $offer_or_linked_unity)
+    function iesCode($value, $administrativeDependence, $offer_or_linked_unity)
     {
         if ($offer_or_linked_unity == '2') {
             if ($value == "" && $value == null) {
@@ -571,11 +571,20 @@ class SchoolIdentificationValidation extends Register
             if (!is_numeric($value)) {
                 return array("status" => false, "erro" => "Apenas números são permitidos");
             }
-            if ($status != '1') {
-                return array("status" => false, "erro" => "IES deve existir, estar ativa e ser da mesma dependência administrativa");
+            $institutionType = "PRIVADA";
+            if ($administrativeDependence == "1" || $administrativeDependence == "2" || $administrativeDependence == "3") {
+                $institutionType = "PUBLICA";
+            }
+            $sql = "SELECT 	COUNT(id) AS status
+			FROM 	edcenso_ies
+			WHERE 	id = ' . $value . ' AND working_status = 'ATIVA'
+					AND institution_type = '$institutionType';";
+            $check = Yii::app()->db->createCommand($sql)->queryAll();
+            if ($check[0]["status"] != '1') {
+                return array("status" => false, "erro" => "O código IES deve ser preenchido com um valor permitido, estar ativo e ser da mesma dependência administrativa.");
             }
         } else {
-            if ($value != null) {
+            if ($value != null || $value != "") {
                 return array("status" => false, "erro" => "Valor $value deveria ser nulo");
             }
         }

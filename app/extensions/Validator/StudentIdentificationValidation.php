@@ -12,7 +12,7 @@ class studentIdentificationValidation extends Register
     }
 
     //campo 08
-    function validateBirthday($date, $lowyear_limit, $currentyear)
+    function validateBirthday($date, $lowyear_limit, $currentyear, $classroomStage)
     {
 
         $result = $this->validateDateformart($date);
@@ -24,13 +24,24 @@ class studentIdentificationValidation extends Register
 
         $result = $this->isGreaterThan($mdy[2], 1910);
         if (!$result['status']) {
-            return array("status" => false, "erro" => $result['erro']);
+            return array("status" => false, "erro" => "O ano de nascimento '$mdy[2]'' foi preenchido incorretamente.");
         }
 
         $result = $this->isNotGreaterThan($mdy[2], $currentyear);
         if (!$result['status']) {
             return array("status" => false, "erro" => $result['erro']);
         }
+
+        $currentDate = new DateTime("now");
+        $birthdayDate = DateTime::createFromFormat('d/m/Y', $date);
+        $interval = $birthdayDate->diff($currentDate);
+        if ($classroomStage == 1 && $interval->y > 6) {
+            return array("status" => false, "erro" => "O aluno não pode ter mais de 06 anos e estar matriculado em uma turma com etapa de ensino 'Creche'.");
+        }
+        return array("status" => true, "erro" => "");
+
+        $result = $stiv->checkBirthdayForClassroom($edcenso_svm, $studentIdentification["birthday"]);
+        if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
 
         return array("status" => true, "erro" => "");
 
