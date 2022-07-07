@@ -46,7 +46,7 @@ class Register60
                     }
                 } else {
                     $hasAeeFilled = false;
-                    foreach ($classroom->attributes as $i => $attr) {
+                    foreach ($enrollment as $i => $attr) {
                         $pos = strstr($i, 'aee_');
                         if ($pos) {
                             if ($attr == '1') {
@@ -58,6 +58,39 @@ class Register60
                     //preencher um campo aee qualquer quando todos forem zerados
                     if (!$hasAeeFilled) {
                         $enrollment['aee_cognitive_functions'] = '1';
+                    }
+                    if ($enrollment['aee_cognitive_functions'] == "" || $enrollment['aee_cognitive_functions'] == null) {
+                        $enrollment['aee_cognitive_functions'] = '0';
+                    }
+                    if ($enrollment['aee_autonomous_life'] == "" || $enrollment['aee_autonomous_life'] == null) {
+                        $enrollment['aee_autonomous_life'] = '0';
+                    }
+                    if ($enrollment['aee_curriculum_enrichment'] == "" || $enrollment['aee_curriculum_enrichment'] == null) {
+                        $enrollment['aee_curriculum_enrichment'] = '0';
+                    }
+                    if ($enrollment['aee_accessible_teaching'] == "" || $enrollment['aee_accessible_teaching'] == null) {
+                        $enrollment['aee_accessible_teaching'] = '0';
+                    }
+                    if ($enrollment['aee_libras'] == "" || $enrollment['aee_libras'] == null) {
+                        $enrollment['aee_libras'] = '0';
+                    }
+                    if ($enrollment['aee_portuguese'] == "" || $enrollment['aee_portuguese'] == null) {
+                        $enrollment['aee_portuguese'] = '0';
+                    }
+                    if ($enrollment['aee_soroban'] == "" || $enrollment['aee_soroban'] == null) {
+                        $enrollment['aee_soroban'] = '0';
+                    }
+                    if ($enrollment['aee_braille'] == "" || $enrollment['aee_braille'] == null) {
+                        $enrollment['aee_braille'] = '0';
+                    }
+                    if ($enrollment['aee_mobility_techniques'] == "" || $enrollment['aee_mobility_techniques'] == null) {
+                        $enrollment['aee_mobility_techniques'] = '0';
+                    }
+                    if ($enrollment['aee_caa'] == "" || $enrollment['aee_caa'] == null) {
+                        $enrollment['aee_caa'] = '0';
+                    }
+                    if ($enrollment['aee_optical_nonoptical'] == "" || $enrollment['aee_optical_nonoptical'] == null) {
+                        $enrollment['aee_optical_nonoptical'] = '0';
                     }
                 }
 
@@ -148,6 +181,37 @@ class Register60
                     if ($enrollment['vehicle_type_waterway_boat_5'] == '1' && $enrollment['vehicle_type_waterway_boat_5_15'] == '1'
                         && $enrollment['vehicle_type_waterway_boat_15_35'] == '1' && $enrollment['vehicle_type_waterway_boat_35'] == '1') {
                         $enrollment['vehicle_type_waterway_boat_5'] = '0';
+                    }
+
+                    if ($enrollment['vehicle_type_bike'] == null) {
+                        $enrollment['vehicle_type_bike'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_microbus'] == null) {
+                        $enrollment['vehicle_type_microbus'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_bus'] == null) {
+                        $enrollment['vehicle_type_bus'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_animal_vehicle'] == null) {
+                        $enrollment['vehicle_type_animal_vehicle'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_van'] == null) {
+                        $enrollment['vehicle_type_van'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_other_vehicle'] == null) {
+                        $enrollment['vehicle_type_other_vehicle'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_waterway_boat_5'] == null) {
+                        $enrollment['vehicle_type_waterway_boat_5'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_waterway_boat_5_15'] == null) {
+                        $enrollment['vehicle_type_waterway_boat_5_15'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_waterway_boat_15_35'] == null) {
+                        $enrollment['vehicle_type_waterway_boat_15_35'] = 0;
+                    }
+                    if ($enrollment['vehicle_type_waterway_boat_35'] == null) {
+                        $enrollment['vehicle_type_waterway_boat_35'] = 0;
                     }
                 }
 

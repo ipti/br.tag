@@ -69,30 +69,6 @@ class studentEnrollmentValidation extends Register
 
     }
 
-    function anotherScholarizationPlace($value, $assistance_type, $pedagogical_mediation_type)
-    {
-
-        if ($assistance_type != '4' && $assistance_type != '5' && $pedagogical_mediation_type == '1') {
-            $result = $this->isAllowed($value, array("1", "2", "3"));
-            if (!$result['status']) {
-                return array("status" => false, "erro" => $result['erro']);
-            }
-        } else {
-            if ($value != null) {
-                return array("status" => false, "erro" => "value $value deveria ser nulo");
-            }
-        }
-
-        if ($assistance_type == '1') {
-            if ($value != '1') {
-                return array("status" => false, "erro" => "value $value deveria ser 1");
-            }
-        }
-
-        return array("status" => true, "erro" => "");
-
-    }
-
     function publicTransportation($value, $pedagogical_mediation_type)
     {
 
@@ -192,6 +168,15 @@ class studentEnrollmentValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
+    public function hasAEETypeSelected($aee, $aeeTypes) {
+        if ($aee == 1) {
+            $result = $this->atLeastOne($aeeTypes);
+            if (!$result['status']) {
+                return array("status" => false, "erro" => "Quando o tipo de atendimento da turma for AEE, deve-se selecionar ao menos uma opção.");
+            }
+        }
+        return array("status" => true, "erro" => "");
+    }
 }
 
 ?>

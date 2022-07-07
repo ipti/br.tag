@@ -23,7 +23,7 @@ class Register20
         foreach ($modelTeachingData as $key => $model) {
             $disciplines = ClassroomController::teachingDataDiscipline2array($model);
             foreach ($disciplines as $discipline) {
-                if ($discipline->id > 99) {
+                if ($discipline->id > 99 || $discipline->id == 20) {
                     $teachingDataDisciplines[99] = 99;
                 }
                 $teachingDataDisciplines[$discipline->id] = $discipline->id;
@@ -120,10 +120,10 @@ class Register20
                     $attributes["complementary_activity"] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] == '2') {
-                    $attributes["modality"] = '2';
+                if ($attributes["pedagogical_mediation_type"] == '2' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
+                    $attributes["modality"] = '3';
                 }
-                if ($attributes["pedagogical_mediation_type"] == '3') {
+                if ($attributes["pedagogical_mediation_type"] == '3' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
                     $attributes["modality"] = '1';
                 }
 
@@ -135,8 +135,7 @@ class Register20
                     $attributes['course'] = '';
                 }
 
-                if ($attributes["schooling"] == "0"
-                    || ($attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3)) {
+                if ($attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                     foreach ($attributes as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -190,8 +189,7 @@ class Register20
                             $register[34] = '1';
                         }
                     } else if ($edcensoAlias->corder == 73) {
-                        if ($attributes["schooling"] == "0"
-                            || ($attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3)) {
+                        if ($attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
                             $register[$edcensoAlias->corder] = '0';
