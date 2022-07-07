@@ -57,7 +57,7 @@ class SchoolStructureValidation extends Register{
 				if($result["status"])
 				{	
 					if(strlen($school_inep_id)){
-						return array("status"=>false,"erro"=>"Menos de 8 carácteres");
+						return array("status"=>false,"erro"=>"Menos de 8 caracteres");
 					}
 					if($inep_id == $school_inep_id){
 						return array("status"=>false,"erro"=>"Inep id é igual");

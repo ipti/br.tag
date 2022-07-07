@@ -450,7 +450,7 @@ class Register
                 return array("status" => false, "erro" => $result['erro']);
             }
             foreach ($excludingdeficiencies as $arrayOfExcludingDeficiencies) {
-                foreach($arrayOfExcludingDeficiencies as $deficiencyName => $deficiencies) {
+                foreach ($arrayOfExcludingDeficiencies as $deficiencyName => $deficiencies) {
                     foreach ($deficiencies as $deficiency => $excluded) {
                         $result = $this->exclusiveDeficiency($deficiencyName, $deficiency, $excluded);
                         if (!$result['status']) {
@@ -567,6 +567,19 @@ class Register
             return array("status" => false, "erro" => "O campo é obrigatório.");
         }
 
+        return array("status" => true, "erro" => "");
+    }
+
+    public function isValidPersonInepId($inepId, $schoolInepId)
+    {
+        if ($inepId == $schoolInepId) {
+            return array("status" => false, "erro" => "O ID INEP não pode ser igual ao ID INEP da escola.");
+        } else {
+            $result = $this->isNumericOfSize(12, $inepId);
+            if (!$result["status"]) {
+                return array("status" => false, "erro" => $result["erro"]);
+            }
+        }
         return array("status" => true, "erro" => "");
     }
 }

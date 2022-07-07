@@ -485,15 +485,6 @@ class Register30
             $register = self::exportStudentIdentification($student['identification'], $register, $year);
             $register = self::exportStudentDocuments($student['documents'], $register, $year);
 
-
-            //um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (modality)
-            $pedagogicalMediationType = $student['classroom']["pedagogical_mediation_type"] == null ? '1' : $student['classroom']["pedagogical_mediation_type"];
-            $modality = $pedagogicalMediationType == '2' ? '2' : ($pedagogicalMediationType == '3' ? '1' : $student['classroom']['modality']);
-            //
-            if ($modality == 2) {
-                $register[16] = 1;
-            }
-
             ksort($register);
             array_push($registers, implode('|', $register));
         }

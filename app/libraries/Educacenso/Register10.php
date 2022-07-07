@@ -14,7 +14,7 @@ class Register10
             if ($attributes["building_occupation_situation"] == null) {
                 $attributes["building_occupation_situation"] = '1';
             }
-            if ($attributes['shared_building_with_school'] == null || $attributes['shared_building_with_school'] = '0') {
+            if ($attributes['shared_building_with_school'] == null || $attributes['shared_building_with_school'] == '0') {
                 $attributes['shared_building_with_school'] = '0';
                 $attributes['shared_school_inep_id_1'] = '';
                 $attributes['shared_school_inep_id_2'] = '';

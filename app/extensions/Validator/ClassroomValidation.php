@@ -167,15 +167,6 @@ class ClassroomValidation extends Register
     {
         $allowedValues = array('0', '1');
 
-        if ($mediation != '1') {
-            foreach ($days as $day) {
-                $emptyDay = $this->isEmpty($day);
-                if (!$emptyDay['status']) {
-                    return array('status' => false, 'erro' => 'Dias de aula da turma devem ser vazios se nao for presencial');
-                }
-            }
-            return array('status' => true, 'erro' => '');
-        }
         foreach ($days as $day) {
             if (strlen($day) != 1) {
                 return array('status' => false, 'erro' => 'Os campos devem possuir 1 caractere');
@@ -523,7 +514,7 @@ class ClassroomValidation extends Register
 
     public function isValidDiffLocation($pedagogicalMediationType, $diffLocation)
     {
-        if ($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2" && ($diffLocation == null)) {
+        if (($pedagogicalMediationType == "1" || $pedagogicalMediationType == "2") && ($diffLocation == null || $diffLocation == "")) {
             return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial ou semipresencial, o campo se torna obrigatório');
         }
         return array('status' => true, 'erro' => '');

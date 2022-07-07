@@ -97,6 +97,12 @@ class Register00
                     $attributes['regulation_organ_state'] = '1';
                 }
             }
+            if ($attributes['regulation_organ_state'] == null) {
+                $attributes['regulation_organ_state'] = '0';
+            }
+            if ($attributes['regulation_organ_municipal'] == null) {
+                $attributes['regulation_organ_municipal'] = '0';
+            }
         }
 
 

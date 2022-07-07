@@ -138,19 +138,19 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("address" => $result["erro"]));
 
         //campo 15
-        if ($collumn['address_number'] !== "") {
+        if ($collumn['address_number'] !== "" && $collumn["address_number"] !== null) {
             $result = $siv->isAddressValid($collumn['address_number'], 10, true);
             if (!$result["status"]) array_push($log, array("address_number" => $result["erro"]));
         }
 
         //campo 16
-        if ($collumn['address_complement'] !== "") {
+        if ($collumn['address_complement'] !== "" && $collumn["address_complement"] !== null) {
             $result = $siv->isAddressValid($collumn['address_complement'], 20, true);
             if (!$result["status"]) array_push($log, array("address_complement" => $result["erro"]));;
         }
 
         //campo 17
-        if ($collumn['address_neighborhood'] !== "") {
+        if ($collumn['address_neighborhood'] !== "" && $collumn["address_neighborhood"] !== null) {
             $result = $siv->isAddressValid($collumn['address_neighborhood'], 50, true);
             if (!$result["status"]) array_push($log, array("address_neighborhood" => $result["erro"]));
         }
@@ -262,6 +262,9 @@ class CensoController extends Controller
         $result = $siv->isValidLinkedOrgan($collumn["administrative_dependence"], $collumn["linked_mec"], $collumn["linked_army"], $collumn["linked_helth"], $collumn["linked_other"]);
         if (!$result["status"]) array_push($log, array("Orgao ao qual a escola publica esta vinculada" => $result["erro"]));
 
+        $result = $siv->regulationOrganSphere($collumn["administrative_dependence"], $collumn["regulation_organ_federal"], $collumn["regulation_organ_state"], $collumn["regulation_organ_municipal"]);
+        if (!$result["status"]) array_push($log, array("Esfera do Orgao Regulador" => $result["erro"]));
+
         return $log;
     }
 
@@ -317,10 +320,8 @@ class CensoController extends Controller
             $collumn["shared_school_inep_id_4"],
             $collumn["shared_school_inep_id_5"],
             $collumn["shared_school_inep_id_6"]);
-        $result = $ssv->sharedSchoolInep($collumn["shared_building_with_school"],
-            $collumn["school_inep_id_fk"],
-            $shared_school_inep_ids);
-        if (!$result["status"]) array_push($log, array("shared_school_inep_ids" => $result["erro"]));
+        $result = $ssv->sharedSchoolInep($collumn["shared_building_with_school"], $collumn["school_inep_id_fk"], $shared_school_inep_ids);
+        if (!$result["status"]) array_push($log, array("Escolas com qual e compartilhada" => $result["erro"]));
 
         //campo 20
         $result = $ssv->oneOfTheValues($collumn["consumed_water_type"]);
@@ -502,22 +503,14 @@ class CensoController extends Controller
             $collumn["different_location"]);
         if (!$result["status"]) array_push($log, array("different_location" => $result["erro"]));
 
-        //101
-        $result = $ssv->isAllowed($collumn["native_education"], array("0", "1"));
-        if (!$result["status"]) array_push($log, array("native_education" => $result["erro"]));
-
-        //104
-        $result = $ssv->edcensoNativeLanguages($collumn["native_education_language_native"],
-            $collumn["edcenso_native_languages_fk"]);
-        if (!$result["status"]) array_push($log, array("edcenso_native_languages_fk" => $result["erro"]));
-
-        //105
-        $result = $ssv->isAllowed($collumn["brazil_literate"], array("0", "1"));
-        if (!$result["status"]) array_push($log, array("brazil_literate" => $result["erro"]));
-
-        //106
-        $result = $ssv->isAllowed($collumn["open_weekend"], array("0", "1"));
-        if (!$result["status"]) array_push($log, array("open_weekend" => $result["erro"]));
+//        //101
+//        $result = $ssv->isAllowed($collumn["native_education"], array("0", "1"));
+//        if (!$result["status"]) array_push($log, array("native_education" => $result["erro"]));
+//
+//        //104
+//        $result = $ssv->edcensoNativeLanguages($collumn["native_education_language_native"],
+//            $collumn["edcenso_native_languages_fk"]);
+//        if (!$result["status"]) array_push($log, array("edcenso_native_languages_fk" => $result["erro"]));
 
         //107
         $sql = "SELECT 	COUNT(esm.id ) AS number_of
@@ -582,11 +575,6 @@ class CensoController extends Controller
         //campo 18
         $result = $crv->isValidAssistanceType($schoolstructure, $column['assistance_type'], $column['pedagogical_mediation_type']);
         if (!$result['status']) array_push($log, array('assistance_type' => $result['erro']));
-
-        //campo 19
-        $result = $crv->isValidMaisEducacaoParticipator($column['mais_educacao_participator'], $column['pedagogical_mediation_type'], $school['administrative_dependence'],
-            $column['assistance_type'], $column['modality'], $column['edcenso_stage_vs_modality_fk']);
-        if (!$result['status']) array_push($log, array('mais_educacao_participator' => $result['erro']));
 
         //campos 20 a 25
         $activities = array($column['complementary_activity_type_1'], $column['complementary_activity_type_2'], $column['complementary_activity_type_3'],
@@ -682,8 +670,8 @@ class CensoController extends Controller
         if (!$result["status"]) array_push($log, array("school_inep_id_fk" => $result["erro"]));
 
         //campo 3
-        if (!empty($collumn['inep_id'])) {
-            $result = $iiv->isNumericOfSize(12, $collumn['inep_id']);
+        if ($collumn['inep_id'] != "" && $collumn['inep_id'] != null) {
+            $result = $iiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
             if (!$result["status"]) array_push($log, array("inep_id" => $result["erro"]));
         }
 
@@ -995,7 +983,7 @@ class CensoController extends Controller
 
         //campo 3
         if ($collumn['inep_id'] != "" && $collumn['inep_id'] != null) {
-            $result = $stiv->isNumericOfSize(12, $collumn['inep_id']);
+            $result = $stiv->isValidPersonInepId($collumn['inep_id'], $school_inep_id_fk);
             if (!$result["status"]) array_push($log, array("inep_id" => $result["erro"]));
         }
 
@@ -1336,29 +1324,23 @@ class CensoController extends Controller
 
         //campo 9
 
-        $sql = "SELECT edcenso_stage_vs_modality_fk FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT edcenso_stage_vs_modality_fk, aee FROM classroom WHERE id = '$classroom_fk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
         $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
+        $aee = $check[0]['aee'];
 
         //$result = $sev->multiLevel($collumn['edcenso_stage_vs_modality_fk'], $edcenso_svm);
         //if(!$result["status"]) array_push($log, array("edcenso_stage_vs_modality_fk"=>$result["erro"]));
 
         //campo 10
-        $sql = "SELECT assistance_type, pedagogical_mediation_type FROM classroom WHERE id = '$classroom_fk';";
+        $sql = "SELECT pedagogical_mediation_type FROM classroom WHERE id = '$classroom_fk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
-        $assistance_type = $check[0]['assistance_type'];
         $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
-
-        $result = $sev->anotherScholarizationPlace($collumn['another_scholarization_place'], $assistance_type, $pedagogical_mediation_type);
-        if (!$result["status"]) array_push($log, array("another_scholarization_place" => $result["erro"]));
 
         //campo 11
         //@todo setar nulo na exportação
         if (!empty($collumn['public_transport'])) {
-            $result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
-            if (!$result["status"]) array_push($log, array("public_transport" => $result["erro"]));
-
             $result = $sev->publicTransportation($collumn['public_transport'], $pedagogical_mediation_type);
             if (!$result["status"]) array_push($log, array("public_transport" => $result["erro"]));
 
@@ -1378,6 +1360,7 @@ class CensoController extends Controller
                 $collumn['vehicle_type_waterway_boat_15_35'],
                 $collumn['vehicle_type_waterway_boat_35'],
                 $collumn['vehicle_type_metro_or_train']);
+
 
             /*
 			 * Ocultando validação pois a mesm já está sendo tratada
@@ -1402,6 +1385,21 @@ class CensoController extends Controller
 
         $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality"]);
         if (!$result["status"]) array_push($log, array("Etapa de Ensino" => $result["erro"]));
+
+        $aeeTypes = array($collumn['aee_cognitive_functions'],
+            $collumn['aee_autonomous_life'],
+            $collumn['aee_curriculum_enrichment'],
+            $collumn['aee_accessible_teaching'],
+            $collumn['aee_libras'],
+            $collumn['aee_portuguese'],
+            $collumn['aee_soroban'],
+            $collumn['aee_braille'],
+            $collumn['aee_mobility_techniques'],
+            $collumn['aee_caa'],
+            $collumn['aee_optical_nonoptical']);
+
+        $result = $sev->hasAEETypeSelected($aee, $aeeTypes);
+        if (!$result["status"]) array_push($log, array("Tipo de Atendimento Educacional Especializado" => $result["erro"]));
 
         return $log;
     }

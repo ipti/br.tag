@@ -614,6 +614,24 @@ class SchoolIdentificationValidation extends Register
         }
         return array("status" => true, "erro" => "");
     }
+
+    public function regulationOrganSphere($administrativeDependence, $federal, $state, $municipal) {
+        if (($federal == 0 || $federal == null) && ($state == 0 || $state == null) && ($municipal == 0 || $municipal == null)) {
+            return array("status" => false, "erro" => "Selecione pelo menos uma opção.");
+        }
+
+        if ($federal == 1 && ($administrativeDependence == 2 || $administrativeDependence == 3)) {
+            return array("status" => false, "erro" => "Quando a dependência administrativa for Estadual ou Municipal, não pode selecionar 'Órgão Federal'.");
+        }
+        if ($municipal == 1 && ($administrativeDependence == 1 || $administrativeDependence == 2)) {
+            return array("status" => false, "erro" => "Quando a dependência administrativa for Federal ou Estadual, não pode selecionar 'Órgão Municipal'.");
+        }
+        
+        if ($municipal == 1 && $federal == 1) {
+            return array("status" => false, "erro" => "Os campos 'Órgão Municipal' e 'Órgão Federal' não podem ser ambos selecionados.");
+        }
+        return array("status" => true, "erro" => "");
+    }
 }
 
 ?>
