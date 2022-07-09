@@ -1383,7 +1383,7 @@ class CensoController extends Controller
         $result = $sev->studentEntryForm($collumn['student_entry_form'], $administrative_dependence, $edcenso_svm);
         if (!$result["status"]) array_push($log, array("student_entry_form" => $result["erro"]));
 
-        $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality"]);
+        $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality_fk"]);
         if (!$result["status"]) array_push($log, array("Etapa de Ensino" => $result["erro"]));
 
         $aeeTypes = array($collumn['aee_cognitive_functions'],
@@ -1436,7 +1436,7 @@ class CensoController extends Controller
                 }
                 $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
                 $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes, $enrollment->studentFk->attributes);
+                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
             }
         }
         $this->render('validate', ['log' => $log]);
