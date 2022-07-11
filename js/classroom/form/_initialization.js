@@ -15,7 +15,6 @@ $(document).ready(function() {
     //         $(form+"assistance_type").val(val).trigger('change');
     //     }});
     if ($("#Classroom_complementary_activity").is(":checked")) {
-        $(form+"complementary_activity_type_1").val($.parseJSON(jsonCompActv));
         $("#complementary_activity").show();
     } else {
         $("#complementary_activity").hide();

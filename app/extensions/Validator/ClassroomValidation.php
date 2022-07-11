@@ -367,40 +367,16 @@ class ClassroomValidation extends Register
     }
 
     //campo 37
-    function isValidModality($modality, $assistance_type, $schoolStructureModalities, $mediation)
+    function isValidModality($modality, $mediation, $complementaryActivity)
     {
-        $allowedValues = array('1', '2', '3', '4');
-        $emptyModality = $this->isEmpty($modality);
-
-        if ($emptyModality['status'] && $assistance_type != 4 && $assistance_type != 5) {
-            return array('status' => false, 'erro' => 'Deve ser preenchido quando for Atividade Complementar ou AEE');
+        if ($mediation == 2 && ($modality !== 2 && $modality !== 3)) {
+            return array('status' => false, 'erro' => 'Deve ser selecionada a opção "Educação Especial" ou "EJA" quando a mediação didático-pedagógica for Semipresencial.');
         }
-        if (!$emptyModality['status'] && $assistance_type == 4) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido quando for Atividade Complementar');
+        if ($mediation == 3 && ($modality !== 1 && $modality !== 3 && $modality !== 4)) {
+            return array('status' => false, 'erro' => 'Deve ser selecionada a opção "Ensino Regular", "EJA" ou "Educação Profissional" quando a mediação didático-pedagógica for Educação à Distância.');
         }
-        if (!$emptyModality['status'] && $assistance_type == 5) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido quando for AEE');
-        }
-        if (!in_array($modality, $allowedValues)) {
-            return array('status' => false, 'erro' => 'O campo foi preenchido com valor invalido');
-        }
-        if ($modality == 1 && $schoolStructureModalities['modalities_regular'] != 1) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo não pode ser preenchido com 1 quando não for educacao regular'));
-        }
-        if ($modality == 2 && $schoolStructureModalities['modalities_especial'] != 1) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
-        }
-        if ($modality == 3 && $schoolStructureModalities['modalities_eja'] != 1) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
-        }
-        if ($modality == 4 && $schoolStructureModalities['modalities_professional'] != 1) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido com 2 quando nao for educacao especial'));
-        }
-        if (!($modality == 2 || $modality == 3) && $mediation == 2) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo modalidade deve ser 2 ou 3 quando a mediacao for semipresencial'));
-        }
-        if (!($modality == 1 || $modality == 3 || $modality == 4) && $mediation == 3) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo modalidade deve ser 1, 3 ou 4 quando a mediacao for educacao a distancia'));
+        if ($complementaryActivity == 1 && $modality == 3) {
+            return array('status' => false, 'erro' => 'Não deve ser selecionada a opção "EJA" quando o tipo de atendimento for "Atividade Complementar".');
         }
         return array('status' => true, 'erro' => '');
     }

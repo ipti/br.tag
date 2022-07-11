@@ -1,0 +1,2 @@
+update school_structure set energy_supply_generator_alternative = 0 where energy_supply_generator_alternative is null;
+update school_structure set dependencies_bathroom_workes = 0 where dependencies_bathroom_workes is null;

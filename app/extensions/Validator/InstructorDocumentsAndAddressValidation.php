@@ -9,7 +9,7 @@
 
         //campo 5
         function isCPFValid($cpfStr) {
-            if ($cpfStr !== "") {
+            if ($cpfStr !== "" && $cpfStr !== null) {
                 $cpf = "$cpfStr";
                 if (strpos($cpf, "-") !== false) {
                     $cpf = str_replace("-", "", $cpf);
@@ -59,6 +59,8 @@
                 if (!$returner) {
                     return array("status" => false, "erro" => "'$cpfStr' inválido.");
                 }
+            } else {
+                return array("status" => false, "erro" => "O campo CPF é obrigatório.");
             }
             return array("status" => true, "erro" => "");
         }

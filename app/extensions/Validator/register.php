@@ -109,7 +109,7 @@ class Register
     function isAllowedInepId($inep_id, $allowed_inep_ids)
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
-            return array("status" => false, "erro" => "inep_id $inep_id não está entre os permitidos");
+            return array("status" => false, "erro" => "ID INEP $inep_id não está entre os permitidos");
         }
 
         return array("status" => true, "erro" => "");
@@ -339,7 +339,7 @@ class Register
         }
 
         if (preg_match('/(.)\1{3,}/', $value)) {
-            return array("status" => false, "erro" => "'$value' contém 4 ou mais caracteres repetidos");
+            return array("status" => false, "erro" => "'$value' contém 4 ou mais caracteres repetidos (podendo ser letras ou caracteres em branco).");
         }
 
         return array("status" => true, "erro" => "");
@@ -476,7 +476,7 @@ class Register
                 }
             } else {
                 if ($multipleDeficiencies != "0") {
-                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as deficiências informadas não acarretam em deficiência múltipla. Desmarque esta opção ou marque mais deficiências.");
+                    return array("status" => false, "erro" => "Opção 'Deficiência múltipla' foi selecionada, mas as deficiências informadas não acarretam em deficiência múltipla. Desmarque esta opção ou marque mais de 02 deficiências (além da múltipla).");
                 }
             }
         }

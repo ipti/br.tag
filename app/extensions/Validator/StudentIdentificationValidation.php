@@ -12,7 +12,7 @@ class studentIdentificationValidation extends Register
     }
 
     //campo 08
-    function validateBirthday($date, $lowyear_limit, $currentyear, $classroomStage)
+    function validateBirthday($date, $currentyear, $classroomStage)
     {
 
         $result = $this->validateDateformart($date);
@@ -24,7 +24,7 @@ class studentIdentificationValidation extends Register
 
         $result = $this->isGreaterThan($mdy[2], 1910);
         if (!$result['status']) {
-            return array("status" => false, "erro" => "O ano de nascimento '$mdy[2]'' foi preenchido incorretamente.");
+            return array("status" => false, "erro" => "O ano de nascimento '$mdy[2]' foi preenchido incorretamente.");
         }
 
         $result = $this->isNotGreaterThan($mdy[2], $currentyear);
@@ -37,6 +37,14 @@ class studentIdentificationValidation extends Register
         $interval = $birthdayDate->diff($currentDate);
         if ($classroomStage == 1 && $interval->y > 6) {
             return array("status" => false, "erro" => "O aluno não pode ter mais de 06 anos e estar matriculado em uma turma com etapa de ensino 'Creche'.");
+        } else if ($classroomStage == 20 && ($interval->y < 9 || $interval->y > 50)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 09 anos ou mais de 50 anos e estar matriculado em uma turma do 7º Ano do Ensino Fundamental.");
+        } else if (($classroomStage == 69 || $classroomStage == 70 || $classroomStage == 72) && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma EJA do Ensino Fundamental.");
+        } else if ($classroomStage == 73 && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Integrado à Modalidade EJA do Ensino Fundamental.");
+        } else if ($classroomStage == 68 && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Concomitante.");
         }
         return array("status" => true, "erro" => "");
 
@@ -92,15 +100,15 @@ class studentIdentificationValidation extends Register
                 } else if ($resources[5] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Cegueira for selecionado.");
                 } else if ($resources[5] == 1 && $resources[6] == 1) {
-                    return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Prova Superampliada (Fonte 24) for selecionado.");
+                    return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Prova Ampliada (Fonte 24) for selecionado.");
                 } else if ($resources[5] == 1 && $resources[10] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Prova em Braille for selecionado.");
                 } else if ($resources[6] == 1 && ($deficiencies[1] !== 1 && $deficiencies[4] !== 1)) {
-                    return array("status" => false, "erro" => "Prova Superampliada (Fonte 24) não pode ser selecionado quando nenhum dos campos Baixa visão e Surdocegueira for selecionado.");
+                    return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando nenhum dos campos Baixa visão e Surdocegueira for selecionado.");
                 } else if ($resources[6] == 1 && $deficiencies[0] == 1) {
-                    return array("status" => false, "erro" => "Prova Superampliada (Fonte 24) não pode ser selecionado quando o campo Cegueira for selecionado.");
+                    return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando o campo Cegueira for selecionado.");
                 } else if ($resources[6] == 1 && $resources[10] == 1) {
-                    return array("status" => false, "erro" => "Prova Superampliada (Fonte 24) não pode ser selecionado quando o campo Prova em Braille for selecionado.");
+                    return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando o campo Prova em Braille for selecionado.");
                 } else if ($resources[7] == 1 && ($deficiencies[0] !== 1 && $deficiencies[1] !== 1 && $deficiencies[4] !== 1 && $deficiencies[5] !== 1 && $deficiencies[6] !== 1 && $deficiencies[8] !== 1)) {
                     return array("status" => false, "erro" => "CD com áudio para deficiente visual não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
                 } else if ($resources[7] == 1 && $deficiencies[2] == 1) {

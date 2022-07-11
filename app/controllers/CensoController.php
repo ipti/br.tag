@@ -597,11 +597,7 @@ class CensoController extends Controller
 
         //campo 37
 
-        $schoolStructureModalities['modalities_regular'] = $schoolstructure['modalities_regular'];
-        $schoolStructureModalities['modalities_especial'] = $schoolstructure['modalities_especial'];
-        $schoolStructureModalities['modalities_eja'] = $schoolstructure['modalities_eja'];
-        $schoolStructureModalities['modalities_professional'] = $schoolstructure['modalities_professional'];
-        $result = $crv->isValidModality($column['modality'], $column['assistance_type'], $schoolStructureModalities, $column['pedagogical_mediation_type']);
+        $result = $crv->isValidModality($column['modality'], $column['pedagogical_mediation_type'], $column["complementary_activity"]);
         if (!$result['status']) array_push($log, array('modality' => $result['erro']));
 
         //campo 38
@@ -794,7 +790,7 @@ class CensoController extends Controller
         $result = $idav->isNotGreaterThan($collumn['id'], 20);
         if (!$result["status"]) array_push($log, array("id" => $result["erro"]));
 
-        if (!empty($collumn['cpf'])) {
+        if (empty($instructor_inep_id) || !empty($collumn['cpf'])) {
             $result = $idav->isCPFValid($collumn['cpf']);
             if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
         }
@@ -998,7 +994,7 @@ class CensoController extends Controller
 
         $year = Yii::app()->user->year;
         //campo 6
-        $result = $stiv->validateBirthday($collumn['birthday'], 1910, $year, $classroom["edcenso_stage_vs_modality_fk"]);
+        $result = $stiv->validateBirthday($collumn['birthday'], $year, $classroom["edcenso_stage_vs_modality_fk"]);
         if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
 
         //campo 7
