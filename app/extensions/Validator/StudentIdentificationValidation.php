@@ -79,23 +79,23 @@ class studentIdentificationValidation extends Register
             $atLeastOneDeficiency = $this->atLeastOne($deficiencies);
             $atLeastOneResource = $this->atLeastOne($resources);
             if ($atLeastOneDeficiency["status"] && $atLeastOneResource["status"]) {
-                if ($resources[0] == 1 && ($deficiencies[0] !== 1 && $deficiencies[1] !== 1 && $deficiencies[4] !== 1 && $deficiencies[5] !== 1 && $deficiencies[6] !== 1 && $deficiencies[8] !== 1)) {
+                if ($resources[0] == 1 && ($deficiencies[0] != 1 && $deficiencies[1] != 1 && $deficiencies[4] != 1 && $deficiencies[5] != 1 && $deficiencies[6] != 1 && $deficiencies[8] != 1)) {
                     return array("status" => false, "erro" => "Auxílio ledor não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
                 } else if ($resources[0] == 1 && $deficiencies[2] == 1) {
                     return array("status" => false, "erro" => "Auxílio ledor não pode ser selecionado quando o campo Surdez for selecionado.");
-                } else if ($resources[1] == 1 && ($deficiencies[0] !== 1 && $deficiencies[1] !== 1 && $deficiencies[4] !== 1 && $deficiencies[5] !== 1 && $deficiencies[6] !== 1 && $deficiencies[8] !== 1)) {
+                } else if ($resources[1] == 1 && ($deficiencies[0] != 1 && $deficiencies[1] != 1 && $deficiencies[4] != 1 && $deficiencies[5] != 1 && $deficiencies[6] != 1 && $deficiencies[8] != 1)) {
                     return array("status" => false, "erro" => "Auxílio transcrição não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
-                } else if ($resources[2] == 1 && $deficiencies[4] !== 1) {
+                } else if ($resources[2] == 1 && $deficiencies[4] != 1) {
                     return array("status" => false, "erro" => "Guia-Intérprete não pode ser selecionado quando o campo Surdocegueira não for selecionado.");
-                } else if ($resources[3] == 1 && ($deficiencies[2] !== 1 && $deficiencies[3] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[3] == 1 && ($deficiencies[2] != 1 && $deficiencies[3] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Tradutor-Intérprete de Libras não pode ser selecionado quando nenhum dos campos Surdez, Deficiência Auditiva e Surdocegueira for selecionado.");
                 } else if ($resources[3] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Tradutor-Intérprete de Libras não pode ser selecionado quando o campo Cegueira for selecionado.");
-                } else if ($resources[4] == 1 && ($deficiencies[2] !== 1 && $deficiencies[3] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[4] == 1 && ($deficiencies[2] != 1 && $deficiencies[3] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Leitura Labial não pode ser selecionado quando nenhum dos campos Surdez, Deficiência Auditiva e Surdocegueira for selecionado.");
                 } else if ($resources[4] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Leitura Labial não pode ser selecionado quando o campo Cegueira for selecionado.");
-                } else if ($resources[5] == 1 && ($deficiencies[1] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[5] == 1 && ($deficiencies[1] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando nenhum dos campos Baixa visão e Surdocegueira for selecionado.");
                 } else if ($resources[5] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Cegueira for selecionado.");
@@ -103,25 +103,25 @@ class studentIdentificationValidation extends Register
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Prova Ampliada (Fonte 24) for selecionado.");
                 } else if ($resources[5] == 1 && $resources[10] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 18) não pode ser selecionado quando o campo Prova em Braille for selecionado.");
-                } else if ($resources[6] == 1 && ($deficiencies[1] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[6] == 1 && ($deficiencies[1] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando nenhum dos campos Baixa visão e Surdocegueira for selecionado.");
                 } else if ($resources[6] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando o campo Cegueira for selecionado.");
                 } else if ($resources[6] == 1 && $resources[10] == 1) {
                     return array("status" => false, "erro" => "Prova Ampliada (Fonte 24) não pode ser selecionado quando o campo Prova em Braille for selecionado.");
-                } else if ($resources[7] == 1 && ($deficiencies[0] !== 1 && $deficiencies[1] !== 1 && $deficiencies[4] !== 1 && $deficiencies[5] !== 1 && $deficiencies[6] !== 1 && $deficiencies[8] !== 1)) {
+                } else if ($resources[7] == 1 && ($deficiencies[0] != 1 && $deficiencies[1] != 1 && $deficiencies[4] != 1 && $deficiencies[5] != 1 && $deficiencies[6] != 1 && $deficiencies[8] != 1)) {
                     return array("status" => false, "erro" => "CD com áudio para deficiente visual não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
                 } else if ($resources[7] == 1 && $deficiencies[2] == 1) {
                     return array("status" => false, "erro" => "CD com áudio para deficiente visual não pode ser selecionado quando o campo Surdez for selecionado.");
-                } else if ($resources[8] == 1 && ($deficiencies[2] !== 1 && $deficiencies[3] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[8] == 1 && ($deficiencies[2] != 1 && $deficiencies[3] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Prova de Língua Portuguesa não pode ser selecionado quando nenhum dos campos Surdez, Deficiência Auditiva e Surdocegueira for selecionado.");
                 } else if ($resources[8] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Prova de Língua Portuguesa não pode ser selecionado quando o campo Cegueira for selecionado.");
-                } else if ($resources[9] == 1 && ($deficiencies[2] !== 1 && $deficiencies[3] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[9] == 1 && ($deficiencies[2] != 1 && $deficiencies[3] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Vídeo em Libras não pode ser selecionado quando nenhum dos campos Surdez, Deficiência Auditiva e Surdocegueira for selecionado.");
                 } else if ($resources[9] == 1 && $deficiencies[0] == 1) {
                     return array("status" => false, "erro" => "Vídeo em Libras não pode ser selecionado quando o campo Cegueira for selecionado.");
-                } else if ($resources[10] == 1 && ($deficiencies[0] !== 1 && $deficiencies[4] !== 1)) {
+                } else if ($resources[10] == 1 && ($deficiencies[0] != 1 && $deficiencies[4] != 1)) {
                     return array("status" => false, "erro" => "Prova em Braille não pode ser selecionado quando nenhum dos campos Cegueira e Surdocegueira for selecionado.");
                 } else if ($resources[11] == 1 && ($deficiencies[0] == 1 || $deficiencies[4] == 1)) {
                     return array("status" => false, "erro" => "O campo 'Nenhum' não pode ser selecionado quando algum dos campos Cegueira e Surdocegueira for selecionado.");
