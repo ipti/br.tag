@@ -109,7 +109,7 @@ class Register
     function isAllowedInepId($inep_id, $allowed_inep_ids)
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
-            return array("status" => false, "erro" => "inep_id $inep_id não está entre os permitidos");
+            return array("status" => false, "erro" => "ID INEP $inep_id não está entre os permitidos");
         }
 
         return array("status" => true, "erro" => "");

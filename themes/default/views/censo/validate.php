@@ -28,7 +28,7 @@
             margin-bottom: 10px;
         }
         .ellipsis {
-            max-width: 100% !important;
+            max-width: calc(100% - 40px) !important;
         }
     </style>
     <div class="clearfix"></div>

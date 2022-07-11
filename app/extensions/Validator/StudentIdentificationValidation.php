@@ -39,6 +39,12 @@ class studentIdentificationValidation extends Register
             return array("status" => false, "erro" => "O aluno não pode ter mais de 06 anos e estar matriculado em uma turma com etapa de ensino 'Creche'.");
         } else if ($classroomStage == 20 && ($interval->y < 9 || $interval->y > 50)) {
             return array("status" => false, "erro" => "O aluno não pode ter menos de 09 anos ou mais de 50 anos e estar matriculado em uma turma do 7º Ano do Ensino Fundamental.");
+        } else if (($classroomStage == 69 || $classroomStage == 70 || $classroomStage == 72) && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma EJA do Ensino Fundamental.");
+        } else if ($classroomStage == 73 && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Integrado à Modalidade EJA do Ensino Fundamental.");
+        } else if ($classroomStage == 68 && ($interval->y < 12 || $interval->y > 94)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Concomitante.");
         }
         return array("status" => true, "erro" => "");
 

@@ -186,6 +186,11 @@ class Register20
                         } else if ($edcensoAlias->corder == 23 && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
                             $register[23] = '1';
                         }
+                    } else if ($edcensoAlias->corder == 31 || $edcensoAlias->corder == 32) {
+                        $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                        if ($register[21] == '' && $register[23] == '') {
+                            $register[$edcensoAlias->corder] = '';
+                        }
                     } else if ($edcensoAlias->corder == 34 || $edcensoAlias->corder == 35 || $edcensoAlias->corder == 36 || $edcensoAlias->corder == 37 || $edcensoAlias->corder == 38 || $edcensoAlias->corder == 39) {
                         if ($attributes['edcenso_stage_vs_modality_fk'] == null || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
                             $register[$edcensoAlias->corder] = '';
