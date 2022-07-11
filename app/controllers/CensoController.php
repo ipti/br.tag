@@ -794,7 +794,7 @@ class CensoController extends Controller
         $result = $idav->isNotGreaterThan($collumn['id'], 20);
         if (!$result["status"]) array_push($log, array("id" => $result["erro"]));
 
-        if (!empty($collumn['cpf'])) {
+        if (empty($instructor_inep_id) || !empty($collumn['cpf'])) {
             $result = $idav->isCPFValid($collumn['cpf']);
             if (!$result["status"]) array_push($log, array("cpf" => $result["erro"]));
         }
@@ -998,7 +998,7 @@ class CensoController extends Controller
 
         $year = Yii::app()->user->year;
         //campo 6
-        $result = $stiv->validateBirthday($collumn['birthday'], 1910, $year, $classroom["edcenso_stage_vs_modality_fk"]);
+        $result = $stiv->validateBirthday($collumn['birthday'], $year, $classroom["edcenso_stage_vs_modality_fk"]);
         if (!$result["status"]) array_push($log, array("birthday" => $result["erro"]));
 
         //campo 7

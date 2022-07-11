@@ -453,6 +453,16 @@ class Register30
             $instructor['post_graduation_none'] = '1';
         }
 
+        if ($instructor['high_education_course_code_1_fk'] !== null && $instructor['high_education_course_code_1_fk'] !== "") {
+            $instructor['high_education_course_code_1_fk'] = self::convertCourseCodes($instructor['high_education_course_code_1_fk']);
+        }
+        if ($instructor['high_education_course_code_2_fk'] !== null && $instructor['high_education_course_code_2_fk'] !== "") {
+            $instructor['high_education_course_code_2_fk'] = self::convertCourseCodes($instructor['high_education_course_code_2_fk']);
+        }
+        if ($instructor['high_education_course_code_3_fk'] !== null && $instructor['high_education_course_code_3_fk'] !== "") {
+            $instructor['high_education_course_code_3_fk'] = self::convertCourseCodes($instructor['high_education_course_code_3_fk']);
+        }
+
         foreach ($instructor as $key => $attr) {
             $alias = EdcensoAlias::model()->findByAttributes(['register' => '302', 'attr' => $key, 'year' => $year]);
             if (isset($alias->corder)) {
@@ -464,6 +474,37 @@ class Register30
         }
 
         return $register;
+    }
+
+    private static function convertCourseCodes($code) {
+        switch($code) {
+            case "142C01":
+                return "0113P012";
+            case "142P01":
+                return "0113P011";
+            case "145F01":
+                return "0114B011";
+            case "145F10":
+                return "0114G011";
+            case "145F11":
+                return "0114H011";
+            case "145F14":
+                return "0115L081";
+            case "145F15":
+                return "0115L131";
+            case "145F17":
+                return "0115L191";
+            case "145F18":
+                return "0114M011";
+            case "146F15":
+                return "0114E031";
+            case "146P01":
+                return "0111C012";
+            case "421C01":
+                return "0511B012";
+            case "999990":
+                return "0114E061";
+        }
     }
 
     public static function export($year)
@@ -505,7 +546,7 @@ class Register30
             array_push($registers, implode('|', $register));
         }
 
-        array_push($registers, '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||1|3|1|76|2800670|0|||||||||||||||||||||||||||||6||145F01|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
+        array_push($registers, '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||1|3|1|76|2800670|0|||||||||||||||||||||||||||||6||0114B011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR');
 
         return $registers;
     }

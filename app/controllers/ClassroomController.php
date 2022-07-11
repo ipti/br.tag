@@ -666,25 +666,11 @@ class ClassroomController extends Controller {
                 $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
             }
         }
-        $compActs = array();
-        if (isset($modelClassroom->complementary_activity_type_1))
-            array_push($compActs, $modelClassroom->complementary_activity_type_1);
-        if (isset($modelClassroom->complementary_activity_type_2))
-            array_push($compActs, $modelClassroom->complementary_activity_type_2);
-        if (isset($modelClassroom->complementary_activity_type_3))
-            array_push($compActs, $modelClassroom->complementary_activity_type_3);
-        if (isset($modelClassroom->complementary_activity_type_4))
-            array_push($compActs, $modelClassroom->complementary_activity_type_4);
-        if (isset($modelClassroom->complementary_activity_type_5))
-            array_push($compActs, $modelClassroom->complementary_activity_type_5);
-        if (isset($modelClassroom->complementary_activity_type_6))
-            array_push($compActs, $modelClassroom->complementary_activity_type_6);
 
 
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
-            'complementaryActivities' => $compActs
         ));
     }
     /**
@@ -748,6 +734,26 @@ class ClassroomController extends Controller {
 
         if ($model == $this->MODEL_CLASSROOM) {
             $return = Classroom::model()->findByPk($id);
+            $complementaryActivitiesArray = [];
+            if ($return->complementary_activity_type_1 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_1);
+            }
+            if ($return->complementary_activity_type_2 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_2);
+            }
+            if ($return->complementary_activity_type_3 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_3);
+            }
+            if ($return->complementary_activity_type_4 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_4);
+            }
+            if ($return->complementary_activity_type_5 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_5);
+            }
+            if ($return->complementary_activity_type_6 != null) {
+                array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
+            }
+            $return->complementary_activity_type_1 = $complementaryActivitiesArray;
         } else if ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
