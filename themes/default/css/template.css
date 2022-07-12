@@ -8787,6 +8787,12 @@ li.active a {
     margin-left: 10px;
 }
 
+.yes-update, .no-update {
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 @media (max-width: 768px) {
     #frequency-container {
         margin-top: 45px;

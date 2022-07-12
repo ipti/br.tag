@@ -56,11 +56,25 @@ $(".save-enrollment").click(function () {
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
-        $(this).closest("form").find(".enrollment-error").html(message).show();
+        $(this).closest("form").find(".enrollment-error").addClass("alert-error").removeClass("alert-warning").html(message).show();
     } else {
-        $(this).closest("form").find(".enrollment-error").hide();
-        $("#student input").removeAttr("disabled");
-        $("#student select").removeAttr("disabled").trigger("change.select2");
-        $(this).closest("form").submit();
+        if ($("#StudentEnrollment_classroom_fk") !== "" && $("#StudentEnrollment_classroom_fk option:selected").closest("optgroup").attr("label") !== $("#SchoolIdentification_inep_id option:selected").text()) {
+            $(this).closest("form").find(".enrollment-error").addClass("alert-warning").removeClass("alert-error").html("Você está atualizando a matrícula de um aluno que está em uma turma diferente da escola selecionada, <b>" + $("#SchoolIdentification_inep_id option:selected").text() + "</b>. É isso mesmo que você deseja? <span class='yes-update'>SIM</span> ou <span class='no-update'>NÃO</span>.").show();
+        } else {
+            $(this).closest("form").find(".enrollment-error").hide();
+            $("#student input").removeAttr("disabled");
+            $("#student select").removeAttr("disabled").trigger("change.select2");
+            $(this).closest("form").submit();
+        }
     }
+});
+
+$(document).on("click", ".yes-update", function() {
+    $("#student input").removeAttr("disabled");
+    $("#student select").removeAttr("disabled").trigger("change.select2");
+    $(this).closest("form").submit();
+});
+
+$(document).on("click", ".no-update", function() {
+    $(this).closest("form").find(".enrollment-error").hide();
 });

@@ -148,7 +148,7 @@ class EnrollmentController extends Controller
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
-
+                $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
                 if ($model->save()) {
                     Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
