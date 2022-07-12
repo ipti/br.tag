@@ -595,7 +595,7 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||67589049549|JOSINEIDE DE HUNGRIA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSINEIDEHUNGRIA1@HOTMAIL.COM');
                 break;
             case "28026080":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||69598649504|EDILENE CLEMENTINO SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|EDILENECSANTOS9@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||69598649504|EDILENE CLEMENTINO SANTOS|31/08/1975|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|EDILENECSANTOS9@HOTMAIL.COM');
                 break;
             case "28025911":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||92697771549|SOLANGE DOS SANTOS SILVA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SOLFRANSILVEIRA@YAHOO.COM.BR');

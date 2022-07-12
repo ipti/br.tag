@@ -189,8 +189,6 @@ preenchidos";
                         $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                         $modelInstructorVariableData->id = $modelInstructorIdentification->id;
 
-                        //$modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
-                        //$modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
                         $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_1_fk;
                         $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_2_fk;
                         $modelInstructorVariableData->high_education_course_code_3_fk = empty($modelInstructorVariableData->high_education_course_code_3_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_3_fk;
@@ -292,9 +290,6 @@ preenchidos";
                 if ($modelInstructorIdentification->validate() && $modelInstructorDocumentsAndAddress->validate() && $modelInstructorVariableData->validate() && $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
-
-                    $modelInstructorDocumentsAndAddress->edcenso_uf_fk = $modelInstructorIdentification->edcenso_uf_fk;
-                    $modelInstructorDocumentsAndAddress->edcenso_city_fk = $modelInstructorIdentification->edcenso_city_fk;
 
                     $modelInstructorVariableData->high_education_course_code_1_fk = empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_1_fk;
                     $modelInstructorVariableData->high_education_course_code_2_fk = empty($modelInstructorVariableData->high_education_course_code_2_fk) ? NULL : $modelInstructorVariableData->high_education_course_code_2_fk;

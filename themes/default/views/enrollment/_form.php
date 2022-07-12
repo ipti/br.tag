@@ -3,7 +3,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=1.0', CClientScript::POS_END);
 
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
@@ -49,22 +49,19 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span5">
 
                             <div class="control-group">
-                                <div class="controls">
-                                    <?php
-                                    //@done S1 - 07 - Remover campo
-                                    echo $form->hiddenField($model, 'school_inep_id_fk', array('value' => Yii::app()->user->school));
-                                    ?>
-                                </div>
-                            </div>
-
-
-                            <div class="control-group">
                                 <?php
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " order by name"), 'id', 'name'), array('class' => 'select-search-on')); ?>
-                                    <?php echo $form->error($model, 'classroom_fk'); ?>
+                                    <?php
+
+                                    $isAdmin = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
+                                    $classrooms = $isAdmin ? Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " order by name") : Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " and school_inep_fk = " . Yii::app()->user->school . " order by name");
+
+                                    echo $form->dropDownList($model, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('class' => 'select-search-on'));
+                                    echo $form->error($model, 'classroom_fk');
+
+                                    ?>
                                 </div>
                             </div>
                             <div class="control-group">
