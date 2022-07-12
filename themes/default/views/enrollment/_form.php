@@ -3,7 +3,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=1.0', CClientScript::POS_END);
 
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
