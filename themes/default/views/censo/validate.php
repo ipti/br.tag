@@ -259,9 +259,9 @@
                 $(".itens-censo li").parents('div').css("display", "block");
             });
             if ($(".list-timeline").find(".ellipsis").length) {
-                $(".alert").addClass("alert-error").removeClass("alert-success").find("strong").html("Foram encontradas pendências para exportação de dados para o EDUCACENSO. Corrija primeiro para exportar o arquivo.");
+                $(".list-timeline").find(".alert").addClass("alert-error").removeClass("alert-success").find("strong").html("Foram encontradas pendências para exportação de dados para o EDUCACENSO. Corrija primeiro para exportar o arquivo.");
             } else {
-                $(".alert").addClass("alert-success").removeClass("alert-error").find("strong").html("Nenhuma pendência registrada.");
+                $(".list-timeline").find(".alert").addClass("alert-success").removeClass("alert-error").find("strong").html("Nenhuma pendência registrada.");
 
             }
         </script>
