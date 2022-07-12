@@ -1447,21 +1447,20 @@ class CensoController extends Controller
     public function actionExportWithoutInepid()
     {
         $year = Yii::app()->user->year;
-        $id = Yii::app()->user->school;
         $sql = "SELECT DISTINCT si.id,si.school_inep_id_fk ,sd.cpf,sd.civil_register_enrollment_number,sd.nis, si.inep_id , si.name , si.birthday , si.filiation_1 , si.filiation_2 , si.edcenso_uf_fk , si.edcenso_city_fk
 			FROM (student_enrollment as se join classroom as c on se.classroom_fk = c.id ) join student_identification as si on se.student_fk = si.id
 			JOIN student_documents_and_address as sd on(si.id=sd.id)
-			where c.school_year = $year  AND si.school_inep_id_fk = $id order by si.name";
+			where c.school_year = $year order by si.name";
         $sql2 = "SELECT DISTINCT id.id, id.school_inep_id_fk , id.inep_id , id.name , id.birthday_date as birthday , id.filiation_1 , id.filiation_2 , id.edcenso_uf_fk , id.edcenso_city_fk
                 FROM (instructor_teaching_data as it join classroom as c on it.classroom_id_fk = c.id ) join instructor_identification as id on it.instructor_fk = id.id
-                where c.school_year = $year AND id.school_inep_id_fk = $id order by id.name";
+                where c.school_year = $year order by id.name";
         $instructors = Yii::app()->db->createCommand($sql2)->queryAll();
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
         if (count($students) == 0) {
             echo "N&atilde;o h&aacute; alunos cadastrados nesta escola no ano de " . $year;
         } else {
-            $fileName = $id . "inepid.txt";
+            $fileName = "inepid.txt";
             $fileDir = "./app/export/" . $fileName;
             $file = fopen($fileDir, 'w');
             $linha = $this->mountItemExport($students);
@@ -1483,7 +1482,7 @@ class CensoController extends Controller
         if (count($instructors) == 0) {
             echo "N&atilde;o h&aacute; professores cadastrados nesta escola no ano de " . $year;
         } else {
-            $fileName = date("Y-i-d") . "_" . $id . "_instructors_without_inep_id.txt";
+            $fileName = date("Y-i-d") . "_instructors_without_inep_id.txt";
             $fileDir = "./app/export/" . $fileName;
             $file = fopen($fileDir, 'w');
 
