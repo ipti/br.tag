@@ -1568,7 +1568,7 @@ class CensoController extends Controller
             }
 
             if ($s['edcenso_city_fk'] == null) {
-                $linha .= "2802106|";
+                $linha .= "2806305|";
             } else {
                 $linha .= $s['edcenso_city_fk'] . "|";
             }
