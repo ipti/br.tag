@@ -573,8 +573,8 @@ class CensoController extends Controller
         //acima: imprimir "classroom_days" no erro ou um erro pra cada um dos campos?
 
         //campo 18
-        $result = $crv->isValidAssistanceType($schoolstructure, $column['assistance_type'], $column['pedagogical_mediation_type']);
-        if (!$result['status']) array_push($log, array('assistance_type' => $result['erro']));
+//        $result = $crv->isValidAssistanceType($schoolstructure, $column['assistance_type'], $column['pedagogical_mediation_type']);
+//        if (!$result['status']) array_push($log, array('assistance_type' => $result['erro']));
 
         //campos 20 a 25
         $activities = array($column['complementary_activity_type_1'], $column['complementary_activity_type_2'], $column['complementary_activity_type_3'],
@@ -801,7 +801,7 @@ class CensoController extends Controller
         return $log;
     }
 
-    public function validateInscrutorData($collumn)
+    public function validateInstructorData($collumn)
     {
         $sql = "SELECT inep_id FROM school_identification;";
         $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
@@ -824,15 +824,6 @@ class CensoController extends Controller
         $result = $itdv->isAllowedInepId($school_inep_id_fk,
             $allowed_school_inep_ids);
         if (!$result["status"]) array_push($log, array("school_inep_id_fk" => $result["erro"]));
-
-        //campo 03
-        if (!empty($instructor_inep_id)) {
-            $sql = "SELECT COUNT(inep_id) AS status FROM instructor_identification WHERE inep_id =  '$instructor_inep_id'";
-            $check = Yii::app()->db->createCommand($sql)->queryAll();
-            $result = $itdv->isEqual($check[0]['status'], '1', 'Não há tal instructor_inep_id $instructor_inep_id');
-            if (!$result["status"]) array_push($log, array("instructor_inep_id" => $result["erro"]));
-        }
-
 
         //campo 4
         $sql = "SELECT COUNT(id) AS status FROM instructor_identification WHERE id =  '$instructor_fk'";
@@ -1279,11 +1270,6 @@ class CensoController extends Controller
             $allowed_school_inep_ids);
         if (!$result["status"]) array_push($log, array("school_inep_id_fk" => $result["erro"]));
 
-        //campo 3
-        $result = $sev->isAllowedInepId($student_inep_id_fk,
-            $allowed_students_inep_ids);
-        if (!$result["status"]) array_push($log, array("student_inep_id" => $result["erro"]));
-
         //campo 4
         $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id_fk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
@@ -1422,7 +1408,7 @@ class CensoController extends Controller
                 }
                 $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['id'] = $teachingData->classroomIdFk->id;
                 $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInscrutorData($teachingData->attributes);
+                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
             }
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                 if (!isset($log['student'][$enrollment->student_fk]['info'])) {
