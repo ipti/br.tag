@@ -1540,12 +1540,6 @@ class CensoController extends Controller
                 $linha .= $fill ? strtoupper($s['civil_register_enrollment_number']) . "|" : "|";
             }
 
-            if ($s['nis'] == null) {
-                $linha .= "|";
-            } else {
-                $linha .= $s['nis'] . "|";
-            }
-
             $s['name'] = preg_replace("/[^A-Z ]/", "", htmlentities(strtoupper($s['name'])));
             if ($s['name'] == null) {
                 $linha .= "|";
@@ -1574,7 +1568,7 @@ class CensoController extends Controller
             }
 
             if ($s['edcenso_city_fk'] == null) {
-                $linha .= "2802106|";
+                $linha .= "2806305|";
             } else {
                 $linha .= $s['edcenso_city_fk'] . "|";
             }
