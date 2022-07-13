@@ -2490,254 +2490,6 @@ class CensoController extends Controller
 
     }
 
-    public function readFileImport()
-    {
-        set_time_limit(0);
-        ignore_user_abort();
-        $path = Yii::app()->basePath;
-        //Se não passar parametro, o valor será predefinido
-        if (empty($_FILES['file']['name'])) {
-            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
-        } else {
-            $myfile = $_FILES['file'];
-            $uploadfile = $path . '/import/' . basename($myfile['name']);
-            move_uploaded_file($myfile['tmp_name'], $uploadfile);
-            $fileDir = $uploadfile;
-        }
-
-
-        $mode = 'r';
-
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == FALSE) {
-            die('O arquivo não existe.');
-        }
-
-        $registerLines = [];
-
-        //Inicializa o contador de linhas
-        $lineCount = [];
-        $lineCount['00'] = 0;
-        $lineCount['10'] = 0;
-        $lineCount['20'] = 0;
-        $lineCount['30'] = 0;
-        $lineCount['40'] = 0;
-        $lineCount['50'] = 0;
-        $lineCount['51'] = 0;
-        $lineCount['60'] = 0;
-        $lineCount['70'] = 0;
-        $lineCount['80'] = 0;
-
-        //Pega campos do arquivo
-        while (TRUE) {
-            //Próxima linha do arquivo
-            $fileLine = fgets($file);
-            if ($fileLine == NULL) {
-                break;
-            }
-
-            //Tipo do registro são os 2 primeiros caracteres
-            $regType = $fileLine[0] . $fileLine[1];
-            //Querba a linha nos caracteres |
-            $lineFields_Aux = explode("|", $fileLine);
-            $lineFields = [];
-
-            //Troca os campos vazios por 'null'
-            foreach ($lineFields_Aux as $key => $field) {
-                $value = !(isset($field)) ? '' : trim($field);
-                $lineFields[$key] = $value;
-            }
-
-            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
-            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
-        }
-        return $registerLines;
-    }
-
-    public function actionReadFileImportIneps()
-    {
-        set_time_limit(0);
-        ignore_user_abort();
-        $path = Yii::app()->basePath;
-        $id = Yii::app()->user->school;
-        $fileDir = $path . '/import/RESULTADO_CERTO.txt';
-        $mode = 'r';
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == FALSE) {
-            die('O arquivo não existe.' . $id);
-        }
-        //Pega campos do arquivo
-        while (TRUE) {
-            $fileLine = fgets($file);
-            if ($fileLine == NULL) {
-                break;
-            }
-            $lineFields_Aux = explode("|", $fileLine);
-            $lineFields[] = $lineFields_Aux;
-        }
-        foreach ($lineFields as $index => $line) {
-            $student = StudentIdentification::model()->findByPk($line[0]);
-            if (isset($student)) {
-                //@todo adicionar update em enrollment
-                //@todo adicionar update em variable_data - Instrutor
-                $student->documentsFk->student_fk = $line[6];
-                $student->documentsFk->update(array('student_fk'));
-                $student->inep_id = $line[6];
-                $enrollments = $student->studentEnrollments;
-
-                if (count($enrollments) > 0) {
-                    foreach ($enrollments as $enrollment) {
-                        $enrollment->student_inep_id = $line[6];
-                        $enrollment->update(array('student_inep_id'));
-                    }
-                }
-
-                $student->update(array('inep_id'));
-                $this->printImported('Student', $line);
-            } else {
-                $instructor = InstructorIdentification::model()->findByPk($line[0]);
-                if (isset($instructor)) {
-                    $instructor->documents->inep_id = $line[6];
-                    $instructor->documents->update(array('inep_id'));
-                    $instructor->inep_id = $line[6];
-                    $instructor->update(array('inep_id'));
-                    $instructor->instructorVariableData->inep_id = $line[6];
-                    $instructor->instructorVariableData->update(array('inep_id'));
-                    $this->printImported('Instructor', $line);
-                }
-            }
-        }
-        $this->fileImportProbableIneps();
-    }
-
-    public function printImported($type, $register)
-    {
-        echo "{$type}: " . implode(' | ', $register) . "<br>";
-    }
-
-    public function fileImportProbableIneps()
-    {
-        $path = Yii::app()->basePath;
-        $id = Yii::app()->user->school;
-        $fileDir = $path . '/import/RESULTADO_PROVAVEIS.txt';
-        $mode = 'r';
-
-        //Abre o arquivo
-        $file = fopen($fileDir, $mode);
-        if ($file == FALSE) {
-            return false;
-        }
-        //Pega campos do arquivo
-        while (TRUE) {
-            $fileLine = fgets($file);
-            if ($fileLine == NULL) {
-                break;
-            }
-            $lineFields_Aux = explode("|", $fileLine);
-            $lineFields[] = $lineFields_Aux;
-        }
-
-        foreach ($lineFields as $index => $line) {
-            $student = StudentIdentification::model()->findByPk($line[0]);
-            $score = 0;
-            if (isset($student)) {
-                trim($student->birthday) == trim($line[2]) ? ++$score : '';
-                trim($student->filiation_1) == trim($line[3]) ? ++$score : '';
-                trim($student->filiation_2) == trim($line[4]) ? ++$score : '';
-
-                if ($score > 1) {
-                    $student->documentsFk->student_fk = $line[6];
-                    $student->documentsFk->update(array('student_fk'));
-                    $student->inep_id = $line[6];
-                    $enrollments = $student->studentEnrollments;
-
-                    if (count($enrollments) > 0) {
-                        foreach ($enrollments as $enrollment) {
-                            $enrollment->student_inep_id = $line[6];
-                            $enrollment->update(array('student_inep_id'));
-                        }
-                    }
-
-                    $student->update(array('inep_id'));
-                    $this->printImported("Student ({$score}) :", $line);
-                }
-            }
-
-            if (!isset($student)) {
-                $instructor = InstructorIdentification::model()->findByPk($line[0]);
-
-                if (isset($instructor) && trim($instructor->birthday_date) == trim($line[2]) && trim($instructor->filiation_1) == trim($line[3])) {
-                    trim($instructor->birthday_date) == trim($line[2]) ? ++$score : '';
-                    trim($instructor->filiation_1) == trim($line[3]) ? ++$score : '';
-                    trim($instructor->filiation_2) == trim($line[4]) ? ++$score : '';
-
-                    if ($score > 1) {
-                        $instructor->documents->inep_id = $line[6];
-                        $instructor->documents->update(array('inep_id'));
-                        $instructor->inep_id = $line[6];
-                        $instructor->update(array('inep_id'));
-                        $instructor->instructorVariableData->inep_id = $line[6];
-                        $instructor->instructorVariableData->update(array('inep_id'));
-                        $this->printImported("Instructor ({$score}) :", $line);
-                    }
-                }
-            }
-        }
-        return true;
-    }
-
-    public function getOrderInepId($fields)
-    {
-        $result = array_filter($fields, function ($field) {
-            return $field->attr == 'inep_id';
-        });
-        return count($result) ? current($result)->corder : null;
-    }
-
-    public function updateImport($register, $lines, CActiveRecord $model, $fieldsUpdate)
-    {
-
-        $fields = EdcensoAlias::model()->findAllByAttributes(["register" => $register, "version" => '2018']);
-        $orderInepId = $this->getOrderInepId($fields) - 1;
-        foreach ($lines as $iline => $line) {
-
-            if (is_null($orderInepId) || !isset($line[$orderInepId]) || $line[$orderInepId] == '') {
-                continue;
-            }
-
-            $ivariable = $model->findAllByAttributes(["inep_id" => $line[$orderInepId]]);
-            $hasModified = false;
-
-            if (count($ivariable)) {
-                foreach ($fields as $field) {
-                    $columnName = $field->attr;
-                    $order = $field->corder - 1;
-                    if (isset($line[$order]) && $line[$order] != '' && in_array($columnName, $fieldsUpdate)) {
-                        $code = $ivariable->{$columnName} = $line[$order];
-                        $hasModified = true;
-                    }
-                }
-
-                if ($hasModified) {
-                    $ivariable->save();
-                }
-            }
-        }
-    }
-
-    public function actionImport()
-    {
-        $lines = $this->readFileImport();
-
-        $this->updateImport(30, $lines['30'], InstructorIdentification::model(), ['name', 'birthday_date', 'filiation_1', 'filiation_2']);
-        $this->updateImport(40, $lines['40'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'address_number', 'complement', 'neighborhood', 'cep']);
-        $this->updateImport(60, $lines['60'], StudentIdentification::model(), ['name', 'birthday', 'filiation_1', 'filiation_2']);
-        $this->updateImport(70, $lines['70'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'number', 'complement', 'neighborhood', 'cep']);
-
-    }
-
     public function actionExport()
     {
         include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
@@ -2893,6 +2645,294 @@ class CensoController extends Controller
 
 
         $this->render('initialImport', ['importModel' => $import]);
+    }
+
+    public function actionInepImport()
+    {
+        set_time_limit(0);
+        ignore_user_abort();
+
+        $import = new Import();
+
+        if (!empty($_FILES['Import']['name'])) {
+            $path = Yii::app()->basePath;
+            $file = $_FILES['Import'];
+            $uploadedFile = $path . '/import/' . basename($file['name']['file']);
+            move_uploaded_file($file['tmp_name']['file'], $uploadedFile);
+            if ($_POST["Import"]["probable"]) {
+                self::fileImportProbableIneps($uploadedFile);
+            } else {
+                self::fileImportCorrectIneps($uploadedFile);
+            }
+        }
+        $this->render('inepImport', ['importModel' => $import]);
+    }
+
+    public function fileImportCorrectIneps($uploadedFile)
+    {
+        try {
+            $file = fopen($uploadedFile, 'r');
+            if ($file == FALSE) {
+                die('O arquivo não existe.');
+            }
+            while (TRUE) {
+                $fileLine = fgets($file);
+                if ($fileLine == NULL) {
+                    break;
+                }
+                $lineFields_Aux = explode("|", $fileLine);
+                $lineFields[] = $lineFields_Aux;
+            }
+            $imported = "";
+            foreach ($lineFields as $index => $line) {
+                $student = StudentIdentification::model()->findByPk($line[0]);
+                if (isset($student)) {
+                    $student->documentsFk->student_fk = $line[8];
+                    $student->documentsFk->update(array('student_fk'));
+                    $student->inep_id = $line[8];
+                    $enrollments = $student->studentEnrollments;
+
+                    if (count($enrollments) > 0) {
+                        foreach ($enrollments as $enrollment) {
+                            $enrollment->student_inep_id = $line[8];
+                            $enrollment->update(array('student_inep_id'));
+                        }
+                    }
+
+                    $student->update(array('inep_id'));
+                    $imported .= $this->printImported('Student', $line);
+                } else {
+                    $instructor = InstructorIdentification::model()->findByPk($line[0]);
+                    if (isset($instructor)) {
+                        $instructor->documents->inep_id = $line[8];
+                        $instructor->documents->update(array('inep_id'));
+                        $instructor->inep_id = $line[8];
+                        $instructor->update(array('inep_id'));
+                        if ($instructor->instructorVariableData != null) {
+                            $instructor->instructorVariableData->inep_id = $line[8];
+                            $instructor->instructorVariableData->update(array('inep_id'));
+                        }
+                        $teachingDatas = $instructor->instructorTeachingDatas;
+
+                        if (count($teachingDatas) > 0) {
+                            foreach ($teachingDatas as $teachingData) {
+                                $teachingData->instructor_inep_id = $line[8];
+                                $teachingData->update(array('instructor_inep_id'));
+                            }
+                        }
+                        $imported .= $this->printImported('Instructor', $line);
+                    }
+                }
+            }
+            Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
+            Yii::app()->user->setFlash("log", $imported);
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash("error", "Ocorreu um erro inesperado.");
+        }
+    }
+
+    public function fileImportProbableIneps($uploadedFile)
+    {
+        try {
+            $file = fopen($uploadedFile, 'r');
+            if ($file == FALSE) {
+                return false;
+            }
+            while (TRUE) {
+                $fileLine = fgets($file);
+                if ($fileLine == NULL) {
+                    break;
+                }
+                $lineFields_Aux = explode("|", $fileLine);
+                $lineFields[] = $lineFields_Aux;
+            }
+
+            $imported = "";
+            foreach ($lineFields as $index => $line) {
+                $student = StudentIdentification::model()->findByPk($line[0]);
+                $score = 0;
+                if (isset($student)) {
+                    trim($student->documentsFk->cpf) == trim($line[1]) ? ++$score : '';
+                    trim($student->documentsFk->civil_register_enrollment_number) == trim($line[2]) ? ++$score : '';
+                    trim($student->name) == trim($line[3]) ? ++$score : '';
+                    trim($student->birthday) == trim($line[4]) ? ++$score : '';
+                    trim($student->filiation_1) == trim($line[5]) ? ++$score : '';
+                    trim($student->filiation_2) == trim($line[6]) ? ++$score : '';
+                    trim($student->edcenso_city_fk) == trim($line[7]) ? ++$score : '';
+
+                    if ($score > 2) {
+                        $student->documentsFk->student_fk = $line[8];
+                        $student->documentsFk->update(array('student_fk'));
+                        $student->inep_id = $line[8];
+                        $enrollments = $student->studentEnrollments;
+
+                        if (count($enrollments) > 0) {
+                            foreach ($enrollments as $enrollment) {
+                                $enrollment->student_inep_id = $line[8];
+                                $enrollment->update(array('student_inep_id'));
+                            }
+                        }
+
+                        $student->update(array('inep_id'));
+                        $imported .= $this->printImported("Student ({$score}) :", $line);
+                    }
+                } else {
+                    $instructor = InstructorIdentification::model()->findByPk($line[0]);
+                    if (isset($instructor)) {
+                        trim($instructor->documents->cpf) == trim($line[1]) ? ++$score : '';
+                        trim($instructor->name) == trim($line[3]) ? ++$score : '';
+                        trim($instructor->birthday_date) == trim($line[4]) ? ++$score : '';
+                        trim($instructor->filiation_1) == trim($line[5]) ? ++$score : '';
+                        trim($instructor->filiation_2) == trim($line[6]) ? ++$score : '';
+                        trim($instructor->edcenso_city_fk) == trim($line[7]) ? ++$score : '';
+
+                        if ($score > 2) {
+                            $instructor->documents->inep_id = $line[8];
+                            $instructor->documents->update(array('inep_id'));
+                            $instructor->inep_id = $line[8];
+                            $instructor->update(array('inep_id'));
+                            if ($instructor->instructorVariableData != null) {
+                                $instructor->instructorVariableData->inep_id = $line[8];
+                                $instructor->instructorVariableData->update(array('inep_id'));
+                            }
+                            $teachingDatas = $instructor->instructorTeachingDatas;
+
+                            if (count($teachingDatas) > 0) {
+                                foreach ($teachingDatas as $teachingData) {
+                                    $teachingData->instructor_inep_id = $line[8];
+                                    $teachingData->update(array('instructor_inep_id'));
+                                }
+                            }
+                            $imported .= $this->printImported("Instructor ({$score}) :", $line);
+                        }
+                    }
+                }
+            }
+            Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
+            Yii::app()->user->setFlash("log", $imported);
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash("error", "Ocorreu um erro inesperado.");
+        }
+
+    }
+
+    public function printImported($type, $register)
+    {
+        return "{$type}: " . implode(' | ', $register) . "<br>";
+    }
+
+    public function actionImport()
+    {
+        $lines = $this->readFileImport();
+
+        $this->updateImport(30, $lines['30'], InstructorIdentification::model(), ['name', 'birthday_date', 'filiation_1', 'filiation_2']);
+        $this->updateImport(40, $lines['40'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'address_number', 'complement', 'neighborhood', 'cep']);
+        $this->updateImport(60, $lines['60'], StudentIdentification::model(), ['name', 'birthday', 'filiation_1', 'filiation_2']);
+        $this->updateImport(70, $lines['70'], InstructorDocumentsAndAddress::model(), ['cpf', 'nis', 'address', 'number', 'complement', 'neighborhood', 'cep']);
+    }
+
+    public function readFileImport()
+    {
+        set_time_limit(0);
+        ignore_user_abort();
+        $path = Yii::app()->basePath;
+        //Se não passar parametro, o valor será predefinido
+        if (empty($_FILES['file']['name'])) {
+            $fileDir = $path . '/import/1810601_24_98018493_14032019143014.TXT';
+        } else {
+            $myfile = $_FILES['file'];
+            $uploadfile = $path . '/import/' . basename($myfile['name']);
+            move_uploaded_file($myfile['tmp_name'], $uploadfile);
+            $fileDir = $uploadfile;
+        }
+
+
+        $mode = 'r';
+
+        //Abre o arquivo
+        $file = fopen($fileDir, $mode);
+        if ($file == FALSE) {
+            die('O arquivo não existe.');
+        }
+
+        $registerLines = [];
+
+        //Inicializa o contador de linhas
+        $lineCount = [];
+        $lineCount['00'] = 0;
+        $lineCount['10'] = 0;
+        $lineCount['20'] = 0;
+        $lineCount['30'] = 0;
+        $lineCount['40'] = 0;
+        $lineCount['50'] = 0;
+        $lineCount['51'] = 0;
+        $lineCount['60'] = 0;
+        $lineCount['70'] = 0;
+        $lineCount['80'] = 0;
+
+        //Pega campos do arquivo
+        while (TRUE) {
+            //Próxima linha do arquivo
+            $fileLine = fgets($file);
+            if ($fileLine == NULL) {
+                break;
+            }
+
+            //Tipo do registro são os 2 primeiros caracteres
+            $regType = $fileLine[0] . $fileLine[1];
+            //Querba a linha nos caracteres |
+            $lineFields_Aux = explode("|", $fileLine);
+            $lineFields = [];
+
+            //Troca os campos vazios por 'null'
+            foreach ($lineFields_Aux as $key => $field) {
+                $value = !(isset($field)) ? '' : trim($field);
+                $lineFields[$key] = $value;
+            }
+
+            //passa os campos do arquivo para a matriz [tipo][linha][coluna]
+            $registerLines[$regType][$lineCount[$regType]++] = $lineFields;
+        }
+        return $registerLines;
+    }
+
+    public function updateImport($register, $lines, CActiveRecord $model, $fieldsUpdate)
+    {
+
+        $fields = EdcensoAlias::model()->findAllByAttributes(["register" => $register, "version" => '2018']);
+        $orderInepId = $this->getOrderInepId($fields) - 1;
+        foreach ($lines as $iline => $line) {
+
+            if (is_null($orderInepId) || !isset($line[$orderInepId]) || $line[$orderInepId] == '') {
+                continue;
+            }
+
+            $ivariable = $model->findAllByAttributes(["inep_id" => $line[$orderInepId]]);
+            $hasModified = false;
+
+            if (count($ivariable)) {
+                foreach ($fields as $field) {
+                    $columnName = $field->attr;
+                    $order = $field->corder - 1;
+                    if (isset($line[$order]) && $line[$order] != '' && in_array($columnName, $fieldsUpdate)) {
+                        $code = $ivariable->{$columnName} = $line[$order];
+                        $hasModified = true;
+                    }
+                }
+
+                if ($hasModified) {
+                    $ivariable->save();
+                }
+            }
+        }
+    }
+
+    public function getOrderInepId($fields)
+    {
+        $result = array_filter($fields, function ($field) {
+            return $field->attr == 'inep_id';
+        });
+        return count($result) ? current($result)->corder : null;
     }
 }
 
