@@ -12,6 +12,7 @@ class Import extends CModel{
 	public $year;
 	public $file;
 	public $importWithError;
+	public $probable;
 	
 	public function  __constructor($year){
 		parent::__constructor();
@@ -19,7 +20,7 @@ class Import extends CModel{
 	}
 
 	public function attributeNames(){
-		return ['registers', 'year', 'file','importWithError'];
+		return ['registers', 'year', 'file','importWithError', 'probable'];
 	}
 
 	public function attributeLabels() {
@@ -27,7 +28,8 @@ class Import extends CModel{
 			'registers' => "Registros", 
 			'year' => "Ano do arquivo", 
 			'file' => "Arquivo",
-			'importWithError' => "Importar com erro?"
+			'importWithError' => "Importar com erro?",
+            'probable' => "Resultado provável?"
 		];
 	}
 
