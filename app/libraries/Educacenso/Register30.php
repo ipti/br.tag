@@ -136,10 +136,10 @@ class Register30
             }
         }
 
-        $student['name'] = strtoupper(self::fixName($student['name']));
+        $student['name'] = trim(strtoupper(self::fixName($student['name'])));
         if ($student['filiation'] != '0') {
-            $student['filiation_1'] = strtoupper(self::fixName($student['filiation_1']));
-            $student['filiation_2'] = strtoupper(self::fixName($student['filiation_2']));
+            $student['filiation_1'] = trim(strtoupper(self::fixName($student['filiation_1'])));
+            $student['filiation_2'] = trim(strtoupper(self::fixName($student['filiation_2'])));
         } else {
             $student['filiation_1'] = '';
             $student['filiation_2'] = '';
@@ -284,9 +284,9 @@ class Register30
             $register[$ord->corder] = $ord->default;
         }
 
-        $instructor['name'] = strtoupper(self::fixName($instructor['name']));
-        $instructor['filiation_1'] = strtoupper(self::fixName($instructor['filiation_1']));
-        $instructor['filiation_2'] = strtoupper(self::fixName($instructor['filiation_2']));
+        $instructor['name'] = trim(strtoupper(self::fixName($instructor['name'])));
+        $instructor['filiation_1'] = trim(strtoupper(self::fixName($instructor['filiation_1'])));
+        $instructor['filiation_2'] = trim(strtoupper(self::fixName($instructor['filiation_2'])));
 
         if (!empty($instructor['filiation_1']) && $instructor['filiation'] == 0) {
             $instructor['filiation'] = 1;
@@ -598,7 +598,7 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||69598649504|EDILENE CLEMENTINO SANTOS|31/08/1975|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|EDILENECSANTOS9@HOTMAIL.COM');
                 break;
             case "28025911":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||92697771549|SOLANGE DOS SANTOS SILVA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SOLFRANSILVEIRA@YAHOO.COM.BR');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||92697771549|SOLANGE FRANCISCA DOS SANTOS SILVEIRA|15/07/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SOLFRANSILVEIRA@YAHOO.COM.BR');
                 break;
             case "28026055":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||26917952842|SILVANIA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SILVANIASIL1976@GMAIL.COM');
@@ -607,7 +607,7 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||00069150516|NELITO JOSE DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|NELITOJOSEJOSE534@GMAIL.COM');
                 break;
             case "28035445":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||89579232504|GUADALUPE DE SANTANA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|GUADALUPE72@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||89579232504|GUADALUPE ROSA DE SANTANA|12/12/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|GUADALUPE72@GMAIL.COM');
                 break;
         }
 
