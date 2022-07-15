@@ -50,7 +50,7 @@ class Register50
                     foreach ($teaching as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
-                            if (($teaching[$i] >= 99 || $teaching[$i] == 20)) {
+                            if (($teaching[$i] >= 99 || $teaching[$i] == 20 || $teaching[$i] == 21)) {
                                 if ($countdisc == 1) {
                                     $teaching[$i] = 99;
                                 } else {
