@@ -23,7 +23,7 @@ class Register20
         foreach ($modelTeachingData as $key => $model) {
             $disciplines = ClassroomController::teachingDataDiscipline2array($model);
             foreach ($disciplines as $discipline) {
-                if ($discipline->id > 99 || $discipline->id == 20) {
+                if ($discipline->id > 99 || $discipline->id == 20 || $discipline->id == 21) {
                     $teachingDataDisciplines[99] = 99;
                 }
                 $teachingDataDisciplines[$discipline->id] = $discipline->id;
