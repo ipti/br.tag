@@ -242,17 +242,6 @@ class Register30
 
         if ($student['civil_certification'] != 2) {
             $student['civil_register_enrollment_number'] = '';
-        } else {
-            $cert = substr($student['civil_register_enrollment_number'], 0, 30);
-            $testX = str_split($student['civil_register_enrollment_number']);
-
-            if ($testX[29] == 'x') {
-                $cert = substr($student['civil_register_enrollment_number'], 0, 29);
-                $cert = $cert . '0';
-            }
-
-            $certDv = self::certVerify($cert);
-            $student['civil_register_enrollment_number'] = $cert . '' . $certDv;
         }
 
         if ($student["residence_zone"] == "1" && $student["diff_location"] == "1") {
