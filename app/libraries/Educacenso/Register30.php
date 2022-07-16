@@ -242,17 +242,6 @@ class Register30
 
         if ($student['civil_certification'] != 2) {
             $student['civil_register_enrollment_number'] = '';
-        } else {
-            $cert = substr($student['civil_register_enrollment_number'], 0, 30);
-            $testX = str_split($student['civil_register_enrollment_number']);
-
-            if ($testX[29] == 'x') {
-                $cert = substr($student['civil_register_enrollment_number'], 0, 29);
-                $cert = $cert . '0';
-            }
-
-            $certDv = self::certVerify($cert);
-            $student['civil_register_enrollment_number'] = $cert . '' . $certDv;
         }
 
         if ($student["residence_zone"] == "1" && $student["diff_location"] == "1") {
@@ -553,46 +542,48 @@ class Register30
                 break;
             case "28032071":
             case "28026187":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||72233168534|JOSE JORGE DONATO|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JORGEDONATO2010@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||72233168534|JOSE JORGE DONATO|23/04/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JORGEDONATO2010@HOTMAIL.COM');
                 break;
             case "28026152":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||72240687568|MARIA JUCIENE NELIS BARBOSA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJUCIENE06@GMAIL.COM');
                 break;
             case "28026179":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||51770970568|MARIA JOSE NELIS BARBOSA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJOSENELISB@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||51770970568|MARIA JOSE NELIS BARBOSA|12/06/1968|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJOSENELISB@GMAIL.COM');
                 break;
             case "28026071":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||96346191500|JOSE ROBSON MASE DA COSTA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ROBSONMAZE@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||96346191500|JOSE ROBSON MAZE DA COSTA|22/09/1977|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ROBSONMAZE@HOTMAIL.COM');
                 break;
             case "28026128":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||91452970530|MARILDA ALVES CONCEICAO LIMA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARTASOFIA0907@GMAIL.COM');
+                //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
+                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||91452970530|MARILDA ALVES CONCEICAO LIMA|21/06/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARTASOFIA0907@GMAIL.COM');
                 break;
             case "28026101":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ALENCAR40125@YAHOO.COM.BR');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA CIRILO DOS SANTOS|14/11/1979|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ALENCAR40125@YAHOO.COM.BR');
                 break;
             case "28026144":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ZUMIRAPRIAPU@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA CIRILO DOS SANTOS|14/11/1979|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ZUMIRAPRIAPU@HOTMAIL.COM');
                 break;
             case "28026012":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||88661520568|CRISTIANE DA SILVA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|CRISTIANEPROFES@GMAIL.COM');
+                //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
+                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||88661520568|CRISTIANE DA SILVA|26/09/1976|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|CRISTIANEPROFES@GMAIL.COM');
                 break;
             case "28026047":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||05436145574|JOSE DA PAIXAO SOUZA MENDES|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSEDAPAIXAO5@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||05436145574|JOSE DA PAIXAO SOUZA MENDES|17/04/1992|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSEDAPAIXAO5@GMAIL.COM');
                 break;
             case "28026063":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||00464346584|SANDRA CRISTINA DOS SANTOS SALVADOR|10/07/1982|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SANDRAPEDRAFURADA@GMAIL.COM');
                 break;
             case "28026136":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||04923602511|ALFREDO BATISTA DE SOUZA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|FRED-741@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||04923602511|ALFREDO BATISTA DE SOUZA|20/11/1991|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|FRED-741@HOTMAIL.COM');
                 break;
             case "28026039":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||58757945500|DORIS SANTOS SALES|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|DORISEDUCACAO@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||58757945500|DORIS DOS SANTOS SALES|03/05/1970|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|DORISEDUCACAO@HOTMAIL.COM');
                 break;
             case "28025970":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||94329990504|LUIZ CARLOS MARTINS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|LUIZCARLOSMARTINS@BOL.COM.BR');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||94329990504|LUIZ CARLOS MARTINS|04/09/1975|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|LUIZCARLOSMARTINS@BOL.COM.BR');
                 break;
             case "28032837":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||67589049549|JOSINEIDE DE HUNGRIA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSINEIDEHUNGRIA1@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||67589049549|JOSINEIDE DE JESUS HUNGRIA|27/02/1974|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSINEIDEHUNGRIA1@HOTMAIL.COM');
                 break;
             case "28026080":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||69598649504|EDILENE CLEMENTINO SANTOS|31/08/1975|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|EDILENECSANTOS9@HOTMAIL.COM');
@@ -601,10 +592,11 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||92697771549|SOLANGE FRANCISCA DOS SANTOS SILVEIRA|15/07/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SOLFRANSILVEIRA@YAHOO.COM.BR');
                 break;
             case "28026055":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||26917952842|SILVANIA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SILVANIASIL1976@GMAIL.COM');
+                //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
+                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||26917952842|SILVANIA DOS SANTOS|11/06/1976|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SILVANIASIL1976@GMAIL.COM');
                 break;
             case "28026098":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00069150516|NELITO JOSE DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|NELITOJOSEJOSE534@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00069150516|NELITO JOSE DOS SANTOS|08/01/1980|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|NELITOJOSEJOSE534@GMAIL.COM');
                 break;
             case "28035445":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||89579232504|GUADALUPE ROSA DE SANTANA|12/12/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|GUADALUPE72@GMAIL.COM');
