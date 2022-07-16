@@ -37,7 +37,7 @@ class Register50
                 $teaching['instructor_fk'] = $id;
 
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
-                if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
+                if ($classroom->schooling == 0 || $classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
                     || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
                     foreach ($teaching as $i => $attr) {
                         $pos = strstr($i, 'discipline');

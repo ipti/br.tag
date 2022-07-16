@@ -548,13 +548,14 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||72240687568|MARIA JUCIENE NELIS BARBOSA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJUCIENE06@GMAIL.COM');
                 break;
             case "28026179":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||51770970568|MARIA JOSE NELIS BARBOSA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJOSENELISB@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||51770970568|MARIA JOSE NELIS BARBOSA|12/06/1968|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJOSENELISB@GMAIL.COM');
                 break;
             case "28026071":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||96346191500|JOSE ROBSON MAZE DA COSTA|22/09/1977|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ROBSONMAZE@HOTMAIL.COM');
                 break;
             case "28026128":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||91452970530|MARILDA ALVES CONCEICAO LIMA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARTASOFIA0907@GMAIL.COM');
+                //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
+                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||91452970530|MARILDA ALVES CONCEICAO LIMA|21/06/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARTASOFIA0907@GMAIL.COM');
                 break;
             case "28026101":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA CIRILO DOS SANTOS|14/11/1979|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ALENCAR40125@YAHOO.COM.BR');
@@ -564,7 +565,7 @@ class Register30
                 break;
             case "28026012":
                 //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
-                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||88661520568|CRISTIANE DA SILVA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|CRISTIANEPROFES@GMAIL.COM');
+                //array_push($registers, '30|' . Yii::app()->user->school . '|909999||88661520568|CRISTIANE DA SILVA|26/09/1976|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|CRISTIANEPROFES@GMAIL.COM');
                 break;
             case "28026047":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||05436145574|JOSE DA PAIXAO SOUZA MENDES|17/04/1992|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSEDAPAIXAO5@GMAIL.COM');
@@ -573,13 +574,13 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||00464346584|SANDRA CRISTINA DOS SANTOS SALVADOR|10/07/1982|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|SANDRAPEDRAFURADA@GMAIL.COM');
                 break;
             case "28026136":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||04923602511|ALFREDO BATISTA DE SOUZA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|FRED-741@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||04923602511|ALFREDO BATISTA DE SOUZA|20/11/1991|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|FRED-741@HOTMAIL.COM');
                 break;
             case "28026039":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||58757945500|DORIS SANTOS SALES|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|DORISEDUCACAO@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||58757945500|DORIS DOS SANTOS SALES|03/05/1970|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|DORISEDUCACAO@HOTMAIL.COM');
                 break;
             case "28025970":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||94329990504|LUIZ CARLOS MARTINS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|LUIZCARLOSMARTINS@BOL.COM.BR');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||94329990504|LUIZ CARLOS MARTINS|04/09/1975|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|LUIZCARLOSMARTINS@BOL.COM.BR');
                 break;
             case "28032837":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||67589049549|JOSINEIDE DE JESUS HUNGRIA|27/02/1974|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JOSINEIDEHUNGRIA1@HOTMAIL.COM');
