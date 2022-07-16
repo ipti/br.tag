@@ -557,10 +557,10 @@ class Register30
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||91452970530|MARILDA ALVES CONCEICAO LIMA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARTASOFIA0907@GMAIL.COM');
                 break;
             case "28026101":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ALENCAR40125@YAHOO.COM.BR');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA CIRILO DOS SANTOS|14/11/1979|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ALENCAR40125@YAHOO.COM.BR');
                 break;
             case "28026144":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA DOS SANTOS|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ZUMIRAPRIAPU@HOTMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00389223557|ZUMIRA CIRILO DOS SANTOS|14/11/1979|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|ZUMIRAPRIAPU@HOTMAIL.COM');
                 break;
             case "28026012":
                 //desativado, pois o diretor também leciona na escola. Isso impede que insira duplicata
