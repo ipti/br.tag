@@ -272,6 +272,10 @@ switch ($domain) {
         $instance = 'BUZIOS';
         $db = 'br.ong.tag.rj.buzios';
         break;
+    case 'ubatuba':
+        $instance = 'UBATUBA';
+        $db = 'br.ong.tag.sp.ubatuba';
+        break;    
     default:
         $instance = 'SERGIPE';
         $db = 'io.escola.demo';
