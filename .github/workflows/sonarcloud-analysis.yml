@@ -74,7 +74,7 @@ jobs:
         name: QA
     defaults:
       run:
-        working-directory: ./
+        working-directory: ../..
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
