@@ -74,14 +74,14 @@ jobs:
         name: QA
     defaults:
       run:
-        working-directory: ../..
+        working-directory: ../../br.tag
     steps:     
       - uses: actions/checkout@master
       - run: ls -l
       - name: Run Snyk to check for vulnerabilities (PHP)
         uses: snyk/actions/php@master
         with:
-          args: --file=./composer.lock --workdir=.            
+          args: --file=./composer.lock --workdir=../../br.tag
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - run: ls -l
