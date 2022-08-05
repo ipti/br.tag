@@ -80,7 +80,9 @@ jobs:
       - name: Run Snyk to check for vulnerabilities (PHP)
         uses: snyk/actions/php@master
         with:
-          args: --file=composer.lock
+          args: 
+            --file=composer.lock
+            --workdir=.
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk to check for vulnerabilities (JavaScript)
