@@ -59,7 +59,8 @@ jobs:
             # mandatory
             -Dsonar.projectKey=ipti_br.tag
             -Dsonar.organization=ipti
-            -Dsonar.exclusions=framework/**   
+            -Dsonar.exclusions=framework/**
+            -Dsonar.cpd.exclusions=framework/**
             # Comma-separated paths to directories containing main source files.
             #-Dsonar.sources= # optional, default is project base directory
             # When you need the analysis to take place in a directory other than the one from which it was launched
@@ -80,8 +81,7 @@ jobs:
       - run: ls -l
       - name: Run Snyk to check for vulnerabilities (PHP)
         uses: snyk/actions/php@master
-        with:
-          args: --file=composer.lock --workdir=../../br.tag
+        
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - run: ls -l
