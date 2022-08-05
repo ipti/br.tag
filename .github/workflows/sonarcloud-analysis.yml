@@ -75,9 +75,17 @@ jobs:
     defaults:
       run:
         working-directory: ../..
-    steps:
+    steps:     
       - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/php@master        
+      - name: Run Snyk to check for vulnerabilities (PHP)
+        uses: snyk/actions/php@master
+        with:
+          args: --file=composer.lock
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk to check for vulnerabilities (JavaScript)
+        uses: snyk/actions/node@master
+        with:
+          args: --file=package-lock.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
