@@ -89,7 +89,7 @@ jobs:
           args: --workdir=br.tag --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
-      - run: cat br.tag/snyk.sarif
+                
       - uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: br.tag/snyk.sarif
+          sarif_file: snyk.sarif
