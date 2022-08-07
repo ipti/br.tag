@@ -85,7 +85,7 @@ jobs:
         uses: snyk/actions/php@master
         continue-on-error: true
         with:
-          command: monitor 
+          command: test 
           args: --unmanaged --workdir=br.tag --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
