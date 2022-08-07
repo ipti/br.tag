@@ -85,11 +85,11 @@ jobs:
         uses: snyk/actions/php@master
         continue-on-error: true
         with:
-          command: code test
-          args: --workdir=br.tag --sarif-file-output=snyk.sarif
+          command: monitor 
+          args: --unmanaged --workdir=br.tag --sarif-file-output=snyk.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
-                
+
       - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
