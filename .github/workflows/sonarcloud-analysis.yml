@@ -77,19 +77,20 @@ jobs:
       run:
         working-directory: ../../br.tag
     steps:     
-      - uses: actions/checkout@master
-      - run: ls -l
+      - uses: actions/checkout@master      
       - name: Run Snyk to check for vulnerabilities (PHP)
         uses: snyk/actions/php@master
+        continue-on-error: true
         with:
           command: code test
           args: --workdir=br.tag
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      - run: ls -l
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
       - name: Run Snyk to check for vulnerabilities (JavaScript)
         uses: snyk/actions/node@master
+        continue-on-error: true
         with:
-          args: --file=package-lock.json
+          command: code test
+          args: --workdir=br.tag
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
