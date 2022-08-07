@@ -71,6 +71,9 @@ jobs:
             #-Dsonar.verbose= # optional, default is false
   Security:
     runs-on: ubuntu-latest    
+    permissions:
+      # required for all workflows
+      security-events: write
     environment:
         name: QA
     defaults:
@@ -87,6 +90,6 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - run: ls -l
-      - uses: github/codeql-action/upload-sarif@v1
+      - uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
