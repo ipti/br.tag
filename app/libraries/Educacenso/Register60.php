@@ -32,8 +32,8 @@ class Register60
 
                 $classroom = Classroom::model()->findByPk($enrollment['classroom_fk']);
 
-                if ($classroom->edcensoStageVsModalityFk->id != 3 && $classroom->edcensoStageVsModalityFk->id != 22 && $classroom->edcensoStageVsModalityFk->id != 23
-                    && $classroom->edcensoStageVsModalityFk->id != 72 && $classroom->edcensoStageVsModalityFk->id != 56 && $classroom->edcensoStageVsModalityFk->id != 64) {
+                if ($classroom->schooling == 0 || ($classroom->edcensoStageVsModalityFk->id != 3 && $classroom->edcensoStageVsModalityFk->id != 22 && $classroom->edcensoStageVsModalityFk->id != 23
+                    && $classroom->edcensoStageVsModalityFk->id != 72 && $classroom->edcensoStageVsModalityFk->id != 56 && $classroom->edcensoStageVsModalityFk->id != 64)) {
                     $enrollment['edcenso_stage_vs_modality_fk'] = '';
                 }
 
