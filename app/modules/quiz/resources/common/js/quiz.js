@@ -119,7 +119,7 @@ var Option = function(){
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(Option.initDelete))
                             );
-                        elementActive.replaceWith(element);
+                        elementActive.replaceWith(DOMPurify.sanitize(element));
                     }
                     else if(typeof data.errorCode != 'undefined' && data.errorCode == '1'){
                         alert(data.msg);
