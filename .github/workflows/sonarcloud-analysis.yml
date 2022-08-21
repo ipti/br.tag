@@ -59,7 +59,7 @@ jobs:
         continue-on-error: true
         with:
           command: code test
-          args: --workdir=br.tag --sarif-file-output=snyk.sarif
+          args: --workdir=br.tag --sarif-file-output=snyk.sarif --sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}      
                 
