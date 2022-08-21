@@ -89,7 +89,7 @@ var Option = function(){
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(Option.initDelete))
                             );
-                        container.append(DOMPurify.sanitize(element));
+                        container.append(element);
                         Option.clear();
                     }
                 })
@@ -119,7 +119,7 @@ var Option = function(){
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(Option.initDelete))
                             );
-                        elementActive.replaceWith(DOMPurify.sanitize(element));
+                        elementActive.replaceWith(element);
                     }
                     else if(typeof data.errorCode != 'undefined' && data.errorCode == '1'){
                         alert(data.msg);
@@ -213,7 +213,7 @@ var Option = function(){
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Editar').click(Option.initUpdate))
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(Option.initDelete))
                             );
-                container.append(DOMPurify.sanitize(element));
+                container.append(element);
             });
         },
         showComplement: function(){
@@ -294,7 +294,7 @@ var QuizQuestion = function(){
                             .append($('<td></td>').attr({'class': 'center-button'})
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
                             );
-                        container.append(DOMPurify.sanitize(element));
+                        container.append(element);
                         QuizQuestion.clear();
                     }
                     else if(typeof data.errorCode != 'undefined' && parseInt(data.errorCode) > 0){
@@ -370,7 +370,7 @@ var QuizQuestion = function(){
                             .append($('<td></td>').attr({'class': 'center-button'})
                                 .append($('<button></button>').attr({'class': 'btn btn-primary space-button font-button'}).text('Excluir').click(QuizQuestion.initDelete))
                             );
-                container.append(DOMPurify.sanitize(element));
+                container.append(element);
             });
         }
     }

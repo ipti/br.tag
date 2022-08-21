@@ -366,3 +366,9 @@ function registerAndOpenTab(id){
         window.open($(this).attr("url")); 
     });
 }
+
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}

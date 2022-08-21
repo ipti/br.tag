@@ -92,7 +92,7 @@ class EnrollmentController extends Controller
         $data = CHtml::listData($data, 'id', 'name');
 
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
         }
     }
 

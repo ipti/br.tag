@@ -1068,11 +1068,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                             "6" => "EJA",
                                             "7" => "Outros",
                                         ), array(
-                                            'class' => 'select-search-off',
+                                            'class' => 'selcet-search-off',
                                             'ajax' => array(
                                                 'type' => 'POST',
                                                 'url' => CController::createUrl('enrollment/getmodalities'),
-                                                'update' => '#StudentEnrollment_edcenso_stage_vs_modality_fk'
+                                                'success' => 'function(data){
+                                                $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
+                                            }'
                                             ),
                                         ));
                                         ?>

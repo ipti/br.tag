@@ -760,9 +760,9 @@ class TimesheetController extends Controller
         if (isset($_POST['discipline'])) {
             $id = $_POST['discipline'];
             $list = CHtml::listData(InstructorDisciplines::model()->findAllByAttributes(["discipline_fk" => $id]), "instructorFk.id", "instructorFk.name");
-            echo CHtml::tag('option', ["value" => "null"], "Sem Instrutor");
+            echo htmlspecialchars(CHtml::tag('option', ["value" => "null"], "Sem Instrutor"));
             foreach ($list as $id => $name) {
-                echo CHtml::tag('option', ["value" => $id], $name);
+                echo htmlspecialchars(CHtml::tag('option', ["value" => $id], $name));
             }
         }
     }

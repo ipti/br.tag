@@ -455,10 +455,8 @@ $(document).on("click", ".schedule-selected .instructor-name", function () {
         }
     }).success(function (result) {
         $("#change-instructor-schedule").val(scheduleId);
-        $("#change-instructor-id").html(DOMPurify.sanitize(result));
-        $("#change-instructor-id")
-            .val(instructorId)
-            .select2();
+        $("#change-instructor-id").html(result);
+        $("#change-instructor-id").val(instructorId).select2();
         $("#change-instructor-modal").modal();
     });
 });
