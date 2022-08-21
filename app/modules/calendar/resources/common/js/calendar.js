@@ -27,7 +27,7 @@ $(document).on("click", ".create-calendar", function () {
         }).success(function (data) {
             data = JSON.parse(data);
             if (!data.valid) {
-                form.find(".alert").html(data.error).show();
+                form.find(".alert").html(DOMPurify.sanitize(data.error)).show();
                 $("#myNewCalendar .centered-loading-gif").hide();
                 $("#myNewCalendar .modal-body").css("opacity", 1).css("pointer-events", "auto");
                 $("#myNewCalendar button").removeAttr("disabled");
@@ -68,7 +68,7 @@ $(document).on("click", ".edit-calendar-title-button", function () {
                 $(".calendar-container[data-id=" + $("#edit-calendar-title-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-title-modal").find("#Calendar_title").val());
                 $("#edit-calendar-title-modal").modal("hide");
             } else {
-                $("#edit-calendar-title-modal").find(".alert").html(data.error).show();
+                $("#edit-calendar-title-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
             }
         }).complete(function () {
             $("#edit-calendar-title-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
@@ -106,7 +106,7 @@ $(document).on("click", ".remove-calendar-button", function () {
                 : $(".no-calendars-alert").show();
             $("#removeCalendar").modal("hide");
         } else {
-            $("#removeCalendar").find(".alert").html(data.error).show();
+            $("#removeCalendar").find(".alert").html(DOMPurify.sanitize(data.error)).show();
         }
     }).complete(function () {
         $("#removeCalendar .centered-loading-gif").hide();
@@ -137,7 +137,7 @@ $(document).on("click", ".remove-event-button", function () {
             eventDays.find(".calendar-icon").remove();
             $("#myChangeEvent").modal("hide");
         } else {
-            $("#myChangeEvent").find(".alert").html(data.error).show();
+            $("#myChangeEvent").find(".alert").html(DOMPurify.sanitize(data.error)).show();
         }
     }).complete(function () {
         $("#myChangeEvent .centered-loading-gif").hide();
@@ -238,12 +238,12 @@ $(document).on("click", ".save-event", function (e) {
                     date.attr("data-id", data.eventId).attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", data.eventName);
                     date.parent().addClass("calendar-" + data.color);
                     date.children(".calendar-icon").remove();
-                    date.prepend("<i class='calendar-icon fa " + data.icon + "'></i>");
+                    date.prepend("<i class='calendar-icon fa " + DOMPurify.sanitize(data.icon) + "'></i>");
                     $("#myChangeEvent").modal("hide");
                 });
                 $('[data-toggle="tooltip"]').tooltip({container: "body"});
             } else {
-                form.find(".alert").html(data.error).show();
+                form.find(".alert").html(DOMPurify.sanitize(data.error)).show();
             }
         }).complete(function () {
             $("#myChangeEvent .centered-loading-gif").hide();
@@ -320,7 +320,7 @@ $(document).on("click", ".change-calendar-status-button", function () {
             $(icon).tooltip({container: "body"});
             $("#changeCalendarStatus").modal("hide");
         } else {
-            $("#changeCalendarStatus").find(".alert").html(data.error).show();
+            $("#changeCalendarStatus").find(".alert").html(DOMPurify.sanitize(data.error)).show();
         }
     }).complete(function () {
         $("#changeCalendarStatus .centered-loading-gif").hide();

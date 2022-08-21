@@ -167,7 +167,7 @@ function getTimesheet(data) {
                 }
                 html += "</tr>";
             }
-            $(".tables-timesheet table[month=" + month + "] tbody").html(html);
+            $(".tables-timesheet table[month=" + month + "] tbody").html(DOMPurify.sanitize(html));
             $('[data-toggle="tooltip"]').tooltip({container: "body"});
         }
         calculateWorkload(data.disciplines, false);
@@ -455,7 +455,7 @@ $(document).on("click", ".schedule-selected .instructor-name", function () {
         }
     }).success(function (result) {
         $("#change-instructor-schedule").val(scheduleId);
-        $("#change-instructor-id").html(result);
+        $("#change-instructor-id").html(DOMPurify.sanitize(result));
         $("#change-instructor-id")
             .val(instructorId)
             .select2();
