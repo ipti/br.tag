@@ -1,0 +1,44 @@
+insert into vaccine(name, description) values
+('BCG ID', null),
+('Hepatite B', null),
+('Tríplice bacteriana (DTPw ou DTPa)', null),
+('Haemophilus influenzae b', null),
+('Poliomielite (vírus inativados)', null),
+('Rotavírus', null),
+('Pneumocócicas conjugadas', null),
+('Meningocócicas conjugadas ACWY/C', null),
+('Meningocócica B', null),
+('Influenza (gripe)', null),
+('Poliomielite oral (vírus vivos atenuados)', null),
+('Febre amarela', null),
+('Hepatite A', null),
+('Tríplice viral (sarampo, caxumba e rubéola)', null),
+('Varicela (catapora)', null);
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (dose única)', 'c19du', NULL, now(), now());
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (primeira dose)', 'c19pd', NULL, now(), now());
+INSERT INTO `vaccine` (`name`, `code`, `description`, `created_at`, `updated_at`)
+VALUES ('COVID-19 (segunda dose)', 'c19sd', NULL, now(), now());
+----------------------------------------------------
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 14 FROM school_identification;
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 15 FROM school_identification;
+INSERT INTO school_stages_concept_grades (school_fk, edcenso_stage_vs_modality_fk)
+SELECT inep_id, 16 FROM school_identification;
+--------------------------------------------------------------------
+INSERT INTO `lunch_unity` (`name`, `acronym`)
+VALUES ('Mililitro', 'mL');
+INSERT INTO `lunch_unity` (`name`, `acronym`)
+VALUES ('Quilo', 'Kg');
+---------------------------------------------------------------------
+INSERT INTO `calendar_event_type` (`name`, `icon`, `color`, unique_day`)
+VALUES ('Beginning of the School Year', 'fa-circle', 'green', '1');
+INSERT INTO `calendar_event_type` (`name`, `icon`, `color`, `unique_day`)
+VALUES ('End of the School Year', 'fa-circle', 'red', '1');
+INSERT INTO calendar_event (NAME, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable)
+SELECT 'Início do Ano Escolar', CONCAT(start_date, ' 00:00:00'), CONCAT(start_date, ' 00:00:00'), id, (SELECT id FROM calendar_event_type WHERE NAME = 'Beginning of the School Year'), 0 FROM calendar;
+INSERT INTO calendar_event (NAME, start_date, end_date, calendar_fk, calendar_event_type_fk, copyable)
+SELECT 'Fim do Ano Escolar', CONCAT(end_date, ' 00:00:00'), CONCAT(end_date, ' 00:00:00'), id, (SELECT id FROM calendar_event_type WHERE NAME = 'End of the School Year'), 0 FROM calendar;
+
