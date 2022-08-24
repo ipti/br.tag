@@ -372,14 +372,3 @@ function decodeHtml(html) {
     txt.innerHTML = html;
     return txt.value;
 }
-
-function sanitizator(data) {
-    if (typeof data === 'object' && data !== null) {
-        data = JSON.stringify(data);
-        data = DOMPurify.sanitize(data);
-        data = JSON.parse(data);
-    } else {
-        data = DOMPurify.sanitize(data);
-    }
-    return data;
-}
