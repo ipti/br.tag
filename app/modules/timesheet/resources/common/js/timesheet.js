@@ -15,6 +15,7 @@ $(document).on("change", "#classroom_fk", function () {
                 $(".btn-generate-timesheet").attr("disabled", "disabled");
             },
         }).success(function (data) {
+            data = DOMPurify.sanitize(data);
             data = JSON.parse(data);
             getTimesheet(data);
             if (data.disciplines !== undefined) {
@@ -167,7 +168,7 @@ function getTimesheet(data) {
                 }
                 html += "</tr>";
             }
-            $(".tables-timesheet table[month=" + month + "] tbody").html(DOMPurify.sanitize(html));
+            $(".tables-timesheet table[month=" + month + "] tbody").html(html);
             $('[data-toggle="tooltip"]').tooltip({container: "body"});
         }
         calculateWorkload(data.disciplines, false);
