@@ -22,7 +22,7 @@ $(document).on("change", "#classroom_fk", function () {
                 var html = "<option></option>";
                 $.each(data.disciplines, function () {
                     html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
-                });
+                });//eggs
                 $(".modal-add-schedule-discipline").html(html);
                 $(".modal-add-schedule-discipline").select2('destroy');
                 $(".modal-add-schedule-discipline").select2({
