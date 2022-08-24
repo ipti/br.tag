@@ -15,14 +15,13 @@ $(document).on("change", "#classroom_fk", function () {
                 $(".btn-generate-timesheet").attr("disabled", "disabled");
             },
         }).success(function (data) {
-            data = DOMPurify.sanitize(data);
-            data = JSON.parse(data);
             getTimesheet(data);
+            data = JSON.parse(data);
             if (data.disciplines !== undefined) {
                 var html = "<option></option>";
                 $.each(data.disciplines, function () {
                     html += "<option value='" + this.disciplineId + "'>" + this.disciplineName + "</option>";
-                });//eggs
+                });
                 $(".modal-add-schedule-discipline").html(html);
                 $(".modal-add-schedule-discipline").select2('destroy');
                 $(".modal-add-schedule-discipline").select2({
@@ -78,6 +77,8 @@ function generateTimesheet() {
 }
 
 function getTimesheet(data) {
+    data = DOMPurify.sanitize(data);
+    data = JSON.parse(data);
     $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
