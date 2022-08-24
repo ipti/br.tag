@@ -77,7 +77,6 @@ function generateTimesheet() {
 }
 
 function getTimesheet(data) {
-    data = sanitizator(data);
     $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
