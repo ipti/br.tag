@@ -15,8 +15,8 @@ $(document).on("change", "#classroom_fk", function () {
                 $(".btn-generate-timesheet").attr("disabled", "disabled");
             },
         }).success(function (data) {
-            getTimesheet(data);
             data = JSON.parse(data);
+            getTimesheet(data);
             if (data.disciplines !== undefined) {
                 var html = "<option></option>";
                 $.each(data.disciplines, function () {
@@ -77,8 +77,7 @@ function generateTimesheet() {
 }
 
 function getTimesheet(data) {
-    data = DOMPurify.sanitize(data);
-    data = JSON.parse(data);
+    data = sanitizator(data);
     $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
