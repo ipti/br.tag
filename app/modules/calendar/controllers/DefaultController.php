@@ -117,7 +117,7 @@ class DefaultController extends Controller
             join classroom cr on s.classroom_fk = cr.id 
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
-            where c.id = " . $_POST["calendarFk"])->queryRow();
+            where c.id = :id")->bindParam(":id", $_POST["calendarFk"])->queryRow();
             $isHardUnavailableEvent = $_POST["eventTypeFk"] == 1000 || $_POST["eventTypeFk"] == 1001 || $_POST["eventTypeFk"] == 102;
             $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101;
             $isPreviousDate = strtotime($_POST["startDate"]) < strtotime('now');
@@ -188,7 +188,7 @@ class DefaultController extends Controller
             join classroom cr on s.classroom_fk = cr.id 
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
-            where c.id = " . $_POST["calendarId"])->queryRow();
+            where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
             $isHardUnavailableEvent = $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102;
             $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101;
             $isPreviousDate = strtotime($event->start_date) < strtotime('now');
@@ -215,7 +215,7 @@ class DefaultController extends Controller
             join classroom cr on s.classroom_fk = cr.id 
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
-            where c.id = " . $_POST["calendar_removal_id"])->queryRow();
+            where c.id = :id")->bindParam(":id", $_POST["calendar_removal_id"])->queryRow();
             if ((int)$result["qtd"] > 0) {
                 echo json_encode(["valid" => false, "error" => "Não se pode remover calendários quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
             } else {
@@ -254,7 +254,7 @@ class DefaultController extends Controller
 
     public function actionShowStages()
     {
-        $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = " . $_POST["id"] . " order by edcenso_stage_vs_modality.name")->queryAll();
+        $result = Yii::app()->db->createCommand("select edcenso_stage_vs_modality.name from calendar_stages inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id where calendar_fk = :id order by edcenso_stage_vs_modality.name")->bindParam(":id", $_POST["id"])->queryAll();
         echo json_encode($result);
     }
 
