@@ -47,7 +47,10 @@ class DefaultController extends Controller
     {
         $error = "";
         foreach ($_POST["stages"] as $stage) {
-            $calendar = Yii::app()->db->createCommand("select calendar.title from calendar_stages inner join calendar on calendar_stages.calendar_fk = calendar.id where YEAR(calendar.start_date) = " . Yii::app()->user->year . " and stage_fk = " . $stage)->queryRow();
+            $calendar = Yii::app()->db->createCommand("select calendar.title from calendar_stages inner join calendar on calendar_stages.calendar_fk = calendar.id where YEAR(calendar.start_date) = :year and stage_fk = :stage")
+                ->bindParam(":year", Yii::app()->user->year)
+                ->bindParam(":stage", $stage)
+                ->queryRow();
             if ($calendar != null) {
                 if ($error == "") {
                     $error .= "Já existe Calendário para a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
