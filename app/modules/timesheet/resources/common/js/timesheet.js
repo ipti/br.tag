@@ -439,29 +439,29 @@ $(document).on("click", ".workloads-activator", function () {
     }
 });
 
-$(document).on("click", ".schedule-selected .instructor-name", function () {
-    var instructorId = $(this).attr("instructor_id");
-    var disciplineId = $(this)
-        .parent()
-        .find(".discipline-name")
-        .attr("discipline_id");
-    var scheduleId = $(this)
-        .parent()
-        .attr("schedule");
-
-    $.ajax({
-        url: getInstructorsUrl,
-        type: "POST",
-        data: {
-            discipline: disciplineId
-        }
-    }).success(function (result) {
-        $("#change-instructor-schedule").val(scheduleId);
-        $("#change-instructor-id").html(result);
-        $("#change-instructor-id").val(instructorId).select2();
-        $("#change-instructor-modal").modal();
-    });
-});
+// $(document).on("click", ".schedule-selected .instructor-name", function () {
+//     var instructorId = $(this).attr("instructor_id");
+//     var disciplineId = $(this)
+//         .parent()
+//         .find(".discipline-name")
+//         .attr("discipline_id");
+//     var scheduleId = $(this)
+//         .parent()
+//         .attr("schedule");
+//
+//     $.ajax({
+//         url: getInstructorsUrl,
+//         type: "POST",
+//         data: {
+//             discipline: disciplineId
+//         }
+//     }).success(function (result) {
+//         $("#change-instructor-schedule").val(scheduleId);
+//         $("#change-instructor-id").html(result);
+//         $("#change-instructor-id").val(instructorId).select2();
+//         $("#change-instructor-modal").modal();
+//     });
+// });
 $(document).on("click", "#change-instructor-button", function () {
     $.ajax({
         url: changeInstructorUrl,

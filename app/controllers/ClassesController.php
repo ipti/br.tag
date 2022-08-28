@@ -301,14 +301,14 @@ function actionGetDisciplines()
                         left join instructor_identification ii on t.instructor_fk = ii.id 
                         where ii.users_fk = " . Yii::app()->user->loginInfos->id . " and t.classroom_id_fk = " . $crid . " order by d.name")->queryAll();
         foreach ($disciplines as $discipline) {
-            echo CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true);
+            echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
         }
     } else {
         echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
         $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule join edcenso_discipline on edcenso_discipline.id = schedule.discipline_fk where classroom_fk = " . $crid . " order by edcenso_discipline.name")->queryAll();
         foreach ($classr as $i => $discipline) {
             if (isset($discipline['discipline_fk'])) {
-                echo CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true);
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
             }
         }
     }
