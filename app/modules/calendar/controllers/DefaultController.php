@@ -263,7 +263,7 @@ class DefaultController extends Controller
             join classroom cr on s.classroom_fk = cr.id 
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
-            where c.id = " . $_POST["id"])->queryRow();
+            where c.id = :id")->bindParam(":id", $_POST["id"])->queryRow();
             $calendar = Calendar::model()->findByPk($_POST["id"]);
             if (!$calendar->available || (int)$result["qtd"] == 0) {
                 $calendar->available = $calendar->available ? 0 : 1;
