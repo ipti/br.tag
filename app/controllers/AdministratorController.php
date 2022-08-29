@@ -64,10 +64,8 @@
 
 		public function actionSaveMultiStage() {
 			$student = json_decode($_POST["data"]);
-			var_dump($student);exit;
 			foreach($student as $st) {
-				$sql = "UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = $st->val  where student_fk = $st->idx ";
-				Yii::app()->db->createCommand($sql)->query();
+				Yii::app()->db->createCommand("UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = :val where student_fk = :idx")->bindParam(":val", $st->val)->bindParam(":idx", $st->idx)->query();
 			}
 				
 		

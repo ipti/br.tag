@@ -563,7 +563,8 @@ class TimesheetController extends Controller
             " curricular_matrix.workload as workloadTotal " .
             " from curricular_matrix " .
             " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
-            " where curricular_matrix.stage_fk = " . $classroom->edcenso_stage_vs_modality_fk . " and curricular_matrix.school_fk = " . Yii::app()->user->school)->queryAll();
+            " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_fk = :school")
+            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":school", Yii::app()->user->school)->queryAll();
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
 

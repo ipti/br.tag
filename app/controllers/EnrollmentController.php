@@ -596,7 +596,7 @@ class EnrollmentController extends Controller
                                 join `class_board` as `cb` on (c.id = cb.classroom_fk)
                                 join `edcenso_discipline` as `d` on (d.id = cb.discipline_fk)
                     )) as classroom_disciplines
-                    where classroom_id = " . $cid)->queryAll();
+                    where classroom_id = :cid")->bindParam(":cid", $cid)->queryAll();
 
 
             error_reporting(0);

@@ -424,17 +424,10 @@ preenchidos";
     //@done s1 - Modificar função para que ela fique mais rápida
     public function actionGetInstitutions()
     {
-        $q = $_POST['q'];
-        $page = $_POST['page'];
-
-        $condition = "name like '%$q%'";
-
-        $sql = "SELECT COUNT(*) as total FROM edcenso_ies where " . $condition;
-        $command = Yii::app()->db->createCommand($sql);
-        $results = $command->queryAll();
+        $results = Yii::app()->db->createCommand("SELECT COUNT(*) as total FROM edcenso_ies where name like :q")->bindValue(":q", "%" . $_POST['q'] . "%")->queryAll();
         $total = (int)$results[0]["total"];
 
-        $data = EdcensoIES::model()->findAll("$condition ORDER BY name LIMIT " . (($page - 1) * 10) . ",10");
+        $data = EdcensoIES::model()->findAll("name like '%" . $_POST['q'] . "%' ORDER BY name LIMIT " . (($_POST['page'] - 1) * 10) . ",10");
         $data = CHtml::listData($data, 'id', 'name');
 
         $return = [];

@@ -67,7 +67,6 @@ function generateTimesheet() {
             $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
         },
     }).success(function (data) {
-        data = JSON.parse(data);
         getTimesheet(data);
     }).complete(function () {
         $(".loading-timesheet").hide();
@@ -471,7 +470,6 @@ $(document).on("click", "#change-instructor-button", function () {
             instructor: $("#change-instructor-id").val()
         }
     }).success(function (data) {
-        data = JSON.parse(data);
         getTimesheet(data);
         $("#change-instructor-modal").modal("hide");
     });
