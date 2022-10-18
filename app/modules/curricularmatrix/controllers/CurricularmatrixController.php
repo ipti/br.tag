@@ -52,19 +52,18 @@ class CurricularmatrixController extends Controller
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
         $credits = $_POST['credits'];
-        $school = Yii::app()->user->school;
 
         if (isset($stages, $disciplines, $workload, $credits)) {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
-                    $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline and school_fk = :school", [
-                        ":stage" => $stage, ":discipline" => $discipline, ":school" => $school
+                    $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline", [
+                        ":stage" => $stage, ":discipline" => $discipline
                     ]);
                     $logSituation = "U";
                     if ($matrix == NULL) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes([
-                            "stage_fk" => $stage, "school_fk" => $school, "discipline_fk" => $discipline
+                            "stage_fk" => $stage, "discipline_fk" => $discipline
                         ]);
                         $logSituation = "C";
                     }
@@ -86,7 +85,6 @@ class CurricularmatrixController extends Controller
     {
         $filter = new CurricularMatrix('search');
         $filter->unsetAttributes();
-        $filter->school_fk = Yii::app()->user->school;
 
         $dataProvider =
             new CActiveDataProvider('CurricularMatrix', [
@@ -126,7 +124,7 @@ class CurricularmatrixController extends Controller
         $result = Yii::app()->db->createCommand("
             select count(s.id) as qtd from schedule s 
             join classroom c on s.classroom_fk = c.id 
-            where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk . " and c.school_inep_fk = '" . $curricularMatrix->school_fk . "'")->queryRow();
+            where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk)->queryRow();
         if ((int)$result["qtd"] === 0) {
             try {
                 if ($curricularMatrix->delete()) {

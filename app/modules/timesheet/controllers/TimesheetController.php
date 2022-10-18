@@ -162,8 +162,8 @@ class TimesheetController extends Controller
             }
             $response["calendarEvents"] = $calendarEventsArray;
 
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school
+            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk
             ]);
             $response["disciplines"] = [];
             foreach ($curricularMatrix as $cm) {
@@ -259,8 +259,8 @@ class TimesheetController extends Controller
         $criteria->params = ["classroom_fk" => $classroomId];
         $hasFrequency = ClassFaults::model()->exists($criteria);
         if (!$hasFrequency) {
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_fk = :school", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":school" => Yii::app()->user->school
+            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk
             ]);
             if ($curricularMatrix != null) {
                 Schedule::model()->deleteAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
@@ -563,8 +563,8 @@ class TimesheetController extends Controller
             " curricular_matrix.workload as workloadTotal " .
             " from curricular_matrix " .
             " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
-            " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_fk = :school")
-            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":school", Yii::app()->user->school)->queryAll();
+            " where curricular_matrix.stage_fk = :stage")
+            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->queryAll();
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
 

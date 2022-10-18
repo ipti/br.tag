@@ -7,13 +7,11 @@
 	 * @property integer $id
 	 * @property integer $stage_fk
 	 * @property integer $discipline_fk
-	 * @property string $school_fk
 	 * @property integer $workload
 	 * @property integer $credits
 	 *
 	 * The followings are the available model relations:
 	 * @property EdcensoDiscipline $disciplineFk
-	 * @property SchoolIdentification $schoolFk
 	 * @property EdcensoStageVsModality $stageFk
 	 */
 	class CurricularMatrix extends CActiveRecord {
@@ -31,11 +29,10 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['stage_fk, discipline_fk, school_fk, workload, credits', 'required'],
+				['stage_fk, discipline_fk, workload, credits', 'required'],
 				['stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly' => TRUE],
-				['school_fk', 'length', 'max' => 8], // The following rule is used by search().
 				// @todo Please remove those attributes that should not be searched.
-				['id, stage_fk, discipline_fk, school_fk, workload, credits', 'safe', 'on' => 'search'],
+				['id, stage_fk, discipline_fk, workload, credits', 'safe', 'on' => 'search'],
 			];
 		}
 
@@ -47,7 +44,6 @@
 			// class name for the relations automatically generated below.
 			return [
 				'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
-				'schoolFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
 				'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
 			];
 		}
@@ -60,7 +56,6 @@
 				'id' => yii::t('curricularmatrixModule.labels', 'ID'),
 				'stage_fk' => yii::t('curricularmatrixModule.labels', 'Stage Fk'),
 				'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
-				'school_fk' => yii::t('curricularmatrixModule.labels', 'School Fk'),
 				'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
 				'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
 			];
@@ -88,7 +83,6 @@
 			$criteria->compare('id', $this->id);
 			$criteria->compare('stage_fk', $this->stage_fk);
 			$criteria->compare('discipline_fk', $this->discipline_fk);
-			$criteria->compare('school_fk', $this->school_fk, TRUE);
 			$criteria->compare('workload', $this->workload);
 			$criteria->compare('credits', $this->credits);
 
