@@ -1,0 +1,16 @@
+ALTER TABLE curricular_matrix RENAME TO _unusedtable_curricular_matrix;
+
+CREATE TABLE `curricular_matrix` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `stage_fk` int(11) NOT NULL,
+  `discipline_fk` int(11) NOT NULL,
+  `workload` int(11) NOT NULL,
+  `credits` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=310 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+ALTER TABLE `curricular_matrix`
+ADD FOREIGN KEY (`stage_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `curricular_matrix`
+ADD FOREIGN KEY (`discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

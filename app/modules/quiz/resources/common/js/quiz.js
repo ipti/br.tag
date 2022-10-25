@@ -1,4 +1,4 @@
-$('#save_button').click(function() { 
+$('#save_button').click(function() {
     $('#quiz-form').submit();
 });
 
@@ -9,10 +9,10 @@ $('#delete_button').click(function() {
         var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#quiz-form').attr('action', action);
         $('#quiz-form').submit();
-    } 
+    }
 });
 
-$('#save_group_button').click(function() { 
+$('#save_group_button').click(function() {
     $('#group-form').submit();
 });
 
@@ -23,10 +23,10 @@ $('#delete_group_button').click(function() {
         var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#group-form').attr('action', action);
         $('#group-form').submit();
-    } 
+    }
 });
 
-$('#save_question_group_button').click(function() { 
+$('#save_question_group_button').click(function() {
     $('#questiongroup-form').submit();
 });
 
@@ -37,11 +37,11 @@ $('#delete_question_group_button').click(function() {
         var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#questiongroup-form').attr('action', action);
         $('#questiongroup-form').submit();
-    } 
+    }
 });
 
 
-$('#save_question_button').click(function() { 
+$('#save_question_button').click(function() {
     $('#question-form').submit();
 });
 
@@ -52,10 +52,10 @@ $('#delete_question_button').click(function() {
         var action = 'index.php?' + (url.indexOf("update") == -1 ? url.replace('create','delete') : url.replace('update','delete'));
         $('#question-form').attr('action', action);
         $('#question-form').submit();
-    } 
+    }
 });
 
-$('#save_answer_button').click(function() { 
+$('#save_answer_button').click(function() {
     $('#answer-form').submit();
 });
 
@@ -80,6 +80,9 @@ var Option = function(){
                     contentType: "application/json; charset=utf-8"
                   })
                 .done(function(data){
+                    data = JSON.stringify(data);
+                    data = DOMPurify.sanitize(data);
+                    data = JSON.parse(data);
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
                             .attr({'option-id': data.id, 'option-description': data.description, 'option-answer': data.answer, 'option-complement': data.complement})
@@ -109,6 +112,9 @@ var Option = function(){
                     contentType: "application/json; charset=utf-8"
                   })
                 .done(function(data){
+                    data = JSON.stringify(data);
+                    data = DOMPurify.sanitize(data);
+                    data = JSON.parse(data);
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                        var elementActive = container.find('tr[option-id="'+data.id+'"]');
                         var element = $('<tr></tr>')
@@ -235,12 +241,12 @@ var Option = function(){
             else if(type == 'radio'){
                 var partialUid = uid.substring(0,(uid.length -1));
                 var elementChecked = $('input[id^="'+partialUid+'"]:checked');
-                
+
                 if(isChecked){
                     $('div[id^="'+partialUid+'"]').each(function(){
                         $(this).hide();
                     });
-    
+
                     $('input[id^="'+partialUid+'"]').each(function(){
                         if($(this).attr('type') == 'text')
                             $(this).prop('disabled',true);
@@ -286,6 +292,9 @@ var QuizQuestion = function(){
                     contentType: "application/json; charset=utf-8"
                   })
                 .done(function(data){
+                    data = JSON.stringify(data);
+                    data = DOMPurify.sanitize(data);
+                    data = JSON.parse(data);
                     if(typeof data.errorCode != 'undefined' && data.errorCode == '0'){
                         var element = $('<tr></tr>')
                             .attr({'key': data.quizId + '' + data.questionId, 'quiz-id': data.quizId, 'question-id': data.questionId, 'question-description': data.description})

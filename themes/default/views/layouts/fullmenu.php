@@ -243,5 +243,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
 <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
+<script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
 </body>
 </html>

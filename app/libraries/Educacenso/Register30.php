@@ -538,14 +538,14 @@ class Register30
         //Sta Luzia do Itanhy
         switch (Yii::app()->user->school) {
             case "28042000":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00150752571|MONICA ARAUJO COSTA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MONICAARAUJO60068@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||00150752571|MONICA ARAUJO COSTA|09/08/1981|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MONICAARAUJO60068@GMAIL.COM');
                 break;
             case "28032071":
             case "28026187":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||72233168534|JOSE JORGE DONATO|23/04/1972|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|JORGEDONATO2010@HOTMAIL.COM');
                 break;
             case "28026152":
-                array_push($registers, '30|' . Yii::app()->user->school . '|909999||72240687568|MARIA JUCIENE NELIS BARBOSA|23/05/1988|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJUCIENE06@GMAIL.COM');
+                array_push($registers, '30|' . Yii::app()->user->school . '|909999||72240687568|MARIA JUCIENE NELIS BARBOSA|27/06/1974|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJUCIENE06@GMAIL.COM');
                 break;
             case "28026179":
                 array_push($registers, '30|' . Yii::app()->user->school . '|909999||51770970568|MARIA JOSE NELIS BARBOSA|12/06/1968|0|||1|3|1|76|2806305|0|||||||||||||||||||||||||||||6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|1|0|MARIAJOSENELISB@GMAIL.COM');

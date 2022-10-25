@@ -31,12 +31,12 @@ class SchoolController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update',
+                'actions' => array('edcenso_import', 'configacl', 'index', 'view', 'update', 'create',
                     'getcities', 'getdistricts', 'getorgans', 'updateufdependencies', 'updatecitydependencies', 'displayLogo'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete', 'create', 'reports', 'ReportsMonthlyTransaction', 'Record'),
+                'actions' => array('admin', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'),
                 'users' => array('admin'),
             ),
             array('deny', // deny all users

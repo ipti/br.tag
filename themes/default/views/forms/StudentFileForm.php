@@ -124,6 +124,8 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
             <td>
                 <div class="span12"><b>01 - Nome do(a) aluno(a):</b>&nbsp;<span class="name"><?= $data['name'] ?></span></div>
                 <br>
+                <div class="span12"><b>02 - Nome social:</b>&nbsp;<span class="name"></span></div>
+                <br>
                 <div class="span4"><b>Data&nbsp;de&nbsp;nascimento:</b>&nbsp;<span class="birthday"><?= $data['birthday'] ?></span></div>
                 <div class="span4"><b>ID: </b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
                 <div class="span4"><b>NIS: </b><span class="nis"><?= $data['nis'] ?> </span></div>

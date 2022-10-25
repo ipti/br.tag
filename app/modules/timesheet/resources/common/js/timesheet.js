@@ -15,8 +15,8 @@ $(document).on("change", "#classroom_fk", function () {
                 $(".btn-generate-timesheet").attr("disabled", "disabled");
             },
         }).success(function (data) {
-            data = JSON.parse(data);
             getTimesheet(data);
+            data = JSON.parse(data);
             if (data.disciplines !== undefined) {
                 var html = "<option></option>";
                 $.each(data.disciplines, function () {
@@ -67,7 +67,6 @@ function generateTimesheet() {
             $(".table-container").css("opacity", 0.3).css("pointer-events", "none");
         },
     }).success(function (data) {
-        data = JSON.parse(data);
         getTimesheet(data);
     }).complete(function () {
         $(".loading-timesheet").hide();
@@ -77,6 +76,8 @@ function generateTimesheet() {
 }
 
 function getTimesheet(data) {
+    data = DOMPurify.sanitize(data);
+    data = JSON.parse(data);
     $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
@@ -85,11 +86,11 @@ function getTimesheet(data) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error === "curricularMatrix") {
-            $(".loading-alert").removeClass("display-hide").html("Crie uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.");
+            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "calendar") {
-            $(".loading-alert").removeClass("display-hide").html("Disponibilize um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
+            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "frequencyFilled") {
@@ -437,31 +438,29 @@ $(document).on("click", ".workloads-activator", function () {
     }
 });
 
-$(document).on("click", ".schedule-selected .instructor-name", function () {
-    var instructorId = $(this).attr("instructor_id");
-    var disciplineId = $(this)
-        .parent()
-        .find(".discipline-name")
-        .attr("discipline_id");
-    var scheduleId = $(this)
-        .parent()
-        .attr("schedule");
-
-    $.ajax({
-        url: getInstructorsUrl,
-        type: "POST",
-        data: {
-            discipline: disciplineId
-        }
-    }).success(function (result) {
-        $("#change-instructor-schedule").val(scheduleId);
-        $("#change-instructor-id").html(result);
-        $("#change-instructor-id")
-            .val(instructorId)
-            .select2();
-        $("#change-instructor-modal").modal();
-    });
-});
+// $(document).on("click", ".schedule-selected .instructor-name", function () {
+//     var instructorId = $(this).attr("instructor_id");
+//     var disciplineId = $(this)
+//         .parent()
+//         .find(".discipline-name")
+//         .attr("discipline_id");
+//     var scheduleId = $(this)
+//         .parent()
+//         .attr("schedule");
+//
+//     $.ajax({
+//         url: getInstructorsUrl,
+//         type: "POST",
+//         data: {
+//             discipline: disciplineId
+//         }
+//     }).success(function (result) {
+//         $("#change-instructor-schedule").val(scheduleId);
+//         $("#change-instructor-id").html(result);
+//         $("#change-instructor-id").val(instructorId).select2();
+//         $("#change-instructor-modal").modal();
+//     });
+// });
 $(document).on("click", "#change-instructor-button", function () {
     $.ajax({
         url: changeInstructorUrl,
@@ -471,7 +470,6 @@ $(document).on("click", "#change-instructor-button", function () {
             instructor: $("#change-instructor-id").val()
         }
     }).success(function (data) {
-        data = JSON.parse(data);
         getTimesheet(data);
         $("#change-instructor-modal").modal("hide");
     });

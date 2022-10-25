@@ -299,16 +299,17 @@ function actionGetDisciplines()
                                 || `t`.`discipline_13_fk` = `d`.`id`)
                         join `classroom` as `c` on (c.id = t.classroom_id_fk)
                         left join instructor_identification ii on t.instructor_fk = ii.id 
-                        where ii.users_fk = " . Yii::app()->user->loginInfos->id . " and t.classroom_id_fk = " . $crid . " order by d.name")->queryAll();
+                        where ii.users_fk = :userid and t.classroom_id_fk = :crid order by d.name")
+            ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $crid)->queryAll();
         foreach ($disciplines as $discipline) {
-            echo CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true);
+            echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
         }
     } else {
         echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
-        $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule join edcenso_discipline on edcenso_discipline.id = schedule.discipline_fk where classroom_fk = " . $crid . " order by edcenso_discipline.name")->queryAll();
+        $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule join edcenso_discipline on edcenso_discipline.id = schedule.discipline_fk where classroom_fk = :crid order by edcenso_discipline.name")->bindParam(":crid", $crid)->queryAll();
         foreach ($classr as $i => $discipline) {
             if (isset($discipline['discipline_fk'])) {
-                echo CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true);
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
             }
         }
     }

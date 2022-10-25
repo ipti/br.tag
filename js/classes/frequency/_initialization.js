@@ -89,7 +89,7 @@ $("#classroom").on("change", function () {
                     if (response === "") {
                         $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
                     } else {
-                        $("#disciplines").html(response).trigger("change.select2").show();
+                        $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
                     }
                     $(".disciplines-container").show();
                 },

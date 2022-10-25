@@ -55,7 +55,6 @@
  * @property Calendar[] $calendars
  * @property Classroom[] $classrooms
  * @property CoursePlan[] $coursePlans
- * @property CurricularMatrix[] $curricularMatrixes
  * @property InstructorDocumentsAndAddress[] $instructorDocumentsAndAddresses
  * @property InstructorSchool[] $instructorSchools
  * @property InstructorTeachingData[] $instructorTeachingDatas
