@@ -1137,7 +1137,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             "1" => "Reprovado",
                                             "2" => "Afastado por transferência",
                                             "3" => "Afastado por abandono",
-                                            "4" => "Matrícula final em Educação Infantil"
+                                            "4" => "Matrícula final em Educação Infantil",
+                                            "5" => "Promovido"
                                         ),
                                         array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
