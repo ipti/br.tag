@@ -8766,6 +8766,7 @@ li.active a {
 .frequency-checkbox-container {
     cursor: pointer;
     text-align: center !important;
+    position: relative;
 }
 
 .frequency-checkbox-container.disabled {
@@ -8785,6 +8786,44 @@ li.active a {
     vertical-align: middle;
     margin-top: 7px;
     margin-left: 10px;
+}
+
+.frequency-justification-icon {
+    position: absolute;
+    margin-left: 5px;
+    top: -3px;
+    font-size: 16px !important;
+    color: #333;
+}
+
+.frequency-justification-icon:hover {
+    text-decoration: none;
+}
+
+.frequency-justification-icon:hover .fa-comment-o,
+.frequency-justification-icon:hover .fa-commenting-o,
+.frequency-justification-icon .fa-comment,
+.frequency-justification-icon .fa-commenting {
+    display: none;
+}
+.frequency-justification-icon:hover .fa-comment,
+.frequency-justification-icon:hover .fa-commenting {
+    display: inline;
+}
+
+.justification-text {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.centered-loading-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    z-index: 1;
+    display: none;
 }
 
 .yes-update, .no-update {

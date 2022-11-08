@@ -38,7 +38,7 @@ class ClassesController extends Controller
                 'actions' => array('index',
                     'frequency', 'saveFrequency',
                     'classContents', 'getClassContents', 'saveClassContents', 'saveContent',
-                    'getdisciplines', 'getfrequency', 'getcontents'),
+                    'getdisciplines', 'getfrequency', 'getcontents', 'saveJustification'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -210,9 +210,16 @@ function actionGetFrequency()
                 $array["studentName"] = $enrollment->studentFk->name;
                 $array["schedules"] = [];
                 foreach ($schedules as $schedule) {
-                    $classFault = ClassFaults::model()->exists("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
+                    $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                     $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                    array_push($array["schedules"], ["available" => $available, "day" => $schedule->day, "week_day" => $dayName[$schedule->week_day], "schedule" => $schedule->schedule, "fault" => $classFault]);
+                    array_push($array["schedules"], [
+                        "available" => $available,
+                        "day" => $schedule->day,
+                        "week_day" => $dayName[$schedule->week_day],
+                        "schedule" => $schedule->schedule,
+                        "fault" => $classFault != null,
+                        "justification" => $classFault->justification
+                    ]);
                 }
                 array_push($students, $array);
             }
@@ -268,6 +275,22 @@ function saveFrequency($schedule)
             }
         } else {
             ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+        }
+    }
+}
+
+public function actionSaveJustification() {
+    if ($_POST["fundamentalMaior"] == "1") {
+        $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
+        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
+        $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+        $classFault->save();
+    } else {
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+        foreach ($schedules as $schedule) {
+            $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
+            $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+            $classFault->save();
         }
     }
 }
