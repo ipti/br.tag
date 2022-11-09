@@ -43,9 +43,9 @@ $("#classesSearch").on("click", function () {
                             var justificationContainer = "";
                             if (schedule.fault) {
                                 if (schedule.justification !== null) {
-                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-commenting-o'></i><i class='fa fa-commenting'></i></a>";
+                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon' title='" + schedule.justification + "'><i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i></a>";
                                 } else {
-                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-comment-o'></i><i class='fa fa-comment'></i></a>";
+                                    justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                                 }
                             }
                             html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() + "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + $("#month").val() + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
@@ -137,7 +137,7 @@ $(document).on("change", ".frequency-checkbox", function () {
                 if ($(checkbox).is(":checked")) {
                     $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").each(function () {
                         if (!$(this).parent().find(".frequency-justification-icon").length) {
-                            $(this).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-comment-o'></i><i class='fa fa-comment'></i></a>");
+                            $(this).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
                         }
                     });
                 } else {
@@ -145,7 +145,7 @@ $(document).on("change", ".frequency-checkbox", function () {
                 }
             } else {
                 if ($(checkbox).is(":checked")) {
-                    $(checkbox).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-comment-o'></i><i class='fa fa-comment'></i></a>");
+                    $(checkbox).parent().append("<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>");
                 } else {
                     $(checkbox).parent().find(".frequency-justification-icon").remove();
 
@@ -196,10 +196,10 @@ $(document).on("click", ".btn-save-justification", function () {
         success: function (data) {
             var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "]").parent().find(".frequency-justification-icon");
             if ($(".justification-text").val() == "") {
-                justification.html("<i class='fa fa-comment-o'></i><i class='fa fa-comment'></i>");
+                justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip('hide');
             } else {
-                justification.html("<i class='fa fa-commenting-o'></i><i class='fa fa-commenting'></i>");
+                justification.html("<i class='fa fa-file-text-o'></i><i class='fa fa-file-text'></i>");
                 justification.attr("data-original-title", $(".justification-text").val()).tooltip({container: "body"});
             }
             $("#save-justification-modal").modal("hide");

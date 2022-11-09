@@ -8791,7 +8791,7 @@ li.active a {
 .frequency-justification-icon {
     position: absolute;
     margin-left: 5px;
-    top: -3px;
+    top: 5px;
     font-size: 16px !important;
     color: #333;
 }
@@ -8800,14 +8800,14 @@ li.active a {
     text-decoration: none;
 }
 
-.frequency-justification-icon:hover .fa-comment-o,
-.frequency-justification-icon:hover .fa-commenting-o,
-.frequency-justification-icon .fa-comment,
-.frequency-justification-icon .fa-commenting {
+.frequency-justification-icon:hover .fa-file-o,
+.frequency-justification-icon:hover .fa-file-text-o,
+.frequency-justification-icon .fa-file,
+.frequency-justification-icon .fa-file-text {
     display: none;
 }
-.frequency-justification-icon:hover .fa-comment,
-.frequency-justification-icon:hover .fa-commenting {
+.frequency-justification-icon:hover .fa-file,
+.frequency-justification-icon:hover .fa-file-text {
     display: inline;
 }
 
