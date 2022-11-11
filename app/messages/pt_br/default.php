@@ -411,7 +411,7 @@ return array(
     'Add Discipline/Teacher' => 'Adicionar Professor/Disciplina',
     'Writing' => 'Redação',
     'Listen, Speak, Thought and Imagination' => 'Escuta, Fala, Pensamento e Imaginação',
-    'Space, Time, Quantity, Relations, Transformations' => 'Espaço, Tempo, Quantidade, Relações e Transformações',
+    'Space, Time, Quantity, Relations and Transformations' => 'Espaço, Tempo, Quantidade, Relações e Transformações',
     'Body, Gesture and Movement' => 'Corpo, Gesto e Movimento',
     'Traces, Sounds, Colors and Shapes' => 'Traços, Sons, Cores e Formas',
     'The I, the Other and the We' => 'O Eu, O Outro e o Nós',
