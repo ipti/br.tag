@@ -10,6 +10,7 @@ import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import StepFive from "./StepFive";
+import StepSix from "./StepSix";
 import Finish from "./Finish";
 
 class Wizard extends Component {
@@ -31,12 +32,13 @@ class Wizard extends Component {
     "3": StepThree,
     "4": StepFour,
     "5": StepFive,
-    "6": Finish
+    "6": StepSix,
+    "7": Finish
   };
 
   render() {
     const StepComponent = this.componentMapping[this.props.step];
-
+    
     return (
       <Grid item xs={12}>
         <StepComponent {...this.props} nextStep={this.nextStep} />

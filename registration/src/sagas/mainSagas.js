@@ -30,8 +30,13 @@ import {
   watchFetchSchoolsList
 } from "./registrationSagas";
 
+import {
+  watchFetchAddress,
+} from "./cepSagas";
+
 export default function* rootSagas() {
   yield all([
+    fork(watchFetchAddress),
     fork(watchFetchSchools),
     fork(watchFetchSchool),
     fork(watchFetchSchoolsPage),

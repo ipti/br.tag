@@ -4,15 +4,12 @@ import React from "react";
 import {
   FormLabel,
   FormControl,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
   FormHelperText,
   TextField,
   Grid
 } from "@material-ui/core";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 // Components
 import { ButtonPurple } from "../../components/Buttons";
@@ -27,15 +24,6 @@ import styleBase from "../../styles";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
-
-const PurpleRadio = withStyles({
-  root: {
-    "&$checked": {
-      color: styleBase.colors.purple
-    }
-  },
-  checked: {}
-})(props => <Radio color="default" {...props} />);
 
 const TextMaskFone = props => {
   const { inputRef, ...other } = props;
@@ -53,19 +41,37 @@ const TextMaskFone = props => {
   );
 };
 
+const TextMaskCpf = props => {
+  const { inputRef, ...others } = props;
+
+  return (
+    <MaskedInput
+      {...others}
+      ref={ref => {
+        inputRef(ref ? ref.inputElement : null);
+      }}
+      mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
+      placeholderChar={"_"}
+      showMask
+    />
+  );
+};
+
 const StepFour = props => {
   const classes = useStyles();
 
   const validationSchema = Yup.object().shape({
     responsableName: Yup.string().required("Campo obrigatório!"),
-    fone: Yup.string().required("Campo obrigatório!"),
-    residenceZone: Yup.string().required("Campo obrigatório!")
+    responsableCpf: Yup.string().required("Campo obrigatório!"),
+    fone: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
+    motherName: '' ??  '',
+    fatherName: '' ?? '',
     responsableName: props?.student?.filiation1 ?? '',
     fone: "",
-    residenceZone: props?.student?.residenceZone ?? ''
+    responsableCpf: ''
   };
 
   return (
@@ -81,12 +87,58 @@ const StepFour = props => {
 
           const errorList = {
             responsableName: touched.responsableName && errors.responsableName,
-            residenceZone: touched.residenceZone && errors.residenceZone,
+            responsableCpf: touched.responsableCpf && errors.responsableCpf,
             fone: touched.fone && errors.fone,
           };
 
           return (
             <Form>
+              <Grid 
+                className={`${classes.marginTop} ${classes.contentMain}`}
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                  <Grid item xs={12}>
+                      <FormControl
+                        component="fieldset"
+                        className={classes.formControl}  
+                      >
+                        <FormLabel>Nome Completo da Mãe *</FormLabel>
+                        <TextField
+                          name="motherName"
+                          value={values.motherName}
+                          onChange={handleChange}
+                          variant="outlined"
+                          className={classes.textField}
+                        />
+                      </FormControl>
+                  </Grid>
+              </Grid>
+              <Grid 
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                  <Grid item xs={12}>
+                      <FormControl
+                        component="fieldset"
+                        className={classes.formControl}  
+                      >
+                        <FormLabel>Nome Completo do Pai</FormLabel>
+                        <TextField
+                        name="fatherName"
+                        value={values.fatherName}
+                        onChange={handleChange}
+                        variant="outlined"
+                        className={classes.textField}
+                      />
+                      </FormControl>
+                  </Grid>
+              </Grid>
               <Grid
                 className={`${classes.contentMain}`}
                 container
@@ -100,7 +152,7 @@ const StepFour = props => {
                     className={classes.formControl}
                     error={errorList.responsableName}
                   >
-                    <FormLabel>Responsável</FormLabel>
+                    <FormLabel>Nome Completo do Responsável *</FormLabel>
                     <TextField
                       name="responsableName"
                       value={values.responsableName}
@@ -124,21 +176,22 @@ const StepFour = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.fone}
+                    error={errorList.studentName}
                   >
-                    <FormLabel>Telefone</FormLabel>
+                    <FormLabel>Nº do CPF do Responsável *</FormLabel>
                     <TextField
-                      name="fone"
+                      name="responsableCpf"
                       variant="outlined"
-                      className={classes.textField}
                       InputProps={{
-                        inputComponent: TextMaskFone,
-                        value: values.fone,
+                        inputComponent: TextMaskCpf,
+                        value: values.responsableCpf,
                         onChange: handleChange
                       }}
-                      error={errorList.fone}
+                      className={classes.textField}
+                      error={errorList.responsableCpf}
+                      autoComplete="off"
                     />
-                    <FormHelperText>{errorList.fone}</FormHelperText>
+                    <FormHelperText>{errorList.responsableCpf}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -153,27 +206,21 @@ const StepFour = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.residenceZone}
+                    error={errorList.fone}
                   >
-                    <FormLabel component="legend">Zona</FormLabel>
-                    <RadioGroup
-                      value={values.residenceZone}
-                      name="residenceZone"
-                      onChange={handleChange}
-                      row
-                    >
-                      <FormControlLabel
-                        value="2"
-                        control={<PurpleRadio />}
-                        label="Urbana"
-                      />
-                      <FormControlLabel
-                        value="1"
-                        control={<PurpleRadio />}
-                        label="Rural"
-                      />
-                    </RadioGroup>
-                    <FormHelperText>{errorList.residenceZone}</FormHelperText>
+                    <FormLabel>Telefone *</FormLabel>
+                    <TextField
+                      name="fone"
+                      variant="outlined"
+                      className={classes.textField}
+                      InputProps={{
+                        inputComponent: TextMaskFone,
+                        value: values.fone,
+                        onChange: handleChange
+                      }}
+                      error={errorList.fone}
+                    />
+                    <FormHelperText>{errorList.fone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>

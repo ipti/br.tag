@@ -1,15 +1,35 @@
 import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import { Formik, Form } from "formik";
-import Select from "react-select";
-import AsyncSelect from "react-select/async";
-import { FormLabel, FormControl } from "@material-ui/core";
+
+//Material-UI
+import {
+  FormLabel,
+  FormControl,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
+  Grid,
+  TextField,
+  FormHelperText
+} from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+
 import { ButtonPurple } from "../../components/Buttons";
+
+//style
 import styles from "./styles";
+
+// Third party
 import * as Yup from "yup";
+import { Formik, Form } from "formik";
+
 import api from "../../services/api";
 import Loading from "../../components/Loading/CircularLoadingButtomActions";
+
+
+import styleBase from "../../styles";
+import MaskedInput from "react-text-mask";
+import { useEffect } from "react";
 
 const useStyles = makeStyles(styles);
 
@@ -26,58 +46,107 @@ const customStyles = {
   })
 };
 
+
 const StepFive = props => {
+  const [errorCep, setErrorCep] = useState(false);
   const classes = useStyles();
   const { loadingButtom } = props;
-  const [inputValue, setInputValue] = useState("");
-  const [arrClassrooms, setArrClassrooms] = useState([]);
-  const [inputValueClassroom, setInputValueClassroom] = useState("");
+ 
+  
 
   const validationSchema = Yup.object().shape({
-    schoolInepId: Yup.string().required("Campo obrigatório!"),
-    classroomId: Yup.string().required("Campo obrigatório!")
+    cep: Yup.string().required("Campo obrigatório!"),
+    endereco: Yup.string().required("Campo obrigatório!"),
+    numero: Yup.string().required("Campo obrigatório!"),
+    bairro: Yup.string().required("Campo obrigatório!"),
+    estado: Yup.string().required("Campo obrigatório!"),
+    cidade: Yup.string().required("Campo obrigatório!"),
+    residenceZone: Yup.string().required("Campo obrigatório!"),
   });
 
+  const TextMaskCep = props => {
+    const { inputRef, ...others } = props;
+  
+    return (
+      <MaskedInput
+        {...others}
+        ref={ref => {
+          inputRef(ref ? ref.inputElement : null);
+        }}
+        mask={[/\d/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
+  };
+
+
+  // useEffect(()=>{
+  //   props.dispatch({type: "GET_ADDRESS", data: '49043130'})
+  // },[])
+
   const initialValues = {
-    schoolInepId: inputValue,
-    classroomId: inputValueClassroom
+    cep: "",
+    endereco: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    estado: "",
+    cidade: "",
+    residenceZone: ""
   };
 
-  const handleInputChange = newValue => {
-    api.get("/external/school/" + newValue).then(response => {
-      if (response.data) {
-        setArrClassrooms(response.data.school.classrooms);
+  const checkCep = (e, setFieldValue) =>{
+      const cep =  e.target.value.replace(/\D/g, '');
+      if (cep?.length !== 8) {
+        return;
       }
-    });
-    setInputValue(newValue);
-  };
 
-  const handleChange = newValue => {
-    setInputValueClassroom(newValue);
-  };
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      .then(res => res.json()).then(data =>{
+        if(data.erro){
+          setErrorCep(true);
+        }else{
+        setFieldValue("bairro", data.bairro);
+        setFieldValue("cidade", data.localidade);
+        setFieldValue("estado", data.uf);
+        setFieldValue("endereco", data.logradouro);
+        setErrorCep(false);
+        }
+        
+      })
+  }
 
-  const searchSchools = (inputValue, callback) => {
-    if (inputValue.trim().length >= 3) {
-      setTimeout(() => {
-        api.get("/external/searchschool/" + inputValue).then(response => {
-          callback(response.data);
-        });
-      }, 500);
-    } else {
-      callback(props?.schools);
-    }
-  };
+  const PurpleRadio = withStyles({
+    root: {
+      "&$checked": {
+        color: styleBase.colors.purple
+      }
+    },
+    checked: {}
+  })(props => <Radio color="default" {...props} />);
+
 
   return (
     <>
       <Formik
         initialValues={initialValues}
-        onSubmit={values => props.next(6, values)}
+        onSubmit={values => props.next('6', values)}
         validationSchema={validationSchema}
         validateOnChange={false}
         enableReinitialize
       >
-        {props => {
+        {({ errors, values, touched, handleChange, handleSubmit, setFieldValue }) => {
+
+          const errorList = {
+            cep: touched.cep && errors.cep,
+            endereco: touched.endereco && errors.endereco,
+            numero: touched.numero && errors.numero,
+            bairro: touched.bairro && errors.bairro,
+            estado: touched.estado && errors.estado,
+            residenceZone: touched.residenceZone && errors.residenceZone,
+            cidade: touched.cidade && errors.cidade
+          };
           return (
             <Form>
               <Grid
@@ -91,37 +160,79 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
+                    error={errorList.cep}
                   >
-                    <FormLabel>Escola</FormLabel>
-                    <AsyncSelect
-                      styles={customStyles}
-                      cacheOptions
-                      loadOptions={searchSchools}
-                      defaultOptions
-                      placeholder="Digite o nome da escola"
-                      onChange={selectedOption => {
-                        handleInputChange(selectedOption._id);
+                    <FormLabel>CEP *</FormLabel>
+                    <TextField
+                      name="cep"
+                      InputProps={{
+                        inputComponent: TextMaskCep,
+                        value: values.cep,
+                        onChange: handleChange
                       }}
-                      className={classes.selectField}
-                      getOptionValue={opt => opt.inepId}
-                      getOptionLabel={opt => opt.inepId + " - " + opt.name}
-                      loadingMessage={() => "Carregando"}
-                      noOptionsMessage={obj => {
-                        if (obj.inputValue.trim().length >= 3) {
-                          return "Nenhuma escola encontrada";
-                        } else {
-                          return "Digite 3 ou mais caracteres";
-                        }
-                      }}
+                      onBlur={(e) => checkCep(e, setFieldValue)}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.cep || errorCep}
                     />
+                    <FormHelperText>{errorList.cep}</FormHelperText>
                   </FormControl>
-                  <div className={classes.formFieldError}>
-                    {props.errors.schoolInepId}
-                  </div>
                 </Grid>
               </Grid>
               <Grid
-                className={`${classes.contentMain} ${classes.marginTop30}`}
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.endereco}
+                  >
+                    <FormLabel>Endereço *</FormLabel>
+                    <TextField
+                      name="endereco"
+                      value={values.endereco}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.endereco}
+                    />
+                    <FormHelperText>{errorList.endereco}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.numero}
+                  >
+                    <FormLabel>Número *</FormLabel>
+                    <TextField
+                      name="numero"
+                      value={values.numero}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.numero}
+                    />
+                    <FormHelperText>{errorList.numero}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
                 container
                 direction="row"
                 justify="center"
@@ -132,32 +243,128 @@ const StepFive = props => {
                     component="fieldset"
                     className={classes.formControl}
                   >
-                    <FormLabel>Turma</FormLabel>
-                    <Select
-                      styles={customStyles}
-                      className="basic-single"
-                      classNamePrefix="select"
-                      isSearchable={true}
-                      placeholder="Selecione a Turma"
-                      options={arrClassrooms}
-                      onChange={selectedOption => {
-                        handleChange(selectedOption._id);
-                      }}
-                      getOptionValue={opt => opt._id}
-                      getOptionLabel={opt => opt.name}
-                      loadingMessage={() => "Carregando"}
-                      noOptionsMessage={obj => {
-                        if (obj.inputValue.trim().length >= 3) {
-                          return "Nenhuma turma encontrada";
-                        } else {
-                          return "Digite 3 ou mais caracteres";
-                        }
-                      }}
+                    <FormLabel>Complemento</FormLabel>
+                    <TextField
+                      name="complemento"
+                      value={values.complemento}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
                     />
                   </FormControl>
-                  <div className={classes.formFieldError}>
-                    {props.errors.classroomId}
-                  </div>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.bairro}
+                  >
+                    <FormLabel>Bairro *</FormLabel>
+                    <TextField
+                      name="bairro"
+                      value={values.bairro}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.bairro}
+                    />
+                    <FormHelperText>{errorList.bairro}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.estado}
+                  >
+                    <FormLabel>Estado *</FormLabel>
+                    <TextField
+                      name="estado"
+                      value={values.estado}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.estado}
+                    />
+                    <FormHelperText>{errorList.estado}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.cidade}
+                  >
+                    <FormLabel>Cidade *</FormLabel>
+                    <TextField
+                      name="cidade"
+                      value={values.cidade}
+                      onChange={handleChange}
+                      variant="outlined"
+                      className={classes.textField}
+                      error={errorList.cidade}
+                    />
+                    <FormHelperText>{errorList.cidade}</FormHelperText>
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid
+                className={`${classes.contentMain}`}
+                container
+                direction="row"
+                justify="center"
+                alignItems="center"
+              >
+                <Grid item xs={12}>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                    error={errorList.residenceZone}
+                  >
+                    <FormLabel component="legend">Zona *</FormLabel>
+                    <RadioGroup
+                      value={values.residenceZone}
+                      name="residenceZone"
+                      onChange={handleChange}
+                      row
+                    >
+                      <FormControlLabel
+                        value="2"
+                        control={<PurpleRadio />}
+                        label="Urbana"
+                      />
+                      <FormControlLabel
+                        value="1"
+                        control={<PurpleRadio />}
+                        label="Rural"
+                      />
+                    </RadioGroup>
+                    <FormHelperText>{errorList.residenceZone}</FormHelperText>
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid
@@ -170,9 +377,9 @@ const StepFive = props => {
                 <Grid item xs={6}>
                   {!loadingButtom ? (
                     <ButtonPurple
-                      onClick={props.handleSubmit}
+                      onClick={handleSubmit}
                       type="submit"
-                      title="Finalizar"
+                      title="Continuar"
                     />
                   ) : (
                     <Loading />

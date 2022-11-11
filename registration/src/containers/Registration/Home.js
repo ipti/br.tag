@@ -181,6 +181,7 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
+  
   return {
     student: state.registration.student,
     registration: state.registration.registration,
