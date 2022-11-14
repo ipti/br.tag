@@ -90,6 +90,17 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
 
                             <div class="control-group">
+                                <?php echo $form->labelEx($modelInstructorIdentification, 'civil_name', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo $form->textField($modelInstructorIdentification, 'civil_name', array('size' => 60, 'maxlength' => 100)); ?>
+                                    <span class="btn-action single glyphicons circle_question_mark"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span>
+                                    <?php echo $form->error($modelInstructorIdentification, 'civil_name'); ?>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label required')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 14, 'maxlength' => 14)); ?>
