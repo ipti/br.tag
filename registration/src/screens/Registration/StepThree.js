@@ -83,7 +83,7 @@ const StepThree = props => {
   const [surdoCegueiraDisabled , setSurdoCegueiraDisabled ] = useState(false);
   const [defFisicaDisabled , setDefFisicaDisabled ] = useState(false);
   const [defIntelectualDisabled , setDefIntelectualDisabled ] = useState(false);
-  const [eficienciaMultDisabled , setEficienciaMultDisabled ] = useState(false);
+  const [deficienciaMultDisabled , setDeficienciaMultDisabled ] = useState(false);
   const [transAutistaDisabled , setTransAutistaDisabled ] = useState(false); 
   const [superDotacaoDisabled , setSuperDotacaoDisabled ] = useState(false);
 
@@ -108,7 +108,7 @@ const StepThree = props => {
     surdoCegueira: false,
     defFisica: false,
     defIntelectual: false,
-    eficienciaMult: false,
+    deficienciaMult: false,
     transAutista: false,
     superDotacao: false
   };
@@ -139,7 +139,6 @@ const StepThree = props => {
           }else{
             setBaixaVisaoDisabled(false);
             setSurdezDisabled(false);
-            setSurdoCegueiraDisabled(false);
           }
 
           if(values.baixaVisao){
@@ -151,7 +150,38 @@ const StepThree = props => {
             setSurdoCegueiraDisabled(false);
           }
 
-          console.log(values)
+          if(values.surdez){
+            setCegueiraDisabled(true);
+            setSurdoCegueiraDisabled(true);
+            setDefAuditivaDisabled(true)
+          }else{
+            setDefAuditivaDisabled(false)
+          }
+
+          if(values.defAuditiva){
+            setSurdoCegueiraDisabled(true);
+            setSurdezDisabled(true);
+          }
+
+          if(values.surdoCegueira){
+            setCegueiraDisabled(true);
+            setBaixaVisaoDisabled(true);
+            setSurdezDisabled(true);
+            setDefAuditivaDisabled(true);
+          }
+
+          if(values.defIntelectual){
+            setSuperDotacaoDisabled(true)
+          } else{
+            setSuperDotacaoDisabled(false)
+          }
+
+          if(values.superDotacao){
+            setDefIntelectualDisabled(true)
+          }else{
+            setDefIntelectualDisabled(false)
+          }
+          
           return (
             <Form>
               <Grid
@@ -431,14 +461,14 @@ const StepThree = props => {
                         label="Deficiência Intelectual" 
                       />
                       <FormControlLabel
-                        disabled={eficienciaMultDisabled} 
+                        disabled={deficienciaMultDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.eficienciaMult}
+                            checked={values.deficienciaMult}
                             onChange={handleChange}
                           />}
-                        name="eficienciaMult" 
-                        label="eficiência Múltipla" 
+                        name="deficienciaMult" 
+                        label="Deficiência Múltipla" 
                       />
                       <FormControlLabel
                         disabled={transAutistaDisabled} 
