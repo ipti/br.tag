@@ -248,6 +248,11 @@ class ClassroomController extends Controller {
         $labels[30] = Classroom::model()->attributeLabels()['discipline_foreign_language_franch'];
         $labels[99] = Classroom::model()->attributeLabels()['discipline_others'];
         $labels[10001] = yii::t('default', 'Writing');
+        $labels[10007] = yii::t('default', 'Listen, Speak, Thought and Imagination');
+        $labels[10008] = yii::t('default', 'Space, Time, Quantity, Relations and Transformations');
+        $labels[10009] = yii::t('default', 'Body, Gesture and Movement');
+        $labels[10010] = yii::t('default', 'Traces, Sounds, Colors and Shapes');
+        $labels[10011] = yii::t('default', 'The I, the Other and the We');
 
         return $labels;
     }

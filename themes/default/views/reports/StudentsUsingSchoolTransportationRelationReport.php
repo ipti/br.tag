@@ -50,6 +50,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     . "<th> <b> Zona de Residencia do Aluno</b></th>"
                     . "<th> <b> Poder Publico Responsavel pelo Transporte </b></th>"
                     . "<th> <b> Tipo do Veiculo </b></th>"
+                    . "<th> <b> Endereço </b></th>"
+                    . "<th> <b> Bairro </b></th>"
                     . "</tr>";
                 echo $html;
                 $html = "";
@@ -92,7 +94,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             . "<td>" . $s['name'] . "</td>"
                             . "<td>" . ($s['residence_zone'] == 1 ? "Urbana" : "Rural") . "</td>"
                             . "<td>" . ($s['transport_responsable_government'] == 1 ? "Estadual" : "Municipal") . "</td>"
-                            . "<td>" . $transportes . "</td>";
+                            . "<td>" . $transportes . "</td>"
+                            . "<td>" . $s["address"] . "</td>"
+                            . "<td>" . $s["neighborhood"] . "</td>";
 
                         $html .= "</tr>";
                         echo $html;

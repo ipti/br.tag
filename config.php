@@ -1,18 +1,17 @@
 <?php
 defined('YII_DEBUG') or define('YII_DEBUG', false);
-define("TAG_VERSION", '2.13.0'.'('.Yii::getVersion().')');
+define("TAG_VERSION", '2.13.1'.'('.Yii::getVersion().')');
 define("BOARD_MSG", '
 		
 		<div class="alert alert-success">
 		
 		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>20/06/2022: TAG Versão 2.12.4:</strong>
+		<strong>xx/xx/2022: TAG Versão 2.13.1:</strong>
 		<br>
         <ul>
-            <li>Correção de Bugs</li>
-            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.5</li>
+            <li>Inserido Campo de Justificativa na Frequência</li>
         </ul>
-		<strong>08/03/2022 - 18/06/2022: TAG Versões Anteriores:</strong>
+		<strong>08/03/2022 - 08/11/2022: TAG Versões Anteriores:</strong>
 		<br>
         <ul>
             <li>Responsividade no Diário Eletrônico</li>
@@ -22,7 +21,7 @@ define("BOARD_MSG", '
             <li>Diário Eletrônico</li>
             <li>Login de Professor</li>
             <li>Novas Unidades de Medida da Merenda Escolar (KG e ML)</li>
-            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.4</li>
+            <li>Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.5</li>
             <li>Gerenciamento de Etapas para Notas por Conceito</li>
             <li>Aprimoramento da Função Calendário Escolar</li>
             <li>Quadro de Horário Remodelado</li>

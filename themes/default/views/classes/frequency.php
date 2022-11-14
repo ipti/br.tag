@@ -124,3 +124,44 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div id="frequency-container" class="table-responsive"></div>
     <?php $this->endWidget(); ?>
 </div>
+
+<div class="modal fade" id="save-justification-modal" tabindex="-1" role="dialog"
+     aria-labelledby="Save Justification">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="cancel-save-justification close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Justificativa</h4>
+            </div>
+            <div class="centered-loading-gif">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
+                            <div class="form-control">
+                                <input type="hidden" id="justification-classroomid">
+                                <input type="hidden" id="justification-studentid">
+                                <input type="hidden" id="justification-day">
+                                <input type="hidden" id="justification-month">
+                                <input type="hidden" id="justification-schedule">
+                                <input type="hidden" id="justification-fundamentalmaior">
+                                <textarea class="justification-text span12"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-save-justifiaction btn btn-default"
+                            data-dismiss="modal">Cancelar</button>
+                    <button type="button"
+                            class="btn btn-primary btn-save-justification">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
