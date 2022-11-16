@@ -77,14 +77,13 @@
 			// @todo Please modify the following code to remove attributes that should not be searched.
 
 			$criteria = new CDbCriteria;
-
 			$criteria->with = array('stageFk', 'disciplineFk');
 			$criteria->together = true;
-			$criteria->compare('id', $this->id);
-			$criteria->compare('stage_fk', $this->stage_fk);
-			$criteria->compare('discipline_fk', $this->discipline_fk);
-			$criteria->compare('workload', $this->workload);
-			$criteria->compare('credits', $this->credits);
+//			$criteria->compare('id', $this->id);
+//			$criteria->compare('stage_fk', $this->stage_fk);
+//			$criteria->compare('discipline_fk', $this->discipline_fk);
+			$criteria->compare('workload', $this->workload, true);
+			$criteria->compare('credits', $this->credits, true);
 
 			$criteria->addCondition('stageFk.name like "%' . $this->stage_fk . '%"');
 			$criteria->addCondition('disciplineFk.name like "%' . $this->discipline_fk . '%"');

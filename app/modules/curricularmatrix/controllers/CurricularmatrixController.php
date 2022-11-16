@@ -86,6 +86,9 @@ class CurricularmatrixController extends Controller
     {
         $filter = new CurricularMatrix('search');
         $filter->unsetAttributes();
+        if (isset($_GET['CurricularMatrix'])) {
+            $filter->attributes = $_GET['CurricularMatrix'];
+        }
 
         $dataProvider =
             new CActiveDataProvider('CurricularMatrix', [
