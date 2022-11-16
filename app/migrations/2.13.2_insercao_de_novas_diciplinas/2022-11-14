@@ -1,0 +1,7 @@
+USE io.escola.ma.icatu;
+
+INSERT INTO edcenso_discipline (id, name) VALUES(10007,"Escuta, Fala, Pensamento e Imaginação");
+INSERT INTO edcenso_discipline (id, name) VALUES(10008,"Espaço, Tempo, Quantidade, Relações e Transformações");
+INSERT INTO edcenso_discipline (id, name) VALUES(10009,"Corpo, Gesto e Movimento");
+INSERT INTO edcenso_discipline (id, name) VALUES(10010,"Traços, Sons, Cores e Formas");
+INSERT INTO edcenso_discipline (id, name) VALUES(10011,"O Eu, O Outro e o Nós");
