@@ -8,29 +8,11 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
-$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.0', CClientScript::POS_END);
+$cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
+$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.1', CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
 ?>
-<?php if (Yii::app()->user->hasFlash('success')): ?>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
-<?php if (Yii::app()->user->hasFlash('error')): ?>
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="alert alert-error">
-                <?php echo Yii::app()->user->getFlash('error') ?>
-            </div>
-        </div>
-    </div>
-<?php endif ?>
 
 <div class="row-fluid">
     <div class="span12">
@@ -79,9 +61,14 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
         </div>
         <hr>
     <?php endif ?>
+    <div class="row-fluid alert-container">
+        <div class="span12">
+            <div class="alert"></div>
+        </div>
+    </div>
     <?php
     $this->widget('zii.widgets.grid.CGridView', [
-        'dataProvider' => $filter->search(), 'filter' => $filter,
+        'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
         'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
         'enablePagination' => TRUE, 'columns' => [
             [
@@ -100,8 +87,19 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                 'header' => Yii::t('curricularMatrixModule.index', 'Credits'),
                 'name' => 'credits',
                 'htmlOptions' => ['width' => '150px']
+            ], [
+                'class' => 'CButtonColumn',
+                'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
+                'afterDelete' => 'function(link, success, data){
+                    data = JSON.parse(data);
+                    if (data.valid) {
+                        $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
+                    } else {
+                        $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
+                    }
+                    $(".alert-container").show();
+                }'
             ],
-            ['class' => 'CButtonColumn', 'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : ''],
         ],
     ]);
     ?>

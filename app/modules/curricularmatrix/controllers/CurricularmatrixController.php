@@ -52,8 +52,7 @@ class CurricularmatrixController extends Controller
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
         $credits = $_POST['credits'];
-
-        if (isset($stages, $disciplines, $workload, $credits)) {
+        if ($stages !== "" && $disciplines !== "" && $workload !== "" && $credits !== "") {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
                     $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline", [
@@ -75,8 +74,10 @@ class CurricularmatrixController extends Controller
                     Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
                     $matrix->save();
                 }
-
             }
+            echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);
+        } else {
+            echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, disciplinas, carga horária e horas semanais."]);
         }
     }
 
@@ -128,12 +129,13 @@ class CurricularmatrixController extends Controller
         if ((int)$result["qtd"] === 0) {
             try {
                 if ($curricularMatrix->delete()) {
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz Curricular excluída com sucesso!'));
-                    $this->redirect(array('index'));
+                    echo json_encode(["valid" => true, "message" => "Matriz excluída com sucesso!"]);
                 }
             } catch (Exception $e) {
-                throw new CHttpException(901, Yii::t('errors', 'Can not delete'));
+                echo json_encode(["valid" => false, "message" => "Um erro aconteceu. Não foi possível remover a matriz curricular."]);
             }
+        } else {
+            echo json_encode(["valid" => false, "message" => "Não se pode remover matriz que está sendo utilizada no quadro de horário de alguma turma."]);
         }
     }
 
