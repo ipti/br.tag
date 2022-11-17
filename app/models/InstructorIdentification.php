@@ -9,6 +9,7 @@
  * @property string $inep_id
  * @property integer $id
  * @property string $name
+ * @property string $civil_name
  * @property string $email
  * @property string $nis
  * @property string $birthday_date
