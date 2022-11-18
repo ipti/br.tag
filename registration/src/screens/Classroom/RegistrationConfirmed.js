@@ -36,6 +36,9 @@ const Home = props => {
   const nullableField = "-------------";
 
   const studentName = student?.name;
+  const cpf = student?.cpf;
+  const color_race = student?.color_race;
+  const deficiency = student?.deficiency;
 
   const studentDate = student?.birthday ? parseISO(student?.birthday) : "";
   const studentBirthday = student?.birthday
@@ -47,6 +50,8 @@ const Home = props => {
   const address = student?.address ?? nullableField;
   const cep = student?.cep ?? nullableField;
   const city = student?.city ?? nullableField;
+  const number = student?.number ?? nullableField;
+ 
 
   const responsableName = student?.responsableName ?? nullableField;
   const responsableCpf = student?.responsableCpf ?? nullableField;
@@ -85,6 +90,22 @@ const Home = props => {
         <Grid item md={4}>
           <BoxStatus title={!status ? "Transferência" : "Novo Aluno"} />
         </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>CPF</p>
+          {studentBirthday}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Cor/Raça</p>
+          {studentBirthday}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Sexo</p>
+          {studentBirthday}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Possui Deficiência</p>
+          {studentBirthday}
+        </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>
         </Grid>
@@ -101,13 +122,25 @@ const Home = props => {
             {responsableName}
           </div>
         </Grid>
-        <Grid item md={3}>
-          <p className={classes.label}>Nascimento</p>
-          {responsableBirthday}
-        </Grid>
         <Grid item md={4}>
           <p className={classes.label}>CPF</p>
           {responsableCpf}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Telefone</p>
+          {responsableBirthday}
+        </Grid>
+        <Grid item md={6}>
+          <div className={classes.floatLeft}>
+            <p className={classes.label}>Name da Mãe</p>
+            {responsableName}
+          </div>
+        </Grid>
+        <Grid item md={6}>
+          <div className={classes.floatLeft}>
+            <p className={classes.label}>Name do Pai</p>
+            {responsableName}
+          </div>
         </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>
@@ -125,13 +158,33 @@ const Home = props => {
             {address}
           </div>
         </Grid>
+        <Grid item md={4}>
+          <p className={classes.label}>Bairro</p>
+          {city}
+        </Grid>
+       
+        <Grid item md={3}>
+          <p className={classes.label}>Número</p>
+          {number}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Complemento</p>
+          {city}
+        </Grid>
         <Grid item md={3}>
           <p className={classes.label}>CEP</p>
           {cep}
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={3}>
           <p className={classes.label}>Cidade</p>
           {city}
+        </Grid>
+        <Grid item md={3}>
+          <p className={classes.label}>Estado</p>
+          {city}
+        </Grid>
+        <Grid item md={2}>
+        <BoxStatus title={"Urbana"} />
         </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>

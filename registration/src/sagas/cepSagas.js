@@ -15,7 +15,7 @@ const requestAddress = cep => {
 // Actions
 function* fetchAddress(action) {
   try {
-    const result = yield call(requestAddress, action.data.cep);
+    const result = yield call(requestAddress, action.data);
     yield put(getAddress(result));
   } catch (e) {
     yield put(getError(e.message));

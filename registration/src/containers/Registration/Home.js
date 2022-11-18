@@ -16,11 +16,13 @@ const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
   const [loadDataSchool, setLoadDataSchool] = useState(true);
   const [loadPeriod, setLoadPeriod] = useState(true);
+  const [loadCep, setLoadCep] = useState(true);
   const [open, setOpen] = useState(false);
   const [number, setNumber] = useState("");
   const [step, setStep] = useState(0);
   const [dataValues, setDataValues] = useState({});
-
+  
+  
   useEffect(() => {
     setOpen(false);
 
@@ -37,6 +39,11 @@ const Home = props => {
     if (loadPeriod) {
       props.dispatch({ type: "FETCH_PERIOD" });
       setLoadPeriod(false);
+    }
+
+    if(loadCep){
+      props.dispatch({type: "GET_ADDRESS", data: '49043130'});
+      setLoadCep(false);
     }
 
     if (step === 2 && props?.student?.status === "1") {
@@ -66,11 +73,13 @@ const Home = props => {
         .join("-");
     }
 
+    console.log(dataValues);
     props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: dataValues });
   };
 
   const next = (step, values) => {
     let data = Object.assign(dataValues, values);
+    console.log(data)
     if (
       step === 1 &&
       props?.period &&
@@ -183,6 +192,7 @@ const Home = props => {
 const mapStateToProps = state => {
   
   return {
+    address: state.viaCep.addresses,
     student: state.registration.student,
     registration: state.registration.registration,
     period: state.registration.period,

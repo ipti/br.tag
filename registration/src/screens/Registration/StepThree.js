@@ -68,11 +68,26 @@ const TextMaskCpf = props => {
         inputRef(ref ? ref.inputElement : null);
       }}
       mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
-      placeholderChar={"_"}
+     // placeholderChar={"_"}
       showMask
     />
   );
 };
+
+const checkDeficiency = (deficiency, setFieldValue) =>{
+  if(deficiency){
+    setFieldValue("deficiency_type_blindness", false);
+    setFieldValue("deficiency_type_low_vision", false);
+    setFieldValue("deficiency_type_deafness", false);
+    setFieldValue("deficiency_type_disability_hearing", false);
+    setFieldValue("deficiency_type_deafblindness", false);
+    setFieldValue("deficiency_type_phisical_disability", false);
+    setFieldValue("deficiency_type_intelectual_disability", false);
+    setFieldValue("deficiency_type_multiple_disabilities", false);
+    setFieldValue("deficiency_type_autism", false);
+    setFieldValue("deficiency_type_gifted", false);
+  }
+}
 
 const StepThree = props => {
   const classes = useStyles();
@@ -88,30 +103,34 @@ const StepThree = props => {
   const [superDotacaoDisabled , setSuperDotacaoDisabled ] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    studentName: Yup.string().required("Campo obrigatório!"),
+    name: Yup.string().required("Campo obrigatório!"),
     birthday: Yup.string().required("Campo obrigatório!"),
     sex: Yup.string().required("Campo obrigatório!"),
-    colorRace: Yup.string().required("Campo obrigatório!")
+    color_race: Yup.string().required("Campo obrigatório!"),
+    cpf: Yup.string().required("Campo obrigatório!"),
+    deficiency: Yup.string().required("Campo obrigatório!"),
   });
 
   const initialValues = {
-    studentName: props?.student?.name ?? '',
+    name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
-    colorRace: props?.student?.colorRace ?? '',
+    color_race: props?.student?.color_race ?? '',
     sex: props?.student?.sex ?? "",
-    cpf: "" ?? "",
-    deficient: "" ?? "",
-    cegueira: false,
-    baixaVisao: false,
-    surdez: false,
-    defAuditiva: false,
-    surdoCegueira: false,
-    defFisica: false,
-    defIntelectual: false,
-    deficienciaMult: false,
-    transAutista: false,
-    superDotacao: false
+    cpf: props?.student?.cpf ?? "",
+    deficiency: props?.student?.deficiency ?? false,
+    deficiency_type_blindness: props?.student?.deficiency_type_blindness ??  false,
+    deficiency_type_low_vision: props?.student?.deficiency_type_low_vision ?? false,
+    deficiency_type_deafness: props?.student?.deficiency_type_deafness ?? false,
+    deficiency_type_disability_hearing: props?.student?.deficiency_type_disability_hearing ?? false,
+    deficiency_type_deafblindness: props?.student?.deficiency_type_deafblindness ?? false,
+    deficiency_type_phisical_disability: props?.student?.deficiency_type_phisical_disability ?? false,
+    deficiency_type_intelectual_disability: props?.student?.deficiency_type_intelectual_disability ?? false,
+    deficiency_type_multiple_disabilities: props?.student?.deficiency_type_multiple_disabilities ?? false,
+    deficiency_type_autism: props?.student?.deficiency_type_autism ?? false,
+    deficiency_type_gifted: props?.student?.deficiency_type_gifted ?? false
   };
+
+ 
 
   return (
     <>
@@ -122,17 +141,22 @@ const StepThree = props => {
         validateOnChange={false}
         enableReinitialize
       >
-        {({ errors, values, touched, handleChange, handleSubmit }) => {
+        {({ errors, values, touched, handleChange, handleSubmit, setFieldValue }) => {
 
+
+        console.log(values)
           const errorList = {
-            studentName: touched.studentName && errors.studentName,
+            name: touched.name && errors.name,
             birthday: touched.birthday && errors.birthday,
-            colorRace: touched.colorRace && errors.colorRace,
+            color_race: touched.color_race && errors.color_race,
             sex: touched.sex && errors.sex,
             cpf: touched.cpf && errors.cpf,
+            deficiency: touched.deficiency && errors.deficiency
           };
 
-          if(values.cegueira){
+       
+
+          if(values.deficiency_type_blindness){
             setBaixaVisaoDisabled(true);
             setSurdezDisabled(true);
             setSurdoCegueiraDisabled(true);
@@ -141,16 +165,16 @@ const StepThree = props => {
             setSurdezDisabled(false);
           }
 
-          if(values.baixaVisao){
+          if(values.deficiency_type_low_vision){
             setCegueiraDisabled(true);
             setSurdoCegueiraDisabled(true);
           }
-          if(!values.baixaVisao && !values.cegueira){
+          if(!values.deficiency_type_low_vision && !values.deficiency_type_blindness){
             setCegueiraDisabled(false);
             setSurdoCegueiraDisabled(false);
           }
 
-          if(values.surdez){
+          if(values.deficiency_type_deafness){
             setCegueiraDisabled(true);
             setSurdoCegueiraDisabled(true);
             setDefAuditivaDisabled(true)
@@ -158,25 +182,25 @@ const StepThree = props => {
             setDefAuditivaDisabled(false)
           }
 
-          if(values.defAuditiva){
+          if(values.deficiency_type_disability_hearing){
             setSurdoCegueiraDisabled(true);
             setSurdezDisabled(true);
           }
 
-          if(values.surdoCegueira){
+          if(values.deficiency_type_deafblindness){
             setCegueiraDisabled(true);
             setBaixaVisaoDisabled(true);
             setSurdezDisabled(true);
             setDefAuditivaDisabled(true);
           }
 
-          if(values.defIntelectual){
+          if(values.deficiency_type_intelectual_disability){
             setSuperDotacaoDisabled(true)
           } else{
             setSuperDotacaoDisabled(false)
           }
 
-          if(values.superDotacao){
+          if(values.deficiency_type_gifted){
             setDefIntelectualDisabled(true)
           }else{
             setDefIntelectualDisabled(false)
@@ -195,19 +219,19 @@ const StepThree = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.studentName}
+                    error={errorList.name}
                   >
                     <FormLabel>Aluno *</FormLabel>
                     <TextField
-                      name="studentName"
+                      name="name"
                       onChange={handleChange}
-                      value={values.studentName}
+                      value={values.name}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.studentName}
+                      error={!!errorList.name}
                       autoComplete="off"
                     />
-                    <FormHelperText>{errorList.studentName}</FormHelperText>
+                    <FormHelperText>{errorList.name}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -222,7 +246,7 @@ const StepThree = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.birthday}
+                    error={!!errorList.birthday}
                   >
                     <FormLabel>Nascimento *</FormLabel>
                     <TextField
@@ -234,9 +258,9 @@ const StepThree = props => {
                         value: values.birthday,
                         onChange: handleChange
                       }}
-                      error={errorList.birthday}
+                      error={!!errorList.birthday}
                     />
-                    <FormHelperText>{errorList.colorRace}</FormHelperText>
+                    <FormHelperText>{errorList.birthday}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -251,9 +275,8 @@ const StepThree = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.studentName}
                   >
-                    <FormLabel>Nº do CPF *</FormLabel>
+                    <FormLabel>Nº do CPF</FormLabel>
                     <TextField
                       name="cpf"
                       variant="outlined"
@@ -263,10 +286,8 @@ const StepThree = props => {
                         onChange: handleChange
                       }}
                       className={classes.textField}
-                      error={errorList.studentName}
                       autoComplete="off"
                     />
-                    <FormHelperText>{errorList.studentName}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -281,13 +302,13 @@ const StepThree = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.colorRace}
+                    error={errorList.color_race}
                   >
                     <FormLabel>Cor/Raça *</FormLabel>
                     <Select
                       variant="outlined"
-                      name="colorRace"
-                      value={values.colorRace}
+                      name="color_race"
+                      value={values.color_race}
                       onChange={handleChange}
                     >
                       <MenuItem value={`0`}>Não Declarada</MenuItem>
@@ -297,7 +318,7 @@ const StepThree = props => {
                       <MenuItem value={`4`}>Amarela</MenuItem>
                       <MenuItem value={`5`}>Indígena</MenuItem>
                     </Select>
-                    <FormHelperText>{errorList.colorRace}</FormHelperText>
+                    <FormHelperText>{errorList.color_race}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -349,33 +370,34 @@ const StepThree = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.sex}
+                    error={errorList.deficiency}
                   >
                     <FormLabel component="legend">Possui Deficiência? *</FormLabel>
                     <RadioGroup
-                      value={values.deficient}
-                      name="deficient"
+                      value={values.deficiency}
+                      name="deficiency"
                       onChange={handleChange}
+                      onClick={()=> checkDeficiency(values.deficiency, setFieldValue)}
                       row
                     >
                       <FormControlLabel
-                        value="2"
-                        name="deficient"
+                        value='true'
+                        name="deficiency"
                         control={<PurpleRadio />}
                         label="Sim"
                       />
                       <FormControlLabel
-                        value="1"
-                        name="deficient"
+                        value='false'
+                        name="deficiency"
                         control={<PurpleRadio />}
                         label="não"
                       />
                     </RadioGroup>
-                    <FormHelperText>{errorList.sex}</FormHelperText>
+                    <FormHelperText>{errorList.deficiency}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
-              {values.deficient === '2' ? 
+              {values.deficiency === 'true' ? 
                 <Grid
                 className={`${classes.contentMain}`}
                 container
@@ -394,104 +416,103 @@ const StepThree = props => {
                       disabled={cegueiraDisabled}
                       control={
                         <Checkbox 
-                          checked={values.cegueira}
+                          checked={values.deficiency_type_blindness}
                           onChange={handleChange}
                         />} 
-                      name='cegueira'
+                      name='deficiency_type_blindness'
                       label="Cegueira" 
                       />
                       <FormControlLabel 
                         disabled={baixaVisaoDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.baixaVisao}
+                            checked={values.deficiency_type_low_vision}
                             onChange={handleChange}
                           />} 
-                        name="baixaVisao"
+                        name="deficiency_type_low_vision"
                         label="Baixa visão" 
                       />
                       <FormControlLabel
                         disabled={surdezDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.surdez}
+                            checked={values.deficiency_type_deafness}
                             onChange={handleChange}
                           />} 
-                        name="surdez"
+                        name="deficiency_type_deafness"
                         label="Surdez" 
                       />
                       <FormControlLabel
                         disabled={defAuditivaDisabled}
                         control={
                           <Checkbox 
-                            checked={values.defAuditiva}
+                            checked={values.deficiency_type_disability_hearing}
                             onChange={handleChange}
                           />} 
-                        name="defAuditiva"
+                        name="deficiency_type_disability_hearing"
                         label="Deficiência auditiva" 
                       />
                       <FormControlLabel
                         disabled={surdoCegueiraDisabled} 
                         control={
                           <Checkbox
-                            checked={values.surdoCegueira}
+                            checked={values.deficiency_type_deafblindness}
                             onChange={handleChange}
                           />}
-                        name="surdoCegueira" 
+                        name="deficiency_type_deafblindness" 
                         label="Surdocegueira" 
                       />
                       <FormControlLabel
                         disabled={defFisicaDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.defFisica}
+                            checked={values.deficiency_type_phisical_disability}
                             onChange={handleChange}
                           />}
-                        name="defFisica" 
+                        name="deficiency_type_phisical_disability" 
                         label="Deficiência Física" 
                       />
                       <FormControlLabel
                         disabled={defIntelectualDisabled} 
                         control={
                           <Checkbox
-                            checked={values.defIntelectual}
+                            checked={values.deficiency_type_intelectual_disability}
                             onChange={handleChange} 
                           />}
-                        name="defIntelectual" 
+                        name="deficiency_type_intelectual_disability" 
                         label="Deficiência Intelectual" 
                       />
                       <FormControlLabel
                         disabled={deficienciaMultDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.deficienciaMult}
+                            checked={values.deficiency_type_multiple_disabilities}
                             onChange={handleChange}
                           />}
-                        name="deficienciaMult" 
+                        name="deficiency_type_multiple_disabilities" 
                         label="Deficiência Múltipla" 
                       />
                       <FormControlLabel
                         disabled={transAutistaDisabled} 
                         control={
                           <Checkbox 
-                            checked={values.transAutista}
+                            checked={values.deficiency_type_autism}
                             onChange={handleChange}
                           />}
-                        name="transAutista" 
+                        name="deficiency_type_autism" 
                         label="Transtorno do Espectro Autista" 
                       />
                       <FormControlLabel
                       disabled={superDotacaoDisabled} 
                         control={
                           <Checkbox
-                            checked={values.superDotacao}
+                            checked={values.deficiency_type_gifted}
                             onChange={handleChange}
                           />} 
-                        name="superDotacao"
+                        name="deficiency_type_gifted"
                         label="Altas Habilidades / Super Dotação" 
                       />
                     </FormGroup>
-                    <FormHelperText>{errorList.fone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>

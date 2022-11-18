@@ -61,17 +61,17 @@ const StepFour = props => {
   const classes = useStyles();
 
   const validationSchema = Yup.object().shape({
-    responsableName: Yup.string().required("Campo obrigatório!"),
-    responsableCpf: Yup.string().required("Campo obrigatório!"),
-    fone: Yup.string().required("Campo obrigatório!")
+    responsable_name: Yup.string().required("Campo obrigatório!"),
+    responsable_cpf: Yup.string().required("Campo obrigatório!"),
+    responsable_telephone: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
-    motherName: '' ??  '',
-    fatherName: '' ?? '',
-    responsableName: props?.student?.filiation1 ?? '',
-    fone: "",
-    responsableCpf: ''
+    mother_name: props?.student?.mother_name ??  '',
+    father_name: props?.student?.father_name ?? '',
+    responsable_name: props?.student?.responsable_name ?? '',
+    responsable_telephone: props?.student?.responsable_telephone ?? "",
+    responsable_cpf: props?.student?.responsable_cpf ?? ''
   };
 
   return (
@@ -86,9 +86,9 @@ const StepFour = props => {
         {({ errors, values, touched, handleChange, handleSubmit }) => {
 
           const errorList = {
-            responsableName: touched.responsableName && errors.responsableName,
-            responsableCpf: touched.responsableCpf && errors.responsableCpf,
-            fone: touched.fone && errors.fone,
+            responsable_name: touched.responsable_name && errors.responsable_name,
+            responsable_cpf: touched.responsable_cpf && errors.responsable_cpf,
+            responsable_telephone: touched.responsable_telephone && errors.responsable_telephone,
           };
 
           return (
@@ -105,10 +105,10 @@ const StepFour = props => {
                         component="fieldset"
                         className={classes.formControl}  
                       >
-                        <FormLabel>Nome Completo da Mãe *</FormLabel>
+                        <FormLabel>Nome Completo da Mãe</FormLabel>
                         <TextField
-                          name="motherName"
-                          value={values.motherName}
+                          name="mother_name"
+                          value={values.mother_name}
                           onChange={handleChange}
                           variant="outlined"
                           className={classes.textField}
@@ -130,8 +130,8 @@ const StepFour = props => {
                       >
                         <FormLabel>Nome Completo do Pai</FormLabel>
                         <TextField
-                        name="fatherName"
-                        value={values.fatherName}
+                        name="father_name"
+                        value={values.father_name}
                         onChange={handleChange}
                         variant="outlined"
                         className={classes.textField}
@@ -150,18 +150,18 @@ const StepFour = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.responsableName}
+                    error={errorList.responsable_name}
                   >
                     <FormLabel>Nome Completo do Responsável *</FormLabel>
                     <TextField
-                      name="responsableName"
-                      value={values.responsableName}
+                      name="responsable_name"
+                      value={values.responsable_name}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.responsableName}
+                      error={errorList.responsable_name}
                     />
-                    <FormHelperText>{errorList.responsableName}</FormHelperText>               
+                    <FormHelperText>{errorList.responsable_name}</FormHelperText>               
                     </FormControl>
                 </Grid>
               </Grid>
@@ -176,22 +176,22 @@ const StepFour = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.studentName}
+                    error={errorList.responsable_cpf}
                   >
                     <FormLabel>Nº do CPF do Responsável *</FormLabel>
                     <TextField
-                      name="responsableCpf"
+                      name="responsable_cpf"
                       variant="outlined"
                       InputProps={{
                         inputComponent: TextMaskCpf,
-                        value: values.responsableCpf,
+                        value: values.responsable_cpf,
                         onChange: handleChange
                       }}
                       className={classes.textField}
-                      error={errorList.responsableCpf}
+                      error={errorList.responsable_cpf}
                       autoComplete="off"
                     />
-                    <FormHelperText>{errorList.responsableCpf}</FormHelperText>
+                    <FormHelperText>{errorList.responsable_cpf}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -206,21 +206,21 @@ const StepFour = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.fone}
+                    error={errorList.responsable_telephone}
                   >
                     <FormLabel>Telefone *</FormLabel>
                     <TextField
-                      name="fone"
+                      name="responsable_telephone"
                       variant="outlined"
                       className={classes.textField}
                       InputProps={{
                         inputComponent: TextMaskFone,
-                        value: values.fone,
+                        value: values.responsable_telephone,
                         onChange: handleChange
                       }}
-                      error={errorList.fone}
+                      error={errorList.responsable_telephone}
                     />
-                    <FormHelperText>{errorList.fone}</FormHelperText>
+                    <FormHelperText>{errorList.responsable_telephone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>

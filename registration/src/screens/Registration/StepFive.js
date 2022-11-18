@@ -56,12 +56,12 @@ const StepFive = props => {
 
   const validationSchema = Yup.object().shape({
     cep: Yup.string().required("Campo obrigatório!"),
-    endereco: Yup.string().required("Campo obrigatório!"),
-    numero: Yup.string().required("Campo obrigatório!"),
-    bairro: Yup.string().required("Campo obrigatório!"),
-    estado: Yup.string().required("Campo obrigatório!"),
-    cidade: Yup.string().required("Campo obrigatório!"),
-    residenceZone: Yup.string().required("Campo obrigatório!"),
+    address: Yup.string().required("Campo obrigatório!"),
+    number: Yup.string().required("Campo obrigatório!"),
+    neighborhood: Yup.string().required("Campo obrigatório!"),
+    state: Yup.string().required("Campo obrigatório!"),
+    city: Yup.string().required("Campo obrigatório!"),
+    zone: Yup.string().required("Campo obrigatório!"),
   });
 
   const TextMaskCep = props => {
@@ -86,14 +86,14 @@ const StepFive = props => {
   // },[])
 
   const initialValues = {
-    cep: "",
-    endereco: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    estado: "",
-    cidade: "",
-    residenceZone: ""
+    cep: props?.student?.cep ?? "",
+    address: props?.student?.address ?? "",
+    number: props?.student?.number ?? "",
+    complement: props?.student?.complement ?? "",
+    neighborhood: props?.student?.neighborhood ?? "",
+    state: props?.student?.state ?? "",
+    city: props?.student?.city ?? "",
+    zone: props?.student?.zone ?? ""
   };
 
   const checkCep = (e, setFieldValue) =>{
@@ -107,10 +107,10 @@ const StepFive = props => {
         if(data.erro){
           setErrorCep(true);
         }else{
-        setFieldValue("bairro", data.bairro);
-        setFieldValue("cidade", data.localidade);
-        setFieldValue("estado", data.uf);
-        setFieldValue("endereco", data.logradouro);
+        setFieldValue("neighborhood", data.bairro);
+        setFieldValue("city", data.localidade);
+        setFieldValue("state", data.uf);
+        setFieldValue("address", data.logradouro);
         setErrorCep(false);
         }
         
@@ -140,12 +140,12 @@ const StepFive = props => {
 
           const errorList = {
             cep: touched.cep && errors.cep,
-            endereco: touched.endereco && errors.endereco,
-            numero: touched.numero && errors.numero,
-            bairro: touched.bairro && errors.bairro,
-            estado: touched.estado && errors.estado,
-            residenceZone: touched.residenceZone && errors.residenceZone,
-            cidade: touched.cidade && errors.cidade
+            address: touched.address && errors.address,
+            number: touched.number && errors.number,
+            neighborhood: touched.neighborhood && errors.neighborhood,
+            state: touched.state && errors.state,
+            zone: touched.zone && errors.zone,
+            city: touched.city && errors.city
           };
           return (
             <Form>
@@ -190,18 +190,18 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.endereco}
+                    error={errorList.address}
                   >
                     <FormLabel>Endereço *</FormLabel>
                     <TextField
-                      name="endereco"
-                      value={values.endereco}
+                      name="address"
+                      value={values.address}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.endereco}
+                      error={errorList.address}
                     />
-                    <FormHelperText>{errorList.endereco}</FormHelperText>
+                    <FormHelperText>{errorList.address}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -216,18 +216,18 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.numero}
+                    error={errorList.number}
                   >
                     <FormLabel>Número *</FormLabel>
                     <TextField
-                      name="numero"
-                      value={values.numero}
+                      name="number"
+                      value={values.number}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.numero}
+                      error={errorList.number}
                     />
-                    <FormHelperText>{errorList.numero}</FormHelperText>
+                    <FormHelperText>{errorList.number}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -245,8 +245,8 @@ const StepFive = props => {
                   >
                     <FormLabel>Complemento</FormLabel>
                     <TextField
-                      name="complemento"
-                      value={values.complemento}
+                      name="complement"
+                      value={values.complement}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
@@ -265,18 +265,18 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.bairro}
+                    error={errorList.neighborhood}
                   >
                     <FormLabel>Bairro *</FormLabel>
                     <TextField
-                      name="bairro"
-                      value={values.bairro}
+                      name="neighborhood"
+                      value={values.neighborhood}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.bairro}
+                      error={errorList.neighborhood}
                     />
-                    <FormHelperText>{errorList.bairro}</FormHelperText>
+                    <FormHelperText>{errorList.neighborhood}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -291,18 +291,18 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.estado}
+                    error={errorList.state}
                   >
                     <FormLabel>Estado *</FormLabel>
                     <TextField
-                      name="estado"
-                      value={values.estado}
+                      name="state"
+                      value={values.state}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.estado}
+                      error={errorList.state}
                     />
-                    <FormHelperText>{errorList.estado}</FormHelperText>
+                    <FormHelperText>{errorList.state}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -317,18 +317,18 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.cidade}
+                    error={errorList.city}
                   >
                     <FormLabel>Cidade *</FormLabel>
                     <TextField
-                      name="cidade"
-                      value={values.cidade}
+                      name="city"
+                      value={values.city}
                       onChange={handleChange}
                       variant="outlined"
                       className={classes.textField}
-                      error={errorList.cidade}
+                      error={errorList.city}
                     />
-                    <FormHelperText>{errorList.cidade}</FormHelperText>
+                    <FormHelperText>{errorList.city}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -343,12 +343,12 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.residenceZone}
+                    error={errorList.zone}
                   >
                     <FormLabel component="legend">Zona *</FormLabel>
                     <RadioGroup
-                      value={values.residenceZone}
-                      name="residenceZone"
+                      value={values.zone}
+                      name="zone"
                       onChange={handleChange}
                       row
                     >
@@ -363,7 +363,7 @@ const StepFive = props => {
                         label="Rural"
                       />
                     </RadioGroup>
-                    <FormHelperText>{errorList.residenceZone}</FormHelperText>
+                    <FormHelperText>{errorList.zone}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>

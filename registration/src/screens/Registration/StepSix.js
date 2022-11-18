@@ -34,13 +34,13 @@ const StepSix = props => {
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
   const validationSchema = Yup.object().shape({
-    schoolInepId: Yup.string().required("Campo obrigatório!"),
-    classroomId: Yup.string().required("Campo obrigatório!")
+    school_identification: Yup.string().required("Campo obrigatório!"),
+    classroom: Yup.string().required("Campo obrigatório!")
   });
 
   const initialValues = {
-    schoolInepId: inputValue,
-    classroomId: inputValueClassroom
+    school_identification: inputValue,
+    classroom: inputValueClassroom
   };
 
   const handleInputChange = newValue => {
@@ -111,6 +111,11 @@ const StepSix = props => {
                           return "Nenhuma escola encontrada";
                         } else {
                           return "Digite 3 ou mais caracteres";
+                        
+                        
+                        
+                        
+                        
                         }
                       }}
                     />
@@ -156,7 +161,7 @@ const StepSix = props => {
                     />
                   </FormControl>
                   <div className={classes.formFieldError}>
-                    {props.errors.classroomId}
+                    {props.errors.classroom}
                   </div>
                 </Grid>
               </Grid>
