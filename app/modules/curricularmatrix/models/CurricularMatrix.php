@@ -13,6 +13,7 @@
 	 * The followings are the available model relations:
 	 * @property EdcensoDiscipline $disciplineFk
 	 * @property EdcensoStageVsModality $stageFk
+     * @property TeachingMatrixes[] $teachingMatrixes
 	 */
 	class CurricularMatrix extends CActiveRecord {
 		/**
@@ -45,6 +46,7 @@
 			return [
 				'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
 				'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
+                'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'),
 			];
 		}
 

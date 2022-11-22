@@ -168,11 +168,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                         </li>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
-                        <li id="menu-lunch"
+                        <!--<li id="menu-lunch"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons cutlery"
                                href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
-                        </li>
+                        </li>-->
                         <li id="menu-censo"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                             <a class="glyphicons refresh"

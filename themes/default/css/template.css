@@ -8832,6 +8832,21 @@ li.active a {
     font-weight: bold;
 }
 
+.innerLR .loading-disciplines {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.no-curricular-matrix-error {
+    display: none;
+}
+
+#teachingdata-dialog-form .select2-container {
+    width: 100% !important;
+}
+
 @media (max-width: 768px) {
     #frequency-container {
         margin-top: 45px;
