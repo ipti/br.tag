@@ -66,31 +66,33 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
             <div class="alert"></div>
         </div>
     </div>
-    <?php
-    $this->widget('zii.widgets.grid.CGridView', [
-        'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
-        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-        'enablePagination' => TRUE, 'columns' => [
-            [
-                'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
-                'name' => 'stage_fk',
-                'value' => '$data->stageFk->name',
-            ], [
-                'header' => Yii::t('curricularMatrixModule.index', 'Discipline'),
-                'name' => 'discipline_fk',
-                'value' => '$data->disciplineFk->name',
-            ], [
-                'header' => Yii::t('curricularMatrixModule.index', 'Workload'),
-                'name' => 'workload',
-                'htmlOptions' => ['width' => '150px']
-            ], [
-                'header' => Yii::t('curricularMatrixModule.index', 'Credits'),
-                'name' => 'credits',
-                'htmlOptions' => ['width' => '150px']
-            ], [
-                'class' => 'CButtonColumn',
-                'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
-                'afterDelete' => 'function(link, success, data){
+    <div class="widget">
+        <div class="widget-body">
+            <?php
+            $this->widget('zii.widgets.grid.CGridView', [
+                'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
+                'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'enablePagination' => TRUE, 'columns' => [
+                    [
+                        'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
+                        'name' => 'stage_fk',
+                        'value' => '$data->stageFk->name',
+                    ], [
+                        'header' => Yii::t('curricularMatrixModule.index', 'Discipline'),
+                        'name' => 'discipline_fk',
+                        'value' => '$data->disciplineFk->name',
+                    ], [
+                        'header' => Yii::t('curricularMatrixModule.index', 'Workload'),
+                        'name' => 'workload',
+                        'htmlOptions' => ['width' => '150px']
+                    ], [
+                        'header' => Yii::t('curricularMatrixModule.index', 'Credits'),
+                        'name' => 'credits',
+                        'htmlOptions' => ['width' => '150px']
+                    ], [
+                        'class' => 'CButtonColumn',
+                        'template' => Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? '{delete}' : '',
+                        'afterDelete' => 'function(link, success, data){
                     data = JSON.parse(data);
                     if (data.valid) {
                         $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
@@ -99,8 +101,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     }
                     $(".alert-container").show();
                 }'
-            ],
-        ],
-    ]);
-    ?>
+                    ],
+                ],
+            ]);
+            ?>
+        </div>
+    </div>
+    <div class="reuse">
+        <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom"); ?>"><?php echo Yii::t('default', 'Reaproveitamento da Matriz Curricular de ') . ' ' . (Yii::app()->user->year - 1) ?></a>
+    </div>
 </div>

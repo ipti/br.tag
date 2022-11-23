@@ -9,6 +9,7 @@
 	 * @property integer $discipline_fk
 	 * @property integer $workload
 	 * @property integer $credits
+     * @property integer $school_year
 	 *
 	 * The followings are the available model relations:
 	 * @property EdcensoDiscipline $disciplineFk
@@ -30,10 +31,10 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['stage_fk, discipline_fk, workload, credits', 'required'],
-				['stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly' => TRUE],
+				['stage_fk, discipline_fk, workload, credits, school_year', 'required'],
+				['stage_fk, discipline_fk, workload, credits, school_year', 'numerical', 'integerOnly' => TRUE],
 				// @todo Please remove those attributes that should not be searched.
-				['id, stage_fk, discipline_fk, workload, credits', 'safe', 'on' => 'search'],
+				['id, stage_fk, discipline_fk, workload, credits, school_year', 'safe', 'on' => 'search'],
 			];
 		}
 
@@ -60,6 +61,7 @@
 				'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
 				'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
 				'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
+                'school_year' => 'School Year',
 			];
 		}
 
@@ -89,6 +91,7 @@
 
 			$criteria->addCondition('stageFk.name like "%' . $this->stage_fk . '%"');
 			$criteria->addCondition('disciplineFk.name like "%' . $this->discipline_fk . '%"');
+			$criteria->addCondition('school_year = ' . Yii::app()->user->year);
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,

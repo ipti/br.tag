@@ -541,7 +541,7 @@ class ClassroomController extends Controller
                             if ($saved) {
                                 $saved = $modelTeachingData[$key]->save();
                                 foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline]);
+                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
                                     $teachingMatrixes = new TeachingMatrixes();
                                     $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
                                     $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
@@ -640,7 +640,7 @@ class ClassroomController extends Controller
                             if ($saved) {
                                 $saved = $modelTeachingData[$key]->save();
                                 foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline]);
+                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
                                     $teachingMatrixes = new TeachingMatrixes();
                                     $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
                                     $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
@@ -811,7 +811,7 @@ class ClassroomController extends Controller
         $disciplines = Yii::app()->db->createCommand("
             select ed.id, ed.name from curricular_matrix cm 
             join edcenso_discipline ed on ed.id = cm.discipline_fk
-            where cm.stage_fk = :id")->bindParam(":id", $_POST["id"])->queryAll();
+            where cm.stage_fk = :id and cm.school_year = :year")->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
         if ($disciplines) {
             echo json_encode(["valid" => true, "disciplines" => $disciplines]);
         } else {

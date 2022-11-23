@@ -55,14 +55,14 @@ class CurricularmatrixController extends Controller
         if ($stages !== "" && $disciplines !== "" && $workload !== "" && $credits !== "") {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
-                    $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline", [
-                        ":stage" => $stage, ":discipline" => $discipline
+                    $matrix = CurricularMatrix::model()->find("stage_fk = :stage and discipline_fk = :discipline and school_year = :year", [
+                        ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
                     ]);
                     $logSituation = "U";
                     if ($matrix == NULL) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes([
-                            "stage_fk" => $stage, "discipline_fk" => $discipline
+                            "stage_fk" => $stage, "discipline_fk" => $discipline, "school_year" => Yii::app()->user->year
                         ]);
                         $logSituation = "C";
                     }
@@ -125,11 +125,14 @@ class CurricularmatrixController extends Controller
     public function actionDelete($id)
     {
         $curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRIX);
-        $result = Yii::app()->db->createCommand("
+        $schedules = Yii::app()->db->createCommand("
             select count(s.id) as qtd from schedule s 
             join classroom c on s.classroom_fk = c.id 
             where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk)->queryRow();
-        if ((int)$result["qtd"] === 0) {
+        $teachingDatas = Yii::app()->db->createCommand("
+            select count(tm.id) as qtd from teaching_matrixes tm 
+            where curricular_matrix_fk = :id")->bindParam(":id", $id)->queryRow();
+        if ((int)$schedules["qtd"] === 0 && (int)$teachingDatas["qtd"] === 0) {
             try {
                 if ($curricularMatrix->delete()) {
                     echo json_encode(["valid" => true, "message" => "Matriz excluída com sucesso!"]);
@@ -138,7 +141,11 @@ class CurricularmatrixController extends Controller
                 echo json_encode(["valid" => false, "message" => "Um erro aconteceu. Não foi possível remover a matriz curricular."]);
             }
         } else {
-            echo json_encode(["valid" => false, "message" => "Não se pode remover matriz que está sendo utilizada no quadro de horário de alguma turma."]);
+            if ((int)$schedules["qtd"] !== 0) {
+                echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma."]);
+            } else {
+                echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma."]);
+            }
         }
     }
 

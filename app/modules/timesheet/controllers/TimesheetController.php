@@ -162,12 +162,17 @@ class TimesheetController extends Controller
             }
             $response["calendarEvents"] = $calendarEventsArray;
 
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk
+            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_year = :year", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":year" => Yii::app()->user->year
             ]);
             $response["disciplines"] = [];
             foreach ($curricularMatrix as $cm) {
-                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload]);
+                $instructorName = Yii::app()->db->createCommand("
+                    select ii.name from teaching_matrixes tm
+                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                    join instructor_identification ii on itd.instructor_fk = ii.id
+                    where itd.classroom_id_fk = :cid and tm.curricular_matrix_fk = :cmid")->bindParam(":cmid", $cm->id)->bindParam(":cid", $classroomId)->queryRow();
+                array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload, "instructorName" => $instructorName["name"]]);
             }
             $hasMatrix = $curricularMatrix != null;
 
@@ -259,8 +264,8 @@ class TimesheetController extends Controller
         $criteria->params = ["classroom_fk" => $classroomId];
         $hasFrequency = ClassFaults::model()->exists($criteria);
         if (!$hasFrequency) {
-            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage", [
-                ":stage" => $classroom->edcenso_stage_vs_modality_fk
+            $curricularMatrix = TimesheetCurricularMatrix::model()->findAll("stage_fk = :stage and school_year = :year", [
+                ":stage" => $classroom->edcenso_stage_vs_modality_fk, ":year" => Yii::app()->user->year
             ]);
             if ($curricularMatrix != null) {
                 Schedule::model()->deleteAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
@@ -560,11 +565,12 @@ class TimesheetController extends Controller
             " edcenso_discipline.id as disciplineId, " .
             " edcenso_discipline.name as disciplineName, " .
             " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
-            " curricular_matrix.workload as workloadTotal " .
+            " curricular_matrix.workload as workloadTotal, " .
+            " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
             " from curricular_matrix " .
             " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
-            " where curricular_matrix.stage_fk = :stage")
-            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->queryAll();
+            " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_year = :year")
+            ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
 

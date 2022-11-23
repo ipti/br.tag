@@ -86,7 +86,7 @@ function getTimesheet(data) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error === "curricularMatrix") {
-            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com disciplinas diversas e com a mesma etapa da turma selecionada.");
+            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com a mesma etapa da turma selecionada.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "calendar") {
@@ -189,7 +189,7 @@ function calculateWorkload(disciplines, increment) {
                 hasOverflow = workloadUsed > workloadTotal;
             }
             var workloadColor = workloadUsed > workloadTotal ? "workload-red" : (workloadUsed === workloadTotal ? "workload-green" : "");
-            html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div></div>";
+            html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div><div class='workload-instructor'>" + (this.instructorName === null ? "SEM PROFESSOR" : this.instructorName) + "</div></div>";
         });
         $(".workloads").find(".workload").remove();
         $(".workloads").append(html);
