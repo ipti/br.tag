@@ -108,6 +108,34 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
         </div>
     </div>
     <div class="reuse">
-        <a href="<?php echo Yii::app()->createUrl("wizard/configuration/classroom"); ?>"><?php echo Yii::t('default', 'Reaproveitamento da Matriz Curricular de ') . ' ' . (Yii::app()->user->year - 1) ?></a>
+        <a class="matrix-reuse"  href="javascript:;"><?php echo 'Reaproveitamento da Matriz Curricular de ' . (Yii::app()->user->year - 1) ?></a>
+    </div>
+</div>
+
+<div class="modal fade" id="matrix-reuse-modal" tabindex="-1" role="dialog"
+     aria-labelledby="Reaproveitamento de Matriz Curricular">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Reaproveitamento de Matriz Curricular</h4>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                    <div class="row-fluid">
+                        <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de <?php echo (Yii::app()->user->year - 1) ?>?</b>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary confirm-matrix-reuse"
+                            data-dismiss="modal">Confirmar</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

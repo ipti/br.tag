@@ -132,34 +132,14 @@ class FormsController extends Controller {
         $time = mktime(0, 0, 0, $result['month']);
         $result['month'] = strftime("%B", $time);
 
-        $disciplines = Yii::app()->db->createCommand(
-            "select * from ((select c.`id` as 'classroom_id', d.id as 'discipline_id', d.`name` as 'discipline_name'
-
-                from `edcenso_discipline` as `d`
-                JOIN `instructor_teaching_data` `t` ON 
-                        (`t`.`discipline_1_fk` = `d`.`id` 
-                        || `t`.`discipline_2_fk` = `d`.`id` 
-                        || `t`.`discipline_3_fk` = `d`.`id`
-                        || `t`.`discipline_4_fk` = `d`.`id`
-                        || `t`.`discipline_5_fk` = `d`.`id`
-                        || `t`.`discipline_6_fk` = `d`.`id`
-                        || `t`.`discipline_7_fk` = `d`.`id`
-                        || `t`.`discipline_8_fk` = `d`.`id`
-                        || `t`.`discipline_9_fk` = `d`.`id`
-                        || `t`.`discipline_10_fk` = `d`.`id`
-                        || `t`.`discipline_11_fk` = `d`.`id`
-                        || `t`.`discipline_12_fk` = `d`.`id`
-                        || `t`.`discipline_13_fk` = `d`.`id`)
-                join `classroom` as `c` on (c.id = t.classroom_id_fk)
-            ) union (
-                select c.`id` as 'classroom_id', d.id as 'discipline_id', d.`name` as 'discipline_name'
-                from `classroom` as `c`
-                        join `class_board` as `cb` on (c.id = cb.classroom_fk)
-                        join `edcenso_discipline` as `d` on (d.id = cb.discipline_fk)
-            )) as classroom_disciplines
-            where classroom_id = " . $id)->queryAll();
-
         $classroom = Classroom::model()->findByPk($id);
+
+        $disciplines = Yii::app()->db->createCommand(
+            "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm 
+            join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name"
+        )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+
+
 
         foreach($disciplines as $key => $value){
             if($value == 1){

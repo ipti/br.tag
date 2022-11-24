@@ -299,27 +299,32 @@ class ReportsController extends Controller
 
     public function actionDisciplineAndInstructorRelationReport()
     {
-        $_GET['id'] = Yii::app()->user->school;
-        $school = SchoolIdentification::model()->findByPk($_GET['id']);
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
-        $sql = "select c.*, q.modality,q.stage
-                from classroom as c join classroom_qtd_students as q
-                on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
-
-        $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $sql = "select id.*,it.classroom_id_fk, iv.scholarity
-                from (((instructor_identification as id join instructor_teaching_data as it on it.instructor_fk = id.id)
-                join instructor_variable_data as iv on iv.id = id.id)join classroom as c on c.inep_id = it.classroom_inep_id)
-                where id.school_inep_id_fk = " . $_GET['id'] . "  AND it.role = 1 AND c.school_year = " . $this->year . " order by c.name";
-
-        $professor = Yii::app()->db->createCommand($sql)->queryAll();
+        $classrooms = Yii::app()->db->createCommand(
+            "select c.*, q.modality, q.stage from classroom as c 
+            join classroom_qtd_students as q on c.school_inep_fk = q.school_inep_fk
+            where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . Yii::app()->user->school . " AND q.school_inep_fk = " . Yii::app()->user->school . "  AND c.id = q.id
+            order by name")->queryAll();
+        foreach ($classrooms as &$classroom) {
+            $classroom["instructors"] = Yii::app()->db->createCommand(
+                "select ii.*, iv.scholarity, it.id as teaching_data_id
+                from instructor_teaching_data it
+                join instructor_identification ii on ii.id = it.instructor_fk
+                left join instructor_variable_data iv on iv.id = ii.id
+                where it.classroom_id_fk = '" . $classroom["id"] . "' and it.role = 1 order by ii.name")->queryAll();
+            foreach ($classroom["instructors"] as &$instructor) {
+                $instructor["disciplines"] = Yii::app()->db->createCommand(
+                    "select ed.name
+                    from teaching_matrixes tm
+                    join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
+                    join edcenso_discipline ed on ed.id = cm.discipline_fk
+                    where tm.teaching_data_fk = '" . $instructor["teaching_data_id"] . "'")->queryAll();
+            }
+        }
 
         $this->render('DisciplineAndInstructorRelationReport', array(
             'school' => $school,
-            'professor' => $professor,
             'classroom' => $classrooms
         ));
     }
@@ -384,7 +389,7 @@ class ReportsController extends Controller
                 where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
                 order by name";
         $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
-        foreach($classrooms as &$classroom) {
+        foreach ($classrooms as &$classroom) {
             $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
                 from instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk
                 join instructor_variable_data as iv on iv.id = id.id join classroom as c on i.classroom_id_fk = c.id

@@ -29,3 +29,19 @@ $(document).on("click", "#add-matrix", function () {
         $(".alert-container").show();
     });
 });
+
+$(document).on("click", ".matrix-reuse", function () {
+    $("#matrix-reuse-modal").modal("show");
+});
+
+$(document).on("click", ".confirm-matrix-reuse", function () {
+    $.ajax({
+        type: "POST",
+        url: "/?r=curricularmatrix/curricularmatrix/matrixReuse",
+    }).success(function (data) {
+        data = JSON.parse(data);
+        $(".alert").text("Matriz Curricular do ano anterior reaproveitada com sucesso!").addClass("alert-success").removeClass("alert-error");
+        $.fn.yiiGridView.update("matrizgridview");
+        $(".alert-container").show();
+    });
+});

@@ -29,7 +29,7 @@ class CurricularmatrixController extends Controller
                 'actions' => [], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['index', 'addMatrix'], 'users' => ['@'],
+                'actions' => ['index', 'addMatrix', 'matrixReuse'], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => [], 'users' => ['admin'],
@@ -79,6 +79,24 @@ class CurricularmatrixController extends Controller
         } else {
             echo json_encode(["valid" => false, "message" => "Preencha os campos de etapa, disciplinas, carga horária e horas semanais."]);
         }
+    }
+
+    public function actionMatrixReuse()
+    {
+        $curricularMatrixesPreviousYear = CurricularMatrix::model()->findAll("school_year = :year", [":year" => Yii::app()->user->year - 1]);
+        foreach ($curricularMatrixesPreviousYear as $curricularMatrixPreviousYear) {
+            $curricularMatrixCurrentYear = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", [":stage_fk" => $curricularMatrixPreviousYear->stage_fk, ":discipline_fk" => $curricularMatrixPreviousYear->discipline_fk, ":year" => Yii::app()->user->year]);
+            if ($curricularMatrixCurrentYear == null) {
+                $curricularMatrixCurrentYear = new CurricularMatrix();
+                $curricularMatrixCurrentYear->stage_fk = $curricularMatrixPreviousYear->stage_fk;
+                $curricularMatrixCurrentYear->discipline_fk = $curricularMatrixPreviousYear->discipline_fk;
+            }
+            $curricularMatrixCurrentYear->workload = $curricularMatrixPreviousYear->workload;
+            $curricularMatrixCurrentYear->credits = $curricularMatrixPreviousYear->credits;
+            $curricularMatrixCurrentYear->school_year = Yii::app()->user->year;
+            $curricularMatrixCurrentYear->save();
+        }
+        echo json_encode(["valid" => true]);
     }
 
 
@@ -148,5 +166,4 @@ class CurricularmatrixController extends Controller
             }
         }
     }
-
 }
