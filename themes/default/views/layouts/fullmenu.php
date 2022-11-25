@@ -199,7 +199,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         </li>
                     <?php } ?>
                 </ul>
-                <span class="tag-version">TAG v.<?php echo TAG_VERSION ?></span>
             </div>
 
         </div>
