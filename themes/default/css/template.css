@@ -1562,6 +1562,22 @@ li.highlight.profile
     float: left;
 }
 
+.submenu-icon {
+    position: absolute;
+    top: 10px;
+    font-size: 12px !important;
+    right: 7px;
+    pointer-events: none;
+    z-index: 100 !important;
+}
+
+.hasSubmenu.active .fa-chevron-right {
+    display: none;
+}
+.hasSubmenu:not(.active) .fa-chevron-down {
+    display: none;
+}
+
 .filter-bar {
     background: #fafafa;
     border: 1px solid #e5e5e5;
@@ -8347,8 +8363,24 @@ input[type="text"] {
     cursor: pointer;
 }
 
-li.active a {
+li.active  a {
     font-weight: bold !important;
+}
+
+#box-menu li.active a {
+    font-weight: 600 !important;
+}
+
+.hasSubmenu ul > a {
+    padding-left: 61px !important;
+}
+
+.hasSubmenu ul > a i:before {
+    left: 33px !important;
+}
+
+.hasSubmenu ul > a.active {
+    background: #ccc;
 }
 
 .vmiddle {

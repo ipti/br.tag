@@ -124,78 +124,67 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             <a class="glyphicons parents"
                                href="<?php echo yii::app()->createUrl('student') ?>"><i></i><span>Alunos</span></a>
                         </li>
-                        <li id="menu-student"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons signal"
-                               href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
-                        </li>
-
-                        <!--<li id="menu-student" class="hasSubmenu">
-                                <a data-toggle="collapse" class="glyphicons adress_book" href="#menu-classroom2"><i></i><span>Turma</span></a>
-                                <ul class="collapse" id="menu-classroom2">                                
-                                    <a class="glyphicons adress_book" href="<?php echo yii::app()->createUrl('classroom') ?>"><i></i><span>Procurar Turmas</span></a>
-                                    <a class="glyphicons book_open" href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
-                                    <a class="glyphicons notes_2" href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
-                                    <a class="glyphicons check" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
-                                    <a class="glyphicons list" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
-                                </ul>
-                            </li>-->
-
                         <li id="menu-instructor"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=instructor") ? 'active' : '' ?>">
                             <a class="glyphicons nameplate"
                                href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                         </li>
-                    <?php endif ?>
-                        <li id="menu-plans"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons book_open"
-                               href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
-                        </li>
-                        <li id="menu-contents"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons notes_2"
-                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
-                        </li>
-                        <li id="menu-classes"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons check"
-                               href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
-                        </li>
-                        <li id="menu-grade"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons list"
-                               href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
-                        </li>
-                    <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
                         <!--<li id="menu-lunch"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons cutlery"
                                href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
                         </li>-->
-                        <li id="menu-censo"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
-                            <a class="glyphicons refresh"
-                               href="<?php echo yii::app()->createUrl('censo/validate') ?> "><i></i><span>Educacenso</span></a>
-                        </li>
                         <li id="menu-calendar"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons calendar"
                                href="<?php echo yii::app()->createUrl('calendar') ?> "><i></i><span>Calendário Escolar</span></a>
-                        </li>
-                        <li id="menu-timesheet"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=timesheet") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons table"
-                               href="<?php echo yii::app()->createUrl('timesheet') ?> "><i></i><span>Quadro de Horário</span></a>
                         </li>
                         <li id="menu-matrix"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=curricularmatrix") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons stats"
                                href="<?php echo yii::app()->createUrl('curricularmatrix') ?> "><i></i><span>Matriz Curricular</span></a>
                         </li>
+                        <li id="menu-timesheet"
+                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=timesheet") ? 'active' : '' ?> hide-responsive">
+                            <a class="glyphicons table"
+                               href="<?php echo yii::app()->createUrl('timesheet') ?> "><i></i><span>Quadro de Horário</span></a>
+                        </li>
+                    <?php endif ?>
+                    <li id="menu-electronic-diary" class="hasSubmenu <?=
+                    strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                    strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
+                    strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
+                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
+                        ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
+                        <a data-toggle="collapse" class="glyphicons inbox " href="#menu-electronic-diary2"><i></i><span>Diário Eletrônico</span></a>
+                        <ul class="collapse <?=
+                        strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                        strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
+                        strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
+                        strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'in' : '' ?>"
+                            id="menu-electronic-diary2">
+                            <a class="glyphicons book_open <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>"
+                               href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
+                            <a class="glyphicons notes_2 <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
+                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
+                            <a class="glyphicons check <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
+                            <a class="glyphicons list <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
+                        </ul>
+                    </li>
+                    <li id="menu-student"
+                        class="<?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
+                        <a class="glyphicons signal"
+                           href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
+                    </li>
+                    <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
                         <li id="menu-quiz"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons list" href="<?php echo yii::app()->createUrl('quiz') ?> "><i></i><span>Questionário</span></a>
+                        </li>
+                        <li id="menu-censo"
+                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
+                            <a class="glyphicons refresh"
+                               href="<?php echo yii::app()->createUrl('censo/validate') ?> "><i></i><span>Educacenso</span></a>
                         </li>
                     <?php endif ?>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
