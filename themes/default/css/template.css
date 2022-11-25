@@ -638,7 +638,7 @@ body > .container-fluid.documentation {
     float: left;
     position: fixed;
     left: 0;
-    top: 41px;
+    top: 40px;
     overflow: hidden;
     margin-bottom: -99999px;
     padding-bottom: 99999px;
@@ -786,8 +786,8 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li,
 #menu > ul > li {
     display: block;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     border-bottom: 1px solid #ccc;
     position: relative;
     overflow: hidden;
@@ -819,8 +819,8 @@ body > .container-fluid.documentation {
     padding: 0;
     margin: 0;
     color: #7c7c7c;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
@@ -835,7 +835,7 @@ body > .container-fluid.documentation {
 #menu > ul > li a.glyphicons i:before {
     font-size: 17px;
     color: #7c7c7c;
-    top: 7px;
+    top: 9px;
     left: 15px;
 }
 
@@ -1564,7 +1564,7 @@ li.highlight.profile
 
 .submenu-icon {
     position: absolute;
-    top: 10px;
+    top: 12px;
     font-size: 12px !important;
     right: 7px;
     pointer-events: none;

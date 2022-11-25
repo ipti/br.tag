@@ -83,6 +83,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     </form>
                 </div>
             </li>
+            <li id="menu-logout">
+                <a class="glyphicons unshare"
+                   href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
+            </li>
         </ul>
         <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
     </div>
@@ -94,10 +98,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <div id="menu" class="hidden-print">
             <div class="slim-scroll" data-scroll-height="800px">
                 <ul id="box-menu">
-                    <li id="menu-logout">
-                        <a class="glyphicons unshare"
-                           href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
-                    </li>
                     <li id="menu-dashboard"
                         class="<?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
                         <a class="glyphicons home" href="/"><i></i><span>Página Inicial</span></a>
@@ -177,10 +177,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                            href="<?php echo yii::app()->createUrl('reports') ?>"><i></i><span>Relatórios</span></a>
                     </li>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
-                        <li id="menu-quiz"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons list" href="<?php echo yii::app()->createUrl('quiz') ?> "><i></i><span>Questionário</span></a>
-                        </li>
+<!--                        <li id="menu-quiz"-->
+<!--                            class="--><?//= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?><!-- hide-responsive">-->
+<!--                            <a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz') ?><!-- "><i></i><span>Questionário</span></a>-->
+<!--                        </li>-->
                         <li id="menu-censo"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                             <a class="glyphicons refresh"
@@ -195,7 +195,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         </li>
                         <li id="menu-logout" class="hide-responsive">
                             <a class="glyphicons notes"
-                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão por Resultados</span></a>
+                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão de Resultados</span></a>
                         </li>
                     <?php } ?>
                 </ul>
