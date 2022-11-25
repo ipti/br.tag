@@ -164,9 +164,9 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'in' : '' ?>"
                             id="menu-electronic-diary2">
                             <a class="glyphicons book_open <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>"
-                               href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de aula</span></a>
+                               href="<?php echo yii::app()->createUrl('courseplan') ?>"><i></i><span>Plano de Aula</span></a>
                             <a class="glyphicons notes_2 <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
-                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas ministradas</span></a>
+                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas Ministradas</span></a>
                             <a class="glyphicons check <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                             <a class="glyphicons list <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                         </ul>
@@ -199,6 +199,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         </li>
                     <?php } ?>
                 </ul>
+                <span class="tag-version">TAG v.<?php echo TAG_VERSION ?></span>
             </div>
 
         </div>

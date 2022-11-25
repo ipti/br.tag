@@ -50,6 +50,13 @@
  *
  * Designed and built exclusively for sale @Envato Marketplaces.
 */
+.tag-version {
+    float: right;
+    margin: 3px 5px 0 0;
+    font-size: 10px;
+    color: #bbb;
+}
+
 .hideText {
     text-indent: -999em;
     letter-spacing: -999em;
@@ -1124,7 +1131,7 @@ body > .container-fluid.documentation {
     height: 46px;
     padding: 0 0 0 15px;
     line-height: 46px;
-    width: 190px;
+    width: 120px;
 }
 
 .navbar.main .appbrand > span {
