@@ -50,6 +50,11 @@
  *
  * Designed and built exclusively for sale @Envato Marketplaces.
 */
+.changelog-link {
+    color: white;
+    text-decoration: underline;
+}
+
 .hideText {
     text-indent: -999em;
     letter-spacing: -999em;
