@@ -129,11 +129,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             <a class="glyphicons nameplate"
                                href="<?php echo yii::app()->createUrl('instructor') ?>"><i></i><span>Professores</span></a>
                         </li>
-                        <!--<li id="menu-lunch"
-                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons cutlery"
-                               href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
-                        </li>-->
                         <li id="menu-calendar"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
                             <a class="glyphicons calendar"
@@ -181,6 +176,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
 <!--                            class="--><?//= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?><!-- hide-responsive">-->
 <!--                            <a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz') ?><!-- "><i></i><span>Questionário</span></a>-->
 <!--                        </li>-->
+                        <li id="menu-lunch"
+                            class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
+                            <a class="glyphicons cutlery"
+                               href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><i></i><span>Merenda Escolar</span></a>
+                        </li>
                         <li id="menu-censo"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                             <a class="glyphicons refresh"
