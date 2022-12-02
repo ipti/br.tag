@@ -5,14 +5,17 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new InstructorIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new InstructorIdentification')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
     ?>
 
     <div class="row-fluid box-instructor">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Instructor Identifications') ?></h3>
             <div class="buttons span7 hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="btn btn-primary btn-icon glyphicons envelope"><i></i> Atualizar e-mails</a>
-                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar professor</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/updateEmails')?>" class="tag-button medium-button">Atualizar e-mails</a>
+                <a href="<?php echo Yii::app()->createUrl('instructor/create')?>" class="tag-button medium-button">Adicionar professor</a>
             </div>
         </div>
         <div class="btn-group pull-right mt-30 responsive-menu dropdown-margin">

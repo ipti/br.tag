@@ -5,13 +5,17 @@
     $this->menu = array(
         array('label' => Yii::t('default', 'Create a new SchoolIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new SchoolIdentification')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');
+   
     ?>
 
     <div class="row-fluid">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'School Identifications') ?></h3>  
             <div class="buttons  hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar escola</a>
+                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="tag-button medium-button"><!-- <i class="fa-plus-circle fa icon-button-tag"></i> --> Adicionar escola</a>
             </div>
         </div>
     </div>
