@@ -133,17 +133,17 @@ form {
 }
 
 .eggs .widget-head {
-    background: #496cad !important;
+    background: #3F45EA !important;
 }
 
 .eggs .widget > .widget-head .heading {
     text-shadow: none !important;
     color: white !important;
-    border-color: #496cad !important;
+    border-color: #3F45EA !important;
 }
 
 .calendar-header {
-    background: #496cad !important;
+    background: #3F45EA !important;
 }
 
 .eggs .widget.widget-gray > .widget-head .heading.glyphicons i:before {
@@ -224,7 +224,7 @@ form {
 
 .load-more {
     margin: 10px 10px 10px 0;
-    background: #496cad !important;
+    background: #3F45EA !important;
     padding: 10px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;

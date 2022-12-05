@@ -2,7 +2,10 @@
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
 
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));    
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));  
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');  
 ?>
 
 <div id="mainPage" class="main">
@@ -10,7 +13,7 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Course Plan') ?></h3>  
             <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i><?= Yii::t('default', 'Create Plan'); ?> </a>
+                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>" class="tag-button medium-button"><?= Yii::t('default', 'Create Plan'); ?> </a>
             </div>
         </div>
     </div>

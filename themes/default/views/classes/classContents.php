@@ -3,11 +3,12 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
-
+$cs->registerCssFile($themeUrl . '/css/template2.css');  
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -22,18 +23,17 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
         <div class="buttons span9">
-            <a id="add-content" class='btn btn-icon btn-success'><i
-                        class="fa fa-plus-square"></i> <?php echo Yii::t('default', 'Content') ?></a>
+            <a id="add-content" class='tag-button medium-button'> <?php echo Yii::t('default', 'Content') ?></a>
 
-            <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
-                <i></i></a>
+            <a id="print" class='tag-button-print  medium-button'>
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png" />
+                <?php echo Yii::t('default', 'Print') ?>
+            </a>
             <a id="save"
-               class='btn btn-icon btn-primary glyphicons circle_ok hidden-print'><?php echo Yii::t('default', 'Save') ?>
-                <i></i></a>
+               class='tag-button medium-button'><?php echo Yii::t('default', 'Save') ?></a>
         </div>
     </div>
 </div>
-
 <?php
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
@@ -121,8 +121,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <div class="pull-right">
             <a id="classesSearch"
-               class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
-                <i></i></a>
+               class='tag-button small-button'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
+                </a>
         </div>
         <i class="loading-class-contents fa fa-spin fa-spinner"></i>
 

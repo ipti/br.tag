@@ -7954,7 +7954,7 @@ div.glyphicons.glyphicon-primary i:before {
 }
 
 .btn-primary,
-.navbar.main,
+.navbar.main,/* . */
 #flotTip,
 .btn-group.open .btn-primary.dropdown-toggle,
 .btn-primary.disabled,
@@ -7997,7 +7997,7 @@ div.glyphicons.glyphicon-primary i:before {
 .social-large a.active,
 .social-large a:hover,
 #landing_1 .banner-1 .carousel-indicators li.active {
-    background-color: #496cad;
+    background-color: #3F45EA;
 }
 
 a,
@@ -8032,7 +8032,7 @@ blockquote small,
 #landing_2 .banner .banner-wrapper.banner-1 h3,
 #landing_1 .banner-1 .carousel-caption a,
 div.glyphicons.glyphicon-primary i:before {
-    color: #496cad;
+    color: #3F45EA;
 }
 
 .btn-primary,
@@ -8050,7 +8050,7 @@ div.glyphicons.glyphicon-primary i:before {
 .pagination ul > li > a:hover,
 .pagination ul > li.primary > a,
 .widget-stats.primary {
-    border-color: #496cad;
+    border-color: #3F45EA;
 }
 
 .table-primary tbody td {
@@ -8084,11 +8084,11 @@ div.glyphicons.glyphicon-primary i:before {
 
 .bwizard-steps li.active:after,
 .sliderContainer .ui-rangeSlider-rightArrow .ui-rangeSlider-arrow-inner {
-    border-left-color: #496cad;
+    border-left-color: #3F45EA;
 }
 
 .sliderContainer .ui-rangeSlider-leftArrow .ui-rangeSlider-arrow-inner {
-    border-right-color: #496cad;
+    border-right-color: #3F45EA;
 }
 
 #tlyPageGuideWrapper
@@ -8100,13 +8100,13 @@ li.tlypageguide-active.tlypageguide_left:after,
 #tlyPageGuideWrapper
 #tlyPageGuide
 li.tlypageguide-active.tlypageguide_top:after {
-    border-top-color: #496cad;
+    border-top-color: #3F45EA;
 }
 
 #tlyPageGuideWrapper
 #tlyPageGuide
 li.tlypageguide-active.tlypageguide_bottom:after {
-    border-bottom-color: #496cad;
+    border-bottom-color: #3F45EA;
 }
 
 .btn-primary:active,
@@ -8738,7 +8738,7 @@ li.active  a {
     padding: 12px 10px;
     color: white;
     margin: -20px -20px 20px;
-    background: #496cad;
+    background: #3F45EA;
 }
 
 .input-block-level.error {
@@ -8779,7 +8779,7 @@ li.active  a {
     text-align: center !important;
     color: white;
     padding: 5px 0 !important;
-    background: #496cad;
+    background: #3F45EA;
 }
 
 .table-frequency .checkbox-row input[type=checkbox] {
@@ -8960,7 +8960,7 @@ li.active  a {
     .btn-group > .btn:active,
     .btn-group > .btn.active,
     .btn-group.open .btn.dropdown-toggle {
-        background-color: #496cad;
+        background-color: #3F45EA;
         color: #fff;
     }
 

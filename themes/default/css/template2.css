@@ -1,21 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 .tag-button, .tag-button:hover {
-    background-color: #496cad;
+    background-color: #3F45EA;
     text-decoration: none;
     border-radius: 4px;
     color: white;
     margin-right: 10px;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
+    cursor: pointer;
 }
 .tag-button:hover {
-    background-color: #41619b;
+    background-color: #272B96;;
+}
+.tag-button-print, .tag-button-print:hover {
+    background-color: #EFF2F5;
+    color: #1d1d1b;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+}
+.tag-button-print:hover {
+    background-color: #e6e6e6;
 }
 .medium-button {
     width: 163px;
     height: 44px;
     font-size: 14px;
     padding: 10px 12px;
+}
+.small-button {
+    width: 124px;
+    height: 32px;
+    padding: 6px;
 }
 .icon-button-tag {
     margin: 5px;

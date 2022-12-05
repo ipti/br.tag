@@ -11,8 +11,10 @@
 	/* @var $this ReportsController */
 	/* @var $report mixed */
 	$baseUrl = Yii::app()->baseUrl;
+	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
+	$cs->registerCssFile($themeUrl . '/css/template2.css'); 
 
 ?>
 
@@ -21,8 +23,10 @@
 		<h3 class="heading-mosaic">Oops - Algo Inesperado aconteceu</h3>
 
 		<div class="buttons">
-			<a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?>
-				<i></i></a>
+			<a id="print" class='tag-button-print medium-button print hidden-print'>
+				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png" />
+				<?php echo Yii::t('default', 'Print') ?>
+				</a>
 		</div>
 	</div>
 </div>

@@ -1304,7 +1304,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     <?php if ($me->classroomFk->school_year >= date('Y')) { ?>
                                                         <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'>
                                                             <i class="fa fa-pencil"
-                                                               style="color:#496cad; padding-right: 1%"></i>
+                                                               style="color:#3F45EA; padding-right: 1%"></i>
                                                             <?php echo $me->classroomFk->name ?>
 
                                                         </a>
