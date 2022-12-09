@@ -179,8 +179,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                href="<?php echo yii::app()->createUrl('courseplan') ?>">
                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.png" />
                                <span>Plano de Aula</span></a>
-                            <a class="glyphicons notes_2 <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
-                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>"><i></i><span>Aulas Ministradas</span></a>
+                            <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
+                               href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.png" />
+                               <span>Aulas Ministradas</span></a>
                             <a class="glyphicons check <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
                             <a class="glyphicons list <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
                         </ul>
