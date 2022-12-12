@@ -82,13 +82,13 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         ?>
                     </form>
                 </div>
+                <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
             </li>
             <li id="menu-logout">
                 <a class="glyphicons unshare"
                    href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
             </li>
         </ul>
-        <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
     </div>
     <!-- Top navbar END -->
 
@@ -181,10 +181,14 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                <span>Plano de Aula</span></a>
                             <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
                                href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.png" />
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/aulas_ministradas.png" />
                                <span>Aulas Ministradas</span></a>
-                            <a class="glyphicons check <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>"><i></i><span>Frequência</span></a>
-                            <a class="glyphicons list <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> "><i></i><span>Notas</span></a>
+                            <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/frequencia.png" />
+                            <span>Frequência</span></a>
+                            <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> ">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.png" />
+                            <span>Notas</span></a>
                         </ul>
                     </li>
                     <li id="menu-student"

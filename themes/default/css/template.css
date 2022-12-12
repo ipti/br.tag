@@ -69,10 +69,10 @@
     -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.navbar.main {
+/* .navbar.main {
     border-bottom: 1px solid #d2d2d2;
 }
-
+ */
 body {
     font-family: 'Inter', sans-serif;
     font-weight: 200;
@@ -172,7 +172,7 @@ h2 {
     text-align: right;
     position: fixed;
     right: 0;
-    top: 76px;
+    top: 127px;
     z-index: 3;
     width: 246px; /* Sem esse valor os botões não ficam lado a lado quando está na posição fixed */
 }
@@ -517,7 +517,7 @@ body > .container-fluid.documentation {
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
-    top: 79px;
+    top: 130px;
     z-index: 2;
     width: 100%;
 }
@@ -678,7 +678,6 @@ body > .container-fluid.documentation {
     padding-bottom: 99999px;
     background: #FAFAFE;
     color: #7c7c7c;
-    border-right: 1px solid #e1e1e1;
 }
 
 #menu .profile {
@@ -1148,13 +1147,16 @@ body > .container-fluid.documentation {
 }
 
 .navbar.main {
-    height: 40px;
-    background: #FFFFFF; ;
+    height: 92px;
+    background: #FFFFFF;
     margin: 0;
     position: fixed;
     z-index: 2;
     right: 0;
     width: calc(100% - 190px);
+    display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .navbar.main .appbrand {
@@ -1231,7 +1233,6 @@ body > .container-fluid.documentation {
 .navbar.main .topnav > li {
     position: relative;
     float: left;
-    height: 32px;
     line-height: 32px;
     display: block;
     padding: 0 3px;
@@ -1545,14 +1546,19 @@ li.highlight.profile
 }
 
 /** Select de seleção de escolas **/
+.select2-container {
+    /* width: auto; */
+}
 #s2id_SchoolIdentification_inep_id a, #s2id_UsersSchool_school_fk a {
-    background-color: #6988c0;
-    box-shadow: 0 1px 0 #3a5689;
-    -webkit-box-shadow: 0 1px 0 #3a5689;
-    -moz-box-shadow: 0 1px 0 #3a5689;
-    border: 0;
-    color: #fff;
-    padding: 3px 10px;
+    color: #16205B;
+    border: none;
+    box-shadow: none;
+    font-weight: 600;
+    font-family: 'Inter';
+    font-size: 14px;
+    text-align: right;
+    width: auto;
+    /* text-transform: lowercase; */
 }
 
 #s2id_SchoolIdentification_inep_id .select2-arrow, #s2id_UsersSchool_school_fk .select2-arrow {
@@ -1830,7 +1836,7 @@ li.highlight.profile
 
 .widget {
     background: #fff;
-    margin: 0 auto 10px;
+    margin: 55px auto 10px;
     position: relative;
     border: 1px solid #e5e5e5;
 }
@@ -2994,7 +3000,7 @@ li.highlight.profile
     color: #64625f;
     font-size: 9pt;
     position: fixed;
-    top: 41px;
+    top: 92px;
     width: 100%;
     z-index: 2;
 }
@@ -8420,9 +8426,9 @@ input[type="text"] {
     background: #222C64;
     border-radius: 0 4px 4px 0;
 } 
-.hasSubmenu ul > a {
-    padding-left: 61px !important;
-}
+ .hasSubmenu ul > a {
+    padding-left: 30px !important;
+} 
 
 .hasSubmenu ul > a i:before {
     left: 33px !important;
@@ -8791,11 +8797,12 @@ input[type="text"] {
 
 .username {
     display: inline-block;
-    font-size: 20px;
+    font-size: 14px;
     float: right;
     margin-right: 20px;
     line-height: 40px;
-    color: #f5f5f5;
+    color: #A6B6C8;
+    font-family: 'Inter';
 }
 
 .add-stages-options {
