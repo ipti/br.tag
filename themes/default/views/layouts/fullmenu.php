@@ -85,8 +85,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
             </li>
             <li id="menu-logout">
-                <a class="glyphicons unshare"
-                   href="<?php echo yii::app()->createUrl('site/logout') ?>"><i></i><span>Sair</span></a>
+                <a 
+                   href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                   <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.png" />
+                   <span>Sair</span></a>
             </li>
         </ul>
     </div>
