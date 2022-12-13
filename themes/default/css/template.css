@@ -4602,13 +4602,17 @@ legend {
 }
 
 input[type="text"],
+/*aqui*/
 input[type="password"],
 select,
 textarea {
     border-color: #d8d9da;
     color: #333333;
 }
-
+/* controle de tamanho */
+.control-input{
+    width: 300px;
+}
 .control-label.center {
     text-align: center;
 }
@@ -4629,7 +4633,7 @@ textarea {
 }
 
 .form-horizontal .control-label {
-    width: 130px;
+    width: 50px;
     font-weight: normal;
 }
 
@@ -8402,9 +8406,11 @@ input[type="text"] {
     margin-right: 20px;
 }
 
-.control-label.required {
+/* .control-label.required {
     font-weight: bold;
-}
+} */
+
+
 
 .grid-view tbody:hover {
     cursor: pointer;
