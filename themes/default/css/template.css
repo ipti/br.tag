@@ -132,6 +132,7 @@ h6 span {
     font-weight: 400;
     padding: 0 5px;
 }
+/* pode ser aqui */
 
 h1 span,
 h2 span,
@@ -4629,11 +4630,11 @@ textarea {
 }
 
 .form-horizontal .controls {
-    margin-left: 145px;
+    margin-left: 40px;
 }
 
 .form-horizontal .control-label {
-    width: 50px;
+    width: 100px;
     font-weight: normal;
 }
 
