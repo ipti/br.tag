@@ -518,7 +518,7 @@ body > .container-fluid.documentation {
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
-    top: 130px;
+    top: 103px;
     z-index: 2;
     width: 100%;
 }
@@ -1148,7 +1148,7 @@ body > .container-fluid.documentation {
 }
 
 .navbar.main {
-    height: 92px;
+    height: 65px;
     background: #FFFFFF;
     margin: 0;
     position: fixed;
@@ -1157,7 +1157,6 @@ body > .container-fluid.documentation {
     width: calc(100% - 190px);
     display: flex;
     align-items: center;
-    justify-content: end;
 }
 
 .navbar.main .appbrand {
@@ -1225,6 +1224,10 @@ body > .container-fluid.documentation {
     margin: 0;
     padding: 0;
     list-style: none;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar.main .topnav {
@@ -1245,13 +1248,13 @@ body > .container-fluid.documentation {
 
 .navbar.main .topnav > li > a {
     display: block;
-    background: #e77171;
+    background: #16205B;
     color: #fff;
     text-decoration: none;
-    padding: 0 10px;
-    box-shadow: 0 1px 0 #a41b1b;
-    -moz-box-shadow: 0 1px 0 #a41b1b;
-    -webkit-box-shadow: 0 1px 0 #a41b1b;
+    padding: 0 10px; 
+    box-shadow: 0 1px 0 #16205B;
+    -moz-box-shadow: 0 1px 0 #16205B;
+    -webkit-box-shadow: 0 1px 0 #16205B;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -1557,7 +1560,6 @@ li.highlight.profile
     font-weight: 600;
     font-family: 'Inter';
     font-size: 14px;
-    text-align: right;
     width: auto;
     /* text-transform: lowercase; */
 }
@@ -1568,12 +1570,14 @@ li.highlight.profile
 
 #select2-drop.school-dropdown {
     border: none;
-    background: #363432;
-    color: #c8c8c8;
+    background: #FAFAFE;
+    color: #16205B;
+    font-weight: 600;
+    font-family: 'Inter';
 }
 
 #s2id_SchoolIdentification_inep_id.select2-dropdown-open a, #s2id_UsersSchool_school_fk.select2-dropdown-open a {
-    background-color: #363432;
+    background-color: #FAFAFE;
 }
 
 .school-dropdown .select2-results {
@@ -3001,7 +3005,7 @@ li.highlight.profile
     color: #64625f;
     font-size: 9pt;
     position: fixed;
-    top: 92px;
+    top: 65px;
     width: 100%;
     z-index: 2;
 }
@@ -8118,15 +8122,15 @@ div.glyphicons.glyphicon-primary i:before {
 
 .navbar.main .btn-navbar,
 .navbar.main .topnav > li > a {
-    background-color: #6988c0;
+    /* background-color: #6988c0;
     box-shadow: 0 1px 0 #3a5689;
     -webkit-box-shadow: 0 1px 0 #3a5689;
-    -moz-box-shadow: 0 1px 0 #3a5689;
+    -moz-box-shadow: 0 1px 0 #3a5689; */
 }
 
 .navbar.main .btn-navbar:hover,
 .navbar.main .topnav > li > a:hover {
-    background-color: #8da4cf;
+    background-color: #1e2c7b;
 }
 
 .bwizard-steps li.active:after,
@@ -8805,9 +8809,9 @@ input[type="text"] {
 .username {
     display: inline-block;
     font-size: 14px;
-    float: right;
+    margin-left: 10px;
     margin-right: 20px;
-    line-height: 40px;
+    /*line-height: 40px; */
     color: #A6B6C8;
     font-family: 'Inter';
 }
