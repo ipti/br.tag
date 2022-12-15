@@ -253,11 +253,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <td>S</td>
                                             <td>S</td>
                                             <td>D</td>
-                                            <td><span style="margin: 0;"
+                                            <!-- <td><span style="margin: 0;"
                                                       class="btn-action single glyphicons circle_question_mark"
                                                       data-toggle="tooltip" data-placement="top"
                                                       data-original-title="<?php echo Yii::t('help', 'Week days'); ?>"><i></i></span>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                         <tr>
                                             <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0)); ?></td>
