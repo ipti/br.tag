@@ -68,21 +68,24 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Top Menu Right -->
         <ul class="topnav pull-right">
             <li>
-                <div id="change-school">
-                    <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>"
-                          method="Post">
-                        <?php
-                        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-                            echo CHtml::activeDropDownList(
-                                SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
-                        } else {
-                            echo CHtml::activeDropDownList(
-                                UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
-                        }
-                        ?>
-                    </form>
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.png" />
+                <div class="infos-topnav">
+                    <div id="change-school">
+                        <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>"
+                            method="Post">
+                            <?php
+                            if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+                                echo CHtml::activeDropDownList(
+                                    SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                            } else {
+                                echo CHtml::activeDropDownList(
+                                    UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                            }
+                            ?>
+                        </form>
+                    </div>
+                    <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
                 </div>
-                <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
             </li>
             <li id="menu-logout">
                 <a 

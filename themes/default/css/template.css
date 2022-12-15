@@ -172,7 +172,7 @@ h2 {
     text-align: right;
     position: fixed;
     right: 0;
-    top: 127px;
+    top: 100px;
     z-index: 3;
     width: 246px; /* Sem esse valor os botões não ficam lado a lado quando está na posição fixed */
 }
@@ -509,15 +509,15 @@ body > .container-fluid.documentation {
 }
 
 #content .heading-mosaic {
-    height: 39px;
-    line-height: 39px;
+    height: 44px;
+    line-height: 44px;
     padding: 0 10px;
     background: #ffffff url(../img/mosaic-pattern.png) repeat;
     border-bottom: 1px solid #e5e5e5;
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
-    top: 103px;
+    top: 92px;
     z-index: 2;
     width: 100%;
 }
@@ -860,6 +860,7 @@ body > .container-fluid.documentation {
 }
 #menu .slim-scroll > ul > li a img {
     margin-right: 10px;
+   
 }
 
 #menu .slim-scroll > ul > li a.glyphicons,
@@ -1224,23 +1225,26 @@ body > .container-fluid.documentation {
     padding: 0;
     list-style: none;
     width: 100%;
+    margin-right: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.navbar.main .topnav {
-    padding: 4px 5px 0 0;
 }
 
 .navbar.main .topnav > li {
     position: relative;
     float: left;
     line-height: 32px;
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 0 3px;
 }
-
+.navbar.main .topnav > li  img {
+    margin-left: 10px;
+}
+.infos-topnav {
+    line-height: normal;
+}
 .navbar.main .topnav > li:last-child {
     padding: 0 0 0 3px;
 }
@@ -1560,7 +1564,6 @@ li.highlight.profile
     font-family: 'Inter';
     font-size: 14px;
     width: auto;
-    /* text-transform: lowercase; */
 }
 
 #s2id_SchoolIdentification_inep_id .select2-arrow, #s2id_UsersSchool_school_fk .select2-arrow {
@@ -1584,11 +1587,12 @@ li.highlight.profile
 }
 
 .school-dropdown .select2-result-label {
-    border-bottom: 1px solid #4a4947;
+    border-bottom: 1px solid #e9e8e8;
 }
 
 .school-dropdown .select2-highlighted {
-    background: #1c1a19 !important;
+    background-color: #ccc !important;
+    color: #16205B !important;
 }
 
 .submenu-show {
@@ -2993,7 +2997,7 @@ li.highlight.profile
 }
 
 .breadcrumb {
-    height: 38px;
+    height: 27px;
     line-height: 38px;
     padding: 0 10px;
     -webkit-border-radius: 0;
