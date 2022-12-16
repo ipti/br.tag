@@ -173,7 +173,7 @@ h2 {
     text-align: right;
     position: fixed;
     right: 0;
-    top: 100px;
+    top: 74px;
     z-index: 3;
     width: 246px; /* Sem esse valor os botões não ficam lado a lado quando está na posição fixed */
 }
@@ -510,15 +510,15 @@ body > .container-fluid.documentation {
 }
 
 #content .heading-mosaic {
-    height: 44px;
-    line-height: 44px;
+    height: 48px;
+    line-height: 48px;
     padding: 0 10px;
     background: #ffffff url(../img/mosaic-pattern.png) repeat;
     border-bottom: 1px solid #e5e5e5;
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
-    top: 92px;
+    top: 65px;
     z-index: 2;
     width: 100%;
 }
@@ -1250,7 +1250,7 @@ body > .container-fluid.documentation {
     padding: 0 0 0 3px;
 }
 
-.navbar.main .topnav > li > a {
+.navbar.main .topnav > li > a.logout{
     display: block;
     background: #16205B;
     color: #fff;
@@ -1263,7 +1263,22 @@ body > .container-fluid.documentation {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
-
+.voltar-tobnav { 
+    padding: 10px;
+    background: white;
+    border-right:  1px solid #EAEAF8;
+    cursor: pointer;
+    line-height: 0;
+    color: #16205B;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+.voltar-tobnav:hover {
+    text-decoration: none;
+    color: #1e2c7b;
+}
 .navbar.main .topnav > li > a .text {
     display: inline-block;
     padding-left: 10px;
@@ -1272,7 +1287,10 @@ body > .container-fluid.documentation {
 .navbar.main .topnav > li > a > img {
     margin: 0 0 3px;
 }
-
+.select-school {
+width: auto;
+min-width: 180px;
+}
 .navbar.main .topnav > li > a.glyphicons {
     padding: 0 10px 0 35px;
 }
@@ -1293,7 +1311,7 @@ body > .container-fluid.documentation {
     right: 10px;
 }
 
-.navbar.main .topnav > li > a:hover {
+.navbar.main .topnav > li > a.logout:hover {
     color: #fff;
     background: #eb8787;
 }
@@ -4742,7 +4760,7 @@ div #multiclass {
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    font-weight: 600;
+    /* font-weight: 600; */
 }
 
 .table th,
@@ -8133,7 +8151,7 @@ div.glyphicons.glyphicon-primary i:before {
 }
 
 .navbar.main .btn-navbar:hover,
-.navbar.main .topnav > li > a:hover {
+.navbar.main .topnav > li > a.logout:hover {
     background-color: #1e2c7b;
 }
 

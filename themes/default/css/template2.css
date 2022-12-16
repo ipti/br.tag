@@ -40,3 +40,23 @@
     margin: 5px;
     opacity: 0.5;
 }
+.tag-table a, .tag-table thead th {
+    color: #252A31;
+    background-color: #fff;
+}
+/* .tag-table thead:first-child {
+    border-bottom: 2px solid #BAC7D5;
+} */
+
+.tag-table thead:first-child tr:first-child th {
+    border-bottom: 1px solid #BAC7D5;
+    padding-bottom: 10px;
+    
+}
+.tag-table tbody td{
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+.tag-table input[type=text] {
+    margin-top: 10px;
+}

@@ -68,6 +68,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Top Menu Right -->
         <ul class="topnav pull-right">
             <li>
+                <a onclick="history.go(-1);" class="voltar-tobnav">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
+                    Voltar
+                </a>
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.png" />
                 <div class="infos-topnav">
                     <div id="change-school">
@@ -76,10 +80,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             <?php
                             if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
                                 echo CHtml::activeDropDownList(
-                                    SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                    SchoolIdentification::model(), 'inep_id', Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'), array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                             } else {
                                 echo CHtml::activeDropDownList(
-                                    UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'span5 select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
+                                    UsersSchool::model(), 'school_fk', Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'), array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true))));
                             }
                             ?>
                         </form>
@@ -89,9 +93,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
             </li>
             <li id="menu-logout">
                 <a 
-                   href="<?php echo yii::app()->createUrl('site/logout') ?>">
-                   <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.png" />
-                   <span>Sair</span></a>
+                    class="logout"
+                    href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.png" />
+                    <span>Sair</span>
+                </a>
             </li>
         </ul>
     </div>
@@ -237,11 +243,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
 
         <!-- Content -->
         <div id="content">
-            <ul class="breadcrumb hidden-print">
+           <!--  <ul class="breadcrumb hidden-print">
                 <li class="breadcrumb-prev">
                     <a onclick="history.go(-1);" class="glyphicons circle_arrow_left"><i></i>Voltar</a>
                 </li>
-            </ul>
+            </ul> -->
             <?php echo $content; ?>
         </div>
         <!-- // Content END -->
