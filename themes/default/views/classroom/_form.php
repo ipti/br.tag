@@ -76,6 +76,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ?>
                                 </div>
                             </div>
+                            <!-- Nome -->
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
@@ -109,7 +110,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
                                 </div>
                                     <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                     <i class="loading-disciplines fa fa-spin fa-spinner"></i>
                                 </div>
@@ -120,12 +121,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "2" => "Semipresencial", "3" => "Educação a Distância"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                                 </div>
                             </div>
                             <!-- tipo de atendimento -->
                             <div class="control-group hidden">
+                                <label for=""></label>
                                 <div class="controls">     
                                     <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 'control-label')); ?>
                                 </div>
@@ -224,7 +226,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'T' => 'Tarde',
                                         'N' => 'Noite',
                                         'I' => 'Integral'), array(
-                                        'class' => 'select-search-off',
+                                        'class' => 'select-search-off control-input',
                                         'ajax' => array(
                                             'type' => 'POST',
                                             'url' => CController::createUrl('classroom/updateTime'),

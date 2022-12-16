@@ -4638,7 +4638,8 @@ textarea {
 }
 /* controle de tamanho */
 .control-input{
-    width: 300px;
+    height: 44px;
+    width: 426px;
 }
 .control-label.center {
     text-align: center;
@@ -4660,8 +4661,9 @@ textarea {
 }
 
 .form-horizontal .control-label {
-    width: 100px;
+    width: 352px;
     font-weight: normal;
+    text-align: left;
 }
 
 .form-horizontal .control-group:last-child {
@@ -7936,6 +7938,7 @@ div.glyphicons.glyphicon-primary i:before {
 }
 
 #themer .wrapper ul li select {
+    /* select interessante */
     position: absolute;
     top: 3px;
     right: 0;
@@ -8255,7 +8258,7 @@ li.tlypageguide-active.tlypageguide_bottom:after {
 }
 
 .margin-left {
-    margin-left: 165px;
+    margin-left: 62px;
 }
 
 .heading-buttons {
@@ -8416,6 +8419,8 @@ input[type="text"] {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
+    height: 44px;
+    padding: 0px 0px;
 }
 
 .equipments_input {
