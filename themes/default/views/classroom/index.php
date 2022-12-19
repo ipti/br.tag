@@ -53,7 +53,6 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'header'=> 'Turma',
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '400px')
                             ),
@@ -71,6 +70,7 @@
                             ),
                             array('class' => 'CButtonColumn', 'template' => '{update}'),
                             array('class' => 'CButtonColumn', 'template' => '{delete}'),
+                            array('class' => 'CButtonColumn', 'template' => '{aaaa}'),
                         ),
                     ));
                     ?>
