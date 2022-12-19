@@ -28,7 +28,8 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-container .select2-choice {
     display: block;
-    height: 26px;
+    height: 44px;
+    width: 416px;
     padding: 0 0 0 8px;
     overflow: hidden;
     position: relative;
@@ -167,6 +168,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-drop.select2-drop-above.select2-drop-active {
     border-top: 1px solid #5897fb;
+    /* width: 426px; */
 }
 
 .select2-container .select2-choice .select2-arrow {
