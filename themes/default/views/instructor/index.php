@@ -44,7 +44,7 @@
                     'dataProvider' => $filter->search(),
                     'enablePagination' => true,
                     'filter' => $filter,
-                    'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',

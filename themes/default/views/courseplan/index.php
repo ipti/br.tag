@@ -31,7 +31,7 @@
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'header' => Yii::t('default', 'Name'),

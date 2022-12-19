@@ -54,11 +54,25 @@
     font-weight: 500;
     color: #ffffff;
     background-color: #222C64;
-    padding: 0 4px;
+    padding: 0px 16px;
     height: 36px;
     line-height: 36px;
+}
+.tag-table tbody tr {
+    border-bottom: 2.5px solid white;
+}
+
+.tag-table input[type="text"] {
+    height: 30px;
 }
 .tag-table tbody td{
     font-family: 'Inter', sans-serif;
     font-size: 14px;
+    padding: 4px 4px 4px 12px;
+}
+.grid-view .filters input {
+    width: 100%;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    margin-left: 12px;
 }

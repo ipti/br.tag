@@ -68,9 +68,24 @@
                                 'htmlOptions' => array('width' => '200px'),
                                 'filter' => false
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{update}'),
-                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
-                            array('class' => 'CButtonColumn', 'template' => '{aaaa}'),
+                            array(
+                                'class' => 'CButtonColumn', 
+                                'template' => '{update}',
+                                'buttons' => array(
+                                    'update' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/edit',
+                                    )
+                                )
+                            ),
+                            array(
+                            'class' => 'CButtonColumn', 
+                            'template' => '{delete}',
+                            'buttons' => array(
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
+                                )
+                            )
+                        ),
                         ),
                     ));
                     ?>

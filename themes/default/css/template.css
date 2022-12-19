@@ -1583,6 +1583,7 @@ li.highlight.profile
     font-family: 'Inter';
     font-size: 14px;
     width: auto;
+    height: 26px;
 }
 
 #s2id_SchoolIdentification_inep_id .select2-arrow, #s2id_UsersSchool_school_fk .select2-arrow {
