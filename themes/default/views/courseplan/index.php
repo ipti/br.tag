@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
@@ -61,7 +61,15 @@
                                 'htmlOptions' => array('width' => '25%'),
                                 'filter' => false
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
+                            array(
+                                'class' => 'CButtonColumn',
+                                 'template' => '{delete}',
+                                 'buttons' => array(
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
+                                    )
+                                )
+                                ),
                         ),
                     ));?>
                     

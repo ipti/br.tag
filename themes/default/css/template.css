@@ -513,8 +513,8 @@ body > .container-fluid.documentation {
     height: 48px;
     line-height: 48px;
     padding: 0 10px;
-    background: #ffffff url(../img/mosaic-pattern.png) repeat;
-    border-bottom: 1px solid #e5e5e5;
+   /*  background: #ffffff url(../img/mosaic-pattern.png) repeat; */
+   background: white;
     margin: 0 0 10px;
     font-weight: 400;
     position: fixed;
@@ -1584,6 +1584,13 @@ li.highlight.profile
     font-size: 14px;
     width: auto;
     height: 26px;
+    
+}
+.select2-container.select-school  .select2-chosen{
+    line-height: 26px !important;
+}
+.select2-container.select-school  .select2-choice .select2-arrow b{
+    margin-top: 0 !important;
 }
 
 #s2id_SchoolIdentification_inep_id .select2-arrow, #s2id_UsersSchool_school_fk .select2-arrow {

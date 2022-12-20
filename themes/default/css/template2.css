@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+/* 
+    butões
+*/
 .tag-button, .tag-button:hover {
     background-color: #3F45EA;
     text-decoration: none;
@@ -40,6 +43,9 @@
     margin: 5px;
     opacity: 0.5;
 }
+/* 
+    listagens
+*/
 .tag-table td {
    background: #EAEDFC;
 }
@@ -75,4 +81,32 @@
     border: 1px solid #ccc;
     margin-top: 10px;
     margin-left: 12px;
+}
+/* 
+    paginação
+*/
+.widget ul.yiiPager .selected a, .widget ul.yiiPager a:link{
+    color: #3F45EA;
+    border-color: #3F45EA;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+} 
+
+.widget ul.yiiPager .selected a {
+    background: #222C64;
+    color: #ccc;
+}
+.widget ul.yiiPager .next a:link, .widget ul.yiiPager .previous a:link {
+    width: auto;
+    border-radius: 10px;
+    margin-left: 5px;
+    padding: 0 5px;
+}
+.tag-inner {
+    padding: 0px 10px 0;
+    position: relative;
+    margin-bottom: 30px;
 }
