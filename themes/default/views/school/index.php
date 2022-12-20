@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="span12 hide-box">
             <div class="">
                 <a id="button-add-school" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="pull-right btn btn-primary btn-icon glyphicons circle_plus"><i></i> Adicionar escola</a>

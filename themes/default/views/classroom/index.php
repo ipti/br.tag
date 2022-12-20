@@ -22,7 +22,7 @@
         </div>
     </div>
     
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="btn-group pull-right responsive-menu">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                 Menu
