@@ -110,3 +110,10 @@
     position: relative;
     margin-bottom: 30px;
 }
+/* 
+    login
+*/
+.tag-form-login {
+    max-width: 332px;
+    background-color: #272B96;
+}
