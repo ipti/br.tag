@@ -1873,7 +1873,7 @@ li.highlight.profile
     background: #fff;
     margin: 55px auto 10px;
     position: relative;
-    border: 1px solid #e5e5e5;
+    /* border: 1px solid #e5e5e5; */
 }
 
 .widget .tab-content {
@@ -1882,7 +1882,7 @@ li.highlight.profile
 
 .widget > .widget-head {
     background: #f8f8f8 url(../img/mosaic-pattern.png) repeat;
-    border-bottom: 1px solid #e5e5e5;
+    /* border-bottom: 1px solid #e5e5e5; */
     color: #fff;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     height: 30px;
@@ -3462,7 +3462,7 @@ h2.glyphicons.cogwheels i:before {
     line-height: 30px;
     float: left;
     display: block;
-    border-right: 1px solid #e5e5e5;
+    /* border-right: 1px solid #e5e5e5; */
     -webkit-transition: background 0.5s ease;
     -moz-transition: background 0.5s ease;
     -o-transition: background 0.5s ease;
@@ -3490,15 +3490,17 @@ h2.glyphicons.cogwheels i:before {
 }
 
 .widget.widget-tabs > .widget-head ul li.active {
-    background: #64625f;
+    /* background: #64625f; */
+    border-bottom: 2px solid #5F738C
+    /* linha */
 }
 
 .widget.widget-tabs > .widget-head ul li.active a {
-    color: #ffffff;
+    color: #5F738C;
 }
 
 .widget.widget-tabs > .widget-head ul li.active a i:before {
-    color: #fff;
+    color: #5F738C;
     text-shadow: none;
 }
 
@@ -8423,7 +8425,10 @@ tr.filters td {
 /*#frequency tbody tr td:first-of-type {*/
 /*width: 42%;*/
 /*}*/
-
+.titulos{
+    margin-left:39px;
+    color: rgba(169, 173, 196, 1);
+}
 input[type="checkbox"] {
     background: white !important;
     height: 20px;
