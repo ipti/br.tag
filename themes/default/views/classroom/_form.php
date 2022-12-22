@@ -44,14 +44,19 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="widget-head  hidden-print">
             <ul class="tab-classroom">
                 <li id="tab-classroom" class="active"><a class="glyphicons adress_book" href="#classroom"
-                                                         data-toggle="tab"><i></i><?php echo Yii::t('default', 'Classroom') ?>
+                                                         data-toggle="tab">
+                                                         <!-- <i></i> -->
+                                                         <?php echo Yii::t('default', 'Classroom') ?>
                     </a></li>
                 <li id="tab-instructors"><a class="glyphicons nameplate" href="#instructors"
-                                            data-toggle="tab"><i></i><?php echo Yii::t('default', 'Instructors') ?></a>
+                                            data-toggle="tab">
+                                            <!-- <i></i> -->
+                                            <?php echo Yii::t('default', 'Instructors') ?></a>
                 </li>
                 <li id="tab-students">
                     <a class="glyphicons parents" href="#students" data-toggle="tab">
-                        <i></i><?php echo Yii::t('default', 'Students') ?>
+                        <!-- <i></i> -->
+                        <?php echo Yii::t('default', 'Students') ?>
                     </a>
                 </li>
             </ul>
@@ -63,7 +68,9 @@ $form = $this->beginWidget('CActiveForm', array(
 
                 <!-- Tab content -->
                 <div class="tab-pane active" id="classroom">
+                    <div ><h5 class="titulos">Dados Básicos</h3></div>
                     <div class="row-fluid">
+
                         <div class=" span6">
 
                             <div class="control-group">
@@ -82,7 +89,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 'control-label')); ?>
                                 </div>   
                                 <div class="controls">
-                                    <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 'control-input')); ?>
+                                    <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 'control-input', 'placeholder'=>' Nome completo')); ?>
                                     <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Classroom Name'); ?>"><i></i></span> -->
@@ -190,7 +197,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 'control-input')); ?>
+                                    <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 'control-input','placeholder'=>' Somente números')); ?>
                                     <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span> -->
@@ -201,12 +208,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- hora final -->
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 'control-label','placeholder'=>'Somente números')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                     <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                    <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5 , 'class' => 'control-input')); ?>
+                                    <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5 , 'class' => 'control-input','placeholder'=>' Somente números')); ?>
                                     <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Time'); ?>"><i></i></span> -->
