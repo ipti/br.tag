@@ -3486,12 +3486,12 @@ h2.glyphicons.cogwheels i:before {
 }
 
 .widget.widget-tabs > .widget-head ul li a.glyphicons {
-    padding: 0 15px 0 35px;
+    /* padding: 0 15px 0 35px; */
 }
 
 .widget.widget-tabs > .widget-head ul li.active {
     /* background: #64625f; */
-    border-bottom: 2px solid #5F738C
+    border-bottom: 2px solid #5F738C    
     /* linha */
 }
 
@@ -8458,7 +8458,7 @@ input[type="checkbox"] {
     background: white !important;
     height: 20px;
     width: 20px;
-    margin: 4px 2px 0px;
+    margin: 0px 2px 0px;
     /* Borda não funciona */
 
 }
@@ -8470,6 +8470,8 @@ input[type="text"] {
     box-shadow: none;
     height: 30px;
     padding: 0px 0px;
+    width: 413px;
+    padding-inline: 1%;
 }
 
 .equipments_input {
