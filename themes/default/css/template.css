@@ -6359,12 +6359,21 @@ body.login #login .form-signin label {
     font-size: 14px;
     color: #252A31;
     font-family: 'Inter', sans-serif;
-    
 }
-body.login #login .form-signin input[type=submit],
-body.login #login .form-signin  input[type="password"]{
+
+body.login #login .submit-button-login{
     width: 100%;
     height: 44px;
+    padding: 12px 16px;
+    background-color: #3F45EA;
+    color: white;
+    font-family: "Inter", sans-serif;
+    border: none;
+    border-radius: 4px;
+}
+
+body.login #login .submit-button-login:hover {
+    background-color: #272B96;;
 }
 
 body.login #login .form-signin  h4{
@@ -6375,7 +6384,7 @@ body.login #login .form-signin  h4{
 body.login #login .form-signin p {
     font-size: 14px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     font-family: "Inter", sans-serif;
     color: #5F738C;
 }
@@ -6389,6 +6398,8 @@ body.login #login .form-signin .password {
 body.login #login .form-signin input[type="text"],
 body.login #login .form-signin input[type="password"] {
     font-size: 16px;
+    height: 44px;
+    border-radius: 4px;
     margin-bottom: 16px;
     padding: 5px 9px;
     box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0),
@@ -6397,9 +6408,6 @@ body.login #login .form-signin input[type="password"] {
     inset -1px -1px 1px rgba(0, 0, 0, 0);
     -webkit-box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0),
     inset -1px -1px 1px rgba(0, 0, 0, 0);
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
     background: #ffffff;
 }
 
