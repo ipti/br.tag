@@ -13,7 +13,7 @@
     cursor: pointer;
 }
 .tag-button:hover {
-    background-color: #272B96;;
+    background-color: #272B96;
 }
 .tag-button-print, .tag-button-print:hover {
     background-color: #EFF2F5;
@@ -109,6 +109,9 @@
     padding: 0px 10px 0;
     position: relative;
     margin-bottom: 30px;
+}
+.tag-inner .widget {
+    border-radius: 4px;
 }
 /* 
     login
