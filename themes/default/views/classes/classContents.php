@@ -25,7 +25,7 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="buttons span9">
             <a id="add-content" class='tag-button medium-button'> <?php echo Yii::t('default', 'Content') ?></a>
 
-            <a id="print" class='tag-button-print  medium-button'>
+            <a id="print" class='tag-button-light  medium-button'>
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png" />
                 <?php echo Yii::t('default', 'Print') ?>
             </a>

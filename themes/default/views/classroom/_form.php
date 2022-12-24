@@ -5,12 +5,14 @@
  */
 
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -22,10 +24,10 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
-        <div class="buttons">
-            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-classroom"
+        <div class="tag-buttons-container buttons">
+            <button class="tag-button small-button last pull-right save-classroom"
                     type="button">
-                <i></i> <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                 <?= $modelClassroom->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>

@@ -15,7 +15,7 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'School Identifications') ?></h3>  
             <div class="buttons  hide-responsive">
-                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="tag-button medium-button"><!-- <i class="fa-plus-circle fa icon-button-tag"></i> --> Adicionar escola</a>
+                <a href="<?php echo Yii::app()->createUrl('school/create') ?>" class="tag-button medium-button"> Adicionar escola</a>
             </div>
         </div>
     </div>

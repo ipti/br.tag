@@ -3,11 +3,13 @@
  * @var $form CActiveForm
  */
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -20,15 +22,15 @@ $form = $this->beginWidget('CActiveForm', array(
         <h3 class="heading-mosaic"><?php echo $title; ?>
             <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>
 
-        <div class="buttons">
-            <a data-toggle="tab" class='hide-responsive btn btn-icon btn-default prev glyphicons circle_arrow_left'
+        <div class="tag-buttons-container buttons">
+            <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev'
                style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab"
-               class='hide-responsive btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                <i></i></a>
-            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-school-button"
+               class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
+                </a>
+            <button class="tag-button small-button last save-school-button"
                     type="button">
-                <i></i> <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>

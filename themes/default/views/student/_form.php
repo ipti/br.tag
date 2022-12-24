@@ -7,6 +7,7 @@
  */
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=1.0', CClientScript::POS_END);
@@ -15,6 +16,7 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js', CClientScri
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 /* */
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
@@ -25,16 +27,16 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row-fluid">
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
-        <div class="buttons hide-responsive">
+        <div class="tag-buttons-container buttons hide-responsive">
             <a data-toggle="tab"
-               class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
-               style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+               class='tag-button-light small-button prev'
+               style="display: none;"><?php echo Yii::t('default', 'Previous') ?></a>
             <a data-toggle="tab"
-               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                <i></i></a>
-            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-student"
+               class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
+                </a>
+            <button class="tag-button small-button last  save-student"
                     type="button">
-                <i></i> <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>

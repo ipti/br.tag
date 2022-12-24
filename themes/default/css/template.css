@@ -8895,7 +8895,8 @@ input[type="text"] {
     font-size: 14px;
     margin-left: 10px;
     margin-right: 20px;
-    /*line-height: 40px; */
+    border-top: 1px solid #EAEAF8;
+    width: 90%;
     color: #A6B6C8;
     font-family: 'Inter';
 }

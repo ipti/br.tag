@@ -23,7 +23,7 @@
 		<h3 class="heading-mosaic">Oops - Algo Inesperado aconteceu</h3>
 
 		<div class="buttons">
-			<a id="print" class='tag-button-print medium-button print hidden-print'>
+			<a id="print" class='tag-button-light medium-button print hidden-print'>
 				<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png" />
 				<?php echo Yii::t('default', 'Print') ?>
 				</a>
