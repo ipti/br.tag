@@ -79,12 +79,13 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                         <div class=" span5">
                             <div class="separator"></div>
                             <div class="control-group">
+
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'name', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -93,9 +94,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cpf', array('class' => 'control-label ml-10 required')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cpf', array('size' => 14, 'maxlength' => 14)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'CPF Numbers'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'CPF Numbers'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cpf'); ?>
                                 </div>
                             </div>
@@ -104,9 +105,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'email', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'email', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Email'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Email'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'email'); ?>
                                 </div>
                             </div>
@@ -115,9 +116,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'nis', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '11'; ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '11'; ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'nis'); ?>
                                 </div>
                             </div>
@@ -126,9 +127,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'birthday_date', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'birthday_date', array('size' => 10, 'maxlength' => 10)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Date'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
                                 </div>
                             </div>
@@ -136,7 +137,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'sex', array('class' => 'control-label  ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownlist($modelInstructorIdentification, 'sex', array(null => "Selecione um sexo", 1 => 'Masculino', 2 => 'Feminino'), array("class" => "select-search-off")); ?>
+                                    <?php echo $form->DropDownlist($modelInstructorIdentification, 'sex', array(null => "Selecione um sexo", 1 => 'Masculino', 2 => 'Feminino'), array("class" => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'sex'); ?>
                                 </div>
                             </div>
@@ -144,7 +145,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'color_race', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'color_race', array(null => "Selecione uma raça", 0 => "Não Declarada", 1 => "Branca", 2 => "Preta", 3 => "Parda", 4 => "Amarela", 5 => "Indígena"), array("class" => "select-search-off")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'color_race', array(null => "Selecione uma raça", 0 => "Não Declarada", 1 => "Branca", 2 => "Preta", 3 => "Parda", 4 => "Amarela", 5 => "Indígena"), array("class" => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'color_race'); ?>
                                 </div>
                             </div>
@@ -152,7 +153,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'filiation', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'filiation', array(null => "Selecione uma opção", 0 => "Não declarado", 1 => "Declarado"), array("class" => "select-search-off")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'filiation', array(null => "Selecione uma opção", 0 => "Não declarado", 1 => "Declarado"), array("class" => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation'); ?>
                                 </div>
                             </div>
@@ -161,9 +162,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_1', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'filiation_1', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation_1'); ?>
                                 </div>
                             </div>
@@ -172,9 +173,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'filiation_2', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorIdentification, 'filiation_2', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('default', 'Full name'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation_2'); ?>
                                 </div>
                             </div>
@@ -185,7 +186,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'nationality', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'nationality', array(null => "Selecione uma nacionalidade", 1 => "Brasileira", 2 => "Brasileira nascido no Exterior ou Naturalizado", 3 => "Estrangeira"), array("class" => "select-search-off")); ?>
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'nationality', array(null => "Selecione uma nacionalidade", 1 => "Brasileira", 2 => "Brasileira nascido no Exterior ou Naturalizado", 3 => "Estrangeira"), array("class" => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'nationality'); ?>
                                 </div>
                             </div>
@@ -193,7 +194,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_nation_fk', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um país", "class" => "select-search-on"), array('options' => array(76 => array('selected' => true)))); ?>
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_nation_fk', CHtml::listData(EdcensoNation::model()->findAll(array('order' => 'name ASC')), 'id', 'name'), array("prompt" => "Selecione um país", "class" => 'select-search-on control-input'), array('options' => array(76 => array('selected' => true)))); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_nation_fk'); ?>
                                 </div>
                             </div>
@@ -215,15 +216,19 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on")); ?>
+                                    <?php echo $form->labelEx($modelInstructorIdentification, 'edcenso_city_fk', array('class' => 'control-label ml-10')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->DropDownList($modelInstructorIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorIdentification->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelInstructorIdentification, 'deficiency', array('class' => 'control-label ml-10')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo CHtml::activeCheckBox($modelInstructorIdentification, 'deficiency'); ?>
                                     <?php echo $form->error($modelInstructorIdentification, 'deficiency'); ?>
@@ -231,9 +236,11 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             </div>
 
                             <div class="control-group deficiencies-container">
-                                <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                                <div class="controls">
+                                    <label class="control-label required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                     *</label>
-                                <div class="uniformjs margin-left" id="InstructorIdentification_deficiencies">
+                                </div>
+                                    <div class="uniformjs margin-left" id="InstructorIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php
                                         echo InstructorIdentification::model()->attributeLabels()['deficiency_type_blindness'];
@@ -299,6 +306,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
                                 <div class="controls">
+                                <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'cep', array(
                                         //'ajax' => array(
                                         //    'type' => 'POST',
@@ -309,31 +317,38 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                         //        }"
                                         //)
                                     )); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    </div>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Valid Cep') . " " . Yii::t('help', 'Only Numbers') . ' ' . Yii::t('help', 'Max length') . '8.'; ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'cep'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                </div>
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address'); ?>
                                 </div>
                             </div>
 
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'address_number', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'address_number', array('size' => 10, 'maxlength' => 10)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'address_number'); ?>
                                 </div>
                             </div>
@@ -342,9 +357,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'complement'); ?>
                                 </div>
                             </div>
@@ -353,9 +368,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
                                 <div class="controls">
                                     <?php echo $form->textField($modelInstructorDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
-                                    <span class="btn-action single glyphicons circle_question_mark"
+                                    <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span>
+                                          data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'); ?>"><i></i></span> -->
                                     <?php echo $form->error($modelInstructorDocumentsAndAddress, 'neighborhood'); ?>
                                 </div>
                             </div>
@@ -379,7 +394,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
                                 <div class="controls">
+                                <div class="controls">
                                     <?php echo $form->DropDownList($modelInstructorDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelInstructorDocumentsAndAddress->edcenso_uf_fk)), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on")); ?>
+                                    </div>
                                     <div class="controls">
                                         <?php echo $form->error($modelInstructorDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                     </div>
@@ -587,9 +604,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_1', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_initial_year_1', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_1'); ?>
                                                             </div>
                                                         </div>
@@ -598,9 +615,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_1', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_1', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_1'); ?>
                                                             </div>
                                                         </div>
@@ -667,9 +684,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_initial_year_2', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_2'); ?>
                                                             </div>
                                                         </div>
@@ -678,9 +695,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_2', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_2'); ?>
                                                             </div>
                                                         </div>
@@ -747,9 +764,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_3', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_initial_year_3', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_initial_year_3'); ?>
                                                             </div>
                                                         </div>
@@ -758,9 +775,9 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_3', array('class' => 'control-label')); ?>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_final_year_3', array('size' => 4, 'maxlength' => 4)); ?>
-                                                                <span class="btn-action single glyphicons circle_question_mark"
+                                                                <!-- <span class="btn-action single glyphicons circle_question_mark"
                                                                       data-toggle="tooltip" data-placement="top"
-                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span>
+                                                                      data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_final_year_3'); ?>
                                                             </div>
                                                         </div>

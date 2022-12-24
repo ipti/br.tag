@@ -526,9 +526,9 @@ div.selector select {
     position: absolute;
     opacity: 0;
     filter: alpha(opacity:0);
-    height: 25px;
-    border: none;
-    background: none;
+    height:25px;
+    border:none;
+    background:none;
 }
 
 /* Checker */
