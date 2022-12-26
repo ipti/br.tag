@@ -342,7 +342,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'update' => '#StudentIdentification_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
-                                        "class" => "select-search-on nationality-sensitive br",
+                                        "class" => "select-search-on control-input nationality-sensitive br",
                                         "disabled" => "disabled",
                                     ));
                                     ?>
@@ -358,7 +358,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentIdentification->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array(
                                         "prompt" => "Selecione uma cidade",
-                                        "disabled" => "disabled", 'class' => 'select-search-on nationality-sensitive br'
+                                        "disabled" => "disabled",
+                                        'class' => 'select-search-on control-input nationality-sensitive br'
                                     ));
                                     ?>
                                     <?php echo $form->error($modelStudentIdentification, 'edcenso_city_fk'); ?>
@@ -704,7 +705,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'civil_certification', array(null => "Selecione o modelo", "1" => "Modelo Antigo", "2" => "Modelo Novo"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                         </div>
                                     </div>
@@ -715,7 +716,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
+                                            <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'civil_certification_type', array(null => "Selecione o tipo", "1" => "Nascimento", "2" => "Casamento"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_type'); ?>
                                         </div>
                                     </div>
@@ -777,7 +778,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     'update' => '#StudentDocumentsAndAddress_notary_office_city_fk'
                                                 ),
                                                 "prompt" => "Selecione um estado",
-                                                "class" => "select-search-on nationality-sensitive br",
+                                                "class" => "select-search-on control-input nationality-sensitive br",
                                                 "disabled" => "disabled"
                                             ));
                                             ?>
@@ -798,7 +799,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     'update' => '#StudentDocumentsAndAddress_edcenso_notary_office_fk'
                                                 ),
                                                 "prompt" => "Selecione uma cidade",
-                                                "class" => "select-search-on nationality-sensitive br",
+                                                "class" => "select-search-on control-input nationality-sensitive br",
                                                 "disabled" => "disabled"
                                             ));
                                             ?>
@@ -814,7 +815,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php
                                             echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', CHtml::listData(EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => $modelStudentDocumentsAndAddress->notary_office_city_fk), array('order' => 'name')), 'cod', 'name') + array('7177' => 'OUTROS'), array(
                                                 "prompt" => "Selecione um cartório",
-                                                "class" => "select-search-on nationality-sensitive br", "disabled" => "disabled"
+                                                "class" => "select-search-on control-input nationality-sensitive br", "disabled" => "disabled"
                                             ));
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
@@ -848,7 +849,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->labelEx($modelStudentIdentification, 'no_document_desc', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentIdentification, 'no_document_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off nationality-sensitive br", "disabled" => "disabled")); ?>
+                                            <?php echo $form->DropDownList($modelStudentIdentification, 'no_document_desc', array(null => "Selecione a justificativa", "1" => "o(a) aluno(a) não possui os documentos pessoais solicitados", "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"), array("class" => "select-search-off control-input nationality-sensitive br", "disabled" => "disabled")); ?>
                                             <?php echo $form->error($modelStudentIdentification, 'no_document_desc'); ?>
                                         </div>
                                     </div>
@@ -936,7 +937,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
 
-                                            <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "class" => "select-search-on nationality-sensitive br", "disabled" => "disabled"));
+                                            <?php echo $form->DropdownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk', CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um órgão emissor da identidade", "class" => "select-search-on control-input nationality-sensitive br", "disabled" => "disabled"));
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_organ_id_emitter_fk'); ?>
                                         </div>
@@ -947,7 +948,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado", "class" => "select-search-on nationality-sensitive br", "disabled" => "disabled"));
+                                            <?php echo $form->dropDownList($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione um estado", "class" => "select-search-on control-input nationality-sensitive br", "disabled" => "disabled"));
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                                         </div>
@@ -980,7 +981,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="control-group">
                                         <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 'control-label ml-10')); ?>
                                         <div class="controls">
-                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off')); ?>
+                                            <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off control-input')); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
                                         </div>
                                     </div>
@@ -1017,7 +1018,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                                 </div>
                             </div>
@@ -1098,7 +1099,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'update' => '#StudentDocumentsAndAddress_edcenso_city_fk'
                                         ),
                                         "prompt" => "Selecione um estado",
-                                        "class" => "select-search-on"
+                                        "class" => "select-search-on control-input"
                                     ));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_uf_fk'); ?>
@@ -1109,7 +1110,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
                                     <?php
-                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on"));
+                                    echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
                                     ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_city_fk'); ?>
                                 </div>
@@ -1118,7 +1119,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label ml-10')); ?>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on")); ?>
+                                    <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
                                     <div class="controls">
                                         <?php echo $form->error($modelStudentDocumentsAndAddress, 'diff_location'); ?>
                                     </div>
@@ -1159,7 +1160,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'id',
                                             'name'
                                         ),
-                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input' )
+                                        array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off control-input')
                                     ); ?>
                                     <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                                 </div>
@@ -1285,7 +1286,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group">
                                 <div class="controls">
                                     <!-- voltar aqui e ver esse label -->
-                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label ml-10 required')); ?>
+                                    <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->checkBox($modelEnrollment, 'public_transport', array('value' => 1, 'uncheckValue' => 0)); ?>
