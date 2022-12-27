@@ -45,7 +45,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php
                 echo CHtml::dropDownList('classroom', '', $classrooms, array(
                     'key' => 'id',
-                    'class' => 'select-search-on',
+                    'class' => 'select-search-on control-input',
                     'prompt' => 'Selecione a turma',
                     ));
                 ?>
