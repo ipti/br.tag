@@ -4,11 +4,13 @@
  * @var $cs CClientScript
  */
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/functions.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/validations.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/pagination.js', CClientScript::POS_END);
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 $cs->registerScript("VARS", "
     var GET_INSTITUTIONS = '" . $this->createUrl('instructor/getInstitutions') . "';
 ", CClientScript::POS_BEGIN);
@@ -27,12 +29,12 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
         <h3 class="heading-mosaic"><?php echo $title; ?>
             <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?>
         </h3>
-        <div class="buttons hide-responsive">
-            <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                <i></i></a>
-            <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-instructor" type="button">
-                <i></i> <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+        <div class="tag-buttons-container buttons hide-responsive">
+            <a data-toggle="tab" class='tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+            <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
+                </a>
+            <button class="tag-button small-button last pull-right save-instructor" type="button">
+                 <?= $modelInstructorIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>

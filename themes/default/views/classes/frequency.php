@@ -3,9 +3,10 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization.js?v=1.0', CClientScript::POS_END);
-
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 $form = $this->beginWidget('CActiveForm', array(
@@ -73,7 +74,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
-            <select class="select-search-on control-input" id="classroom">
+            <select class="select-search-on control-input input2" id="classroom">
                 <option>Selecione a turma</option>
                 <?php foreach ($classrooms as $classroom): ?>
                     <option value="<?= $classroom->id ?>"
@@ -114,8 +115,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <div>
             <a id="classesSearch"
-               class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
-                <i></i></a>
+               class='tag-button small-button'><i class="fa-search fa icon-button-tag" style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
+               </a>
         </div>
         <i class="loading-frequency fa fa-spin fa-spinner"></i>
     </div>

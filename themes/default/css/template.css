@@ -3166,9 +3166,9 @@ li.highlight.profile
     padding: 0;
 }
 
-[data-toggle="collapse-widget"] .collapse:not(.list).in {
+/* [data-toggle="collapse-widget"] .collapse:not(.list).in {
     padding: 10px;
-}
+} */
 
 .glyphicons.standard {
     width: 24px;

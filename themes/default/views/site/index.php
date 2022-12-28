@@ -49,7 +49,7 @@
         <div class="span2">
             <div>
                 <div class="next-events widget widget-scroll widget-gray margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                    <div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
+                   <!--  <div class="widget-head"><h5 class="heading glyphicons calendar"><i class="fa fa-bars"></i>Etapas da pré-matrícula</h5></div>
                     <div class="widget-body" style="height: 385px;">
                         <div>
                             <i class="fa fa-circle-o left pre-enrollment-icon"></i>
@@ -68,7 +68,7 @@
                             <span class="actual-date"><strong> Confirmação de matrícula</strong></span>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 	</div>

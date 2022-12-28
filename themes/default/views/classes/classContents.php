@@ -121,7 +121,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <div class="pull-right">
             <a id="classesSearch"
-               class='tag-button small-button', style="margin: 0px; padding:6px"><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
+               class='tag-button small-button' style="margin: 0px;"><i class="fa-search fa icon-button-tag" style="margin-top:5px"></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
         </div>
         <i class="loading-class-contents fa fa-spin fa-spinner"></i>

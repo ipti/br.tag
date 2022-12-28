@@ -226,12 +226,12 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                         <li id="menu-admin"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">
-                            <a class="glyphicons lock"
-                               href="<?php echo yii::app()->createUrl('admin') ?>"><i></i><span>Administração</span></a>
+                            <a class="sidebar-item-tag"
+                               href="<?php echo yii::app()->createUrl('admin') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.png" /><span>Administração</span></a>
                         </li>
                         <li id="menu-logout" class="hide-responsive">
-                            <a class="glyphicons notes"
-                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><i></i><span>Gestão de Resultados</span></a>
+                            <a class="sidebar-item-tag"
+                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/gestao-de-resultados.png" /><span>Gestão de Resultados</span></a>
                         </li>
                     <?php } ?>
                 </ul>

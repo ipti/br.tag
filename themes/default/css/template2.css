@@ -185,3 +185,6 @@
 .small-input {
     width: 120px;
 }
+.control-input.input2 {
+    height: 30px;
+}
