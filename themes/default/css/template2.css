@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 /* 
+    ajustes na responsividade
+*/
+.tag-row {
+    width: 100%;
+    flex-wrap: wrap;
+   
+}
+.innerLR .tag-row {
+    display: flex;
+    justify-content: space-between;
+}
+.modal-container-buttons {
+    display: flex;
+    justify-content: end;
+}
+.reuse {
+    margin-left: 10px;
+}
+/* 
     butões
 */
 .tag-button, .tag-button:hover {
@@ -41,8 +60,12 @@
     width: 124px;
     height: 32px;
     display: flex;
+    border: none;
     align-items: center;
     justify-content: center;
+}
+.small-button.wide-button {
+    width: auto;
 }
 .icon-button-tag {
     margin: 5px;
@@ -155,4 +178,10 @@
     width: 413px;
     height: 30px;
     padding: 0 6px;
-} 
+}
+/* 
+    inputs
+*/
+.small-input {
+    width: 120px;
+}

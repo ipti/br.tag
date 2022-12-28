@@ -362,7 +362,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="instructors">
                     <div class="row-fluid">
                         <div class=" span12">
-                            <a href="#" class="btn btn-icon btn-primary add glyphicons circle_plus hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
+                            <a href="#" class="tag-button medium-button add hidden-print" id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?></a>
                             <div class="separator"></div>
                             <?php
                             $teachingDataList = "<div>"
@@ -435,18 +435,18 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="tab-pane" id="students">
                     <div class="row-fluid">
-                        <div class='hide-responsive'>
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary roundabout glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualizar transporte') ?>
+                        <div class='hide-responsive' style="margin-bottom:20px">
+                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Atualizar transporte') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary roundabout glyphicons hidden-print"><i></i><?php echo Yii::t('default', 'Atualização em Lote') ?>
+                            <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Atualização em Lote') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
+                            <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Relatório de Matrícula') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Lista de Alunos') ?>
+                            <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Lista de Alunos') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
+                            <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Fichas de Matrícula') ?>
                             </a>
-                            <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="btn btn-icon btn-primary glyphicons print hidden-print"><i></i><?php echo Yii::t('default', 'Ata de Notas') ?>
+                            <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>" target="blank" class="tag-button medium-button hidden-print"><?php echo Yii::t('default', 'Ata de Notas') ?>
                             </a>
                         </div>
 
@@ -541,7 +541,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'span5',
                                         'empty' => '**CANCELAR MATRICULAS**'
                                     ));
-                                    echo '<input value="Mover/Cancelar" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
+                                    echo '<input value="Mover/Cancelar" type="submit" class="tag-button small-button" style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
                             </table>

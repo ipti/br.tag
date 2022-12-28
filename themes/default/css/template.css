@@ -1664,8 +1664,9 @@ li.highlight.profile
 .filter-bar {
     background: #fafafa;
     border: 1px solid #e5e5e5;
-    line-height: 30px;
-    height: 40px;
+    display: flex;
+    align-items: center;
+    height: 50px;
     margin-bottom: 20px;
     padding: 0 10px;
 }
@@ -1762,7 +1763,7 @@ li.highlight.profile
 
 .filter-bar form select {
     padding: 1px;
-    height: 23px;
+    height: 29px;
 }
 
 .filter-bar label {
@@ -1802,7 +1803,7 @@ li.highlight.profile
 }
 
 .filter-bar .select2-container a {
-    height: 24px;
+    height: 30px;
 }
 
 .menubar {
@@ -8402,7 +8403,7 @@ li.tlypageguide-active.tlypageguide_bottom:after {
 }
 
 .deleteTeachingData {
-    background: url("../img/delete.png");
+    background: url("../img/Cancelar.png");
     display: block;
     height: 16px;
     width: 16px;
