@@ -27,7 +27,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on"
+                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
                     ]) ?>
                 </div>
             </div>
@@ -35,7 +35,7 @@ $cs->registerCssFile($themeUrl . '/css/template2.css');
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on"
+                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
                     ]) ?>
                 </div>
             </div>

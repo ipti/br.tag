@@ -81,7 +81,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <div class="filter-bar margin-bottom-none">
         <div>
             <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
-            <select class="select-search-on" id="classroom" name="classroom">
+            <select class="select-search-on control-input" id="classroom" name="classroom">
                 <option>Selecione a turma</option>
                 <?php foreach ($classrooms as $classroom): ?>
                     <option value="<?= $classroom->id ?>"
@@ -105,7 +105,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 11 => 'Novembro',
                 12 => 'Dezembro'), array(
                 'key' => 'id',
-                'class' => 'select-search-on',
+                'class' => 'select-search-on control-input',
                 'prompt' => 'Selecione o mês',
             ));
             ?>
@@ -115,13 +115,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <?php
             echo CHtml::dropDownList('disciplines', '', array(), array(
                 'key' => 'id',
-                'class' => 'select-search-on',
+                'class' => 'select-search-on control-input',
             ));
             ?>
         </div>
         <div class="pull-right">
             <a id="classesSearch"
-               class='tag-button small-button'><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
+               class='tag-button small-button', style="margin: 0px; padding:6px"><i class="fa-search fa icon-button-tag"></i><?php echo Yii::t('default', 'Search') ?>
                 </a>
         </div>
         <i class="loading-class-contents fa fa-spin fa-spinner"></i>
