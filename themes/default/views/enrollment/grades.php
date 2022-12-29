@@ -3,6 +3,7 @@
 /* @var $dataProvider CActiveDataProvider */
 
 $baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/grades/functions.js', CClientScript::POS_END);
@@ -19,15 +20,16 @@ $form = $this->beginWidget('CActiveForm', array(
     'enableAjaxValidation' => false,
     'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
 ));
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
     <div class="row-fluid hidden-print">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Grades'); ?></h3>
             <div class="buttons span9">
-                <a id="save"
-                   class='btn btn-icon btn-primary glyphicons circle_ok hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
-                    <i></i></a>
+                <button id="save"
+                   class='tag-button small-button hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
+                </button>
             </div>
         </div>
     </div>

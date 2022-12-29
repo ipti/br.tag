@@ -34,7 +34,7 @@
 <div class="innerLR eggs">
 	<div class="board-msg" version="<?php echo TAG_VERSION; ?>"><?php echo BOARD_MSG; ?></div>
 	<div class="row-fluid">
-		<div class="span10">
+		<div class="span12">
 			<div class="widget widget-scroll widget-gray margin-bottom-none"
 			     data-toggle="collapse-widget" data-scroll-height="223px"
 			     data-collapse-closed="false" total="<?= $logCount ?>">
