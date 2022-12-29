@@ -49,7 +49,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
         <div class="widget-head  hidden-print">
             <ul class="tab-courseplan">
-                <li id="tab-courseplan" class="active" ><a class="glyphicons book_open" href="#" data-toggle="tab"><i></i><?php echo Yii::t('default', 'Course Plan') ?></a></li>
+                <li id="tab-courseplan" class="active" ><a href="#" data-toggle="tab"><?php echo Yii::t('default', 'Course Plan') ?></a></li>
             </ul>
         </div>
 

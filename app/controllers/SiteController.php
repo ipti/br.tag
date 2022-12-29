@@ -138,6 +138,7 @@ class SiteController extends Controller
 
     private function loadLogsHtml($limit, $date = NULL)
     {
+        $baseUrl = Yii::app()->theme->baseUrl;
         if ($date == NULL) {
             $logs = Log::model()->findAll("school_fk = :school order by date desc limit " . $limit, [':school' => Yii::app()->user->school]);
         } else {
@@ -246,6 +247,7 @@ class SiteController extends Controller
                 }
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
                 $html .= '<li class="log" title=\'' . $text . '\'>'
+                    .'<img src='. Yii::app()->theme->baseUrl.'/img/sidebarIcons/turmas.png >'
                     . '<span class="glyphicons ' . $icon . ' ' . $color . '"><i></i>' . $text . '</span>'
                     . '<span class="log-date">' . $date . '</span>'
                     . '<span class="log-author">' . $log->userFk->name . '- </span>'

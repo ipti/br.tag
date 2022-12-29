@@ -165,7 +165,7 @@
 .select-search-on ul.select2-choices{
     border-radius: 4px;
     width: 413px;
-    height: 30px !important;
+   /*  height: 30px !important; */
     padding: 0;
 }
 
@@ -187,4 +187,30 @@
 }
 .control-input.input2 {
     height: 30px;
+}
+/* 
+    notas
+*/
+.row-grades .center{
+    width: 100%;
+}
+.row-grades .center .select2-container {
+    width: 100%;
+}
+
+.row-grades .center .school-days-group1,
+.row-grades .center .frequency-fields,
+.row-grades .center .frequency-percentage {
+    margin-right: 10px;
+}
+
+/* 
+    modais
+*/
+
+#teachingdata-dialog-form .select2-container .select2-choice {
+ width: 361px;
+}
+#add-content-form  input[type="text"] {
+    width:206px;
 }
