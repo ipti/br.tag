@@ -174,14 +174,16 @@ class StudentController extends Controller
                                 //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                             }
 
-                            if (count($_POST['Vaccine']['vaccine_id']) > 0) {
-                                StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
-
-                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
-                                    $studentVaccine = new StudentVaccine();
-                                    $studentVaccine->student_id = $modelStudentIdentification->id;
-                                    $studentVaccine->vaccine_id = $vaccine_id;
-                                    $studentVaccine->save();
+                            if(isset($_POST['Vaccine']['vaccine_id'])) {
+                                if (count($_POST['Vaccine']['vaccine_id']) > 0) {
+                                    StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+    
+                                    foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                        $studentVaccine = new StudentVaccine();
+                                        $studentVaccine->student_id = $modelStudentIdentification->id;
+                                        $studentVaccine->vaccine_id = $vaccine_id;
+                                        $studentVaccine->save();
+                                    }
                                 }
                             }
 
@@ -262,18 +264,20 @@ class StudentController extends Controller
                             //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                         }
 
-                        // if (count($_POST['Vaccine']['vaccine_id']) > 0) {
-                            if ($studentVaccinesSaves) {
-                                StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
-                            }
+                        if(isset($_POST['Vaccine']['vaccine_id'])) {
+                            if (count($_POST['Vaccine']['vaccine_id']) > 0) {
+                                if ($studentVaccinesSaves) {
+                                    StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
+                                }
 
-                            foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
-                                $studentVaccine = new StudentVaccine();
-                                $studentVaccine->student_id = $modelStudentIdentification->id;
-                                $studentVaccine->vaccine_id = $vaccine_id;
-                                $studentVaccine->save();
+                                foreach ($_POST['Vaccine']['vaccine_id'] as $vaccine_id) {
+                                    $studentVaccine = new StudentVaccine();
+                                    $studentVaccine->student_id = $modelStudentIdentification->id;
+                                    $studentVaccine->vaccine_id = $vaccine_id;
+                                    $studentVaccine->save();
+                                }
                             }
-                        // }
+                        }
 
                         if ($saved) {
                             Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
