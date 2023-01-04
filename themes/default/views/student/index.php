@@ -74,7 +74,11 @@
                         array(
                             'name' => 'birthday',
                             'filter' => false
-                        ),),
+                        ),
+                        array(
+                            'name' => 'inep_id'
+                        ),
+                    ),
                 ));
                 ?>
             </div>
