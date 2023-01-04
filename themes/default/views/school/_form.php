@@ -20,9 +20,11 @@ $form = $this->beginWidget('CActiveForm', array(
 
 <div class="row-fluid">
     <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?>
-            <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?>
-        </h3>
+        <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+         <span 
+         
+         >  <?php echo Yii::t('default', 'Fields with * are required.') ?></span> 
+         <!-- style="line-height: 158px;" -->
 
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
@@ -1444,66 +1446,66 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                                 <div class="control-group equipments-material-container">
-                                <div class="controls">
-                                    <label class="control-label required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> *</label>
-                                </div>
-                                <div class="uniformjs margin-left">
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_multimedia_collection']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_multimedia_collection', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_toys_early']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_toys_early', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_scientific_materials']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_scientific_materials', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_equipment_amplification']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_equipment_amplification', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_musical_instruments']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_musical_instruments', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_educational_games']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_educational_games', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_cultural']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_professional_education']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_sports']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_sports', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingindian']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingindian', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingethnic']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingethnic', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingrural']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingrural', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
-                                    <label class="checkbox">
-                                        <?php echo SchoolStructure::model()->attributeLabels()['instruments_inexistent']; ?>
-                                        <?php echo $form->checkBox($modelSchoolStructure, 'instruments_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </label>
+                                    <div class="controls">
+                                        <label class="control-label required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> *</label>
+                                    </div>
+                                    <div class="uniformjs margin-left">
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_multimedia_collection']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_multimedia_collection', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_toys_early']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_toys_early', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_scientific_materials']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_scientific_materials', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_equipment_amplification']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_equipment_amplification', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_musical_instruments']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_musical_instruments', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_educational_games']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_educational_games', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_cultural']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_professional_education']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_cultural', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_sports']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_sports', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingindian']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingindian', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingethnic']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingethnic', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingrural']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'equipments_material_teachingrural', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                        <label class="checkbox">
+                                            <?php echo SchoolStructure::model()->attributeLabels()['instruments_inexistent']; ?>
+                                            <?php echo $form->checkBox($modelSchoolStructure, 'instruments_inexistent', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
-                        </div> 
+                        </div>
                         <div class=" span6">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
