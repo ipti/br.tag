@@ -262,7 +262,7 @@ class StudentController extends Controller
                             //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                         }
 
-                        if (count($_POST['Vaccine']['vaccine_id']) > 0) {
+                        // if (count($_POST['Vaccine']['vaccine_id']) > 0) {
                             if ($studentVaccinesSaves) {
                                 StudentVaccine::model()->deleteAll("student_id = $modelStudentIdentification->id");
                             }
@@ -273,7 +273,7 @@ class StudentController extends Controller
                                 $studentVaccine->vaccine_id = $vaccine_id;
                                 $studentVaccine->save();
                             }
-                        }
+                        // }
 
                         if ($saved) {
                             Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);

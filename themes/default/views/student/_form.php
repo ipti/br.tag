@@ -29,11 +29,11 @@ $form = $this->beginWidget('CActiveForm', array(
             <a data-toggle="tab"
                class='btn btn-icon btn-default prev glyphicons circle_arrow_left'
                style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
-            <a data-toggle="tab"
-               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
-                <i></i></a>
+            <!-- <a data-toggle="tab"
+               class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php /*echo Yii::t('default', 'Next') */?>
+                <i></i></a> -->
             <button class="btn btn-icon btn-primary last glyphicons circle_ok pull-right save-student"
-                    type="button">
+                    type="button" style="display: block;">
                 <i></i> <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
