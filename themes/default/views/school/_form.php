@@ -19,13 +19,14 @@ $form = $this->beginWidget('CActiveForm', array(
 )); ?>
 
 <div class="row-fluid">
-    <div class="span12">
+    <div class="span12" style="height: 63px;"> 
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
-         <span 
-         
-         >  <?php echo Yii::t('default', 'Fields with * are required.') ?></span> 
-         <!-- style="line-height: 158px;" -->
+         <span class="subtitle" >  
+            <?php echo Yii::t('default', 'Fields with * are required.') ?>
 
+         </span> 
+         
+<!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
@@ -37,7 +38,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<div class="innerLR">
+<div class="tag-inner">
 
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelSchoolIdentification); ?>

@@ -38,7 +38,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
 </div>
-<div class="innerLR  ">
+<div class="tag-inner">
 
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
@@ -90,7 +90,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <div class="row-fluid">
                         <div class=" span10">
                             <div class="control-group">
-                                <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label')); ?>
+                                <div class="controls">
+                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($coursePlan, 'name', ['class' => 'span12']);
