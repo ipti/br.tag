@@ -1,0 +1,28 @@
+.dependent-filters {
+    display: none;
+}
+
+.dependent-filters div {
+    margin-right: 10px !important;
+}
+
+.report-container .select2-container {
+    width: 150px !important;
+}
+
+.initial-date, .final-date {
+    margin-top: -5px !important;
+    width: 100px;
+}
+
+.innerLR .loading-report {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: 7px;
+    margin-left: 10px;
+}
+
+#loadreport {
+    margin-left: 10px;
+}

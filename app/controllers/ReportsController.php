@@ -20,7 +20,7 @@ class ReportsController extends Controller
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 'BFRStudentReport'),
+                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 'BFRStudentReport', 'ElectronicDiary'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -761,6 +761,54 @@ class ReportsController extends Controller
     {
         $this->layout = "fullmenu";
         $this->render('index');
+    }
+
+    public function actionElectronicDiary()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+            $classrooms = Classroom::model()->findAll($criteria);
+        } else {
+            $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
+        }
+        $this->layout = "fullmenu";
+        $this->render('electronicdiary', array(
+            'classrooms' => $classrooms
+        ));
+    }
+
+    public function actionGetDisciplines () {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm 
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+            }
+        } else {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            foreach ($classr as $i => $discipline) {
+                if (isset($discipline['discipline_fk'])) {
+                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                }
+            }
+        }
     }
 
 }
