@@ -19,14 +19,13 @@ $form = $this->beginWidget('CActiveForm', array(
 )); ?>
 
 <div class="row-fluid">
-    <div class="span12" style="height: 63px;"> 
+    <div class="span12" style="height: 63px;">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
-         <span class="subtitle" >  
+        <span class="subtitle">
             <?php echo Yii::t('default', 'Fields with * are required.') ?>
+        </span>
 
-         </span> 
-         
-<!-- style="line-height: 190px;" -->
+        <!-- style="line-height: 190px;" -->
         <div class="tag-buttons-container buttons">
             <a data-toggle="tab" class='hide-responsive tag-button-light small-button prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
             <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
@@ -91,7 +90,7 @@ $form = $this->beginWidget('CActiveForm', array(
                 <!-- Tab content -->
                 <div class="tab-pane active" id="school-indentify">
                     <div>
-                        <h5 class="titulos">Dados Básicos</h3>
+                        <h5 class="titulos">Dados Básicos</h5>
                     </div>
                     <div class="row-fluid">
                         <div class=" span6">
@@ -270,7 +269,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
-                            <div class="uniformjs margin-left" id="SchoolIdentification_linked_organ">
+                            <div class="controls" id="SchoolIdentification_linked_organ">
                                 <label class="checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['linked_mec']; ?>
                                     <?= $form->checkBox($modelSchoolIdentification, 'linked_mec', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -295,7 +294,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
-                            <div class="uniformjs margin-left" id="SchoolIdentification_regulation_organ">
+                            <div class="controls" id="SchoolIdentification_regulation_organ">
                                 <label class="checkbox">
                                     <?= SchoolIdentification::model()->attributeLabels()['regulation_organ_federal']; ?>
                                     <?= $form->checkBox($modelSchoolIdentification, 'regulation_organ_federal', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -809,7 +808,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6 hide-responsive">
                             <div class="control-group">
-                                <div class="uniformjs margin-left" id="SchoolStructure_operation_location">
+                                <div class="controls" id="SchoolStructure_operation_location">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['operation_location_building'];
                                         echo $form->checkBox($modelSchoolStructure, 'operation_location_building', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -874,7 +873,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid  hide-responsive dependencies-container">
                         <div class=" span6">
                             <div class="control-group hide-responsive">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_warehouse']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_warehouse', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -952,7 +951,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class=" span6  hide-responsive">
                             <div class="control-group hide-responsive">
-                                <div class="uniformjs select-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['dependencies_science_lab']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'dependencies_science_lab', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1035,7 +1034,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid  hide-responsive">
                         <div class="span6">
                             <div class="control-group hide-responsive water-supply-container">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['water_supply_public']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'water_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1064,7 +1063,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Potable Water'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['provide_potable_water']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'provide_potable_water', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1075,7 +1074,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Food Supply'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['supply_food']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'supply_food', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1099,7 +1098,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-group hide-responsive energy-supply-container">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['energy_supply_public']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'energy_supply_public', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1127,7 +1126,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                     <div class="row-fluid">
                         <div class="control-group hide-responsive sewage-container">
-                            <div class="uniformjs margin-left">
+                            <div class="controls">
                                 <label class="checkbox">
                                     <?php echo SchoolStructure::model()->attributeLabels()['sewage_public']; ?>
                                     <?php echo $form->checkBox($modelSchoolStructure, 'sewage_public', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1153,7 +1152,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-group hide-responsive garbage_destination_container">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['garbage_destination_collect']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'garbage_destination_collect', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1187,7 +1186,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-group hide-responsive garbage-treatment-container">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['treatment_garbage_parting_garbage']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'treatment_garbage_parting_garbage', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1214,7 +1213,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6 accessbility-container">
                             <div class="control-group">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['acessability_handrails_guardrails']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'acessability_handrails_guardrails', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1261,7 +1260,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span6">
                             <div class="control-group hide-responsive board-organ-container">
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['board_organ_association_parent']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'board_organ_association_parent', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1415,7 +1414,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <label class="control-label required"><?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>
                                             *</label>
                                     </div>
-                                    <div class="uniformjs margin-left">
+                                    <div class="controls">
                                         <label class="checkbox">
                                             <?php echo SchoolStructure::model()->attributeLabels()['equipments_satellite_dish']; ?>
                                             <?php echo $form->checkBox($modelSchoolStructure, 'equipments_satellite_dish', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1450,7 +1449,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="controls">
                                         <label class="control-label required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> *</label>
                                     </div>
-                                    <div class="uniformjs margin-left">
+                                    <div class="controls">
                                         <label class="checkbox">
                                             <?php echo SchoolStructure::model()->attributeLabels()['equipments_multimedia_collection']; ?>
                                             <?php echo $form->checkBox($modelSchoolStructure, 'equipments_multimedia_collection', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1572,20 +1571,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'student_computers_count'); ?>
                                 </div>
                             </div>
-
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
-                                </div>
-                                <div class="controls">
-                                    <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class=" span6">
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'equipments_qtd_notebookstudent', array('class' => 'control-label')); ?>
@@ -1596,11 +1581,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'equipments_qtd_notebookstudent'); ?>
                                 </div>
                             </div>
+
+
+                        </div>
+                        <div class=" span6">
+                            <div class="separator"></div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelSchoolStructure, 'bandwidth', array('class' => 'control-label')); ?>
+                                </div>
+                                <div class="controls">
+                                    <?php echo $form->checkBox($modelSchoolStructure, 'bandwidth', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <?php echo $form->error($modelSchoolStructure, 'bandwidth'); ?>
+                                </div>
+                            </div>
+
                             <div class="control-group internet-access-container">
                                 <div class="controls">
                                     <label class="control-label required"><?php echo Yii::t('default', 'Internet Access'); ?> *</label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['internet_access_administrative']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_administrative', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1628,7 +1628,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Internet Access Connected Devices'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['internet_access_connected_desktop']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_connected_desktop', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1648,7 +1648,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label required"><?php echo Yii::t('default', 'Internet Access Local'); ?> *</label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['internet_access_local_cable']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'internet_access_local_cable', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1728,7 +1728,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Sociocultural Didactic Material'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['sociocultural_didactic_material_none']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'sociocultural_didactic_material_none', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1762,7 +1762,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_native', array('value' => null, 'disabled' => 'disabled'));
                                     echo CHtml::activeHiddenField($modelSchoolStructure, 'native_education_language_portuguese', array('value' => null, 'disabled' => 'disabled')); ?>
                                 </div>
-                                <div class="uniformjs margin-left" id="native_education_lenguage_some">
+                                <div class="controls" id="native_education_lenguage_some">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['native_education_language_native']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'native_education_language_native', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1842,7 +1842,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Modalities'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['modalities_regular']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'modalities_regular', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1866,7 +1866,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Organization of Education'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['org_teaching_series_year']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'org_teaching_series_year', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1898,7 +1898,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Selection Exam'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['select_adimission']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'select_adimission', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1910,7 +1910,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Reservation by Quota System'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['booking_enrollment_self_declaredskin']; ?>
                                         <?php echo $form->checkBox($modelSchoolStructure, 'booking_enrollment_self_declaredskin', array('value' => 1, 'uncheckValue' => 0)); ?>

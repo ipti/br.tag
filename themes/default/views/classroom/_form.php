@@ -152,7 +152,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label required"><?php echo Yii::t('default', 'Assistence Types'); ?>*</label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
+                                    <!-- <div class="uniformjs margin-left"> -->
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['schooling']; ?>
                                         <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -181,10 +182,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">
+                            <div class="controls">
                                 <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 'control-label required')); ?>
+                            </div>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?>
+                                    <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-search-on control-input', 'key' => 'id')); ?>
+                               <!-- <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?> -->
+                                    
                                     <?php echo $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
+                                    <!-- atividade complementar -->
                                 </div>
                             </div>
                         </div>
@@ -289,7 +295,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Aee'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <!-- <div class="uniformjs margin-left"> -->
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo Classroom::model()->attributeLabels()['aee_braille']; ?>
                                         <?php echo $form->checkBox($modelClassroom, 'aee_braille', array('value' => 1, 'uncheckValue' => 0)); ?>
