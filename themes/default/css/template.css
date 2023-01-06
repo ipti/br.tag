@@ -512,7 +512,7 @@ body > .container-fluid.documentation {
 #content .heading-mosaic {
     height: 48px;
     line-height: 48px;
-    padding: 0 10px;
+    padding: 0 0px;
    /*  background: #ffffff url(../img/mosaic-pattern.png) repeat; */
    background: white;
     margin: 0 0 10px;
@@ -525,6 +525,14 @@ body > .container-fluid.documentation {
 
 #content h3.heading-mosaic {
     font-size: 16pt;
+    margin-left: 49px;
+    font-weight: bold;
+}
+
+.subtitle{
+    line-height: 156px;
+    margin-left: 45px;
+    color: #5F738C;
 }
 
 #content h2.heading-mosaic {
@@ -1288,10 +1296,12 @@ body > .container-fluid.documentation {
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
+    margin-left: 32px;
 }
 .voltar-tobnav:hover {
     text-decoration: none;
     color: #1e2c7b;
+    
 }
 .navbar.main .topnav > li > a .text {
     display: inline-block;
@@ -3468,6 +3478,7 @@ h2.glyphicons.cogwheels i:before {
     height: 30px;
     margin: 0;
     display: inline-block;
+    margin-left: 35px;
 }
 
 .widget.widget-tabs > .widget-head ul li {
@@ -3499,7 +3510,7 @@ h2.glyphicons.cogwheels i:before {
 }
 
 .widget.widget-tabs > .widget-head ul li a.glyphicons {
-    /* padding: 0 15px 0 35px; */
+    padding: 0 5px 0 8px;
 }
 
 .widget.widget-tabs > .widget-head ul li.active {
@@ -4670,7 +4681,7 @@ textarea {
 }
 /* controle de tamanho */
 .control-input{
-    height: 44px;
+    height: 30px;
     width: 426px;
 }
 .control-label.center {
@@ -4692,7 +4703,7 @@ textarea {
 }
 
 .form-horizontal .controls {
-    margin-left: 40px;
+    margin-left: 23px;
 }
 
 .form-horizontal .control-label {
@@ -8479,7 +8490,7 @@ tr.filters td {
 /*width: 42%;*/
 /*}*/
 .titulos{
-    margin-left:39px;
+    margin-left:23px;
     color: rgba(169, 173, 196, 1);
 }
 input[type="checkbox"] {
