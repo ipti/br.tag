@@ -147,6 +147,7 @@ class SiteController extends Controller
 
         $html = "";
         if (count($logs) > 0) {
+            $bgColor = 'gray';
             foreach ($logs as $log) {
                 $text = $icon = $color = $crud = "";
 
@@ -169,88 +170,92 @@ class SiteController extends Controller
                     case "class":
                         $infos = explode("|", $log->additional_info);
                         $text = 'As aulas ministradas da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foram atualizadas.';
-                        $icon = "notes_2";
+                        $icon = "aulas_ministradas";
                         break;
                     case "frequency":
                         $infos = explode("|", $log->additional_info);
                         $text = 'A frequência da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foi atualizada.';
-                        $icon = "check";
+                        $icon = "frequencia";
                         break;
                     case "classroom":
                         $text = 'Turma "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "adress_book";
+                        $icon = "turmas";
                         break;
                     case "courseplan":
                         $text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "book_open";
+                        $icon = "plano_de_aula";
                         break;
                     case "enrollment":
                         $infos = explode("|", $log->additional_info);
                         $text = '"' . $infos[0] . '" foi ' . $crud . ' na turma "' . $infos[1] . '".';
-                        $icon = "book";
+                        $icon = "matricula";
                         break;
                     case "instructor":
                         $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "nameplate";
+                        $icon = "professores";
                         break;
                     case "school":
                         $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "building";
+                        $icon = "escola";
                         break;
                     case "student":
                         $text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "parents";
+                        $icon = "alunos";
                         break;
                     case "grade":
                         $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . ".";
-                        $icon = "list";
+                        $icon = "notas";
                         break;
                     case "calendar":
                         $text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . ".";
-                        $icon = "calendar";
+                        $icon = "calendario";
                         break;
                     case "curricular_matrix":
                         $infos = explode("|", $log->additional_info);
                         $text = 'Matriz curricular da disciplina "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
-                        $icon = "stats";
+                        $icon = "matriz_curricular";
                         break;
                     case "lunch_stock":
                         $infos = explode("|", $log->additional_info);
                         if ($log->crud == "C") {
                             $text = $infos[1] . ' de ' . $infos[0] . ' foram adicionados ao estoque.';
-                            $icon = "upload";
+                            $icon = "adicionar-igrediente";
                         } else {
-                            $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.';
-                            $icon = "download";
+                            $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.'; 
+                            $icon = "remover-igrediente";
                         }
                         break;
                     case "lunch_menu":
-                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "notes";
+                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . "."; 
+                        $icon = "cardapio";
                         break;
                     case "lunch_meal":
                         $text = 'Uma refeição foi ' . $crud . ' no cardápio "' . $log->additional_info . '".';
-                        $icon = "cutlery";
+                        $icon = "merenda";
                         break;
                     case "timesheet":
                         $text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi gerado.';
-                        $icon = "signal";
+                        $icon = "quadro_de_horario";
                         break;
                     case "wizard_classroom":
                         $text = 'Turmas de ' . $log->additional_info . ' foram reaproveitadas.';
-                        $icon = "adress_book";
+                        $icon = "turmas";
                         break;
                     case "wizard_student":
                         $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
-                        $icon = "parents";
+                        $icon = "alunos"; 
                         break;
                 }
+                $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="log" title=\'' . $text . '\'>'
-                    .'<img src='. Yii::app()->theme->baseUrl.'/img/sidebarIcons/turmas.png >'
-                    . '<span class="glyphicons ' . $icon . ' ' . $color . '"><i></i>' . $text . '</span>'
-                    . '<span class="log-date">' . $date . '</span>'
-                    . '<span class="log-author">' . $log->userFk->name . '- </span>'
+                $html .= '<li class="home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
+                    . '<div style="max-width:815px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">'
+                    . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'"/>'
+                    . $text . '</div>'
+                    . '<div>'
+                    . '<div class="log-date">' . $date . '</div>'
+                    . '<div class="log-author">' . $log->userFk->name . '- </div>'
+                    . '</div>'
                     . '</li>';
             }
         } else {

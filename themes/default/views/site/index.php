@@ -1,5 +1,6 @@
 <?php
 	$baseUrl = Yii::app()->baseUrl;
+	$themeUrl = Yii::app()->theme->baseUrl; 
 	$cs = Yii::app()->getClientScript();
 	$cs->registerScriptFile($baseUrl . '/js/site/index.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js', CClientScript::POS_END);
@@ -7,6 +8,7 @@
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/lang/pt.js', CClientScript::POS_END);
 	$cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.js', CClientScript::POS_END);
+	$cs->registerCssFile($themeUrl . '/css/template2.css');
 	/* @var $this SiteController */
 
 	$cs->registerScript("vars",
@@ -31,18 +33,18 @@
 		<h3 class="heading-mosaic">Página Inicial</h3>
 	</div>
 </div>
-<div class="innerLR eggs">
+<div class="tag-inner eggs">
 	<div class="board-msg" version="<?php echo TAG_VERSION; ?>"><?php echo BOARD_MSG; ?></div>
 	<div class="row-fluid">
 		<div class="span12">
-			<div class="widget widget-scroll widget-gray margin-bottom-none"
+			<div class="widget widget-scroll margin-bottom-none"
 			     data-toggle="collapse-widget" data-scroll-height="223px"
 			     data-collapse-closed="false" total="<?= $logCount ?>">
-				<div class="widget-head"><h5 class="heading glyphicons history"><i></i>Atividades Recentes</h5>
+				<div class="home-page-table-header"><h5>Atividades Recentes</h5>
 				</div>
 				<div class="widget-body logs in" style="height: auto;">
 					<?= $html ?>
-					<span class="load-more fa fa-plus-circle"> Carregar mais</span>
+					<span class="home-page-table-button load-more"> Carregar mais</span>
 				</div>
 			</div>
 		</div>

@@ -33,6 +33,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/responsive.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template.css?v=1.2" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/template2.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/glyphicons.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/select2.css" rel="stylesheet"/>
     <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/print.css" media="print" rel="stylesheet"
@@ -60,10 +61,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     style="float:left;padding: 8px 0 0 0;height: 27px;"/><span
                     id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a> -->
 
-        <!-- Menu Toggle Button -->
-        <!-- <button id="button-menu" type="button" class="pull-right btn btn-navbar hidden-desktop">
-            <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-        </button> -->
 
         <!-- Top Menu Right -->
         <ul class="topnav pull-right">
@@ -90,8 +87,16 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     </div>
                     <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
                 </div>
-            </li>
+                 <!-- Menu Toggle Button -->
+           <!--  <button id="button-menu" type="button" class="pull-right btn btn-navbar hidden-desktop">
+            <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+        </button> -->
+            </li> 
+            <button id="fullmenu-toggle-button" type="button"> Toggle
+            </button>
             <li id="menu-logout">
+                <!-- Menu Toggle Button  -->
+               
                 <a 
                     class="logout"
                     href="<?php echo yii::app()->createUrl('site/logout') ?>">
@@ -106,7 +111,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
     <!-- Sidebar menu & content wrapper -->
     <div id="wrapper">
         <!-- Sidebar menu -->
-        <div id="menu" class="hidden-print">
+        <div id="menu" class="hidden-print fullmenu-sidebar">
         <div class="colorful-bar">
             <span id="span-color-blue"></span>
             <span id="span-color-red"></span>
@@ -208,10 +213,10 @@ $baseUrl = Yii::app()->theme->baseUrl;
                            href="<?php echo yii::app()->createUrl('reports') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/relatorios.png" /><span>Relatórios</span></a>
                     </li>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
-<!--                        <li id="menu-quiz"-->
-<!--                            class="--><?//= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?><!-- hide-responsive">-->
-<!--                            <a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz') ?><!-- "><i></i><span>Questionário</span></a>-->
-<!--                        </li>-->
+                                <!--<li id="menu-quiz"-->
+                                <!--class="--><?//= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?><!-- hide-responsive">-->
+                                <!--<a class="glyphicons list" href="--><?php //echo yii::app()->createUrl('quiz') ?><!-- "><i></i><span>Questionário</span></a>-->
+                            <!--</li>-->
                         <li id="menu-lunch"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                             <a  class="sidebar-item-tag"
@@ -269,5 +274,6 @@ $baseUrl = Yii::app()->theme->baseUrl;
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
 <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js'></script>
 <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
+<script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js'></script>
 </body>
 </html>
