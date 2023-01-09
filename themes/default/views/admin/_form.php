@@ -19,8 +19,9 @@ $form = $this->beginWidget('CActiveForm', array(
 <?php echo $form->errorSummary($model); ?>
 
 <div class="row-fluid">
-    <div class="span12">
-        <h3 class="heading-mosaic"><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h3>  
+    <div class="span12" style="height: 70px;">
+        <h3 class="heading-mosaic"><?php echo $title; ?></h3>  
+        <span class="subtitle">  <?php echo Yii::t('default', 'Fields with * are required.') ?>
         <div class="buttons">
             <div class="buttons">
                  <div class="buttons">
@@ -35,12 +36,16 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
 </div>
 
-<div class="innerLR">
+<div class="tag-inner">
     <div class="widget widget-tabs border-bottom-none">
         
         <div class="widget-head">
             <ul class="tab-classroom">
-                <li id="tab-classroom" class="active" ><a class="glyphicons user" href="#User" data-toggle="tab"><i></i><?php echo Yii::t('default', 'User') ?></a></li>
+                <li id="tab-classroom" class="active" >
+                    <a class="glyphicons user" href="#User" data-toggle="tab">
+                        <?php echo Yii::t('default', 'User') ?>
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -52,10 +57,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class="span12">
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo $form->labelEx($model, 'name', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'name',array('size'=>100,'maxlength'=>150, 'class' => 'span10')); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Full Name'); ?>"><i></i></span> -->
                                     <?php echo $form->error($model, 'name'); ?>
                                 </div>
                             </div>
@@ -65,48 +72,58 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span5">
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo $form->labelEx($model, 'username', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
                                     <?php echo $form->textField($model, 'username'); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."4"; ?>"><i></i></span>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."4"; ?>"><i></i></span> -->
                                     <?php echo $form->error($model, 'username'); ?>
                                 </div>
                             </div>
                             
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo $form->labelEx($model, 'password', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
                                     <?php echo $form->passwordField($model,'password',array('size'=>32,'maxlength'=>32)); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."6"; ?>"><i></i></span>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Min length')."6"; ?>"><i></i></span> -->
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
                             </div>
                             
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
                                     <?php echo CHtml::passwordField('Confirm','',array('size'=>32,'maxlength'=>32)); ?>
-                                    <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span>
+                                    <!-- <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Confirm Password'); ?>"><i></i></span> -->
                                 </div>
                             </div>
                         </div>
                         
                         <div class=" span5">
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo CHtml::label( Yii::t('default','Role'), 'Role', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
                                     <?php 
                                     $roles = CHtml::listData(AuthItem::model()->findAll('type=2 and name <> "instructor" order by name'), 'name','name');
                                     foreach ($roles as $key => $value) {
                                         $roles[$key] = Yii::t('default',$value);
                                     }
-                                    echo CHtml::dropDownList('Role','', $roles ,array('class'=>'select-search-off')); ?>
+                                    echo CHtml::dropDownList('Role','', $roles ,array('class'=>'select-search-off control-input')); ?>
                                 </div>
                             </div>
                             <div class="control-group">
+                            <div class="controls">
                                 <?php echo CHtml::label( Yii::t('default','Schools'), 'schools', array('class' => 'control-label')); ?>
+                            </div>
                                 <div class="controls">
-                                    <?php echo CHtml::dropDownList('schools','',CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on')); ?>
+                                    <?php echo CHtml::dropDownList('schools','',CHtml::listData(SchoolIdentification::model()->findAll('situation=1 order by name'), 'inep_id', 'name'),array('multiple'=>'multiple', 'class'=>'select-search-on control-input')); ?>
                                 </div>
                             </div>
                         </div>

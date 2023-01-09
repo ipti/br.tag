@@ -29,15 +29,11 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo $title; ?></h3>
         <div class="tag-buttons-container buttons hide-responsive">
-            <a data-toggle="tab"
-               class='tag-button-light small-button prev'
-               style="display: none;"><?php echo Yii::t('default', 'Previous') ?></a>
-            <a data-toggle="tab"
-               class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
-                </a>
-            <button class="tag-button small-button last  save-student"
-                    type="button">
-                 <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+            <a data-toggle="tab" class='tag-button-light small-button prev' style="display: none;"><?php echo Yii::t('default', 'Previous') ?></a>
+            <a data-toggle="tab" class='tag-button small-button next'><?php echo Yii::t('default', 'Next') ?>
+            </a>
+            <button class="tag-button small-button last  save-student" type="button">
+                <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
             </button>
         </div>
     </div>
@@ -85,13 +81,13 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
         <div class="widget-body form-horizontal">
             <div class="tab-content" style="display:none">
+                <!-- Tab content Botão de próximo -->
                 <div id="buttons-student" class="">
                     <a data-toggle="tab" class='btn btn-icon btn-default prev glyphicons circle_arrow_left' style="display: none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     <a data-toggle="tab" class='btn btn-icon btn-primary next glyphicons circle_arrow_right'><?php echo Yii::t('default', 'Next') ?>
                         <i></i></a>
                     <?php echo CHtml::htmlButton('<i></i>' . ($modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save')), array('class' => 'pull-right btn btn-icon btn-primary last glyphicons circle_ok', 'style' => 'display:none', 'type' => 'submit')); ?>
                 </div>
-                <!-- Tab content -->
                 <!-- Tab Student Identify -->
                 <div class="tab-pane active" id="student-identify">
                     <div class="row-fluid">
@@ -518,11 +514,10 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="control-group deficiencies-container">
                                 <div class="controls">
-
                                     <label class="control-label"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                         *</label>
                                 </div>
-                                <div class="uniformjs margin-left" id="StudentIdentification_deficiencies">
+                                <div class="controls" id="StudentIdentification_deficiencies">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
@@ -569,7 +564,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -625,8 +620,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <label class="control-label"><?php echo Yii::t('default', 'Vaccine'); ?></label>
                                 </div>
-                                <div class="uniformjs margin-left vaccines-container">
-
+                                <div class="controls vaccines-container">
                                     <?php foreach ($vaccines as $vaccine) : ?>
                                         <label class="checkbox">
                                             <?= $vaccine->name; ?>
@@ -640,72 +634,70 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <!-- Tab Student Documents -->
                 <div class="tab-pane" id="student-documents">
-                    <div class="row-fluid">
+                    <div class="row-fluid" style="padding: 0 0 0px 0;">
                         <div class="span12">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate"><i></i>Documentos
-                                        Entregues
-                                        <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i>
-                                    </h4>
-                                </div>
                                 <div class="widget-body in" style="height: auto;">
+                                    <div>
+                                        <h5 class="titulos">Documentos Entregues
+                                            <!-- <i style="font-size: 0.8em;">(Marcar os documentos que foram entregues).</i> -->
+                                        </h5>
+                                    </div>
                                     <div class="control-group" id="received">
-                                        <div class="span3">
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
-                                            </label>
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
-                                            </label>
-                                        </div>
-                                        <div class="span3">
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
-                                            </label>
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
-                                            </label>
-                                        </div>
-                                        <div class="span3">
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
-                                            </label>
-                                            <label class="checkbox">
-                                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
-                                                <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
-                                            </label>
-                                        </div>
-                                        <?php if (INSTANCE == "CLOC") : ?>
+                                        <div class="controls">
                                             <div class="span3">
                                                 <label class="checkbox">
-                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
-                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_cc']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_cc', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc)); ?>
+                                                </label>
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_address']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_address', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address)); ?>
                                                 </label>
                                             </div>
-                                        <?php endif; ?>
+                                            <div class="span3">
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_photo']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_photo', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo)); ?>
+                                                </label>
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_nis']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_nis', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis)); ?>
+                                                </label>
+                                            </div>
+                                            <div class="span3">
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_rg']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_rg', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg)); ?>
+                                                </label>
+                                                <label class="checkbox">
+                                                    <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_responsable_cpf']; ?>
+                                                    <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'received_responsable_cpf', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf)); ?>
+                                                </label>
+                                            </div>
+                                            <?php if (INSTANCE == "CLOC") : ?>
+                                                <div class="span3">
+                                                    <label class="checkbox">
+                                                        <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
+                                                        <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form', array('value' => 1, 'uncheckValue' => 0, 'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
+                                                    </label>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div class="row-fluid">
                         <div class=" span6">
-
-
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons book_open">
-                                        <i></i>Certidão Civil
-                                    </h4>
+                                <div>
+                                    <h5 class="titulos">
+                                        Certidão Civil
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification', array('class' => 'control-label')); ?>
@@ -715,8 +707,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification'); ?>
                                         </div>
                                     </div>
-                                    <?php //@done S1 - Alterar tipo de certidão civil para dropdown 
-                                    ?>
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_type', array('class' => 'control-label')); ?>
@@ -735,7 +725,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_sheet', array('class' => 'control-label')); ?>
@@ -745,7 +734,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_sheet'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_book', array('class' => 'control-label')); ?>
@@ -755,7 +743,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_book'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_certification_date', array('class' => 'control-label')); ?>
@@ -770,7 +757,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_date'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_uf_fk', array('class' => 'control-label')); ?>
@@ -791,7 +777,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_uf_fk'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'notary_office_city_fk', array('class' => 'control-label')); ?>
@@ -812,7 +797,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'notary_office_city_fk'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk', array('class' => 'control-label')); ?>
@@ -827,7 +811,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'edcenso_notary_office_fk'); ?>
                                         </div>
                                     </div>
-
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array('class' => 'control-label')); ?>
@@ -837,19 +820,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-
-                            <div class="separator"></div>
-
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Justificativa da falta de documentação
-                                    </h4>
+                            <div class="widget-scroll margin-bottom-none row-fluid" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Justificativa da falta de documentação
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentIdentification, 'no_document_desc', array('class' => 'control-label')); ?>
@@ -862,15 +841,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-
                         <div class=" span6">
                             <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Cartão Nacional de Saúde
-                                    </h4>
+                                <div>
+                                    <h5 class="titulos">
+                                        Cartão Nacional de Saúde
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cns', array('class' => 'control-label')); ?>
@@ -887,15 +865,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="separator"></div>
-
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Cadastro de Pessoa Física
-                                    </h4>
+                            <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Cadastro de Pessoa Física
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
                                     <div class="control-group">
                                         <div class="controls">
                                             <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cpf', array('class' => 'control-label')); ?>
@@ -912,15 +888,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
 
-                            <div class="separator"></div>
-
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Registro Geral
-                                    </h4>
+                            <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Registro Geral
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
 
                                     <div class="control-group">
                                         <div class="controls">
@@ -958,7 +932,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_edcenso_uf_fk'); ?>
                                         </div>
-
                                     </div>
 
                                     <div class="control-group">
@@ -976,16 +949,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            <div class="separator"></div>
-                            <div class="widget widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons nameplate">
-                                        <i></i>Justiça
-                                    </h4>
+
+                            <div class=" widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Justiça
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
                                     <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 'control-label ml-10')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'justice_restriction', array('class' => 'control-label')); ?>
+                                        </div>
                                         <div class="controls">
                                             <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'justice_restriction', array(null => "Selecione", "0" => "Não possui restrições", "1" => "LA - Liberdade Assistida", "2" => "PSC - Prestação de Serviços Comunitários"), array('class' => 'select-search-off control-input')); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'justice_restriction'); ?>
@@ -993,16 +968,18 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                             </div>
-                            <div class="separator"></div>
-                            <div class="widget widget-scroll margin-bottom-none hide-responsive" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons airplane">
-                                        <i></i>Passaporte
-                                    </h4>
+
+                            <div class=" widget-scroll margin-bottom-none hide-responsive" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div>
+                                    <h5 class="titulos">
+                                        Passaporte
+                                    </h5>
                                 </div>
-                                <div class="widget-body in" style="height: auto;">
+                                <div class="row-fluid" style="height: auto;">
                                     <div class="control-group">
-                                        <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label ml-10')); ?>
+                                        <div class="controls">
+                                            <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('class' => 'control-label')); ?>
+                                        </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'foreign_document_or_passport', array('size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "nationality-sensitive n-br")); ?>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'foreign_document_or_passport'); ?>
@@ -1018,19 +995,19 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="student-address">
                     <div class="row-fluid">
                         <div class=" span6">
-
-                            <div class="separator"></div>
-
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'residence_zone', array(null => "Selecione uma zona", "1" => "URBANA", "2" => "RURAL"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'residence_zone'); ?>
                                 </div>
                             </div>
-
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'cep', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php
                                     echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
@@ -1047,7 +1024,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'address', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'address', array('size' => 60, 'maxlength' => 100)); ?>
                                     <!-- <span
@@ -1059,7 +1038,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'number', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'number', array('size' => 10, 'maxlength' => 10)); ?>
                                     <!-- <span
@@ -1071,7 +1052,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'complement', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'complement', array('size' => 20, 'maxlength' => 20)); ?>
                                     <!-- <span
@@ -1083,7 +1066,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'neighborhood', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'neighborhood', array('size' => 50, 'maxlength' => 50)); ?>
                                     <!-- <span
@@ -1093,9 +1078,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'neighborhood'); ?>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class=" span6">
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label  ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
@@ -1113,7 +1101,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'edcenso_city_fk', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($modelStudentDocumentsAndAddress, 'edcenso_city_fk', CHtml::listData(EdcensoCity::model()->findAllByAttributes(array('edcenso_uf_fk' => $modelStudentDocumentsAndAddress->edcenso_uf_fk), array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma cidade", "class" => "select-search-on control-input"));
@@ -1123,7 +1113,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'diff_location', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelStudentDocumentsAndAddress, 'diff_location', array(null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada', 3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'), array("class" => "select-search-on control-input")); ?>
                                     <div class="controls">
@@ -1133,6 +1125,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- Tab Student Enrollment -->
                 <div class="tab-pane" id="student-enrollment">
@@ -1145,7 +1138,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- turma -->
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'classroom_fk', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php
                                     $stage = $modelStudentIdentification->getCurrentStageVsModality();
@@ -1174,14 +1169,18 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- turma unificada -->
                             <div id="multiclass">
                                 <div class="control-group">
-                                    <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label ml-10')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->labelEx($modelEnrollment, 'unified_class', array('class' => 'control-label')); ?>
+                                    </div>
                                     <div class="controls">
                                         <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off control-input')); ?>
                                         <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label ml-10')); ?>
+                                    <div class="controls">
+                                        <?php echo CHtml::label("Etapa", 'Stage', array('class' => 'control-label')); ?>
+                                    </div>
                                     <div class="controls">
                                         <?php
                                         echo CHtml::dropDownList("Stage", null, array(
@@ -1207,7 +1206,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label ml-10')); ?>
+                                    <div class="controls">
+                                        <?php echo $form->labelEx($modelEnrollment, 'edcenso_stage_vs_modality_fk', array('class' => 'control-label')); ?>
+                                    </div>
                                     <div class="controls">
                                         <?php echo $form->dropDownList($modelEnrollment, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on control-input')); ?>
                                         <!-- <span style="margin: 0;"
@@ -1220,28 +1221,36 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'admission_type', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelEnrollment, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'admission_type'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'status', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelEnrollment, 'status', array("1" => "Matriculado", "2" => "Transferido", "3" => "Cancelado", "4" => "Evadido"), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'status'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'another_scholarization_place', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelEnrollment, 'another_scholarization_place', array("1" => "Não recebe", "2" => "Em hospital", "3" => "Em domicílio"), array('class' => 'select-search-on control-input')); ?>
                                     <?php echo $form->error($modelEnrollment, 'another_scholarization_place'); ?>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label  ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'current_stage_situation', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelEnrollment,
@@ -1258,7 +1267,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label ml-10')); ?>
+                                <div class="controls">
+                                    <?php echo $form->labelEx($modelEnrollment, 'previous_stage_situation', array('class' => 'control-label')); ?>
+                                </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList(
                                         $modelEnrollment,
@@ -1278,11 +1289,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class="span6">
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label ml-10')); ?>
+                                    <?php echo $form->labelEx($modelEnrollment, 'school_admission_date', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10)); ?>
@@ -1291,7 +1302,6 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <!-- voltar aqui e ver esse label -->
                                     <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">
@@ -1301,7 +1311,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group" id="transport_responsable">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label ml-10')); ?>
+                                    <?php echo $form->labelEx($modelEnrollment, 'transport_responsable_government', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->dropDownList($modelEnrollment, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off control-input')); ?>
@@ -1309,9 +1319,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
-                                <label class="control-label ml-10"><?php echo Yii::t('default', 'Transport Type'); ?>
-                                    *</label>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
+                                    <label class="control-label"><?php echo Yii::t('default', 'Transport Type'); ?>
+                                        *</label>
+                                </div>
+                                <div class="controls">
                                     <label class="checkbox">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_van']; ?>
                                         <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1355,8 +1367,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group" id="">
-                                <label class="control-label ml-10"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
-                                <div class="uniformjs margin-left">
+                                <div class="controls">
+                                    <label class="control-label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
+                                </div>
+                                <div class="controls">
                                     <label class="checkbox inline-block">
                                         <?php echo StudentEnrollment::model()->attributeLabels()['aee_cognitive_functions']; ?>
                                         <?php echo $form->checkBox($modelEnrollment, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1418,9 +1432,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             <?php } ?>
                             <div id="enrollment" class="widget widget-scroll margin-bottom-none table-responsive">
-                                <div class="widget-head">
-                                    <h4 class="heading glyphicons book_open">
-                                        <i></i><?php echo yii::t("default", "Enrollments"); ?>
+                                <div>
+                                    <h4 class="titulos">
+                                        <?php echo yii::t("default", "Enrollments"); ?>
                                     </h4>
                                 </div>
                                 <div class="widget-body in" style="height: auto;">
@@ -1535,9 +1549,11 @@ $form = $this->beginWidget('CActiveForm', array(
                     </div>
                 </div>
             </div>
-            <?php $this->endWidget(); ?>
+
         </div>
+        <?php $this->endWidget(); ?>
     </div>
+</div>
 </div>
 
 <?php
