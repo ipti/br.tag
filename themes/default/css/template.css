@@ -671,11 +671,6 @@ body > .container-fluid.documentation {
     background: #EADA48;
 }
 
-.tag-logo {
-    margin-top: 27px;
-    margin-bottom: 50px;
-}
-
 #menu {
     width: 190px;
     float: left;
@@ -1296,7 +1291,6 @@ body > .container-fluid.documentation {
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    margin-left: 32px;
 }
 .voltar-tobnav:hover {
     text-decoration: none;

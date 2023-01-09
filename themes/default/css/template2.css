@@ -288,12 +288,34 @@
 .fullmenu-sidebar {
     left: 0px;
 }
-#fullmenu-toggle-button {
+.logo-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-left: 12px;
+    margin-top: 23px;
+    margin-bottom: 65px;
+}
+.topnav .fullmenu-toggle-button {
+    padding: 10px 10px;
+    border-right:  1px solid #EAEAF8;
+}
+.fullmenu-toggle-button {
     display: none;
+    width: 30px;
+    height: 22px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.fullmenu-toggle-button div {
+    height: 4px;
+    width: 100%;
+    border-radius: 12px;
+    background-color: #272B96;
 }
 @media (max-width: 992px) { 
-    #fullmenu-toggle-button {
-        display: block;
+    .fullmenu-toggle-button {
+        display: flex;
     }
     .fullmenu-sidebar {
         transition: left 500ms;
@@ -301,5 +323,8 @@
     .hidden-menu {
         left: -190px;
         transition: left 500ms;
+    }
+    .voltar-tobnav {
+        display:  none;
     }
 }

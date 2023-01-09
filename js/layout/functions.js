@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    $("#fullmenu-toggle-button").click(function(){
-        /* alert("clicou") */
+    $(".fullmenu-toggle-button").click(function(){
         $("#menu").toggleClass("hidden-menu");
     });
 });

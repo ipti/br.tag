@@ -69,6 +69,11 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/voltar_icon.png" />
                     Voltar
                 </a>
+                <div class="fullmenu-toggle-button">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                </div>
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.png" />
                 <div class="infos-topnav">
                     <div id="change-school">
@@ -87,13 +92,8 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     </div>
                     <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
                 </div>
-                 <!-- Menu Toggle Button -->
-           <!--  <button id="button-menu" type="button" class="pull-right btn btn-navbar hidden-desktop">
-            <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-        </button> -->
             </li> 
-            <button id="fullmenu-toggle-button" type="button"> Toggle
-            </button>
+           
             <li id="menu-logout">
                 <!-- Menu Toggle Button  -->
                
@@ -118,7 +118,14 @@ $baseUrl = Yii::app()->theme->baseUrl;
             <span id="span-color-green"></span>
             <span id="span-color-yellow"></span>
         </div>
-        <img class="tag-logo" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.png" />
+        <div class="logo-container">
+            <div class="fullmenu-toggle-button">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+            </div>
+            <img class="tag-logo" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.png" />
+        </div>
             <div class="slim-scroll" data-scroll-height="800px">
                 <ul id="box-menu">
                     <li id="menu-dashboard"
