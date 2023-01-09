@@ -6,7 +6,7 @@
     margin-right: 10px !important;
 }
 
-.report-container .select2-container {
+.report-filter .select2-container {
     width: 150px !important;
 }
 
@@ -19,7 +19,7 @@
     display: none;
     font-size: 20px;
     vertical-align: middle;
-    margin-top: 7px;
+    margin-top: -3px;
     margin-left: 10px;
 }
 

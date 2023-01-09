@@ -12,7 +12,8 @@ $(".initial-date").datepicker({
     orientation: "bottom left",
     clearBtn: true,
     maxViewMode: 2,
-    startDate: "01/01/2000",
+    startDate: "01/01/" + $(".school-year").val(),
+    endDate: "31/12/" + $(".school-year").val()
 }).on('changeDate', function (ev, indirect) {
     if ($(".initial-date").val() !== "" && $(".initial-date").val().length == 10
         && $(".final-date").val() !== "" && $(".final-date").val().length == 10) {
@@ -43,7 +44,8 @@ $(".final-date").datepicker({
     orientation: "bottom left",
     clearBtn: true,
     maxViewMode: 2,
-    startDate: "01/01/2000",
+    startDate: "01/01/" + $(".school-year").val(),
+    endDate: "31/12/" + $(".school-year").val()
 }).on('changeDate', function (ev) {
     if ($(".initial-date").val() !== "" && $(".initial-date").val().length == 10
         && $(".final-date").val() !== "" && $(".final-date").val().length == 10) {
@@ -117,5 +119,31 @@ $(document).on("click", "#loadreport", function () {
 });
 
 function loadReport() {
-    console.log(1);
+    $.ajax({
+        type: "POST",
+        url: "?r=reports/generateElectronicDiaryReport",
+        cache: false,
+        data: {
+            type: $("#report").val(),
+            classroom: $("#classroom").val(),
+            fundamentalMaior: $("#classroom option:selected").attr("fundamentalmaior"),
+            discipline: $("#discipline").val(),
+            initialDate: $(".initial-date").val(),
+            finalDate: $(".final-date").val(),
+        },
+        beforeSend: function () {
+            $(".loading-report").css("display", "inline-block");
+            $(".report-container").css("opacity", 0.3).css("pointer-events", "none");
+            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport").attr("disabled", "disabled");
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            console.log(data);
+        },
+        complete: function (response) {
+            $(".loading-report").hide();
+            $(".report-container").css("opacity", 1).css("pointer-events", "auto");
+            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport").removeAttr("disabled");
+        },
+    });
 }

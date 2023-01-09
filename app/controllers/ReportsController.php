@@ -781,11 +781,13 @@ class ReportsController extends Controller
         }
         $this->layout = "fullmenu";
         $this->render('electronicdiary', array(
-            'classrooms' => $classrooms
+            'classrooms' => $classrooms,
+            'schoolyear' => Yii::app()->user->year
         ));
     }
 
-    public function actionGetDisciplines () {
+    public function actionGetDisciplines()
+    {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
@@ -809,6 +811,92 @@ class ReportsController extends Controller
                 }
             }
         }
+    }
+
+    public function actionGenerateElectronicDiaryReport()
+    {
+        $arr = explode('/', $_POST["initialDate"]);
+        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+        $arr = explode('/', $_POST["finalDate"]);
+        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+        $result = [];
+        if ($_POST["type"] === "frequency") {
+            $students = [];
+            if ($_POST["fundamentalMaior"] == "1") {
+                $schedules = Schedule::model()
+                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0",
+                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]);
+                if ($schedules !== null) {
+                    foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
+                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "faults" => 0]);
+                    }
+                    foreach ($schedules as $schedule) {
+                        foreach($schedule->classFaults as $classFault) {
+                            $key = array_search($classFault->student_fk, array_column($students, 'id'));
+                            $students[$key]["faults"]++;
+                        }
+                    }
+                    $col = array_column($students, "name");
+                    array_multisort($col, SORT_ASC, $students);
+                }
+                $result["students"] = $students;
+            } else {
+                $schedules = Schedule::model()
+                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date) and unavailable = 0 group by day order by day, schedule",
+                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]);
+                if ($schedules !== null) {
+                    foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
+                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "faults" => 0]);
+                    }
+                    $days = [];
+                    $faultDays = [];
+                    foreach ($schedules as $schedule) {
+                        if (!in_array($schedule->month . $schedule->day, $days[$schedule->month])) {
+                            array_push($days, $schedule->month . $schedule->day);
+                        }
+                        /*
+                        foreach($schedule->classFaults as $classFault) {
+                            $key = array_search($classFault->student_fk, array_column($students, 'id'));
+                            $students[$key]["faults"]++;
+                        }
+                        */
+                    }
+                    $col = array_column($students, "name");
+                    array_multisort($col, SORT_ASC, $students);
+                }
+                /*
+                if ($schedules !== null) {
+                    $days = [];
+                    $faultDays = [];
+                    foreach ($schedules as $schedule) {
+                        if (!isset($days[$schedule->month])) {
+                            $days[$schedule->month] = [];
+                        }
+                        if (!in_array($schedule->day, $days[$schedule->month])) {
+                            array_push($days[$schedule->month], $schedule->day);
+                        }
+                        foreach ($schedule->classFaults as $classFault) {
+                            if (!isset($faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
+                                $faultDays[$classFault->studentFk->studentFk->name][$schedule->month] = [];
+                            }
+                            if (!in_array($schedule->day, $faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
+                                array_push($faultDays[$classFault->studentFk->studentFk->name][$schedule->month], $schedule->day);
+                            }
+                        }
+                    }
+                    foreach ($classroom->studentEnrollments as $studentEnrollment) {
+                        for ($i = $monthI; $i <= $monthF; $i++) {
+                            $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                        }
+                        $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
+                        $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;
+                        $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["birthday"] = $studentEnrollment->studentFk->birthday;
+                    }
+                }
+                */
+            }
+        }
+        echo json_encode($result);
     }
 
 }

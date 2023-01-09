@@ -26,7 +26,8 @@ $this->setPageTitle('TAG - Diário Eletrônico');
         Preencha os campos obrigatórios corretamente.
     </div>
     <div class="filter-bar margin-bottom-none hidden-print">
-        <div class="report-container">
+        <input type="hidden" class="school-year" value="<?= $schoolyear ?>">
+        <div class="report-filter">
             <?php echo CHtml::label("Relatório *", 'report-label', array('class' => 'control-label required')); ?>
             <select class="select-search-on" id="report">
                 <option value="">Selecione...</option>
@@ -38,7 +39,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
             <div>
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required')); ?>
                 <select class="select-search-on" id="classroom">
-                    <option>Selecione...</option>
+                    <option value="">Selecione...</option>
                     <?php foreach ($classrooms as $classroom): ?>
                         <option value="<?= $classroom->id ?>"
                                 fundamentalMaior="<?= $classroom->edcenso_stage_vs_modality_fk >= 14 && $classroom->edcenso_stage_vs_modality_fk <= 16 ? 0 : 1 ?>"><?= $classroom->name ?></option>
@@ -64,7 +65,8 @@ $this->setPageTitle('TAG - Diário Eletrônico');
                    class='btn btn-icon btn-small btn-primary glyphicons search'><?php echo Yii::t('default', 'Search') ?>
                     <i></i></a>
             </div>
-            <i class="loading-frequency fa fa-spin fa-spinner"></i>
+            <i class="loading-report fa fa-spin fa-spinner"></i>
         </div>
     </div>
+    <div class="report-container"></div>
 </div>
