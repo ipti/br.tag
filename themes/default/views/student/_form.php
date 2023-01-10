@@ -99,7 +99,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- name student -->
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'name', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -114,7 +114,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'birthday', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -127,7 +127,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'sex', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -137,7 +137,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'color_race', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -156,7 +156,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'filiation', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -304,7 +304,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
