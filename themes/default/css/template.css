@@ -8794,6 +8794,7 @@ li.active  a {
 
 #frequency-container .table-frequency thead .dayname-row th, #frequency-container .table-frequency thead .schedule-row th {
     font-weight: lighter;
+    min-width: 50px;
 }
 
 .table-frequency .student-name {

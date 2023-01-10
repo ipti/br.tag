@@ -143,17 +143,21 @@ function loadReport() {
                 html += "" +
                     "<table class='frequency-table table table-bordered table-striped table-hover'>" +
                     "<thead>" +
-                    "<tr><th class='table-title' colspan='4'>Frequência</th></tr>" +
-                    "<tr><th class='table-subtitle' colspan='4'>"
+                    "<tr><th class='table-title' colspan='5'>Frequência</th></tr>" +
+                    "<tr><th class='table-subtitle' colspan='5'>"
                     + $('#classroom').select2('data').text + " - "
                     + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? $('#discipline').select2('data').text + " - " : "")
                     + $(".initial-date").val() + " a " + $(".final-date").val()
                     + "</th></tr>" +
-                    "<tr><th>Nome</th><th>" + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? "Aulas" : "Dias") + "</th><th>Faltas</th><th>Frequência</th></tr>" +
+                    "<tr><th>Nome</th><th>" + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? "Aulas" : "Dias Letivos") + "</th><th>Faltas</th><th>Frequência</th><th>Faltas (Dias)</th></tr>" +
                     "</thead>" +
                     "<tbody>";
-                $.each(data.students, function () {
-                    html += "<tr><td>" + this.name + "</td><td>" + this.total + "</td><td>" + this.faults + "</td><td>" + this.frequency + "</td></tr>";
+                $.each(data.students, function (i, student) {
+                    var faultDaysContainer = "";
+                    $.each(this.faults, function (j, faultDays) {
+                        faultDaysContainer += faultDays + (j < Object.keys(student.faults).length - 1 ? "; " : "");
+                    });
+                    html += "<tr><td>" + student.name + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
                 });
                 html += "</tbody></table>";
                 $(".report-container").html(html);

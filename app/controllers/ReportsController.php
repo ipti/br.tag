@@ -824,25 +824,25 @@ class ReportsController extends Controller
             $students = [];
             if ($_POST["fundamentalMaior"] == "1") {
                 $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0",
+                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
                         ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]);
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => 0, "frequency" => ""]);
+                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
                     }
                     foreach ($schedules as $schedule) {
                         foreach ($schedule->classFaults as $classFault) {
                             $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            $students[$key]["faults"]++;
+                            array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT) . " (" . $schedule["schedule"] . "º Hor.)");
                         }
                     }
                     foreach ($students as &$student) {
-                        $student["frequency"] = (floor((($student["total"] - $student["faults"]) / $student["total"]) * 100 * 100) / 100) . "%";
+                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
                     }
                 }
             } else {
                 $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0",
+                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
                         ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]);
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
@@ -850,20 +850,19 @@ class ReportsController extends Controller
                     }
                     $days = [];
                     foreach ($schedules as $schedule) {
-                        if (!in_array($schedule->month . $schedule->day, $days)) {
-                            array_push($days, $schedule->month . $schedule->day);
+                        if (!in_array($schedule["day"] . $schedule["month"], $days)) {
+                            array_push($days, $schedule["day"] . $schedule["month"]);
                         }
                         foreach ($schedule->classFaults as $classFault) {
                             $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            if (!in_array($schedule->month . $schedule->day, $students[$key]["faults"])) {
-                                array_push($students[$key]["faults"], $schedule->month . $schedule->day);
+                            if (!in_array(str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT), $students[$key]["faults"])) {
+                                array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT));
                             }
                         }
                     }
                     foreach ($students as &$student) {
                         $student["total"] = count($days);
-                        $student["faults"] = count($student["faults"]);
-                        $student["frequency"] = (floor((($student["total"] - $student["faults"]) / $student["total"]) * 100 * 100) / 100) . "%";
+                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
                     }
                 }
             }
