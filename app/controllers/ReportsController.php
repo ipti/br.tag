@@ -780,7 +780,7 @@ class ReportsController extends Controller
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         }
         $this->layout = "fullmenu";
-        $this->render('electronicdiary', array(
+        $this->render('ElectronicDiary', array(
             'classrooms' => $classrooms,
             'schoolyear' => Yii::app()->user->year
         ));
