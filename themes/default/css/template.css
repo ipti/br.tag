@@ -8492,9 +8492,10 @@ input[type="checkbox"] {
     height: 20px;
     width: 20px;
     margin: 0px 2px 0px;
-    /* Borda não funciona */
-
+    /* Borda não funciona */ 
 }
+
+
 
 textarea,
 input[type="text"] {

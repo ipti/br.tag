@@ -500,8 +500,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
                                     <tr>
-                                        <th class='span1'><?php echo Yii::t('default', 'Move/Cancel') ?></th>
-                                        <th><?php echo Yii::t('default', 'Order') ?></th>
+                                        <th class='span1'><?php echo Yii::t('default', 'Mover/Cancelar') ?></th>
+                                        <th><?php echo Yii::t('default', 'Pedido') ?></th>
                                         <th><?php echo Yii::t('default', 'Name') ?></th>
                                         <th><?php echo Yii::t('default', 'Print') ?></th>
                                     </tr>
@@ -513,7 +513,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $i = 1;
                                         foreach ($enrollments as $enr) { ?>
                                             <tr>
-                                                <td align="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
+                                                <td align ="center"><input value="<?= $enr->id ?>" name="enrollments[]" type='checkbox' /></td>
                                                 <td width="30"><?= $i ?></td>
                                                 <td>
                                                     <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) ?>"> <?= $enr->studentFk->name ?></a>
