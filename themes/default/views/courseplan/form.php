@@ -16,6 +16,7 @@ $cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js', CClient
 $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
@@ -66,7 +67,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
                                         'key' => 'id',
-                                        'class' => 'select-search-on control-input span12',
+                                        'class' => 'select-search-on span12',
                                         'prompt' => 'Selecione o estágio'
                                     ));
                                     ?>
@@ -79,7 +80,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <div class="controls">
                                     <?php echo CHtml::label(yii::t('default', 'Disciplines') . "*", 'discipline_fk', array('class' => 'control-label')); ?>
                                 </div>
-                                <div class="controls"><?php
+                                <div class="controls coursePlan-input"><?php
                                                         echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
                                                             'key' => 'id',
                                                             'class' => 'select-search-on  control-input',

@@ -525,7 +525,7 @@ body > .container-fluid.documentation {
 
 #content h3.heading-mosaic {
     font-size: 16pt;
-    margin-left: 49px;
+    padding-left: 49px;
     font-weight: bold;
 }
 

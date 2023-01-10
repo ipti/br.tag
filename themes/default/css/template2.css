@@ -230,9 +230,9 @@
 */
 
 #teachingdata-dialog-form .select2-container .select2-choice {
- width: 361px;
+    width: 361px;
 }
-#add-content-form  input[type="text"], #add-resource-name input[type="text"] {
+#add-content-form  input[type="text"] {
     width:206px;
 }
 /* 
@@ -327,11 +327,4 @@
     .voltar-tobnav {
         display:  none;
     }
-}
-
-/* 
-    turmas
-*/
-.ui-widget-overlay {
-    background: black !important;
 }
