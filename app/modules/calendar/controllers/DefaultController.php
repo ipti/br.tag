@@ -130,11 +130,11 @@ class DefaultController extends Controller
                 $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
             }
-            if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
-                echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de férias, início ou fim de ano escolar quando existe turma com quadro de horário preenchido."]);
-            } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
-                echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de feriados com datas anteriores à atual quando existe turma com quadro de horário preenchido."]);
-            } else {
+//            if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
+//                echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de férias, início ou fim de ano escolar quando existe turma com quadro de horário preenchido."]);
+//            } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+//                echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de feriados com datas anteriores à atual quando existe turma com quadro de horário preenchido."]);
+//            } else {
                 $event->calendar_fk = $_POST["calendarFk"];
                 $event->name = $_POST["name"];
                 $event->start_date = $_POST["startDate"];
@@ -173,7 +173,7 @@ class DefaultController extends Controller
                     "eventName" => $event->name,
                     "uniqueDayToDelete" => $uniqueDayToDelete
                 ]);
-            }
+//            }
         } else {
             echo json_encode(["valid" => false, "error" => "Apenas administradores podem alterar este evento."]);
         }
