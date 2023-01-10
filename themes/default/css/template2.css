@@ -341,3 +341,6 @@
         display:  none;
     }
 }
+.ui-widget-overlay{
+    background: black !important;
+}

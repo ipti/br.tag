@@ -284,9 +284,12 @@ switch ($domain) {
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
-$HOST = getenv("HOST_DB_TAG");
-$USER = getenv("USER_DB_TAG");
-$PWD = getenv("PWD_DB_TAG");
+$HOST = '127.0.0.1:3307';
+$USER = 'root';
+$PWD = '';
+// $HOST = getenv("HOST_DB_TAG");
+// $USER = getenv("USER_DB_TAG");
+// $PWD = getenv("PWD_DB_TAG");
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=$db",
     'emulatePrepare' => true,
