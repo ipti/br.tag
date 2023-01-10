@@ -70,8 +70,9 @@ body {
     width: 100%;
 }
 
-.table > thead > tr > th {
+.table > thead > tr > th:not(.table-title):not(.table-subtitle) {
     vertical-align: bottom;
+    text-align: left;
 }
 
 .table-title {
