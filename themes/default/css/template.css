@@ -675,11 +675,13 @@ body > .container-fluid.documentation {
     width: 190px;
     float: left;
     position: fixed;
-    /* left: 0; */
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 2;
     top: 0px;
-    overflow: hidden;
-    margin-bottom: -99999px;
-    padding-bottom: 99999px;
+   /*margin-bottom: -99999px;
+    padding-bottom: 99999px; */
     background: #FAFAFE;
     color: #7c7c7c;
 }
@@ -865,7 +867,7 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li a,
 #menu > ul > li a {
     display: block;
-    width: auto;
+    width: 100%;
     padding: 0;
     margin: 0;
     color: #7c7c7c;
