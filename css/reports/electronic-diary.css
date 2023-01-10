@@ -1,5 +1,11 @@
-.dependent-filters {
+.dependent-filters, .report-header, .report-footer {
     display: none;
+}
+
+.innerLR .print-report {
+    display: none;
+    float: right;
+    margin-top: 15px;
 }
 
 .dependent-filters div {
@@ -25,4 +31,19 @@
 
 #loadreport {
     margin-left: 10px;
+}
+
+.table-title {
+    text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
+}
+
+.table-subtitle {
+    text-align: center !important;
+}
+
+.report-container {
+    margin-top: 25px;
 }

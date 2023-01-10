@@ -69,4 +69,8 @@ $this->setPageTitle('TAG - Diário Eletrônico');
         </div>
     </div>
     <div class="report-container"></div>
+    <button class="btn btn-icon btn-small btn-primary print-report"><i class="fa fa-print"></i> Imprimir</button>
+    <div class="report-header"><?php $this->renderPartial('head'); ?></div>
+    <div class="report-footer"><?php $this->renderPartial('footer'); ?></div>
+
 </div>

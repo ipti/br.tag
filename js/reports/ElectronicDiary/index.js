@@ -64,7 +64,7 @@ $(".final-date").datepicker({
     correctIntervalDate = false;
 });
 
-$(document).on("change", "#report", function() {
+$(document).on("change", "#report", function () {
     if ($(this).val() !== "") {
         $(".dependent-filters").show();
     } else {
@@ -134,16 +134,58 @@ function loadReport() {
         beforeSend: function () {
             $(".loading-report").css("display", "inline-block");
             $(".report-container").css("opacity", 0.3).css("pointer-events", "none");
-            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport").attr("disabled", "disabled");
+            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport, .print-report").attr("disabled", "disabled");
         },
         success: function (data) {
             data = JSON.parse(data);
-            console.log(data);
+            var html = "";
+            if ($("#report").val() === "frequency") {
+                html += "" +
+                    "<table class='frequency-table table table-bordered table-striped table-hover'>" +
+                    "<thead>" +
+                    "<tr><th class='table-title' colspan='4'>Frequência</th></tr>" +
+                    "<tr><th class='table-subtitle' colspan='4'>"
+                    + $('#classroom').select2('data').text + " - "
+                    + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? $('#discipline').select2('data').text + " - " : "")
+                    + $(".initial-date").val() + " a " + $(".final-date").val()
+                    + "</th></tr>" +
+                    "<tr><th>Nome</th><th>" + ($("#classroom option:selected").attr("fundamentalmaior") === "1" ? "Aulas" : "Dias") + "</th><th>Faltas</th><th>Frequência</th></tr>" +
+                    "</thead>" +
+                    "<tbody>";
+                $.each(data.students, function () {
+                    html += "<tr><td>" + this.name + "</td><td>" + this.total + "</td><td>" + this.faults + "</td><td>" + this.frequency + "</td></tr>";
+                });
+                html += "</tbody></table>";
+                $(".report-container").html(html);
+                $(".print-report").show();
+            }
         },
         complete: function (response) {
             $(".loading-report").hide();
             $(".report-container").css("opacity", 1).css("pointer-events", "auto");
-            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport").removeAttr("disabled");
+            $("#report, #classroom, #discipline, .initial-date, .final-date, #loadreport, .print-report").removeAttr("disabled");
         },
     });
 }
+
+$(document).on("click", ".print-report", function () {
+    var popup = window.open('', '', 'toolbar=no, menubar=no');
+    popup.document.writeln('<!DOCTYPE html>');
+    popup.document.writeln('<html moznomarginboxes mozdisallowselectionprint><head><title>Relatório</title>');
+    popup.document.writeln('<link rel="stylesheet" type="text/css" media="print" href="./css/reports/prints/print-reports.css?v=1.0">');
+    popup.document.writeln('<div class="header">' + $(".report-header")[0].innerHTML + '</div>');
+    popup.document.writeln('<h3>Diário Eletrônico</h3>');
+    popup.document.writeln("<div class='body-container'>" + $(".report-container")[0].innerHTML + "</div>");
+    popup.document.writeln('<div class="footer">' + $(".report-footer")[0].innerHTML + '</div>');
+    popup.document.writeln('</div>');
+    popup.document.writeln('</body>');
+    popup.document.writeln('</html>');
+    popup.document.close();
+    popup.onload = function () {
+        setTimeout(function () {
+            popup.focus();
+            popup.print();
+            popup.close();
+        }, 200);
+    };
+});
