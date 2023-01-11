@@ -307,7 +307,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'nationality', array('class' => 'control-label')); ?>
                                 </div>
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php
                                     echo $form->dropDownList($modelStudentIdentification, 'nationality', array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"), array('class' => 'select-search-off control-input'), array('ajax' => array(
                                         'type' => 'POST',
@@ -320,7 +320,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'edcenso_nation_fk', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -493,7 +493,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'send_year', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -503,7 +503,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentIdentification, 'deficiency', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -996,7 +996,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <div class=" span6">
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelStudentDocumentsAndAddress, 'residence_zone', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
@@ -1301,7 +1301,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="control-group">
-                                <div class="controls">
+                                <div class="controls required">
                                     <?php echo $form->labelEx($modelEnrollment, 'public_transport', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">

@@ -6,4 +6,8 @@ $(document).ready(function(){
         $("#menu").toggleClass("hidden-menu");
         div.toggleClass("sidebar-cover")
     });
+    $(".sidebar-cover").click(function(){
+        $("#menu").toggleClass("hidden-menu");
+        div.toggleClass("sidebar-cover")
+    });
 });
