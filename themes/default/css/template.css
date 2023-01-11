@@ -4677,7 +4677,7 @@ textarea {
 }
 /* controle de tamanho */
 .control-input{
-    height: 30px;
+   /*  height: 30px; */
     width: 426px;
 }
 .control-label.center {

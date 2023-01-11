@@ -74,7 +74,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <div></div>
                         <div></div>
                 </div>
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.png" />
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/emblema-escola.svg" />
                 <div class="infos-topnav">
                     <div id="change-school">
                         <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>"
@@ -100,7 +100,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                 <a 
                     class="logout"
                     href="<?php echo yii::app()->createUrl('site/logout') ?>">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.png" />
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                     <span>Sair</span>
                 </a>
             </li>
@@ -119,19 +119,19 @@ $baseUrl = Yii::app()->theme->baseUrl;
             <span id="span-color-yellow"></span>
         </div>
         <div class="logo-container">
-            <div class="fullmenu-toggle-button">
+            <div style="margin-right:10px;" class="fullmenu-toggle-button">
                         <div></div>
                         <div></div>
                         <div></div>
             </div>
-            <img class="tag-logo" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.png" />
+            <img class="tag-logo" style="width:85px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" />
         </div>
             <div class="slim-scroll" data-scroll-height="800px">
                 <ul id="box-menu">
                     <li id="menu-dashboard"
                         class="<?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
                         <a href="/" class="sidebar-item-tag">
-                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/home.png" />
+                                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/home.svg" />
                                 <span>Página Inicial</span>
                         </a>
                     </li>
@@ -146,41 +146,41 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             ?>
                             <a class="sidebar-item-tag"
                                href="<?php echo $schoolurl ?>">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.png" />
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/escola.svg" />
                                <span>Escola</span></a>
                         </li>
                         <li id="menu-classroom"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=classroom") ? 'active' : '' ?>">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('classroom') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/turmas.png" /><span>Turmas</span></a>
+                               href="<?php echo yii::app()->createUrl('classroom') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/turmas.svg" /><span>Turmas</span></a>
                         </li>
                         <li id="menu-student"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=student") ? 'active' : '' ?>">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('student') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/alunos.png" /><span>Alunos</span></a>
+                               href="<?php echo yii::app()->createUrl('student') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/alunos.svg" /><span>Alunos</span></a>
                         </li>
                         <li id="menu-instructor"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=instructor") ? 'active' : '' ?>">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('instructor') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/professores.png" /><span>Professores</span></a>
+                               href="<?php echo yii::app()->createUrl('instructor') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/professores.svg" /><span>Professores</span></a>
                         </li>
                         <li id="menu-calendar"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
                             <a class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('calendar') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/calendario.png" /><span>Calendário Escolar</span></a>
+                               href="<?php echo yii::app()->createUrl('calendar') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/calendario.svg" /><span>Calendário Escolar</span></a>
                         </li>
                         <li id="menu-matrix"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=curricularmatrix") ? 'active' : '' ?> hide-responsive">
                             <a class="sidebar-item-tag"
                                href="<?php echo yii::app()->createUrl('curricularmatrix') ?> ">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/matriz_curricular.png" />
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/matriz_curricular.svg" />
                                <span>Matriz Curricular</span>
                             </a>
                         </li>
                         <li id="menu-timesheet"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=timesheet") ? 'active' : '' ?> hide-responsive">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('timesheet') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quadro_de_horarios.png" /><span>Quadro de Horário</span></a>
+                               href="<?php echo yii::app()->createUrl('timesheet') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/quadro_de_horarios.svg" /><span>Quadro de Horário</span></a>
                         </li>
                     <?php endif ?>
                     <li id="menu-electronic-diary" class="hasSubmenu <?=
@@ -190,7 +190,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades")
                         ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
                         <a data-toggle="collapse" class="sidebar-item-tag" href="#menu-electronic-diary2">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.png" />  
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/diario_eletronico.svg" />  
                         <span>Diário Eletrônico</span></a>
                         <ul class="collapse <?=
                         strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
@@ -200,24 +200,24 @@ $baseUrl = Yii::app()->theme->baseUrl;
                             id="menu-electronic-diary2">
                             <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>"
                                href="<?php echo yii::app()->createUrl('courseplan') ?>">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.png" />
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/plano_de_aula.svg" />
                                <span>Plano de Aula</span></a>
                             <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>"
                                href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
-                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/aulas_ministradas.png" />
+                               <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/aulas_ministradas.svg" />
                                <span>Aulas Ministradas</span></a>
                             <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/frequencia.png" />
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/frequencia.svg" />
                             <span>Frequência</span></a>
                             <a class="sidebar-item-tag <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollment/grades") ? 'active' : '' ?>" href="<?php echo yii::app()->createUrl('enrollment/grades') ?> ">
-                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.png" />
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/notas.svg" />
                             <span>Notas</span></a>
                         </ul>
                     </li>
                     <li id="menu-student"
                         class="<?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                         <a  class="sidebar-item-tag"
-                           href="<?php echo yii::app()->createUrl('reports') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/relatorios.png" /><span>Relatórios</span></a>
+                           href="<?php echo yii::app()->createUrl('reports') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/relatorios.svg" /><span>Relatórios</span></a>
                     </li>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
                                 <!--<li id="menu-quiz"-->
@@ -227,23 +227,23 @@ $baseUrl = Yii::app()->theme->baseUrl;
                         <li id="menu-lunch"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.png" /><span>Merenda Escolar</span></a>
+                               href="<?php echo yii::app()->createUrl('lunch/lunch') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/merenda.svg" /><span>Merenda Escolar</span></a>
                         </li>
                         <li id="menu-censo"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
                             <a  class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('censo/validate') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.png" /><span>Educacenso</span></a>
+                               href="<?php echo yii::app()->createUrl('censo/validate') ?> "><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/educacenso.svg" /><span>Educacenso</span></a>
                         </li>
                     <?php endif ?>
                     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
                         <li id="menu-admin"
                             class="<?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">
                             <a class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('admin') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.png" /><span>Administração</span></a>
+                               href="<?php echo yii::app()->createUrl('admin') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/administracao.svg" /><span>Administração</span></a>
                         </li>
                         <li id="menu-logout" class="hide-responsive">
                             <a class="sidebar-item-tag"
-                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/gestao-de-resultados.png" /><span>Gestão de Resultados</span></a>
+                               href="<?php echo yii::app()->createUrl('resultsmanagement') ?>"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sidebarIcons/gestao-de-resultados.svg" /><span>Gestão de Resultados</span></a>
                         </li>
                     <?php } ?>
                 </ul>
