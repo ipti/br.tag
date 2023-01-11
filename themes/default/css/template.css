@@ -8489,6 +8489,9 @@ tr.filters td {
     margin-left:23px;
     color: rgba(169, 173, 196, 1);
 }
+.titulos.required::after{
+    content: ' *';
+}
 input[type="checkbox"] {
     background: white !important;
     height: 20px;

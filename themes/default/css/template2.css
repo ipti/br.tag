@@ -344,3 +344,13 @@
 .ui-widget-overlay{
     background: black !important;
 }
+
+.control-label.required {
+    width: 352px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.control-label.required.indicator::after {
+    content: ' *';
+}

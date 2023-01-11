@@ -58,16 +58,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="tab-content">
                 <div class="tab-pane active" id="courseplan">
                     <div class="row-fluid">
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
                                         'key' => 'id',
-                                        'class' => 'select-search-on span12',
+                                        'class' => 'select-search-on control-input',
                                         'prompt' => 'Selecione o estágio'
                                     ));
                                     ?>
@@ -75,31 +75,33 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                             </div>
                         </div>
-                        <div class=" span6">
+                        <div class=" span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Disciplines') . "*", 'discipline_fk', array('class' => 'control-label')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Disciplines') . "*", 'discipline_fk', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls coursePlan-input"><?php
-                                                        echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
-                                                            'key' => 'id',
-                                                            'class' => 'select-search-on  control-input',
-                                                            'prompt' => 'Selecione a disciplina',
-                                                        ));
-                                                        ?>
+                                                                        echo $form->dropDownList($coursePlan, 'discipline_fk', CHtml::listData(EdcensoDiscipline::model()->findAll(), 'id', 'name'), array(
+                                                                            'key' => 'id',
+                                                                            'class' => 'select-search-on control-input',
+                                                                            'prompt' => 'Selecione a disciplina',
+                                                                        ));
+                                                                        ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class=" span10">
+                        <div class=" span12">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
+                                        'class' => 'control-label required',
+                                    )); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($coursePlan, 'name', ['class' => 'span12']);
+                                    echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500,));
                                     ?>
                                 </div>
 
@@ -112,7 +114,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <tr>
                                 <th style="width: 10px;"></th>
                                 <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
-                                <th class="span11"><?= Yii::t('default', 'Objective'); ?></th>
+                                <th class="span12"><?= Yii::t('default', 'Objective'); ?></th>
                                 <th><?= Yii::t('default', 'Content'); ?></th>
                                 <th><?= Yii::t('default', 'Resource'); ?></th>
                                 <th><?= Yii::t('default', 'Type'); ?></th>
@@ -131,7 +133,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th></th>
                                 <th style="width: 20px;">
                                     <a style="width: 53px;" href="#new-course-class" id="new-course-class" class="btn btn-success btn-small">
-                                        <i style="margin-right: 6px;" class="fa fa-plus-square" ></i><?= Yii::t('default', 'New'); ?>
+                                        <i style="margin-right: 6px;" class="fa fa-plus-square"></i><?= Yii::t('default', 'New'); ?>
                                     </a>
                                 </th>
                             </tr>

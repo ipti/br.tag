@@ -74,7 +74,7 @@
 
                                 <div class="control-group">
                                     <div class="controls">
-                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label')); ?>
+                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 'control-label required indicator')); ?>
                                     </div>
                                     <div class="controls">
                                         <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32)); ?>

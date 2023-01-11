@@ -99,9 +99,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelSchoolIdentification, 'name', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-
                                     <?php echo $form->textField($modelSchoolIdentification, 'name', array('size' => 100, 'maxlength' => 100,)); ?>
-
                                     <!-- <span class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Only characters A-Z, 0-9, ª, º, space and -.') . " " . Yii::t('help', 'Min length') . '4'; ?>"><i></i></span> -->
@@ -265,7 +263,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Órgãos que a escola está vinculada</h3>
+                        <h5 class="titulos required">Órgãos que a escola está vinculada</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
@@ -290,7 +288,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Esfera do Órgão regulador</h3>
+                        <h5 class="titulos required">Esfera do Órgão regulador</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="control-group">
@@ -601,7 +599,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span6">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label')); ?>
+                                    <?php echo $form->labelEx($modelSchoolStructure, 'classroom_count', array('class' => 'control-label required')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelSchoolStructure, 'classroom_count'); ?>
@@ -802,8 +800,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <h5 class="titulos">Local de Funcionamento</h3>
+                    <div >
+                        <h5 class="titulos required">Local de Funcionamento</h3>
                     </div>
                     <div class="row-fluid">
                         <div class=" span6 hide-responsive">
@@ -842,7 +840,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->labelEx($modelSchoolStructure, 'building_occupation_situation', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
-                                    <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array(null => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido"), array('class' => 'select-search-off')); ?>
+                                    <?php echo $form->DropDownList($modelSchoolStructure, 'building_occupation_situation', array(null => "Selecione a forma de ocupação", "1" => "Próprio", "2" => "Alugado", "3" => "Cedido"), array('class' => 'select-search-off control-input')); ?>
                                     <?php echo $form->error($modelSchoolStructure, 'building_occupation_situation'); ?>
                                 </div>
                             </div>
@@ -855,7 +853,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($modelSchoolStructure, 'shared_building_with_school'); ?>
                                 </div>
                             </div>
-                            <!-- //@done s1 - Lista de Escolas muito pequena, aumentar -->
+                        
                             <div class="control-group">
                                 <div class="controls">
                                     <?php echo $form->labelEx($modelSchoolStructure, 'shared_school_inep_id_1', array('class' => 'control-label')); ?>
@@ -868,7 +866,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Dependencias</h3>
+                        <h5 class="titulos required">Dependencias</h3>
                     </div>
                     <div class="row-fluid  hide-responsive dependencies-container">
                         <div class=" span6">
@@ -1029,7 +1027,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Suprimento de água</h3>
+                        <h5 class="titulos required">Suprimento de água</h5>
                     </div>
                     <div class="row-fluid  hide-responsive">
                         <div class="span6">
@@ -1083,7 +1081,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'feeding', array('class' => 'control-label required')); ?>
+                                    <?php echo $form->labelEx($modelSchoolStructure, 'feeding', array('class' => 'control-label required indicator')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->DropDownList($modelSchoolStructure, 'feeding', array(null => "Selecione o valor", "0" => "Não oferece", "1" => "Oferece"), array('class' => 'select-search-off control-input')); ?>
@@ -1093,7 +1091,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Suprimento de Energia</h3>
+                        <h5 class="titulos required">Suprimento de Energia</h5>
                     </div>
                     <div class="row-fluid">
                         <div class="span6">
@@ -1122,7 +1120,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Acessability -->
                     </div>
                     <div>
-                        <h5 class="titulos">Esgoto</h3>
+                        <h5 class="titulos required">Esgoto</h5>
                     </div>
                     <div class="row-fluid">
                         <div class="control-group hide-responsive sewage-container">
@@ -1147,7 +1145,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Destino do Lixo</h3>
+                        <h5 class="titulos required">Destino do Lixo</h5>
                     </div>
                     <div class="row-fluid">
                         <div class="span6">
@@ -1181,7 +1179,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Tratamento do Lixo</h3>
+                        <h5 class="titulos required">Tratamento do Lixo</h5>
                     </div>
                     <div class="row-fluid">
                         <div class="span6">
@@ -1208,7 +1206,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Acessibilidade</h3>
+                        <h5 class="titulos required">Acessibilidade</h3>
                     </div>
                     <div class="row-fluid">
                         <div class="span6 accessbility-container">
@@ -1255,7 +1253,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div>
-                        <h5 class="titulos">Órgãos em Funcionamento na Escola</h3>
+                        <h5 class="titulos required">Órgãos em Funcionamento na Escola</h5>
                     </div>
                     <div class="row-fluid">
                         <div class="span6">

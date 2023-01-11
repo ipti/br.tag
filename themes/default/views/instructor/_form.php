@@ -587,7 +587,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                         <!-- curso 1 -->
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label required')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_1', array('class' => 'control-label required indicator')); ?>
 
                                                             </div>
                                                             <div class="controls">
@@ -667,7 +667,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label required')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_1_fk', array('class' => 'control-label required indicator')); ?>
 
                                                             </div>
                                                             <div class="controls">
@@ -686,7 +686,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                         <!-- Curso 2 -->
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array("class" => "select-search-off")); ?>
@@ -762,7 +762,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label required')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_2_fk', array('class' => 'control-label required indicator')); ?>
 
 
                                                             </div>
@@ -782,7 +782,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                         <div class="separator"></div>
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array('class' => 'select-search-off')); ?>
@@ -858,7 +858,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label required')); ?>
+                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_institution_code_3_fk', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo $form->textField($modelInstructorVariableData, 'high_education_institution_code_3_fk', array("style" => "width:220px;")); ?>
