@@ -9,7 +9,7 @@ const SignIn = () => {
   const [isValid, setValid] = useState(true);
   let history = useHistory();
   const onSubmit = values => {
-    api.post("login", values).then(function(response) {
+    api.post("auth/login", values).then(function(response) {
       if (response && !("error" in response.data)) {
         login(response.data.data.access_token);
         history.push("/");
