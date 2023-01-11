@@ -210,6 +210,12 @@
     height: 30px;
 }
 /* 
+    selects
+*/
+.select2-drop.select2-display-none.select2-drop-active {
+    margin-top: -1px;
+}
+/* 
     notas
 */
 .row-grades .center{
@@ -285,6 +291,7 @@
 /* 
     fullmenu-toggle-button
 */
+
 .fullmenu-sidebar {
     left: 0px;
 }
@@ -292,7 +299,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    margin-left: 12px;
+    margin-left: 20px;
     margin-top: 23px;
     margin-bottom: 65px;
 }
