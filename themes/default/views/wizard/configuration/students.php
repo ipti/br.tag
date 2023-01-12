@@ -62,7 +62,8 @@ $model = new StudentEnrollment();
                             <div class="control-group">
                                 <?php echo Chtml::label('Turma de '.Yii::app()->user->year.':','', array('class' => 'control-label ml-10 required')); ?>
                                 <div class="controls">
-                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = " . Yii::app()->user->year . " AND school_inep_fk=".yii::app()->user->school." order by name", array('order' => 'name')), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
+                                    <?php echo $form->dropDownList($model, 'classroom_fk', CHtml::listData(Classroom::model()->findAll("school_year = :sy AND school_inep_fk = :si order by name",
+                                            array("sy" => (Yii::app()->user->year-1), "si"=>yii::app()->user->school)), 'id', 'name'), array("prompt" => "Selecione uma Turma", 'class' => 'select-search-on')); ?>
                                     <?php echo $form->error($model, 'classroom_fk'); ?>
                                 </div>
                             </div>
