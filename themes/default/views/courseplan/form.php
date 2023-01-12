@@ -68,7 +68,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on control-input',
-                                        'prompt' => 'Selecione o estágio'
+                                        'prompt' => 'Selecione o estágio',
+
                                     ));
                                     ?>
                                 </div>
@@ -97,11 +98,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <div class="controls">
                                     <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array(
                                         'class' => 'control-label required',
+                                        
                                     )); ?>
                                 </div>
                                 <div class="controls">
                                     <?php
-                                    echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500,));
+                                    echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'style' => 'width: 931px'));
                                     ?>
                                 </div>
 

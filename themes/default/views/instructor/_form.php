@@ -689,7 +689,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_2', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array("class" => "select-search-off")); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_2', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array("class" => "select-search-off control-input")); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_2'); ?>
                                                             </div>
                                                         </div>
@@ -710,7 +710,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area2', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
-                                                                    'class' => 'select-search-off',
+                                                                    'class' => 'select-search-off control-input',
                                                                     'prompt' => 'Selecione a Área de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
@@ -729,7 +729,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_2_fk', array('class' => 'control-label')); ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione o curso 2', 'class' => 'select-search-on')); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_2_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione o curso 2', 'class' => 'select-search-on control-input ')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_2_fk'); ?>
                                                             </div>
                                                         </div>
@@ -785,7 +785,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_situation_3', array('class' => 'control-label required indicator')); ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array('class' => 'select-search-off')); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_situation_3', array(null => "Selecione a situação", 1 => 'Concluído', 2 => 'Em Andamento'), array('class' => 'select-search-off control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_situation_3'); ?>
                                                             </div>
                                                         </div>
@@ -806,7 +806,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList('high_education_course_area3', '', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(array('group' => 'cod')), 'cod', 'area'), array(
-                                                                    'class' => 'select-search-off',
+                                                                    'class' => 'select-search-off control-input',
                                                                     'prompt' => 'Selecione a Área de Atuação',
                                                                     'ajax' => array(
                                                                         'type' => 'POST',
@@ -825,7 +825,7 @@ $isModel = isset($modelInstructorIdentification->id); // Corrigir se precisar ac
                                                                 <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_course_code_3_fk', array('class' => 'control-label')); ?>
                                                             </div>
                                                             <div class="controls">
-                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione o curso 3', 'class' => 'select-search-on')); ?>
+                                                                <?php echo $form->DropDownList($modelInstructorVariableData, 'high_education_course_code_3_fk', CHtml::listData(EdcensoCourseOfHigherEducation::model()->findAll(), 'id', 'name'), array('prompt' => 'Selecione o curso 3', 'class' => 'select-search-on control-input')); ?>
                                                                 <?php echo $form->error($modelInstructorVariableData, 'high_education_course_code_3_fk'); ?>
                                                             </div>
                                                         </div>
