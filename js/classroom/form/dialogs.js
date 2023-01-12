@@ -7,7 +7,7 @@ $(document).ready(function () {
     myTeachingDataDialog = $("#teachingdata-dialog-form").dialog({
         autoOpen: false,
         height: 530,
-        width: 400,
+        width: 402,
         modal: true,
         draggable: false,
         resizable: false,
