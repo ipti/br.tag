@@ -1,0 +1,108 @@
+.pageA4H {
+    width: 1122px;
+    height: 810px;
+    margin: 0 auto;
+}
+
+.pageA4H h3 {
+    text-align: center;
+}
+
+h3 {
+    font-size: 24.5px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#header-report {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+}
+
+.pageA4H #header-report ul#info, .pageA4H #header-report ul#addinfo {
+    width: 1012px;
+}
+
+#header-report ul#info, #header-report ul#addinfo {
+    float: right;
+    width: 684px;
+    margin: 0;
+    overflow: hidden;
+}
+
+#header-report ul#info li {
+    font-size: 16px;
+    line-height: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#info li {
+    text-align: center;
+}
+
+#header-report ul#addinfo li {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.clear {
+    display: block;
+    clear: both;
+}
+
+ul {
+    list-style-type: none;
+}
+
+body {
+    font-size: 10px;
+}
+
+.table > tbody > tr:nth-of-type(even) {
+    background-color: #eee !important;
+}
+
+.table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    font-size: 10px;
+    width: 100%;
+}
+
+.table > thead > tr > th {
+    vertical-align: bottom;
+}
+
+.table > thead > tr > th:not(.table-title):not(.table-subtitle) {
+    text-align: left;
+}
+
+.table-title {
+    font-size: 16px;
+    text-align: center;
+}
+
+.table-subtitle {
+    font-size: 12px;
+    text-align: center;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    border: 1px solid #333;
+    page-break-inside: avoid;
+}
+
+tr > td, tr > th {
+    padding: 6px;
+}
+
+.footer {
+    margin-top: 10px;
+    line-height: 15px;
+}

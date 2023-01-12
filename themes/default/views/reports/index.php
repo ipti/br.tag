@@ -267,7 +267,7 @@ $this->breadcrumbs = array(
 
 $cs = Yii::app()->getClientScript();
 $cs->registerScript('buildReport', "  
-    $('#buildReport').live('click', function(event) {
+    $('#buildReport').on('click', function(event) {
         var url = $(this).attr('url');
         var id = $('#classroom').val();
         $(this).attr('url', url + '&id='+ id);
@@ -275,7 +275,7 @@ $cs->registerScript('buildReport', "
     registerAndOpenTab('#buildReport');", CClientScript::POS_END);
 
 $cs->registerScript('buildReportBF', "  
-    $('#buildReportBF').live('click', function(event) {
+    $('#buildReportBF').on('click', function(event) {
         var url = $(this).attr('url');
         var id = $('#classroom2').val();
         $(this).attr('url', url + '&id='+ id);

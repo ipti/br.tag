@@ -1,0 +1,49 @@
+.dependent-filters, .report-header, .report-footer {
+    display: none;
+}
+
+.innerLR .print-report {
+    display: none;
+    float: right;
+    margin-top: 15px;
+}
+
+.dependent-filters div {
+    margin-right: 10px !important;
+}
+
+.report-filter .select2-container {
+    width: 150px !important;
+}
+
+.initial-date, .final-date {
+    margin-top: -5px !important;
+    width: 100px;
+}
+
+.innerLR .loading-report {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-left: 10px;
+}
+
+#loadreport {
+    margin-left: 10px;
+}
+
+.table-title {
+    text-align: center !important;
+    color: white;
+    padding: 5px 0 !important;
+    background: #496cad;
+}
+
+.table-subtitle {
+    text-align: center !important;
+}
+
+.report-container {
+    margin-top: 25px;
+}
