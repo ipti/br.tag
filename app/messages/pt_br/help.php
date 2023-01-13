@@ -37,6 +37,8 @@ return array(
 
     //Ajuda profesor
     'Email' => 'exemplo@email.com.br',
+    'Instructor Full Civil Name' => 'Informe o nome civil completo do professor ',
+    'Instructor Full Social Name' => 'Informe o nome social completo do professor',
     
     //Ajuda Aluno
     'Student Full Name' => 'Informe o nome completo do aluno.',
