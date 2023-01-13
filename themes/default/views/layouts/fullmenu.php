@@ -54,7 +54,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <div class="navbar main hidden-print">
 
             <!-- Brand -->
-            <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a>
+            <!-- <a href="<?php echo Yii::app()->homeUrl; ?>" class="appbrand pull-left"><img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_logo.png" style="float:left;padding: 8px 0 0 0;height: 27px;" /><span id="schoolyear"><?php echo Yii::app()->user->year; ?></span></a> -->
 
 
             <!-- Top Menu Right -->
@@ -118,7 +118,7 @@ $baseUrl = Yii::app()->theme->baseUrl;
                     <span id="span-color-green"></span>
                     <span id="span-color-yellow"></span>
                 </div>
-                <div class="logo-container">
+                <div id="logo-menu"class="logo-container">
                     <div style="margin-right:10px;" class="fullmenu-toggle-button">
                         <div></div>
                         <div></div>

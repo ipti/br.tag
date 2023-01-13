@@ -681,7 +681,7 @@ body > .container-fluid.documentation {
     z-index: 2;
     top: 0px;
    /*margin-bottom: -99999px;
-    padding-bottom: 99999px; */
+    padding-left: 99999px; */
     background: #FAFAFE;
     color: #7c7c7c;
 }
@@ -699,6 +699,9 @@ body > .container-fluid.documentation {
     }
     #content {
         margin: 0 0 20px 0px;
+    }
+    #logo-menu{
+        margin-left: 10px;
     }
 
  }
