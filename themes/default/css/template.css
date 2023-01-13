@@ -685,6 +685,9 @@ body > .container-fluid.documentation {
     background: #FAFAFE;
     color: #7c7c7c;
 }
+#menu::-webkit-scrollbar {
+    display: none;
+}
 
 @media (max-width: 992px) { 
     #menu {

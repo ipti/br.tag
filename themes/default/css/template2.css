@@ -361,3 +361,9 @@
 .control-label.required.indicator::after {
     content: ' *';
 }
+
+.element::webkit-scrollbar {
+    width: 0! important
+}
+
+
