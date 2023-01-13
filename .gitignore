@@ -7,3 +7,6 @@ instance.php
 /instance.php
 config.php
 instance.php
+db
+dump.sql
+docker-compose.yml
