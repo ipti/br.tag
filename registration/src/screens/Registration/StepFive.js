@@ -61,7 +61,7 @@ const StepFive = props => {
     neighborhood: Yup.string().required("Campo obrigatório!"),
     state: Yup.string().required("Campo obrigatório!"),
     city: Yup.string().required("Campo obrigatório!"),
-    zone: Yup.string().required("Campo obrigatório!"),
+    zone: Yup.number().required("Campo obrigatório!"),
   });
 
   const TextMaskCep = props => {
@@ -93,7 +93,7 @@ const StepFive = props => {
     neighborhood: props?.student?.neighborhood ?? "",
     state: props?.student?.state ?? "",
     city: props?.student?.city ?? "",
-    zone: props?.student?.zone ?? ""
+    zone: props?.student?.zone ?? ''
   };
 
   const checkCep = (e, setFieldValue) =>{
@@ -103,10 +103,11 @@ const StepFive = props => {
       }
 
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then(res => res.json()).then(data =>{
+      .then(res => res.json()).then(data =>{  
         if(data.erro){
           setErrorCep(true);
         }else{
+        setFieldValue("cep", cep)
         setFieldValue("neighborhood", data.bairro);
         setFieldValue("city", data.localidade);
         setFieldValue("state", data.uf);

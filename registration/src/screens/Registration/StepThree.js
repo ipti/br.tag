@@ -105,17 +105,17 @@ const StepThree = props => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Campo obrigatório!"),
     birthday: Yup.string().required("Campo obrigatório!"),
-    sex: Yup.string().required("Campo obrigatório!"),
-    color_race: Yup.string().required("Campo obrigatório!"),
+    sex: Yup.number().required("Campo obrigatório!"),
+    color_race: Yup.number().required("Campo obrigatório!"),
     cpf: Yup.string().required("Campo obrigatório!"),
-    deficiency: Yup.string().required("Campo obrigatório!"),
+    deficiency: Yup.boolean().required("Campo obrigatório!"),
   });
 
   const initialValues = {
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',
     color_race: props?.student?.color_race ?? '',
-    sex: props?.student?.sex ?? "",
+    sex: props?.student?.sex ?? '',
     cpf: props?.student?.cpf ?? "",
     deficiency: props?.student?.deficiency ?? false,
     deficiency_type_blindness: props?.student?.deficiency_type_blindness ??  false,
@@ -311,12 +311,12 @@ const StepThree = props => {
                       value={values.color_race}
                       onChange={handleChange}
                     >
-                      <MenuItem value={`0`}>Não Declarada</MenuItem>
-                      <MenuItem value={`1`}>Branca</MenuItem>
-                      <MenuItem value={`2`}>Preta</MenuItem>
-                      <MenuItem value={`3`}>Parda</MenuItem>
-                      <MenuItem value={`4`}>Amarela</MenuItem>
-                      <MenuItem value={`5`}>Indígena</MenuItem>
+                      <MenuItem value={0}>Não Declarada</MenuItem>
+                      <MenuItem value={1}>Branca</MenuItem>
+                      <MenuItem value={2}>Preta</MenuItem>
+                      <MenuItem value={3}>Parda</MenuItem>
+                      <MenuItem value={4}>Amarela</MenuItem>
+                      <MenuItem value={5}>Indígena</MenuItem>
                     </Select>
                     <FormHelperText>{errorList.color_race}</FormHelperText>
                   </FormControl>
@@ -343,13 +343,13 @@ const StepThree = props => {
                       row
                     >
                       <FormControlLabel
-                        value="2"
+                        value={'2'}
                         name="sex"
                         control={<PurpleRadio />}
                         label="Feminino"
                       />
                       <FormControlLabel
-                        value="1"
+                        value={'1'}
                         name="sex"
                         control={<PurpleRadio />}
                         label="Masculino"
@@ -381,13 +381,13 @@ const StepThree = props => {
                       row
                     >
                       <FormControlLabel
-                        value='true'
+                        value={'true'}
                         name="deficiency"
                         control={<PurpleRadio />}
                         label="Sim"
                       />
                       <FormControlLabel
-                        value='false'
+                        value={'false'}
                         name="deficiency"
                         control={<PurpleRadio />}
                         label="não"

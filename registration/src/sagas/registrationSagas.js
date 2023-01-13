@@ -12,16 +12,19 @@ import api from "../services/api";
 // Requests
 const requestStudent = id => {
   return api
-    .get("/external/searchstudent/" + id)
+    .get("/student-pre-identification" + id)
     .then(response => response.data)
     .catch(err => {
       throw err;
     });
 };
 
+const parseBool = value => 
+      ['true', 'false'].includes(value) ? value === true : null
+
 const requestSaveRegistration = data => {
   return api
-    .post("/external", data)
+    .post("/student-pre-identification", {...data, sex: parseInt(data.sex), zone: parseInt(data.zone), deficiency: parseBool(data.deficiency)})
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -39,7 +42,7 @@ const requestPeriodRegistration = () => {
 
 const requestSchoolList = id => {
   return api
-    .get("/school/list")
+    .get("/school-identification-registration")
     .then(response => response.data)
     .catch(err => {
       throw err;

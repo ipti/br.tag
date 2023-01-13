@@ -72,7 +72,7 @@ const Home = props => {
         .reverse()
         .join("-");
     }
-
+    console.log("frtfy6");
     console.log(dataValues);
     props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: dataValues });
   };
@@ -80,6 +80,7 @@ const Home = props => {
   const next = (step, values) => {
     let data = Object.assign(dataValues, values);
     console.log(data)
+    console.log(step)
     if (
       step === 1 &&
       props?.period &&
@@ -103,7 +104,7 @@ const Home = props => {
       if (step === 3 && values && values.numRegistration !== "") {
         getDataStudent(values.numRegistration);
       } else {
-        if (step === 6) {
+        if (step === 7) {
           onSubmit();
         } else {
           setStep(step);
@@ -155,7 +156,7 @@ const Home = props => {
         style={{ minWidth: "100%" }}
       >
         <Grid item lg={4} md={5} xs={10}>
-          {isActive ? (
+          {true ? (
             <Wizard
               student={props.student && props.student.data}
               schools={props?.schoolList}

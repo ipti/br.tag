@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, styled } from "@material-ui/core/styles";
 import { Formik, Form } from "formik";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
-import { FormLabel, FormControl } from "@material-ui/core";
+import { FormLabel, FormControl, InputBase } from "@material-ui/core";
 import { ButtonPurple } from "../../components/Buttons";
 import styles from "./styles";
 import * as Yup from "yup";
@@ -26,10 +26,44 @@ const customStyles = {
   })
 };
 
+const BootstrapInput = styled(InputBase)(({ theme }) => ({
+  'label + &': {
+    marginTop: theme.spacing(3),
+  },
+  '& .MuiInputBase-input': {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}));
+
 const StepSix = props => {
   const classes = useStyles();
   const { loadingButtom } = props;
   const [inputValue, setInputValue] = useState("");
+  const [id, setId] = useState('')
   const [arrClassrooms, setArrClassrooms] = useState([]);
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
@@ -39,14 +73,25 @@ const StepSix = props => {
   });
 
   const initialValues = {
-    school_identification: inputValue,
-    classroom: inputValueClassroom
+    school_identification: '12345678',
+    classroom_inep_id: "1234567800",
+    classroom: 423
   };
 
+  console.log(id)
   const handleInputChange = newValue => {
-    api.get("/external/school/" + newValue).then(response => {
-      if (response.data) {
-        setArrClassrooms(response.data.school.classrooms);
+    console.log(newValue)
+    api.get("/school-identification-registration", {
+      params: {
+        include: {
+          classroom: true
+        }
+      }
+    }).then(response => {
+      console.log(response.data)
+      if (response.data.classroom) {
+        var filterClassrooms = response.data.classroom.filter(classroom => classroom.name == newValue)
+        setArrClassrooms(filterClassrooms);
       }
     });
     setInputValue(newValue);
@@ -56,15 +101,24 @@ const StepSix = props => {
     setInputValueClassroom(newValue);
   };
 
-  const searchSchools = (inputValue, callback) => {
-    if (inputValue.trim().length >= 3) {
-      setTimeout(() => {
-        api.get("/external/searchschool/" + inputValue).then(response => {
-          callback(response.data);
-        });
-      }, 500);
+  const searchSchools = () => {
+    console.log(inputValue)
+    if (inputValue) {
+      api.get("school-identification-registration").then(response => {
+        console.log(response.data)
+        return response.data.filter(school => school.name == inputValue)
+      });
+
+      // if (inputValue.trim().length >= 3) {
+      //   setTimeout(() => {
+      //     api.get("school-identification-registration").then(response => {
+      //       console.log(response.data)
+      //       setId(response.data.inep_id)
+      //       callback(response.data.filter(school => school.name == inputValue));
+      //     });
+      //   }, 500);
     } else {
-      callback(props?.schools);
+      return []
     }
   };
 
@@ -93,31 +147,27 @@ const StepSix = props => {
                     className={classes.formControl}
                   >
                     <FormLabel>Escola *</FormLabel>
-                    <AsyncSelect
+                    <Select
                       styles={customStyles}
                       cacheOptions
                       loadOptions={searchSchools}
                       defaultOptions
                       placeholder="Digite o nome da escola"
                       onChange={selectedOption => {
-                        handleInputChange(selectedOption._id);
+                        setId(selectedOption._id);
                       }}
-                      className={classes.selectField}
-                      getOptionValue={opt => opt.inepId}
-                      getOptionLabel={opt => opt.inepId + " - " + opt.name}
-                      loadingMessage={() => "Carregando"}
-                      noOptionsMessage={obj => {
-                        if (obj.inputValue.trim().length >= 3) {
-                          return "Nenhuma escola encontrada";
-                        } else {
-                          return "Digite 3 ou mais caracteres";
-                        
-                        
-                        
-                        
-                        
-                        }
-                      }}
+                      input={<BootstrapInput onChange={(e)=> setInputValue(e.target.value)}/>}
+                    // className={classes.selectField}
+                    // getOptionValue={opt => opt.inepId}
+                    // getOptionLabel={opt => opt.inepId + " - " + opt.name}
+                    // loadingMessage={() => "Carregando"}
+                    // noOptionsMessage={obj => {
+                    //   if (obj.inputValue.trim().length >= 3) {
+                    //     return "Nenhuma escola encontrada";
+                    //   } else {
+                    //     return "Digite 3 ou mais caracteres";
+                    //   }
+                    // }}
                     />
                   </FormControl>
                   <div className={classes.formFieldError}>
