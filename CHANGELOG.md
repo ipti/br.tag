@@ -1,8 +1,25 @@
-# Change Log
+# Atualizações
 
-## [Próximas Versões]
-- Melhorar o relatório de análise comparativa de matrículas.
-- Habilitar action de Update automático ao efetuar login em nova versão.
+## [Versão 2.13.1]
+**Melhorias**
+- Inserido Campo de Justificativa na Frequência
+        
+## [Versão 2.13.0]
+**Melhorias**
+- Responsividade no Diário Eletrônico
+- Melhorias no quadro de horário e Calendário Escolar
+- Melhoria Visual
+- Diário Eletrônico
+- Login de Professor
+- Adaptação de Campos Para o EducaCenso 2022 (Exportação) - v.5
+- Gerenciamento de Etapas para Notas por Conceito
+- Aprimoramento da Função Calendário Escolar
+- Quadro de Horário Remodelado
+- Frequência Remodelada
+- Calendário Remodelado
+
+**Bugs Corrigidos**
+- Relatório do Bolsa Família
 
 ## [Versão 2.10.7]
 **Melhorias:**

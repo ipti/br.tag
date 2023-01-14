@@ -1137,7 +1137,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             "1" => "Reprovado",
                                             "2" => "Afastado por transferência",
                                             "3" => "Afastado por abandono",
-                                            "4" => "Matrícula final em Educação Infantil"
+                                            "4" => "Matrícula final em Educação Infantil",
+                                            "5" => "Promovido"
                                         ),
                                         array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($modelEnrollment, 'previous_stage_situation'); ?>
@@ -1374,6 +1375,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                                         }
                                                         ?>
+                                                        <li><a href='<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport', array('enrollment_id' => $me->id)) ?>' target="_blank">Rendimento Escolar Por Atividades</a></li>
                                                 </td>
                                                 <td style="text-align: center">
                                                     <?php if ($me->classroomFk->school_year >= date('Y')) { ?>

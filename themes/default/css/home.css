@@ -1,3 +1,6 @@
+.board-msg {
+    display: none;
+}
 
 .text-right {
     text-align: right !important;
@@ -249,7 +252,7 @@ form {
     margin-top: 10px;
 }
 
-.cockadoodledoo {
+.home-container {
     margin-top: 10px;
 }
 

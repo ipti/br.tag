@@ -19,6 +19,7 @@ return array(
         'application.components.*',
         'application.modules.wizard.models.*',
         'application.modules.calendar.models.*',
+        'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
     ),
     'modules' => array(

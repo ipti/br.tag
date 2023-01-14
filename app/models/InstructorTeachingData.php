@@ -45,10 +45,13 @@
  * @property EdcensoDiscipline $discipline7Fk
  * @property EdcensoDiscipline $discipline8Fk
  * @property EdcensoDiscipline $discipline9Fk
+ * @property TeachingMatrixes[] $teachingMatrixes
  */
 class InstructorTeachingData extends AltActiveRecord
 {
 	const SCENARIO_IMPORT = "SCENARIO_IMPORT";
+	public $disciplines;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -121,6 +124,7 @@ class InstructorTeachingData extends AltActiveRecord
 			'discipline7Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_7_fk'),
 			'discipline8Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_8_fk'),
 			'discipline9Fk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_9_fk'),
+            'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'teaching_data_fk')
 		);
 	}
 

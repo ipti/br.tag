@@ -72,8 +72,18 @@
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <div class="span3">
+                    <a href="<?php echo Yii::app()->createUrl('admin/changelog') ?>" class="widget-stats">
+                        <span class="glyphicons settings"><i></i></span>
+                        <span class="txt">Atualizações no TAG</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="changelogs">
+
     </div>
 
 </div>

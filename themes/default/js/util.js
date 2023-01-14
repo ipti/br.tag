@@ -361,7 +361,7 @@ function removeRequiredSelect2(id){
  * @returns {nothing}
  */
 function registerAndOpenTab(id){
-    $(id).live('click', function(event) {
+    $(id).on('click', function(event) {
         event.preventDefault();
         window.open($(this).attr("url")); 
     });
