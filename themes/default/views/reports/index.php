@@ -192,6 +192,13 @@ $this->breadcrumbs = array(
                         <div class="clearfix"></div>
                     </a>
                 </div>
+                <div class="span2">
+                    <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>" class="widget-stats">
+                        <span class="glyphicons briefcase"><i></i></span>
+                        <span class="txt">Diário Eletrônico</span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
             </div>
             <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="New Calendar">
                 <div class="modal-dialog" role="document">
@@ -287,7 +294,7 @@ $this->breadcrumbs = array(
 
 $cs = Yii::app()->getClientScript();
 $cs->registerScript('buildReport', "  
-    $('#buildReport').live('click', function(event) {
+    $('#buildReport').on('click', function(event) {
         var url = $(this).attr('url');
         var id = $('#classroom').val();
         $(this).attr('url', url + '&id='+ id);
@@ -295,7 +302,7 @@ $cs->registerScript('buildReport', "
     registerAndOpenTab('#buildReport');", CClientScript::POS_END);
 
 $cs->registerScript('buildReportBF', "  
-    $('#buildReportBF').live('click', function(event) {
+    $('#buildReportBF').on('click', function(event) {
         var url = $(this).attr('url');
         var id = $('#classroom2').val();
         $(this).attr('url', url + '&id='+ id);

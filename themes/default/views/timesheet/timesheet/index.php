@@ -7,7 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.1');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js?v=1.3', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js?v=1.4', CClientScript::POS_END);
 $cs->registerScript("vars",
     "var getTimesheetURL = '" . $this->createUrl("getTimesheet") . "'; " .
     "var removeScheduleURL = '" . $this->createUrl("removeSchedule") . "'; " .

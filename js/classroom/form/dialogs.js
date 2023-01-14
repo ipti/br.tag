@@ -6,8 +6,8 @@ $(document).ready(function () {
     //Cria o Dialogo de TeachingData
     myTeachingDataDialog = $("#teachingdata-dialog-form").dialog({
         autoOpen: false,
-        height: 430,
-        width: 250,
+        height: 530,
+        width: 400,
         modal: true,
         draggable: false,
         resizable: false,

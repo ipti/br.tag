@@ -228,7 +228,7 @@ function actionGetFrequency()
             echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
         }
     } else {
-        echo json_encode(["valid" => false, "error" => "Não existe quadro de horário com dias letivos para o mês selecionado."]);
+        echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para esta disciplina."]);
     }
 }
 
@@ -301,35 +301,23 @@ public function actionSaveJustification() {
 public
 function actionGetDisciplines()
 {
-    $crid = $_POST['classroom'];
+    $classroom = Classroom::model()->findByPk($_POST["classroom"]);
     $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
     if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
         $disciplines = Yii::app()->db->createCommand(
-            "select d.id from `edcenso_discipline` as `d`
-                        JOIN `instructor_teaching_data` `t` ON 
-                                (`t`.`discipline_1_fk` = `d`.`id` 
-                                || `t`.`discipline_2_fk` = `d`.`id` 
-                                || `t`.`discipline_3_fk` = `d`.`id`
-                                || `t`.`discipline_4_fk` = `d`.`id`
-                                || `t`.`discipline_5_fk` = `d`.`id`
-                                || `t`.`discipline_6_fk` = `d`.`id`
-                                || `t`.`discipline_7_fk` = `d`.`id`
-                                || `t`.`discipline_8_fk` = `d`.`id`
-                                || `t`.`discipline_9_fk` = `d`.`id`
-                                || `t`.`discipline_10_fk` = `d`.`id`
-                                || `t`.`discipline_11_fk` = `d`.`id`
-                                || `t`.`discipline_12_fk` = `d`.`id`
-                                || `t`.`discipline_13_fk` = `d`.`id`)
-                        join `classroom` as `c` on (c.id = t.classroom_id_fk)
-                        left join instructor_identification ii on t.instructor_fk = ii.id 
-                        where ii.users_fk = :userid and t.classroom_id_fk = :crid order by d.name")
-            ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $crid)->queryAll();
+            "select ed.id from teaching_matrixes tm 
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+            ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
         foreach ($disciplines as $discipline) {
             echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
         }
     } else {
         echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina'), true);
-        $classr = Yii::app()->db->createCommand("select distinct discipline_fk from schedule join edcenso_discipline on edcenso_discipline.id = schedule.discipline_fk where classroom_fk = :crid order by edcenso_discipline.name")->bindParam(":crid", $crid)->queryAll();
+        $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
         foreach ($classr as $i => $discipline) {
             if (isset($discipline['discipline_fk'])) {
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));

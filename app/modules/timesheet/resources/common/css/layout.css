@@ -401,3 +401,7 @@ table.table-timesheet td {
 .workload-green {
     color: green;
 }
+
+.workload-instructor {
+    font-size: 10px;
+}

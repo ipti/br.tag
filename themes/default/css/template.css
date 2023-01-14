@@ -50,6 +50,11 @@
  *
  * Designed and built exclusively for sale @Envato Marketplaces.
 */
+.changelog-link {
+    color: white;
+    text-decoration: underline;
+}
+
 .hideText {
     text-indent: -999em;
     letter-spacing: -999em;
@@ -638,7 +643,7 @@ body > .container-fluid.documentation {
     float: left;
     position: fixed;
     left: 0;
-    top: 41px;
+    top: 40px;
     overflow: hidden;
     margin-bottom: -99999px;
     padding-bottom: 99999px;
@@ -786,8 +791,8 @@ body > .container-fluid.documentation {
 #menu .slim-scroll > ul > li,
 #menu > ul > li {
     display: block;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     border-bottom: 1px solid #ccc;
     position: relative;
     overflow: hidden;
@@ -819,8 +824,8 @@ body > .container-fluid.documentation {
     padding: 0;
     margin: 0;
     color: #7c7c7c;
-    height: 30px;
-    line-height: 30px;
+    height: 35px;
+    line-height: 35px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
@@ -835,7 +840,7 @@ body > .container-fluid.documentation {
 #menu > ul > li a.glyphicons i:before {
     font-size: 17px;
     color: #7c7c7c;
-    top: 7px;
+    top: 9px;
     left: 15px;
 }
 
@@ -1124,7 +1129,7 @@ body > .container-fluid.documentation {
     height: 46px;
     padding: 0 0 0 15px;
     line-height: 46px;
-    width: 190px;
+    width: 120px;
 }
 
 .navbar.main .appbrand > span {
@@ -1560,6 +1565,22 @@ li.highlight.profile
     position: relative;
     top: auto;
     float: left;
+}
+
+.submenu-icon {
+    position: absolute;
+    top: 12px;
+    font-size: 12px !important;
+    right: 7px;
+    pointer-events: none;
+    z-index: 100 !important;
+}
+
+.hasSubmenu.active .fa-chevron-right {
+    display: none;
+}
+.hasSubmenu:not(.active) .fa-chevron-down {
+    display: none;
 }
 
 .filter-bar {
@@ -8347,8 +8368,24 @@ input[type="text"] {
     cursor: pointer;
 }
 
-li.active a {
+li.active  a {
     font-weight: bold !important;
+}
+
+#box-menu li.active a {
+    font-weight: 600 !important;
+}
+
+.hasSubmenu ul > a {
+    padding-left: 61px !important;
+}
+
+.hasSubmenu ul > a i:before {
+    left: 33px !important;
+}
+
+.hasSubmenu ul > a.active {
+    background: #ccc;
 }
 
 .vmiddle {
@@ -8757,6 +8794,7 @@ li.active a {
 
 #frequency-container .table-frequency thead .dayname-row th, #frequency-container .table-frequency thead .schedule-row th {
     font-weight: lighter;
+    min-width: 50px;
 }
 
 .table-frequency .student-name {
@@ -8830,6 +8868,21 @@ li.active a {
     text-decoration: underline;
     cursor: pointer;
     font-weight: bold;
+}
+
+.innerLR .loading-disciplines {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.no-curricular-matrix-error {
+    display: none;
+}
+
+#teachingdata-dialog-form .select2-container {
+    width: 100% !important;
 }
 
 @media (max-width: 768px) {
