@@ -572,8 +572,6 @@ return array(
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
     
-
-    
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -584,8 +582,7 @@ return array(
     'Filiation 2' => 'Nome Completo do Pai',
     'Nationality' => 'Nacionalidade',
     'Edcenso Nation Fk' => 'País de origem',
-    'Social Name' => 'Nome Social',
-    'Civil Name' => 'Nome Civil',
+    'Full name' => 'Nome completo',
     'Full mothers name' => 'Nome completo da mãe',
     'Full fathers name' => 'Nome completo do pai',
     'Deficiency' => 'Deficiência',
