@@ -16,7 +16,6 @@ const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
   const [loadDataSchool, setLoadDataSchool] = useState(true);
   const [loadPeriod, setLoadPeriod] = useState(true);
-  const [loadCep, setLoadCep] = useState(true);
   const [open, setOpen] = useState(false);
   const [number, setNumber] = useState("");
   const [step, setStep] = useState(0);
@@ -41,10 +40,6 @@ const Home = props => {
       setLoadPeriod(false);
     }
 
-    if(loadCep){
-      props.dispatch({type: "GET_ADDRESS", data: '49043130'});
-      setLoadCep(false);
-    }
 
     if (step === 2 && props?.student?.status === "1") {
       setStep(3);
@@ -106,6 +101,7 @@ const Home = props => {
       } else {
         if (step === 7) {
           onSubmit();
+          setStep(step)
         } else {
           setStep(step);
         }

@@ -16,7 +16,7 @@ const Student = props => {
         className={`${classes.contentStart} ${classes.contentBond}`}
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
       >
         <Grid item xs={12}>
@@ -27,7 +27,7 @@ const Student = props => {
           <p>Você estava matriculado na instituição no ano anterior?</p>
         </Grid>
       </Grid>
-      <Grid className={`${classes.marginTop}`} container justify="center" alignItems="center" >
+      <Grid className={`${classes.marginTop}`} container justifyContent="center" alignItems="center" >
         <Grid item xs={4}>
           <ButtonPurple
             type="button"

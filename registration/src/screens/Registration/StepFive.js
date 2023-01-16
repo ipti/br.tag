@@ -154,7 +154,7 @@ const StepFive = props => {
                 className={`${classes.contentMain} ${classes.marginTop}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -184,7 +184,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -210,7 +210,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -236,7 +236,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -259,7 +259,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -285,7 +285,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -311,7 +311,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -337,7 +337,7 @@ const StepFive = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -370,7 +370,7 @@ const StepFive = props => {
               </Grid>
               <Grid
                 className={`${classes.marginTop} ${classes.marginButtom}`}
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 container
                 direction="row"

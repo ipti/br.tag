@@ -58,7 +58,7 @@ const Home = props => {
         <Loading />
       ) : (
         <>
-          <SchoolClassroom data={props.school?.school} />
+          <SchoolClassroom data={props.school} />
           {alert()}
         </>
       )}
@@ -68,7 +68,7 @@ const Home = props => {
 
 const mapStateToProps = state => {
   return {
-    school: state.school.school,
+    school: state.school,
     error: state.school.msgError,
     loading: state.school.loading,
     openAlert: state.school.openAlert

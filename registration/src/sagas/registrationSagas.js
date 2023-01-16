@@ -19,12 +19,20 @@ const requestStudent = id => {
     });
 };
 
-const parseBool = value => 
-      ['true', 'false'].includes(value) ? value === true : null
+const parseBool = value =>
+  ['true', 'false'].includes(value) ? value === true : null
 
 const requestSaveRegistration = data => {
   return api
-    .post("/student-pre-identification", {...data, sex: parseInt(data.sex), zone: parseInt(data.zone), deficiency: parseBool(data.deficiency)})
+    .post("/student-pre-identification", {
+      ...data,
+      sex: parseInt(data.sex),
+      zone: parseInt(data.zone),
+      deficiency: parseBool(data.deficiency),
+      cpf: data.cpf.replace(/\D/g, ''),
+      responsable_cpf: data.responsable_cpf.replace(/\D/g, ''),
+      responsable_telephone: data.responsable_telephone.replace(/\D/g, '')
+    })
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -42,7 +50,13 @@ const requestPeriodRegistration = () => {
 
 const requestSchoolList = id => {
   return api
-    .get("/school-identification-registration")
+    .get("/school-identification-registration", {
+      params: {
+        include: {
+          classroom: true
+        }
+      }
+    })
     .then(response => response.data)
     .catch(err => {
       throw err;

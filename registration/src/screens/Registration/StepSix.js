@@ -4,7 +4,7 @@ import { makeStyles, styled } from "@material-ui/core/styles";
 import { Formik, Form } from "formik";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
-import { FormLabel, FormControl, InputBase } from "@material-ui/core";
+import { FormLabel, FormControl, InputBase, TextField } from "@material-ui/core";
 import { ButtonPurple } from "../../components/Buttons";
 import styles from "./styles";
 import * as Yup from "yup";
@@ -62,9 +62,9 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
 const StepSix = props => {
   const classes = useStyles();
   const { loadingButtom } = props;
-  const [inputValue, setInputValue] = useState("");
-  const [id, setId] = useState('')
-  const [arrClassrooms, setArrClassrooms] = useState([]);
+  const [classroom, setClassroom] = useState('')
+  const [inepId, setInepId] = useState('')
+  const [schoolInepFk, setSchoolInepFk] = useState('');
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
   const validationSchema = Yup.object().shape({
@@ -73,52 +73,19 @@ const StepSix = props => {
   });
 
   const initialValues = {
-    school_identification: '12345678',
-    classroom_inep_id: "1234567800",
-    classroom: 423
-  };
-
-  console.log(id)
-  const handleInputChange = newValue => {
-    console.log(newValue)
-    api.get("/school-identification-registration", {
-      params: {
-        include: {
-          classroom: true
-        }
-      }
-    }).then(response => {
-      console.log(response.data)
-      if (response.data.classroom) {
-        var filterClassrooms = response.data.classroom.filter(classroom => classroom.name == newValue)
-        setArrClassrooms(filterClassrooms);
-      }
-    });
-    setInputValue(newValue);
+    school_identification: schoolInepFk,
+    classroom_inep_id: inepId,
+    classroom: inputValueClassroom
   };
 
   const handleChange = newValue => {
     setInputValueClassroom(newValue);
   };
 
-  const searchSchools = () => {
-    console.log(inputValue)
-    if (inputValue) {
-      api.get("school-identification-registration").then(response => {
-        console.log(response.data)
-        return response.data.filter(school => school.name == inputValue)
-      });
-
-      // if (inputValue.trim().length >= 3) {
-      //   setTimeout(() => {
-      //     api.get("school-identification-registration").then(response => {
-      //       console.log(response.data)
-      //       setId(response.data.inep_id)
-      //       callback(response.data.filter(school => school.name == inputValue));
-      //     });
-      //   }, 500);
-    } else {
-      return []
+  const searchSchools = (inputValue, callback) => {
+    if (inputValue.trim().length >= 3) {
+      const buscaLowerCase = inputValue.toLowerCase();
+      callback(props.schools.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
     }
   };
 
@@ -138,7 +105,7 @@ const StepSix = props => {
                 className={`${classes.contentMain} ${classes.marginTop}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContentContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -147,27 +114,26 @@ const StepSix = props => {
                     className={classes.formControl}
                   >
                     <FormLabel>Escola *</FormLabel>
-                    <Select
+                    <AsyncSelect
                       styles={customStyles}
                       cacheOptions
                       loadOptions={searchSchools}
                       defaultOptions
                       placeholder="Digite o nome da escola"
                       onChange={selectedOption => {
-                        setId(selectedOption._id);
+                        setClassroom(selectedOption.classroom);
                       }}
-                      input={<BootstrapInput onChange={(e)=> setInputValue(e.target.value)}/>}
-                    // className={classes.selectField}
-                    // getOptionValue={opt => opt.inepId}
-                    // getOptionLabel={opt => opt.inepId + " - " + opt.name}
-                    // loadingMessage={() => "Carregando"}
-                    // noOptionsMessage={obj => {
-                    //   if (obj.inputValue.trim().length >= 3) {
-                    //     return "Nenhuma escola encontrada";
-                    //   } else {
-                    //     return "Digite 3 ou mais caracteres";
-                    //   }
-                    // }}
+                      className={classes.selectField}
+                      getOptionValue={opt => opt.inep_id}
+                      getOptionLabel={opt => opt.inep_id + " - " + opt.name}
+                      loadingMessage={() => "Carregando"}
+                      noOptionsMessage={obj => {
+                        if (obj.inputValue.trim().length >= 3) {
+                          return "Nenhuma escola encontrada";
+                        } else {
+                          return "Digite 3 ou mais caracteres";
+                        }
+                      }}
                     />
                   </FormControl>
                   <div className={classes.formFieldError}>
@@ -179,7 +145,7 @@ const StepSix = props => {
                 className={`${classes.contentMain} ${classes.marginTop30}`}
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>
@@ -194,11 +160,13 @@ const StepSix = props => {
                       classNamePrefix="select"
                       isSearchable={true}
                       placeholder="Selecione a Turma"
-                      options={arrClassrooms}
+                      options={classroom}
                       onChange={selectedOption => {
-                        handleChange(selectedOption._id);
+                        handleChange(selectedOption.id);
+                        setSchoolInepFk(selectedOption.school_inep_fk)
+                        setInepId(selectedOption.inep_id)
                       }}
-                      getOptionValue={opt => opt._id}
+                      getOptionValue={opt => opt.classroom}
                       getOptionLabel={opt => opt.name}
                       loadingMessage={() => "Carregando"}
                       noOptionsMessage={obj => {
@@ -217,7 +185,7 @@ const StepSix = props => {
               </Grid>
               <Grid
                 className={`${classes.marginTop} ${classes.marginButtom}`}
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 container
                 direction="row"

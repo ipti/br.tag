@@ -14,7 +14,7 @@ const Finish = props => {
         className={`${classes.contentStart} ${classes.contentBond}`}
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
       >
         <Grid item xs={12}>
@@ -23,7 +23,7 @@ const Finish = props => {
         <Grid item xs={12}>
           <p>
             Matrícula realizada com sucesso,
-            <br /> anote seu código de inscrição
+            <br /> a escola entrará em contato
           </p>
         </Grid>
       </Grid>
@@ -31,7 +31,7 @@ const Finish = props => {
         className={`${classes.contentStart} ${classes.contentBond}`}
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
       >
         <Grid className={classes.boxNumberRegistration} item xs={10}>

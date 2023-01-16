@@ -5,7 +5,7 @@ import api from "../services/api";
 
 // Requests
 const requestSchools = data => {
-  let path = data ? "/school?page=" + data : "/school";
+  let path ="/school-identification";
 
   return api
     .get(path)
@@ -17,7 +17,7 @@ const requestSchools = data => {
 
 const requestSchool = id => {
   return api
-    .get("/school/" + id)
+    .get("/school-identification/" + id)
     .then(response => response.data)
     .catch(err => {
       throw err;

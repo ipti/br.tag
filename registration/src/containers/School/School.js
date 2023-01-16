@@ -68,7 +68,7 @@ const Home = props => {
         <>
           <School
             pagination={props.schools?.pagination}
-            data={props.schools?.schools}
+            data={props.schools}
             handlePage={handlePage}
             activePage={page}
           />

@@ -16,7 +16,7 @@ const Start = props => {
         className={classes.contentStart}
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
       >
         <Grid item xs={12}>
@@ -34,13 +34,13 @@ const Start = props => {
         className={`${classes.marginTop}`}
         container
         direction="row"
-        justify="center"
+        justifyContent="center"
         alignItems="center"
       >
         <Grid item xs={6}>
           <ButtonPurple
             type="button"
-            onClick={() => props.nextStep('6')}
+            onClick={() => props.nextStep('1')}
             title="Iniciar"
           />
         </Grid>
