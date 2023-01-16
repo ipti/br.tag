@@ -365,12 +365,15 @@
 .element::webkit-scrollbar {
     width: 0! important
 }
-.eletronic-diary-label {
+.electronic-diary-label {
     width: auto !important;
 }
- .select2-container.select-search-on.eletronic-diary-input {
+ .select2-container.select-search-on.electronic-diary-input {
     width: 160px !important;
 }
-.select2-container.select-search-on.eletronic-diary-input .select2-choice {
+.select2-container.select-search-on.electronic-diary-input .select2-choice {
     width: 150px !important;
+}
+.electronic-diary.date-container {
+    width: 200px;
 }
