@@ -1,6 +1,6 @@
 /app/runtime/
 /app/backup/
-/assets/
+/assets/**
 .idea/
 instance.php
 .vscode/launch.json
