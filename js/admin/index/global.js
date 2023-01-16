@@ -60,3 +60,9 @@ $(document).on("click", ".collapse-icon", function() {
     }
 });
 
+const {origin,pathname} = window.location;
+$("#disable-user-submit").click(function() {
+    console.log("click")
+    url = `${origin}${pathname}?r=admin/disableUser&id=${$("#users").val()}`;
+    window.location.replace(url);
+});

@@ -9,7 +9,7 @@
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
-						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+						'import', 'export', 'clearDB','DisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
 						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
 					], 'users' => ['@'],
 				],
@@ -53,6 +53,18 @@
 				}
 			}
 			$this->render('createUser', ['model' => $model]);
+		}
+
+		public function actionDisableUser($id) {
+			
+			$model = Users::model()->findByPk($id);
+
+			$model->active = 0;
+
+			if($model->save()) {
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
+				$this->redirect(['index']);
+			}
 		}
 
 		public function actionEditPassword($id) {
