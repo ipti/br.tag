@@ -365,5 +365,12 @@
 .element::webkit-scrollbar {
     width: 0! important
 }
-
-
+.eletronic-diary-label {
+    width: auto !important;
+}
+ .select2-container.select-search-on.eletronic-diary-input {
+    width: 160px !important;
+}
+.select2-container.select-search-on.eletronic-diary-input .select2-choice {
+    width: 150px !important;
+}
