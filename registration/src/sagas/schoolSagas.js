@@ -4,7 +4,7 @@ import { getSchools, getSchool, getError } from "../actions/schoolActions";
 import api from "../services/api";
 
 // Requests
-const requestSchools = data => {
+const requestSchools = () => {
   let path ="/school-identification";
 
   return api
@@ -17,7 +17,15 @@ const requestSchools = data => {
 
 const requestSchool = id => {
   return api
-    .get("/school-identification/" + id)
+    .get("/school-identification", {
+      params: {
+        inep_id: id,
+        include: {
+          classroom: true,
+          edcenso_city: true
+        }
+      }
+    })
     .then(response => response.data)
     .catch(err => {
       throw err;

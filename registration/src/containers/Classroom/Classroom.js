@@ -63,6 +63,8 @@ const Home = props => {
     return <></>;
   };
 
+  console.log(props)
+
   return (
     <>
       {props.loading ? (
@@ -70,7 +72,7 @@ const Home = props => {
       ) : (
         <>
           <Classroom
-            data={props.classroom.classrooms}
+            data={props.classroom}
             handlePage={handlePage}
             pagination={props.classroom.pagination}
             activePage={page}

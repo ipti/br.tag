@@ -3,15 +3,17 @@ import { SchoolClassroom } from "../../screens/School";
 import { connect } from "react-redux";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 import Loading from "../../components/Loading/CircularLoading";
+import { useParams } from "react-router";
 
 const Home = props => {
   const [loadData, setLoadData] = useState(true);
+  const { id } = useParams()
 
   useEffect(() => {
     if (loadData) {
       props.dispatch({
         type: "FETCH_SCHOOL",
-        data: { id: props.match.params.id }
+        data: { id: id }
       });
       setLoadData(false);
     }

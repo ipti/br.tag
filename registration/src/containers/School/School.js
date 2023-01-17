@@ -60,6 +60,7 @@ const Home = props => {
 
     return <></>;
   };
+  console.log(props)
   return (
     <>
       {props.loading ? (
@@ -67,7 +68,7 @@ const Home = props => {
       ) : (
         <>
           <School
-            pagination={props.schools?.pagination}
+            pagination={props.schools}
             data={props.schools}
             handlePage={handlePage}
             activePage={page}
@@ -80,6 +81,8 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
+
+  console.log(state)
   return {
     schools: state.school.schools,
     error: state.school.msgError,

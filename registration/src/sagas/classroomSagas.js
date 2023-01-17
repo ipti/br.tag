@@ -12,9 +12,10 @@ import api from "../services/api";
 
 // Requests
 const requestClassrooms = data => {
-  let path = data ? "/classroom?page=" + data : "/classroom";
+  let path = "/classroom";
   return api
     .get(path)
+    
     .then(response => response.data)
     .catch(err => {
       throw err;

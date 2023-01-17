@@ -25,7 +25,7 @@ const Home = ({ data, pagination, handlePage, activePage }) => {
 
     return schoolList.map((school, index) => (
       <Grid key={index} className={classes.box} item md={4} sm={3} xs={12}>
-        <BoxBig link={`escolas/${school._id}`} textRight="Ativa">
+        <BoxBig link={`escolas/${school.inep_id}`} textRight="Ativa">
           <p title={school.name} className={classes.name}>
             {school.name}
           </p>

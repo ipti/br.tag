@@ -20,11 +20,13 @@ const Classroom = ({ data, pagination, handlePage, activePage }) => {
   const classrooms = () => {
     const classroomList = data ?? [];
 
-    return classroomList.map((classroom, index) => {
+    console.log(classroomList)
+
+    return classroomList.data.map((classroom, index) => {
       return (
         <Grid key={index} item md={4} sm={4} xs={12}>
           <BoxBig
-            link={`turmas/${classroom._id}`}
+            link={`turmas/${classroom.id}`}
             title={classroom.name}
             subtitle="Turma"
             addCursor={true}

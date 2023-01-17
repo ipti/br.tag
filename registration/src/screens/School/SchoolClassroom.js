@@ -22,7 +22,7 @@ import styles from "./styles";
 
 const useStyles = makeStyles(styles);
 
-const Home = ({ data})  => {
+const Home = ({ data })  => {
   const classes = useStyles();
   let history = useHistory();
 
@@ -37,11 +37,12 @@ const Home = ({ data})  => {
     "4": "Privada"
   };
 
+
   const classrooms = data
-    ? data.classrooms.map((classroom, index) => (
+    ? data.school[0].classroom.map((classroom, index) => (
         <Grid
           className={classes.cursor}
-          onClick={() => handleLink("/turmas/" + classroom._id)}
+          onClick={() => handleLink("/turmas/" + classroom.id)}
           key={index}
           item
           md={4}
@@ -67,25 +68,29 @@ const Home = ({ data})  => {
       ))
     : [];
 
+    const school = data.school[0]
+
+    console.log(school)
+
   return (
     <>
       <Grid container direction="row">
-        {data && <TitleWithLine title={data.name} />}
+        {school  && <TitleWithLine title={school .name} />}
       </Grid>
       <Grid container direction="row" spacing={3}>
         <Grid item md={3}>
           <p className={classes.label}>Código do Inep</p>
-          <span title={data?.inepId} className={classes.truncate}>
-            {data?.inepId}
+          <span title={school ?.inep_id} className={classes.truncate}>
+            {school ?.inep_id}
           </span>
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Dependência Administrativa</p>
           <span
-            title={data?.administrative_dependence}
+            title={school ?.administrative_dependence}
             className={classes.truncate}
           >
-            {dependence[data?.administrative_dependence]}
+            {dependence[school?.administrative_dependence]}
           </span>
         </Grid>
         <Grid item md={4}>
@@ -97,9 +102,14 @@ const Home = ({ data})  => {
           <div className={classes.floatLeft}>
             <div className={`${classes.floatLeft} ${classes.boxManager}`}>
               <p className={classes.label}>Gestor</p>
-              <span title={data?.managerName} className={classes.truncate}>
-                {data?.managerName}
+              {school.manager_name ?
+                <span title={school?.manager_name} className={classes.truncate}>
+                {school?.manager_name}
+              </span> : <span>
+                Não especificado
               </span>
+              }
+              
             </div>
           </div>
         </Grid>
@@ -122,22 +132,22 @@ const Home = ({ data})  => {
           <Grid item md={10}>
             <div className={`${classes.floatLeft} ${classes.boxAddress}`}>
               <p className={classes.label}>Endereço</p>
-              <span title={data?.address}  className={classes.truncate}>
-              { data?.address }
+              <span title={school?.address}  className={classes.truncate}>
+              { school?.address }
               </span>
             </div>
           </Grid>
         </Grid>
         <Grid item md={2}>
           <p className={classes.label}>Cep</p>
-          <span title={data?.cep}  className={classes.truncate}>
-          { data?.cep }
+          <span title={school?.cep}  className={classes.truncate}>
+          { school?.cep }
           </span>
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Cidade</p>
-          <span title={data?.city}  className={classes.truncate}>
-          { data?.city }
+          <span title={school?.city}  className={classes.truncate}>
+          { school?.edcenso_city.name }
           </span>
         </Grid>
       </Grid>
