@@ -38,14 +38,14 @@ $('.tab-school li a').click(function () {
         case li4:
             tab = li4;
             $('.prev').show();
-            $('.next').hide();
-            $('.last').show();
+            $('.next').show();
+            $('.last').hide();
             break;
         case li5:
             tab = li5;
-            $('.prev').hide();
+            $('.prev').show();
             $('.next').hide();
-            $('.last').hide();
+            $('.last').show();
             break;
         case li6:
             tab = li6;
