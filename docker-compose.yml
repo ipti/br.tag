@@ -1,0 +1,71 @@
+services:
+  tag:
+    build: .
+    container_name: tag-app
+    restart: always
+    volumes:
+      - .:/app
+    ports:
+      - 80:80
+    expose:
+      - 80
+    networks:
+      - tag-v3-network
+    environment:
+      HOST_DB_TAG: 'mysql'
+      USER_DB_TAG: 'root'
+      PWD_DB_TAG: 'root'
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+      
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tag
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - ./db:/var/lib/mysql
+      - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
+    networks:
+      - tag-v3-network
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8088:8080
+    networks:
+      - tag-v3-network
+
+networks:
+  tag-v3-network:
+
+volumes:
+  db-volume:
+
+
+  # sqlserver:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   environment:
+  #     SA_PASSWORD: "SqlServer2019!"
+  #     ACCEPT_EULA: "Y"
+  #     MSSQL_PID: "Developer"
+  #   ports:
+  #     - "1433:1433"
+  #   volumes:
+  #     - ./20221207_2138_EDU_BUZIOS_DIDATICA-FAETEC.BAK:/tmp/db.BAK
+    
+  # mssqltools:
+  #   image: mcr.microsoft.com/mssql-tools
+  #   depends_on:
+  #     - sqlserver
+
+

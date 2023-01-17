@@ -375,5 +375,14 @@
     width: 150px !important;
 }
 .electronic-diary.date-container {
-    width: 200px;
+    display: flex;
+   /*  padding: 5px 0; */
+}
+.electronic-diary.date-container input[type="text"] {
+    width: 150px;
+    margin-right: 10px;
+}
+.electronic-diary.date-container input[type="text"] {
+    width: 150px;
+    margin-right: 10px;
 }

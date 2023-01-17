@@ -250,7 +250,7 @@ class SiteController extends Controller
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
                 $html .= '<li class="home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
                     . '<div style="max-width:815px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">'
-                    . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'"/>'
+                    . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'.svg"/>'
                     . $text . '</div>'
                     . '<div>'
                     . '<div class="log-date">' . $date . '</div>'

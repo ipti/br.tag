@@ -10,4 +10,8 @@ $(document).ready(function(){
         $("#menu").toggleClass("hidden-menu");
         div.toggleClass("sidebar-cover")
     });
+    $("#box-menu").click(function(){
+        $("#menu").toggleClass("hidden-menu");
+        div.toggleClass("sidebar-cover")
+    });
 });
