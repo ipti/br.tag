@@ -86,8 +86,8 @@ $('.next').click(function () {
             break;
         case li3:
             next = li4;
-            $('.next').hide();
-            $('.last').show();
+            $('.next').show();
+            $('.last').hide();
             break;
         case li4:
             next = li5;

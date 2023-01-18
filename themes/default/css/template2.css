@@ -357,6 +357,11 @@
     text-align: left;
     font-weight: bold;
 }
+.control-label.required.small-label {
+    width: auto;
+    text-align: left;
+    font-weight: bold;
+}
 
 .control-label.required.indicator::after {
     content: ' *';
@@ -376,7 +381,6 @@
 }
 .electronic-diary.date-container {
     display: flex;
-   /*  padding: 5px 0; */
 }
 .electronic-diary.date-container input[type="text"] {
     width: 150px;
