@@ -74,45 +74,11 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                     </a>
                 </div>
                 <div class="span3">
-                    <a href="#" data-toggle="modal" data-target="#disable-user" class="widget-stats" target="_blank">
-                        <div><span class="glyphicons remove"><i></i></span></div>
-                        <span class="report-title">Desativar usuário</span>
+                    <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>" class="widget-stats">
+                        <span class="glyphicons remove"><i></i></span>
+                        <span class="txt">Ativar/Desativar usuário</span>
                         <div class="clearfix"></div>
                     </a>
-                </div>
-                <div class="modal fade" id="disable-user" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Escolha o Usuário</h4>
-                            </div>
-                            <form class="form-vertical" id="disableUser" action="/br.tag/?r=admin" method="post">
-                                <div class="modal-body">
-                                    <div class="row-fluid">
-                                        <div class=" span12" style="margin: 10px 0 10px 0;">
-                                            <div class="span4">
-                                                <?php echo CHtml::label(yii::t('default', 'Users'), 'users', array('class' => 'control-label')); ?>
-                                            </div>
-                                            <div class="span8">
-                                                <?php
-                                                echo CHtml::dropDownList('users', '', CHtml::listData(Users::model()->findAll(array('condition' => 'active=1')), 'id', 'name'), array(
-                                                    'key' => 'id',
-                                                    'class' => 'select-search-on',
-                                                    'prompt' => 'Selecione a turma',
-                                                ));
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer" style="background-color:#FFF;">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary" id="disable-user-submit">Desativar</button>
-                                    </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

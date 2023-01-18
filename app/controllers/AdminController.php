@@ -1,96 +1,128 @@
 <?php
-	class AdminController extends Controller {
-		public $layout = 'fullmenu';
-		public function accessRules() {
-			return [
-				[
-					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => ['CreateUser', 'index', 'conflicts'], 'users' => ['*'],
-				], [
-					'allow', // allow authenticated user to perform 'create' and 'update' actions
-					'actions' => [
-						'import', 'export', 'clearDB','DisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
-					], 'users' => ['@'],
-				],
-			];
-		}
-		/**
-		 * Show the Index Page.
-		 */
-		public function actionIndex() {
-			$this->render('index');
-		}
-		public function actionCreateUser() {
-			$model = new Users;
+class AdminController extends Controller
+{
+	public $layout = 'fullmenu';
+	public function accessRules()
+	{
+		return [
+			[
+				'allow',
+				'actions' => [
+					'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 'DisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
+				], 'users' => ['@'],
+			],
+		];
+	}
+	/**
+	 * Show the Index Page.
+	 */
+	public function actionIndex()
+	{
+		$this->render('index');
+	}
+	public function actionCreateUser()
+	{
+		$model = new Users;
 
-			if (isset($_POST['Users'], $_POST['Confirm'])) {
-				$model->attributes = $_POST['Users'];
-				if ($model->validate()) {
-					$password = md5($_POST['Users']['password']);
-					$confirm = md5($_POST['Confirm']);
-					if ($password == $confirm) {
-						$model->password = $password;
-						// form inputs are valid, do something here
-						if ($model->save()) {
-							$save = TRUE;
-							foreach ($_POST['schools'] as $school) {
-								$userSchool = new UsersSchool;
-								$userSchool->user_fk = $model->id;
-								$userSchool->school_fk = $school;
-								$save = $save && $userSchool->validate() && $userSchool->save();
-							}
-							if ($save) {
-								$auth = Yii::app()->authManager;
-								$auth->assign($_POST['Role'], $model->id);
-								Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
-								$this->redirect(['index']);
-							}
-						}
-					} else {
-						$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
-					}
-				}
-			}
-			$this->render('createUser', ['model' => $model]);
-		}
-
-		public function actionDisableUser($id) {
-			
-			$model = Users::model()->findByPk($id);
-
-			$model->active = 0;
-
-			if($model->save()) {
-				Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
-				$this->redirect(['index']);
-			}
-		}
-
-		public function actionEditPassword($id) {
-			$model = Users::model()->findByPk($id);
-
-			if (isset($_POST['Users'], $_POST['Confirm'])) {
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$model->attributes = $_POST['Users'];
+			if ($model->validate()) {
 				$password = md5($_POST['Users']['password']);
 				$confirm = md5($_POST['Confirm']);
 				if ($password == $confirm) {
 					$model->password = $password;
+					// form inputs are valid, do something here
 					if ($model->save()) {
-						Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
-						$this->redirect(['index']);
+						$save = TRUE;
+						foreach ($_POST['schools'] as $school) {
+							$userSchool = new UsersSchool;
+							$userSchool->user_fk = $model->id;
+							$userSchool->school_fk = $school;
+							$save = $save && $userSchool->validate() && $userSchool->save();
+						}
+						if ($save) {
+							$auth = Yii::app()->authManager;
+							$auth->assign($_POST['Role'], $model->id);
+							Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário cadastrado com sucesso!'));
+							$this->redirect(['index']);
+						}
 					}
 				} else {
 					$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
 				}
 			}
-			$this->render('editPassword', ['model' => $model]);
 		}
+		$this->render('createUser', ['model' => $model]);
+	}
+
+	public function actionActiveDisableUser()
+	{
+		$filter = new Users('search');
+		if (isset($_GET['Users'])) {
+			$filter->attributes = $_GET['Users'];
+		}
+		$criteria = new CDbCriteria;
+		$criteria->condition = 'id != 1';
+		$dataProvider = new CActiveDataProvider('Users', array(
+			'criteria' => $criteria,
+			'pagination' => array(
+				'pageSize' => 12,
+			)
+		));
+		$this->render('ActiveDisableUser', ['dataProvider' => $dataProvider, 'filter' => $filter]);
+	}
+
+	public function actionDisableUser($id)
+	{
+		$model = Users::model()->findByPk($id);
+
+		$model->active = 0;
+
+		if ($model->save()) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário desativado com sucesso!'));
+			$this->redirect(['index']);
+		}
+	}
+
+	public function actionActiveUser($id)
+	{
+		$model = Users::model()->findByPk($id);
+
+		$model->active = 1;
+
+		if ($model->save()) {
+			Yii::app()->user->setFlash('success', Yii::t('default', 'Usuário ativado com sucesso!'));
+			$this->redirect(['index']);
+		}
+	}
+
+	public function actionEditPassword($id)
+	{
+		$model = Users::model()->findByPk($id);
+
+		if (isset($_POST['Users'], $_POST['Confirm'])) {
+			$password = md5($_POST['Users']['password']);
+			$confirm = md5($_POST['Confirm']);
+			if ($password == $confirm) {
+				$model->password = $password;
+				if ($model->save()) {
+					Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
+					$this->redirect(['index']);
+				}
+			} else {
+				$model->addError('password', Yii::t('default', 'Confirm Password') . ': ' . Yii::t('help', 'Confirm'));
+			}
+		}
+		$this->render('editPassword', ['model' => $model]);
+	}
 
 
-		public function actionClearDB() {
-			//delete from users_school;
-			//delete from users;
-			// delete from auth_assignment;
+	public function actionClearDB()
+	{
+		//delete from users_school;
+		//delete from users;
+		// delete from auth_assignment;
 
 		$command = "
 			SET FOREIGN_KEY_CHECKS=0;
@@ -117,60 +149,62 @@
             delete from school_identification;
             delete from school_structure;";
 
-			set_time_limit(0);
-			ignore_user_abort();
-			Yii::app()->db->createCommand($command)->query();
+		set_time_limit(0);
+		ignore_user_abort();
+		Yii::app()->db->createCommand($command)->query();
 
-			$this->addTestUsers();
+		$this->addTestUsers();
 
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
-    }
-        public function addTestUsers() {
-            set_time_limit(0);
-            ignore_user_abort();
-            $admin_login = 'admin';
-            $admin_password = md5('p@s4ipti');
+		Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
+		$this->redirect(array('index'));
+	}
+	public function addTestUsers()
+	{
+		set_time_limit(0);
+		ignore_user_abort();
+		$admin_login = 'admin';
+		$admin_password = md5('p@s4ipti');
 
-            $command = "INSERT INTO `users`VALUES
+		$command = "INSERT INTO `users`VALUES
                         (1, 'Administrador', '$admin_login', '$admin_password', 1);";
-            Yii::app()->db->createCommand($command)->query();
+		Yii::app()->db->createCommand($command)->query();
 
-            $auth = Yii::app()->authManager;
-            $auth->assign('admin', 1);
+		$auth = Yii::app()->authManager;
+		$auth->assign('admin', 1);
 
-//        //Criar usuário de teste, remover depois.
-//        /*         * ************************************************************************************************ */
-//        /**/$command = "INSERT INTO `users`VALUES"
-//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-//        /**/Yii::app()->db->createCommand($command)->query();
-//        /*         * ************************************************************************************************ */
-        }
-		public function mres($value)
-		{
-			$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
-			$replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+		//        //Criar usuário de teste, remover depois.
+		//        /*         * ************************************************************************************************ */
+		//        /**/$command = "INSERT INTO `users`VALUES"
+		//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
+		//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
+		//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
+		//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
+		//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
+		//        /**/Yii::app()->db->createCommand($command)->query();
+		//        /*         * ************************************************************************************************ */
+	}
+	public function mres($value)
+	{
+		$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+		$replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
 
-			return str_replace($search, $replace, $value);
+		return str_replace($search, $replace, $value);
+	}
+	public function actionImportMaster()
+	{
+		set_time_limit(0);
+		ini_set('memory_limit', '-1');
+		ignore_user_abort();
+		$time1 = time();
+		$path = Yii::app()->basePath;
+		$uploadfile = $path . '/import/28031610.json';
+		$fileDir = $uploadfile;
+		$mode = 'r';
+
+		$fileImport = fopen($fileDir, $mode);
+		if ($fileImport == FALSE) {
+			die('O arquivo não existe.');
 		}
-		public function actionImportMaster(){
-			set_time_limit(0);
-			ini_set('memory_limit', '-1');
-			ignore_user_abort();
-			$time1 = time();
-			$path = Yii::app()->basePath;
-			$uploadfile = $path . '/import/28031610.json';
-			$fileDir = $uploadfile;
-			$mode = 'r';
-
-			$fileImport = fopen($fileDir, $mode);
-			if ($fileImport == FALSE) {
-				die('O arquivo não existe.');
-			}
 
 		$jsonSyncTag = "";
 		while (!feof($fileImport)) {
@@ -180,9 +214,9 @@
 		fclose($fileImport);
 		$json = unserialize($jsonSyncTag);
 		$this->loadMaster($json);
-
 	}
-	public function loadMaster($loads){
+	public function loadMaster($loads)
+	{
 		ini_set('max_execution_time', 0);
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
@@ -191,8 +225,8 @@
 			$saveschool = new SchoolIdentification();
 			$saveschool->setDb2Connection(true);
 			$saveschool->refreshMetaData();
-			$saveschool = $saveschool->findByAttributes(array('inep_id'=>$scholl['inep_id']));
-			if(!isset($saveschool)){
+			$saveschool = $saveschool->findByAttributes(array('inep_id' => $scholl['inep_id']));
+			if (!isset($saveschool)) {
 				$saveschool = new SchoolIdentification();
 				$saveschool->setDb2Connection(true);
 				$saveschool->refreshMetaData();
@@ -204,8 +238,8 @@
 			$saveschool = new SchoolStructure();
 			$saveschool->setDb2Connection(true);
 			$saveschool->refreshMetaData();
-			$saveschool = $saveschool->findByAttributes(array('school_inep_id_fk'=>$structure['school_inep_id_fk']));
-			if(!isset($saveschool)){
+			$saveschool = $saveschool->findByAttributes(array('school_inep_id_fk' => $structure['school_inep_id_fk']));
+			if (!isset($saveschool)) {
 				$saveschool = new SchoolStructure();
 				$saveschool->setDb2Connection(true);
 				$saveschool->refreshMetaData();
@@ -218,8 +252,8 @@
 			$saveclass->setScenario('search');
 			$saveclass->setDb2Connection(true);
 			$saveclass->refreshMetaData();
-			$saveclass = $saveclass->findByAttributes(array('hash'=>$class['hash']));
-			if (!isset($saveclass)){
+			$saveclass = $saveclass->findByAttributes(array('hash' => $class['hash']));
+			if (!isset($saveclass)) {
 				$saveclass = new Classroom();
 				$saveclass->setScenario('search');
 				$saveclass->setDb2Connection(true);
@@ -235,8 +269,8 @@
 			$savestudent->setScenario('search');
 			$savestudent->setDb2Connection(true);
 			$savestudent->refreshMetaData();
-			$savestudent = $savestudent->findByAttributes(array('hash'=>$student['hash']));
-			if (!isset($savestudent)){
+			$savestudent = $savestudent->findByAttributes(array('hash' => $student['hash']));
+			if (!isset($savestudent)) {
 				$savestudent = new StudentIdentification();
 				$savestudent->setScenario('search');
 				$savestudent->setDb2Connection(true);
@@ -245,7 +279,6 @@
 			$savestudent->attributes = $student;
 			$savestudent->hash = $student['hash'];
 			$savestudent->save();
-
 		}
 
 		foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
@@ -253,8 +286,8 @@
 			$savedocument->setScenario('search');
 			$savedocument->setDb2Connection(true);
 			$savedocument->refreshMetaData();
-			$savedocument = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
-			if (!isset($exist)){
+			$savedocument = $savedocument->findByAttributes(array('hash' => $documentsaddress['hash']));
+			if (!isset($exist)) {
 				$savedocument = new StudentDocumentsAndAddress();
 				$savedocument->setScenario('search');
 				$savedocument->setDb2Connection(true);
@@ -270,8 +303,8 @@
 			$saveenrollment->setScenario('search');
 			$saveenrollment->setDb2Connection(true);
 			$saveenrollment->refreshMetaData();
-			$saveenrollment = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
-			if (!isset($exist)){
+			$saveenrollment = $saveenrollment->findByAttributes(array('hash' => $enrollment['hash']));
+			if (!isset($exist)) {
 				$saveenrollment = new StudentEnrollment();
 				$saveenrollment->setScenario('search');
 				$saveenrollment->setDb2Connection(true);
@@ -286,7 +319,8 @@
 		//@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
 
 	}
-	public function prepareExport(){
+	public function prepareExport()
+	{
 		ini_set('max_execution_time', 0);
 		ini_set('memory_limit', '-1');
 		set_time_limit(0);
@@ -306,11 +340,10 @@
 		try {
 			Yii::app()->db2;
 			$conn = true;
-		}
-		catch(Exception $ex) {
+		} catch (Exception $ex) {
 			$conn = false;
 		}
-		if($conn){
+		if ($conn) {
 			/*
 			foreach ($studentAll as $index => $student) {
 				$hash_student = hexdec(crc32($student->name.$student->birthday));
@@ -337,29 +370,29 @@
 			$iclass->setDb2Connection(false);
 			$iclass->refreshMetaData();
 			$classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
-			$hash_school = hexdec(crc32($school->inep_id.$school->name));
+			$hash_school = hexdec(crc32($school->inep_id . $school->name));
 			$loads['schools'][$hash_school] = $school->attributes;
 			$loads['schools'][$hash_school]['hash'] = $hash_school;
 			//@todo adicionado load na tabela de schoolstructure
 			$loads['schools_structure'][$hash_school] = $school->structure->attributes;
 			$loads['schools_structure'][$hash_school]['hash'] = $hash_school;
 			foreach ($classrooms as $iclass => $classroom) {
-				$hash_classroom = hexdec(crc32($school->inep_id.$classroom->id.$classroom->school_year));
+				$hash_classroom = hexdec(crc32($school->inep_id . $classroom->id . $classroom->school_year));
 				$loads['classrooms'][$hash_classroom] = $classroom->attributes;
 				$loads['classrooms'][$hash_classroom]['hash'] = $hash_classroom;
 				foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
 					$enrollment->setDb2Connection(false);
 					$enrollment->refreshMetaData();
-					$hash_student = hexdec(crc32($enrollment->studentFk->name.$enrollment->studentFk->birthday));
-					if(!isset($loads['students'][$hash_student])){
+					$hash_student = hexdec(crc32($enrollment->studentFk->name . $enrollment->studentFk->birthday));
+					if (!isset($loads['students'][$hash_student])) {
 						$loads['students'][$hash_student] = $enrollment->studentFk->attributes;
 						$loads['students'][$hash_student]['hash'] = $hash_student;
 					}
-					if(!isset($loads['documentsaddress'][$hash_student])){
+					if (!isset($loads['documentsaddress'][$hash_student])) {
 						$loads['documentsaddress'][$hash_student] = $enrollment->studentFk->documentsFk->attributes;
 						$loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
 					}
-					$hash_enrollment = hexdec(crc32($hash_classroom.$hash_student));
+					$hash_enrollment = hexdec(crc32($hash_classroom . $hash_student));
 					$loads['enrollments'][$hash_enrollment] = $enrollment->attributes;
 					$loads['enrollments'][$hash_enrollment]['hash'] = $hash_enrollment;
 					$loads['enrollments'][$hash_enrollment]['hash_classroom'] = $hash_classroom;
@@ -388,14 +421,14 @@
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
                     }
                 }*/
-
 			}
 		}
 		//var_dump($loads);exit;
 		//apc_store('loads', $bar);
 		return $loads;
 	}
-	public function actionExportMaster(){
+	public function actionExportMaster()
+	{
 		try {
 			ini_set('max_execution_time', 0);
 			ini_set('memory_limit', '-1');
@@ -409,7 +442,7 @@
 			array_unshift($dbs, $priority);
 			foreach ($dbs as $db) {
 				//if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
-				if($db['TABLE_SCHEMA'] == 'io.escola.geminiano'){
+				if ($db['TABLE_SCHEMA'] == 'io.escola.geminiano') {
 					$dbname = $db['TABLE_SCHEMA'];
 					echo $dbname;
 					Yii::app()->db->setActive(false);
@@ -434,7 +467,6 @@
 
 					//$this->loadMaster($loads);
 				}
-				
 			}
 			Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
 			$this->redirect(['index']);
@@ -459,5 +491,3 @@
 		}
 	}
 }
-
-?>
