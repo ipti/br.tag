@@ -3,7 +3,7 @@
 
 ## [Versão 3.0.0]
 **Melhorias**
-- Novo design
+- Novo design 
 
 ## [Versão 2.13.1]
 **Melhorias**
