@@ -1,4 +1,4 @@
-export const GET_ALL = "GET_ALL";
+export const GET_ALL = "GET_ALL_CLASSROOM";
 export const GET_CLASSROOM = "GET_CLASSROOM";
 export const GET_REGISTRATION = "GET_REGISTRATION";
 export const UPDATE_CLASSROOM = "UPDATE_CLASSROOM";

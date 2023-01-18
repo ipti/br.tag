@@ -12,6 +12,7 @@ import {
   FormHelperText
 } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Select from "react-select";
 
 
 import { ButtonPurple } from "../../components/Buttons";
@@ -51,8 +52,9 @@ const StepFive = props => {
   const [errorCep, setErrorCep] = useState(false);
   const classes = useStyles();
   const { loadingButtom } = props;
- 
-  
+  const [state, setState] = useState([])
+
+
 
   const validationSchema = Yup.object().shape({
     cep: Yup.string().required("Campo obrigatório!"),
@@ -66,7 +68,7 @@ const StepFive = props => {
 
   const TextMaskCep = props => {
     const { inputRef, ...others } = props;
-  
+
     return (
       <MaskedInput
         {...others}
@@ -96,28 +98,39 @@ const StepFive = props => {
     zone: props?.student?.zone ?? ''
   };
 
-  const checkCep = (e, setFieldValue) =>{
-      const cep =  e.target.value.replace(/\D/g, '');
-      if (cep?.length !== 8) {
-        return;
-      }
+  const checkCep = (e, setFieldValue) => {
+    const cep = e.target.value.replace(/\D/g, '');
+    if (cep?.length !== 8) {
+      return;
+    }
 
-      fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      .then(res => res.json()).then(data =>{  
-        if(data.erro){
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+      .then(res => res.json()).then(data => {
+        if (data.erro) {
           setErrorCep(true);
-        }else{
-        setFieldValue("cep", cep)
-        setFieldValue("neighborhood", data.bairro);
-        setFieldValue("city", data.localidade);
-        setFieldValue("state", data.uf);
-        setFieldValue("address", data.logradouro);
-        setErrorCep(false);
+        } else {
+          setFieldValue("cep", cep)
+          setFieldValue("neighborhood", data.bairro);
+          setFieldValue("address", data.logradouro);
+          setErrorCep(false);
         }
-        
+
       })
   }
 
+
+  useEffect(() => {
+    (async () => {
+      const res = await api.get("/edcenso-uf-registration", {
+        params: {
+          include: {
+            edcenso_city: true
+          }
+        }
+      })
+      setState(res.data)
+    })();
+  }, )
   const PurpleRadio = withStyles({
     root: {
       "&$checked": {
@@ -126,6 +139,7 @@ const StepFive = props => {
     },
     checked: {}
   })(props => <Radio color="default" {...props} />);
+
 
 
   return (
@@ -295,6 +309,19 @@ const StepFive = props => {
                     error={errorList.state}
                   >
                     <FormLabel>Estado *</FormLabel>
+                    
+                    <Select
+                      styles={customStyles}
+                      className="basic-single"
+                      classNamePrefix="select"
+                      placeholder="Selecione o Estado"
+                      options={state}
+                      onChange={selectedOption => {
+                        console.log(selectedOption)
+                      }}
+                      getOptionValue={opt => opt.name}
+                      getOptionLabel={opt => opt.name}
+                    />
                     <TextField
                       name="state"
                       value={values.state}
@@ -315,11 +342,13 @@ const StepFive = props => {
                 alignItems="center"
               >
                 <Grid item xs={12}>
+
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
                     error={errorList.city}
                   >
+
                     <FormLabel>Cidade *</FormLabel>
                     <TextField
                       name="city"

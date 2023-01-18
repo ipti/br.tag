@@ -36,17 +36,20 @@ const Create = props => {
     loadingIcon
   } = props;
 
+  console.log(data)
+
   const registrations = () => {
-    const registrationList = data?.registrations ?? [];
+    const registrationList = data[0]?.student_pre_identification ?? [];
+
+    console.log(registrationList);
 
     return registrationList.map((registration, index) => {
       return (
         <BoxRegistration
-          link={`${baseLink}/${registration._id}`}
+          link={`${baseLink}/${registration.id}`}
           key={index}
-          name={registration.student.name}
-          sex={registration.student.sex}
-          confirmed={registration.confirmed}
+          name={registration.name}
+          sex={registration.sex}
           md={4}
           sm={4}
         />

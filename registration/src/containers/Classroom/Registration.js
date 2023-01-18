@@ -2,18 +2,30 @@ import React, { useState, useEffect } from "react";
 import { RegistrationConfirmed } from "../../screens/Classroom";
 import { connect } from "react-redux";
 import Loading from "../../components/Loading/CircularLoading";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 const Registration = props => {
   const [loadData, setLoadData] = useState(true);
+  const [loadClasroom, setLoadClassRoom] = useState(true);
   const [loadingButtom, setLoadingButtom] = useState(false);
   let history = useHistory();
 
+  const { id, idRegistration } = useParams()
+
   useEffect(() => {
-    if (props.match.params.idRegistration && loadData) {
+
+    if (id && loadClasroom) {
+      props.dispatch({
+        type: "FETCH_CLASSROOM",
+        data: { id: id }
+      })
+      setLoadClassRoom(false);
+    }
+
+    if (idRegistration && loadData) {
       props.dispatch({
         type: "FETCH_REGISTRATION",
-        data: { id: props.match.params.idRegistration }
+        data: { id: idRegistration}
       });
       setLoadData(false);
     }
@@ -35,6 +47,8 @@ const Registration = props => {
     });
   };
 
+  console.log(props)
+
   return (
     <>
       {props.loading && !loadingButtom ? (
@@ -43,6 +57,7 @@ const Registration = props => {
         <>
           <RegistrationConfirmed
             registration={props.registration}
+            classroom={props.classroom}
             handleSubmit={handleSubmit}
             loadingIcon={props.loading}
           />
@@ -55,6 +70,7 @@ const Registration = props => {
 const mapStateToProps = state => {
   return {
     registration: state.classroom.registration,
+    classroom: state.classroom.classroom,
     error: state.classroom.msgError,
     loading: state.classroom.loading,
     fetchRegistration: state.classroom.fetchRegistration,

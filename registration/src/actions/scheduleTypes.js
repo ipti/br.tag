@@ -1,4 +1,4 @@
-export const GET_ALL = "GET_ALL";
+export const GET_ALL = "GET_ALL_SCHEDULE";
 export const GET_SCHEDULE = "GET_SCHEDULE";
 export const GET_ERROR_SCHEDULE = "GET_ERROR_SCHEDULE";
 export const UPDATE_SCHEDULE = "UPDATE_SCHEDULE";

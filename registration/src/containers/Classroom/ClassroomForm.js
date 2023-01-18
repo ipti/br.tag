@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import { ClassroomForm } from "../../screens/Classroom";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 
@@ -11,12 +11,13 @@ const Form = props => {
   const [isEdit, setIsEdit] = useState(false);
   const [loadingButtom, setLoadingButtom] = useState(false);
   let history = useHistory();
+  const { id } = useParams()
 
   useEffect(() => {
-    if (props.match.params.id && loadData) {
+    if (id && loadData) {
       props.dispatch({
         type: "FETCH_CLASSROOM",
-        data: { id: props.match.params.id }
+        data: { id: id }
       });
       setIsEdit(true);
       setLoadData(false);

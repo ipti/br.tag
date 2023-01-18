@@ -26,10 +26,15 @@ const Home = props => {
   const classes = useStyles();
 
   const {
-    registration: { data },
-    handleSubmit
+    registration,
+    handleSubmit,
+    classroom
   } = props;
-  const { student, classroom } = data ?? { student: {}, classroom: {} };
+  const student = registration ?? [];
+
+  const classroomOne = classroom.data[0] ?? [];
+
+  console.log(classroomOne)
 
   const modalityDefault = { "1": "Ensno Regular" };
 
@@ -37,13 +42,13 @@ const Home = props => {
 
   const studentName = student?.name;
   const cpf = student?.cpf;
-  const color_race = student?.color_race;
-  const deficiency = student?.deficiency;
+  const color_race = student?.color_race === 0 ? 'Branca' : student?.color_race === 2 ? 'Preta' : student?.color_race === 3 ? 'Parda' : student?.color_race === 4 ? 'Amarela' : student?.color_race === 5 ? 'Indígena' : 'Não especificado';
+  const deficiency = student?.deficiency ? 'sim' : 'não';
 
   const studentDate = student?.birthday ? parseISO(student?.birthday) : "";
   const studentBirthday = student?.birthday
-    ? format(studentDate, "dd/MM/yyyy")
-    : "";
+  // ? format(studentDate, "dd/MM/yyyy")
+  // : "";
 
   const status = student?.newStudent;
 
@@ -51,20 +56,17 @@ const Home = props => {
   const cep = student?.cep ?? nullableField;
   const city = student?.city ?? nullableField;
   const number = student?.number ?? nullableField;
- 
+  const neighborhood = student?.neighborhood ?? nullableField;
+  const complement = student?.complement === '' ? nullableField : student?.complement;
+  const state = student?.state ?? nullableField;
 
-  const responsableName = student?.responsableName ?? nullableField;
-  const responsableCpf = student?.responsableCpf ?? nullableField;
 
-  const responsableDate = student?.responsableBirthday
-    ? parseISO(student?.responsableBirthday)
-    : "";
-  const responsableBirthday = student?.responsableBirthday
-    ? format(responsableDate, "dd/MM/yyyy")
-    : "";
+  const responsableName = student?.responsable_name ?? nullableField;
+  const responsableCpf = student?.responsable_cpf ?? nullableField;
 
-  const classroomName = classroom?.name ?? nullableField;
-  const modality = classroom && modalityDefault[classroom?.modality];
+
+  const classroomName = classroomOne?.name ?? nullableField;
+  const modality = classroomOne?.modality === 1 ? 'Ensino Regular' : classroomOne?.modality === 2 ? 'Educação Especial' : classroomOne?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : classroomOne?.modality === 4 ? 'Educação profissional' : nullableField;
 
   return (
     <>
@@ -92,19 +94,19 @@ const Home = props => {
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>CPF</p>
-          {studentBirthday}
+          {cpf}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Cor/Raça</p>
-          {studentBirthday}
+          {color_race}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Sexo</p>
-          {studentBirthday}
+          {student?.sex == 1 ? 'Maculino' : student?.sex == 2 ? 'Femenino' : ''}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Possui Deficiência</p>
-          {studentBirthday}
+          {deficiency}
         </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>
@@ -128,18 +130,18 @@ const Home = props => {
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Telefone</p>
-          {responsableBirthday}
+          {student?.responsable_telephone}
         </Grid>
         <Grid item md={6}>
           <div className={classes.floatLeft}>
             <p className={classes.label}>Name da Mãe</p>
-            {responsableName}
+            {student?.mother_name}
           </div>
         </Grid>
         <Grid item md={6}>
           <div className={classes.floatLeft}>
             <p className={classes.label}>Name do Pai</p>
-            {responsableName}
+            {student?.father_name}
           </div>
         </Grid>
         <Grid item md={12}>
@@ -160,16 +162,16 @@ const Home = props => {
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Bairro</p>
-          {city}
+          {neighborhood}
         </Grid>
-       
+
         <Grid item md={3}>
           <p className={classes.label}>Número</p>
           {number}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Complemento</p>
-          {city}
+          {complement}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>CEP</p>
@@ -181,10 +183,10 @@ const Home = props => {
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Estado</p>
-          {city}
+          {state}
         </Grid>
         <Grid item md={2}>
-        <BoxStatus title={"Urbana"} />
+          <BoxStatus title={student?.zone === 2 ? "Urbana" : student?.zone === 1 ? "Rural" : ''} />
         </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>

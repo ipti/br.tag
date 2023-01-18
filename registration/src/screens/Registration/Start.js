@@ -40,7 +40,7 @@ const Start = props => {
         <Grid item xs={6}>
           <ButtonPurple
             type="button"
-            onClick={() => props.nextStep('1')}
+            onClick={() => props.nextStep('5')}
             title="Iniciar"
           />
         </Grid>

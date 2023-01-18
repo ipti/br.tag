@@ -24,7 +24,14 @@ const requestClassrooms = data => {
 
 const requestClassroom = id => {
   return api
-    .get("/classroom/" + id)
+    .get("/classroom", {
+      params: {
+        id: id,
+        include: {
+          student_pre_identification: true
+        }
+      }
+    })
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -33,7 +40,7 @@ const requestClassroom = id => {
 
 const requestRegistration = id => {
   return api
-    .get("/" + id)
+    .get("/student-pre-identification/" + id)
     .then(response => response.data)
     .catch(err => {
       throw err;
