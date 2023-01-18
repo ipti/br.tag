@@ -89,10 +89,10 @@ function initMap() {
 
         var city = new google.maps.Polygon({
             path: cityBoundary,
-            strokeColor: '#496cad',
+            strokeColor: '#3F45EA',
             strokeOpacity: 0.8,
             strokeWeight: 3,
-            fillColor: '#496cad',
+            fillColor: '#3F45EA',
             fillOpacity: 0.1,
 
         });

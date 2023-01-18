@@ -28,7 +28,8 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-container .select2-choice {
     display: block;
-    height: 26px;
+    height: 30px;
+    width: 416px;
     padding: 0 0 0 8px;
     overflow: hidden;
     position: relative;
@@ -37,6 +38,33 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     white-space: nowrap;
     line-height: 26px;
     color: #444;
+    text-decoration: none;
+
+    border-radius: 4px;
+
+    background-clip: padding-box;
+
+    -webkit-touch-callout: none;
+      -webkit-user-select: none;
+         -moz-user-select: none;
+          -ms-user-select: none;
+              user-select: none;
+
+    background-color: #fff;
+}
+
+.selectmodal {
+    display: block;
+    height: 30px;
+    width: 416px;
+    padding: 0 0 0 8px;
+    overflow: hidden;
+    position: relative;
+
+    border: 1px solid #c1c1c1;
+    white-space: nowrap;
+    line-height: 26px;
+    color: rgb(255, 0, 0);
     text-decoration: none;
 
     border-radius: 4px;
@@ -67,9 +95,12 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 .select2-container.select2-allowclear .select2-choice .select2-chosen {
     margin-right: 42px;
 }
-
+/* select setinha */
 .select2-container .select2-choice > .select2-chosen {
     margin-right: 26px;
+    margin-bottom: -81px;
+    line-height: 31px;
+
     display: block;
     overflow: hidden;
 
@@ -124,7 +155,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-drop {
     width: 100%;
-    margin-top: -1px;
+    margin-top: -13px;
     position: absolute;
     z-index: 10002;
     top: 100%;
@@ -167,6 +198,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-drop.select2-drop-above.select2-drop-active {
     border-top: 1px solid #5897fb;
+    /* width: 426px; */
 }
 
 .select2-container .select2-choice .select2-arrow {
@@ -186,6 +218,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 
 .select2-container .select2-choice .select2-arrow b {
     display: block;
+    margin-top:2px;
     width: 100%;
     height: 100%;
     background: url('../img/select2.png') no-repeat 0 1px;

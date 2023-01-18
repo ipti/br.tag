@@ -204,7 +204,7 @@ table.table-timesheet td {
     text-align: center !important;
     color: white;
     padding: 5px 0 !important;
-    background: #496cad;
+    background: #3F45EA;
 }
 
 .table-responsive {
@@ -364,7 +364,7 @@ table.table-timesheet td {
     color: white;
     margin: -10px -10px 10px;
     font-weight: bold;
-    background: #496cad;
+    background: #3F45EA;
 }
 
 .workload {

@@ -2,7 +2,7 @@
     padding: auto;
     margin-left: 10px;
     margin-right: 20%;
-    border: 1px #575655 solid; //#496CAD
+    border: 1px #575655 solid;
 }
 .syncExp {
     float: left;
@@ -41,7 +41,7 @@
     font-size: 14px;
     padding: 10px;
     color: white;
-    background: #496cad;
+    background: #3F45EA;
     border-bottom: 1px solid #cccccc;
 }
 

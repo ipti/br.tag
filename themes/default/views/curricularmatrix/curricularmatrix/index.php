@@ -6,12 +6,13 @@
  */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-
+$themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
 $cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v=1.1', CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 <div class="row-fluid">
@@ -21,40 +22,40 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 </div>
 <div class="innerLR">
     <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
-        <div class="row-fluid">
-            <div class="span5">
+        <div class="tag-row">
+            <div class="">
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Stage'), 'stages', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::dropDownList("stages", [], CHtml::listData(EdcensoStageVsModality::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on span12"
+                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
                     ]) ?>
                 </div>
             </div>
-            <div class="span3">
+            <div class="">
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Disciplines'), 'disciplines', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::dropDownList("disciplines", [], CHtml::listData(EdcensoDiscipline::model()->findAll(), "id", "name"), [
-                        "multiple" => "multiple", "class" => "select-search-on span12"
+                        "multiple" => "multiple", "class" => "select-search-on control-input span12"
                     ]) ?>
                 </div>
             </div>
-            <div class="span1">
+            <div class="">
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "control-label"]) ?>
                 <div class="form-group ">
-                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "span12"]) ?>
+                    <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", "class" => "small-input"]) ?>
                 </div>
             </div>
-            <div class="span1">
+            <div class="">
                 <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Credits'), 'credits', ['class' => "control-label"]) ?>
                 <div class="form-group ">
-                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "span12"]) ?>
+                    <?= CHtml::numberField("credits", "0", ["min" => "0", "max" => "99", "class" => "small-input"]) ?>
                 </div>
             </div>
-            <div class="span2">
+            <div class="">
                 <?= CHtml::label("&nbsp;", 'credits', ['class' => "control-label"]) ?>
                 <div class="form-group ">
                     <?= CHtml::button(Yii::t('curricularMatrixModule.index', 'Add'), [
-                        "id" => "add-matrix", "class" => "btn btn-primary"
+                        "id" => "add-matrix", "class" => "tag-button small-button"
                     ]) ?>
                 </div>
             </div>
@@ -71,7 +72,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
                 'id' => 'matrizgridview', 'dataProvider' => $filter->search(), 'filter' => $filter,
-                'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                 'enablePagination' => TRUE, 'columns' => [
                     [
                         'header' => Yii::t('curricularMatrixModule.index', 'Stage'),
@@ -100,8 +101,13 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                         $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
                     }
                     $(".alert-container").show();
-                }'
+                }',
+                'buttons' => array(
+                    'delete' => array(
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
+                    ))
                     ],
+                    
                 ],
             ]);
             ?>
@@ -129,10 +135,10 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
+                <div class="modal-footer modal-container-buttons ">
+                    <button type="button" class="tag-button-light small-button"
                             data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary confirm-matrix-reuse"
+                    <button type="button" class="tag-button small-button"
                             data-dismiss="modal">Confirmar</button>
                 </div>
             </form>
