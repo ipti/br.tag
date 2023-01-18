@@ -20,6 +20,7 @@ services:
     image: mysql:5.7
     container_name: mysql
     restart: always
+    command: mysqld --sql_mode=""
     ports:
       - 3306:3306
     expose:
