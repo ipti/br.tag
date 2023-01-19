@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudent', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -119,6 +119,14 @@ class StudentController extends Controller
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
+    }
+
+    public function actionCompareStudent($student_name) { 
+        $data = StudentIdentification::model()->find('name=:name', array(':name' => $student_name));
+        $result = [];
+        $result[$data->name] = $data->id;
+
+        echo json_encode($result);
     }
 
 

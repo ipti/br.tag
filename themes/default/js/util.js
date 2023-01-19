@@ -17,7 +17,7 @@ dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
 stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
-stringRules.personName = /^[A-Z]{1,100}$/;
+stringRules.personName = /^[A-Z]{1,100}/;
 stringRules.email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
 stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
@@ -174,47 +174,70 @@ function validateBirthdayPerson(date){
     }
 }
 
-function validateNamePerson(personName){
+const {origin,pathname} = window.location;
+
+function validateNamePerson(personName, handler){
     var complete_name = personName.split(' ');  
     var passExp = true;
+    var passName = false;
+    var ret = new Array();
     for(var i=0; i<complete_name.length;i++){
         if(!rule(complete_name[i],stringRules.personName)){
             passExp=false;
             break;
-        } 
+        }
     }
-    var ret = new Array();
-    if(passExp){      
-        if(this.isset(complete_name[1])){
-            var str4 = null;
-            var until4 = 0; 
-            for(var i=0;i<personName.length;i++){
-                if(personName[i]!=str4){
-                    str4 = personName[i];
-                    until4=1;
-                }else{
-                    until4++; 
+
+    $.ajax({
+        url: `${origin}${pathname}?r=student/comparestudent&student_name=${personName}`
+    }).success(function (r) {
+        $.each( $.parseJSON( r ), function(name, id){
+            if(name != '') passName = true
+        });
+        if(passExp){
+            console.log(passName)
+            if(passName) {
+                ret[0] = false;
+                ret[1] = "O nome já está cadastrado.";
+                handler(ret);
+                return
+            }
+            if(isset(complete_name[1])){
+                var str4 = null;
+                var until4 = 0; 
+                for(var i=0;i<personName.length;i++){
+                    if(personName[i]!=str4){
+                        str4 = personName[i];
+                        until4=1;
+                    }else{
+                        until4++; 
+                    }
+                    
+                    if(until4 > 4){
+                        ret[0] = false;
+                        ret[1] = "O nome não deve possuir a mesma letra 4 vezes seguidas.";
+                        handler(ret);
+                        return;
+                    }
                 }
-                
-                if(until4 > 4){
-                    ret[0] = false;
-                    ret[1] = "O nome não deve possuir a mesma letra 4 vezes seguidas.";
-                    return ret;
-                }
+            }else{
+                ret[0] = false;
+                ret[1] = "Nome sem sobrenome.";
+                handler(ret);
+                return;
             }
         }else{
             ret[0] = false;
-            ret[1] = "Nome sem sobrenome.";
-            return ret;
+            ret[1] = "O campo aceita somente caracteres maiúsculos de A a Z, sem cedilhas e/ou acentos. Tamanho mínimo: 1.";
+            handler(ret);
+            return;
         }
-    }else{
-        ret[0] = false;
-        ret[1] = "O campo aceita somente caracteres maiúsculos de A a Z, sem cedilhas e/ou acentos. Tamanho mínimo: 1.";
-        return ret;
-    }
-    ret[0] = true;
-    ret[1] = "bele";
-    return ret; 
+        ret[0] = true;
+        ret[1] = "bele";
+        handler(ret);
+        return;
+    })
+    
 }
 
 function validateCpf(cpf){

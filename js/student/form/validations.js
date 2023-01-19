@@ -1,12 +1,14 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0] && ($(id).val() != '')) {
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-    }
+    validateNamePerson(($(id).val()), function (ret) {
+        console.log(ret)
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        } 
+    });
 });
 
 $(formIdentification + 'nis').focusout(function () {
