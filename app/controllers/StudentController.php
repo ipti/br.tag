@@ -135,7 +135,7 @@ class StudentController extends Controller
         $modelEnrollment = new StudentEnrollment;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
-        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
+        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $modelStudentIdentification->id]]);
         if ($studentVaccinesSaves) {
             $studentVaccinesSaves = array_map(function ($item) {
                 return $item->vaccine_id;
@@ -147,6 +147,27 @@ class StudentController extends Controller
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+
+            // Validação CPF->Certidão->Nome
+            if($modelStudentIdentification->responsable_cpf != null) {
+                $student_test_cpf = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf'=>$modelStudentIdentification->responsable_cpf));
+                if(isset($student_test_cpf)) {
+                    Yii::app()->user->setFlash('error', Yii::t('default', "O CPF do responsável informado já está cadastrado"));
+                    $this->redirect(array('index'));
+                }
+            }
+            if($modelStudentDocumentsAndAddress->civil_certification_term_number != null) {
+                $student_test_certificate = StudentIdentification::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number'=>$modelStudentDocumentsAndAddress->civil_certification_term_number));
+                if(isset($student_test_certificate)) {
+                    Yii::app()->user->setFlash('error', Yii::t('default', "O Nº do Termo da Certidão informado já está cadastrado"));
+                    $this->redirect(array('index'));
+                }
+            }
+            $student_test_name = StudentIdentification::model()->find('name=:name', array(':name'=>$modelStudentIdentification->name));
+            if(isset($student_test_name)) {
+                Yii::app()->user->setFlash('error', Yii::t('default', "O nome do aluno informado já está cadastrado"));
+                $this->redirect(array('index'));
+            }
 
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
