@@ -66,6 +66,7 @@ const StepSix = props => {
   const [inepId, setInepId] = useState('')
   const [schoolInepFk, setSchoolInepFk] = useState('');
   const [inputValueClassroom, setInputValueClassroom] = useState("");
+  const [calendarID, setCalendarID] = useState('')
 
   const validationSchema = Yup.object().shape({
     school_identification: Yup.string().required("Campo obrigatório!"),
@@ -75,13 +76,16 @@ const StepSix = props => {
   const initialValues = {
     school_identification: schoolInepFk,
     classroom_inep_id: inepId,
-    classroom: inputValueClassroom
+    classroom: inputValueClassroom,
+    calendar_event: calendarID
   };
 
   const handleChange = newValue => {
     setInputValueClassroom(newValue);
   };
 
+
+  console.log(props)
   const searchSchools = (inputValue, callback) => {
     if (inputValue.trim().length >= 3) {
       const buscaLowerCase = inputValue.toLowerCase();
@@ -122,6 +126,7 @@ const StepSix = props => {
                       placeholder="Digite o nome da escola"
                       onChange={selectedOption => {
                         setClassroom(selectedOption.classroom);
+                        setCalendarID(selectedOption.calendar_event.find(e => e.id === 1).id)
                       }}
                       className={classes.selectField}
                       getOptionValue={opt => opt.inep_id}

@@ -52,7 +52,9 @@ const StepFive = props => {
   const [errorCep, setErrorCep] = useState(false);
   const classes = useStyles();
   const { loadingButtom } = props;
-  const [state, setState] = useState([])
+  const [state, setState] = useState([]);
+  const [citys, setCitys] = useState([])
+  const [loadStates, setLoadStates] = useState(true)
 
 
 
@@ -106,6 +108,7 @@ const StepFive = props => {
 
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then(res => res.json()).then(data => {
+        console.log(data)
         if (data.erro) {
           setErrorCep(true);
         } else {
@@ -118,19 +121,28 @@ const StepFive = props => {
       })
   }
 
+  const handleStatesCity = (selectedOption,setFieldValue) => {
+    setFieldValue("city", selectedOption.id)
+    setFieldValue("state", selectedOption.edcenso_uf_fk)
+  }
+
 
   useEffect(() => {
-    (async () => {
-      const res = await api.get("/edcenso-uf-registration", {
-        params: {
-          include: {
-            edcenso_city: true
+    if(loadStates){
+      (async () => {
+        const res = await api.get("/edcenso-uf-registration", {
+          params: {
+            include: {
+              edcenso_city: true
+            }
           }
-        }
-      })
-      setState(res.data)
-    })();
-  }, )
+        })
+        setState(res.data)
+        setLoadStates(false)
+      })();
+    }
+    
+  },)
   const PurpleRadio = withStyles({
     root: {
       "&$checked": {
@@ -309,26 +321,20 @@ const StepFive = props => {
                     error={errorList.state}
                   >
                     <FormLabel>Estado *</FormLabel>
-                    
+
                     <Select
                       styles={customStyles}
+                      name="state"
                       className="basic-single"
                       classNamePrefix="select"
                       placeholder="Selecione o Estado"
                       options={state}
                       onChange={selectedOption => {
-                        console.log(selectedOption)
+                        setCitys(selectedOption.edcenso_city
+                        )
                       }}
                       getOptionValue={opt => opt.name}
                       getOptionLabel={opt => opt.name}
-                    />
-                    <TextField
-                      name="state"
-                      value={values.state}
-                      onChange={handleChange}
-                      variant="outlined"
-                      className={classes.textField}
-                      error={errorList.state}
                     />
                     <FormHelperText>{errorList.state}</FormHelperText>
                   </FormControl>
@@ -350,12 +356,18 @@ const StepFive = props => {
                   >
 
                     <FormLabel>Cidade *</FormLabel>
-                    <TextField
+                    <Select
+                      styles={customStyles}
                       name="city"
-                      value={values.city}
-                      onChange={handleChange}
-                      variant="outlined"
-                      className={classes.textField}
+                      className="basic-single"
+                      classNamePrefix="select"
+                      placeholder="Selecione a Cidade"
+                      options={citys}
+                      onChange={selectedOption => {
+                        handleStatesCity(selectedOption, setFieldValue)
+                      }}
+                      getOptionValue={opt => opt.name}
+                      getOptionLabel={opt => opt.name}
                       error={errorList.city}
                     />
                     <FormHelperText>{errorList.city}</FormHelperText>

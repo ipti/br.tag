@@ -53,7 +53,8 @@ const requestSchoolList = id => {
     .get("/school-identification-registration", {
       params: {
         include: {
-          classroom: true
+          classroom: true,
+          calendar_event: true
         }
       }
     })
