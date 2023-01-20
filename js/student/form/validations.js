@@ -143,39 +143,43 @@ $(formIdentification + 'filiation').trigger('change');
 $(formIdentification + 'filiation_1').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_1').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
-});
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_1').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
+}); 
 
 $(formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_2').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_2').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
 });
 
 $(formIdentification + 'nationality').change(function () {
