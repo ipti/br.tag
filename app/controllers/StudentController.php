@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'comparestudentcertificate', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -130,7 +130,7 @@ class StudentController extends Controller
     }
 
     public function actionCompareStudentCertificate($student_certificate) {
-        $data = StudentDocumentsAndAddress::model()->find('civil_certification=:civil_certification', array(':civil_certification' => $student_certificate));
+        $data = StudentDocumentsAndAddress::model()->find('civil_certification_term_number=:civil_certification_term_number', array(':civil_certification_term_number' => $student_certificate));
         $result = [];
         $result[$data->student_fk] = $data->id;
 

@@ -316,6 +316,25 @@ function validateCpf(cpf, handler){
     });
 }
 
+function validateCivilCertificationTermNumber(term_number, handler) {
+    var ret = new Array();
+    var passTerm = false;
+    $.ajax({
+        url: `${origin}${pathname}?r=student/comparestudentcertificate&student_certificate=${term_number}`,
+    }).success(function (response) {
+        $.each( $.parseJSON( response ), function(student_fk, id){
+            console.log(student_fk)
+            if(student_fk != '') passTerm = true
+        });
+        if(passTerm) {
+            ret[0] = false;
+            ret[1] = "Nº de certidão já cadastrado";
+            handler(ret);
+            return;
+        }
+    });
+}
+
 function validateNis(nis){
     return rule(nis, numberRules.nis);
 }

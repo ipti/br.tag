@@ -55,6 +55,17 @@ $(formIdentification + 'responsable_cpf').focusout(function () {
     });
 });
 
+$(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    validateCivilCertificationTermNumber($(id).val(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        }
+    });
+});
+
 $(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'filiation_1_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
