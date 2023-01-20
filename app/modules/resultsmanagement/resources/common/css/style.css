@@ -996,7 +996,7 @@ body > .container.fluid {
 .navbar.main {
   height: 75px;
   min-height: 75px;
-  background: #496cad url("../img/mosaic-pattern.png") repeat;
+  background: #3F45EA url("../img/mosaic-pattern.png") repeat;
   margin: 0;
   position: relative;
 }
@@ -5252,16 +5252,16 @@ textarea {
 .bwizard-steps a:hover {
   text-decoration: none;
 }
-.bwizard-steps.clickable li:not (.active ) {
+.bwizard-steps.clickable li:not(.active ) {
   cursor: pointer;
 }
-.bwizard-steps.clickable li:hover:not (.active ) {
+.bwizard-steps.clickable li:hover:not(.active ) {
   background: #ccc;
 }
-.bwizard-steps.clickable li:hover:not (.active ):after {
+.bwizard-steps.clickable li:hover:not(.active ):after {
   border-left-color: #ccc;
 }
-.bwizard-steps.clickable li:hover:not (.active ) a {
+.bwizard-steps.clickable li:hover:not(.active ) a {
   color: #08c;
 }
 @media (max-width: 480px) {

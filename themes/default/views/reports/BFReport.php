@@ -19,11 +19,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             $nameClassroom = [];
             if (!empty($reports)) {
                 foreach ($reports as $classroom => $report) {
-                    $html .= "<tr><th colspan='3'>{$classroom}</th><tr>";
+                    $html .= "<tr><th colspan='3'>{$classroom}</th></tr>";
                     foreach ($report as $name => $r) {
 
                         $html .= "<tr>"
-                            . "<td rowspan='4' colspan='1'>"
+                            . "<td rowspan='" . (count($r['Classes']) + 1) . "' colspan='1'>"
                             . $name
                             . "<br> Nascimento: " . $r['Info']['birthday']
                             . "<br> NIS: " . $r['Info']['NIS']
@@ -47,8 +47,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                                 . "</td>"
                                 . "</tr>";
                         }
-                        $html .= "<tr><td colspan='3'></td></tr>";
-
                     }
                 }
             } else {

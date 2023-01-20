@@ -12,13 +12,9 @@ $('#classroom').change(function () {
                 data = jQuery.parseJSON(data);
 
                 if (data.isInstructor) {
-                    $(".alert-no-disciplines").html('Para exibir as disciplinas, é preciso que algum gestor escolar adicione a matriz curricular da disciplina e lhe vincule a essa disciplina.');
+                    $(".alert-no-disciplines").html('Para exibir as disciplinas, algum administrador precisa adicioná-las na matriz curricular e lhe vincular a essa disciplina na turma.');
                 } else {
-                    $(".alert-no-disciplines").html(
-                        'Para fazer aparecer as disciplinas, é necessário inseri-las na matriz curricular e cadastrar disciplinas com professores na turma selecionada. Para este último passo:' +
-                        '<br>1- acesse o menu "Turmas" e selecione a turma desejada;' +
-                        '<br>2- acesse a segunda aba "Professores";' +
-                        '<br>3- Clique no botão Adicionar Professor/Disciplina e realize os cadastros.');
+                    $(".alert-no-disciplines").html('Para exibir as disciplinas, é preciso adicioná-las na matriz curricular.');
                 }
 
                 generateGradesForm(data);

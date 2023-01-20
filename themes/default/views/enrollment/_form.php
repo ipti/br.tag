@@ -4,7 +4,6 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=1.0', CClientScript::POS_END);
-
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student-enrollment-form',
@@ -160,7 +159,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             "1" => "Reprovado",
                                             "2" => "Afastado por transferência",
                                             "3" => "Afastado por abandono",
-                                            "4" => "Matrícula final em Educação Infantil"
+                                            "4" => "Matrícula final em Educação Infantil",
+                                            "5" => "Promovido"
                                         ),
                                         array('class' => 'select-search-off')); ?>
                                     <?php echo $form->error($model, 'previous_stage_situation'); ?>

@@ -200,7 +200,7 @@ $r = $imob = 0;
 
                     label: '<?php echo $imob ?>',
                     fontname: 'sans',
-                    fontcolor: '#496CAD',
+                    fontcolor: '#3F45EA',
 
                     image: null
                     });

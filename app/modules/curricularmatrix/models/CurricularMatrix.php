@@ -9,10 +9,12 @@
 	 * @property integer $discipline_fk
 	 * @property integer $workload
 	 * @property integer $credits
+     * @property integer $school_year
 	 *
 	 * The followings are the available model relations:
 	 * @property EdcensoDiscipline $disciplineFk
 	 * @property EdcensoStageVsModality $stageFk
+     * @property TeachingMatrixes[] $teachingMatrixes
 	 */
 	class CurricularMatrix extends CActiveRecord {
 		/**
@@ -29,10 +31,10 @@
 			// NOTE: you should only define rules for those attributes that
 			// will receive user inputs.
 			return [
-				['stage_fk, discipline_fk, workload, credits', 'required'],
-				['stage_fk, discipline_fk, workload, credits', 'numerical', 'integerOnly' => TRUE],
+				['stage_fk, discipline_fk, workload, credits, school_year', 'required'],
+				['stage_fk, discipline_fk, workload, credits, school_year', 'numerical', 'integerOnly' => TRUE],
 				// @todo Please remove those attributes that should not be searched.
-				['id, stage_fk, discipline_fk, workload, credits', 'safe', 'on' => 'search'],
+				['id, stage_fk, discipline_fk, workload, credits, school_year', 'safe', 'on' => 'search'],
 			];
 		}
 
@@ -45,6 +47,7 @@
 			return [
 				'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
 				'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
+                'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'),
 			];
 		}
 
@@ -58,6 +61,7 @@
 				'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
 				'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
 				'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
+                'school_year' => 'School Year',
 			];
 		}
 
@@ -77,17 +81,17 @@
 			// @todo Please modify the following code to remove attributes that should not be searched.
 
 			$criteria = new CDbCriteria;
-
 			$criteria->with = array('stageFk', 'disciplineFk');
 			$criteria->together = true;
-			$criteria->compare('id', $this->id);
-			$criteria->compare('stage_fk', $this->stage_fk);
-			$criteria->compare('discipline_fk', $this->discipline_fk);
-			$criteria->compare('workload', $this->workload);
-			$criteria->compare('credits', $this->credits);
+//			$criteria->compare('id', $this->id);
+//			$criteria->compare('stage_fk', $this->stage_fk);
+//			$criteria->compare('discipline_fk', $this->discipline_fk);
+			$criteria->compare('workload', $this->workload, true);
+			$criteria->compare('credits', $this->credits, true);
 
 			$criteria->addCondition('stageFk.name like "%' . $this->stage_fk . '%"');
 			$criteria->addCondition('disciplineFk.name like "%' . $this->discipline_fk . '%"');
+			$criteria->addCondition('school_year = ' . Yii::app()->user->year);
 
 			return new CActiveDataProvider($this, [
 				'criteria' => $criteria,

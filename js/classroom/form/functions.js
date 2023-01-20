@@ -12,8 +12,7 @@ var removeTeachingData = function () {
         } else {
             removeInstructor(instructor);
         }
-    }
-    else {
+    } else {
         removeDiscipline(instructor, discipline);
     }
 }
@@ -76,7 +75,7 @@ var addTeachingData = function () {
         $.each(disciplineNameList, function (i, name) {
             if ($("#DisciplinesWithoutInstructors li[discipline=" + disciplineList[i] + "]").length == 0) {
                 $("#DisciplinesWithoutInstructors").append(""
-                    + "<li discipline='" + disciplineList[i] + "'><span>" + name + "</span>"
+                    + "<li class='li-discipline' discipline='" + disciplineList[i] + "'><span>" + name + "</span>"
                     + "<a href='#' class='deleteTeachingData delete' title='Excluir'> </a> "
                     + "</li>");
             }
@@ -98,7 +97,7 @@ var addTeachingData = function () {
 
         if (!hasInstructor) {
             tag = "#DisciplinesWithInstructors";
-            html = "<li instructor='" + instructorId + "'><span>" + instructorName + "</span>"
+            html = "<li class='li-instructor' instructor='" + instructorId + "'><span>" + instructorName + "</span>"
                 + "<a href='#' class='deleteTeachingData delete' title='Excluir'> </a>"
                 + "<ul>";
         } else {
@@ -112,7 +111,7 @@ var addTeachingData = function () {
         $.each(disciplineNameList, function (i, name) {
             var hasDiscipline = $("li[instructor = " + instructorId + "] li[discipline=" + disciplineList[i] + "]").length != 0;
             if (!hasDiscipline) {
-                html += "<li discipline='" + disciplineList[i] + "'>" + name
+                html += "<li class='li-discipline' discipline='" + disciplineList[i] + "'>" + name
                     + "<a href='#' class='deleteTeachingData delete' title='Excluir'></a>"
                     + "</li>";
                 if (!hasInstructor)
@@ -297,3 +296,49 @@ $(document).on("change", "#Classroom_pedagogical_mediation_type", function () {
         $("#diff_location_container").hide();
     }
 });
+
+$(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () {
+    $.ajax({
+        url: "?r=classroom/updateDisciplines",
+        type: "POST",
+        data: {
+            id: $("#Classroom_edcenso_stage_vs_modality_fk").val(),
+        },
+        beforeSend: function () {
+            $("#Classroom_edcenso_stage_vs_modality_fk").attr("disabled", "disabled");
+            $("#tab-instructor").css("pointer-events", "none");
+            $(".loading-disciplines").css("display", "inline-block");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var html = "";
+        if (data.valid) {
+            $(".no-curricular-matrix-error").hide();
+            var disciplines = [];
+            $.each(data.disciplines, function () {
+                html += "<option value='" + this.id + "'>" + this.name + "</option>";
+                disciplines.push(this.id);
+            });
+            $("#Disciplines").html(html);
+            $(".li-discipline").each(function() {
+                if (!disciplines.includes($(this).attr("discipline"))) {
+                    $(this).remove();
+                }
+            });
+            $(".li-instructor").each(function() {
+                if (!$(this).find(".li-discipline").length) {
+                    $(this).remove();
+                }
+            });
+        } else {
+            $(".no-curricular-matrix-error").show();
+            $("#Disciplines").html("");
+            $("#DisciplinesWithInstructors, #DisciplinesWithoutInstructors").html("");
+        }
+    }).complete(function () {
+        $("#Classroom_edcenso_stage_vs_modality_fk").removeAttr("disabled");
+        $("#tab-instructor").css("pointer-events", "auto");
+        $(".loading-disciplines").hide();
+    });
+});
+$("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");

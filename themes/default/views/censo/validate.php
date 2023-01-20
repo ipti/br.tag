@@ -8,6 +8,9 @@
             'url' => array('index'),
             'description' => Yii::t('default', 'This action list all User, you can search, delete and update')),
     );
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');  
     ?>
     <style type="text/css">
         .widget-timeline .widget-body:before {
@@ -44,7 +47,7 @@
         <?php } ?>
         <div>
             <a href="<?= CHtml::normalizeUrl(array('censo/export')) ?>"
-               class="btn btn-primary btn-icon glyphicons refresh"><i></i> <?= Yii::t('default', 'Export Now') ?>
+               class="tag-button medium-button"> <?= Yii::t('default', 'Export Now') ?>
             </a>
         </div>
         <!-- Widget Heading END -->

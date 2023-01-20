@@ -2,7 +2,10 @@
 /* @var $this CoursePlanController */
 /* @var $dataProvider CActiveDataProvider */
 
-    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));    
+    $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));  
+    $themeUrl = Yii::app()->theme->baseUrl;
+    $cs = Yii::app()->getClientScript();
+    $cs->registerCssFile($themeUrl . '/css/template2.css');  
 ?>
 
 <div id="mainPage" class="main">
@@ -10,12 +13,12 @@
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Course Plan') ?></h3>  
             <div class="buttons">
-                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i><?= Yii::t('default', 'Create Plan'); ?> </a>
+                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>" class="tag-button medium-button"><?= Yii::t('default', 'Create Plan'); ?> </a>
             </div>
         </div>
     </div>
 
-    <div class="innerLR">
+    <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <?php if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
@@ -28,7 +31,7 @@
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
-                        'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                        'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                         'columns' => array(
                             array(
                                 'header' => Yii::t('default', 'Name'),
@@ -58,7 +61,15 @@
                                 'htmlOptions' => array('width' => '25%'),
                                 'filter' => false
                             ),
-                            array('class' => 'CButtonColumn', 'template' => '{delete}'),
+                            array(
+                                'class' => 'CButtonColumn',
+                                 'template' => '{delete}',
+                                 'buttons' => array(
+                                    'delete' => array(
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/cancelar',
+                                    )
+                                )
+                                ),
                         ),
                     ));?>
                     
