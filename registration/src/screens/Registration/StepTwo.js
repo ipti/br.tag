@@ -23,11 +23,14 @@ import homeImg from "../../assets/images/illustration-home.png";
 
 // Styles
 import styles from "./styles";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles(styles);
 
 const StepTwo = props => {
   const classes = useStyles();
+
+  const history = useHistory()
 
   const validationSchema = Yup.object().shape({
     numRegistration: Yup.string()
@@ -60,11 +63,10 @@ const StepTwo = props => {
           numRegistration: ""
         }}
         validationSchema={validationSchema}
-        onSubmit={values => props.next(3, values)}
         validateOnChange={false}
         enableReinitialize
       >
-        {({ errors, touched, handleChange, handleSubmit }) => {
+        {({ errors, touched, handleChange, values }) => {
           const errorList = {
             numRegistration: touched.numRegistration && errors.numRegistration
           };
@@ -108,7 +110,7 @@ const StepTwo = props => {
                 <Grid item xs={6}>
                   {!props.loadingButtom ? (
                     <ButtonPurple
-                      onClick={handleSubmit}
+                      onClick={()=> history.push(`/matricula/${values.numRegistration}`)}
                       type="submit"
                       title="Continuar"
                     />

@@ -130,7 +130,7 @@ const StepFive = props => {
   useEffect(() => {
     if(loadStates){
       (async () => {
-        const res = await api.get("/edcenso-uf-registration", {
+        const res = await api.get("/student-pre-identify/edcenso-uf", {
           params: {
             include: {
               edcenso_city: true

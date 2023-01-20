@@ -111,6 +111,7 @@ const StepThree = props => {
     deficiency: Yup.boolean().required("Campo obrigatório!"),
   });
 
+  console.log(props)
   const initialValues = {
     name: props?.student?.name ?? '',
     birthday: props?.student?.birthday ?? '',

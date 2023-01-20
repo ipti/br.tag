@@ -12,7 +12,7 @@ import api from "../services/api";
 // Requests
 const requestStudent = id => {
   return api
-    .get("/student-pre-identification" + id)
+    .get("/student-identification/" + id)
     .then(response => response.data)
     .catch(err => {
       throw err;
@@ -50,7 +50,7 @@ const requestPeriodRegistration = () => {
 
 const requestSchoolList = id => {
   return api
-    .get("/school-identification-registration", {
+    .get("/student-pre-identify/school", {
       params: {
         include: {
           classroom: true,

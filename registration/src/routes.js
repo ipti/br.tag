@@ -6,6 +6,7 @@ import { isAuthenticated } from "./services/auth";
 import MainLayout from "./components/Layouts/MainLayout";
 import NotFoundPage from "./components/Layouts/NotFoundPage";
 import CircularLoading from "./components/Loading/CircularLoading";
+import ReMatricula from "./containers/Registration/ReMatricula";
 
 //const Home = lazy(() => import("./containers/Home"));
 const Schedule = lazy(() => import("./containers/Schedule/Schedule"));
@@ -48,6 +49,7 @@ const Routes = () => (
     <Switch>
       <Route path="/login" exact component={Login} />
       <Route path="/matricula" exact component={RegistrationHome} />
+      <Route path="/matricula/:id" exact component={ReMatricula} />
       <PrivateRoute exact path="/" component={Schedule} />
       <PrivateRoute exact path="/cronograma" component={Schedule} />
       <PrivateRoute

@@ -25,11 +25,6 @@ const Home = props => {
   useEffect(() => {
     setOpen(false);
 
-    if (loadDataStudent) {
-      props.dispatch({ type: "FETCH_STUDENT", registration: number });
-      setLoadDataStudent(false);
-    }
-
     if (loadDataSchool) {
       props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
       setLoadDataSchool(false);
@@ -67,15 +62,11 @@ const Home = props => {
         .reverse()
         .join("-");
     }
-    console.log("frtfy6");
-    console.log(dataValues);
     props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: dataValues });
   };
 
   const next = (step, values) => {
     let data = Object.assign(dataValues, values);
-    console.log(data)
-    console.log(step)
     if (
       step === 1 &&
       props?.period &&
