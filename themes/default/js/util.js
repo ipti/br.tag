@@ -189,9 +189,9 @@ function validateNamePerson(personName, handler){
     }
 
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudent&student_name=${personName}`
-    }).success(function (r) {
-        $.each( $.parseJSON( r ), function(name, id){
+        url: `${origin}${pathname}?r=student/comparestudentname&student_name=${personName}`
+    }).success(function (response) {
+        $.each( $.parseJSON( response ), function(name, id){
             if(name != '') passName = true
         });
         if(passExp){
@@ -240,51 +240,80 @@ function validateNamePerson(personName, handler){
     
 }
 
-function validateCpf(cpf){
-    if (cpf == "00000000000" || cpf == "11111111111"
+function validateCpf(cpf, handler){
+    var ret = new Array();
+    var passCpf = false;
+    $.ajax({
+        url: `${origin}${pathname}?r=student/comparestudentcpf&student_responsable_cpf=${cpf}`,
+    }).success(function (response) {
+        $.each( $.parseJSON( response ), function(name, id){
+            if(name != '') passCpf = true
+        });
+
+        if (cpf == "00000000000" || cpf == "11111111111"
         || cpf == "22222222222" || cpf == "33333333333"
         || cpf == "44444444444" || cpf == "55555555555"
         || cpf == "66666666666" || cpf == "77777777777"
         || cpf == "88888888888" || cpf == "99999999999"
         || !rule(cpf, numberRules.cpf)){
-         return false;
-    }else{
-        var a = [];
-        var b = new Number;
-        var c = 11;
-        
-        for (var i=0; i<11; i++){
-            a[i] = cpf.charAt(i);
-            if (i < 9) 
-                b += (a[i] * --c);
-        }
-        var x = b % 11;
-        
-        if (x < 2) { 
-            a[9] = 0 
-        } else { 
-            a[9] = 11-x 
-        }
-        b = 0;
-        c = 11;
-        for (var y=0; y<10; y++) {
-            b += (a[y] * c--);
-        }
-        
-        x = b % 11;
-        if (x < 2){ 
-            a[10] = 0; 
-        } else { 
-            a[10] = 11-x; 
+            ret[0] = false;
+            ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
+            handler(ret);
+            return;
+        }else{
+            if(passCpf) {
+                ret[0] = false;
+                ret[1] = "CPF já cadastrado";
+                handler(ret);
+                return;
+            }
+            var a = [];
+            var b = new Number;
+            var c = 11;
+            
+            for (var i=0; i<11; i++){
+                a[i] = cpf.charAt(i);
+                if (i < 9) 
+                    b += (a[i] * --c);
+            }
+            var x = b % 11;
+            
+            if (x < 2) { 
+                a[9] = 0 
+            } else { 
+                a[9] = 11-x 
+            }
+            b = 0;
+            c = 11;
+            for (var y=0; y<10; y++) {
+                b += (a[y] * c--);
+            }
+            
+            x = b % 11;
+            if (x < 2){ 
+                a[10] = 0; 
+            } else { 
+                a[10] = 11-x; 
+            }
+
+            if(!( (cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]) )) {
+                ret[0] = false;
+                ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
+                handler(ret);
+                return;
+            }
         }
 
-        return ((cpf.charAt(9) == a[9]) && (cpf.charAt(10) == a[10]))
-    }
+        if(cpf == "00000000000" || cpf == "00000000191"){
+            ret[0] = false;
+            ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
+            handler(ret);
+            return;
+        }else{
+            return rule(cpf, numberRules.cpf);
+        }
 
-    if(cpf == "00000000000" || cpf == "00000000191")
-        return false;
-    else
-        return rule(cpf, numberRules.cpf);
+    });
 }
 
 function validateNis(nis){

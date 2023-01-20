@@ -2,7 +2,6 @@ $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
     validateNamePerson(($(id).val()), function (ret) {
-        console.log(ret)
         if (!ret[0] && ($(id).val() != '')) {
             addError(id, ret[1]);
         } else {
@@ -47,12 +46,13 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
-        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-    } else {
-        removeError(id);
-    }
+    validateCpf($(id).cleanVal(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        }
+    });
 });
 
 $(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});

@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudent', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array('index', 'view', 'comparestudentname', 'comparestudentcpf', 'create', 'update', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -121,8 +121,24 @@ class StudentController extends Controller
         }
     }
 
-    public function actionCompareStudent($student_name) { 
+    public function actionCompareStudentName($student_name) { 
         $data = StudentIdentification::model()->find('name=:name', array(':name' => $student_name));
+        $result = [];
+        $result[$data->name] = $data->id;
+
+        echo json_encode($result);
+    }
+
+    public function actionCompareStudentCertificate($student_certificate) {
+        $data = StudentDocumentsAndAddress::model()->find('civil_certification=:civil_certification', array(':civil_certification' => $student_certificate));
+        $result = [];
+        $result[$data->student_fk] = $data->id;
+
+        echo json_encode($result);
+    }
+
+    public function actionCompareStudentCpf($student_responsable_cpf) {
+        $data = StudentIdentification::model()->find('responsable_cpf=:responsable_cpf', array(':responsable_cpf' => $student_responsable_cpf));
         $result = [];
         $result[$data->name] = $data->id;
 
