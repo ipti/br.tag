@@ -5,6 +5,8 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+$themeUrl = Yii::app()->theme->baseUrl;
+$cs->registerCssFile($themeUrl . '/css/template2.css');
 ?>
 
 
@@ -25,32 +27,39 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                 'dataProvider' => $dataProvider,
                 'enablePagination' => true,
                 'filter' => $filter,
-                'itemsCssClass' => 'table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                 'columns' => array(
                     array(
                         'name' => 'name',
                         'type' => 'raw',
                         'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id)))',
-                        'htmlOptions' => array('width' => '400px')
                     ),
                     array(
                         'name' => 'username',
                         'type' => 'raw',
                         'value' => 'CHtml::link($data->username)',
-                        'htmlOptions' => array('width' => '100px')
                     ),
                     array(
-                        'class'=>'CLinkColumn',
-                        'labelExpression'=>'Desativar',
-                        'cssClassExpression' => 'btn btn-default',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
-                        'htmlOptions' => array('width' => '10px')
+                        'class' => 'CButtonColumn',
+                        'cssClassExpression' => '$data->active? show : hide',
+                        'updateButtonUrl' => 'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
+                        'template' => '{impressora}',
+                        'buttons' => array(
+                            'impressora' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/impressora',
+                            )
+                        )
                     ),
                     array(
-                        'class'=>'CLinkColumn',
-                        'labelExpression'=>'Ativar',
-                        'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
-                        'htmlOptions' => array('width' => '10px')
+                        'class' => 'CButtonColumn',
+                        'cssClassExpression' => '$data->active? hide : show',
+                        'updateButtonUrl' => 'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
+                        'template' => '{downArrow}',
+                        'buttons' => array(
+                            'downArrow' => array(
+                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/downArrow',
+                            )
+                        )
                     ),
                 ),
             ));

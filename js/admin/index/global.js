@@ -59,9 +59,3 @@ $(document).on("click", ".collapse-icon", function() {
         $(this).closest(".conflict-container").find(".conflict-values").hide();
     }
 });
-
-const {origin,pathname} = window.location;
-$("#disable-user-submit").click(function() {
-    url = `${origin}${pathname}?r=admin/disableUser&id=${$("#users").val()}`;
-    window.location.replace(url);
-});
