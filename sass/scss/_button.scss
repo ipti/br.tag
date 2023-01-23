@@ -1,0 +1,32 @@
+@import '_tokens.scss';
+
+
+
+.t-button {
+    padding: $spaceXXSmall;
+    font-size: $FontSizeTextSmall;
+    background-color: $colorsBaseProductNormal;
+    color:$colorsBaseWhiteNormal;
+    border-radius: 4px;
+    text-decoration: none;
+
+    @include mobile {
+        padding: $spaceXXSmall;
+        font-size: $FontSizeTextSmall;
+    }
+    @include tablet {
+        padding: $spaceNormal $spaceMedium;
+        font-size: $FontSizeHeadingTitle3;
+    }
+    @include desktop {
+        padding: $spaceNormal $spaceXXXLarge;
+    }
+    
+}
+
+.t-button:hover {
+    text-decoration: none;
+    color:$colorsBaseWhiteNormal;
+    background-color: $colorsBaseProductNormalActive;
+}
+

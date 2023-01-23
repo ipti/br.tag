@@ -21,6 +21,12 @@
 /* 
     butões
 */
+.t-buttons-container {
+    padding-right: 10px;
+}
+.middle-button {
+  margin: 0 16px; 
+}
 .tag-button, .tag-button:hover {
     background-color: #3F45EA;
     text-decoration: none;
