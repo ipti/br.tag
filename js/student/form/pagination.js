@@ -12,16 +12,16 @@ function changeTab(index){
     
     if(index == 0){
         $('.prev').hide();
-        // $('.next').show();
-        $('.last').show();
+        $('.next').show();
+        $('.last').hide();
     }else if(index == size){
         $('.prev').show();
-    	// $('.next').hide();
+    	$('.next').hide();
     	$('.last').show();
     }else{
         $('.prev').show();
-        // $('.next').show();
-        $('.last').show();
+        $('.next').show();
+        $('.last').hide();
     }
     
 	newTab = tabs[index];
@@ -60,9 +60,9 @@ $('.tab-student li a').click(function() {
     change2clickedTab(clickedTab);
 });
 
-// $('.next').click(function() {
-// 	change2nextTab();
-// });
+$('.next').click(function() {
+	change2nextTab();
+});
 
 $('.prev').click(function() {
 	change2prevTab();
