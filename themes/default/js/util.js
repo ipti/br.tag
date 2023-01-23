@@ -174,12 +174,28 @@ function validateBirthdayPerson(date){
     }
 }
 
+function compareSimilarName(name1, name2) {
+    name_test_1 = name1.split(' ');
+    name_test_2 = name2.split(' ');
+    var score = 0;
+    var response = false;
+    for (let i = 0; i < name_test_2.length; i++) {
+        if( name_test_2.includes(name_test_1[i] ) ){
+            if(i <= 1) score += 2;
+            else score++;
+        }
+    }
+    if(score >= 3) response = true
+    return response
+}
+
 const {origin,pathname} = window.location;
 
 function validateNamePerson(personName, handler){
     var complete_name = personName.split(' ');  
     var passExp = true;
     var passName = false;
+    var passSimilarName = [];
     var ret = new Array();
     for(var i=0; i<complete_name.length;i++){
         if(!rule(complete_name[i],stringRules.personName)){
@@ -189,16 +205,29 @@ function validateNamePerson(personName, handler){
     }
 
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentname&student_name=${personName}`
+        url: `${origin}${pathname}?r=student/comparestudentname`
     }).success(function (response) {
         $.each( $.parseJSON( response ), function(name, id){
-            if(name != '') passName = true
+            if(name == personName){
+                passName = true
+            }else {
+                if(compareSimilarName(personName, name)){
+                    passSimilarName[0] = true
+                    passSimilarName[1] = name
+                }
+            }
+            
         });
         if(passExp){
-            console.log(passName)
             if(passName) {
                 ret[0] = false;
                 ret[1] = "O nome já está cadastrado.";
+                handler(ret);
+                return
+            }
+            if(passSimilarName[0]) {
+                ret[0] = true;
+                ret[1] = `Existe um registro "${passSimilarName[1]}" similar cadastrado.`;
                 handler(ret);
                 return
             }
@@ -232,10 +261,6 @@ function validateNamePerson(personName, handler){
             handler(ret);
             return;
         }
-        ret[0] = true;
-        ret[1] = "bele";
-        handler(ret);
-        return;
     })
     
 }
@@ -357,9 +382,21 @@ function errorMessage(id,message){
     id = $(id).attr("id");
     $("#"+id).parent().append("<span id='"+id+"_error' class='error'><br/>"+message+"</span>");
 }
+
+function warningMessage(id,message) {
+    removeWarningMessage(id);
+    id = $(id).attr("id");
+    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message+"</span>");
+}
+
 function removeErrorMessage(id){
     $(id+'_error').remove();
 }
+
+function removeWarningMessage(id){
+    $(id+'_warn').remove();
+}
+
 function errorNotification(id){
     $(id).parent().children().css("border-color", "red");
     $(id).parent().children().css("color", "red");
@@ -371,6 +408,17 @@ function removeErrorNotification(id){
     $(id).parent().children().css("color", "");
 }
 
+function warningNotification(id){
+    $(id).parent().children().css("border-color", "#ffcc00");
+    $(id).parent().children().css("color", "#ffcc00");
+    $(id).parent().children().trigger("mouseover");
+    setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
+}
+function removeWarningNotification(id){
+    $(id).parent().children().css("border-color", "");
+    $(id).parent().children().css("color", "");
+}
+
 function addError(id, message){
     errorMessage(id, message);
     errorNotification(id);
@@ -378,6 +426,15 @@ function addError(id, message){
 function removeError(id){
     removeErrorMessage(id);
     removeErrorNotification(id);
+}
+
+function addWarning(id, message){
+    warningMessage(id, message);
+    warningNotification(id);
+}
+function removeWarning(id){
+    removeWarningMessage(id);
+    removeWarningNotification(id);
 }
 
 /**

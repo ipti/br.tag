@@ -121,11 +121,12 @@ class StudentController extends Controller
         }
     }
 
-    public function actionCompareStudentName($student_name) { 
-        $data = StudentIdentification::model()->find('name=:name', array(':name' => $student_name));
+    public function actionCompareStudentName() { 
+        $data = StudentIdentification::model()->findAll();
         $result = [];
-        $result[$data->name] = $data->id;
-
+        foreach ($data as $student) {
+            $result[$student->name] = $student->id;
+        }
         echo json_encode($result);
     }
 

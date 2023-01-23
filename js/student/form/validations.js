@@ -1,12 +1,20 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
+    removeWarning(id);
+    removeError(id);
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
+            removeWarning(id)
             addError(id, ret[1]);
         } else {
             removeError(id);
-        } 
+            if(ret[0] && ($(id).val() != '') && ret[1] != null) {
+                addWarning(id, ret[1]);
+            }else {
+                removeWarning(id);
+            }
+        }
     });
 });
 
@@ -154,7 +162,7 @@ $(formIdentification + 'filiation').trigger('change');
 $(formIdentification + 'filiation_1').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-
+    removeError(id);
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0]) {
             $(id).attr('value', '');
@@ -175,7 +183,7 @@ $(formIdentification + 'filiation_1').focusout(function () {
 $(formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-
+    removeError(id);
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0]) {
             $(id).attr('value', '');
