@@ -42,8 +42,8 @@ const Registration = props => {
     setLoadingButtom(true);
     props.dispatch({
       type: "FETCH_UPDATE_REGISTRATION",
-      data: { confirmed: value },
-      id: props.match.params.idRegistration
+      data: value,
+      id: idRegistration
     });
   };
 

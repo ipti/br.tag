@@ -1,7 +1,7 @@
 export const GET_ALL = "GET_ALL_SCHOOL";
 export const GET_SCHOOL = "GET_SCHOOL";
 export const GET_ERROR_SCHOOL = "GET_ERROR_SCHOOL";
-export const GET_SCHOOL_LIST = "GET_SCHOOL_LIST";
+export const GET_SCHOOL_LIST = "GET_SCHOOL_LIST_SCHOOL";
 export const FETCH_SCHOOLS = "FETCH_SCHOOLS";
 export const FETCH_SCHOOL = "FETCH_SCHOOL";
 export const FETCH_SCHOOLS_PAGE = "FETCH_SCHOOLS_PAGE";

@@ -24,9 +24,8 @@ const requestClassrooms = data => {
 
 const requestClassroom = id => {
   return api
-    .get("/classroom", {
+    .get("/classroom/" + id, {
       params: {
-        id: id,
         include: {
           student_pre_identification: true
         }
@@ -58,7 +57,7 @@ const requestSaveClassroom = data => {
 
 const requestUpdateRegistration = (data, id) => {
   return api
-    .put("/" + id, data)
+    .post("/student-pre-identify/registration/" + id, data)
     .then(response => response.data)
     .catch(err => {
       throw err;

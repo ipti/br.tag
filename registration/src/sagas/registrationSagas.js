@@ -12,7 +12,14 @@ import api from "../services/api";
 // Requests
 const requestStudent = id => {
   return api
-    .get("/student-identification/" + id)
+    .get("/student-pre-identify/studentidentification/" + id,
+      {
+        params: {
+          include: {
+            edcenso_city: true,
+          }
+        }
+      })
     .then(response => response.data)
     .catch(err => {
       throw err;

@@ -17,9 +17,8 @@ const requestSchools = () => {
 
 const requestSchool = id => {
   return api
-    .get("/school-identification", {
+    .get("/school-identification/"+id, {
       params: {
-        inep_id: id,
         include: {
           classroom: true,
           edcenso_city: true

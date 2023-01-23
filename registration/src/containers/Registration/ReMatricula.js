@@ -7,6 +7,7 @@ import Home from "../../screens/Registration/ReMatricula";
 
 const ReMatricula = props => {
   const [loadData, setLoadData] = useState(true);
+  const [loadDataSchool, setLoadDataSchool] = useState(true);
   let history = useHistory();
 
   const { id } = useParams()
@@ -20,6 +21,10 @@ const ReMatricula = props => {
       })
       setLoadData(false);
       console.log(props)
+    }
+    if (loadDataSchool) {
+      props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
+      setLoadDataSchool(false);
     }
 
   }, [loadData, props]);
@@ -42,7 +47,7 @@ const ReMatricula = props => {
       ) : (
         <>
           <Home
-            registration={props.registration}
+            registration={props.student}
             handleSubmit={handleSubmit}
             loadingIcon={props.loading}
           />
@@ -53,7 +58,7 @@ const ReMatricula = props => {
 };
 
 const mapStateToProps = state => {
-
+console.log(state)
   return {
     address: state.viaCep.addresses,
     student: state.registration.student,

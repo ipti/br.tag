@@ -82,7 +82,7 @@ const Home = props => {
           {studentBirthday}
         </Grid>
         <Grid item md={4}>
-          <BoxStatus title={!status ? "Transferência" : "Novo Aluno"} />
+          <BoxStatus title={!status ? "Rematrícula" : "Novo Aluno"} />
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>CPF</p>

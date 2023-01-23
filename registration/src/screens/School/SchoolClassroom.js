@@ -39,7 +39,7 @@ const Home = ({ data })  => {
 
 
   const classrooms = data
-    ? data.school[0].classroom.map((classroom, index) => (
+    ? data.school.classroom.map((classroom, index) => (
         <Grid
           className={classes.cursor}
           onClick={() => handleLink("/turmas/" + classroom.id)}
@@ -68,7 +68,7 @@ const Home = ({ data })  => {
       ))
     : [];
 
-    const school = data.school[0]
+    const school = data.school
 
     console.log(school)
 

@@ -90,6 +90,8 @@ const Form = props => {
       : ""
   };
 
+  console.log(props)
+
   return (
     <>
       {props?.loading && !loadingButtom ? (
@@ -104,9 +106,7 @@ const Form = props => {
             isEdit={isEdit}
             loadingIcon={props?.loading}
             data={
-              Object.keys(props.classroom.classroom).length > 0
-                ? props.classroom.classroom.data
-                : null
+              props.classroom.classroom
             }
           />
           {alert()}

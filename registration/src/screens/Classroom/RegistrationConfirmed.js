@@ -32,7 +32,9 @@ const Home = props => {
   } = props;
   const student = registration ?? [];
 
-  const classroomOne = classroom.data[0] ?? [];
+  console.log(props)
+
+  const classroomOne = classroom.data ?? [];
 
   console.log(classroomOne)
 
@@ -65,9 +67,31 @@ const Home = props => {
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
 
+
   const classroomName = classroomOne?.name ?? nullableField;
   const modality = classroomOne?.modality === 1 ? 'Ensino Regular' : classroomOne?.modality === 2 ? 'Educação Especial' : classroomOne?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : classroomOne?.modality === 4 ? 'Educação profissional' : nullableField;
 
+  console.log(student)
+
+  const data = {
+    name: studentName,
+    birthday: studentBirthday,
+    deficiency: student?.deficiency,
+    color_race: student?.color_race, 
+    edcenso_city_fk: student?.edcenso_city_fk,
+    edcenso_uf_fk: student?.edcenso_uf_fk,
+    responsable_name: student?.responsableName,
+    responsableCpf: student?.responsableCpf,
+    responsable_telephone: student?.responsable_telephone,
+    sex: student?.sex,
+    zone: student?.zone,
+    school_identification: student?.school_inep_id_fk,
+    classroom: student?.classroom_fk,
+    calendar_event: student?.calendar_event_fk,
+    year: 2023
+  }
+
+  console.log(data)
   return (
     <>
       <Grid className={classes.boxTitlePagination} container direction="row">
@@ -223,7 +247,7 @@ const Home = props => {
           <>
             <Grid item md={3}>
               <ButtonPurple
-                onClick={() => handleSubmit(true)}
+                onClick={() => handleSubmit(data)}
                 type="button"
                 title="Confirmar"
               />

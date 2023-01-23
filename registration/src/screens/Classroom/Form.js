@@ -39,7 +39,7 @@ const Create = props => {
   console.log(data)
 
   const registrations = () => {
-    const registrationList = data[0]?.student_pre_identification ?? [];
+    const registrationList = data?.student_pre_identification ?? [];
 
     console.log(registrationList);
 
