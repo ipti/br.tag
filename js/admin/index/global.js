@@ -59,4 +59,3 @@ $(document).on("click", ".collapse-icon", function() {
         $(this).closest(".conflict-container").find(".conflict-values").hide();
     }
 });
-
