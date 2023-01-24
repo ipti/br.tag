@@ -78,8 +78,6 @@ function valorPorExtenso( $valor = 0){
     }
 </style>
 
-<?php ?>
-
 
 <div class="row-fluid hidden-print">
     <div class="span12">
@@ -137,7 +135,7 @@ function valorPorExtenso( $valor = 0){
         ?>
         <br>
         <table class="table table-bordered table-striped">
-            <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4" class='vertical-text'><div>ID INEP</div></th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
+            <tr><th rowspan="4" class='vertical-text'><div>Ordem</div></th><th rowspan="4">Nome do Aluno</th><th colspan="25">Componentes Curriculares</th></tr>
             <tr><th colspan="25">Rendimento Escolar</th></tr>
             <tr><th colspan="15">Disciplinas</th><th colspan="5">Resultado Final</th><th colspan="5">Dependência</th></tr>
             <tr><?php 
@@ -152,7 +150,6 @@ function valorPorExtenso( $valor = 0){
 
                 $templateRow = "
                     <td class=\"center\">{{index}}</td>
-                    <td class=\"center\">{{inep_id}}</td>
                     <td>{{student}}</td>
                     <td class=\"center\">{{discipline_1}}</td>
                     <td class=\"center\">{{discipline_2}}</td>
@@ -200,7 +197,6 @@ function valorPorExtenso( $valor = 0){
                 $finalAverage = 0;
                 $approvedAllDisciplines = true;
                 $sName = $s->studentFk->name;
-                $sIDInep = $s->studentFk->inep_id;
 
                 $resultGrade = $s->getResultGrade($idDisciplines);
                 $average = array();
@@ -224,10 +220,9 @@ function valorPorExtenso( $valor = 0){
                     
                 }
 
-                $average = array_map(function($v){ return number_format(floatval($v), 2, ',',''); }, $average);
+                $average = array_map(function($v){ return number_format($v, 2, ',',''); }, $average);
 
                 $result[] = $i;
-                $result[] = $sIDInep;
                 $result[] = $sName;
                 $result[] = $average[0];
                 $result[] = $average[1];
@@ -260,7 +255,6 @@ function valorPorExtenso( $valor = 0){
                 $td = str_replace(
                     [
                         '{{index}}',
-                        '{{inep_id}}',
                         '{{student}}',
                         '{{discipline_1}}',
                         '{{discipline_2}}',

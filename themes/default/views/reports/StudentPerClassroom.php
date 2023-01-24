@@ -141,7 +141,6 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
         <table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
                 <th rowspan="" style="text-align: center;">Nº</th>
-                <th rowspan="" style="text-align: center;">ID INEP</th>
                 <th rowspan="">ALUNO</th>
                 <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <?php
@@ -155,7 +154,6 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 foreach ($report as $key=>$r){
                     $rows .= "<tr>"
                             . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                            . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                             . "<td>" . $r['name'] . "</td>"
                             . "<td style='text-align: center;'>" . $r['birthday'] . "</td>";
                     for ($i = 1; $i <= 31; $i++) {

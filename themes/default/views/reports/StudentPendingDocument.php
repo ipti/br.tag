@@ -20,7 +20,6 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
         <table class="table table-bordered table-striped" style="font-size: 11px">
             <tr>
                 <th rowspan="" style="text-align: center;">Nº</th>
-                <th rowspan="" style="text-align: center;">ID INEP</th>
                 <th rowspan="">ALUNO</th>
                 <th rowspan="" style="text-align: center;">DATA DE NASCIMENTO</th>
                 <th colspan="8" style="text-align: center;"> Documentos Pendentes</th>
@@ -41,9 +40,9 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                     $received_responsable_rg =  '';};
                 if($r['received_responsable_cpf'] == 0){ $received_responsable_cpf =  '<i class="fa fa-close" style="color: black"></i>';}else{
                     $received_responsable_cpf =  '';};
+//                             var_dump($r);
                 $rows .= "<tr>"
                     . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
-                    . "<td style='text-align: center;'>" . $r['inep_id'] . "</td>"
                     . "<td>" . $r['nome_aluno'] . "</td>"
                     . "<td style='text-align: center;'>" . $r['birthday'] . "</td>"
                     .       "<td style='text-align: center;'>Certidão de Nascimento</td>
@@ -53,7 +52,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
                             <td style='text-align: center;'>Rg do Responsável</td>
                             <td style='text-align: center;'>CPF do Responsável</td>
                             <tr>
-                            <th colspan='4'>
+                            <th colspan='3'>
                             <td style='text-align: center;'>".$received_cc."</td>
                             <td style='text-align: center;'>".$received_address."</td>
                             <td style='text-align: center;'>".$received_photo."</td>
