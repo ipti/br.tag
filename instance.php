@@ -287,7 +287,6 @@ define("DBNAME",$db);
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
-$PWD = '';
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=$db",
     'emulatePrepare' => true,
