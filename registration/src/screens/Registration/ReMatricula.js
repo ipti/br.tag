@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { format, parseISO } from "date-fns";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
+import { FormControl, FormLabel } from "@material-ui/core";
+
+import Select from "react-select";
+import AsyncSelect from "react-select/async";
 
 // Components
 import { TitleWithLine } from "../../components/Titles";
@@ -21,10 +25,38 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 import styles from "../Classroom/styles";
 
 const useStyles = makeStyles(styles);
-
+const customStyles = {
+  control: base => ({
+    ...base,
+    height: "60px",
+    minHeight: "60px",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  }),
+  menu: base => ({
+    ...base,
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif"
+  })
+};
 const Home = props => {
   const classes = useStyles();
+  const [classroom, setClassroom] = useState('')
+  const [inepId, setInepId] = useState('')
+  const [schoolInepFk, setSchoolInepFk] = useState('');
+  const [calendarID, setCalendarID] = useState('')
+  const [inputValueClassroom, setInputValueClassroom] = useState("");
 
+
+  console.log(props)
+  const handleChange = newValue => {
+    setInputValueClassroom(newValue);
+  };
+
+  const searchSchools = (inputValue, callback) => {
+    if (inputValue.trim().length >= 3) {
+      const buscaLowerCase = inputValue.toLowerCase();
+      callback(props.schools.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
+    }
+  };
   const {
     registration,
     handleSubmit,
@@ -36,7 +68,6 @@ const Home = props => {
   const nullableField = "-------------";
 
   const studentName = student?.name;
-  const cpf = student?.cpf;
   const color_race = student?.color_race === 0 ? 'Branca' : student?.color_race === 2 ? 'Preta' : student?.color_race === 3 ? 'Parda' : student?.color_race === 4 ? 'Amarela' : student?.color_race === 5 ? 'Indígena' : 'Não especificado';
   const deficiency = student?.deficiency ? 'sim' : 'não';
 
@@ -59,9 +90,25 @@ const Home = props => {
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
+  const data = {
+name: studentName,
+birthday: studentBirthday,
+deficiency: student?.deficiency,
+color_race: student?.color_race,
+edcenso_city_fk: student?.edcenso_city_fk,
+edcenso_uf_fk: student?.edcenso_uf_fk,
+responsable_telephone: student?.responsable_telephone,
+responsable_name: student?.responsable_name,
+responsable_cpf: student?.responsable_cpf,
+sex: student?.sex,
+school_identification: schoolInepFk,
+classroom: inputValueClassroom,
+calendar_event: calendarID
+  }
+
 
   return (
-    <div style={{height: '100%', padding:'10%'}}>
+    <div style={{ height: '100%', padding: '10%' }}>
       <Grid className={classes.boxTitlePagination} container direction="row">
         <TitleWithLine title="Matrícula" />
       </Grid>
@@ -84,19 +131,15 @@ const Home = props => {
         <Grid item md={4}>
           <BoxStatus title={!status ? "Rematrícula" : "Novo Aluno"} />
         </Grid>
-        <Grid item md={3}>
-          <p className={classes.label}>CPF</p>
-          {cpf}
-        </Grid>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <p className={classes.label}>Cor/Raça</p>
           {color_race}
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <p className={classes.label}>Sexo</p>
           {student?.sex == 1 ? 'Maculino' : student?.sex == 2 ? 'Femenino' : ''}
         </Grid>
-        <Grid item md={3}>
+        <Grid item md={4}>
           <p className={classes.label}>Possui Deficiência</p>
           {deficiency}
         </Grid>
@@ -148,43 +191,106 @@ const Home = props => {
             alt="Icone de Endereço"
           />
           <div className={classes.floatLeft}>
-            <p className={classes.label}>Endereço</p>
-            {address}
+            <p className={classes.label}>Cidade</p>
+            {city}
           </div>
-        </Grid>
-        <Grid item md={4}>
-          <p className={classes.label}>Bairro</p>
-          {neighborhood}
-        </Grid>
-
-        <Grid item md={3}>
-          <p className={classes.label}>Número</p>
-          {number}
-        </Grid>
-        <Grid item md={3}>
-          <p className={classes.label}>Complemento</p>
-          {complement}
-        </Grid>
-        <Grid item md={3}>
-          <p className={classes.label}>CEP</p>
-          {cep}
-        </Grid>
-        <Grid item md={3}>
-          <p className={classes.label}>Cidade</p>
-          {city}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Estado</p>
           {state}
         </Grid>
-        <Grid item md={2}>
-          <BoxStatus title={student?.zone === 2 ? "Urbana" : student?.zone === 1 ? "Rural" : ''} />
-        </Grid>
         <Grid item md={12}>
           <div className={classes.lineGrayClean}></div>
         </Grid>
       </Grid>
-      <Grid container direction="row" spacing={3}>
+      <Grid
+        className={`${classes.contentMain} ${classes.marginTop}`}
+        container
+        direction="row"
+        justifyContentContent="center"
+        alignItems="center"
+      >
+
+        <Grid item xs={12}>
+          <img
+            className={`${classes.floatLeft} ${classes.iconClassroom}`}
+            src={IconClassroom}
+            alt="Icone de Turma"
+          />
+          <FormControl
+            component="fieldset"
+            className={classes.formControl}
+          >
+            <FormLabel>Escola *</FormLabel>
+            <AsyncSelect
+              styles={customStyles}
+              cacheOptions
+              loadOptions={searchSchools}
+              defaultOptions
+              placeholder="Digite o nome da escola"
+              onChange={selectedOption => {
+                setClassroom(selectedOption.classroom);
+                setCalendarID(selectedOption.calendar_event.find(e => e.id === 1).id)
+              }}
+              className={classes.selectField}
+              getOptionValue={opt => opt.inep_id}
+              getOptionLabel={opt => opt.inep_id + " - " + opt.name}
+              loadingMessage={() => "Carregando"}
+              noOptionsMessage={obj => {
+                if (obj.inputValue.trim().length >= 3) {
+                  return "Nenhuma escola encontrada";
+                } else {
+                  return "Digite 3 ou mais caracteres";
+                }
+              }}
+            />
+          </FormControl>
+          <div className={classes.formFieldError}>
+          </div>
+        </Grid>
+      </Grid>
+      <Grid
+        className={`${classes.contentMain} ${classes.marginTop30}`}
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={12}>
+          <FormControl
+            component="fieldset"
+            className={classes.formControl}
+          >
+            <FormLabel>Turma *</FormLabel>
+            <Select
+              styles={customStyles}
+              className="basic-single"
+              classNamePrefix="select"
+              isSearchable={true}
+              placeholder="Selecione a Turma"
+              options={classroom}
+              onChange={selectedOption => {
+                handleChange(selectedOption.id);
+                setSchoolInepFk(selectedOption.school_inep_fk)
+                setInepId(selectedOption.inep_id)
+              }}
+              getOptionValue={opt => opt.classroom}
+              getOptionLabel={opt => opt.name}
+              loadingMessage={() => "Carregando"}
+              noOptionsMessage={obj => {
+                if (obj.inputValue.trim().length >= 3) {
+                  return "Nenhuma turma encontrada";
+                } else {
+                  return "Digite 3 ou mais caracteres";
+                }
+              }}
+            />
+          </FormControl>
+          <div className={classes.formFieldError}>
+          </div>
+        </Grid>
+      </Grid>
+      {/* <Grid container direction="row" spacing={3}>
         <Grid item md={5}>
           <img
             className={`${classes.floatLeft} ${classes.iconClassroom}`}
@@ -202,7 +308,7 @@ const Home = props => {
           <p className={classes.label}>Turno</p>
           Manhã
         </Grid>
-      </Grid>
+      </Grid> */}
       <Grid
         className={classes.boxButtons}
         container
@@ -213,7 +319,7 @@ const Home = props => {
           <>
             <Grid item md={3}>
               <ButtonPurple
-                onClick={() => handleSubmit(true)}
+                onClick={() => handleSubmit(data)}
                 type="button"
                 title="Confirmar"
               />

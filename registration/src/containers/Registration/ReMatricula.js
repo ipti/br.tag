@@ -30,12 +30,9 @@ const ReMatricula = props => {
   }, [loadData, props]);
 
 
-  const handleSubmit = value => {
-    props.dispatch({
-      type: "FETCH_UPDATE_REGISTRATION",
-      data: { confirmed: value },
-      id: props.match.params.idRegistration
-    });
+  const onSubmit = value => {
+    console.log(value)
+    props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: value });
   };
 
   console.log(props)
@@ -48,7 +45,8 @@ const ReMatricula = props => {
         <>
           <Home
             registration={props.student}
-            handleSubmit={handleSubmit}
+            schools={props.schoolList}
+            handleSubmit={onSubmit}
             loadingIcon={props.loading}
           />
         </>

@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
       };
     case actions.GET_ALL:
       return {
+        ...state,
         schools: action.payload,
         loading: false
       };
@@ -36,6 +37,7 @@ export default (state = initialState, action) => {
       };
     case actions.GET_SCHOOL:
       return {
+        ...state,
         school: action.payload,
         loading: false
       };
