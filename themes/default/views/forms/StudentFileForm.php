@@ -81,7 +81,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 ?>
             </tr>
             <tr>
-                <td>DATA: _______/_______/_________</td>
+                <td style="">DATA: _______/_______/_________</td>
                 <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                     <br>Pai, Mãe ou Responsável
                 </td>
@@ -127,7 +127,7 @@ $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
                 <div class="span12"><b>02 - Nome social:</b>&nbsp;<span class="name"></span></div>
                 <br>
                 <div class="span4"><b>Data&nbsp;de&nbsp;nascimento:</b>&nbsp;<span class="birthday"><?= $data['birthday'] ?></span></div>
-                <div class="span4"><b>ID INEP: </b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
+                <div class="span4"><b>ID: </b><span class="inep_id"><?= $data['inep_id'] ?> </span></div>
                 <div class="span4"><b>NIS: </b><span class="nis"><?= $data['nis'] ?> </span></div>
 
             </td>
