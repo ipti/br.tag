@@ -23,7 +23,9 @@
 */
 .t-buttons-container {
     padding-right: 10px;
+    margin-top: 0px;
 }
+
 .middle-button {
   margin: 0 16px; 
 }
@@ -396,3 +398,4 @@
     width: 150px;
     margin-right: 10px;
 }
+.t-input-container__input { width: 328px; }

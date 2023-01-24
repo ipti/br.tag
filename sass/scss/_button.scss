@@ -9,10 +9,17 @@
     color:$colorsBaseWhiteNormal;
     border-radius: 4px;
     text-decoration: none;
+    &.hide-responsive {
+        display: none;
+        @include mobile {
+            display: block;
+        }
+    }
 
     @include mobile {
         padding: $spaceXXSmall;
         font-size: $FontSizeTextSmall;
+      
     }
     @include tablet {
         padding: $spaceNormal $spaceMedium;
@@ -21,7 +28,7 @@
     @include desktop {
         padding: $spaceNormal $spaceXXXLarge;
     }
-    
+
 }
 
 .t-button:hover {

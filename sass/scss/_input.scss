@@ -1,0 +1,16 @@
+@import '_tokens.scss';
+
+.t-input-container {
+    margin-left: 23px; 
+    .t-input-container__label{
+        &.required {
+            font-weight: bold;
+        }
+    }
+    .t-input-container__input{
+        width: 328px;
+        @include mobile {
+            width: 415px;
+        }
+    }
+}
