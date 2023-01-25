@@ -90,21 +90,3 @@ $layout-xl: calc(32px - 2rem);
 $layout-2xl: calc(40px - 2.5rem);
 $layout-3xl: calc(48px - 3rem);
 $layout-4xl: calc(64px - 4rem);
-
-/* mixin */
-
-@mixin mobile {
-    @media (min-width: 640px) {
-        @content;
-    }
-}
-@mixin tablet {
-    @media (min-width: 768px) {
-        @content;
-    }
-}
-@mixin desktop {
-    @media (min-width: 1537px) {
-        @content;
-    }
-} 

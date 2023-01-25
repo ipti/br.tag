@@ -1,5 +1,5 @@
 @import '_tokens.scss';
-
+@import '_functions.scss';
 
 
 .t-button {
@@ -11,21 +11,21 @@
     text-decoration: none;
     &.hide-responsive {
         display: none;
-        @include mobile {
+        @include device(mobile) {
             display: block;
         }
     }
 
-    @include mobile {
+    @include device(mobile) {
         padding: $spaceXXSmall;
         font-size: $FontSizeTextSmall;
       
     }
-    @include tablet {
+    @include device(tablet) {
         padding: $spaceNormal $spaceMedium;
         font-size: $FontSizeHeadingTitle3;
     }
-    @include desktop {
+    @include device(desktop) {
         padding: $spaceNormal $spaceXXXLarge;
     }
 

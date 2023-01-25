@@ -10,7 +10,6 @@
 /* Space */
 /* Font size */
 /* Grid */
-/* mixin */
 /* Color */
 /* Product */
 /* Ink */
@@ -58,3 +57,5 @@
 .t-input-container .t-input-container__input { width: 328px; }
 
 @media (min-width: 640px) { .t-input-container .t-input-container__input { width: 415px; } }
+
+/* mixin */
