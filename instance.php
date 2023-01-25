@@ -284,14 +284,19 @@ switch ($domain) {
 define("GLOGALGROUP",$_GLOBALGROUP);
 define("FORMS",serialize($_FORMS));
 define("DBNAME",$db);
+
 $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
+
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=$db",
     'emulatePrepare' => true,
     'username' => $USER,
     'password' => $PWD,
     'charset' => 'utf8',
+    'profiling' => true,
+    'enableParamLogging' => true,
 )));
+
 define('INSTANCE',$instance);

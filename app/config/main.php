@@ -4,6 +4,34 @@
 // Yii::setPathOfAlias('local','path/to/local-folder');
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
+
+$errorHandlerOptions = [
+    'errorAction' => 'site/error',
+];
+
+$logOptions = [
+    [ 
+      'class' => 'CFileLogRoute', 
+      'levels' => 'error, warning'
+    ],
+];
+
+if (YII_DEBUG) {
+    $errorHandlerOptions = [ 
+        'class' => 'application.vendor.igorsantos07.yii-whoops.WhoopsErrorHandler',
+        // 'errorAction' => 'site/error', 
+     ];
+    $logOptions = [
+        [ 
+          'class' => 'CFileLogRoute', 
+          'levels' => 'error, warning'
+        ],
+        [ 'class' => 'CWebLogRoute' ],
+    ];     
+} 
+
+
+
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'TAG',
@@ -118,25 +146,8 @@ return [
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
         ],
-        'errorHandler' => [
-            // use 'site/error' action to display errors
-            'errorAction' => 'site/error',
-        ],
-        'log' => [
-            'class' => 'CLogRouter',
-            'routes' => [
-                [
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning',
-                ],
-                // uncomment the following to show log messages on web pages
-
-                [
-                    'class' => 'CWebLogRoute',
-                ],
-
-            ],
-        ],
+        'errorHandler' => $errorHandlerOptions,
+        'log' => $logOptions,
     ],
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
