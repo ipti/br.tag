@@ -39,27 +39,19 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                         'type' => 'raw',
                         'value' => 'CHtml::link($data->username)',
                     ),
+
                     array(
-                        'class' => 'CButtonColumn',
+                        'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? show : hide',
-                        'updateButtonUrl' => 'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
-                        'template' => '{impressora}',
-                        'buttons' => array(
-                            'impressora' => array(
-                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/impressora',
-                            )
-                        )
+                        'urlExpression'=>'Yii::app()->createUrl("admin/disableUser",array("id"=>$data->id))',
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/unpublished_FILL0_wght600_GRAD200_opsz48.svg'
                     ),
+
                     array(
-                        'class' => 'CButtonColumn',
+                        'class'=>'CLinkColumn',
                         'cssClassExpression' => '$data->active? hide : show',
-                        'updateButtonUrl' => 'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
-                        'template' => '{downArrow}',
-                        'buttons' => array(
-                            'downArrow' => array(
-                                'imageUrl' => Yii::app()->theme->baseUrl.'/img/downArrow',
-                            )
-                        )
+                        'urlExpression'=>'Yii::app()->createUrl("admin/activeUser",array("id"=>$data->id))',
+                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/check_circle_FILL0_wght600_GRAD200_opsz48.svg'
                     ),
                 ),
             ));
