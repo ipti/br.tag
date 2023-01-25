@@ -10,15 +10,15 @@ xsd2php:
 
   destinations_php:
     'TabInternas': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\src\tabInternasClass
-    'SagresEdu': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\src\sagresEduClass
-    'Genericos': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\src\genericosClass
+    'SagresEdu': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\src\sagresEdu
+    'Genericos': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\src\genericosClass
 
 #    'TestNs\MyApp': soap\src  #  on Windows
 
   destinations_jms:
     'TabInternas': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\metadata\tabInternasMetadata
-    'SagresEdu': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\metadata\sagresEduMetadata
-    'Genericos': C:\Users\natha\OneDrive\Documents\br.tag\app\soap\metadata\genericosMetadata
+    'SagresEdu': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\metadata\sagresEduMetadata
+    'Genericos': C:\Users\Nathan\Documents\ipti\br.tag\app\modules\sagres\soap\metadata\genericosMetadata
 
 #    'TestNs\MyApp': soap\metadata  #  on Windows
  

@@ -21,6 +21,7 @@ return array(
         'application.modules.calendar.models.*',
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
+        'application.soap.src.sagresEdu.*'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -28,8 +29,9 @@ return array(
             'class' => 'system.gii.GiiModule',
             'password' => 'p@s4tag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => array('127.0.0.1', '::1'),
+            'ipFilters' => array('*'),
             'generatorPaths' => array(
+
             ),
         ),
         'wizard',
@@ -39,7 +41,8 @@ return array(
         'calendar',
         'timesheet',
         'curricularmatrix',
-        'quiz'
+        'quiz',
+        'sagres'
     ),
     // application components
     'components' => array(

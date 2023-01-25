@@ -98,7 +98,7 @@ class HorarioTType
      * @param \DateTime $horaInicio
      * @return self
      */
-    public function setHoraInicio(\DateTime $horaInicio)
+    public function setHoraInicio($horaInicio)
     {
         $this->horaInicio = $horaInicio;
         return $this;
@@ -176,7 +176,7 @@ class HorarioTType
      * @param string $cpfProfessor
      * @return self
      */
-    public function setCpfProfessor(array $cpfProfessor)
+    public function setCpfProfessor(string $cpfProfessor)
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;

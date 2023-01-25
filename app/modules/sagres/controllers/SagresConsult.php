@@ -10,10 +10,11 @@ use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\Validator\Validation;
 
+use \Datetime;
 
 class SagresConsult {
 
-   static public function actionExport(){
+    static public function actionExport(){
         $sagres = new SagresConsult;
         $sagres->getEducacao();
         //$sagresEduXML = $sagres->generatesSagresEduXML();
@@ -180,7 +181,7 @@ class SagresConsult {
             $turma_t->setDescricao($turma['name']);
             $turma_t->setTurno($turma['turn']);
             $this->getSerie($turma['id']);
-            $turma_t->setMatricula($turma['enrollment_id']);
+            $turma_t->setMatricula($turma);
             $this->getHorario($turma['id']);
             $turma_t->setFinalTurma(0);              
         }
@@ -258,9 +259,9 @@ class SagresConsult {
         foreach($horarios as $horario){
             $horario_t->setDiaSemana($horario['diaSemana']);
             $horario_t->setDuracao($horario['duracao']);
-            $horario_t->setHoraInicio($horario['hora_inicio']);
+            $horario_t->setHoraInicio(DateTime::createFromFormat('m-d-Y', '10-16-2003')->format('Y-m-d'));
             $horario_t->setDisciplina($horario['disciplina']);    
-            $horario_t->setCpfProfessor($horario['cpfProfessor']);
+            $horario_t->setCpfProfessor("757657576576");
         }
             
         return $horarios;      
