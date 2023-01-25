@@ -38,7 +38,7 @@ class Register50
 
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
                 if ($classroom->schooling == 0 || $classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
-                    || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
+                    || ($teaching['role'] != '1' && $teaching['role'] != '5')) {
                     foreach ($teaching as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -68,11 +68,11 @@ class Register50
                     $teaching['contract_type'] = '1';
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [":year" => $year]);
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [':year' => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                    if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                        $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
+                    if ($edcensoAlias['attr'] != null && $teaching[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                        $register[$edcensoAlias->corder] = $teaching[$edcensoAlias['attr']];
                     }
                 }
 

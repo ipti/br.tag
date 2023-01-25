@@ -51,7 +51,7 @@
             return [
                 'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
                 'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
-                'teachingMatrixes' => array(self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'),
+                'teachingMatrixes' => [self::HAS_MANY, 'TeachingMatrixes', 'curricular_matrix_fk'],
             ];
         }
 
@@ -87,7 +87,7 @@
             // @todo Please modify the following code to remove attributes that should not be searched.
 
             $criteria = new CDbCriteria();
-            $criteria->with = array('stageFk', 'disciplineFk');
+            $criteria->with = ['stageFk', 'disciplineFk'];
             $criteria->together = true;
             //			$criteria->compare('id', $this->id);
             //			$criteria->compare('stage_fk', $this->stage_fk);

@@ -40,7 +40,7 @@ class fileManager
     public function write($location, $text)
     {
         try {
-            $mode = "w+";
+            $mode = 'w+';
             $file = $this->open($location, $mode);
             $write = fwrite($file, $text);
             if ($write == false) {
@@ -53,14 +53,13 @@ class fileManager
         return true;
     }
 
-
     /**
      * Open the file.
      * @param string $location
      * @param string $mode
      * @return boolean|file
      */
-    public function open($location, $mode = "r")
+    public function open($location, $mode = 'r')
     {
         try {
             $file = fopen($location, $mode);
@@ -72,7 +71,6 @@ class fileManager
             return false;
         }
     }
-
 
     /**
      * Close a file.
@@ -88,7 +86,6 @@ class fileManager
             return false;
         }
     }
-
 
     /**
      * Close all files.

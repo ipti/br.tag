@@ -84,7 +84,7 @@
 
             $criteria = new CDbCriteria();
 
-            $criteria->with = array('stageFk', 'disciplineFk');
+            $criteria->with = ['stageFk', 'disciplineFk'];
             $criteria->together = true;
             $criteria->compare('id', $this->id);
             $criteria->compare('stage_fk', $this->stage_fk);

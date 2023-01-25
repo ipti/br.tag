@@ -10,7 +10,7 @@ class ConfigurationController extends Controller
     public function actionSchool()
     {
         $year = Yii::app()->user->school;
-        $model = SchoolConfiguration::model()->findByAttributes(array("school_inep_id_fk" => $year));
+        $model = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => $year]);
 
         if (!isset($model)) {
             $model = new SchoolConfiguration();
@@ -23,11 +23,11 @@ class ConfigurationController extends Controller
                 if (Yii::app()->getRequest()->getIsAjaxRequest()) {
                     Yii::app()->end();
                 } else {
-                    $this->redirect(array('index'));
+                    $this->redirect(['index']);
                 }
             }
         }
-        $this->render('school', array('model' => $model));
+        $this->render('school', ['model' => $model]);
     }
 
     public function actionClassroom()
@@ -35,12 +35,12 @@ class ConfigurationController extends Controller
         if (isset($_POST['Classrooms'])) {
             $Classrooms_ids = $_POST['Classrooms'];
             $year = Yii::app()->user->year;
-            $logYear = "";
+            $logYear = '';
             foreach ($Classrooms_ids as $id) {
                 $classroom = Classroom::model()->findByPk($id);
                 $logYear = $classroom->school_year;
-                $class_board = ClassBoard::model()->findAllByAttributes(array('classroom_fk' => $id));
-                $teaching_data = InstructorTeachingData::model()->findAllByAttributes(array('classroom_id_fk' => $id));
+                $class_board = ClassBoard::model()->findAllByAttributes(['classroom_fk' => $id]);
+                $teaching_data = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $id]);
 
                 $newClassroom = new Classroom();
                 $newClassroom->attributes = $classroom->attributes;
@@ -68,39 +68,39 @@ class ConfigurationController extends Controller
                 }
             }
             if ($save) {
-                Log::model()->saveAction("wizard_classroom", $logYear, "C", $logYear);
+                Log::model()->saveAction('wizard_classroom', $logYear, 'C', $logYear);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
                 $this->redirect('?r=classroom');
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
-                $this->render('classrooms', array(
+                $this->render('classrooms', [
                     'title' => Yii::t('default', 'Reaproveitamento das Turmas')
-                ));
+                ]);
             }
             return true;
         }
-        $this->render('classrooms', array(
+        $this->render('classrooms', [
             'title' => Yii::t('default', 'Reaproveitamento das Turmas')
-        ));
+        ]);
     }
 
     public function actionStudent()
     {
-        if (isset($_POST["Classrooms"], $_POST["StudentEnrollment"])) {
+        if (isset($_POST['Classrooms'], $_POST['StudentEnrollment'])) {
             $save = true;
-            $logYear = "";
-            foreach ($_POST["Classrooms"] as $classroom) {
-                $emrollments = StudentEnrollment::model()->findAll("classroom_fk = :c", array("c" => $classroom));
+            $logYear = '';
+            foreach ($_POST['Classrooms'] as $classroom) {
+                $emrollments = StudentEnrollment::model()->findAll('classroom_fk = :c', ['c' => $classroom]);
                 $logYear = Classroom::model()->findByPk($classroom)->school_year;
                 foreach ($emrollments as $e) {
                     $enrollment = new StudentEnrollment();
-                    $enrollment->attributes = $_POST["StudentEnrollment"];
+                    $enrollment->attributes = $_POST['StudentEnrollment'];
 
                     $st = StudentIdentification::model()->findByPk($e->student_fk);
                     $c = Classroom::model()->findByPk($enrollment->classroom_fk);
                     $exist = StudentEnrollment::model()->findAll(
-                        "classroom_fk = :c AND student_fk = :s",
-                        array("c" => $c->id, "s" => $st->id)
+                        'classroom_fk = :c AND student_fk = :s',
+                        ['c' => $c->id, 's' => $st->id]
                     );
                     //Se não existe, cadastra
                     if (count($exist) == 0) {
@@ -114,34 +114,34 @@ class ConfigurationController extends Controller
                 }
             }
             if ($save) {
-                Log::model()->saveAction("wizard_student", $logYear, "C", $logYear);
+                Log::model()->saveAction('wizard_student', $logYear, 'C', $logYear);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Alunos matriculados com sucesso!'));
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na matrícula dos Alunos.'));
             }
             $this->render('index');
         } else {
-            $this->render('students', array(
+            $this->render('students', [
                 'title' => Yii::t('default', 'Student Configuration')
-            ));
+            ]);
         }
     }
 
     public function actionGetStudents()
     {
-        if (isset($_POST["Classrooms"]) && !empty($_POST["Classrooms"])) {
-            $id = $_POST["Classrooms"];
+        if (isset($_POST['Classrooms']) && !empty($_POST['Classrooms'])) {
+            $id = $_POST['Classrooms'];
             $criteria = new CDbCriteria();
             $criteria->join = "JOIN student_enrollment AS se ON (se.student_fk = t.id AND se.classroom_fk = $id)";
-            $criteria->order = "name ASC";
+            $criteria->order = 'name ASC';
 
             $data = CHtml::listData(StudentIdentification::model()->findAll($criteria), 'id', 'name' . 'id');
 
             foreach ($data as $value => $name) {
-                echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+                echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
             }
         } else {
-            echo "";
+            echo '';
         }
     }
 }

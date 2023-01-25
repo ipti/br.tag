@@ -31,13 +31,13 @@ class Question extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('type, description, status', 'required'),
-            array('type, status', 'numerical', 'integerOnly'=>true),
+        return [
+            ['type, description, status', 'required'],
+            ['type, status', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, type, description, status', 'safe', 'on'=>'search'),
-        );
+            ['id, type, description, status', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -47,11 +47,11 @@ class Question extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'questionGroups' => array(self::MANY_MANY, 'QuestionGroup', 'question_group_question(question_id, question_group_id)'),
-            'questionOptions' => array(self::HAS_MANY, 'QuestionOption', 'question_id'),
-            'quizs' => array(self::MANY_MANY, 'Quiz', 'quiz_question(question_id, quiz_id)'),
-        );
+        return [
+            'questionGroups' => [self::MANY_MANY, 'QuestionGroup', 'question_group_question(question_id, question_group_id)'],
+            'questionOptions' => [self::HAS_MANY, 'QuestionOption', 'question_id'],
+            'quizs' => [self::MANY_MANY, 'Quiz', 'quiz_question(question_id, quiz_id)'],
+        ];
     }
 
     /**
@@ -59,12 +59,12 @@ class Question extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'type' => 'Tipo',
             'description' => 'Descrição',
             'status' => 'Status',
-        );
+        ];
     }
 
     /**
@@ -83,16 +83,16 @@ class Question extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('type', $this->type);
         $criteria->compare('description', $this->description, true);
         $criteria->compare('status', $this->status);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -101,24 +101,24 @@ class Question extends CActiveRecord
      * @param string $className active record class name.
      * @return Question the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
     public function getTypes()
     {
-        return array(
+        return [
             '1' => 'Subjetiva',
             '2' => 'Objetiva',
             '3' => 'Múltipla Escolha',
             '4' => 'Subjetiva Longa'
-        );
+        ];
     }
 
     public function getEnableOption()
     {
         $types = array_keys($this->getTypes());
-        return array_diff($types, array(1,4));
+        return array_diff($types, [1, 4]);
     }
 }

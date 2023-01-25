@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Lunch' => "Merenda Escolar",
+    'Lunch' => 'Merenda Escolar',
     'Stock' => 'Estoque',
     'Menu' => 'Cardápio de Refeições',
 
@@ -17,13 +17,13 @@ return [
     'Make a nutritious menu to manage the school lunch.' => 'Crie cardápios nutritivos para gerenciar a merenda escolar.',
     'Fill the form and add the portions to the meal.' => 'Preencha os dados e adicione as porções da refeição.',
 
-    'Menu Info'=>'Informações do Cardápio',
+    'Menu Info' => 'Informações do Cardápio',
     'Meals' => 'Refeições',
     'Portions Table' => 'Tabela de Porções',
     'Update Lunch' => 'Atualizar Refeição',
     'Lunch Info' => 'Informação da Refeição',
 
-    "None" => "Nenhuma",
+    'None' => 'Nenhuma',
 
     'Portion added successfully!' => 'Porção adicionada com sucesso!',
     'Error when adding new Portion.' => 'Erro ao adicionar nova porção.',
@@ -47,6 +47,5 @@ return [
 
     'Meal updated successfully!' => 'Refeição atualizada com sucesso!',
     'Error when updating meal.' => 'Erro ao atualizar refeição.'
-
 
 ];

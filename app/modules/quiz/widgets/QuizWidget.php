@@ -1,6 +1,5 @@
 <?php
 
-
 class QuizWidget extends CWidget
 {
     public $type;

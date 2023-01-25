@@ -49,8 +49,8 @@
 
         public function countConflicts($week_day, $turn, $schedule)
         {
-            $schedules = Schedule::model()->findAll("instructor_fk = :instructor and turn = :turn and week_day = :week_day and schedule = :schedule", [
-                ":instructor" => $this->id, ":turn" => $turn, ":week_day" => $week_day, ":schedule" => $schedule
+            $schedules = Schedule::model()->findAll('instructor_fk = :instructor and turn = :turn and week_day = :week_day and schedule = :schedule', [
+                ':instructor' => $this->id, ':turn' => $turn, ':week_day' => $week_day, ':schedule' => $schedule
             ]);
 
             return count($schedules);
@@ -58,12 +58,12 @@
 
         public function isUnavailable($week_day, $turn, $schedule)
         {
-            $instructorSchool = InstructorSchool::model()->find("instructor_fk = :instructor and school_fk = :school", [
-                ":instructor" => $this->id, ":school" => Yii::app()->user->school,
+            $instructorSchool = InstructorSchool::model()->find('instructor_fk = :instructor and school_fk = :school', [
+                ':instructor' => $this->id, ':school' => Yii::app()->user->school,
             ]);
-            $una = Unavailability::model()->findAll("instructor_school_fk = :instructorSchool and turn = :turn and week_day = :week_day and schedule = :schedule", [
-                ":instructorSchool" => $instructorSchool->id, ":turn" => $turn, ":week_day" => $week_day,
-                ":schedule" => $schedule
+            $una = Unavailability::model()->findAll('instructor_school_fk = :instructorSchool and turn = :turn and week_day = :week_day and schedule = :schedule', [
+                ':instructorSchool' => $instructorSchool->id, ':turn' => $turn, ':week_day' => $week_day,
+                ':schedule' => $schedule
             ]);
 
             return $una != null;
@@ -71,14 +71,14 @@
 
         public function getInstructorUnavailabilities($turn)
         {
-            $instructorSchool = InstructorSchool::model()->find("instructor_fk = :instructor and school_fk = :school", [
-                ":instructor" => $this->id, ":school" => Yii::app()->user->school,
+            $instructorSchool = InstructorSchool::model()->find('instructor_fk = :instructor and school_fk = :school', [
+                ':instructor' => $this->id, ':school' => Yii::app()->user->school,
             ]);
-            $unavailabilities = Unavailability::model()->findAll("instructor_school_fk = :instructorSchool and turn = :turn", [
-                ":instructorSchool" => $instructorSchool->id, ":turn" => $turn,
+            $unavailabilities = Unavailability::model()->findAll('instructor_school_fk = :instructorSchool and turn = :turn', [
+                ':instructorSchool' => $instructorSchool->id, ':turn' => $turn,
             ]);
-            $schedules = Schedule::model()->findAll("instructor_fk = :instructor and turn = :turn", [
-                ":instructor" => $this->id, ":turn" => $turn,
+            $schedules = Schedule::model()->findAll('instructor_fk = :instructor and turn = :turn', [
+                ':instructor' => $this->id, ':turn' => $turn,
             ]);
 
             $count = 0;

@@ -20,7 +20,7 @@ class MenuMeal extends CActiveRecord
      * @param string $className active record class name.
      * @return MenuMeal the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -40,14 +40,14 @@ class MenuMeal extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('menu_fk, meal_fk, amount', 'required'),
-            array('menu_fk, meal_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
+        return [
+            ['menu_fk, meal_fk, amount', 'required'],
+            ['menu_fk, meal_fk', 'numerical', 'integerOnly' => true],
+            ['amount', 'numerical'],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, menu_fk, meal_fk, amount', 'safe', 'on'=>'search'),
-        );
+            ['id, menu_fk, meal_fk, amount', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -57,10 +57,10 @@ class MenuMeal extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'menu' => array(self::BELONGS_TO, 'Menu', 'menu_fk'),
-            'meal' => array(self::BELONGS_TO, 'Meal', 'meal_fk'),
-        );
+        return [
+            'menu' => [self::BELONGS_TO, 'Menu', 'menu_fk'],
+            'meal' => [self::BELONGS_TO, 'Meal', 'meal_fk'],
+        ];
     }
 
     /**
@@ -68,12 +68,12 @@ class MenuMeal extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'menu_fk' => Yii::t('lunchModule.labels', 'Menu'),
             'meal_fk' => Yii::t('lunchModule.labels', 'Meal'),
             'amount' => Yii::t('lunchModule.labels', 'Amount'),
-        );
+        ];
     }
 
     /**
@@ -85,15 +85,15 @@ class MenuMeal extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('menu_fk', $this->menu_fk);
         $criteria->compare('meal_fk', $this->meal_fk);
         $criteria->compare('amount', $this->amount);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

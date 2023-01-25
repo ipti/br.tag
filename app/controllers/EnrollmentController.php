@@ -17,9 +17,9 @@ class EnrollmentController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
@@ -29,20 +29,20 @@ class EnrollmentController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
-                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades'),
-                'users' => array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create', 'update', 'updatedependencies',
+                    'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades'],
+                'users' => ['@'],
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin'],
+                'users' => ['admin'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     /**
@@ -51,9 +51,9 @@ class EnrollmentController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     public function actionUpdateDependencies()
@@ -63,7 +63,7 @@ class EnrollmentController extends Controller
         //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
         //$students = CHtml::listData($students, 'id', 'name');
 
-        $classrooms = Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year, "school_inep_fk" => Yii::app()->user->school));
+        $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         //$classrooms = CHtml::listData($classrooms, 'id', 'name');
 
         /* $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
@@ -71,14 +71,14 @@ class EnrollmentController extends Controller
           $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
           } */
         $class = new Classroom();
-        $result['Classrooms'] = CHtml::tag('option', array('value' => 0), 'Selecione uma Turma', true);
+        $result['Classrooms'] = CHtml::tag('option', ['value' => 0], 'Selecione uma Turma', true);
         foreach ($classrooms as $class) {
             if (strpos($class->edcensoStageVsModalityFk->name, 'Multi') !== false) {
                 $multi = 1;
             } else {
                 $multi = 0;
             }
-            $result['Classrooms'] .= CHtml::tag('option', array('value' => $class->id, 'id' => $multi), CHtml::encode($class->name), true);
+            $result['Classrooms'] .= CHtml::tag('option', ['value' => $class->id, 'id' => $multi], CHtml::encode($class->name), true);
         }
 
         echo json_encode($result);
@@ -87,12 +87,12 @@ class EnrollmentController extends Controller
     public function actionGetModalities()
     {
         $stage = $_POST['Stage'];
-        $where = ($stage == "0") ? "" : "stage = $stage";
+        $where = ($stage == '0') ? '' : "stage = $stage";
         $data = EdcensoStageVsModality::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
         foreach ($data as $value => $name) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
+            echo htmlspecialchars(CHtml::tag('option', ['value' => $value], CHtml::encode($name), true));
         }
     }
 
@@ -113,9 +113,9 @@ class EnrollmentController extends Controller
                 $model->student_inep_id = StudentIdentification::model()->findByPk($model->student_fk)->inep_id;
                 try {
                     if ($model->save()) {
-                        Log::model()->saveAction("enrollment", $model->id, "C", $model->studentFk->name . "|" . $model->classroomFk->name);
+                        Log::model()->saveAction('enrollment', $model->id, 'C', $model->studentFk->name . '|' . $model->classroomFk->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno matriculado com sucesso!'));
-                        $this->redirect(array('index'));
+                        $this->redirect(['index']);
                     }
                 } catch (Exception $exc) {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
@@ -127,9 +127,9 @@ class EnrollmentController extends Controller
             }
         }
 
-        $this->render('create', array(
+        $this->render('create', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -147,18 +147,18 @@ class EnrollmentController extends Controller
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
-                $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
+                $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']['classroom_fk']])->school_inep_fk;
                 if ($model->save()) {
-                    Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
+                    Log::model()->saveAction('enrollment', $model->id, 'U', $model->studentFk->name . '|' . $model->classroomFk->name);
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Matrícula alterada com sucesso!'));
-                    $this->redirect(array('student/index'));
+                    $this->redirect(['student/index']);
                 }
             }
         }
 
-        $this->render('update', array(
+        $this->render('update', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -169,12 +169,12 @@ class EnrollmentController extends Controller
     public function actionDelete($id)
     {
         $model = $this->loadModel($id);
-        FrequencyAndMeanByDiscipline::model()->deleteAll("enrollment_fk = :enrollment_fk", ["enrollment_fk" => $id]);
-        FrequencyByExam::model()->deleteAll("enrollment_fk = :enrollment_fk", ["enrollment_fk" => $id]);
+        FrequencyAndMeanByDiscipline::model()->deleteAll('enrollment_fk = :enrollment_fk', ['enrollment_fk' => $id]);
+        FrequencyByExam::model()->deleteAll('enrollment_fk = :enrollment_fk', ['enrollment_fk' => $id]);
         if ($model->delete()) {
-            Log::model()->saveAction("enrollment", $model->id, "D", $model->studentFk->name . "|" . $model->classroomFk->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', "A Matrícula de " . $model->studentFk->name . " foi excluída com sucesso!"));
-            $this->redirect(array('student/index'));
+            Log::model()->saveAction('enrollment', $model->id, 'D', $model->studentFk->name . '|' . $model->classroomFk->name);
+            Yii::app()->user->setFlash('success', Yii::t('default', 'A Matrícula de ' . $model->studentFk->name . ' foi excluída com sucesso!'));
+            $this->redirect(['student/index']);
         } else {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
@@ -208,17 +208,17 @@ class EnrollmentController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->compare('school_inep_id_fk', "'$school'");
-        $dataProvider = new CActiveDataProvider('StudentEnrollment', array(
+        $dataProvider = new CActiveDataProvider('StudentEnrollment', [
             'criteria' => $criteria,
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 12,
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('index', array(
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'model' => $model
-        ));
+        ]);
     }
 
     /**
@@ -231,13 +231,13 @@ class EnrollmentController extends Controller
 
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $criteria = new CDbCriteria();
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->alias = 'c';
+            $criteria->join = ''
+                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
+                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
+            $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
+            $criteria->order = 'name';
+            $criteria->params = [':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id];
 
             $classroom = Classroom::model()->findAll($criteria);
             $classroom = CHtml::listData($classroom, 'id', 'name');
@@ -308,18 +308,18 @@ class EnrollmentController extends Controller
 
                 foreach ($absences as $exam_order => $number_of_absences) {
                     $frequency_by_exam = FrequencyByExam::model()->findByAttributes([
-                        "enrollment_fk" => intval($enrollment_id),
-                        "exam" => intval($exam_order)
+                        'enrollment_fk' => intval($enrollment_id),
+                        'exam' => intval($exam_order)
                     ]);
 
                     if (!isset($frequency_by_exam)) {
                         $frequency_by_exam = new FrequencyByExam();
                         $frequency_by_exam->enrollment_fk = intval($enrollment_id);
                         $frequency_by_exam->exam = intval($exam_order);
-                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
+                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == '')) ? null : intval($number_of_absences);
                         $saved = $saved && $frequency_by_exam->save();
                     } else {
-                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
+                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == '')) ? null : intval($number_of_absences);
                         ;
                         $saved = $saved && $frequency_by_exam->update();
                     }
@@ -328,20 +328,20 @@ class EnrollmentController extends Controller
 
             foreach ($workload as $exam_order => $hours) {
                 $work_by_exam = WorkByExam::model()->findByAttributes([
-                    "classroom_fk" => $_POST['classroom'],
-                    "exam" => intval($exam_order)
+                    'classroom_fk' => $_POST['classroom'],
+                    'exam' => intval($exam_order)
                 ]);
 
                 if (!isset($work_by_exam)) {
                     $work_by_exam = new WorkByExam();
                     $work_by_exam->classroom_fk = $_POST['classroom'];
                     $work_by_exam->exam = intval($exam_order);
-                    $work_by_exam->school_days = (!isset($school_days[$exam_order]) || (isset($school_days[$exam_order]) && $school_days[$exam_order] == "")) ? null : intval($school_days[$exam_order]);
-                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
+                    $work_by_exam->school_days = (!isset($school_days[$exam_order]) || (isset($school_days[$exam_order]) && $school_days[$exam_order] == '')) ? null : intval($school_days[$exam_order]);
+                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == '')) ? null : intval($hours);
                     $saved = $saved && $work_by_exam->save();
                 } else {
-                    $work_by_exam->school_days = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
-                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == "")) ? null : intval($hours);
+                    $work_by_exam->school_days = (!isset($hours) || (isset($hours) && $hours == '')) ? null : intval($hours);
+                    $work_by_exam->workload = (!isset($hours) || (isset($hours) && $hours == '')) ? null : intval($hours);
                     $saved = $saved && $work_by_exam->update();
                 }
             }
@@ -357,8 +357,8 @@ class EnrollmentController extends Controller
 
                 foreach ($disciplines as $id => $values) {
                     $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
-                        "enrollment_fk" => $enrollment_id,
-                        "discipline_fk" => $id
+                        'enrollment_fk' => $enrollment_id,
+                        'discipline_fk' => $id
                     ]);
 
                     if (!isset($frequency_and_mean)) {
@@ -379,13 +379,12 @@ class EnrollmentController extends Controller
                     }
 
                     if ($id === $portuguese || $id === $history || $id === $art) {
-                        $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
-
+                        $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : '')));
 
                         $avgfq_exist = Grade::model()->findByAttributes(
                             [
-                                "enrollment_fk" => $enrollment_id,
-                                "discipline_fk" => $discipline_alt]
+                                'enrollment_fk' => $enrollment_id,
+                                'discipline_fk' => $discipline_alt]
                         );
                         if (!isset($avgfq_exist)) {
                             $frequency_and_mean_alt = new FrequencyAndMeanByDiscipline();
@@ -401,11 +400,10 @@ class EnrollmentController extends Controller
                 }
             }
 
-
             foreach (reset($avgfq) as $id => $values) {
                 $work_by_discipline = WorkByDiscipline::model()->findByAttributes([
-                    "classroom_fk" => $_POST['classroom'],
-                    "discipline_fk" => intval($id)
+                    'classroom_fk' => $_POST['classroom'],
+                    'discipline_fk' => intval($id)
                 ]);
 
                 if (!isset($work_by_discipline)) {
@@ -420,12 +418,12 @@ class EnrollmentController extends Controller
                 }
 
                 if ($id === $portuguese || $id === $history || $id === $art) {
-                    $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
+                    $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : '')));
 
                     $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes(
                         [
-                            "classroom_fk" => $_POST['classroom'],
-                            "discipline_fk" => $discipline_alt]
+                            'classroom_fk' => $_POST['classroom'],
+                            'discipline_fk' => $discipline_alt]
                     );
                     if (!isset($work_by_discipline_exist)) {
                         $work_by_discipline_alt = new WorkByDiscipline();
@@ -452,34 +450,34 @@ class EnrollmentController extends Controller
             foreach ($grades as $eid => $disciplines) {
                 foreach ($disciplines as $id => $values) {
                     $grade = Grade::model()->findByAttributes([
-                        "enrollment_fk" => $eid,
-                        "discipline_fk" => $id
+                        'enrollment_fk' => $eid,
+                        'discipline_fk' => $id
                     ]);
                     foreach ($values as $i => $value) {
-                        if ($value !== "") {
-                            if ($value[strlen($value) - 1] == "." || $value[strlen($value) - 1] == ",") {
+                        if ($value !== '') {
+                            if ($value[strlen($value) - 1] == '.' || $value[strlen($value) - 1] == ',') {
                                 $values[$i] .= 0;
                             }
                         }
                     }
 
-                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == "")) ? null : $values[0];
-                    $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == "")) ? null : $values[1];
-                    $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == "")) ? null : $values[2];
-                    $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == "")) ? null : $values[3];
-                    $grade->recovery_grade1 = (!isset($values[4]) || (isset($values[4]) && $values[4] == "")) ? null : $values[4];
-                    $grade->recovery_grade2 = (!isset($values[5]) || (isset($values[5]) && $values[5] == "")) ? null : $values[5];
-                    $grade->recovery_grade3 = (!isset($values[6]) || (isset($values[6]) && $values[6] == "")) ? null : $values[6];
-                    $grade->recovery_grade4 = (!isset($values[7]) || (isset($values[7]) && $values[7] == "")) ? null : $values[7];
-                    $grade->recovery_final_grade = (!isset($values[8]) || (isset($values[8]) && $values[8] == "")) ? null : $values[8];
+                    $grade->grade1 = (!isset($values[0]) || (isset($values[0]) && $values[0] == '')) ? null : $values[0];
+                    $grade->grade2 = (!isset($values[1]) || (isset($values[1]) && $values[1] == '')) ? null : $values[1];
+                    $grade->grade3 = (!isset($values[2]) || (isset($values[2]) && $values[2] == '')) ? null : $values[2];
+                    $grade->grade4 = (!isset($values[3]) || (isset($values[3]) && $values[3] == '')) ? null : $values[3];
+                    $grade->recovery_grade1 = (!isset($values[4]) || (isset($values[4]) && $values[4] == '')) ? null : $values[4];
+                    $grade->recovery_grade2 = (!isset($values[5]) || (isset($values[5]) && $values[5] == '')) ? null : $values[5];
+                    $grade->recovery_grade3 = (!isset($values[6]) || (isset($values[6]) && $values[6] == '')) ? null : $values[6];
+                    $grade->recovery_grade4 = (!isset($values[7]) || (isset($values[7]) && $values[7] == '')) ? null : $values[7];
+                    $grade->recovery_final_grade = (!isset($values[8]) || (isset($values[8]) && $values[8] == '')) ? null : $values[8];
                     $saved = $saved && $grade->save();
                     if ($id === $portuguese || $id === $history || $id === $art) {
-                        $discipline2 = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
+                        $discipline2 = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : '')));
                         /*@WTF - Esse código nunca ia funcionar - Na hora do salvamento o código já é o da disciplina master pq buscar denovo???*/
                         $grade_exist = Grade::model()->findByAttributes(
                             [
-                                "enrollment_fk" => $eid,
-                                "discipline_fk" => $discipline2]
+                                'enrollment_fk' => $eid,
+                                'discipline_fk' => $discipline2]
                         );
                         if (!isset($grade_exist)) {
                             $grade2 = new Grade();
@@ -496,12 +494,12 @@ class EnrollmentController extends Controller
             }
         }
         if ($saved) {
-            Log::model()->saveAction("grade", $classroom->id, "U", $classroom->name);
+            Log::model()->saveAction('grade', $classroom->id, 'U', $classroom->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Grades saved successfully!'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'We have got an error saving grades!'));
         }
-        $this->redirect(array('grades'));
+        $this->redirect(['grades']);
     }
 
     /**
@@ -547,7 +545,7 @@ class EnrollmentController extends Controller
     public function actionGetGrades()
     {
         if (isset($_POST['classroom']) && !empty($_POST['classroom'])) {
-            $return["isInstructor"] = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+            $return['isInstructor'] = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
             $cid = $_POST['classroom'];
 
             $classroom = Classroom::model()->findByPk($cid);
@@ -561,9 +559,9 @@ class EnrollmentController extends Controller
 
             $stage = $this->getStageIfMulti($stage, $enrollments);
 
-            $return["students"] = [];
+            $return['students'] = [];
             error_reporting(0);
-            if ($return["isInstructor"]) {
+            if ($return['isInstructor']) {
                 $disciplines = Yii::app()->db->createCommand(
                     "select ed.id as 'discipline_id', ed.`name` as 'discipline_name', ii.users_fk as 'userId'
                     from teaching_matrixes tm
@@ -572,11 +570,11 @@ class EnrollmentController extends Controller
                     join edcenso_discipline ed on ed.id = cm.discipline_fk
                     join instructor_identification ii on ii.id = it.instructor_fk
                     where it.classroom_id_fk = :cid"
-                )->bindParam(":cid", $cid)->queryAll();
+                )->bindParam(':cid', $cid)->queryAll();
             } else {
                 $disciplines = Yii::app()->db->createCommand(
                     "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year"
-                )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+                )->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryAll();
             }
 
             error_reporting(0);
@@ -586,37 +584,33 @@ class EnrollmentController extends Controller
 
                 $studentEnrId = $enrollment->id;
 
-                $return["students"][$studentName] = [];
-                $return["students"][$studentName]['enrollment_id'] = $studentEnrId;
-                $return["students"][$studentName]['disciplines'] = [];
-                $return["students"][$studentName]['frequencies'] = [];
-                $return["students"][$studentName]['school_days'] = [];
-                $return["students"][$studentName]['workload'] = [];
-
+                $return['students'][$studentName] = [];
+                $return['students'][$studentName]['enrollment_id'] = $studentEnrId;
+                $return['students'][$studentName]['disciplines'] = [];
+                $return['students'][$studentName]['frequencies'] = [];
+                $return['students'][$studentName]['school_days'] = [];
+                $return['students'][$studentName]['workload'] = [];
 
                 for ($i = 0; $i < 4; $i++) {
                     $avgbyexam = FrequencyByExam::model()->findByAttributes([
                         'exam' => $i,
                         'enrollment_fk' => $studentEnrId
                     ]);
-                    $absences = $avgbyexam->absences == null ? "" : $avgbyexam->absences;
+                    $absences = $avgbyexam->absences == null ? '' : $avgbyexam->absences;
 
-                    $return["students"][$studentName]['frequencies'][$i] = $absences;
-
+                    $return['students'][$studentName]['frequencies'][$i] = $absences;
 
                     $sdbyexam = WorkByExam::model()->findByAttributes([
                         'exam' => $i,
                         'classroom_fk' => $_POST['classroom']
                     ]);
 
+                    $sdays = $sdbyexam->school_days == null ? '' : $sdbyexam->school_days;
+                    $wload = $sdbyexam->workload == null ? '' : $sdbyexam->workload;
 
-                    $sdays = $sdbyexam->school_days == null ? "" : $sdbyexam->school_days;
-                    $wload = $sdbyexam->workload == null ? "" : $sdbyexam->workload;
-
-                    $return["students"][$studentName]['school_days'][$i] = $sdays;
-                    $return["students"][$studentName]['workload'][$i] = $wload;
+                    $return['students'][$studentName]['school_days'][$i] = $sdays;
+                    $return['students'][$studentName]['workload'][$i] = $wload;
                 }
-
 
                 foreach ($disciplines as $discipline) {
                     $d = $disciplineId = $discipline['discipline_id'];
@@ -633,16 +627,16 @@ class EnrollmentController extends Controller
                     $geography = 13;
                     $physical_education = 11;
 
-                    $disciplineName = "";
+                    $disciplineName = '';
 
                     if ($stage >= 14 && $stage <= 16) {
                         if ($d != $writing || $d != $geography || $d != $physical_education) {
                             if ($d == $portuguese) {
-                                $disciplineName = $discipline['discipline_name'] . " e Redação";
+                                $disciplineName = $discipline['discipline_name'] . ' e Redação';
                             } elseif ($d == $history) {
-                                $disciplineName = $discipline['discipline_name'] . " e Geografia";
+                                $disciplineName = $discipline['discipline_name'] . ' e Geografia';
                             } elseif ($d == $art) {
-                                $disciplineName = $discipline['discipline_name'] . " e Educação Física";
+                                $disciplineName = $discipline['discipline_name'] . ' e Educação Física';
                             } else {
                                 $disciplineName = $discipline['discipline_name'];
                             }
@@ -650,7 +644,6 @@ class EnrollmentController extends Controller
                     } else {
                         $disciplineName = $discipline['discipline_name'];
                     }
-
 
                     if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing && $d != $geography && $d != $physical_education))) {
                         $grades = Grade::model()->findByAttributes([
@@ -675,44 +668,44 @@ class EnrollmentController extends Controller
                             $grades->save();
                         }
 
-                        $n1 = $grades->grade1 == null ? "" : $grades->grade1;
-                        $n2 = $grades->grade2 == null ? "" : $grades->grade2;
-                        $n3 = $grades->grade3 == null ? "" : $grades->grade3;
-                        $n4 = $grades->grade4 == null ? "" : $grades->grade4;
-                        $r1 = $grades->recovery_grade1 == null ? "" : $grades->recovery_grade1;
-                        $r2 = $grades->recovery_grade2 == null ? "" : $grades->recovery_grade2;
-                        $r3 = $grades->recovery_grade3 == null ? "" : $grades->recovery_grade3;
-                        $r4 = $grades->recovery_grade4 == null ? "" : $grades->recovery_grade4;
-                        $rf = $grades->recovery_final_grade == null ? "" : $grades->recovery_final_grade;
+                        $n1 = $grades->grade1 == null ? '' : $grades->grade1;
+                        $n2 = $grades->grade2 == null ? '' : $grades->grade2;
+                        $n3 = $grades->grade3 == null ? '' : $grades->grade3;
+                        $n4 = $grades->grade4 == null ? '' : $grades->grade4;
+                        $r1 = $grades->recovery_grade1 == null ? '' : $grades->recovery_grade1;
+                        $r2 = $grades->recovery_grade2 == null ? '' : $grades->recovery_grade2;
+                        $r3 = $grades->recovery_grade3 == null ? '' : $grades->recovery_grade3;
+                        $r4 = $grades->recovery_grade4 == null ? '' : $grades->recovery_grade4;
+                        $rf = $grades->recovery_final_grade == null ? '' : $grades->recovery_final_grade;
 
-                        $annual_average = $frme->annual_average == null ? "" : $frme->annual_average;
-                        $final_average = $frme->final_average == null ? "" : $frme->final_average;
-                        $absences = $frme->absences == null ? "" : $frme->absences;
-                        $frequency = $frme->frequency == null ? "" : $frme->frequency;
+                        $annual_average = $frme->annual_average == null ? '' : $frme->annual_average;
+                        $final_average = $frme->final_average == null ? '' : $frme->final_average;
+                        $absences = $frme->absences == null ? '' : $frme->absences;
+                        $frequency = $frme->frequency == null ? '' : $frme->frequency;
 
-                        $school_days = $wbd->school_days == null ? "" : $wbd->school_days;
+                        $school_days = $wbd->school_days == null ? '' : $wbd->school_days;
 
-                        $return["students"][$studentName]['disciplines'][$disciplineId] = [];
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['name'] = $disciplineName;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['isInstructorsDiscipline'] = $discipline["userId"] == Yii::app()->user->loginInfos->id;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n1'] = $n1;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n2'] = $n2;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n3'] = $n3;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['n4'] = $n4;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r1'] = $r1;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r2'] = $r2;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r3'] = $r3;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['r4'] = $r4;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['rf'] = $rf;
+                        $return['students'][$studentName]['disciplines'][$disciplineId] = [];
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['name'] = $disciplineName;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['isInstructorsDiscipline'] = $discipline['userId'] == Yii::app()->user->loginInfos->id;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['n1'] = $n1;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['n2'] = $n2;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['n3'] = $n3;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['n4'] = $n4;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['r1'] = $r1;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['r2'] = $r2;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['r3'] = $r3;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['r4'] = $r4;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['rf'] = $rf;
 
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['annual_average'] = $annual_average;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['final_average'] = $final_average;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['absences'] = $absences;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['frequency'] = $frequency;
-                        $return["students"][$studentName]['disciplines'][$disciplineId]['school_days'] = $school_days;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['annual_average'] = $annual_average;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['final_average'] = $final_average;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['absences'] = $absences;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['frequency'] = $frequency;
+                        $return['students'][$studentName]['disciplines'][$disciplineId]['school_days'] = $school_days;
                     }
                 }
-                $return['isConcept'] = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => Yii::app()->user->school, ":edcenso_stage_vs_modality_fk" => $stage]) !== null;
+                $return['isConcept'] = SchoolStagesConceptGrades::model()->find('school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk', [':school_fk' => Yii::app()->user->school, ':edcenso_stage_vs_modality_fk' => $stage]) !== null;
             }
             echo json_encode($return);
         }

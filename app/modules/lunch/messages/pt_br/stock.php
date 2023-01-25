@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Lunch' => "Merenda Escolar",
+    'Lunch' => 'Merenda Escolar',
     'Stock' => 'Estoque',
     'Menu' => 'Cardápio de Refeições',
     'Add' => 'Adicionar',

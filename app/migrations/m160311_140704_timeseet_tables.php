@@ -41,7 +41,6 @@
                 'instructor_fk' => 'int NOT NULL',
             ], 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
-
             //instructor -> instructor_discipline
             $this->addForeignKey('instructor_instructor_discipline', 'instructor_disciplines', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
             //discipline -> instructor_discipline

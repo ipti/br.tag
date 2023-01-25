@@ -33,16 +33,16 @@ class Users extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, username, password', 'required'),
-            array('active', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>150),
-            array('username', 'length', 'max'=>32),
-            array('password', 'length', 'max'=>45),
+        return [
+            ['name, username, password', 'required'],
+            ['active', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 150],
+            ['username', 'length', 'max' => 32],
+            ['password', 'length', 'max' => 45],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, username, password, active', 'safe', 'on'=>'search'),
-        );
+            ['id, name, username, password, active', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -52,12 +52,12 @@ class Users extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'authItems' => array(self::MANY_MANY, 'auth_item', 'auth_assignment(userid, itemname)'),
-            'coursePlans' => array(self::HAS_MANY, 'CoursePlan', 'users_fk'),
-            'instructorIdentifications' => array(self::HAS_MANY, 'InstructorIdentification', 'users_fk'),
-            'usersSchools' => array(self::HAS_MANY, 'UsersSchool', 'user_fk'),
-        );
+        return [
+            'authItems' => [self::MANY_MANY, 'auth_item', 'auth_assignment(userid, itemname)'],
+            'coursePlans' => [self::HAS_MANY, 'CoursePlan', 'users_fk'],
+            'instructorIdentifications' => [self::HAS_MANY, 'InstructorIdentification', 'users_fk'],
+            'usersSchools' => [self::HAS_MANY, 'UsersSchool', 'user_fk'],
+        ];
     }
 
     /**
@@ -65,13 +65,13 @@ class Users extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => Yii::t('default', 'Name'),
             'username' => Yii::t('default', 'Username'),
             'password' => Yii::t('default', 'Password'),
             'active' => 'Active',
-        );
+        ];
     }
 
     /**
@@ -90,7 +90,7 @@ class Users extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -98,9 +98,9 @@ class Users extends CActiveRecord
         $criteria->compare('password', $this->password, true);
         $criteria->compare('active', $this->active);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -109,7 +109,7 @@ class Users extends CActiveRecord
      * @param string $className active record class name.
      * @return Users the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

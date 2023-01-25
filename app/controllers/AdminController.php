@@ -83,14 +83,13 @@ class AdminController extends Controller
         $this->render('editPassword', ['model' => $model]);
     }
 
-
     public function actionClearDB()
     {
         //delete from users_school;
         //delete from users;
         // delete from auth_assignment;
 
-        $command = "
+        $command = '
 			SET FOREIGN_KEY_CHECKS=0;
 			
 			delete from auth_assignment;
@@ -113,7 +112,7 @@ class AdminController extends Controller
             delete from classroom;
 
             delete from school_identification;
-            delete from school_structure;";
+            delete from school_structure;';
 
         set_time_limit(0);
         ignore_user_abort();
@@ -122,7 +121,7 @@ class AdminController extends Controller
         $this->addTestUsers();
 
         Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
+        $this->redirect(['index']);
     }
 
     public function addTestUsers()
@@ -153,8 +152,8 @@ class AdminController extends Controller
 
     public function mres($value)
     {
-        $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
-        $replace = array("\\\\", "\\0", "\\n", "\\r", "\'", '\"', "\\Z");
+        $search = ['\\', "\x00", "\n", "\r", "'", '"', "\x1a"];
+        $replace = ['\\\\', '\\0', '\\n', '\\r', "\'", '\"', '\\Z'];
 
         return str_replace($search, $replace, $value);
     }
@@ -175,7 +174,7 @@ class AdminController extends Controller
             die('O arquivo não existe.');
         }
 
-        $jsonSyncTag = "";
+        $jsonSyncTag = '';
         while (!feof($fileImport)) {
             $linha = fgets($fileImport, filesize($uploadfile));
             $jsonSyncTag .= $linha;
@@ -195,7 +194,7 @@ class AdminController extends Controller
             $saveschool = new SchoolIdentification();
             $saveschool->setDb2Connection(true);
             $saveschool->refreshMetaData();
-            $saveschool = $saveschool->findByAttributes(array('inep_id' => $scholl['inep_id']));
+            $saveschool = $saveschool->findByAttributes(['inep_id' => $scholl['inep_id']]);
             if (!isset($saveschool)) {
                 $saveschool = new SchoolIdentification();
                 $saveschool->setDb2Connection(true);
@@ -208,7 +207,7 @@ class AdminController extends Controller
             $saveschool = new SchoolStructure();
             $saveschool->setDb2Connection(true);
             $saveschool->refreshMetaData();
-            $saveschool = $saveschool->findByAttributes(array('school_inep_id_fk' => $structure['school_inep_id_fk']));
+            $saveschool = $saveschool->findByAttributes(['school_inep_id_fk' => $structure['school_inep_id_fk']]);
             if (!isset($saveschool)) {
                 $saveschool = new SchoolStructure();
                 $saveschool->setDb2Connection(true);
@@ -222,7 +221,7 @@ class AdminController extends Controller
             $saveclass->setScenario('search');
             $saveclass->setDb2Connection(true);
             $saveclass->refreshMetaData();
-            $saveclass = $saveclass->findByAttributes(array('hash' => $class['hash']));
+            $saveclass = $saveclass->findByAttributes(['hash' => $class['hash']]);
             if (!isset($saveclass)) {
                 $saveclass = new Classroom();
                 $saveclass->setScenario('search');
@@ -239,7 +238,7 @@ class AdminController extends Controller
             $savestudent->setScenario('search');
             $savestudent->setDb2Connection(true);
             $savestudent->refreshMetaData();
-            $savestudent = $savestudent->findByAttributes(array('hash' => $student['hash']));
+            $savestudent = $savestudent->findByAttributes(['hash' => $student['hash']]);
             if (!isset($savestudent)) {
                 $savestudent = new StudentIdentification();
                 $savestudent->setScenario('search');
@@ -256,7 +255,7 @@ class AdminController extends Controller
             $savedocument->setScenario('search');
             $savedocument->setDb2Connection(true);
             $savedocument->refreshMetaData();
-            $savedocument = $savedocument->findByAttributes(array('hash' => $documentsaddress['hash']));
+            $savedocument = $savedocument->findByAttributes(['hash' => $documentsaddress['hash']]);
             if (!isset($exist)) {
                 $savedocument = new StudentDocumentsAndAddress();
                 $savedocument->setScenario('search');
@@ -273,7 +272,7 @@ class AdminController extends Controller
             $saveenrollment->setScenario('search');
             $saveenrollment->setDb2Connection(true);
             $saveenrollment->refreshMetaData();
-            $saveenrollment = $saveenrollment->findByAttributes(array('hash' => $enrollment['hash']));
+            $saveenrollment = $saveenrollment->findByAttributes(['hash' => $enrollment['hash']]);
             if (!isset($exist)) {
                 $saveenrollment = new StudentEnrollment();
                 $saveenrollment->setScenario('search');
@@ -296,7 +295,7 @@ class AdminController extends Controller
         set_time_limit(0);
         ignore_user_abort();
         $year = Yii::app()->user->year;
-        $loads = array();
+        $loads = [];
         $sql = "SELECT DISTINCT(school_inep_id_fk) FROM student_enrollment a
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
                 WHERE
@@ -339,7 +338,7 @@ class AdminController extends Controller
             $iclass = new Classroom();
             $iclass->setDb2Connection(false);
             $iclass->refreshMetaData();
-            $classrooms = $iclass->findAllByAttributes(["school_inep_fk" => $schll['school_inep_id_fk'], "school_year" => Yii::app()->user->year]);
+            $classrooms = $iclass->findAllByAttributes(['school_inep_fk' => $schll['school_inep_id_fk'], 'school_year' => Yii::app()->user->year]);
             $hash_school = hexdec(crc32($school->inep_id . $school->name));
             $loads['schools'][$hash_school] = $school->attributes;
             $loads['schools'][$hash_school]['hash'] = $hash_school;
@@ -408,8 +407,8 @@ class AdminController extends Controller
             Yii::app()->db2;
             $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%';";
             $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
-            $loads = array();
-            $priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
+            $loads = [];
+            $priority['TABLE_SCHEMA'] = Yii::app()->db->createCommand('SELECT DATABASE()')->queryScalar();
             array_unshift($dbs, $priority);
             foreach ($dbs as $db) {
                 //if($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.geminiano'){
@@ -423,15 +422,15 @@ class AdminController extends Controller
                     $loads = $this->prepareExport();
                     $datajson = serialize($loads);
                     ini_set('memory_limit', '288M');
-                    $fileName = "./app/export/" . $dbname . ".json";
-                    $file = fopen($fileName, "w");
+                    $fileName = './app/export/' . $dbname . '.json';
+                    $file = fopen($fileName, 'w');
                     fwrite($file, $datajson);
                     fclose($file);
-                    header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-                    header("Content-Type: application/force-download");
-                    header("Content-Length: " . filesize($fileName));
-                    header("Connection: close");
-                    $file = fopen($fileName, "r");
+                    header('Content-Disposition: attachment; filename="' . basename($fileName) . '"');
+                    header('Content-Type: application/force-download');
+                    header('Content-Length: ' . filesize($fileName));
+                    header('Connection: close');
+                    $file = fopen($fileName, 'r');
                     fpassthru($file);
                     fclose($file);
                     unlink($fileName);
@@ -447,15 +446,15 @@ class AdminController extends Controller
             $loads = $this->prepareExport();
             $datajson = serialize($loads);
             ini_set('memory_limit', '288M');
-            $fileName = "./app/export/" . Yii::app()->user->school . ".json";
-            $file = fopen($fileName, "w");
+            $fileName = './app/export/' . Yii::app()->user->school . '.json';
+            $file = fopen($fileName, 'w');
             fwrite($file, $datajson);
             fclose($file);
-            header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
-            header("Content-Type: application/force-download");
-            header("Content-Length: " . filesize($fileName));
-            header("Connection: close");
-            $file = fopen($fileName, "r");
+            header('Content-Disposition: attachment; filename="' . basename($fileName) . '"');
+            header('Content-Type: application/force-download');
+            header('Content-Length: ' . filesize($fileName));
+            header('Connection: close');
+            $file = fopen($fileName, 'r');
             fpassthru($file);
             fclose($file);
             unlink($fileName);

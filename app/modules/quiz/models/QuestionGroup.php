@@ -29,14 +29,14 @@ class QuestionGroup extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, quiz_id', 'required'),
-            array('id, quiz_id', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>150),
+        return [
+            ['name, quiz_id', 'required'],
+            ['id, quiz_id', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 150],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, quiz_id', 'safe', 'on'=>'search'),
-        );
+            ['id, name, quiz_id', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -46,10 +46,10 @@ class QuestionGroup extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'quiz' => array(self::BELONGS_TO, 'Quiz', 'quiz_id'),
-            'questions' => array(self::MANY_MANY, 'Question', 'question_group_question(question_group_id, question_id)'),
-        );
+        return [
+            'quiz' => [self::BELONGS_TO, 'Quiz', 'quiz_id'],
+            'questions' => [self::MANY_MANY, 'Question', 'question_group_question(question_group_id, question_id)'],
+        ];
     }
 
     /**
@@ -57,11 +57,11 @@ class QuestionGroup extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Nome',
             'quiz_id' => 'Questionário',
-        );
+        ];
     }
 
     /**
@@ -80,15 +80,15 @@ class QuestionGroup extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('quiz_id', $this->quiz_id);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -97,7 +97,7 @@ class QuestionGroup extends CActiveRecord
      * @param string $className active record class name.
      * @return QuestionGroup the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

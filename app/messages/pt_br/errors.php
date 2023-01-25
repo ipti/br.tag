@@ -30,7 +30,7 @@ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
-return array(
+return [
     //Meses
     'Can not delete' => 'Não é possível excluir, é provavel que existam registros associados a este item',
     'February' => 'Fevereiro',
@@ -45,4 +45,4 @@ return array(
     'November' => 'Novembro',
     'December' => 'Dezembro',
 
-        );
+];

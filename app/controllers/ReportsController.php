@@ -7,9 +7,9 @@ class ReportsController extends Controller
 
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'BFReport', 'numberStudentsPerClassroomReport',
                     'InstructorsPerClassroomReport', 'StudentsFileReport',
                     'getStudentsFileInformation', 'ResultBoardReport',
                     'StatisticalDataReport', 'StudentsDeclarationReport',
@@ -19,13 +19,13 @@ class ReportsController extends Controller
                     'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
                     'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
                     'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 'BFRStudentReport', 'ElectronicDiary'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument', 'BFRStudentReport', 'ElectronicDiary'],
+                'users' => ['@'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     public function beforeAction($action)
@@ -38,27 +38,27 @@ class ReportsController extends Controller
     {
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
-        $sql = "SELECT DISTINCT si.inep_id,si.name,si.birthday,sd.residence_zone, sd.neighborhood, sd.address , se.*
+        $sql = 'SELECT DISTINCT si.inep_id,si.name,si.birthday,sd.residence_zone, sd.neighborhood, sd.address , se.*
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk)
                 join classroom as c on se.classroom_fk = c.id
                 join student_documents_and_address as sd on si.id = sd.id
-                where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = " . $_GET['id'] . " AND se.school_inep_id_fk =  " . $_GET['id'] . "
-                AND c.school_year = " . $this->year . " AND (se.status = 1 OR se.status IS NULL) order by si.name";
+                where (se.public_transport = 1 or se.vehicle_type_bus=1) and si.school_inep_id_fk = ' . $_GET['id'] . ' AND se.school_inep_id_fk =  ' . $_GET['id'] . '
+                AND c.school_year = ' . $this->year . ' AND (se.status = 1 OR se.status IS NULL) order by si.name';
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "select c.*, q.modality,q.stage
+        $sql1 = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
+                where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by name';
         $classrooms = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('StudentsUsingSchoolTransportationRelationReport', array(
+        $this->render('StudentsUsingSchoolTransportationRelationReport', [
             'school' => $school,
             'students' => $students,
             'classrooms' => $classrooms
-        ));
+        ]);
     }
 
     public function actionStudentsWithDisabilitiesRelationReport()
@@ -66,24 +66,24 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "SELECT si.*, se.classroom_fk
+        $sql = 'SELECT si.*, se.classroom_fk
                 FROM student_identification as si join student_enrollment as se on si.id = se.student_fk join classroom as c on se.classroom_fk = c.id
-                where si.deficiency = 1 and si.school_inep_id_fk = " . $_GET['id'] . " and se.school_inep_id_fk = " . $_GET['id'] . " and c.school_year = " . $this->year . " AND (se.status = 1 OR se.status IS NULL) order by si.name";
+                where si.deficiency = 1 and si.school_inep_id_fk = ' . $_GET['id'] . ' and se.school_inep_id_fk = ' . $_GET['id'] . ' and c.school_year = ' . $this->year . ' AND (se.status = 1 OR se.status IS NULL) order by si.name';
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "select c.*, q.modality,q.stage
+        $sql1 = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
+                where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by name';
         $classrooms = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('StudentsWithDisabilitiesRelationReport', array(
+        $this->render('StudentsWithDisabilitiesRelationReport', [
             'school' => $school,
             'students' => $students,
             'classrooms' => $classrooms
-        ));
+        ]);
     }
 
     public function actionStudentsInAlphabeticalOrderRelationReport()
@@ -91,35 +91,35 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select si.name as studentName, si.inep_id as studentInepId, se.classroom_inep_id, si.birthday,cq.*
+        $sql = 'select si.name as studentName, si.inep_id as studentInepId, se.classroom_inep_id, si.birthday,cq.*
                 from (student_identification as si join student_enrollment as se on si.id = se.student_fk)
                 join classroom_qtd_students as cq on cq.id = se.classroom_fk
-                where se.school_inep_id_fk = " . $_GET['id'] . "  AND si.school_inep_id_fk = " . $_GET['id'] . " AND cq.school_year = " . $this->year . "
-                AND (se.status = 1 OR se.status IS NULL)order by si.name";
+                where se.school_inep_id_fk = ' . $_GET['id'] . '  AND si.school_inep_id_fk = ' . $_GET['id'] . ' AND cq.school_year = ' . $this->year . '
+                AND (se.status = 1 OR se.status IS NULL)order by si.name';
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $this->render('StudentsInAlphabeticalOrderRelationReport', array(
+        $this->render('StudentsInAlphabeticalOrderRelationReport', [
             'school' => $school,
             'students' => $students
-        ));
+        ]);
     }
 
     public function actionEnrollmentPerClassroomReport($id)
     {
-        $this->layout = "reportsclean";
-        $sql = "SELECT * FROM classroom_enrollment
-                    where `year`  = " . $this->year . ""
+        $this->layout = 'reportsclean';
+        $sql = 'SELECT * FROM classroom_enrollment
+                    where `year`  = ' . $this->year . ''
             . " AND classroom_id = $id"
-            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+            . ' AND (status = 1 OR status IS NULL) ORDER BY name;';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);
 
-        $this->render('EnrollmentPerClassroomReport', array(
+        $this->render('EnrollmentPerClassroomReport', [
             'report' => $result,
             'classroom' => $classroom
-        ));
+        ]);
     }
 
     public function actionStudentPendingDocument()
@@ -127,41 +127,41 @@ class ReportsController extends Controller
         $school_id = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($school_id);
         $ano = Yii::app()->user->year;
-        $sql1 = "SELECT *, d.name as nome_aluno
+        $sql1 = 'SELECT *, d.name as nome_aluno
                     FROM student_enrollment a 
                     JOIN classroom b ON(a.`classroom_fk`=b.id) 
                     JOIN student_documents_and_address c ON(a.`student_fk`=c.`id`) 
                     JOIN student_identification d ON(c.`id`=d.`id`) 
-                    WHERE b.`school_inep_fk` =" . $school_id . " and b.school_year=" . $ano . " AND (a.status = 1 OR a.status IS NULL) AND 
+                    WHERE b.`school_inep_fk` =' . $school_id . ' and b.school_year=' . $ano . ' AND (a.status = 1 OR a.status IS NULL) AND 
                     (received_cc = 0 OR received_address = 0 OR received_photo = 0 
-                    OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
+                    OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)';
         $result = Yii::app()->db->createCommand($sql1)->queryAll();
-        $this->render('StudentPendingDocument', array(
+        $this->render('StudentPendingDocument', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionStudentPerClassroom($id)
     {
-        $this->layout = "reports";
-        $sql = "SELECT * FROM classroom_enrollment
-                    where `year`  = " . $this->year . ""
+        $this->layout = 'reports';
+        $sql = 'SELECT * FROM classroom_enrollment
+                    where `year`  = ' . $this->year . ''
             . " AND classroom_id = $id"
-            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+            . ' AND (status = 1 OR status IS NULL) ORDER BY name;';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);
 
-        $this->render('StudentPerClassroom', array(
+        $this->render('StudentPerClassroom', [
             'report' => $result,
             'classroom' => $classroom
-        ));
+        ]);
     }
 
     public function actionClocPerClassroom($id)
     {
-        $this->layout = "reports";
+        $this->layout = 'reports';
         $sql = "SELECT
         `s`.`id`                                AS `enrollment`,
         `s`.`name`                              AS `name`,
@@ -200,18 +200,18 @@ class ReportsController extends Controller
             ON ((`s`.`id` = `se`.`student_fk`)))
          JOIN `classroom` `c`
            ON ((`se`.`classroom_fk` = `c`.`id`)))
-                    where  `c`.`school_year`  = " . $this->year . ""
+                    where  `c`.`school_year`  = " . $this->year . ''
             . " AND `c`.`id` = $id"
-            . " AND (status = 1 OR status IS NULL) ORDER BY name;";
+            . ' AND (status = 1 OR status IS NULL) ORDER BY name;';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         $classroom = Classroom::model()->findByPk($id);
 
-        $this->render('ClocPerClassroom', array(
+        $this->render('ClocPerClassroom', [
             'report' => $result,
             'classroom' => $classroom
-        ));
+        ]);
     }
 
     public function actionStudentsByClassroomReport()
@@ -219,54 +219,54 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
+        $sql = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
+                where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by name';
 
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
+        $sql1 = 'SELECT DISTINCT se.classroom_fk,si.inep_id,si.name,si.birthday
                 FROM student_identification as si 
                 join student_enrollment as se on si.id = se.student_fk 
                 join classroom as c on se.classroom_fk = c.id
-                where se.school_inep_id_fk = " . $_GET['id'] . " and c.school_year = " . $this->year . " AND (se.status = 1 OR se.status IS NULL) order by si.name";
+                where se.school_inep_id_fk = ' . $_GET['id'] . ' and c.school_year = ' . $this->year . ' AND (se.status = 1 OR se.status IS NULL) order by si.name';
 
         $students = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('StudentsByClassroomReport', array(
+        $this->render('StudentsByClassroomReport', [
             'school' => $school,
             'classroom' => $classrooms,
             'students' => $students
-        ));
+        ]);
     }
 
     public function actionStudentsBetween5And14YearsOldReport()
     {
-        $this->layout = "reportsclean";
+        $this->layout = 'reportsclean';
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
+        $sql = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
                 where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id AND (q.status = 1 OR q.status IS NULL)
-                order by name";
+                order by name';
 
-        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $this->year)->bindParam(":school", $_GET['id'])->queryAll();
+        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(':year', $this->year)->bindParam(':school', $_GET['id'])->queryAll();
 
-        $sql1 = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , si.filiation_1, si.filiation_2
+        $sql1 = 'SELECT se.classroom_fk,si.inep_id,si.name,si.birthday , si.filiation_1, si.filiation_2
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk join classroom as c on se.classroom_fk = c.id )
-                where se.school_inep_id_fk = :school and c.school_year = :year AND (se.status = 1 OR se.status IS NULL) order by si.name ";
+                where se.school_inep_id_fk = :school and c.school_year = :year AND (se.status = 1 OR se.status IS NULL) order by si.name ';
 
-        $students = Yii::app()->db->createCommand($sql1)->bindParam(":year", $this->year)->bindParam(":school", $_GET['id'])->queryAll();
+        $students = Yii::app()->db->createCommand($sql1)->bindParam(':year', $this->year)->bindParam(':school', $_GET['id'])->queryAll();
 
-        $this->render('StudentsBetween5And14YearsOldReport', array(
+        $this->render('StudentsBetween5And14YearsOldReport', [
             'school' => $school,
             'classroom' => $classrooms,
             'students' => $students
 
-        ));
+        ]);
     }
 
     public function actionComplementarActivityAssistantByClassroomReport()
@@ -274,26 +274,26 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
+        $sql = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.assistance_type = 4 AND c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
+                where c.assistance_type = 4 AND c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by name';
 
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql = "select id.*,it.classroom_id_fk , iv.scholarity
+        $sql = 'select id.*,it.classroom_id_fk , iv.scholarity
                 from (((instructor_identification as id join instructor_teaching_data as it on it.instructor_fk = id.id)
                 join instructor_variable_data as iv on iv.id = id.id) join classroom as c on c.id = it.classroom_id_fk)
-                where id.school_inep_id_fk = " . $_GET['id'] . "  AND (it.role = 2 or it.role = 3) AND c.school_year = " . $this->year . " order by c.name";
+                where id.school_inep_id_fk = ' . $_GET['id'] . '  AND (it.role = 2 or it.role = 3) AND c.school_year = ' . $this->year . ' order by c.name';
 
         $professor = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $this->render('ComplementarActivityAssistantByClassroomReport', array(
-            "school" => $school,
-            "classroom" => $classrooms,
+        $this->render('ComplementarActivityAssistantByClassroomReport', [
+            'school' => $school,
+            'classroom' => $classrooms,
             'professor' => $professor
-        ));
+        ]);
     }
 
     public function actionDisciplineAndInstructorRelationReport()
@@ -301,34 +301,34 @@ class ReportsController extends Controller
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
         $classrooms = Yii::app()->db->createCommand(
-            "select c.*, q.modality, q.stage from classroom as c 
+            'select c.*, q.modality, q.stage from classroom as c 
             join classroom_qtd_students as q on c.school_inep_fk = q.school_inep_fk
-            where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . Yii::app()->user->school . " AND q.school_inep_fk = " . Yii::app()->user->school . "  AND c.id = q.id
-            order by name"
+            where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . Yii::app()->user->school . ' AND q.school_inep_fk = ' . Yii::app()->user->school . '  AND c.id = q.id
+            order by name'
         )->queryAll();
         foreach ($classrooms as &$classroom) {
-            $classroom["instructors"] = Yii::app()->db->createCommand(
+            $classroom['instructors'] = Yii::app()->db->createCommand(
                 "select ii.*, iv.scholarity, it.id as teaching_data_id
                 from instructor_teaching_data it
                 join instructor_identification ii on ii.id = it.instructor_fk
                 left join instructor_variable_data iv on iv.id = ii.id
-                where it.classroom_id_fk = '" . $classroom["id"] . "' and it.role = 1 order by ii.name"
+                where it.classroom_id_fk = '" . $classroom['id'] . "' and it.role = 1 order by ii.name"
             )->queryAll();
-            foreach ($classroom["instructors"] as &$instructor) {
-                $instructor["disciplines"] = Yii::app()->db->createCommand(
+            foreach ($classroom['instructors'] as &$instructor) {
+                $instructor['disciplines'] = Yii::app()->db->createCommand(
                     "select ed.name
                     from teaching_matrixes tm
                     join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
                     join edcenso_discipline ed on ed.id = cm.discipline_fk
-                    where tm.teaching_data_fk = '" . $instructor["teaching_data_id"] . "'"
+                    where tm.teaching_data_fk = '" . $instructor['teaching_data_id'] . "'"
                 )->queryAll();
             }
         }
 
-        $this->render('DisciplineAndInstructorRelationReport', array(
+        $this->render('DisciplineAndInstructorRelationReport', [
             'school' => $school,
             'classroom' => $classrooms
-        ));
+        ]);
     }
 
     public function actionIncompatibleStudentAgeByClassroomReport()
@@ -336,32 +336,32 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
+        $sql = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by name";
+                where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by name';
 
         $classroom = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "SELECT se.classroom_fk,si.inep_id,si.name,si.birthday
+        $sql1 = 'SELECT se.classroom_fk,si.inep_id,si.name,si.birthday
                 FROM (student_identification as si join student_enrollment as se on si.id = se.student_fk ) join classroom as c on se.classroom_fk = c.id
-                where c.school_year = " . $this->year . " AND se.school_inep_id_fk = " . $_GET['id'] . " AND (se.status = 1 OR se.status IS NULL)";
+                where c.school_year = ' . $this->year . ' AND se.school_inep_id_fk = ' . $_GET['id'] . ' AND (se.status = 1 OR se.status IS NULL)';
 
         $students = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('IncompatibleStudentAgeByClassroomReport', array(
+        $this->render('IncompatibleStudentAgeByClassroomReport', [
             'school' => $school,
             'classroom' => $classroom,
             'students' => $students
-        ));
+        ]);
     }
 
     public function actionStudentsWithOtherSchoolEnrollmentReport()
     {
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql1 = "select si.inep_id as student_id , si.name as student_name, si.birthday as student_birthday, s1.school1, s1.school2, c1.name as classroom_name1 from(
+        $sql1 = 'select si.inep_id as student_id , si.name as student_name, si.birthday as student_birthday, s1.school1, s1.school2, c1.name as classroom_name1 from(
                 select distinct least(se.school_inep_id_fk, s2.school_inep_id_fk) as school1, greatest(se.school_inep_id_fk, s2.school_inep_id_fk) as school2, se.student_fk, se.id se1, s2.id se2, se.classroom_fk classroom1, s2.classroom_fk classroom2
                 from student_enrollment se
                 join student_enrollment s2 on se.student_fk = s2.student_fk
@@ -371,38 +371,38 @@ class ReportsController extends Controller
                 join classroom c1 on(s1.classroom1 = c1.id)
                 join classroom c2 on(s1.classroom2 = c2.id)
                 join student_identification si on (si.id = s1.student_fk)
-                where c1.school_year = :year";
+                where c1.school_year = :year';
 
-        $students = Yii::app()->db->createCommand($sql1)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
+        $students = Yii::app()->db->createCommand($sql1)->bindParam(':school', $_GET['id'])->bindParam(':year', $this->year)->queryAll();
 
-        $this->render('StudentsWithOtherSchoolEnrollmentReport', array(
+        $this->render('StudentsWithOtherSchoolEnrollmentReport', [
             'school' => $school,
             'students' => $students
-        ));
+        ]);
     }
 
     public function actionEducationalAssistantPerClassroomReport()
     {
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.*, q.modality,q.stage
+        $sql = 'select c.*, q.modality,q.stage
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
                 where c.school_year = :year AND q.school_year = :year and c.school_inep_fk = :school AND q.school_inep_fk = :school  AND c.id = q.id
-                order by name";
-        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":school", $_GET['id'])->bindParam(":year", $this->year)->queryAll();
+                order by name';
+        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(':school', $_GET['id'])->bindParam(':year', $this->year)->queryAll();
         foreach ($classrooms as &$classroom) {
-            $sql1 = "select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
+            $sql1 = 'select DISTINCT c.id as classroomID ,c.name as className,id.inep_id,id.name, id.birthday_date, iv.scholarity
                 from instructor_teaching_data as i join instructor_identification as id on id.id = i.instructor_fk
                 join instructor_variable_data as iv on iv.id = id.id join classroom as c on i.classroom_id_fk = c.id
-                WHERE c.id = :id AND i.role = 2 order by id.name";
-            $classroom["professors"] = Yii::app()->db->createCommand($sql1)->bindParam(":id", $classroom["id"])->queryAll();
+                WHERE c.id = :id AND i.role = 2 order by id.name';
+            $classroom['professors'] = Yii::app()->db->createCommand($sql1)->bindParam(':id', $classroom['id'])->queryAll();
         }
 
-        $this->render('EducationalAssistantPerClassroomReport', array(
+        $this->render('EducationalAssistantPerClassroomReport', [
             'school' => $school,
             'classrooms' => $classrooms
-        ));
+        ]);
     }
 
     public function actionClassroomWithoutInstructorRelationReport()
@@ -410,22 +410,22 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select * from classroom_qtd_students
-                where school_year = " . $this->year . " and school_inep_fk = " . $_GET['id'] . " order by name ";
+        $sql = 'select * from classroom_qtd_students
+                where school_year = ' . $this->year . ' and school_inep_fk = ' . $_GET['id'] . ' order by name ';
 
         $classroom = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "SELECT ca.* , c.*, ed.name as discipline_name FROM class_board as ca join classroom_qtd_students as c on ca.classroom_fk = c.id join edcenso_discipline ed on ed.id = ca.discipline_fk
-                  where c.school_year =  " . $this->year . " and c.school_inep_fk = " . $this->year . " and ca.instructor_fk is null
-                  order by c.name";
+        $sql1 = 'SELECT ca.* , c.*, ed.name as discipline_name FROM class_board as ca join classroom_qtd_students as c on ca.classroom_fk = c.id join edcenso_discipline ed on ed.id = ca.discipline_fk
+                  where c.school_year =  ' . $this->year . ' and c.school_inep_fk = ' . $this->year . ' and ca.instructor_fk is null
+                  order by c.name';
 
         $disciplina = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('ClassroomWithoutInstructorRelationReport', array(
+        $this->render('ClassroomWithoutInstructorRelationReport', [
             'school' => $school,
             'classroom' => $classroom,
             'disciplina' => $disciplina
-        ));
+        ]);
     }
 
     public function actionStudentInstructorNumbersRelationReport()
@@ -433,23 +433,23 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql1 = "select q.*, c.mais_educacao_participator,c.inep_id
+        $sql1 = 'select q.*, c.mais_educacao_participator,c.inep_id
                     from classroom as c join classroom_qtd_students as q
                     on c.id = q.id
-                    WHERE c.school_year = " . $this->year . " AND q.school_inep_fk = " . $_GET['id'] . " order by q.name";
+                    WHERE c.school_year = ' . $this->year . ' AND q.school_inep_fk = ' . $_GET['id'] . ' order by q.name';
         $classrooms = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $sql2 = "SELECT i.role, i.classroom_inep_id,c.id as classroomId
+        $sql2 = 'SELECT i.role, i.classroom_inep_id,c.id as classroomId
                 from instructor_teaching_data as i join classroom as c on i.classroom_id_fk = c.id
-                WHERE i.school_inep_id_fk = " . $_GET['id'] . " and  c.school_year = " . $this->year . "";
+                WHERE i.school_inep_id_fk = ' . $_GET['id'] . ' and  c.school_year = ' . $this->year . '';
         $instrutors = Yii::app()->db->createCommand($sql2)->queryAll();
 
-        $this->render('StudentInstructorNumbersRelationReport', array(
+        $this->render('StudentInstructorNumbersRelationReport', [
             'school' => $school,
-            "classroom" => $classrooms,
-            "instructor" => $instrutors
+            'classroom' => $classrooms,
+            'instructor' => $instrutors
 
-        ));
+        ]);
     }
 
     public function actionSchoolProfessionalNumberByClassroomReport()
@@ -457,25 +457,25 @@ class ReportsController extends Controller
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
 
-        $sql = "select c.inep_id, q.*
+        $sql = 'select c.inep_id, q.*
                 from classroom as c join classroom_qtd_students as q
                 on c.school_inep_fk = q.school_inep_fk
-                where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . $_GET['id'] . " AND q.school_inep_fk = " . $_GET['id'] . "  AND c.id = q.id
-                order by c.name";
+                where c.school_year = ' . $this->year . ' AND q.school_year = ' . $this->year . ' and c.school_inep_fk = ' . $_GET['id'] . ' AND q.school_inep_fk = ' . $_GET['id'] . '  AND c.id = q.id
+                order by c.name';
 
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "SELECT i.role, i.classroom_inep_id,c.name
+        $sql1 = 'SELECT i.role, i.classroom_inep_id,c.name
                  from instructor_teaching_data as i join classroom as c on i.classroom_id_fk = c.id
-                 WHERE i.school_inep_id_fk = " . $_GET['id'] . " and  c.school_year = " . $this->year . "";
+                 WHERE i.school_inep_id_fk = ' . $_GET['id'] . ' and  c.school_year = ' . $this->year . '';
 
         $role = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $this->render('SchoolProfessionalNumberByClassroomReport', array(
+        $this->render('SchoolProfessionalNumberByClassroomReport', [
             'school' => $school,
             'role' => $role,
-            "classroom" => $classrooms
-        ));
+            'classroom' => $classrooms
+        ]);
     }
 
     public function actionStudentByClassroomReport()
@@ -504,76 +504,76 @@ class ReportsController extends Controller
                 GROUP BY c.id, s.register_type, s.inep_id, s.id, d.cns
                 ORDER BY c.id";
 
-        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(":year", $year)->bindParam(":schoolyear", $school_year)->queryAll();
+        $classrooms = Yii::app()->db->createCommand($sql)->bindParam(':year', $year)->bindParam(':schoolyear', $school_year)->queryAll();
 
-        $this->render('StudentByClassroomReport', array(
-            "classroom" => $classrooms
-        ));
+        $this->render('StudentByClassroomReport', [
+            'classroom' => $classrooms
+        ]);
     }
 
     public function actionEnrollmentComparativeAnalysisReport()
     {
         $_GET['id'] = Yii::app()->user->school;
         $school = SchoolIdentification::model()->findByPk($_GET['id']);
-        $sql = "SELECT * FROM classroom_qtd_students
-                    where `school_year` >= " . $this->year . "-1 and school_inep_fk = " . $_GET['id'] . " order by name;";
+        $sql = 'SELECT * FROM classroom_qtd_students
+                    where `school_year` >= ' . $this->year . '-1 and school_inep_fk = ' . $_GET['id'] . ' order by name;';
 
         $classrooms = Yii::app()->db->createCommand($sql)->queryAll();
 
-        $sql1 = "select `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
+        $sql1 = 'select `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
                  from ((`student_identification` `s` join `student_enrollment` `se` on((`s`.`id` = `se`.`student_fk`)))
                  join `classroom` `c` on((`se`.`classroom_fk` = `c`.`id`)))
-                 where `c`.`school_year` = " . $this->year . "-1 and school_inep_fk = " . $_GET['id'] . "
-                 GROUP BY `c`.`id`";
+                 where `c`.`school_year` = ' . $this->year . '-1 and school_inep_fk = ' . $_GET['id'] . '
+                 GROUP BY `c`.`id`';
 
         $enrollment1 = Yii::app()->db->createCommand($sql1)->queryAll();
 
-        $sql2 = "select `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
+        $sql2 = 'select `c`.`id` AS `classe_id` , count(`s`.`id`) AS `contador`
                  from ((`student_identification` `s` join `student_enrollment` `se` on((`s`.`id` = `se`.`student_fk`)))
                  join `classroom` `c` on((`se`.`classroom_fk` = `c`.`id`)))
-                 where `c`.`school_year` = " . $this->year . " and school_inep_fk = " . $_GET['id'] . "
-                 GROUP BY `c`.`id`";
+                 where `c`.`school_year` = ' . $this->year . ' and school_inep_fk = ' . $_GET['id'] . '
+                 GROUP BY `c`.`id`';
 
         $enrollment2 = Yii::app()->db->createCommand($sql2)->queryAll();
 
-        $this->render('EnrollmentComparativeAnalysisReport', array(
+        $this->render('EnrollmentComparativeAnalysisReport', [
             'classrooms' => $classrooms,
             'school' => $school,
             'matricula1' => $enrollment1,
             'matricula2' => $enrollment2
-        ));
+        ]);
     }
 
     public function actionStatisticalDataReport()
     {
         $result = null;
-        $this->render('StatisticalDataReport', array(
+        $this->render('StatisticalDataReport', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionResultBoardReport()
     {
         $result = null;
-        $this->render('ResultBoardReport', array(
+        $this->render('ResultBoardReport', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionNumberStudentsPerClassroomReport()
     {
-        $this->layout = "reportsclean";
-        $sql = "SELECT * FROM classroom_qtd_students
-                    where school_year  = " . $this->year . " and school_inep_fk=" . Yii::app()->user->school . " order by name;";
+        $this->layout = 'reportsclean';
+        $sql = 'SELECT * FROM classroom_qtd_students
+                    where school_year  = ' . $this->year . ' and school_inep_fk=' . Yii::app()->user->school . ' order by name;';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-        $this->render('NumberStudentsPerClassroomReport', array(
+        $this->render('NumberStudentsPerClassroomReport', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionClocReport()
     {
-        $this->layout = "reportsclean";
+        $this->layout = 'reportsclean';
         $sql = "SELECT
         `c`.`school_inep_fk` AS `school_inep_fk`,
         `c`.`id`             AS `id`,
@@ -595,25 +595,25 @@ class ReportsController extends Controller
       GROUP BY `c`.`id`";
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-        $this->render('NumberStudentsPerClassroomReport', array(
+        $this->render('NumberStudentsPerClassroomReport', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionInstructorsPerClassroomReport()
     {
-        $this->layout = "reportsclean";
-        $sql = "SELECT * FROM classroom_instructors "
-            . "where school_year = " . $this->year . " and school_inep_fk= " . Yii::app()->user->school . " order by name;";
+        $this->layout = 'reportsclean';
+        $sql = 'SELECT * FROM classroom_instructors '
+            . 'where school_year = ' . $this->year . ' and school_inep_fk= ' . Yii::app()->user->school . ' order by name;';
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-        $this->render('InstructorsPerClassroomReport', array(
+        $this->render('InstructorsPerClassroomReport', [
             'report' => $result,
-        ));
+        ]);
     }
 
     public function actionBFReport()
     {
-        $this->layout = "reportsclean";
+        $this->layout = 'reportsclean';
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
         //@done s3 - Pegar todos os alunos matriculados nas turmas atuais.
@@ -625,26 +625,25 @@ class ReportsController extends Controller
 
         $groupByClassroom = [];
 
-
         //FUNDAMENTAL MENOR
-        $arrFields = [":year" => $year, ":school" => Yii::app()->user->school];
-        $conditions = " AND c.school_inep_fk = :school";
+        $arrFields = [':year' => $year, ':school' => Yii::app()->user->school];
+        $conditions = ' AND c.school_inep_fk = :school';
         if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $conditions .= " AND c.id = :id_classroom ";
+            $conditions .= ' AND c.id = :id_classroom ';
             $arrFields[':id_classroom'] = $_GET['id'];
         }
 
         $criteria = new CDbCriteria();
-        $criteria->alias = "c";
-        $criteria->join = "join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk";
-        $criteria->condition = "c.school_year = :year and svm.id >= 14 and svm.id <= 16 " . $conditions;
+        $criteria->alias = 'c';
+        $criteria->join = 'join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk';
+        $criteria->condition = 'c.school_year = :year and svm.id >= 14 and svm.id <= 16 ' . $conditions;
         $criteria->params = $arrFields;
-        $criteria->order = "c.name";
+        $criteria->order = 'c.name';
         $classrooms = Classroom::model()->findAll($criteria);
         foreach ($classrooms as $classroom) {
             $days = [];
             $faultDays = [];
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month >= :monthI and month <= :monthF and unavailable = 0", ["classroom_fk" => $classroom->id, ":monthI" => $monthI, ":monthF" => $monthF]);
+            $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and month >= :monthI and month <= :monthF and unavailable = 0', ['classroom_fk' => $classroom->id, ':monthI' => $monthI, ':monthF' => $monthF]);
             foreach ($schedules as $schedule) {
                 if (!isset($days[$schedule->month])) {
                     $days[$schedule->month] = [];
@@ -663,20 +662,19 @@ class ReportsController extends Controller
             }
             foreach ($classroom->studentEnrollments as $studentEnrollment) {
                 for ($i = $monthI; $i <= $monthF; $i++) {
-                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . '%' : 'N/A';
                 }
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["birthday"] = $studentEnrollment->studentFk->birthday;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['Classroom'] = $classroom->name;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['NIS'] = $studentEnrollment->studentFk->documentsFk->nis == null ? 'Não Informado' : $studentEnrollment->studentFk->documentsFk->nis;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['birthday'] = $studentEnrollment->studentFk->birthday;
             }
         }
 
-
         //FUNDAMENTAL MAIOR
-        $arrFields = [":year" => $year, ":monthI" => $monthI, ":monthF" => $monthF, ":school" => Yii::app()->user->school];
-        $conditions = " AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school";
+        $arrFields = [':year' => $year, ':monthI' => $monthI, ':monthF' => $monthF, ':school' => Yii::app()->user->school];
+        $conditions = ' AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school';
         if (isset($_GET['id']) && !empty($_GET['id'])) {
-            $conditions .= " AND c.id = :id_classroom ";
+            $conditions .= ' AND c.id = :id_classroom ';
             $arrFields[':id_classroom'] = $_GET['id'];
         }
 
@@ -720,49 +718,47 @@ class ReportsController extends Controller
             . $conditions,
             $arrFields
         );
-        $command->group = "c.id, t.month, si.id, cf.faults";
-        $command->order = "c.name, student, month";
+        $command->group = 'c.id, t.month, si.id, cf.faults';
+        $command->order = 'c.name, student, month';
         $query = $command->queryAll();
 
         foreach ($query as $result) {
             if ($result['student'] != null) {
                 $count = isset($result['count']) ? $result['count'] : 0;
                 $faults = isset($result['faults']) ? $result['faults'] : 0;
-                $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . "%";
+                $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . '%';
 
                 $groupByClassroom[$result['classroom']][$result['student']]['Info']['Classroom'] = $result['classroom'];
-                $groupByClassroom[$result['classroom']][$result['student']]['Info']['NIS'] = $result['nis'] !== "" && $result['nis'] !== null ? $result['nis'] : "Não Informado";
+                $groupByClassroom[$result['classroom']][$result['student']]['Info']['NIS'] = $result['nis'] !== '' && $result['nis'] !== null ? $result['nis'] : 'Não Informado';
                 $groupByClassroom[$result['classroom']][$result['student']]['Info']['birthday'] = $result['birthday'];
             }
         }
 
-        $this->render('BFReport', array(
+        $this->render('BFReport', [
             'reports' => $groupByClassroom,
-        ));
+        ]);
     }
-
 
     public function actionBFRStudentReport()
     {
-        $sql = "SELECT su.name, su.birthday, cl.name as turma  
+        $sql = 'SELECT su.name, su.birthday, cl.name as turma  
         FROM student_enrollment se
         JOIN classroom cl ON(se.classroom_fk = cl.id)
         JOIN school_identification si ON (si.inep_id = cl.school_inep_fk)
         JOIN student_identification su ON(su.id= se.student_fk)
         WHERE
         bf_participator = 1 AND
-        si.`inep_id` =" . Yii::app()->user->school . " AND (se.status = 1 OR se.status IS NULL) order by name;";
+        si.`inep_id` =' . Yii::app()->user->school . ' AND (se.status = 1 OR se.status IS NULL) order by name;';
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
-        $this->render('BFRStudentReport', array(
+        $this->render('BFRStudentReport', [
             'report' => $result,
-        ));
+        ]);
     }
-
 
     public function actionIndex()
     {
-        $this->layout = "fullmenu";
+        $this->layout = 'fullmenu';
         $this->render('index');
     }
 
@@ -770,48 +766,48 @@ class ReportsController extends Controller
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $criteria = new CDbCriteria();
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->alias = 'c';
+            $criteria->join = ''
+                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
+                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
+            $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
+            $criteria->order = 'name';
+            $criteria->params = [':school_year' => Yii::app()->user->year, ':school_inep_fk' => Yii::app()->user->school, ':users_fk' => Yii::app()->user->loginInfos->id];
 
             $classrooms = Classroom::model()->findAll($criteria);
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
         }
-        $this->layout = "fullmenu";
-        $this->render('ElectronicDiary', array(
+        $this->layout = 'fullmenu';
+        $this->render('ElectronicDiary', [
             'classrooms' => $classrooms,
             'schoolyear' => Yii::app()->user->year
-        ));
+        ]);
     }
 
     public function actionGetDisciplines()
     {
-        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $classroom = Classroom::model()->findByPk($_POST['classroom']);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
-                "select ed.id from teaching_matrixes tm 
+                'select ed.id from teaching_matrixes tm 
                 join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name'
             )
-                ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+                ->bindParam(':userid', Yii::app()->user->loginInfos->id)->bindParam(':crid', $classroom->id)->queryAll();
             foreach ($disciplines as $discipline) {
-                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+                echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['id']], CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }
         } else {
-            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
-            $classr = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+            echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione...'), true);
+            $classr = Yii::app()->db->createCommand('select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year')->bindParam(':stage_fk', $classroom->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryAll();
             foreach ($classr as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
-                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                    echo htmlspecialchars(CHtml::tag('option', ['value' => $discipline['discipline_fk']], CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
             }
         }
@@ -819,64 +815,64 @@ class ReportsController extends Controller
 
     public function actionGenerateElectronicDiaryReport()
     {
-        $arr = explode('/', $_POST["initialDate"]);
-        $initialDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
-        $arr = explode('/', $_POST["finalDate"]);
-        $finalDate = $arr[2] . "-" . $arr[1] . "-" . $arr[0];
+        $arr = explode('/', $_POST['initialDate']);
+        $initialDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
+        $arr = explode('/', $_POST['finalDate']);
+        $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
         $result = [];
-        if ($_POST["type"] === "frequency") {
+        if ($_POST['type'] === 'frequency') {
             $students = [];
-            if ($_POST["fundamentalMaior"] == "1") {
+            if ($_POST['fundamentalMaior'] == '1') {
                 $schedules = Schedule::model()
                     ->findAll(
-                        "classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]
+                        'classroom_fk = :classroom_fk and date_format(concat(' . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
+                        ['classroom_fk' => $_POST['classroom'], 'initial_date' => $initialDate, 'final_date' => $finalDate, 'discipline_fk' => $_POST['discipline']]
                     );
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
+                        array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'total' => count($schedules), 'faults' => [], 'frequency' => '']);
                     }
                     foreach ($schedules as $schedule) {
                         foreach ($schedule->classFaults as $classFault) {
                             $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT) . " (" . $schedule["schedule"] . "º Hor.)");
+                            array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT) . ' (' . $schedule['schedule'] . 'º Hor.)');
                         }
                     }
                     foreach ($students as &$student) {
-                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
+                        $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
                     }
                 }
             } else {
                 $schedules = Schedule::model()
                     ->findAll(
-                        "classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]
+                        'classroom_fk = :classroom_fk and date_format(concat(' . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
+                        ['classroom_fk' => $_POST['classroom'], 'initial_date' => $initialDate, 'final_date' => $finalDate]
                     );
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                        array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
+                        array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'days' => 0, 'faults' => [], 'frequency' => '']);
                     }
                     $days = [];
                     foreach ($schedules as $schedule) {
-                        if (!in_array($schedule["day"] . $schedule["month"], $days)) {
-                            array_push($days, $schedule["day"] . $schedule["month"]);
+                        if (!in_array($schedule['day'] . $schedule['month'], $days)) {
+                            array_push($days, $schedule['day'] . $schedule['month']);
                         }
                         foreach ($schedule->classFaults as $classFault) {
                             $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                            if (!in_array(str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT), $students[$key]["faults"])) {
-                                array_push($students[$key]["faults"], str_pad($schedule["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($schedule["month"], 2, "0", STR_PAD_LEFT));
+                            if (!in_array(str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT), $students[$key]['faults'])) {
+                                array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT));
                             }
                         }
                     }
                     foreach ($students as &$student) {
-                        $student["total"] = count($days);
-                        $student["frequency"] = (floor((($student["total"] - count($student["faults"])) / $student["total"]) * 100 * 100) / 100) . "%";
+                        $student['total'] = count($days);
+                        $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
                     }
                 }
             }
-            $col = array_column($students, "name");
+            $col = array_column($students, 'name');
             array_multisort($col, SORT_ASC, $students);
-            $result["students"] = $students;
+            $result['students'] = $students;
         }
         echo json_encode($result);
     }

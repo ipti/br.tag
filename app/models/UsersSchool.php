@@ -19,7 +19,7 @@ class UsersSchool extends CActiveRecord
      * @param string $className active record class name.
      * @return UsersSchool the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -39,14 +39,14 @@ class UsersSchool extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_fk, user_fk', 'required'),
-            array('user_fk', 'numerical', 'integerOnly'=>true),
-            array('school_fk', 'length', 'max'=>11),
+        return [
+            ['school_fk, user_fk', 'required'],
+            ['user_fk', 'numerical', 'integerOnly' => true],
+            ['school_fk', 'length', 'max' => 11],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, school_fk, user_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, school_fk, user_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -56,10 +56,10 @@ class UsersSchool extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
-            'userFk' => array(self::BELONGS_TO, 'Users', 'user_fk'),
-        );
+        return [
+            'schoolFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
+            'userFk' => [self::BELONGS_TO, 'Users', 'user_fk'],
+        ];
     }
 
     /**
@@ -67,11 +67,11 @@ class UsersSchool extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('default', 'ID'),
             'school_fk' => Yii::t('default', 'School Fk'),
             'user_fk' => Yii::t('default', 'User Fk'),
-        );
+        ];
     }
 
     /**
@@ -83,14 +83,14 @@ class UsersSchool extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('school_fk', $this->school_fk, true);
         $criteria->compare('user_fk', $this->user_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

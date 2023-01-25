@@ -4,7 +4,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-return array(
+return [
     //Ajuda School
     'Date of start of the school year' => 'Data de inicio do ano letivo',
     'End date of the school year' => 'Data do final do ano letivo',
@@ -47,9 +47,8 @@ return array(
     'Only Numbers' => 'Apenas números são aceitos.',
     'Max length' => 'Tamanho máximo: ',
     'Min length' => 'Tamanho mínimo: ',
-    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.'=> 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
+    'Only characters A-Z, 0-9, ., /, -, ª, º, space and ,.' => 'Aceita somente caracteres de A a Z, 0 a 9, ., /, -, ª, º, espaço e ,.',
 
-    //
     'Confirm' => 'O valor tem que ser igual ao da senha.',
     'Full Name' => 'Nome completo',
 
@@ -57,5 +56,5 @@ return array(
     'ClassBoard Subtitle' => 'Elabore o horário semanal da turma',
     'Estimated classes' => 'Quantidade de aulas previstas',
 
-    'CPF Numbers' => "Apenas números são aceitos e o CPF deve ser válido.",
-);
+    'CPF Numbers' => 'Apenas números são aceitos e o CPF deve ser válido.',
+];

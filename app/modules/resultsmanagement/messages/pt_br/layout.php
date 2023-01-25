@@ -1,6 +1,6 @@
 <?php
 
 return [
-    "Results Management" => "Gestão de Resultados",
+    'Results Management' => 'Gestão de Resultados',
 
 ];

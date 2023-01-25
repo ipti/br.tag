@@ -7,15 +7,14 @@ class DefaultController extends Controller
         $this->render('index');
     }
 
-
     public function actionError()
     {
-        $this->layout = "error";
+        $this->layout = 'error';
         if ($error = Yii::app()->errorHandler->error) {
             if (Yii::app()->request->isAjaxRequest) {
                 echo $error['message'];
             } else {
-                $this->render('error', ['error'=>$error]);
+                $this->render('error', ['error' => $error]);
             }
         }
     }

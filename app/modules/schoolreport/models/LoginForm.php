@@ -18,12 +18,12 @@ class LoginForm extends CFormModel
      */
     public function rules()
     {
-        return array(
+        return [
             // username and password are required
-            array('username, password', 'required'),
+            ['username, password', 'required'],
             // password needs to be authenticated
-            array('password', 'authenticate'),
-        );
+            ['password', 'authenticate'],
+        ];
     }
 
     /**

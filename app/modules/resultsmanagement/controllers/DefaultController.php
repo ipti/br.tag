@@ -2,22 +2,23 @@
 
 class DefaultController extends CController
 {
-    public $headerDescription = "";
+    public $headerDescription = '';
 
     public function actionIndex()
     {
         if (Yii::app()->user->hardfoot) {
             //$this->redirect('');
             //echo 'hardfoot';exit;
-            $this->redirect(array('ManagementSchool/index','sid'=>Yii::app()->user->school));
+            $this->redirect(['ManagementSchool/index', 'sid' => Yii::app()->user->school]);
         } else {
             $this->render('index');
         }
     }
+
     public function actionGetGMapInfo($lat, $lng)
     {
         $year = Yii::app()->user->year;
-        $sql = "SELECT si.name, si.inep_id, IFNULL(si.latitude,:lat)latitude, IFNULL(si.longitude,:lng)longitude, si.situation, si.location,
+        $sql = 'SELECT si.name, si.inep_id, IFNULL(si.latitude,:lat)latitude, IFNULL(si.longitude,:lng)longitude, si.situation, si.location,
 				  IFNULL(
 				  (SELECT
 						COUNT(c.id) AS classroomCount
@@ -33,9 +34,9 @@ class DefaultController extends CController
 						JOIN student_enrollment se ON c.id = se.classroom_fk
 				  WHERE c.school_year = :year AND school_identification.inep_id = si.inep_id
 				  GROUP BY school_identification.inep_id), 0) as enrollmentCount
-				FROM school_identification si WHERE si.situation = 1 ORDER BY si.name;";
+				FROM school_identification si WHERE si.situation = 1 ORDER BY si.name;';
 
-        $schools = Yii::app()->db->createCommand($sql)->queryAll(true, ["lat"=>$lat, "lng"=>$lng, "year"=>$year]);
+        $schools = Yii::app()->db->createCommand($sql)->queryAll(true, ['lat' => $lat, 'lng' => $lng, 'year' => $year]);
         $schoolsArray = [];
 
         foreach ($schools as $school) {

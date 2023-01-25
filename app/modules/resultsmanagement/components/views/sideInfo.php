@@ -22,7 +22,6 @@ $earlyEducationCount = 0;
 $earlyEducationDayCare = 0;
 $earlyEducationKindergarten = 0;
 
-
 $primarySchoolCount = 0;
 $primarySchoolLower = 0;
 $primarySchoolHigher = 0;
@@ -58,7 +57,7 @@ $garbageRecycle = 0;
 $garbageBury = 0;
 $garbageOther = 0;
 
-$schoolsHtml = "";
+$schoolsHtml = '';
 
 foreach ($schools as $school) {
     if ($school->situation == 1) {
@@ -116,36 +115,36 @@ foreach ($schools as $school) {
 
         $structureCount++;
     }
-    $schoolsHtml .= CHtml::tag("span", ["class"=>"map-label"], CHtml::link($school->name, yii::app()->createUrl("resultsmanagement/ManagementSchool/index", ["sid" => $school->inep_id])));
+    $schoolsHtml .= CHtml::tag('span', ['class' => 'map-label'], CHtml::link($school->name, yii::app()->createUrl('resultsmanagement/ManagementSchool/index', ['sid' => $school->inep_id])));
 }
 $earlyEducationCount = $earlyEducationDayCare + $earlyEducationKindergarten;
 $primarySchoolCount = $primarySchoolLower + $primarySchoolHigher + $primarySchoolMulti;
 
 $decimalPoint = 1;
-$waterPublicPercent = number_format(($waterPublic/$structureCount)*100, $decimalPoint)."%";
-$waterArtWellPercent = number_format(($waterArtWell/$structureCount)*100, $decimalPoint)."%";
-$waterCisternPercent = number_format(($waterCistern/$structureCount)*100, $decimalPoint)."%";
-$waterRiverPercent = number_format(($waterRiver/$structureCount)*100, $decimalPoint)."%";
-$waterInexistentPercent = number_format(($waterInexistent/$structureCount)*100, $decimalPoint)."%";
+$waterPublicPercent = number_format(($waterPublic / $structureCount) * 100, $decimalPoint) . '%';
+$waterArtWellPercent = number_format(($waterArtWell / $structureCount) * 100, $decimalPoint) . '%';
+$waterCisternPercent = number_format(($waterCistern / $structureCount) * 100, $decimalPoint) . '%';
+$waterRiverPercent = number_format(($waterRiver / $structureCount) * 100, $decimalPoint) . '%';
+$waterInexistentPercent = number_format(($waterInexistent / $structureCount) * 100, $decimalPoint) . '%';
 
-$waterFiltratedPercent = number_format(($waterFiltrated/$structureCount)*100, $decimalPoint)."%";
-$waterNotFiltratedPercent = number_format(($waterNotFiltrated/$structureCount)*100, $decimalPoint)."%";
+$waterFiltratedPercent = number_format(($waterFiltrated / $structureCount) * 100, $decimalPoint) . '%';
+$waterNotFiltratedPercent = number_format(($waterNotFiltrated / $structureCount) * 100, $decimalPoint) . '%';
 
-$electricityPublicPercent = number_format(($electricityPublic/$structureCount)*100, $decimalPoint)."%";
-$electricityGeneratorPercent = number_format(($electricityGenerator/$structureCount)*100, $decimalPoint)."%";
-$electricityOtherPercent = number_format(($electricityOther/$structureCount)*100, $decimalPoint)."%";
-$electricityInexistentPercent =number_format(($electricityInexistent/$structureCount)*100, $decimalPoint)."%";
+$electricityPublicPercent = number_format(($electricityPublic / $structureCount) * 100, $decimalPoint) . '%';
+$electricityGeneratorPercent = number_format(($electricityGenerator / $structureCount) * 100, $decimalPoint) . '%';
+$electricityOtherPercent = number_format(($electricityOther / $structureCount) * 100, $decimalPoint) . '%';
+$electricityInexistentPercent = number_format(($electricityInexistent / $structureCount) * 100, $decimalPoint) . '%';
 
-$sewagePublicPercent = number_format(($sewagePublic/$structureCount)*100, $decimalPoint)."%";
-$sewageFossaPercent = number_format(($sewageFossa/$structureCount)*100, $decimalPoint)."%";
-$sewageInexistentPercent= number_format(($sewageInexistent/$structureCount)*100, $decimalPoint)."%";
+$sewagePublicPercent = number_format(($sewagePublic / $structureCount) * 100, $decimalPoint) . '%';
+$sewageFossaPercent = number_format(($sewageFossa / $structureCount) * 100, $decimalPoint) . '%';
+$sewageInexistentPercent = number_format(($sewageInexistent / $structureCount) * 100, $decimalPoint) . '%';
 
-$garbageCollectPercent = number_format(($garbageCollect/$structureCount)*100, $decimalPoint)."%";
-$garbageBurnPercent = number_format(($garbageBurn/$structureCount)*100, $decimalPoint)."%";
-$garbageThrowPercent = number_format(($garbageThrow/$structureCount)*100, $decimalPoint)."%";
-$garbageRecyclePercent = number_format(($garbageRecycle/$structureCount)*100, $decimalPoint)."%";
-$garbageBuryPercent = number_format(($garbageBury/$structureCount)*100, $decimalPoint)."%";
-$garbageOtherPercent = number_format(($garbageOther/$structureCount)*100, $decimalPoint)."%";
+$garbageCollectPercent = number_format(($garbageCollect / $structureCount) * 100, $decimalPoint) . '%';
+$garbageBurnPercent = number_format(($garbageBurn / $structureCount) * 100, $decimalPoint) . '%';
+$garbageThrowPercent = number_format(($garbageThrow / $structureCount) * 100, $decimalPoint) . '%';
+$garbageRecyclePercent = number_format(($garbageRecycle / $structureCount) * 100, $decimalPoint) . '%';
+$garbageBuryPercent = number_format(($garbageBury / $structureCount) * 100, $decimalPoint) . '%';
+$garbageOtherPercent = number_format(($garbageOther / $structureCount) * 100, $decimalPoint) . '%';
 ?>
 
 <div class="widget">
@@ -172,54 +171,54 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100, $decim
                     <span><?= yii::t(
     'resultsmanagementModule.sideInfo',
     'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
-    ['{active}' => $schoolsActive, "{inactive}"=>$schoolsInactive, "{extinct}"=>$schoolsExtinct]
+    ['{active}' => $schoolsActive, '{inactive}' => $schoolsInactive, '{extinct}' => $schoolsExtinct]
 )?></span>
                     <h5><span><?= yii::t('resultsmanagementModule.sideInfo', 'TOTAL ENROLLMENTS')?>: </span><?=$enrollmentsCount?></h5>
                     <div class="panel-box">
                         <div class="row">
                             <div class="col-md-5">
-                                <span><?=yii::t('resultsmanagementModule.sideInfo', "URBAN AREA")?>: <?=$enrollmentsLocation[1]?></span>
+                                <span><?=yii::t('resultsmanagementModule.sideInfo', 'URBAN AREA')?>: <?=$enrollmentsLocation[1]?></span>
                                 <br>
-                                <span><?=yii::t('resultsmanagementModule.sideInfo', "RURAL AREA")?>: <?=$enrollmentsLocation[2]?></span>
+                                <span><?=yii::t('resultsmanagementModule.sideInfo', 'RURAL AREA')?>: <?=$enrollmentsLocation[2]?></span>
                             </div>
                             <div class="col-md-7">
-                                <span><?=yii::t('resultsmanagementModule.sideInfo', "REGULAR EDUCATION")?>: <?=$enrollmentsRegular?></span>
+                                <span><?=yii::t('resultsmanagementModule.sideInfo', 'REGULAR EDUCATION')?>: <?=$enrollmentsRegular?></span>
                                 <br>
-                                <span><?=yii::t('resultsmanagementModule.sideInfo', "ADITIONAL ACTV.")?>:  <?=$enrollmentsAditional?></span>
+                                <span><?=yii::t('resultsmanagementModule.sideInfo', 'ADITIONAL ACTV.')?>:  <?=$enrollmentsAditional?></span>
                             </div>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
                     <div class="row">
-                        <p class="panel-bar"><?= yii::t('resultsmanagementModule.sideInfo', "REGULAR EDUCATION")?></p>
+                        <p class="panel-bar"><?= yii::t('resultsmanagementModule.sideInfo', 'REGULAR EDUCATION')?></p>
                         <div class="col-md-6">
-                            <h6><?=yii::t('resultsmanagementModule.sideInfo', "EARLY EDUCATION")?></h6>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "TOTAL")?>: <?=$earlyEducationCount?></span>
+                            <h6><?=yii::t('resultsmanagementModule.sideInfo', 'EARLY EDUCATION')?></h6>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'TOTAL')?>: <?=$earlyEducationCount?></span>
                             <br>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "DAY CARE")?>: <?=$earlyEducationDayCare?></span>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'DAY CARE')?>: <?=$earlyEducationDayCare?></span>
                             <br>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "KINDERGARTEN")?>: <?=$earlyEducationKindergarten?></span>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'KINDERGARTEN')?>: <?=$earlyEducationKindergarten?></span>
                         </div>
                         <div class="col-md-6">
-                            <h6><?=yii::t('resultsmanagementModule.sideInfo', "PRIMARY SCHOOL")?></h6>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "TOTAL")?>: <?=$primarySchoolCount?></span>
+                            <h6><?=yii::t('resultsmanagementModule.sideInfo', 'PRIMARY SCHOOL')?></h6>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'TOTAL')?>: <?=$primarySchoolCount?></span>
                             <br>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "LOWER")?>:  <?=$primarySchoolLower?></span>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'LOWER')?>:  <?=$primarySchoolLower?></span>
                             <br>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "HIGHER")?>:  <?=$primarySchoolHigher?></span>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'HIGHER')?>:  <?=$primarySchoolHigher?></span>
                             <br>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "MULTI")?>:  <?=$primarySchoolMulti?></span>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'MULTI')?>:  <?=$primarySchoolMulti?></span>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="panel-bar"><?= yii::t('resultsmanagementModule.sideInfo', "ADULT EDUCATION")?></p>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "TOTAL")?>: <?=$ejaCount?></span>
+                            <p class="panel-bar"><?= yii::t('resultsmanagementModule.sideInfo', 'ADULT EDUCATION')?></p>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'TOTAL')?>: <?=$ejaCount?></span>
                         </div>
                         <div class="col-md-6">
-                            <p class="panel-bar"><?=yii::t('resultsmanagementModule.sideInfo', "SPECIAL EDUCATION")?></p>
-                            <span><?=yii::t('resultsmanagementModule.sideInfo', "TOTAL")?>:  <?=$specialCount?></span>
+                            <p class="panel-bar"><?=yii::t('resultsmanagementModule.sideInfo', 'SPECIAL EDUCATION')?></p>
+                            <span><?=yii::t('resultsmanagementModule.sideInfo', 'TOTAL')?>:  <?=$specialCount?></span>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
@@ -242,10 +241,10 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100, $decim
                     <h5><span><?= yii::t('resultsmanagementModule.sideInfo', 'TOTAL SCHOOLS')?>: </span><?=$schoolsCount?></h5>
                     <span>
                     <?= yii::t(
-                                'resultsmanagementModule.sideInfo',
-                                'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
-                                ['{active}' => $schoolsActive, "{inactive}"=>$schoolsInactive, "{extinct}"=>$schoolsExtinct]
-                            )?>
+    'resultsmanagementModule.sideInfo',
+    'Working : {active} | Not working: {inactive} | Extinct: {extinct}',
+    ['{active}' => $schoolsActive, '{inactive}' => $schoolsInactive, '{extinct}' => $schoolsExtinct]
+)?>
                 </span>
 
                     <div class="separator bottom"></div>
@@ -253,17 +252,17 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100, $decim
                         <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/water.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Water')?></h6></div>
                         <div class="col-md-6">
                             <h6><?= yii::t('resultsmanagementModule.sideInfo', 'Supply')?></h6>
-                            <div class="box"><?=$waterPublicPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterPublic ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
-                            <div class="box"><?=$waterArtWellPercent   ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterArtWell   ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Artesian Well')?></span>
-                            <div class="box"><?=$waterCisternPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterCistern])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Cistern/Well')?></span>
-                            <div class="box"><?=$waterRiverPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterRiver  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fountain/River')?></span>
-                            <div class="box"><?=$waterInexistentPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterInexistent  ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                            <div class="box"><?=$waterPublicPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterPublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                            <div class="box"><?=$waterArtWellPercent   ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterArtWell])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Artesian Well')?></span>
+                            <div class="box"><?=$waterCisternPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterCistern])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Cistern/Well')?></span>
+                            <div class="box"><?=$waterRiverPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterRiver])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fountain/River')?></span>
+                            <div class="box"><?=$waterInexistentPercent  ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
 
                         </div>
                         <div class="col-md-6">
                             <h6><?= yii::t('resultsmanagementModule.sideInfo', 'Consumed by students')?></h6>
-                            <div class="box"><?=$waterFiltratedPercent    ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterFiltrated   ])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Filtrated')?></span>
-                            <div class="box"><?=$waterNotFiltratedPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$waterNotFiltrated])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Not Filtrated')?></span>
+                            <div class="box"><?=$waterFiltratedPercent    ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterFiltrated])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Filtrated')?></span>
+                            <div class="box"><?=$waterNotFiltratedPercent ?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $waterNotFiltrated])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Not Filtrated')?></span>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
@@ -272,37 +271,37 @@ $garbageOtherPercent = number_format(($garbageOther/$structureCount)*100, $decim
                             <h6><img src="<?=$baseScriptUrl?>/common/img/electricity.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Electricity')?></h6>
                         </div>
                         <div class="col-md-6">
-                            <div class="box"><?=$electricityPublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$electricityPublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
-                            <div class="box"><?=$electricityGeneratorPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$electricityGenerator])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Generator')?></span>
+                            <div class="box"><?=$electricityPublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $electricityPublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                            <div class="box"><?=$electricityGeneratorPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $electricityGenerator])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Generator')?></span>
                         </div>
                         <div class="col-md-6">
-                            <div class="box"><?=$electricityOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$electricityOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
-                            <div class="box"><?=$electricityInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$electricityInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                            <div class="box"><?=$electricityOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $electricityOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
+                            <div class="box"><?=$electricityInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $electricityInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
                     <div class="row row-info sewage">
                         <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/sanitary-sewage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Sanitary sewage')?></h6></div>
                         <div class="col-md-6">
-                            <div class="box"><?=$sewagePublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$sewagePublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
-                            <div class="box"><?=$sewageFossaPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$sewageFossa])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fossa')?></span>
+                            <div class="box"><?=$sewagePublicPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $sewagePublic])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Public')?></span>
+                            <div class="box"><?=$sewageFossaPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $sewageFossa])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Fossa')?></span>
                         </div>
                         <div class="col-md-6">
-                            <div class="box"><?=$sewageInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$sewageInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
+                            <div class="box"><?=$sewageInexistentPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $sewageInexistent])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Inexistent')?></span>
                         </div>
                     </div>
                     <div class="separator bottom"></div>
                     <div class="row row-info garbage">
                         <div class="col-md-12"><h6><img src="<?=$baseScriptUrl?>/common/img/garbage.png"/><?= yii::t('resultsmanagementModule.sideInfo', 'Garbage')?></h6></div>
                         <div class="col-md-6">
-                            <div class="box"><?=$garbageCollectPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageCollect])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Collect')?></span>
-                            <div class="box"><?=$garbageBurnPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageBurn])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Burn')?></span>
-                            <div class="box"><?=$garbageThrowPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageThrow])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Throw Away')?></span>
+                            <div class="box"><?=$garbageCollectPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageCollect])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Collect')?></span>
+                            <div class="box"><?=$garbageBurnPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageBurn])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Burn')?></span>
+                            <div class="box"><?=$garbageThrowPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageThrow])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Throw Away')?></span>
                         </div>
                         <div class="col-md-6">
-                            <div class="box"><?=$garbageRecyclePercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageRecycle])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Recycle')?></span>
-                            <div class="box"><?=$garbageBuryPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageBury])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Bury')?></span>
-                            <div class="box"><?=$garbageOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', "({count} schools)", ['{count}'=>$garbageOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
+                            <div class="box"><?=$garbageRecyclePercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageRecycle])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Recycle')?></span>
+                            <div class="box"><?=$garbageBuryPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageBury])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Bury')?></span>
+                            <div class="box"><?=$garbageOtherPercent?><p><?= yii::t('resultsmanagementModule.sideInfo', '({count} schools)', ['{count}' => $garbageOther])?></p></div> <span><?= yii::t('resultsmanagementModule.sideInfo', 'Other')?></span>
                         </div>
                     </div>
                 </div>

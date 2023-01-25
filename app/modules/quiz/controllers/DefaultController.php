@@ -16,14 +16,14 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['Quiz'];
         }
 
-        $dataProvider = new CActiveDataProvider('Quiz', array('pagination' => array(
-                'pageSize' => 12,
-        )));
+        $dataProvider = new CActiveDataProvider('Quiz', ['pagination' => [
+            'pageSize' => 12,
+        ]]);
 
-        $this->render('quiz/quiz', array(
+        $this->render('quiz/quiz', [
             'dataProvider' => $dataProvider,
             'filter' => $filter
-        ));
+        ]);
     }
 
     public function actionCreateQuiz()
@@ -106,14 +106,14 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['QuestionGroup'];
         }
 
-        $dataProvider = new CActiveDataProvider('QuestionGroup', array('pagination' => array(
-                'pageSize' => 12,
-        )));
+        $dataProvider = new CActiveDataProvider('QuestionGroup', ['pagination' => [
+            'pageSize' => 12,
+        ]]);
 
-        $this->render('group/index', array(
+        $this->render('group/index', [
             'dataProvider' => $dataProvider,
             'filter' => $filter
-        ));
+        ]);
     }
 
     public function actionCreateGroup()
@@ -186,14 +186,14 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['QuestionGroupQuestion'];
         }
 
-        $dataProvider = new CActiveDataProvider('QuestionGroupQuestion', array('pagination' => array(
-                    'pageSize' => 12,
-            )));
+        $dataProvider = new CActiveDataProvider('QuestionGroupQuestion', ['pagination' => [
+            'pageSize' => 12,
+        ]]);
 
-        $this->render('questiongroup/index', array(
-                'dataProvider' => $dataProvider,
-                'filter' => $filter
-            ));
+        $this->render('questiongroup/index', [
+            'dataProvider' => $dataProvider,
+            'filter' => $filter
+        ]);
     }
 
     public function actionCreateQuestionGroup()
@@ -264,14 +264,14 @@ class DefaultController extends Controller
             $filter->attributes = $_GET['Question'];
         }
 
-        $dataProvider = new CActiveDataProvider('Question', array('pagination' => array(
-                'pageSize' => 12,
-        )));
+        $dataProvider = new CActiveDataProvider('Question', ['pagination' => [
+            'pageSize' => 12,
+        ]]);
 
-        $this->render('question/index', array(
+        $this->render('question/index', [
             'dataProvider' => $dataProvider,
             'filter' => $filter
-        ));
+        ]);
     }
 
     public function actionCreateQuestion()
@@ -338,15 +338,15 @@ class DefaultController extends Controller
             $option->attributes = $_GET['QuestionOption'];
             if ($option->validate()) {
                 if ($option->save()) {
-                    $data = array('errorCode' => 0);
+                    $data = ['errorCode' => 0];
                     $data = array_merge($data, $option->getAttributes());
                 }
             } else {
-                $data = array('errorCode' => 1);
+                $data = ['errorCode' => 1];
                 $data = array_merge($data, $option->getErrors());
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = ['errorCode' => 2, 'msg' => 'Parametro inválido'];
         }
 
         header('Content-Type: application/json; charset="UTF-8"');
@@ -363,15 +363,15 @@ class DefaultController extends Controller
             $option->attributes = $_GET['QuestionOption'];
             if ($option->validate()) {
                 if ($option->save()) {
-                    $data = array('errorCode' => 0);
+                    $data = ['errorCode' => 0];
                     $data = array_merge($data, $option->getAttributes());
                 }
             } else {
-                $data = array('errorCode' => 1);
+                $data = ['errorCode' => 1];
                 $data = array_merge($data, $option->getErrors());
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = ['errorCode' => 2, 'msg' => 'Parametro inválido'];
         }
 
         header('Content-Type: application/json; charset="UTF-8"');
@@ -386,12 +386,12 @@ class DefaultController extends Controller
 
         if (isset($_GET['QuestionOption'])) {
             if ($option->delete()) {
-                $data = array('errorCode' => 0, 'id' => $id, 'msg' => 'Erro ao excluir item');
+                $data = ['errorCode' => 0, 'id' => $id, 'msg' => 'Erro ao excluir item'];
             } else {
-                $data = array('errorCode' => 1, 'msg' => 'Erro ao excluir item');
+                $data = ['errorCode' => 1, 'msg' => 'Erro ao excluir item'];
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = ['errorCode' => 2, 'msg' => 'Parametro inválido'];
         }
 
         header('Content-Type: application/json; charset="UTF-8"');
@@ -402,19 +402,19 @@ class DefaultController extends Controller
     public function actionSetQuizQuestion($quizId, $questionId)
     {
         $data = null;
-        $quizQuestion = QuizQuestion::model()->findByPk(array('quiz_id' => $quizId, 'question_id' => $questionId));
+        $quizQuestion = QuizQuestion::model()->findByPk(['quiz_id' => $quizId, 'question_id' => $questionId]);
 
         if (is_null($quizQuestion)) {
             $quizQuestion = new QuizQuestion();
             $question = Question::model()->findByPk($questionId);
             $quizQuestion->attributes = $_GET['QuizQuestion'];
             if ($quizQuestion->save()) {
-                $data = array('errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão adicionada');
+                $data = ['errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão adicionada'];
             } else {
-                $data = array('errorCode' => 1, 'msg' => 'Erro ao adicionar questão');
+                $data = ['errorCode' => 1, 'msg' => 'Erro ao adicionar questão'];
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Questão já adicionada');
+            $data = ['errorCode' => 2, 'msg' => 'Questão já adicionada'];
         }
 
         header('Content-Type: application/json; charset="UTF-8"');
@@ -425,17 +425,17 @@ class DefaultController extends Controller
     public function actionUnsetQuizQuestion($quizId, $questionId)
     {
         $data = null;
-        $quizQuestion = QuizQuestion::model()->findByPk(array('quiz_id' => $quizId, 'question_id' => $questionId));
+        $quizQuestion = QuizQuestion::model()->findByPk(['quiz_id' => $quizId, 'question_id' => $questionId]);
 
         if (!is_null($quizQuestion)) {
             $question = Question::model()->findByPk($questionId);
             if ($quizQuestion->delete()) {
-                $data = array('errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão excluída');
+                $data = ['errorCode' => 0, 'quizId' => $quizId, 'questionId' => $questionId, 'description' => $question->description, 'msg' => 'Questão excluída'];
             } else {
-                $data = array('errorCode' => 1, 'msg' => 'Erro ao excluir questão');
+                $data = ['errorCode' => 1, 'msg' => 'Erro ao excluir questão'];
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Questão não encontrada');
+            $data = ['errorCode' => 2, 'msg' => 'Questão não encontrada'];
         }
 
         header('Content-Type: application/json; charset="UTF-8"');
@@ -456,35 +456,35 @@ class DefaultController extends Controller
             if (is_null($answered)) {
                 try {
                     foreach ($data as $questionId => $response) {
-                        $sql="INSERT INTO answer (quiz_id, question_id, student_id, seq, option_id, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :option_id, :value, :complement)";
+                        $sql = 'INSERT INTO answer (quiz_id, question_id, student_id, seq, option_id, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :option_id, :value, :complement)';
                         $seq = 1;
                         $complementNull = null;
                         if (is_array($response)) {
                             foreach ($response as $key => $value) {
                                 $command = $connection->createCommand($sql);
-                                $command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
-                                $command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
-                                $command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
-                                $command->bindParam(":seq", $seq, PDO::PARAM_INT);
-                                $command->bindParam(":option_id", $key, PDO::PARAM_INT);
-                                $command->bindParam(":value", $value['response'], PDO::PARAM_STR);
+                                $command->bindParam(':quiz_id', $quizId, PDO::PARAM_INT);
+                                $command->bindParam(':question_id', $questionId, PDO::PARAM_INT);
+                                $command->bindParam(':student_id', $studentId, PDO::PARAM_INT);
+                                $command->bindParam(':seq', $seq, PDO::PARAM_INT);
+                                $command->bindParam(':option_id', $key, PDO::PARAM_INT);
+                                $command->bindParam(':value', $value['response'], PDO::PARAM_STR);
                                 if (isset($value['complement'])) {
-                                    $command->bindParam(":complement", $value['complement'], PDO::PARAM_STR);
+                                    $command->bindParam(':complement', $value['complement'], PDO::PARAM_STR);
                                 } else {
-                                    $command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+                                    $command->bindParam(':complement', $complementNull, PDO::PARAM_NULL);
                                 }
                                 $command->execute();
                                 ++$seq;
                             }
                         } else {
                             $command = $connection->createCommand($sql);
-                            $command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
-                            $command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
-                            $command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
-                            $command->bindParam(":seq", $seq, PDO::PARAM_INT);
-                            $command->bindParam(":option_id", $seq, PDO::PARAM_INT);
-                            $command->bindParam(":value", $response, PDO::PARAM_STR);
-                            $command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+                            $command->bindParam(':quiz_id', $quizId, PDO::PARAM_INT);
+                            $command->bindParam(':question_id', $questionId, PDO::PARAM_INT);
+                            $command->bindParam(':student_id', $studentId, PDO::PARAM_INT);
+                            $command->bindParam(':seq', $seq, PDO::PARAM_INT);
+                            $command->bindParam(':option_id', $seq, PDO::PARAM_INT);
+                            $command->bindParam(':value', $response, PDO::PARAM_STR);
+                            $command->bindParam(':complement', $complementNull, PDO::PARAM_NULL);
                             $command->execute();
                         }
                     }
@@ -499,9 +499,9 @@ class DefaultController extends Controller
             }
         }
 
-        $this->render('answer/view', array(
+        $this->render('answer/view', [
             'quizId' => $quizId,
             'studentId' => $studentId
-        ));
+        ]);
     }
 }

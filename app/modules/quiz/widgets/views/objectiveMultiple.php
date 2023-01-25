@@ -29,15 +29,15 @@
                                         $answer = new Answer();
                                     }
 
-                                    $parsedId = str_replace(['[',']'], ['_',''], $model->getIdentifier());
+                                    $parsedId = str_replace(['[', ']'], ['_', ''], $model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '['.$option->id.'][response]', boolval($answer->value), array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)),
+                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '[' . $option->id . '][response]', boolval($answer->value), ['uid' => $parsedId . current($letterIndex), 'value' => $option->answer]),
                                         $model->getIdentifier() . current($letterIndex),
-                                        array('class' => 'checkbox')
+                                        ['class' => 'checkbox']
                                     );
 
                                     if ($option->complement == '1') {
-                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $answer->complement, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
+                                        echo '<div class="option-complement" id="' . $parsedId . current($letterIndex) . '">' . CHtml::textField($model->getIdentifier() . '[' . $option->id . '][complement]', $answer->complement, ['size' => 60, 'maxlength' => 150, 'disabled' => true]) . '</div>';
                                     }
                                     next($letterIndex);
                                 }
@@ -53,15 +53,15 @@
                                         $answer = new Answer();
                                     }
 
-                                    $parsedId = str_replace(['[',']'], ['_',''], $model->getIdentifier());
+                                    $parsedId = str_replace(['[', ']'], ['_', ''], $model->getIdentifier());
                                     echo CHtml::label(
-                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '['.$option->id.'][response]', boolval($answer->value), array('uid' => $parsedId . current($letterIndex), 'value' => $option->answer)),
+                                        current($letterIndex) . ') ' . $option->description . CHtml::checkBox($model->getIdentifier() . '[' . $option->id . '][response]', boolval($answer->value), ['uid' => $parsedId . current($letterIndex), 'value' => $option->answer]),
                                         $model->getIdentifier() . current($letterIndex),
-                                        array('class' => 'checkbox')
+                                        ['class' => 'checkbox']
                                     );
 
                                     if ($option->complement == '1') {
-                                        echo '<div class="option-complement" id="'. $parsedId . current($letterIndex).'">' . CHtml::textField($model->getIdentifier() . '['.$option->id.'][complement]', $answer->complement, array('size' => 60, 'maxlength' => 150, 'disabled' => true)) .'</div>';
+                                        echo '<div class="option-complement" id="' . $parsedId . current($letterIndex) . '">' . CHtml::textField($model->getIdentifier() . '[' . $option->id . '][complement]', $answer->complement, ['size' => 60, 'maxlength' => 150, 'disabled' => true]) . '</div>';
                                     }
                                     next($letterIndex);
                                 }

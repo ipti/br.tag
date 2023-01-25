@@ -18,7 +18,7 @@ class Received extends CActiveRecord
      * @param string $className active record class name.
      * @return Received the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -38,13 +38,13 @@ class Received extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('inventory_fk', 'required'),
-            array('inventory_fk', 'numerical', 'integerOnly'=>true),
+        return [
+            ['inventory_fk', 'required'],
+            ['inventory_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, date, inventory_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, date, inventory_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -54,9 +54,9 @@ class Received extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'inventory' => array(self::BELONGS_TO, 'Inventory', 'inventory_fk'),
-        );
+        return [
+            'inventory' => [self::BELONGS_TO, 'Inventory', 'inventory_fk'],
+        ];
     }
 
     /**
@@ -64,11 +64,11 @@ class Received extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'date' => Yii::t('lunchModule.labels', 'Date'),
             'inventory_fk' => Yii::t('lunchModule.labels', 'Inventory'),
-        );
+        ];
     }
 
     /**
@@ -80,14 +80,14 @@ class Received extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('date', $this->date, true);
         $criteria->compare('inventory_fk', $this->inventory_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

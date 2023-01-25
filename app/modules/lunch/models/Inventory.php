@@ -22,7 +22,7 @@ class Inventory extends CActiveRecord
      * @param string $className active record class name.
      * @return Inventory the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -42,15 +42,15 @@ class Inventory extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_fk, item_fk, amount', 'required'),
-            array('item_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
-            array('school_fk', 'length', 'max'=>8),
+        return [
+            ['school_fk, item_fk, amount', 'required'],
+            ['item_fk', 'numerical', 'integerOnly' => true],
+            ['amount', 'numerical'],
+            ['school_fk', 'length', 'max' => 8],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, school_fk, item_fk, amount', 'safe', 'on'=>'search'),
-        );
+            ['id, school_fk, item_fk, amount', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -60,12 +60,12 @@ class Inventory extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'school' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
-            'received' => array(self::BELONGS_TO, 'Received', 'inventory_fk'),
-            'spent' => array(self::BELONGS_TO, 'Spent', 'inventory_fk'),
+        return [
+            'school' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
+            'received' => [self::BELONGS_TO, 'Received', 'inventory_fk'],
+            'spent' => [self::BELONGS_TO, 'Spent', 'inventory_fk'],
             'item' => [self::BELONGS_TO, 'Item', 'item_fk']
-        );
+        ];
     }
 
     /**
@@ -73,12 +73,12 @@ class Inventory extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'school_fk' => Yii::t('lunchModule.labels', 'School'),
             'item_fk' => Yii::t('lunchModule.labels', 'Item'),
             'amount' => Yii::t('lunchModule.labels', 'Amount'),
-        );
+        ];
     }
 
     /**
@@ -90,15 +90,15 @@ class Inventory extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('school_fk', $this->school_fk, true);
         $criteria->compare('item_fk', $this->item_fk);
         $criteria->compare('amount', $this->amount);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

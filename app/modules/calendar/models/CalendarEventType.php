@@ -30,14 +30,14 @@ class CalendarEventType extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, icon, color, unique_day', 'required'),
-            array('unique_day', 'numerical', 'integerOnly'=>true),
-            array('name, icon, color', 'length', 'max'=>50),
+        return [
+            ['name, icon, color, unique_day', 'required'],
+            ['unique_day', 'numerical', 'integerOnly' => true],
+            ['name, icon, color', 'length', 'max' => 50],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, icon, color, unique_day', 'safe', 'on'=>'search'),
-        );
+            ['id, name, icon, color, unique_day', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -47,9 +47,9 @@ class CalendarEventType extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'calendarEvents' => array(self::HAS_MANY, 'CalendarEvent', 'calendar_event_type_fk'),
-        );
+        return [
+            'calendarEvents' => [self::HAS_MANY, 'CalendarEvent', 'calendar_event_type_fk'],
+        ];
     }
 
     /**
@@ -57,13 +57,13 @@ class CalendarEventType extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => yii::t('calendarModule.labels', 'ID'),
             'name' => yii::t('calendarModule.labels', 'Name'),
             'icon' => yii::t('calendarModule.labels', 'Icon'),
             'color' => yii::t('calendarModule.labels', 'Color'),
             'unique_day' => yii::t('calendarModule.labels', 'Unique Day')
-        );
+        ];
     }
 
     /**
@@ -82,7 +82,7 @@ class CalendarEventType extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -90,9 +90,9 @@ class CalendarEventType extends CActiveRecord
         $criteria->compare('color', $this->color, true);
         $criteria->compare('unique_day', $this->unique_day);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -101,7 +101,7 @@ class CalendarEventType extends CActiveRecord
      * @param string $className active record class name.
      * @return CalendarEventType the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

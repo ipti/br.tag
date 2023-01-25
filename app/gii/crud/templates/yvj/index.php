@@ -7,7 +7,7 @@
 <div id="mainPage" class="main">
 <?php
 echo "<?php\n";
-$label=$this->pluralize($this->class2name($this->modelClass));
+$label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label',
 );\n";
@@ -20,16 +20,16 @@ array('label'=> Yii::t('default', 'Create a new <?php echo $this->modelClass; ?>
 ?>
 <div class="twoColumn">
         <div class="columnone" style="padding-right: 1em">
-            <?php echo "<?php"; ?> if (Yii::app()->user->hasFlash('success')): ?>
+            <?php echo '<?php'; ?> if (Yii::app()->user->hasFlash('success')): ?>
                 <div class="alert alert-success">
-                    <?php echo "<?php"; ?> echo Yii::app()->user->getFlash('success') ?>
+                    <?php echo '<?php'; ?> echo Yii::app()->user->getFlash('success') ?>
                 </div>
                 <br/>
-            <?php echo "<?php"; ?> endif ?>
+            <?php echo '<?php'; ?> endif ?>
             <div class="panelGroup form">
                 <div class="panelGroupHeader"><div class=""><?php echo "<?php echo Yii::t('default', '$label')?>" ?></div></div>
                 <div class="panelGroupBody">
-                    <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+                    <?php echo '<?php'; ?> $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
                         'enablePagination' => true,
                         'baseScriptUrl' => Yii::app()->theme->baseUrl . '/plugins/gridview/',

@@ -20,7 +20,7 @@ class Menu extends CActiveRecord
      * @param string $className active record class name.
      * @return Menu the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -40,12 +40,12 @@ class Menu extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_fk, name', 'required'),
+        return [
+            ['school_fk, name', 'required'],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, date, name, school_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, date, name, school_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -55,10 +55,10 @@ class Menu extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'menuMeals' => array(self::HAS_MANY, 'MenuMeal', 'menu_fk'),
-            'school' => array(self::BELONGS_TO, 'School', 'school_fk'),
-        );
+        return [
+            'menuMeals' => [self::HAS_MANY, 'MenuMeal', 'menu_fk'],
+            'school' => [self::BELONGS_TO, 'School', 'school_fk'],
+        ];
     }
 
     /**
@@ -66,12 +66,12 @@ class Menu extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'date' => Yii::t('lunchModule.labels', 'Date Creation'),
             'name' => Yii::t('lunchModule.labels', 'Name'),
             'school' => Yii::t('lunchModule.labels', 'School'),
-        );
+        ];
     }
 
     /**
@@ -83,13 +83,13 @@ class Menu extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('date', $this->date, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

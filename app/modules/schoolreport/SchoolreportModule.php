@@ -7,16 +7,16 @@ class SchoolreportModule extends CWebModule
 
     public function init()
     {
-        $this->baseUrl = Yii::app()->createUrl("schoolreport");
+        $this->baseUrl = Yii::app()->createUrl('schoolreport');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.schoolreport.resources'));
-        $this->layoutPath = yii::getPathOfAlias("schoolreport.views.layouts");
-        $this->layout = "schoolreport";
+        $this->layoutPath = yii::getPathOfAlias('schoolreport.views.layouts');
+        $this->layout = 'schoolreport';
 
         Yii::app()->setComponents([
             'errorHandler' => [
                 'errorAction' => 'schoolreport/default/error',
             ],
-            'user' =>[
+            'user' => [
                 'class' => 'CWebUser',
                 'loginUrl' => Yii::app()->createUrl('schoolreport/default/login'),
             ]
@@ -24,10 +24,10 @@ class SchoolreportModule extends CWebModule
 
         Yii::app()->user->setStateKeyPrefix('_schoolreport');
 
-        $this->setImport(array(
+        $this->setImport([
             'schoolreport.models.*',
             'schoolreport.components.*',
-        ));
+        ]);
     }
 
     public function beforeControllerAction($controller, $action)

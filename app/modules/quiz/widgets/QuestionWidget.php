@@ -1,6 +1,5 @@
 <?php
 
-
 class QuestionWidget extends CWidget
 {
     public $model;

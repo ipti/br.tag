@@ -1,7 +1,4 @@
 <?php
-/*
- *
- */
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
@@ -20,9 +17,9 @@ class ClassroomController extends Controller
      */
     public function filters()
     {
-        return array(
+        return [
             'accessControl', // perform access control for CRUD operations
-        );
+        ];
     }
 
     /**
@@ -32,23 +29,23 @@ class ClassroomController extends Controller
      */
     public function accessRules()
     {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
+        return [
+            ['allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => ['index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'getcomplementaryactivitytype', 'delete',
                     'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'batchupdatetransport', 'updateDisciplines'
-                ),
-                'users' => array('@'),
-            ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin'),
-                'users' => array('admin'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
+                ],
+                'users' => ['@'],
+            ],
+            ['allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => ['admin'],
+                'users' => ['admin'],
+            ],
+            ['deny', // deny all users
+                'users' => ['*'],
+            ],
+        ];
     }
 
     public function actionGetAssistanceType()
@@ -56,35 +53,35 @@ class ClassroomController extends Controller
         $classroom = new Classroom();
         $classroom->attributes = $_POST['Classroom'];
         $schoolStructure = SchoolStructure::model()->findByPk($classroom->school_inep_fk);
-        $result = array('html' => '', 'val' => '');
+        $result = ['html' => '', 'val' => ''];
 
-        $result['html'] = CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione o Tipo de Atendimento'), true);
+        $result['html'] = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione o Tipo de Atendimento'), true);
         if ($schoolStructure != null) {
-            $encode = array(
+            $encode = [
                 0 => CHtml::encode('Não se Aplica'),
                 1 => CHtml::encode('Classe Hospitalar'),
                 2 => CHtml::encode('Unidade de Internação Socioeducativa'),
                 3 => CHtml::encode('Unidade Prisional'),
                 4 => CHtml::encode('Atividade Complementar'),
-                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)'));
+                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)')];
 
-            $selected = array(
-                0 => $classroom->assistance_type == 0 ? "selected" : "deselected",
-                1 => $classroom->assistance_type == 1 ? "selected" : "deselected",
-                2 => $classroom->assistance_type == 2 ? "selected" : "deselected",
-                3 => $classroom->assistance_type == 3 ? "selected" : "deselected",
-                4 => $classroom->assistance_type == 4 ? "selected" : "deselected",
-                5 => $classroom->assistance_type == 5 ? "selected" : "deselected"
-            );
+            $selected = [
+                0 => $classroom->assistance_type == 0 ? 'selected' : 'deselected',
+                1 => $classroom->assistance_type == 1 ? 'selected' : 'deselected',
+                2 => $classroom->assistance_type == 2 ? 'selected' : 'deselected',
+                3 => $classroom->assistance_type == 3 ? 'selected' : 'deselected',
+                4 => $classroom->assistance_type == 4 ? 'selected' : 'deselected',
+                5 => $classroom->assistance_type == 5 ? 'selected' : 'deselected'
+            ];
 
             for ($i = 0; $i <= 3; $i++) {
-                $result['html'] .= CHtml::tag('option', array('value' => "$i", $selected[$i] => $selected[$i]), $encode[$i], true);
+                $result['html'] .= CHtml::tag('option', ['value' => "$i", $selected[$i] => $selected[$i]], $encode[$i], true);
             }
             if ($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2) {
-                $result['html'] .= CHtml::tag('option', array('value' => "4", $selected[4] => $selected[4]), $encode[4], true);
+                $result['html'] .= CHtml::tag('option', ['value' => '4', $selected[4] => $selected[4]], $encode[4], true);
             }
             if ($schoolStructure->aee == 1 || $schoolStructure->aee == 2) {
-                $result['html'] .= CHtml::tag('option', array('value' => "5", $selected[5] => $selected[5]), $encode[5], true);
+                $result['html'] .= CHtml::tag('option', ['value' => '5', $selected[5] => $selected[5]], $encode[5], true);
             }
         }
         $result['val'] = $classroom->assistance_type;
@@ -110,13 +107,12 @@ class ClassroomController extends Controller
         $where .= $id5 != 'null' ? '&& id!="' . $id5 . '" ' : '';
         $where .= $id6 != 'null' ? '&& id!="' . $id6 . '" ' : '';
 
-
         $data = EdcensoComplementaryActivityType::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione a atividade complementar'), true);
+        echo CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione a atividade complementar'), true);
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
         }
     }
 
@@ -137,7 +133,7 @@ class ClassroomController extends Controller
         $classroom = new Classroom();
         $classroom->attributes = $_POST['Classroom'];
 
-        $result = array('Stage' => '', 'MaisEdu' => '', 'Modality' => '', 'AeeActivity' => '');
+        $result = ['Stage' => '', 'MaisEdu' => '', 'Modality' => '', 'AeeActivity' => ''];
 
         $at = $classroom->assistance_type;
 
@@ -146,16 +142,16 @@ class ClassroomController extends Controller
         $modality = $at != 4 || $at != 5;
 
         $where = '';
-        $result['Modality'] = CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione a Modalidade'), true);
+        $result['Modality'] = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione a Modalidade'), true);
 
         if ($result['MaisEdu']) {
             $where = '(id<4 || id>38) && id!=38 && id!=41 && id!=56';
         }
 
         if ($modality) {
-            $result['Modality'] .= CHtml::tag('option', array('value' => '1', $classroom->modality == 1 ? "selected" : "deselected" => $classroom->modality == 1 ? "selected" : "deselected"), CHtml::encode('Ensino Regular'), true);
-            $result['Modality'] .= CHtml::tag('option', array('value' => '2', $classroom->modality == 2 ? "selected" : "deselected" => $classroom->modality == 2 ? "selected" : "deselected"), CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
-            $result['Modality'] .= CHtml::tag('option', array('value' => '3', $classroom->modality == 3 ? "selected" : "deselected" => $classroom->modality == 3 ? "selected" : "deselected"), CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '1', $classroom->modality == 1 ? 'selected' : 'deselected' => $classroom->modality == 1 ? 'selected' : 'deselected'], CHtml::encode('Ensino Regular'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '2', $classroom->modality == 2 ? 'selected' : 'deselected' => $classroom->modality == 2 ? 'selected' : 'deselected'], CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '3', $classroom->modality == 3 ? 'selected' : 'deselected' => $classroom->modality == 3 ? 'selected' : 'deselected'], CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
         }
 
         $result['StageEmpty'] = false;
@@ -164,16 +160,16 @@ class ClassroomController extends Controller
         } elseif ($at == 2 || $at == 3) {
             $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . $where);
         } else {
-            $data = array();
+            $data = [];
             $result['StageEmpty'] = true;
         }
 
         $data = CHtml::listData($data, 'id', 'name');
 
-        $result['Stage'] = CHtml::tag('option', array('value' => ''), 'Selecione a Etapa de Ensino', true);
+        $result['Stage'] = CHtml::tag('option', ['value' => ''], 'Selecione a Etapa de Ensino', true);
 
         foreach ($data as $value => $name) {
-            $result['Stage'] .= CHtml::tag('option', array('value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value ? "selected" : "deselected" => $classroom->edcenso_stage_vs_modality_fk == $value ? "selected" : "deselected"), CHtml::encode($name), true);
+            $result['Stage'] .= CHtml::tag('option', ['value' => $value, $classroom->edcenso_stage_vs_modality_fk == $value ? 'selected' : 'deselected' => $classroom->edcenso_stage_vs_modality_fk == $value ? 'selected' : 'deselected'], CHtml::encode($name), true);
         }
 
         echo json_encode($result);
@@ -185,9 +181,9 @@ class ClassroomController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render('view', [
             'model' => $this->loadModel($id),
-        ));
+        ]);
     }
 
     public function setDisciplines($modelClassroom, $discipline)
@@ -227,7 +223,7 @@ class ClassroomController extends Controller
 
     public static function classroomDisciplineLabelArray()
     {
-        $labels = array();
+        $labels = [];
         $labels[1] = Classroom::model()->attributeLabels()['discipline_chemistry'];
         $labels[2] = Classroom::model()->attributeLabels()['discipline_physics'];
         $labels[3] = Classroom::model()->attributeLabels()['discipline_mathematics'];
@@ -266,38 +262,37 @@ class ClassroomController extends Controller
 
     public static function classroomDisciplineLabelResumeArray()
     {
-        $labels = array();
-        $labels[1] = "Química";
-        $labels[2] = "Física";
-        $labels[3] = "Matemática";
-        $labels[4] = "Biologia";
-        $labels[5] = "Ciências";
-        $labels[6] = "Português";
-        $labels[7] = "Inglês";
-        $labels[8] = "Espanhol";
-        $labels[9] = "Outro Idioma";
-        $labels[10] = "Artes";
-        $labels[11] = "Edicação Física";
-        $labels[12] = "História";
-        $labels[13] = "Geografia";
-        $labels[14] = "Filosofia";
-        $labels[16] = "Informática";
-        $labels[17] = "Disc. Profissionalizante";
-        $labels[20] = "Educação Especial";
-        $labels[21] = "Sociedade&nbsp;e Cultura";
-        $labels[23] = "Libras";
-        $labels[25] = "Pedogogia";
-        $labels[26] = "Ensino Religioso";
-        $labels[27] = "Língua Nativa";
-        $labels[28] = "Estudo Social";
-        $labels[29] = "Sociologia";
-        $labels[30] = "Francês";
-        $labels[99] = "Outras";
+        $labels = [];
+        $labels[1] = 'Química';
+        $labels[2] = 'Física';
+        $labels[3] = 'Matemática';
+        $labels[4] = 'Biologia';
+        $labels[5] = 'Ciências';
+        $labels[6] = 'Português';
+        $labels[7] = 'Inglês';
+        $labels[8] = 'Espanhol';
+        $labels[9] = 'Outro Idioma';
+        $labels[10] = 'Artes';
+        $labels[11] = 'Edicação Física';
+        $labels[12] = 'História';
+        $labels[13] = 'Geografia';
+        $labels[14] = 'Filosofia';
+        $labels[16] = 'Informática';
+        $labels[17] = 'Disc. Profissionalizante';
+        $labels[20] = 'Educação Especial';
+        $labels[21] = 'Sociedade&nbsp;e Cultura';
+        $labels[23] = 'Libras';
+        $labels[25] = 'Pedogogia';
+        $labels[26] = 'Ensino Religioso';
+        $labels[27] = 'Língua Nativa';
+        $labels[28] = 'Estudo Social';
+        $labels[29] = 'Sociologia';
+        $labels[30] = 'Francês';
+        $labels[99] = 'Outras';
         $labels[10001] = yii::t('default', 'Writing');
 
         return $labels;
     }
-
 
     public static function classroomDiscipline2array2()
     {
@@ -334,7 +329,7 @@ class ClassroomController extends Controller
 
     public static function classroomDiscipline2array($classroom)
     {
-        $disciplines = array();
+        $disciplines = [];
 
         $disciplines[1] = $classroom->discipline_chemistry;
         $disciplines[2] = $classroom->discipline_physics;
@@ -370,7 +365,7 @@ class ClassroomController extends Controller
 
     public static function teachingDataDiscipline2array($instructor)
     {
-        $disciplines = array();
+        $disciplines = [];
 
         if (isset($instructor->discipline_1_fk)) {
             array_push($disciplines, $instructor->discipline1Fk);
@@ -421,7 +416,6 @@ class ClassroomController extends Controller
      */
     public function actionBatchupdate($id)
     {
-
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
@@ -433,19 +427,17 @@ class ClassroomController extends Controller
                 $enro = StudentEnrollment::model()->findByPk($id);
                 $enro->admission_type = $fields['admission_type'];
                 $enro->current_stage_situation = $fields['current_stage_situation'];
-                $enro->update(array('admission_type', 'current_stage_situation'));
+                $enro->update(['admission_type', 'current_stage_situation']);
             }
         }
 
-
-        $this->render('batchupdate', array(
+        $this->render('batchupdate', [
             'modelClassroom' => $modelClassroom,
-        ));
+        ]);
     }
 
     public function actionBatchupdatetotal($id)
     {
-
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
@@ -456,24 +448,23 @@ class ClassroomController extends Controller
             foreach ($enrollments as $id => $fields) {
                 $enro = StudentEnrollment::model()->findByPk($id);
                 $enro->edcenso_stage_vs_modality_fk = $fields['edcenso_stage_vs_modality_fk'];
-                $enro->update(array('edcenso_stage_vs_modality_fk'));
+                $enro->update(['edcenso_stage_vs_modality_fk']);
             }
         }
 
-        $sql1 = "SELECT id,name FROM edcenso_stage_vs_modality where id in(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,41,39,40,69,70)";
+        $sql1 = 'SELECT id,name FROM edcenso_stage_vs_modality where id in(1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21,41,39,40,69,70)';
         $stages = Yii::app()->db->createCommand($sql1)->queryAll();
         foreach ($stages as $index => $stage) {
             $options_stage[$stage['id']] = $stage['name'];
         }
-        $this->render('batchupdatetotal', array(
+        $this->render('batchupdatetotal', [
             'modelClassroom' => $modelClassroom,
             'options_stage' => $options_stage
-        ));
+        ]);
     }
 
     public function actionBatchupdatetransport($id)
     {
-
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
@@ -487,26 +478,26 @@ class ClassroomController extends Controller
                     $enro->public_transport = '1';
                     $enro->transport_responsable_government = '2';
                     $enro->vehicle_type_bus = '1';
-                    $enro->update(array('public_transport', 'transport_responsable_government', 'vehicle_type_bus'));
+                    $enro->update(['public_transport', 'transport_responsable_government', 'vehicle_type_bus']);
                 } else {
                     $enro = StudentEnrollment::model()->findByPk($id);
                     $enro->public_transport = '0';
                     $enro->transport_responsable_government = '';
                     $enro->vehicle_type_bus = '';
-                    $enro->update(array('public_transport', 'transport_responsable_government', 'vehicle_type_bus'));
+                    $enro->update(['public_transport', 'transport_responsable_government', 'vehicle_type_bus']);
                 }
             }
         }
 
-        $this->render('batchupdatetransport', array(
+        $this->render('batchupdatetransport', [
             'modelClassroom' => $modelClassroom,
-        ));
+        ]);
     }
 
     public function actionCreate()
     {
         $modelClassroom = new Classroom();
-        $modelTeachingData = array();
+        $modelTeachingData = [];
 
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
             $disciplines = json_decode($_POST['disciplines'], true);
@@ -514,15 +505,15 @@ class ClassroomController extends Controller
 
             // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
-            if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
-                $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+            if (isset($_POST['Classroom']['complementary_activity_type_1'])) {
+                $compActs = $_POST['Classroom']['complementary_activity_type_1'];
             }
-            $_POST['Classroom']["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
-            $_POST['Classroom']["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
-            $_POST['Classroom']["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
-            $_POST['Classroom']["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
-            $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
-            $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
+            $_POST['Classroom']['complementary_activity_type_1'] = isset($compActs[0]) ? $compActs[0] : null;
+            $_POST['Classroom']['complementary_activity_type_2'] = isset($compActs[1]) ? $compActs[1] : null;
+            $_POST['Classroom']['complementary_activity_type_3'] = isset($compActs[2]) ? $compActs[2] : null;
+            $_POST['Classroom']['complementary_activity_type_4'] = isset($compActs[3]) ? $compActs[3] : null;
+            $_POST['Classroom']['complementary_activity_type_5'] = isset($compActs[4]) ? $compActs[4] : null;
+            $_POST['Classroom']['complementary_activity_type_6'] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
 
@@ -549,7 +540,7 @@ class ClassroomController extends Controller
                             if ($saved) {
                                 $saved = $modelTeachingData[$key]->save();
                                 foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
+                                    $curricularMatrix = CurricularMatrix::model()->find('stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year', ['stage_fk' => $modelClassroom->edcenso_stage_vs_modality_fk, 'discipline_fk' => $discipline, 'year' => Yii::app()->user->year]);
                                     $teachingMatrixes = new TeachingMatrixes();
                                     $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
                                     $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
@@ -558,9 +549,9 @@ class ClassroomController extends Controller
                             }
                         }
                         if ($saved) {
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
+                            Log::model()->saveAction('classroom', $modelClassroom->id, 'C', $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma adicionada com sucesso!'));
-                            $this->redirect(array('index'));
+                            $this->redirect(['index']);
                         }
                     }
                 }
@@ -569,12 +560,11 @@ class ClassroomController extends Controller
             }
         }
 
-
-        $this->render('create', array(
+        $this->render('create', [
             'modelClassroom' => $modelClassroom,
-            'complementary_activities' => array(),
+            'complementary_activities' => [],
             'modelTeachingData' => $modelTeachingData,
-        ));
+        ]);
     }
 
     public function actionUpdate($id)
@@ -591,7 +581,7 @@ class ClassroomController extends Controller
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
                     $enro->classroom_fk = $class_room->id;
                     $enro->classroom_inep_id = $class_room->inep_id;
-                    $enro->update(array('classroom_fk', 'classroom_inep_id'));
+                    $enro->update(['classroom_fk', 'classroom_inep_id']);
                 }
             } else {
                 foreach ($enrollments as $enrollment) {
@@ -599,7 +589,7 @@ class ClassroomController extends Controller
                     $enro->delete();
                 }
             }
-            $this->redirect(array('index'));
+            $this->redirect(['index']);
         }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
             foreach ($modelTeachingData as $key => $td) {
@@ -608,15 +598,15 @@ class ClassroomController extends Controller
 
             // Em adição, inserir a condição dos campos 25-35 (AEE activities)
             // de nao deixar criar com todos os campos igual a 0
-            if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
-                $compActs = $_POST['Classroom']["complementary_activity_type_1"];
+            if (isset($_POST['Classroom']['complementary_activity_type_1'])) {
+                $compActs = $_POST['Classroom']['complementary_activity_type_1'];
             }
-            $_POST['Classroom']["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
-            $_POST['Classroom']["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
-            $_POST['Classroom']["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
-            $_POST['Classroom']["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
-            $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
-            $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
+            $_POST['Classroom']['complementary_activity_type_1'] = isset($compActs[0]) ? $compActs[0] : null;
+            $_POST['Classroom']['complementary_activity_type_2'] = isset($compActs[1]) ? $compActs[1] : null;
+            $_POST['Classroom']['complementary_activity_type_3'] = isset($compActs[2]) ? $compActs[2] : null;
+            $_POST['Classroom']['complementary_activity_type_4'] = isset($compActs[3]) ? $compActs[3] : null;
+            $_POST['Classroom']['complementary_activity_type_5'] = isset($compActs[4]) ? $compActs[4] : null;
+            $_POST['Classroom']['complementary_activity_type_6'] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
 
@@ -646,7 +636,7 @@ class ClassroomController extends Controller
                             if ($saved) {
                                 $saved = $modelTeachingData[$key]->save();
                                 foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
+                                    $curricularMatrix = CurricularMatrix::model()->find('stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year', ['stage_fk' => $modelClassroom->edcenso_stage_vs_modality_fk, 'discipline_fk' => $discipline, 'year' => Yii::app()->user->year]);
                                     $teachingMatrixes = new TeachingMatrixes();
                                     $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
                                     $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
@@ -655,9 +645,9 @@ class ClassroomController extends Controller
                             }
                         }
                         if ($saved) {
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
+                            Log::model()->saveAction('classroom', $modelClassroom->id, 'U', $modelClassroom->name);
                             Yii::app()->user->setFlash('success', Yii::t('default', 'Turma atualizada com sucesso!'));
-                            $this->redirect(array('index'));
+                            $this->redirect(['index']);
                         }
                     }
                 }
@@ -666,12 +656,12 @@ class ClassroomController extends Controller
             }
         }
 
-
-        $this->render('update', array(
+        $this->render('update', [
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
-        ));
+        ]);
     }
+
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -687,12 +677,12 @@ class ClassroomController extends Controller
                 $teachingData->delete();
             }
             if ($classroom->delete()) {
-                Log::model()->saveAction("classroom", $id, "D", $classroom->name);
+                Log::model()->saveAction('classroom', $id, 'D', $classroom->name);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
-                $this->redirect(array('index'));
+                $this->redirect(['index']);
             }
         } catch (Exception $e) {
-            throw new CHttpException(901, "Não se pode remover turma com professores vinculados.");
+            throw new CHttpException(901, 'Não se pode remover turma com professores vinculados.');
         }
     }
 
@@ -706,13 +696,13 @@ class ClassroomController extends Controller
         if (isset($_GET['Classroom'])) {
             $filter->attributes = $_GET['Classroom'];
         }
-        $dataProvider = new CActiveDataProvider('Classroom', array('pagination' => array(
+        $dataProvider = new CActiveDataProvider('Classroom', ['pagination' => [
             'pageSize' => 12,
-        )));
-        $this->render('index', array(
+        ]]);
+        $this->render('index', [
             'dataProvider' => $dataProvider,
             'filter' => $filter,
-        ));
+        ]);
     }
 
     /**
@@ -726,9 +716,9 @@ class ClassroomController extends Controller
             $model->attributes = $_GET['Classroom'];
         }
 
-        $this->render('admin', array(
+        $this->render('admin', [
             'model' => $model,
-        ));
+        ]);
     }
 
     /**
@@ -792,20 +782,20 @@ class ClassroomController extends Controller
 
     public function actionUpdateTime()
     {
-        $return = array('first' => ":", 'last' => ":");
+        $return = ['first' => ':', 'last' => ':'];
         if (isset($_POST['Classroom']['turn'])) {
             $turn = $_POST['Classroom']['turn'];
-            $config = SchoolConfiguration::model()->findByAttributes(array('school_inep_id_fk' => Yii::app()->user->school));
-            if ($turn == "M") {
+            $config = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
+            if ($turn == 'M') {
                 $return['first'] = $config->morning_initial;
                 $return['last'] = $config->morning_final;
-            } elseif ($turn == "T") {
+            } elseif ($turn == 'T') {
                 $return['first'] = $config->afternoom_initial;
                 $return['last'] = $config->afternoom_final;
-            } elseif ($turn == "N") {
+            } elseif ($turn == 'N') {
                 $return['first'] = $config->night_initial;
                 $return['last'] = $config->night_final;
-            } elseif ($turn == "I") {
+            } elseif ($turn == 'I') {
                 $return['first'] = $config->allday_initial;
                 $return['last'] = $config->allday_final;
             }
@@ -815,14 +805,14 @@ class ClassroomController extends Controller
 
     public function actionUpdateDisciplines()
     {
-        $disciplines = Yii::app()->db->createCommand("
+        $disciplines = Yii::app()->db->createCommand('
             select ed.id, ed.name from curricular_matrix cm 
             join edcenso_discipline ed on ed.id = cm.discipline_fk
-            where cm.stage_fk = :id and cm.school_year = :year")->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+            where cm.stage_fk = :id and cm.school_year = :year')->bindParam(':id', $_POST['id'])->bindParam(':year', Yii::app()->user->year)->queryAll();
         if ($disciplines) {
-            echo json_encode(["valid" => true, "disciplines" => $disciplines]);
+            echo json_encode(['valid' => true, 'disciplines' => $disciplines]);
         } else {
-            echo json_encode(["valid" => false]);
+            echo json_encode(['valid' => false]);
         }
     }
 }

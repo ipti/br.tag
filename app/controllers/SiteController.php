@@ -40,7 +40,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
@@ -49,7 +48,7 @@ class SiteController extends Controller
 
         //$this->redirect(yii::app()->createUrl('student'));
         $this->loadLogsHtml(5);
-        $this->render('index', ["html" => $this->loadLogsHtml(8)]);
+        $this->render('index', ['html' => $this->loadLogsHtml(8)]);
     }
 
     /**
@@ -77,7 +76,7 @@ class SiteController extends Controller
             if ($model->validate()) {
                 $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
                 $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
-                $headers = "From: $name <{$model->email}>\r\n" . "Reply-To: {$model->email}\r\n" . "MIME-Version: 1.0\r\n" . "Content-type: text/plain; charset=UTF-8";
+                $headers = "From: $name <{$model->email}>\r\n" . "Reply-To: {$model->email}\r\n" . "MIME-Version: 1.0\r\n" . 'Content-type: text/plain; charset=UTF-8';
 
                 mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -92,7 +91,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        $this->layout = "login";
+        $this->layout = 'login';
 
         $model = new LoginForm();
 
@@ -139,117 +138,117 @@ class SiteController extends Controller
     {
         $baseUrl = Yii::app()->theme->baseUrl;
         if ($date == null) {
-            $logs = Log::model()->findAll("school_fk = :school order by date desc limit " . $limit, [':school' => Yii::app()->user->school]);
+            $logs = Log::model()->findAll('school_fk = :school order by date desc limit ' . $limit, [':school' => Yii::app()->user->school]);
         } else {
             $logs = Log::model()->findAll("school_fk = :school and date < STR_TO_DATE(:date,'%d/%m/%Y à\s %H:%i:%s') order by date desc limit " . $limit, [':school' => Yii::app()->user->school, ':date' => $date]);
         }
 
-        $html = "";
+        $html = '';
         if (count($logs) > 0) {
             $bgColor = 'gray';
             foreach ($logs as $log) {
-                $text = $icon = $color = $crud = "";
+                $text = $icon = $color = $crud = '';
 
                 switch ($log->crud) {
-                    case "C":
-                        $crud = "criado(a)";
-                        $color = "lightgreen";
+                    case 'C':
+                        $crud = 'criado(a)';
+                        $color = 'lightgreen';
                         break;
-                    case "U":
-                        $crud = "atualizado(a)";
-                        $color = "lightskyblue";
+                    case 'U':
+                        $crud = 'atualizado(a)';
+                        $color = 'lightskyblue';
                         break;
-                    case "D":
-                        $crud = "excluído(a)";
-                        $color = "lightcoral";
+                    case 'D':
+                        $crud = 'excluído(a)';
+                        $color = 'lightcoral';
                         break;
                 }
 
                 switch ($log->reference) {
-                    case "class":
-                        $infos = explode("|", $log->additional_info);
+                    case 'class':
+                        $infos = explode('|', $log->additional_info);
                         $text = 'As aulas ministradas da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foram atualizadas.';
-                        $icon = "aulas_ministradas";
+                        $icon = 'aulas_ministradas';
                         break;
-                    case "frequency":
-                        $infos = explode("|", $log->additional_info);
+                    case 'frequency':
+                        $infos = explode('|', $log->additional_info);
                         $text = 'A frequência da turma "' . $infos[0] . '" de ' . $infos[1] . ' do mês de ' . strtolower($infos[2]) . ' foi atualizada.';
-                        $icon = "frequencia";
+                        $icon = 'frequencia';
                         break;
-                    case "classroom":
-                        $text = 'Turma "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "turmas";
+                    case 'classroom':
+                        $text = 'Turma "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'turmas';
                         break;
-                    case "courseplan":
-                        $text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "plano_de_aula";
+                    case 'courseplan':
+                        $text = 'Plano de aula "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'plano_de_aula';
                         break;
-                    case "enrollment":
-                        $infos = explode("|", $log->additional_info);
+                    case 'enrollment':
+                        $infos = explode('|', $log->additional_info);
                         $text = '"' . $infos[0] . '" foi ' . $crud . ' na turma "' . $infos[1] . '".';
-                        $icon = "matricula";
+                        $icon = 'matricula';
                         break;
-                    case "instructor":
-                        $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "professores";
+                    case 'instructor':
+                        $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'professores';
                         break;
-                    case "school":
-                        $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "escola";
+                    case 'school':
+                        $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'escola';
                         break;
-                    case "student":
-                        $text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "alunos";
+                    case 'student':
+                        $text = 'Aluno(a) "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'alunos';
                         break;
-                    case "grade":
-                        $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . ".";
-                        $icon = "notas";
+                    case 'grade':
+                        $text = 'As notas da turma "' . $log->additional_info . '" foram ' . $crud . '.';
+                        $icon = 'notas';
                         break;
-                    case "calendar":
-                        $text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . ".";
-                        $icon = "calendario";
+                    case 'calendar':
+                        $text = 'Calendário de ' . $log->additional_info . ' foi ' . $crud . '.';
+                        $icon = 'calendario';
                         break;
-                    case "curricular_matrix":
-                        $infos = explode("|", $log->additional_info);
-                        $text = 'Matriz curricular da disciplina "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . ".";
-                        $icon = "matriz_curricular";
+                    case 'curricular_matrix':
+                        $infos = explode('|', $log->additional_info);
+                        $text = 'Matriz curricular da disciplina "' . $infos[1] . '" da etapa "' . $infos[0] . '" foi ' . $crud . '.';
+                        $icon = 'matriz_curricular';
                         break;
-                    case "lunch_stock":
-                        $infos = explode("|", $log->additional_info);
-                        if ($log->crud == "C") {
+                    case 'lunch_stock':
+                        $infos = explode('|', $log->additional_info);
+                        if ($log->crud == 'C') {
                             $text = $infos[1] . ' de ' . $infos[0] . ' foram adicionados ao estoque.';
-                            $icon = "adicionar-igrediente";
+                            $icon = 'adicionar-igrediente';
                         } else {
                             $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.';
-                            $icon = "remover-igrediente";
+                            $icon = 'remover-igrediente';
                         }
                         break;
-                    case "lunch_menu":
-                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . ".";
-                        $icon = "cardapio";
+                    case 'lunch_menu':
+                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . '.';
+                        $icon = 'cardapio';
                         break;
-                    case "lunch_meal":
+                    case 'lunch_meal':
                         $text = 'Uma refeição foi ' . $crud . ' no cardápio "' . $log->additional_info . '".';
-                        $icon = "merenda";
+                        $icon = 'merenda';
                         break;
-                    case "timesheet":
+                    case 'timesheet':
                         $text = 'Quadro de Horário da turma "' . $log->additional_info . '" foi gerado.';
-                        $icon = "quadro_de_horario";
+                        $icon = 'quadro_de_horario';
                         break;
-                    case "wizard_classroom":
+                    case 'wizard_classroom':
                         $text = 'Turmas de ' . $log->additional_info . ' foram reaproveitadas.';
-                        $icon = "turmas";
+                        $icon = 'turmas';
                         break;
-                    case "wizard_student":
+                    case 'wizard_student':
                         $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
-                        $icon = "alunos";
+                        $icon = 'alunos';
                         break;
                 }
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="home-page-table-item '.$bgColor.'" title=\'' . $text . '\'>'
+                $html .= '<li class="home-page-table-item ' . $bgColor . '" title=\'' . $text . '\'>'
                     . '<div style="max-width:815px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;">'
-                    . '<img style="background-color:'.$color.'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$icon.'.svg"/>'
+                    . '<img style="background-color:' . $color . '" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/' . $icon . '.svg"/>'
                     . $text . '</div>'
                     . '<div>'
                     . '<div class="log-date">' . $date . '</div>'
@@ -271,29 +270,29 @@ class SiteController extends Controller
 
     public function actionLoadLineChartData()
     {
-        $year = $_POST["year"];
+        $year = $_POST['year'];
         $school = Yii::app()->user->school;
-        $sql = "select " .
-            "month(date) as month, " .
+        $sql = 'select ' .
+            'month(date) as month, ' .
             "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
             "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
             "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
             "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
-            "from log " .
-            "group by month(date)";
+            'from log ' .
+            'group by month(date)';
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
         $monthsFilled = [];
         foreach ($chartData as $data) {
-            array_push($monthsFilled, $data["month"]);
+            array_push($monthsFilled, $data['month']);
         }
         for ($i = 1; $i <= 12; $i++) {
             if (!in_array($i, $monthsFilled)) {
                 $emptyMonth = [
-                    "month" => $i,
-                    "schools" => 0,
-                    "classrooms" => 0,
-                    "instructors" => 0,
-                    "students" => 0,
+                    'month' => $i,
+                    'schools' => 0,
+                    'classrooms' => 0,
+                    'instructors' => 0,
+                    'students' => 0,
                 ];
                 array_push($chartData, $emptyMonth);
             }
@@ -301,48 +300,48 @@ class SiteController extends Controller
 
         function cmp($a, $b)
         {
-            return $a["month"] - $b["month"];
+            return $a['month'] - $b['month'];
         }
 
-        usort($chartData, "cmp");
+        usort($chartData, 'cmp');
 
         foreach ($chartData as $key => $data) {
-            switch ($data["month"]) {
-                case "1":
-                    $chartData[$key]["month"] = "Janeiro";
+            switch ($data['month']) {
+                case '1':
+                    $chartData[$key]['month'] = 'Janeiro';
                     break;
-                case "2":
-                    $chartData[$key]["month"] = "Fevereiro";
+                case '2':
+                    $chartData[$key]['month'] = 'Fevereiro';
                     break;
-                case "3":
-                    $chartData[$key]["month"] = "Março";
+                case '3':
+                    $chartData[$key]['month'] = 'Março';
                     break;
-                case "4":
-                    $chartData[$key]["month"] = "Abril";
+                case '4':
+                    $chartData[$key]['month'] = 'Abril';
                     break;
-                case "5":
-                    $chartData[$key]["month"] = "Maio";
+                case '5':
+                    $chartData[$key]['month'] = 'Maio';
                     break;
-                case "6":
-                    $chartData[$key]["month"] = "Junho";
+                case '6':
+                    $chartData[$key]['month'] = 'Junho';
                     break;
-                case "7":
-                    $chartData[$key]["month"] = "Julho";
+                case '7':
+                    $chartData[$key]['month'] = 'Julho';
                     break;
-                case "8":
-                    $chartData[$key]["month"] = "Agosto";
+                case '8':
+                    $chartData[$key]['month'] = 'Agosto';
                     break;
-                case "9":
-                    $chartData[$key]["month"] = "Setembro";
+                case '9':
+                    $chartData[$key]['month'] = 'Setembro';
                     break;
-                case "10":
-                    $chartData[$key]["month"] = "Outubro";
+                case '10':
+                    $chartData[$key]['month'] = 'Outubro';
                     break;
-                case "11":
-                    $chartData[$key]["month"] = "Novembro";
+                case '11':
+                    $chartData[$key]['month'] = 'Novembro';
                     break;
-                case "12":
-                    $chartData[$key]["month"] = "Dezembro";
+                case '12':
+                    $chartData[$key]['month'] = 'Dezembro';
                     break;
             }
         }
@@ -352,9 +351,9 @@ class SiteController extends Controller
     public function actionLoadCylinderChartData()
     {
         $school = Yii::app()->user->school;
-        $year = $_POST["year"];
-        $sql = "select " .
-            "1 as schools, " .
+        $year = $_POST['year'];
+        $sql = 'select ' .
+            '1 as schools, ' .
             "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
             "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
             "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
@@ -365,8 +364,8 @@ class SiteController extends Controller
     public function actionLoadPieChartData()
     {
         $school = Yii::app()->user->school;
-        $year = $_POST["year"];
-        $sql = "select " .
+        $year = $_POST['year'];
+        $sql = 'select ' .
             "(select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
             "(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = $year and si.school_inep_id_fk = $school) as enrollments";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();

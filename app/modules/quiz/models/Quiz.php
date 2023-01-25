@@ -33,16 +33,16 @@ class Quiz extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, status, init_date, final_date', 'required'),
-            array('id, status', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>150),
-            array('init_date, final_date', 'length', 'max'=>10),
-            array('description', 'safe'),
+        return [
+            ['name, status, init_date, final_date', 'required'],
+            ['id, status', 'numerical', 'integerOnly' => true],
+            ['name', 'length', 'max' => 150],
+            ['init_date, final_date', 'length', 'max' => 10],
+            ['description', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name, description, status, init_date, final_date, create_date', 'safe', 'on'=>'search'),
-        );
+            ['id, name, description, status, init_date, final_date, create_date', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -52,10 +52,10 @@ class Quiz extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'questionGroups' => array(self::HAS_MANY, 'QuestionGroup', 'quiz_id'),
-            'questions' => array(self::MANY_MANY, 'Question', 'quiz_question(quiz_id, question_id)'),
-        );
+        return [
+            'questionGroups' => [self::HAS_MANY, 'QuestionGroup', 'quiz_id'],
+            'questions' => [self::MANY_MANY, 'Question', 'quiz_question(quiz_id, question_id)'],
+        ];
     }
 
     /**
@@ -63,7 +63,7 @@ class Quiz extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'name' => 'Nome',
             'description' => 'Descrição',
@@ -71,7 +71,7 @@ class Quiz extends CActiveRecord
             'init_date' => 'Data Inicial',
             'final_date' => 'Data Final',
             'create_date' => 'Data de Criação',
-        );
+        ];
     }
 
     /**
@@ -90,7 +90,7 @@ class Quiz extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
@@ -100,9 +100,9 @@ class Quiz extends CActiveRecord
         $criteria->compare('final_date', $this->final_date, true);
         $criteria->compare('create_date', $this->create_date, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -111,7 +111,7 @@ class Quiz extends CActiveRecord
      * @param string $className active record class name.
      * @return Quiz the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

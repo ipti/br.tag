@@ -30,13 +30,13 @@ class WorkByDiscipline extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('classroom_fk, discipline_fk', 'required'),
-            array('classroom_fk, discipline_fk, school_days', 'numerical', 'integerOnly'=>true),
+        return [
+            ['classroom_fk, discipline_fk', 'required'],
+            ['classroom_fk, discipline_fk, school_days', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, classroom_fk, discipline_fk, school_days', 'safe', 'on'=>'search'),
-        );
+            ['id, classroom_fk, discipline_fk, school_days', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -46,10 +46,10 @@ class WorkByDiscipline extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
-            'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
-        );
+        return [
+            'classroomFk' => [self::BELONGS_TO, 'Classroom', 'classroom_fk'],
+            'disciplineFk' => [self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'],
+        ];
     }
 
     /**
@@ -57,12 +57,12 @@ class WorkByDiscipline extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'classroom_fk' => 'Classroom Fk',
             'discipline_fk' => 'Discipline Fk',
             'school_days' => 'School Days',
-        );
+        ];
     }
 
     /**
@@ -81,16 +81,16 @@ class WorkByDiscipline extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('classroom_fk', $this->classroom_fk);
         $criteria->compare('discipline_fk', $this->discipline_fk);
         $criteria->compare('school_days', $this->school_days);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -99,7 +99,7 @@ class WorkByDiscipline extends CActiveRecord
      * @param string $className active record class name.
      * @return WorkByDiscipline the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

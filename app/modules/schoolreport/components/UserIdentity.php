@@ -10,22 +10,22 @@ class UserIdentity extends CUserIdentity
     private function schoolReportPassword($name)
     {
         if (!empty($name)) {
-            $names = explode(" ", trim($name));
-            $pass = "";
+            $names = explode(' ', trim($name));
+            $pass = '';
             foreach ($names as $n) {
                 $pass .= $n[0];
             }
             //var_dump($pass);exit;
             return strtoupper($pass);
         }
-        return "";
+        return '';
     }
+
     /**
      * Authenticates a user.
      *
      * @return boolean whether authentication succeeds.
      */
-
     public function authenticate()
     {
         $students = StudentIdentification::model()->findAllByAttributes(['responsable_cpf' => $this->username]);
@@ -42,13 +42,13 @@ class UserIdentity extends CUserIdentity
         } elseif (strtoupper($this->password) !== $this->schoolReportPassword($responsible)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
-            $this->setState('info', ["cpf" => $students[0]->responsable_cpf, "name"=>$responsible]);
-            $result =[];
+            $this->setState('info', ['cpf' => $students[0]->responsable_cpf, 'name' => $responsible]);
+            $result = [];
             foreach ($students as $student) {
                 /* @var $student StudentIdentification
                  * @var $enrollment StudentEnrollment
                  * @var $classroom Classroom */
-                $enrollments = StudentEnrollment::model()->findAllByAttributes(['student_fk'=>$student->id]);
+                $enrollments = StudentEnrollment::model()->findAllByAttributes(['student_fk' => $student->id]);
                 foreach ($enrollments as $enrollment) {
                     $classroom = $enrollment->classroomFk;
                     if (!isset($result[$classroom->school_year])) {

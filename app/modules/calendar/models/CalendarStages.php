@@ -29,13 +29,13 @@ class CalendarStages extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('calendar_fk, stage_fk', 'required'),
-            array('calendar_fk, stage_fk', 'numerical', 'integerOnly'=>true),
+        return [
+            ['calendar_fk, stage_fk', 'required'],
+            ['calendar_fk, stage_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, calendar_fk, stage_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, calendar_fk, stage_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -45,10 +45,10 @@ class CalendarStages extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
-            'stageFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'),
-        );
+        return [
+            'calendarFk' => [self::BELONGS_TO, 'Calendar', 'calendar_fk'],
+            'stageFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'stage_fk'],
+        ];
     }
 
     /**
@@ -56,11 +56,11 @@ class CalendarStages extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'calendar_fk' => 'Calendar Fk',
             'stage_fk' => 'Stage Fk',
-        );
+        ];
     }
 
     /**
@@ -79,15 +79,15 @@ class CalendarStages extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('calendar_fk', $this->calendar_fk);
         $criteria->compare('stage_fk', $this->stage_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -96,7 +96,7 @@ class CalendarStages extends CActiveRecord
      * @param string $className active record class name.
      * @return CalendarStages the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

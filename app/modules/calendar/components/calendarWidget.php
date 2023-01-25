@@ -7,7 +7,7 @@ class calendarWidget extends CWidget
     public function run()
     {
         $this->render('calendar', [
-            'calendar'=>$this->calendar,
+            'calendar' => $this->calendar,
         ]);
     }
 }

@@ -11,8 +11,8 @@ class Register10
         $attributes = SchoolStructure::model()->findByPk(Yii::app()->user->school)->attributes;
 
         if ($attributes['operation_location_building'] == 1) {
-            if ($attributes["building_occupation_situation"] == null) {
-                $attributes["building_occupation_situation"] = '1';
+            if ($attributes['building_occupation_situation'] == null) {
+                $attributes['building_occupation_situation'] = '1';
             }
             if ($attributes['shared_building_with_school'] == null || $attributes['shared_building_with_school'] == '0') {
                 $attributes['shared_building_with_school'] = '0';
@@ -27,7 +27,7 @@ class Register10
                 $attributes['shared_building_with_school'] = '0';
             }
         } else {
-            $attributes["building_occupation_situation"] = '';
+            $attributes['building_occupation_situation'] = '';
             $attributes['shared_building_with_school'] = '';
             $attributes['shared_school_inep_id_1'] = '';
             $attributes['shared_school_inep_id_2'] = '';
@@ -206,26 +206,26 @@ class Register10
             $attributes['board_organ_others'] = '0';
         }
 
-        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $year]);
+        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             if ($edcensoAlias->corder == 43) {
                 $register[$edcensoAlias->corder] =
-                    $attributes["dependencies_prysical_disability_bathroom"] == 1 || $attributes["dependencies_child_bathroom"] == 1 ||
-                    $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
+                    $attributes['dependencies_prysical_disability_bathroom'] == 1 || $attributes['dependencies_child_bathroom'] == 1 ||
+                    $attributes['dependencies_bathroom_workes'] == 1 || $attributes['dependencies_bathroom_with_shower'] == 1
                         ? 1 : 0;
             } elseif ($edcensoAlias->corder == 131) {
                 $register[$edcensoAlias->corder] = null;
-                if ($attributes["workers_administrative_assistant"] == null && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
-                    && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null
-                    && $attributes["workers_nutritionist"] == null && $attributes["workers_psychologist"] == null && $attributes["workers_cooker"] == null
-                    && $attributes["workers_support_professionals"] == null && $attributes["workers_school_secretary"] == null && $attributes["workers_security_guards"] == null
-                    && $attributes["workers_monitors"] == null) {
+                if ($attributes['workers_administrative_assistant'] == null && $attributes['workers_service_assistant'] == null && $attributes['workers_librarian'] == null
+                    && $attributes['workers_firefighter'] == null && $attributes['workers_coordinator_shift'] == null && $attributes['workers_speech_therapist'] == null
+                    && $attributes['workers_nutritionist'] == null && $attributes['workers_psychologist'] == null && $attributes['workers_cooker'] == null
+                    && $attributes['workers_support_professionals'] == null && $attributes['workers_school_secretary'] == null && $attributes['workers_security_guards'] == null
+                    && $attributes['workers_monitors'] == null) {
                     $register[$edcensoAlias->corder] = 1;
                 }
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
                 }
             }
         }

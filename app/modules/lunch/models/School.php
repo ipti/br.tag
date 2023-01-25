@@ -27,9 +27,9 @@ class School extends CActiveRecord
     public function relations()
     {
         return [
-            'inventories' => array(self::HAS_MANY, 'Inventory', 'school_fk', 'with'=>'item', 'order'=>'item.name asc'),
-            'items' => array(self::MANY_MANY, 'Item', 'lunch_inventory(school_fk, item_fk)', 'order'=>'name asc'),
-            'menus' => array(self::HAS_MANY, 'Menu', 'school_fk', 'order'=>'date desc'),
+            'inventories' => [self::HAS_MANY, 'Inventory', 'school_fk', 'with' => 'item', 'order' => 'item.name asc'],
+            'items' => [self::MANY_MANY, 'Item', 'lunch_inventory(school_fk, item_fk)', 'order' => 'name asc'],
+            'menus' => [self::HAS_MANY, 'Menu', 'school_fk', 'order' => 'date desc'],
         ];
     }
 
@@ -45,7 +45,7 @@ class School extends CActiveRecord
             $exist = isset($amount[$inventory->item->id]);
 
             if ($exist) {
-                $amount[$index]["amount"] += floatval($inventory->amount);
+                $amount[$index]['amount'] += floatval($inventory->amount);
             } else {
                 $amount[$index] = [];
                 $amount[$index]['id'] = $inventory->item->id;
@@ -53,7 +53,7 @@ class School extends CActiveRecord
                 $amount[$index]['description'] = $inventory->item->description;
                 $amount[$index]['measure'] = $inventory->item->measure;
                 $amount[$index]['unity'] = $inventory->item->unity->acronym;
-                $amount[$index]["amount"] = floatval($inventory->amount);
+                $amount[$index]['amount'] = floatval($inventory->amount);
             }
         }
 
@@ -68,10 +68,10 @@ class School extends CActiveRecord
      */
     public function transactions($initialDate = null, $finalDate = null)
     {
-        $whereSchool  = "school = $this->inep_id";
-        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : " ";
-        $whereFinal   = $finalDate   != null ? " AND date <= $finalDate" : " ";
-        $sql="select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
+        $whereSchool = "school = $this->inep_id";
+        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : ' ';
+        $whereFinal = $finalDate != null ? " AND date <= $finalDate" : ' ';
+        $sql = "select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
                 from (
                     select lr.id, lr.date, null motivation, lr.inventory_fk inventory, li.school_fk school, li.item_fk item, li.amount from lunch_received lr
                         join lunch_inventory li on (lr.inventory_fk = li.id)

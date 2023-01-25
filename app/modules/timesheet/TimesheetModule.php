@@ -8,7 +8,7 @@
 
         public function init()
         {
-            $this->baseUrl = Yii::app()->createUrl("timesheet");
+            $this->baseUrl = Yii::app()->createUrl('timesheet');
             $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.timesheet.resources'));
             //$this->layoutPath = yii::getPathOfAlias("timesheet.views.layouts");
 

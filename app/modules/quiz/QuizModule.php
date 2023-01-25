@@ -7,13 +7,13 @@ class QuizModule extends CWebModule
 
     public function init()
     {
-        $this->baseUrl = Yii::app()->createUrl("quiz");
+        $this->baseUrl = Yii::app()->createUrl('quiz');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.quiz.resources'));
         //$this->layoutPath = yii::getPathOfAlias("calendar.views.layouts");
 
-        $this->setImport(array(
+        $this->setImport([
             'quiz.models.*', 'quiz.components.*',
-        ));
+        ]);
     }
 
     public function beforeControllerAction($controller, $action)

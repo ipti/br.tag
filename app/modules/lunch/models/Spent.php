@@ -19,7 +19,7 @@ class Spent extends CActiveRecord
      * @param string $className active record class name.
      * @return Spent the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -39,14 +39,14 @@ class Spent extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('motivation, inventory_fk', 'required'),
-            array('inventory_fk', 'numerical', 'integerOnly'=>true),
-            array('motivation', 'length', 'max'=>100),
+        return [
+            ['motivation, inventory_fk', 'required'],
+            ['inventory_fk', 'numerical', 'integerOnly' => true],
+            ['motivation', 'length', 'max' => 100],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, date, motivation, inventory_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, date, motivation, inventory_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -56,9 +56,9 @@ class Spent extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'inventory' => array(self::BELONGS_TO, 'Inventory', 'inventory_fk'),
-        );
+        return [
+            'inventory' => [self::BELONGS_TO, 'Inventory', 'inventory_fk'],
+        ];
     }
 
     /**
@@ -66,12 +66,12 @@ class Spent extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'date' => Yii::t('lunchModule.labels', 'Date'),
             'motivation' => Yii::t('lunchModule.labels', 'Motivation'),
             'inventory_fk' => Yii::t('lunchModule.labels', 'Inventory'),
-        );
+        ];
     }
 
     /**
@@ -83,15 +83,15 @@ class Spent extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('date', $this->date, true);
         $criteria->compare('motivation', $this->motivation, true);
         $criteria->compare('inventory_fk', $this->inventory_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

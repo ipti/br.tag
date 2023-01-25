@@ -7,7 +7,7 @@ class LunchModule extends CWebModule
 
     public function init()
     {
-        $this->baseUrl = Yii::app()->createUrl("lunch");
+        $this->baseUrl = Yii::app()->createUrl('lunch');
         $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.lunch.resources'));
 
         Yii::app()->setComponents([
@@ -16,10 +16,10 @@ class LunchModule extends CWebModule
             ],
         ]);
 
-        $this->setImport(array(
+        $this->setImport([
             'lunch.models.*',
             'lunch.components.*',
-        ));
+        ]);
     }
 
     public function beforeControllerAction($controller, $action)

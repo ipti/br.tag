@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
@@ -22,9 +22,9 @@ return array(
     'Delete' => 'Excluir',
     'Next' => 'Próximo',
     'Previous' => 'Anterior',
-    'Enroll'=> 'Matricular',
-    'Add'=> 'Adicionar',
-    'Add (Fast)'=> 'Adicionar (Rápido)',
+    'Enroll' => 'Matricular',
+    'Add' => 'Adicionar',
+    'Add (Fast)' => 'Adicionar (Rápido)',
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',
@@ -34,7 +34,7 @@ return array(
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
-    'Incorrect username or password.'=>'Usuário ou senha incorretos',
+    'Incorrect username or password.' => 'Usuário ou senha incorretos',
 
     //Campos das tabelas
 
@@ -536,7 +536,7 @@ return array(
     'Enrollment' => 'Matrícula',
     'New Enrollment' => 'Nova Matrícula',
     'Enrollments' => 'Matrículas',
-    'Students Enrollments'=>'Alunos Matriculados',
+    'Students Enrollments' => 'Alunos Matriculados',
     'Unified Class' => 'Turma unificada',
     'Edcenso Stage Vs Modality Fk' => 'Etapa de Ensino',
     'Another Scholarization Place' => 'Escolarização em outro espaço',
@@ -607,12 +607,12 @@ return array(
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
     'Neighborhood' => 'Bairro / Povoado',
-    'Received Civil Certificate'=>'Certidão de Nascimento',
-    'Received Receipt Address'=>'Comprovante Endereço',
-    'Received Photo'=>'Foto 3x4',
-    'Received NIS'=>'Comprovante NIS',
-    'Received Responsable`s RG'=>'Cópia RG(Responsável)',
-    'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
+    'Received Civil Certificate' => 'Certidão de Nascimento',
+    'Received Receipt Address' => 'Comprovante Endereço',
+    'Received Photo' => 'Foto 3x4',
+    'Received NIS' => 'Comprovante NIS',
+    'Received Responsable`s RG' => 'Cópia RG(Responsável)',
+    'Received Responsable`s CPF' => 'Cópia CPF(Responsável)',
 
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',
@@ -683,7 +683,7 @@ return array(
     'Discipline 13 Fk' => '',
 
     //Instructor email update
-    'Update Instructor e-mails' => "Atualizar e-mail dos professores",
+    'Update Instructor e-mails' => 'Atualizar e-mail dos professores',
 
     //Classboards
     'Insert class' => 'Inserir aula',
@@ -691,9 +691,9 @@ return array(
     'Create New Lesson' => 'Criar novo evento',
     'Class Board' => 'Quadro de Aulas',
     'Turn' => 'Turno',
-    'Estimated Classes' =>'Aulas Previstas',
-    'Given Classes' =>'Aulas Dadas',
-    'Replaced Classes' =>'Aulas Repostas',
+    'Estimated Classes' => 'Aulas Previstas',
+    'Given Classes' => 'Aulas Dadas',
+    'Replaced Classes' => 'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
 
     //Classes
@@ -714,7 +714,7 @@ return array(
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
-    'Class'  => 'Aula',
+    'Class' => 'Aula',
     'Objective' => 'Objetivo',
     'New' => 'Novo',
     'Content' => 'Conteúdo',
@@ -745,7 +745,6 @@ return array(
     'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
 
-    //
     'Area' => 'Área de Atuação',
 
     //Labels de Grupos
@@ -796,8 +795,8 @@ return array(
     'Update InstructorIdentification' => 'Atualizar Professor',
 
     //Erros
-    'already enrolled in this classroom.' =>'já matriculado na turma.',
-    'already have in this student enrolled.' =>'já possui o aluno matriculado.',
+    'already enrolled in this classroom.' => 'já matriculado na turma.',
+    'already have in this student enrolled.' => 'já possui o aluno matriculado.',
 
     //Autenticação
     'Users' => 'Usuários',
@@ -808,37 +807,37 @@ return array(
 
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',
-    'Confirm' => "Confirme a Senha",
+    'Confirm' => 'Confirme a Senha',
 
     //Import
-    'Import File' => "Arquivo de Importação",
+    'Import File' => 'Arquivo de Importação',
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
 
     //Sync
     'Import Sync File Dialog' => 'Importar Informações do TAG-Offline',
 
-    'Send' => 'Enviar em '.(date('Y')+1),
+    'Send' => 'Enviar em ' . (date('Y') + 1),
 
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
-    'Enrollment Resume'=>'Resumo de Matrícula',
+    'Enrollment Resume' => 'Resumo de Matrícula',
     //Wizard
     'Classroom Configuration' => 'Reaproveitamento das Turmas',
-    'Copy'=>'Copiar',
-    'Select Classrom'=>'Selecione uma Turma',
+    'Copy' => 'Copiar',
+    'Select Classrom' => 'Selecione uma Turma',
     'Student Configuration' => 'Reaproveitamento de Alunos',
 
     //ClassContents
-    'Classes Contents'=>'Aulas Ministradas',
+    'Classes Contents' => 'Aulas Ministradas',
 
     //Edcenso Reports
-    'Students Number By Classroom'=>'Número de Alunos por Turma',
-    'Enrollment Comparative Analysis'=>'Análise Comparativa de Matrículas',
-    'School Professional Number By Classroom'=>'Numero de profissionais da escola por turma',
+    'Students Number By Classroom' => 'Número de Alunos por Turma',
+    'Enrollment Comparative Analysis' => 'Análise Comparativa de Matrículas',
+    'School Professional Number By Classroom' => 'Numero de profissionais da escola por turma',
     'Educational Assistant Per Classroom' => 'Auxiliar/Assistente Educacional por Turma',
     'Discipline And Instructor Relation' => 'Relação Disciplina/Docente',
-    'Complementar Activity Assistant By Classroom Relation'=> 'Relação de Monitores de Atividade Complementar por Turma',
+    'Complementar Activity Assistant By Classroom Relation' => 'Relação de Monitores de Atividade Complementar por Turma',
     'Classroom Without Instructor Relation' => 'Relação Turmas sem Instrutor',
     'Student Instructor Numbers Relation' => 'Relação de Número de Alunos e Professores por Turma',
     'Students By Classroom' => 'Alunos Por Turma',
@@ -847,7 +846,7 @@ return array(
     'Students Using School Transportation Relation' => 'Relação de Estudantes que utilizam Transporte Escolar',
     'Incompatible Student Age By Classroom' => 'Alunos com Idade Incompatível por Turma',
     'Students Between 5 And 14 Years Old' => 'Alunos com Idade Entre 5 e 14 Anos',
-    'Export Now'=>'Exportar agora',
+    'Export Now' => 'Exportar agora',
     'Student By Classroom' => 'Alunos por Turma',
 
     //Quiz Module
@@ -873,20 +872,20 @@ return array(
     //Calendar Events Name
 
     'Holyday' => 'Feriado',
-    'Saturday School'=>'Sabado Letivo',
-    'Semester Recovery'=>'Recuperação Semestral',
-    'Admnistrative Meeting'=>'Reunião Administrativa',
-    'Planning'=>'Planejamento',
-    'Exam'=>' Avaliação',
-    'Continuing Education'=>'Formação Continuada',
-    'Commemoration'=>'Comemorações',
-    'Beginning and End of the School Year.'=>'Início e Fim do Ano Escolar',
-    'Vacation'=>'Férias',
-    'Parents Meeting'=>'Reunião de Pais',
-    'Replacement'=>'Reposição',
-    'Final Exam'=>'Prova Final',
-    'Subtitles'=>'Legenda',
-    "Beginning of the School Year" => "Início do Ano Escolar",
-    "End of the School Year" => "Fim do Ano Escolar",
+    'Saturday School' => 'Sabado Letivo',
+    'Semester Recovery' => 'Recuperação Semestral',
+    'Admnistrative Meeting' => 'Reunião Administrativa',
+    'Planning' => 'Planejamento',
+    'Exam' => ' Avaliação',
+    'Continuing Education' => 'Formação Continuada',
+    'Commemoration' => 'Comemorações',
+    'Beginning and End of the School Year.' => 'Início e Fim do Ano Escolar',
+    'Vacation' => 'Férias',
+    'Parents Meeting' => 'Reunião de Pais',
+    'Replacement' => 'Reposição',
+    'Final Exam' => 'Prova Final',
+    'Subtitles' => 'Legenda',
+    'Beginning of the School Year' => 'Início do Ano Escolar',
+    'End of the School Year' => 'Fim do Ano Escolar',
 
-    );
+];

@@ -19,8 +19,8 @@
             ];
 
             foreach ($campos as $id => $name) {
-                $this->execute(" INSERT INTO edcenso_aee_activity (id, name) VALUES (:id,:name)
-				ON DUPLICATE KEY UPDATE name=:name;", [":id" => $id, ":name" => $name]);
+                $this->execute(' INSERT INTO edcenso_aee_activity (id, name) VALUES (:id,:name)
+				ON DUPLICATE KEY UPDATE name=:name;', [':id' => $id, ':name' => $name]);
             }
 
             // edcenso_city
@@ -12070,7 +12070,7 @@
 
             $this->execute("DELETE FROM `edcenso_notary_office` WHERE `id`='7178';");
             try {
-                $this->execute("ALTER TABLE edcenso_notary_office ADD UNIQUE INDEX `cod_UNIQUE` (`cod` ASC);");
+                $this->execute('ALTER TABLE edcenso_notary_office ADD UNIQUE INDEX `cod_UNIQUE` (`cod` ASC);');
             } catch (Exception $e) {
                 //$this->execute("ALTER TABLE `edcenso_notary_office` DROP INDEX `cod_UNIQUE`;");
             }
@@ -26597,7 +26597,7 @@
                 'fk_edcenso_stage_vs_modality' => 'INT NOT NULL',
                 'educational_mediation_types' => 'TINYINT(1) NULL',
                 'modalities' => 'TINYINT(1) NULL'
-                ]);
+            ]);
             $this->createIndex(
                 'fk_edcenso_stage_vs_modality',
                 'edcenso_stage_vs_modality_complementary',
@@ -26614,7 +26614,7 @@
             );
 
             // EDCENSO STAGE_VS_MODALITY_COMPLEMENTARY INSERTs
-            $this->execute("INSERT INTO edcenso_stage_vs_modality_complementary (fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
+            $this->execute('INSERT INTO edcenso_stage_vs_modality_complementary (fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
 				(1,1,1),(1,1,2),
 				(2,1,1),(2,1,2),
 				(3,1,1),(3,1,2),
@@ -26665,7 +26665,7 @@
 				(74,1,2),(74,1,4),(74,3,4),
 				(64,1,2),(64,1,4),(64,3,4),
 				(65,1,3)		
-			 ;");
+			 ;');
 
             $this->execute("INSERT INTO edcenso_uf (id, acronym, name)
 			 VALUES
@@ -26700,9 +26700,9 @@
 			  acronym=VALUES(acronym), name=VALUES(name);");
 
             set_time_limit(30);
-            echo("não tem district");
-            echo("não tem nation");
-            echo("não tem regional education organ");
+            echo('não tem district');
+            echo('não tem nation');
+            echo('não tem regional education organ');
 
             return true;
         }

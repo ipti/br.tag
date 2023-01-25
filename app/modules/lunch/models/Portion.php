@@ -22,7 +22,7 @@ class Portion extends CActiveRecord
      * @param string $className active record class name.
      * @return Portion the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -41,7 +41,7 @@ class Portion extends CActiveRecord
      */
     public function getConcatName()
     {
-        return $this->item->name . " (". $this->measure.$this->unity->acronym.")";
+        return $this->item->name . ' (' . $this->measure . $this->unity->acronym . ')';
     }
 
     /**
@@ -51,14 +51,14 @@ class Portion extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('item_fk, amount, unity_fk, measure', 'required'),
-            array('item_fk, amount, unity_fk', 'numerical', 'integerOnly'=>true),
-            array('measure', 'numerical'),
+        return [
+            ['item_fk, amount, unity_fk, measure', 'required'],
+            ['item_fk, amount, unity_fk', 'numerical', 'integerOnly' => true],
+            ['measure', 'numerical'],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, item_fk, amount, unity_fk, measure', 'safe', 'on'=>'search'),
-        );
+            ['id, item_fk, amount, unity_fk, measure', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -68,11 +68,11 @@ class Portion extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'mealPortions' => array(self::HAS_MANY, 'MealPortion', 'portion_fk'),
-            'item' => array(self::BELONGS_TO, 'Item', 'item_fk'),
-            'unity' => array(self::BELONGS_TO, 'Unity', 'unity_fk'),
-        );
+        return [
+            'mealPortions' => [self::HAS_MANY, 'MealPortion', 'portion_fk'],
+            'item' => [self::BELONGS_TO, 'Item', 'item_fk'],
+            'unity' => [self::BELONGS_TO, 'Unity', 'unity_fk'],
+        ];
     }
 
     /**
@@ -80,13 +80,13 @@ class Portion extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'item_fk' => Yii::t('lunchModule.labels', 'Item'),
             'amount' => Yii::t('lunchModule.labels', 'Amount'),
             'unity_fk' => Yii::t('lunchModule.labels', 'Unity'),
             'measure' => Yii::t('lunchModule.labels', 'Measure'),
-        );
+        ];
     }
 
     /**
@@ -98,7 +98,7 @@ class Portion extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('item_fk', $this->item_fk);
@@ -106,8 +106,8 @@ class Portion extends CActiveRecord
         $criteria->compare('unity_fk', $this->unity_fk);
         $criteria->compare('measure', $this->measure);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

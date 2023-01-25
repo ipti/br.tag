@@ -18,7 +18,7 @@ class Meal extends CActiveRecord
      * @param string $className active record class name.
      * @return Meal the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -38,13 +38,13 @@ class Meal extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('restrictions', 'required'),
-            array('restrictions', 'length', 'max'=>100),
+        return [
+            ['restrictions', 'required'],
+            ['restrictions', 'length', 'max' => 100],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, restrictions', 'safe', 'on'=>'search'),
-        );
+            ['id, restrictions', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -54,10 +54,10 @@ class Meal extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'mealPortions' => array(self::HAS_MANY, 'MealPortion', 'meal_fk'),
-            'menuMeals' => array(self::HAS_MANY, 'MenuMeal', 'meal_fk'),
-        );
+        return [
+            'mealPortions' => [self::HAS_MANY, 'MealPortion', 'meal_fk'],
+            'menuMeals' => [self::HAS_MANY, 'MenuMeal', 'meal_fk'],
+        ];
     }
 
     /**
@@ -65,10 +65,10 @@ class Meal extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'restrictions' => Yii::t('lunchModule.labels', 'Restrictions'),
-        );
+        ];
     }
 
     /**
@@ -80,13 +80,13 @@ class Meal extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('restrictions', $this->restrictions, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

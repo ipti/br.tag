@@ -6,24 +6,24 @@ class IptimoduleCode extends CCodeModel
 
     public function rules()
     {
-        return array_merge(parent::rules(), array(
-            array('moduleID', 'filter', 'filter' => 'trim'),
-            array('moduleID', 'required'),
-            array('moduleID', 'match', 'pattern' => '/^\w+$/', 'message' => '{attribute} should only contain word characters.'),
-        ));
+        return array_merge(parent::rules(), [
+            ['moduleID', 'filter', 'filter' => 'trim'],
+            ['moduleID', 'required'],
+            ['moduleID', 'match', 'pattern' => '/^\w+$/', 'message' => '{attribute} should only contain word characters.'],
+        ]);
     }
 
     public function attributeLabels()
     {
-        return array_merge(parent::attributeLabels(), array(
+        return array_merge(parent::attributeLabels(), [
             'moduleID' => 'Module ID',
-        ));
+        ]);
     }
 
     public function successMessage()
     {
         if (Yii::app()->hasModule($this->moduleID)) {
-            return 'The module has been generated successfully. You may ' . CHtml::link('try it now', Yii::app()->createUrl($this->moduleID), array('target' => '_blank')) . '.';
+            return 'The module has been generated successfully. You may ' . CHtml::link('try it now', Yii::app()->createUrl($this->moduleID), ['target' => '_blank']) . '.';
         }
 
         $output = <<<EOD
@@ -55,7 +55,7 @@ EOD;
 
     public function prepare()
     {
-        $this->files = array();
+        $this->files = [];
         $templatePath = $this->templatePath;
         $modulePath = $this->modulePath;
         $moduleTemplateFile = $templatePath . DIRECTORY_SEPARATOR . 'module.php';
@@ -65,12 +65,12 @@ EOD;
             $this->render($moduleTemplateFile)
         );
 
-        $files = CFileHelper::findFiles($templatePath, array(
-            'exclude' => array(
+        $files = CFileHelper::findFiles($templatePath, [
+            'exclude' => [
                 '.svn',
                 '.gitignore'
-            ),
-        ));
+            ],
+        ]);
 
         foreach ($files as $file) {
             if ($file !== $moduleTemplateFile) {

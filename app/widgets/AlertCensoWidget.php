@@ -1,6 +1,5 @@
 <?php
 
-
 class AlertCensoWidget extends CWidget
 {
     public $prefix;
@@ -9,7 +8,6 @@ class AlertCensoWidget extends CWidget
 
     public function init()
     {
-
         //$this->data = Yii::app()->cache->get($this->prefix.$this->dataId);
     }
 

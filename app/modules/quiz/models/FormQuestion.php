@@ -27,9 +27,9 @@ class FormQuestion extends CModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('quiz, question, answer, student', 'safe')
-        );
+        return [
+            ['quiz, question, answer, student', 'safe']
+        ];
     }
 
     /**
@@ -37,12 +37,12 @@ class FormQuestion extends CModel
      */
     public function attributeNames()
     {
-        return array(
+        return [
             'quiz' => 'Quiz',
             'question' => 'Question',
             'student' => 'Student',
             'answer' => 'Answer'
-        );
+        ];
     }
 
     /**
@@ -51,13 +51,13 @@ class FormQuestion extends CModel
      * @param string $className active record class name.
      * @return FormQuestion the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
     public function getIdentifier()
     {
-        return 'FormQuestion['. $this->quiz->id .']['. $this->question->id .']';
+        return 'FormQuestion[' . $this->quiz->id . '][' . $this->question->id . ']';
     }
 }

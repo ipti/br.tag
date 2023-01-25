@@ -32,14 +32,14 @@ class Calendar extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('title, start_date, end_date, available', 'required'),
-            array('available', 'numerical', 'integerOnly'=>true),
-            array('title', 'length', 'max' => 50),
+        return [
+            ['title, start_date, end_date, available', 'required'],
+            ['available', 'numerical', 'integerOnly' => true],
+            ['title', 'length', 'max' => 50],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, title, start_date, end_date, available', 'safe', 'on' => 'search'),
-        );
+            ['id, title, start_date, end_date, available', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -49,11 +49,11 @@ class Calendar extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'calendarEvents' => array(self::HAS_MANY, 'CalendarEvent', 'calendar_fk'),
-            'calendarStages' => array(self::HAS_MANY, 'CalendarStages', 'calendar_fk'),
-            'classrooms' => array(self::HAS_MANY, 'Classroom', 'calendar_fk'),
-        );
+        return [
+            'calendarEvents' => [self::HAS_MANY, 'CalendarEvent', 'calendar_fk'],
+            'calendarStages' => [self::HAS_MANY, 'CalendarStages', 'calendar_fk'],
+            'classrooms' => [self::HAS_MANY, 'Classroom', 'calendar_fk'],
+        ];
     }
 
     /**
@@ -61,13 +61,13 @@ class Calendar extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => yii::t('calendarModule.labels', 'ID'),
             'title' => yii::t('calendarModule.labels', 'Title'),
             'start_date' => yii::t('calendarModule.labels', 'Start Date'),
             'end_date' => yii::t('calendarModule.labels', 'End Date'),
-            'available' => "Available",
-        );
+            'available' => 'Available',
+        ];
     }
 
     /**
@@ -94,9 +94,9 @@ class Calendar extends CActiveRecord
         $criteria->compare('end_date', $this->end_date, true);
         $criteria->compare('available', $this->available);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 
     public function getCopyableEvents()

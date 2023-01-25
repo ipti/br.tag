@@ -55,11 +55,11 @@ class StockController extends CController
 
             $received = new Received();
             $received->inventory_fk = $inventory->id;
-            $received->date = date("Y/m/d h:i:s");
+            $received->date = date('Y/m/d h:i:s');
 
             if ($received->validate()) {
                 $received->save();
-                Log::model()->saveAction("lunch_stock", $received->id, "C", $received->inventory->item->name . "|" . $amount * $received->inventory->item->measure . " " . $received->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $received->id, 'C', $received->inventory->item->name . '|' . $amount * $received->inventory->item->measure . ' ' . $received->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item added successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -93,12 +93,12 @@ class StockController extends CController
 
             $spent = new Spent();
             $spent->inventory_fk = $inventory->id;
-            $spent->date = date("Y/m/d h:i:s");
+            $spent->date = date('Y/m/d h:i:s');
             $spent->motivation = $motivation;
 
             if ($spent->validate()) {
                 $spent->save();
-                Log::model()->saveAction("lunch_stock", $spent->id, "D", $spent->inventory->item->name . "|" . $amount * $spent->inventory->item->measure . " " . $spent->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $spent->id, 'D', $spent->inventory->item->name . '|' . $amount * $spent->inventory->item->measure . ' ' . $spent->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item spent successfully.'));
                 $this->redirect(['stock/index']);
             } else {

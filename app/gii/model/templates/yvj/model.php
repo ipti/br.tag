@@ -17,12 +17,12 @@
  *
  * The followings are the available columns in table '<?php echo $tableName; ?>':
 <?php foreach ($columns as $column): ?>
- * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
+ * @property <?php echo $column->type . ' $' . $column->name . "\n"; ?>
 <?php endforeach; ?>
 <?php if (!empty($relations)): ?>
  *
  * The followings are the available model relations:
-<?php foreach ($relations as $name=>$relation): ?>
+<?php foreach ($relations as $name => $relation): ?>
  * @property <?php
     if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches)) {
         $relationType = $matches[1];
@@ -30,26 +30,26 @@
 
         switch ($relationType) {
             case 'HAS_ONE':
-                echo $relationModel.' $'.$name."\n";
+                echo $relationModel . ' $' . $name . "\n";
             break;
             case 'BELONGS_TO':
-                echo $relationModel.' $'.$name."\n";
+                echo $relationModel . ' $' . $name . "\n";
             break;
             case 'HAS_MANY':
-                echo $relationModel.'[] $'.$name."\n";
+                echo $relationModel . '[] $' . $name . "\n";
             break;
             case 'MANY_MANY':
-                echo $relationModel.'[] $'.$name."\n";
+                echo $relationModel . '[] $' . $name . "\n";
             break;
             default:
-                echo 'mixed $'.$name."\n";
+                echo 'mixed $' . $name . "\n";
         }
     }
     ?>
 <?php endforeach; ?>
 <?php endif; ?>
  */
-class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
+class <?php echo $modelClass; ?> extends <?php echo $this->baseClass . "\n"; ?>
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -78,7 +78,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		// will receive user inputs.
 		return array(
 <?php foreach ($rules as $rule): ?>
-			<?php echo $rule.",\n"; ?>
+			<?php echo $rule . ",\n"; ?>
 <?php endforeach; ?>
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -94,7 +94,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-<?php foreach ($relations as $name=>$relation): ?>
+<?php foreach ($relations as $name => $relation): ?>
 			<?php echo "'$name' => $relation,\n"; ?>
 <?php endforeach; ?>
 		);
@@ -106,7 +106,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function attributeLabels()
 	{
 		return array(
-<?php foreach ($labels as $name=>$label): ?>
+<?php foreach ($labels as $name => $label): ?>
 			<?php echo "'$name' => Yii::t('default', '$label'),\n"; ?>
 <?php endforeach; ?>
 		);
@@ -124,8 +124,8 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		$criteria=new CDbCriteria;
 
 <?php
-foreach ($columns as $name=>$column) {
-        if ($column->type==='string') {
+foreach ($columns as $name => $column) {
+        if ($column->type === 'string') {
             echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n";
         } else {
             echo "\t\t\$criteria->compare('$name',\$this->$name);\n";

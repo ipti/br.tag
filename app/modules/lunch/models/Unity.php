@@ -19,7 +19,7 @@ class Unity extends CActiveRecord
      * @param string $className active record class name.
      * @return Unity the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -39,14 +39,14 @@ class Unity extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('name, acronym', 'required'),
-            array('name', 'length', 'max'=>45),
-            array('acronym', 'length', 'max'=>10),
+        return [
+            ['name, acronym', 'required'],
+            ['name', 'length', 'max' => 45],
+            ['acronym', 'length', 'max' => 10],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, acronym', 'safe', 'on'=>'search'),
-        );
+            ['id, name, acronym', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -56,10 +56,10 @@ class Unity extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'items' => array(self::HAS_MANY, 'Item', 'unity_fk'),
-            'portions' => array(self::HAS_MANY, 'Portion', 'unity_fk'),
-        );
+        return [
+            'items' => [self::HAS_MANY, 'Item', 'unity_fk'],
+            'portions' => [self::HAS_MANY, 'Portion', 'unity_fk'],
+        ];
     }
 
     /**
@@ -67,11 +67,11 @@ class Unity extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => Yii::t('lunchModule.labels', 'ID'),
             'name' => Yii::t('lunchModule.labels', 'Name'),
             'acronym' => Yii::t('lunchModule.labels', 'Acronym'),
-        );
+        ];
     }
 
     /**
@@ -83,14 +83,14 @@ class Unity extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('acronym', $this->acronym, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 }

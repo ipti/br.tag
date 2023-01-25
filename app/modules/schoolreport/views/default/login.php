@@ -21,13 +21,13 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
             </div>
             <div class="ui segment">
                 <?php
-                $form = $this->beginWidget('CActiveForm', array(
+                $form = $this->beginWidget('CActiveForm', [
                     'id' => 'LoginForm',
                     'enableAjaxValidation' => false,
-                    'htmlOptions' =>[
-                        'class'=>'ui large form',
+                    'htmlOptions' => [
+                        'class' => 'ui large form',
                     ],
-                ));
+                ]);
                 ?>
                     <div class="field">
                         <div class="ui left icon input">

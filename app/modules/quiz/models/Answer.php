@@ -26,13 +26,13 @@ class Answer extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('quiz_id, question_id, student_id, value', 'required'),
-            array('quiz_id, question_id, student_id', 'numerical', 'integerOnly'=>true),
+        return [
+            ['quiz_id, question_id, student_id, value', 'required'],
+            ['quiz_id, question_id, student_id', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('quiz_id, question_id, student_id, value', 'safe', 'on'=>'search'),
-        );
+            ['quiz_id, question_id, student_id, value', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -42,11 +42,11 @@ class Answer extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'quiz' => array(self::BELONGS_TO, 'Quiz', 'quiz_id'),
-            'question' => array(self::BELONGS_TO, 'Question', 'question_id'),
-            'student' => array(self::BELONGS_TO, 'Student', 'student_id')
-        );
+        return [
+            'quiz' => [self::BELONGS_TO, 'Quiz', 'quiz_id'],
+            'question' => [self::BELONGS_TO, 'Question', 'question_id'],
+            'student' => [self::BELONGS_TO, 'Student', 'student_id']
+        ];
     }
 
     /**
@@ -54,12 +54,12 @@ class Answer extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'quiz_id' => 'Quiz',
             'question_id' => 'Question',
             'student_id' => 'Student',
             'value' => 'Value',
-        );
+        ];
     }
 
     /**
@@ -78,16 +78,16 @@ class Answer extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('quiz_id', $this->quiz_id);
         $criteria->compare('question_id', $this->question_id);
         $criteria->compare('student_id', $this->student_id);
         $criteria->compare('value', $this->value, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -96,7 +96,7 @@ class Answer extends CActiveRecord
      * @param string $className active record class name.
      * @return Answer the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

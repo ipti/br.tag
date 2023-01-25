@@ -44,14 +44,14 @@ class SchoolConfiguration extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('school_inep_id_fk', 'required'),
-            array('school_inep_id_fk', 'length', 'max'=>8),
-            array('morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe'),
+        return [
+            ['school_inep_id_fk', 'required'],
+            ['school_inep_id_fk', 'length', 'max' => 8],
+            ['morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, school_inep_id_fk, morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe', 'on'=>'search'),
-        );
+            ['id, school_inep_id_fk, morning_initial, morning_final, afternoom_initial, afternoom_final, night_initial, night_final, allday_initial, allday_final, exam1, exam2, exam3, exam4, recovery1, recovery2, recovery3, recovery4, recovery_final', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -61,9 +61,9 @@ class SchoolConfiguration extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
-        );
+        return [
+            'schoolInepIdFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'],
+        ];
     }
 
     /**
@@ -71,9 +71,9 @@ class SchoolConfiguration extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
-            'school_inep_id_fk' => yii::t('wizardModule.labels', 'School Inep Id') ,
+            'school_inep_id_fk' => yii::t('wizardModule.labels', 'School Inep Id'),
             'morning_initial' => yii::t('wizardModule.labels', 'Morning Initial'),
             'morning_final' => yii::t('wizardModule.labels', 'Morning Final'),
             'afternoom_initial' => yii::t('wizardModule.labels', 'Afternoon Initial'),
@@ -91,7 +91,7 @@ class SchoolConfiguration extends CActiveRecord
             'recovery3' => yii::t('wizardModule.labels', 'Recovery 3'),
             'recovery4' => yii::t('wizardModule.labels', 'Recovery 4'),
             'recovery_final' => yii::t('wizardModule.labels', 'Recovery Final'),
-        );
+        ];
     }
 
     /**
@@ -110,7 +110,7 @@ class SchoolConfiguration extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -132,9 +132,9 @@ class SchoolConfiguration extends CActiveRecord
         $criteria->compare('recovery4', $this->recovery4, true);
         $criteria->compare('recovery_final', $this->recovery_final, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -143,7 +143,7 @@ class SchoolConfiguration extends CActiveRecord
      * @param string $className active record class name.
      * @return SchoolConfiguration the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

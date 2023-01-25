@@ -10,8 +10,8 @@ class Register00
 
         $attributes = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->attributes;
 
-        if ($attributes["address_complement"] !== "" && $attributes["address_complement"] !== null) {
-            $attributes["address_complement"] = strtoupper($attributes["address_complement"]);
+        if ($attributes['address_complement'] !== '' && $attributes['address_complement'] !== null) {
+            $attributes['address_complement'] = strtoupper($attributes['address_complement']);
         }
 
         $attributes['situation'] = '1';
@@ -35,9 +35,9 @@ class Register00
             $attributes['offer_or_linked_unity'] = '2';
         }
 
-        if (empty($attributes['ddd']) || $attributes["ddd"] == null) {
-            $attributes["phone_number"] = '';
-            $attributes["other_phone_number"] = '';
+        if (empty($attributes['ddd']) || $attributes['ddd'] == null) {
+            $attributes['phone_number'] = '';
+            $attributes['other_phone_number'] = '';
         }
 
         if (!empty($attributes['latitude']) && !empty($attributes['longitude'])) {
@@ -73,15 +73,15 @@ class Register00
             $attributes['regulation_organ_municipal'] = '0';
         }
 
-        if (!in_array($attributes['regulation'], array('1', '2'))) {
+        if (!in_array($attributes['regulation'], ['1', '2'])) {
             $attributes['regulation_organ_federal'] = '';
             $attributes['regulation_organ_state'] = '';
             $attributes['regulation_organ_municipal'] = '';
         } else {
-            if (in_array($attributes['administrative_dependence'], array('2', '3'))) {
+            if (in_array($attributes['administrative_dependence'], ['2', '3'])) {
                 $attributes['regulation_organ_federal'] = '0';
             }
-            if (in_array($attributes['administrative_dependence'], array('1', '2'))) {
+            if (in_array($attributes['administrative_dependence'], ['1', '2'])) {
                 $attributes['regulation_organ_municipal'] = '0';
             }
             if ($attributes['regulation_organ_federal'] == '1') {
@@ -89,9 +89,9 @@ class Register00
             }
 
             if ($attributes['regulation_organ_municipal'] == '0' && $attributes['regulation_organ_state'] == '0' && $attributes['regulation_organ_federal'] == '0') {
-                if ($attributes['administrative_dependence'] == "1") {
+                if ($attributes['administrative_dependence'] == '1') {
                     $attributes['regulation_organ_federal'] = '1';
-                } elseif ($attributes['administrative_dependence'] == "3") {
+                } elseif ($attributes['administrative_dependence'] == '3') {
                     $attributes['regulation_organ_municipal'] = '1';
                 } else {
                     $attributes['regulation_organ_state'] = '1';
@@ -105,12 +105,11 @@ class Register00
             }
         }
 
-
-        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [":year" => $year]);
+        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             $register[$edcensoAlias->corder] = $edcensoAlias->default;
-            if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+            if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
             }
         }
 

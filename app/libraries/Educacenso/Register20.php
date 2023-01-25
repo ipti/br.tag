@@ -12,7 +12,7 @@ class Register20
 
     private static function fixName($name)
     {
-        return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
+        return preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($name));
     }
 
     private static function findDisc($id)
@@ -78,63 +78,63 @@ class Register20
 
                 $attributes['name'] = strtoupper(self::sanitizeString($attributes['name']));
 
-                if ($attributes["pedagogical_mediation_type"] == null) {
-                    $attributes["pedagogical_mediation_type"] = 1;
+                if ($attributes['pedagogical_mediation_type'] == null) {
+                    $attributes['pedagogical_mediation_type'] = 1;
                 }
 
-                if ($attributes["pedagogical_mediation_type"] != '1') {
-                    $attributes["initial_hour"] = '';
-                    $attributes["initial_minute"] = '';
-                    $attributes["final_hour"] = '';
-                    $attributes["final_minute"] = '';
-                    $attributes["week_days_sunday"] = '';
-                    $attributes["week_days_monday"] = '';
-                    $attributes["week_days_tuesday"] = '';
-                    $attributes["week_days_wednesday"] = '';
-                    $attributes["week_days_thursday"] = '';
-                    $attributes["week_days_friday"] = '';
-                    $attributes["week_days_saturday"] = '';
-                    $attributes["schooling"] = '1';
-                    $attributes["complementary_activity"] = '0';
-                    $attributes["aee"] = '0';
+                if ($attributes['pedagogical_mediation_type'] != '1') {
+                    $attributes['initial_hour'] = '';
+                    $attributes['initial_minute'] = '';
+                    $attributes['final_hour'] = '';
+                    $attributes['final_minute'] = '';
+                    $attributes['week_days_sunday'] = '';
+                    $attributes['week_days_monday'] = '';
+                    $attributes['week_days_tuesday'] = '';
+                    $attributes['week_days_wednesday'] = '';
+                    $attributes['week_days_thursday'] = '';
+                    $attributes['week_days_friday'] = '';
+                    $attributes['week_days_saturday'] = '';
+                    $attributes['schooling'] = '1';
+                    $attributes['complementary_activity'] = '0';
+                    $attributes['aee'] = '0';
                 }
 
-                if ($attributes["aee"] == '1') {
-                    $attributes["schooling"] = '0';
-                    $attributes["complementary_activity"] = '0';
+                if ($attributes['aee'] == '1') {
+                    $attributes['schooling'] = '0';
+                    $attributes['complementary_activity'] = '0';
                 }
 
-                if ($attributes["complementary_activity_type_1"] == null && $attributes["complementary_activity_type_2"] == null && $attributes["complementary_activity_type_3"] == null
-                    && $attributes["complementary_activity_type_4"] == null && $attributes["complementary_activity_type_5"] == null && $attributes["complementary_activity_type_6"] == null) {
-                    $attributes["complementary_activity"] = '0';
+                if ($attributes['complementary_activity_type_1'] == null && $attributes['complementary_activity_type_2'] == null && $attributes['complementary_activity_type_3'] == null
+                    && $attributes['complementary_activity_type_4'] == null && $attributes['complementary_activity_type_5'] == null && $attributes['complementary_activity_type_6'] == null) {
+                    $attributes['complementary_activity'] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] != '1' && $attributes["pedagogical_mediation_type"] != '2') {
-                    $attributes["diff_location"] = '';
-                } elseif ($attributes["diff_location"] == null) {
-                    $attributes["diff_location"] = '0';
+                if ($attributes['pedagogical_mediation_type'] != '1' && $attributes['pedagogical_mediation_type'] != '2') {
+                    $attributes['diff_location'] = '';
+                } elseif ($attributes['diff_location'] == null) {
+                    $attributes['diff_location'] = '0';
                 }
 
-                if ($attributes["modality"] == '3') {
-                    $attributes["complementary_activity"] = '0';
+                if ($attributes['modality'] == '3') {
+                    $attributes['complementary_activity'] = '0';
                 }
 
-                if ($attributes["pedagogical_mediation_type"] == '2' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
-                    $attributes["modality"] = '3';
+                if ($attributes['pedagogical_mediation_type'] == '2' && ($attributes['modality'] == null || $attributes['modality'] == '')) {
+                    $attributes['modality'] = '3';
                 }
-                if ($attributes["pedagogical_mediation_type"] == '3' && ($attributes["modality"] == null || $attributes["modality"] == "")) {
-                    $attributes["modality"] = '1';
+                if ($attributes['pedagogical_mediation_type'] == '3' && ($attributes['modality'] == null || $attributes['modality'] == '')) {
+                    $attributes['modality'] = '1';
                 }
 
-                if ($attributes["complementary_activity"] == '0' && $attributes["schooling"] == '0' && $attributes["aee"] == '0') {
-                    $attributes["schooling"] = '1';
+                if ($attributes['complementary_activity'] == '0' && $attributes['schooling'] == '0' && $attributes['aee'] == '0') {
+                    $attributes['schooling'] = '1';
                 }
 
                 if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [30, 31, 32, 33, 34, 39, 40, 64, 74])) {
                     $attributes['course'] = '';
                 }
 
-                if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                if ($attributes['schooling'] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                     foreach ($attributes as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -155,30 +155,30 @@ class Register20
                     }
                 }
 
-                if ($attributes["complementary_activity_type_1"] != null) {
-                    $attributes["complementary_activity_type_1"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_1"]);
+                if ($attributes['complementary_activity_type_1'] != null) {
+                    $attributes['complementary_activity_type_1'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_1']);
                 }
-                if ($attributes["complementary_activity_type_2"] != null) {
-                    $attributes["complementary_activity_type_2"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_2"]);
+                if ($attributes['complementary_activity_type_2'] != null) {
+                    $attributes['complementary_activity_type_2'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_2']);
                 }
-                if ($attributes["complementary_activity_type_3"] != null) {
-                    $attributes["complementary_activity_type_3"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_3"]);
+                if ($attributes['complementary_activity_type_3'] != null) {
+                    $attributes['complementary_activity_type_3'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_3']);
                 }
-                if ($attributes["complementary_activity_type_4"] != null) {
-                    $attributes["complementary_activity_type_4"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_4"]);
+                if ($attributes['complementary_activity_type_4'] != null) {
+                    $attributes['complementary_activity_type_4'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_4']);
                 }
-                if ($attributes["complementary_activity_type_5"] != null) {
-                    $attributes["complementary_activity_type_5"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_5"]);
+                if ($attributes['complementary_activity_type_5'] != null) {
+                    $attributes['complementary_activity_type_5'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_5']);
                 }
-                if ($attributes["complementary_activity_type_6"] != null) {
-                    $attributes["complementary_activity_type_6"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_6"]);
+                if ($attributes['complementary_activity_type_6'] != null) {
+                    $attributes['complementary_activity_type_6'] = self::convertComplementaryActivityTypes($attributes['complementary_activity_type_6']);
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [':year' => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
-                        if ($attributes["schooling"] == '0') {
+                        if ($attributes['schooling'] == '0') {
                             $register[$edcensoAlias->corder] = '';
                         } elseif ($edcensoAlias->corder == 21 && in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3, 39, 40, 64, 68])) {
                             $register[21] = '0';
@@ -186,7 +186,7 @@ class Register20
                             $register[23] = '1';
                         }
                     } elseif ($edcensoAlias->corder == 31 || $edcensoAlias->corder == 32) {
-                        $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                        $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
                         if ($register[21] == '' && $register[23] == '') {
                             $register[$edcensoAlias->corder] = '';
                         }
@@ -223,13 +223,13 @@ class Register20
                             }
                         }
                     } elseif ($edcensoAlias->corder == 73) {
-                        if ($attributes["schooling"] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                        if ($attributes['schooling'] == '0' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
                             $register[$edcensoAlias->corder] = '0';
                         }
-                    } elseif ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                        $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                    } elseif ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                        $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
                     }
                 }
 
@@ -243,34 +243,34 @@ class Register20
     private static function convertComplementaryActivityTypes($code)
     {
         switch ($code) {
-            case "13106":
-                return "13104";
-            case "16101":
-                return "16001";
-            case "51002":
-                return "13301";
-            case "45910":
-                return "41007";
-            case "10111":
-                return "10103";
-            case "15001":
-                return "15001";
-            case "15005":
-                return "15004";
-            case "1112":
-                return "14103";
-            case "2":
-                return "29999";
-            case "22011":
-                return "22011";
-            case "31001":
-                return "31001";
-            case "31015":
-                return "31017";
-            case "31002":
-                return "31016";
-            case "39999":
-                return "39999";
+            case '13106':
+                return '13104';
+            case '16101':
+                return '16001';
+            case '51002':
+                return '13301';
+            case '45910':
+                return '41007';
+            case '10111':
+                return '10103';
+            case '15001':
+                return '15001';
+            case '15005':
+                return '15004';
+            case '1112':
+                return '14103';
+            case '2':
+                return '29999';
+            case '22011':
+                return '22011';
+            case '31001':
+                return '31001';
+            case '31015':
+                return '31017';
+            case '31002':
+                return '31016';
+            case '39999':
+                return '39999';
         }
     }
 }

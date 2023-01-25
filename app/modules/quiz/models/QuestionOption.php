@@ -29,15 +29,15 @@ class QuestionOption extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('description, answer, question_id', 'required'),
-            array('question_id, complement', 'numerical', 'integerOnly'=>true),
-            array('description', 'length', 'max'=>255),
-            array('answer', 'length', 'max'=>255),
+        return [
+            ['description, answer, question_id', 'required'],
+            ['question_id, complement', 'numerical', 'integerOnly' => true],
+            ['description', 'length', 'max' => 255],
+            ['answer', 'length', 'max' => 255],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, description, answer, question_id', 'safe', 'on'=>'search'),
-        );
+            ['id, description, answer, question_id', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -47,9 +47,9 @@ class QuestionOption extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'question' => array(self::BELONGS_TO, 'Question', 'question_id'),
-        );
+        return [
+            'question' => [self::BELONGS_TO, 'Question', 'question_id'],
+        ];
     }
 
     /**
@@ -57,13 +57,13 @@ class QuestionOption extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'description' => 'Descrição',
             'answer' => 'Resposta',
             'question_id' => 'Questão',
             'complement' => 'Complemento',
-        );
+        ];
     }
 
     /**
@@ -82,7 +82,7 @@ class QuestionOption extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('description', $this->description, true);
@@ -90,9 +90,9 @@ class QuestionOption extends CActiveRecord
         $criteria->compare('question_id', $this->question_id);
         $criteria->compare('complement', $this->complement);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -101,7 +101,7 @@ class QuestionOption extends CActiveRecord
      * @param string $className active record class name.
      * @return QuestionOption the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

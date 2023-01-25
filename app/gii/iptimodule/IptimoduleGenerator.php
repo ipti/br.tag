@@ -2,5 +2,5 @@
 
 class IptimoduleGenerator extends CCodeGenerator
 {
-    public $codeModel='application.gii.iptimodule.IptimoduleCode';
+    public $codeModel = 'application.gii.iptimodule.IptimoduleCode';
 }

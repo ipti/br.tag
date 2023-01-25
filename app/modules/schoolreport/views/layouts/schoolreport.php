@@ -41,12 +41,12 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                     <a href="<?=$homeUrl?>">
                         <img src="<?=$baseScriptUrl?>/common/img/logo.png" height="30">
                     </a>
-                    <h1><?= yii::t('schoolreportModule.layout', "School Report") ?></h1>
+                    <h1><?= yii::t('schoolreportModule.layout', 'School Report') ?></h1>
                 </div>
                 <div class="eight wide column"></div>
                 <div class="four wide column right aligned">
                     <a class="ui inverted basic button float" href="#" onclick="window.history.back()">Voltar</a>
-                    <a class="ui inverted basic button float right" href="<?= Yii::app()->createUrl("schoolreport/default/logout")?>">Sair</a>
+                    <a class="ui inverted basic button float right" href="<?= Yii::app()->createUrl('schoolreport/default/logout')?>">Sair</a>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
             <div class="ui grid">
                 <div class="fourteen wide column">
                     <h2 class="ui breadcrumb" >
-                        <a class="section" href="<?= Yii::app()->createUrl("schoolreport/default/index")?>"><?=strtolower(Yii::app()->user->info['name'])?></a>
+                        <a class="section" href="<?= Yii::app()->createUrl('schoolreport/default/index')?>"><?=strtolower(Yii::app()->user->info['name'])?></a>
                         <?php if ($this->studentName) {?>
                             <i class="right chevron icon divider"></i>
                             <div class="section">
@@ -69,10 +69,10 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                                 <?=strtolower($this->whichSectionIs)?>
                                     <i class="dropdown icon"></i>
                                     <div class="menu">
-                                        <a href="<?= Yii::app()->createUrl("schoolreport/default/frequency", ['eid' => $this->eid])?>" class="item">
+                                        <a href="<?= Yii::app()->createUrl('schoolreport/default/frequency', ['eid' => $this->eid])?>" class="item">
                                             Frequência
                                         </a>
-                                        <a href="<?= Yii::app()->createUrl("schoolreport/default/grades", ['eid' => $this->eid])?>" class="item">
+                                        <a href="<?= Yii::app()->createUrl('schoolreport/default/grades', ['eid' => $this->eid])?>" class="item">
                                             Notas
                                         </a>
                                     </div>

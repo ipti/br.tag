@@ -1,10 +1,10 @@
-<?php echo CHtml::beginForm(null, 'post', array('id'=> 'answer-form')); ?>
+<?php echo CHtml::beginForm(null, 'post', ['id' => 'answer-form']); ?>
 
 <div class="row-fluid  hidden-print">
     <div class="span12">
         <h3 class="heading-mosaic"><?= $quiz->name?></h3>  
         <div class="buttons">
-            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), array('id' => 'save_answer_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button'));
+            <?php echo CHtml::htmlButton('<i></i>' . Yii::t('default', 'Save'), ['id' => 'save_answer_button', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok', 'type' => 'button']);
             ?>
         </div>
     </div>
@@ -54,7 +54,7 @@
                     } ?>" id="group-<?= $group->id ?>">
                             <?php
                                 foreach ($questions[$group->id] as $formQuestion) {
-                                    $this->widget('quiz.widgets.QuestionWidget', array('model' => $formQuestion));
+                                    $this->widget('quiz.widgets.QuestionWidget', ['model' => $formQuestion]);
                                 }
                             ?>
                         </div>  <!-- .tab-pane -->

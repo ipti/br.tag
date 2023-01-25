@@ -29,13 +29,13 @@ class TeachingMatrixes extends CActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('teaching_data_fk, curricular_matrix_fk', 'required'),
-            array('teaching_data_fk, curricular_matrix_fk', 'numerical', 'integerOnly'=>true),
+        return [
+            ['teaching_data_fk, curricular_matrix_fk', 'required'],
+            ['teaching_data_fk, curricular_matrix_fk', 'numerical', 'integerOnly' => true],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, teaching_data_fk, curricular_matrix_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, teaching_data_fk, curricular_matrix_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -45,10 +45,10 @@ class TeachingMatrixes extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'teachingDataFk' => array(self::BELONGS_TO, 'InstructorTeachingData', 'teaching_data_fk'),
-            'curricularMatrixFk' => array(self::BELONGS_TO, 'CurricularMatrix', 'curricular_matrix_fk'),
-        );
+        return [
+            'teachingDataFk' => [self::BELONGS_TO, 'InstructorTeachingData', 'teaching_data_fk'],
+            'curricularMatrixFk' => [self::BELONGS_TO, 'CurricularMatrix', 'curricular_matrix_fk'],
+        ];
     }
 
     /**
@@ -56,11 +56,11 @@ class TeachingMatrixes extends CActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'teaching_data_fk' => 'Teaching Data Fk',
             'curricular_matrix_fk' => 'Curricular Matrix Fk',
-        );
+        ];
     }
 
     /**
@@ -79,15 +79,15 @@ class TeachingMatrixes extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria();
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('teaching_data_fk', $this->teaching_data_fk);
         $criteria->compare('curricular_matrix_fk', $this->curricular_matrix_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -96,7 +96,7 @@ class TeachingMatrixes extends CActiveRecord
      * @param string $className active record class name.
      * @return TeachingMatrixes the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

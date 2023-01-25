@@ -15,9 +15,9 @@
             ?>
             <div class="widget-body in" style="height: auto;">
                 <div class="control-group">                
-                    <?php echo CHtml::label('Resposta:', $model->getIdentifier(), array('class' => 'control-label')); ?>
+                    <?php echo CHtml::label('Resposta:', $model->getIdentifier(), ['class' => 'control-label']); ?>
                     <div class="controls">
-                        <?php echo CHtml::textArea($model->getIdentifier(), $answer->value, array('maxlength' => 500)); ?>
+                        <?php echo CHtml::textArea($model->getIdentifier(), $answer->value, ['maxlength' => 500]); ?>
                     </div>
                 </div> <!-- .control-group -->
             </div> <!-- .widget-body --> 
