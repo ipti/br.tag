@@ -17,10 +17,9 @@ const ReMatricula = props => {
     if (id && loadData) {
       props.dispatch({
         type: "FETCH_STUDENT",
-        registration: id 
+        registration: id
       })
       setLoadData(false);
-      console.log(props)
     }
     if (loadDataSchool) {
       props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
@@ -30,12 +29,17 @@ const ReMatricula = props => {
   }, [loadData, props]);
 
 
-  const onSubmit = value => {
-    console.log(value)
+  const onSubmit = (value) => {
+   
+    if (value?.birthday) {
+      value.birthday = value.birthday
+        .split("/")
+        .reverse()
+        .join("-");
+    }
     props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: value });
   };
 
-  console.log(props)
 
   return (
     <>
@@ -56,7 +60,6 @@ const ReMatricula = props => {
 };
 
 const mapStateToProps = state => {
-console.log(state)
   return {
     address: state.viaCep.addresses,
     student: state.registration.student,

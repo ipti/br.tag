@@ -26,7 +26,7 @@ const Home = props => {
     }
 
     if (props?.openAlert) {
-      setTimeout(function() {
+      setTimeout(function () {
         props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
       }, 6000);
     }
@@ -57,10 +57,8 @@ const Home = props => {
         );
       }
     }
-
     return <></>;
   };
-  console.log(props)
   return (
     <>
       {props.loading ? (
@@ -82,7 +80,6 @@ const Home = props => {
 
 const mapStateToProps = state => {
 
-  console.log(state)
   return {
     schools: state.school.schools,
     error: state.school.msgError,

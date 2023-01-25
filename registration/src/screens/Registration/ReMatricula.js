@@ -46,7 +46,6 @@ const Home = props => {
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
 
-  console.log(props)
   const handleChange = newValue => {
     setInputValueClassroom(newValue);
   };
@@ -76,6 +75,7 @@ const Home = props => {
   // ? format(studentDate, "dd/MM/yyyy")
   // : "";
 
+  console.log(props)
   const status = student?.newStudent;
 
   const address = student?.address ?? nullableField;
@@ -91,19 +91,20 @@ const Home = props => {
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
   const data = {
-name: studentName,
-birthday: studentBirthday,
-deficiency: student?.deficiency,
-color_race: student?.color_race,
-edcenso_city_fk: student?.edcenso_city_fk,
-edcenso_uf_fk: student?.edcenso_uf_fk,
-responsable_telephone: student?.responsable_telephone,
-responsable_name: student?.responsable_name,
-responsable_cpf: student?.responsable_cpf,
-sex: student?.sex,
-school_identification: schoolInepFk,
-classroom: inputValueClassroom,
-calendar_event: calendarID
+    name: studentName,
+    birthday: studentBirthday,
+    deficiency: student?.deficiency,
+    color_race: student?.color_race,
+    edcenso_city_fk: student?.edcenso_city_fk,
+    edcenso_uf_fk: student?.edcenso_uf_fk,
+    responsable_telephone: student?.responsable_telephone,
+    responsable_name: student?.responsable_name,
+    responsable_cpf: student?.responsable_cpf,
+    student_identification: student?.id,
+    sex: student?.sex,
+    school_identification: schoolInepFk,
+    classroom: inputValueClassroom,
+    calendar_event: calendarID
   }
 
 

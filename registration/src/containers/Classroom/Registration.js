@@ -47,8 +47,6 @@ const Registration = props => {
     });
   };
 
-  console.log(props)
-
   return (
     <>
       {props.loading && !loadingButtom ? (

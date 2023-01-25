@@ -9,8 +9,9 @@ const Home = props => {
   const [loadData, setLoadData] = useState(true);
   const { id } = useParams()
 
+
   useEffect(() => {
-    if (loadData) {
+    if (loadData && id) {
       props.dispatch({
         type: "FETCH_SCHOOL",
         data: { id: id }

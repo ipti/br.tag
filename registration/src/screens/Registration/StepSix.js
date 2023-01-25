@@ -85,7 +85,6 @@ const StepSix = props => {
   };
 
 
-  console.log(props)
   const searchSchools = (inputValue, callback) => {
     if (inputValue.trim().length >= 3) {
       const buscaLowerCase = inputValue.toLowerCase();

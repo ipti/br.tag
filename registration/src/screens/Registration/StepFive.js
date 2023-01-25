@@ -108,7 +108,6 @@ const StepFive = props => {
 
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
       .then(res => res.json()).then(data => {
-        console.log(data)
         if (data.erro) {
           setErrorCep(true);
         } else {

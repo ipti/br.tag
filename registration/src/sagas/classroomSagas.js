@@ -56,6 +56,14 @@ const requestSaveClassroom = data => {
 };
 
 const requestUpdateRegistration = (data, id) => {
+  if(data.student_fk){
+    return api
+    .post("/student-pre-identifyregistred/registration/" + id, data)
+    .then(response => response.data)
+    .catch(err => {
+      throw err;
+    });
+  }
   return api
     .post("/student-pre-identify/registration/" + id, data)
     .then(response => response.data)

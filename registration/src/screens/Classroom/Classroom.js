@@ -19,10 +19,7 @@ const Classroom = ({ data, pagination, handlePage, activePage }) => {
 
   const classrooms = () => {
 
-    console.log(data)
     const classroomList = data ?? [];
-
-    console.log(classroomList)
 
     return classroomList?.data.map((classroom, index) => {
       return (

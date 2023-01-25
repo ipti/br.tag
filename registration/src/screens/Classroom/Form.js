@@ -36,12 +36,10 @@ const Create = props => {
     loadingIcon
   } = props;
 
-  console.log(data)
 
   const registrations = () => {
     const registrationList = data?.student_pre_identification ?? [];
 
-    console.log(registrationList);
 
     return registrationList.map((registration, index) => {
       return (
@@ -52,6 +50,7 @@ const Create = props => {
           sex={registration.sex}
           md={4}
           sm={4}
+          unavailable={registration.unavailable}
         />
       );
     });

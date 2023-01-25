@@ -90,7 +90,6 @@ const Form = props => {
       : ""
   };
 
-  console.log(props)
 
   return (
     <>

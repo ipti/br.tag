@@ -20,8 +20,8 @@ const Home = props => {
   const [number, setNumber] = useState("");
   const [step, setStep] = useState(0);
   const [dataValues, setDataValues] = useState({});
-  
-  
+
+
   useEffect(() => {
     setOpen(false);
 
@@ -49,7 +49,7 @@ const Home = props => {
     }
 
     if (props.openAlert) {
-      setTimeout(function() {
+      setTimeout(function () {
         props.dispatch({ type: "CLOSE_ALERT_REGISTRATION" });
       }, 3000);
     }
@@ -62,7 +62,19 @@ const Home = props => {
         .reverse()
         .join("-");
     }
-    props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: dataValues });
+
+    const parseBool = value =>
+  ['true', 'false'].includes(value) ? value === true : null
+    props.dispatch({
+      type: "FETCH_SAVE_REGISTRATION", data: {
+        ...dataValues, sex: parseInt(dataValues.sex),
+        zone: parseInt(dataValues.zone),
+        deficiency: parseBool(dataValues.deficiency),
+        cpf: dataValues.cpf.replace(/\D/g, ''),
+        responsable_cpf: dataValues.responsable_cpf.replace(/\D/g, ''),
+        responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, '')
+      }
+    });
   };
 
   const next = (step, values) => {
@@ -178,7 +190,7 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
-  
+
   return {
     address: state.viaCep.addresses,
     student: state.registration.student,

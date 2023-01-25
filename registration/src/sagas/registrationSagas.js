@@ -30,16 +30,10 @@ const parseBool = value =>
   ['true', 'false'].includes(value) ? value === true : null
 
 const requestSaveRegistration = data => {
+
+  console.log(data)
   return api
-    .post("/student-pre-identification", {
-      ...data,
-      sex: parseInt(data.sex),
-      zone: parseInt(data.zone),
-      deficiency: parseBool(data.deficiency),
-      cpf: data.cpf.replace(/\D/g, ''),
-      responsable_cpf: data.responsable_cpf.replace(/\D/g, ''),
-      responsable_telephone: data.responsable_telephone.replace(/\D/g, '')
-    })
+    .post("/student-pre-identification", data)
     .then(response => response.data)
     .catch(err => {
       throw err;

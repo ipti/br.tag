@@ -32,11 +32,8 @@ const Home = props => {
   } = props;
   const student = registration ?? [];
 
-  console.log(props)
 
   const classroomOne = classroom.data ?? [];
-
-  console.log(classroomOne)
 
   const modalityDefault = { "1": "Ensno Regular" };
 
@@ -71,7 +68,6 @@ const Home = props => {
   const classroomName = classroomOne?.name ?? nullableField;
   const modality = classroomOne?.modality === 1 ? 'Ensino Regular' : classroomOne?.modality === 2 ? 'Educação Especial' : classroomOne?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : classroomOne?.modality === 4 ? 'Educação profissional' : nullableField;
 
-  console.log(student)
 
   const data = {
     name: studentName,
@@ -84,14 +80,12 @@ const Home = props => {
     responsableCpf: student?.responsableCpf,
     responsable_telephone: student?.responsable_telephone,
     sex: student?.sex,
-    zone: student?.zone,
     school_identification: student?.school_inep_id_fk,
     classroom: student?.classroom_fk,
     calendar_event: student?.calendar_event_fk,
     year: 2023
   }
 
-  console.log(data)
   return (
     <>
       <Grid className={classes.boxTitlePagination} container direction="row">

@@ -15,12 +15,14 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case actions.GET_STUDENT:
       return {
+        ...state,
         student: action.payload,
         loading: false,
         openAlert: action?.payload?.status === "0" ? true : false
       };
     case actions.FETCH_STUDENT:
       return {
+        ...state,
         student: action.payload,
         loading: true
       };

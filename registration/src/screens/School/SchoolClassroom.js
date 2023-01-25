@@ -70,8 +70,6 @@ const Home = ({ data })  => {
 
     const school = data.school
 
-    console.log(school)
-
   return (
     <>
       <Grid container direction="row">
