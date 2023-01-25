@@ -29,8 +29,9 @@ array('label'=> Yii::t('default', 'List <?php echo $this->modelClass; ?>'), 'url
                     'data'=>$model,
                     'attributes'=>array(
                     <?php
-                    foreach ($this->tableSchema->columns as $column)
+                    foreach ($this->tableSchema->columns as $column) {
                         echo "\t\t'" . $column->name . "',\n";
+                    }
                     ?>
                     ),
                     )); ?>

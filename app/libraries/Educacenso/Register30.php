@@ -279,7 +279,7 @@ class Register30
 
         if (!empty($instructor['filiation_1']) && $instructor['filiation'] == 0) {
             $instructor['filiation'] = 1;
-        } else if ($instructor['filiation'] == 0) {
+        } elseif ($instructor['filiation'] == 0) {
             $instructor['filiation_1'] = '';
             $instructor['filiation_2'] = '';
         }
@@ -336,7 +336,7 @@ class Register30
             if ($instructor['documents']['diff_location'] == '1') {
                 $register[44] = '';
             }
-        } else if ($instructor["area_of_residence"] == "1" && $instructor["diff_location"] == "1") {
+        } elseif ($instructor["area_of_residence"] == "1" && $instructor["diff_location"] == "1") {
             $instructor["diff_location"] = "";
         }
 
@@ -465,8 +465,9 @@ class Register30
         return $register;
     }
 
-    private static function convertCourseCodes($code) {
-        switch($code) {
+    private static function convertCourseCodes($code)
+    {
+        switch ($code) {
             case "142C01":
                 return "0113P012";
             case "142P01":
@@ -520,7 +521,7 @@ class Register30
         }
 
         foreach ($instructors as $instructor) {
-            $id = (String)'90' . $instructor['identification']['id'];
+            $id = (string)'90' . $instructor['identification']['id'];
             $instructor['identification']['id'] = $id;
             $instructor['documents']['id'] = $id;
             $instructor['variable']['id'] = $id;

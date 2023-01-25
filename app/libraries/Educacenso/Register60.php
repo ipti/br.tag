@@ -115,7 +115,7 @@ class Register60
                 }
                 if ($pedagogicalMediationType != '1' && $pedagogicalMediationType != '2') {
                     $diffLocation = '';
-                } else if ($diffLocation == null) {
+                } elseif ($diffLocation == null) {
                     $diffLocation = '0';
                 }
                 if ($classroom->modality == '3') {
@@ -143,7 +143,7 @@ class Register60
                     $enrollment['vehicle_type_waterway_boat_5_15'] = '';
                     $enrollment['vehicle_type_waterway_boat_15_35'] = '';
                     $enrollment['vehicle_type_waterway_boat_35'] = '';
-                } else if ($enrollment['public_transport'] == 0) {
+                } elseif ($enrollment['public_transport'] == 0) {
                     $enrollment['transport_responsable_government'] = '';
                     $enrollment['vehicle_type_bike'] = '';
                     $enrollment['vehicle_type_microbus'] = '';

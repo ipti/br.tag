@@ -11,15 +11,16 @@
 	'method'=>'get',
 )); ?>\n"; ?>
 
-<?php foreach($this->tableSchema->columns as $column): ?>
+<?php foreach ($this->tableSchema->columns as $column): ?>
 <?php
-	$field=$this->generateInputField($this->modelClass,$column);
-	if(strpos($field,'password')!==false)
-		continue;
+    $field=$this->generateInputField($this->modelClass, $column);
+    if (strpos($field, 'password')!==false) {
+        continue;
+    }
 ?>
 	<div class="controls">
 		<?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
-		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass,$column)."; ?>\n"; ?>
+		<?php echo "<?php echo ".$this->generateActiveField($this->modelClass, $column)."; ?>\n"; ?>
 	</div>
 
 <?php endforeach; ?>

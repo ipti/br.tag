@@ -30,7 +30,7 @@ class AdminController extends Controller
 
     public function actionCreateUser()
     {
-        $model = new Users;
+        $model = new Users();
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
             $model->attributes = $_POST['Users'];
@@ -41,9 +41,9 @@ class AdminController extends Controller
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
-                        $save = TRUE;
+                        $save = true;
                         foreach ($_POST['schools'] as $school) {
-                            $userSchool = new UsersSchool;
+                            $userSchool = new UsersSchool();
                             $userSchool->user_fk = $model->id;
                             $userSchool->school_fk = $school;
                             $save = $save && $userSchool->validate() && $userSchool->save();
@@ -171,7 +171,7 @@ class AdminController extends Controller
         $mode = 'r';
 
         $fileImport = fopen($fileDir, $mode);
-        if ($fileImport == FALSE) {
+        if ($fileImport == false) {
             die('O arquivo não existe.');
         }
 
@@ -183,7 +183,6 @@ class AdminController extends Controller
         fclose($fileImport);
         $json = unserialize($jsonSyncTag);
         $this->loadMaster($json);
-
     }
 
     public function loadMaster($loads)
@@ -250,7 +249,6 @@ class AdminController extends Controller
             $savestudent->attributes = $student;
             $savestudent->hash = $student['hash'];
             $savestudent->save();
-
         }
 
         foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
@@ -289,7 +287,6 @@ class AdminController extends Controller
             $saveenrollment->save();
         }
         //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
-
     }
 
     public function prepareExport()
@@ -394,7 +391,6 @@ class AdminController extends Controller
                         $loads['instructorsvariabledata'][$teachingData->instructor_fk]['hash'] = $hash_instructor;
                     }
                 }*/
-
             }
         }
         //var_dump($loads);exit;
@@ -442,7 +438,6 @@ class AdminController extends Controller
 
                     //$this->loadMaster($loads);
                 }
-
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola exportada com sucesso!'));
             $this->redirect(['index']);
@@ -472,5 +467,3 @@ class AdminController extends Controller
         $this->render('changelog');
     }
 }
-
-?>

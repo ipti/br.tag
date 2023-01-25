@@ -67,11 +67,11 @@ class StudentController extends Controller
             $student = new StudentIdentification();
             $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $uf = (int)$student->edcenso_uf_fk;
-        } else if ($register_type == 1) {
+        } elseif ($register_type == 1) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $uf = (int)$student->notary_office_uf_fk;
-        } else if ($register_type == 2) {
+        } elseif ($register_type == 2) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $uf = (int)$student->edcenso_uf_fk;
@@ -128,11 +128,11 @@ class StudentController extends Controller
      */
     public function actionCreate()
     {
-        $modelStudentIdentification = new StudentIdentification;
+        $modelStudentIdentification = new StudentIdentification();
         //@todo Checar o paramentro antes
         $modelStudentIdentification->deficiency = 0;
-        $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
-        $modelEnrollment = new StudentEnrollment;
+        $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress();
+        $modelEnrollment = new StudentEnrollment();
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -163,7 +163,7 @@ class StudentController extends Controller
                             $saved = true;
                             if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
                                 && !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])) {
-                                $modelEnrollment = new StudentEnrollment;
+                                $modelEnrollment = new StudentEnrollment();
                                 $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
                                 $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                                 $modelEnrollment->student_fk = $modelStudentIdentification->id;
@@ -249,7 +249,7 @@ class StudentController extends Controller
                         $saved = true;
                         if (isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
                             && !empty($_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])) {
-                            $modelEnrollment = new StudentEnrollment;
+                            $modelEnrollment = new StudentEnrollment();
                             $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
                             $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
@@ -332,14 +332,16 @@ class StudentController extends Controller
             $filter->attributes = $_GET['StudentIdentification'];
         }
         $school = Yii::app()->user->school;
-        $dataProvider = new CActiveDataProvider($this->STUDENT_IDENTIFICATION,
+        $dataProvider = new CActiveDataProvider(
+            $this->STUDENT_IDENTIFICATION,
             array(
                 'criteria' => array(
                     'condition' => 'school_inep_id_fk=' . $school,
                 ),
                 'pagination' => array(
                     'pageSize' => 12,
-                )));
+                ))
+        );
         $buttons = "";
         if ($sid != null) {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
@@ -348,21 +350,27 @@ class StudentController extends Controller
                 @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
                 if ($stage == 1) {
                     $type = 0;
-                } else if ($stage == 6) {
+                } elseif ($stage == 6) {
                     $type = 3;
                 } else {
                     $type = 1;
                 }
-                $buttons = CHtml::tag('a',
+                $buttons = CHtml::tag(
+                    'a',
                     array('href' => yii::app()->createUrl('student/update', array('id' => $sid)),
                         'class' => "btn btn-primary btn-icon glyphicons eye_open",
-                        'style' => 'margin-top: 5px; width: 110px'), '<i></i>Visualizar aluno');
+                        'style' => 'margin-top: 5px; width: 110px'),
+                    '<i></i>Visualizar aluno'
+                );
                 $buttons .= "<br>";
 
-                $buttons .= CHtml::tag('a',
+                $buttons .= CHtml::tag(
+                    'a',
                     array('target' => '_blank', 'href' => yii::app()->createUrl('/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
-                        'style' => 'margin-top: 5px; width: 110px'), '<i></i>Ficha individual');
+                        'style' => 'margin-top: 5px; width: 110px'),
+                    '<i></i>Ficha individual'
+                );
                 $buttons .= "<br>";
             }
         }
@@ -390,21 +398,20 @@ class StudentController extends Controller
      */
     public function loadModel($id, $model)
     {
-
         $return = null;
 
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
-        } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
+        } elseif ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $student_inep_id = StudentIdentification::model()->findByPk($id)->inep_id;
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
-            //mudança agora só busca pelo pk, não mais pelo inep_id
+        //mudança agora só busca pelo pk, não mais pelo inep_id
             /*$return = ($student_inep_id === 'null' || empty($student_inep_id))
                     ? StudentDocumentsAndAddress::model()->findByPk($id)
                     : StudentDocumentsAndAddress::model()->findByAttributes(array('student_fk' => $student_inep_id));*/
-        } else if ($model == $this->STUDENT_ENROLLMENT) {
+        } elseif ($model == $this->STUDENT_ENROLLMENT) {
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
-            array_push($return, new StudentEnrollment);
+            array_push($return, new StudentEnrollment());
         }
         if ($return === null) {
             //throw new CHttpException(404, 'The requested page does not exist.');
@@ -424,5 +431,4 @@ class StudentController extends Controller
             Yii::app()->end();
         }
     }
-
 }

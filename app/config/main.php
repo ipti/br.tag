@@ -50,7 +50,7 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
-        'cache'=>array( 
+        'cache'=>array(
             'class'=>'system.caching.CDbCache'
         ),
         // uncomment the following to enable URLs in path-format
@@ -117,7 +117,7 @@ return array(
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),   
+        ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
@@ -130,11 +130,11 @@ return array(
                     'levels' => 'error, warning',
                 ),
                 // uncomment the following to show log messages on web pages
-                
+
                   array(
                   'class'=>'CWebLogRoute',
                   ),
-                
+
             ),
         ),
     ),

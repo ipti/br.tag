@@ -1,14 +1,13 @@
 <?php
 
-class calendarWidget extends CWidget{
-
+class calendarWidget extends CWidget
+{
     public $calendar;
 
-    public function run(){
-
+    public function run()
+    {
         $this->render('calendar', [
             'calendar'=>$this->calendar,
         ]);
     }
-
 }

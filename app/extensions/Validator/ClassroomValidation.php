@@ -1,11 +1,11 @@
 <?php
+
 $DS = DIRECTORY_SEPARATOR;
 
 require_once(dirname(__FILE__) . $DS . "register.php");
 
 class ClassroomValidation extends Register
 {
-
     public $modalities = [
         73 => ' Curso FIC integrado na modalidade EJA – Nível Fundamental (EJA integrada à Educação Profissional)',
         39 => ' Curso Técnico  - Concomitante',
@@ -72,12 +72,12 @@ class ClassroomValidation extends Register
         66 => ' Segmento Técnico da EJA integrada'
     ];
 
-    function __construct()
+    public function __construct()
     {
     }
 
     //campos 4, 5
-    function checkLength($value, $max)
+    public function checkLength($value, $max)
     {
         if (trim($value) === '' || !isset($value)) {
             return array('status' => false, 'erro' => 'Valor eh nulo');
@@ -89,7 +89,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 5
-    function isValidClassroomName($name)
+    public function isValidClassroomName($name)
     {
         $regex = "/^([0-9A-Z ª°º-])+$/";
         $length = $this->checkLength($name, 80);
@@ -103,7 +103,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 6
-    function isValidMediation($mediation)
+    public function isValidMediation($mediation)
     {
         if (empty($mediation)) {
             return array('status' => false, 'erro' => 'O campo deve ser preenchido');
@@ -115,7 +115,7 @@ class ClassroomValidation extends Register
     }
 
     //campos 7 a 10
-    function isValidClassroomTime($initialHour, $initialMinute, $finalHour, $finalMinute, $mediation)
+    public function isValidClassroomTime($initialHour, $initialMinute, $finalHour, $finalMinute, $mediation)
     {
         $allowedHours = array('00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23');
         $allowedMinutes = array('00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55');
@@ -130,7 +130,6 @@ class ClassroomValidation extends Register
 
         if (empty($initialHour) || empty($initialMinute) || empty($finalHour) || empty($finalMinute)) {
             return array('status' => false, 'erro' => 'Horario da turma tem que ser preenchido se for presencial');
-
         }
         if (strlen($initialHour) != 2 || strlen($initialMinute) != 2 || strlen($finalHour) != 2 || strlen($finalMinute) != 2) {
             return array('status' => false, 'erro' => 'Os campos devem possuir 2 caracteres');
@@ -140,7 +139,7 @@ class ClassroomValidation extends Register
         }
         if ($initialHour > $finalHour) {
             return array('status' => false, 'erro' => 'Horario inicial nao pode ser maior que o final');
-        } else if (($initialHour == $finalHour) && ($initialMinute >= $finalMinute)) {
+        } elseif (($initialHour == $finalHour) && ($initialMinute >= $finalMinute)) {
             return array('status' => false, 'erro' => 'Horario inicial nao pode ser maior que o final');
         }
         return array('status' => true, 'erro' => '');
@@ -148,7 +147,7 @@ class ClassroomValidation extends Register
 
 
     //campos 11 a 17, 20 a 25
-    function atLeastOne($array)
+    public function atLeastOne($array)
     {
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($array); $i++) {
@@ -163,7 +162,7 @@ class ClassroomValidation extends Register
     }
 
     //campos 11 a 17
-    function areValidClassroomDays($days, $mediation)
+    public function areValidClassroomDays($days, $mediation)
     {
         $allowedValues = array('0', '1');
 
@@ -183,7 +182,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 18
-    function isValidAssistanceType($school_structure, $assistance_type, $mediation)
+    public function isValidAssistanceType($school_structure, $assistance_type, $mediation)
     {
         $allowedValues = array('0', '1', '2', '3', '4', '5');
         $complementary_activities = $school_structure['complementary_activities'];
@@ -274,7 +273,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 19
-    function isValidMaisEducacaoParticipator($participator, $mediation, $administrative_dependence, $assistance_type, $modality, $stage)
+    public function isValidMaisEducacaoParticipator($participator, $mediation, $administrative_dependence, $assistance_type, $modality, $stage)
     {
         $allowedValues = array('0', '1');
         $checkStages = array('4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19',
@@ -320,7 +319,7 @@ class ClassroomValidation extends Register
 
 
     //campos 20 a 25
-    function isValidComplementaryActivityType($activities, $complementaryActivity)
+    public function isValidComplementaryActivityType($activities, $complementaryActivity)
     {
         $atLeastOne = $this->atLeastOne($activities);
 
@@ -340,7 +339,7 @@ class ClassroomValidation extends Register
     }
 
     //campos 26 a 36
-    function isValidAEE($aeeArray, $assistance_type)
+    public function isValidAEE($aeeArray, $assistance_type)
     {
         $allowedValues = array('0', '1');
 
@@ -367,7 +366,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 37
-    function isValidModality($modality, $mediation, $complementaryActivity)
+    public function isValidModality($modality, $mediation, $complementaryActivity)
     {
         if ($mediation == 2 && ($modality !== 2 && $modality !== 3)) {
             return array('status' => false, 'erro' => 'Deve ser selecionada a opção "Educação Especial" ou "EJA" quando a mediação didático-pedagógica for Semipresencial.');
@@ -382,7 +381,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 38
-    function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
+    public function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
     {
         if (in_array($stage, [43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61])) {
             return array('status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.');
@@ -412,7 +411,7 @@ class ClassroomValidation extends Register
     }
 
     //campo 39
-    function isValidProfessionalEducation($professionalEducation, $stage)
+    public function isValidProfessionalEducation($professionalEducation, $stage)
     {
         $emptyProfessionalEducation = $this->isEmpty($professionalEducation);
 
@@ -432,7 +431,7 @@ class ClassroomValidation extends Register
         return array('status' => true, 'erro' => '');
     }
 
-    function isValidDiscipline($disciplineArray, $mediation, $assistance_type, $stage)
+    public function isValidDiscipline($disciplineArray, $mediation, $assistance_type, $stage)
     {
         $allowedValues = array(0, 1, 2);
         $mustFillOne = false;
@@ -482,7 +481,7 @@ class ClassroomValidation extends Register
     {
         if ($schooling == null || $complementaryActivity == null || $aee == null) {
             return array('status' => false, 'erro' => 'Atualize a turma.');
-        } else if ($schooling == '0' && $complementaryActivity == "0" && $aee == "0") {
+        } elseif ($schooling == '0' && $complementaryActivity == "0" && $aee == "0") {
             return array('status' => false, 'erro' => 'Selecione ao menos uma opção em "Tipo de Atendimento".');
         }
         return array('status' => true, 'erro' => '');
@@ -542,19 +541,19 @@ class ClassroomValidation extends Register
         return false;
     }
 
-    public function containsInstructors($instructorsTeachingData) {
+    public function containsInstructors($instructorsTeachingData)
+    {
         if ($instructorsTeachingData == null) {
             return array('status' => false, 'erro' => 'A turma precisa de professores cadastrados.');
         }
         return array('status' => true, 'erro' => '');
     }
 
-    public function containsStudents($studentsEnrollment) {
+    public function containsStudents($studentsEnrollment)
+    {
         if ($studentsEnrollment == null) {
             return array('status' => false, 'erro' => 'A turma precisa de alunos matriculados.');
         }
         return array('status' => true, 'erro' => '');
     }
 }
-
-?>

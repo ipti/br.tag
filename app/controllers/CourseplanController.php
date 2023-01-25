@@ -2,7 +2,6 @@
 
 class CourseplanController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -49,12 +48,11 @@ class CourseplanController extends Controller
         $saved = true;
 
         if ($coursePlan != null && isset($coursePlan["modality_fk"], $coursePlan["discipline_fk"], $coursePlan["name"])) {
-
             if ($id !== null) {
                 $newCoursePlan = CoursePlan::model()->findByPk($id);
                 $logSituation = "U";
             } else {
-                $newCoursePlan = new CoursePlan;
+                $newCoursePlan = new CoursePlan();
                 $newCoursePlan->school_inep_fk = Yii::app()->user->school;
                 $newCoursePlan->users_fk = Yii::app()->user->loginInfos->id;
                 $logSituation = "C";
@@ -67,7 +65,7 @@ class CourseplanController extends Controller
                 }
                 foreach ($courseClasses as $i => $courseClass) {
                     if (isset($courseClass['objective']) && !empty($courseClass['objective'])) {
-                        $newCourseClass = new CourseClass;
+                        $newCourseClass = new CourseClass();
                         $newCourseClass->course_plan_fk = $newCoursePlan->id;
                         $newCourseClass->order = $i;
                         $newCourseClass->objective = $courseClass['objective'];
@@ -84,14 +82,14 @@ class CourseplanController extends Controller
                         if ($newCourseClass->validate()) {
                             $saved = $saved && $newCourseClass->save();
                             foreach ($resources as $resource) {
-                                $newCourseClassResource = new CourseClassHasClassResource;
+                                $newCourseClassResource = new CourseClassHasClassResource();
                                 $newCourseClassResource->course_class_fk = $newCourseClass->id;
                                 $newCourseClassResource->class_resource_fk = $resource;
                                 $saved = $saved && $newCourseClassResource->save();
                             }
                             if (isset($courseClass['resource'])) {
                                 foreach ($courseClass['resource'] as $resource) {
-                                    $newCourseClassResource = new CourseClassHasClassResource;
+                                    $newCourseClassResource = new CourseClassHasClassResource();
                                     $newCourseClassResource->course_class_fk = $newCourseClass->id;
                                     $newCourseClassResource->class_resource_fk = $resource['value'];
                                     $newCourseClassResource->amount = $resource['amount'];
@@ -119,7 +117,7 @@ class CourseplanController extends Controller
             }
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Preencha o cabeçalho.'));
-            $newCoursePlan = new CoursePlan;
+            $newCoursePlan = new CoursePlan();
             $newCoursePlan->attributes = $coursePlan;
             $newCoursePlan->school_inep_fk = Yii::app()->user->school;
             $newCoursePlan->validate();
@@ -137,7 +135,7 @@ class CourseplanController extends Controller
             $this->actionSave($_POST);
         }
         if ($data == null) {
-            $coursePlan = new CoursePlan;
+            $coursePlan = new CoursePlan();
             $courseClasses = [];
         } else {
             $coursePlan = $data['coursePlan'];
@@ -216,7 +214,6 @@ class CourseplanController extends Controller
                         $i++;
                     }
                 }
-
             }
         } else {
             $courseClasses = $data['courseClasses'];
@@ -297,8 +294,9 @@ class CourseplanController extends Controller
     public function loadModel($id)
     {
         $model = CoursePlan::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -313,5 +311,4 @@ class CourseplanController extends Controller
             Yii::app()->end();
         }
     }
-
 }

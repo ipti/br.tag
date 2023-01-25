@@ -1,4 +1,5 @@
 <?php
+
 return [
     'Lunch' => "Merenda Escolar",
     'Stock' => 'Estoque',

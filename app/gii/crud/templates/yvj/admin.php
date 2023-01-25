@@ -54,14 +54,15 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 <?php
 $count=0;
-foreach($this->tableSchema->columns as $column)
-{
-	if(++$count==7)
-		echo "\t\t/*\n";
-	echo "\t\t'".$column->name."',\n";
+foreach ($this->tableSchema->columns as $column) {
+    if (++$count==7) {
+        echo "\t\t/*\n";
+    }
+    echo "\t\t'".$column->name."',\n";
 }
-if($count>=7)
-	echo "\t\t*/\n";
+if ($count>=7) {
+    echo "\t\t*/\n";
+}
 ?>
 		array(
 			'class'=>'CButtonColumn',

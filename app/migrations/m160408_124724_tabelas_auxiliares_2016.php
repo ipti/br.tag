@@ -1,28 +1,30 @@
-﻿<?php
+<?php
 
-	class m160408_124724_tabelas_auxiliares_2016 extends CDbMigration {
-		// Use safeUp/safeDown to do migration with transaction
-		public function safeUp() {
-			set_time_limit(0);
-			$this->execute('set global max_allowed_packet=435544320;');
-			$campos = [
-				'1' => 'Ensino do Sistema Braille', '3' => 'Ensino do uso de recursos ópticos e não ópticos',
-				'4' => 'Estratégias para o desenvolvimento de processos mentais',
-				'5' => 'Técnicas de orientação e mobilidade', '6' => 'Ensino da Língua Brasileira de Sinais – Libras',
-				'7' => 'Ensino de uso da Comunicação Alternativa e Aumentativa - CAA',
-				'8' => 'Estratégias para enriquecimento curricular', '9' => 'Ensino do uso do Soroban',
-				'10' => 'Ensino da usabilidade e das funcionalidades da informática acessível',
-				'11' => 'Ensino da Língua Portuguesa na modalidade escrita',
-				'12' => 'Estratégias para autonomia no ambiente escolar',
-			];
+    class m160408_124724_tabelas_auxiliares_2016 extends CDbMigration
+    {
+        // Use safeUp/safeDown to do migration with transaction
+        public function safeUp()
+        {
+            set_time_limit(0);
+            $this->execute('set global max_allowed_packet=435544320;');
+            $campos = [
+                '1' => 'Ensino do Sistema Braille', '3' => 'Ensino do uso de recursos ópticos e não ópticos',
+                '4' => 'Estratégias para o desenvolvimento de processos mentais',
+                '5' => 'Técnicas de orientação e mobilidade', '6' => 'Ensino da Língua Brasileira de Sinais – Libras',
+                '7' => 'Ensino de uso da Comunicação Alternativa e Aumentativa - CAA',
+                '8' => 'Estratégias para enriquecimento curricular', '9' => 'Ensino do uso do Soroban',
+                '10' => 'Ensino da usabilidade e das funcionalidades da informática acessível',
+                '11' => 'Ensino da Língua Portuguesa na modalidade escrita',
+                '12' => 'Estratégias para autonomia no ambiente escolar',
+            ];
 
-			foreach ($campos as $id => $name) {
-				$this->execute(" INSERT INTO edcenso_aee_activity (id, name) VALUES (:id,:name)
+            foreach ($campos as $id => $name) {
+                $this->execute(" INSERT INTO edcenso_aee_activity (id, name) VALUES (:id,:name)
 				ON DUPLICATE KEY UPDATE name=:name;", [":id" => $id, ":name" => $name]);
-			}
+            }
 
-			// edcenso_city
-			$this->execute("INSERT INTO edcenso_city (id, edcenso_uf_fk, name, cep_initial, cep_final, ddd1, ddd2) VALUES
+            // edcenso_city
+            $this->execute("INSERT INTO edcenso_city (id, edcenso_uf_fk, name, cep_initial, cep_final, ddd1, ddd2) VALUES
 			('1100015', '11', 'ALTA FLORESTA D OESTE', '76954000', '76954970', '69', '69'),
 			('1100023', '11', 'ARIQUEMES', '76870001', '76879400', '69', '69'),
 			('1100031', '11', 'CABIXI', '76994000', '76994970', '69', '69'),
@@ -5598,8 +5600,8 @@
 				cep_initial=VALUES(cep_initial), cep_final=VALUES(cep_final),
 				ddd1=VALUES(ddd1), ddd2=VALUES(ddd2);");
 
-			// edcenso_complementary_activity_type
-			$this->execute("INSERT INTO edcenso_complementary_activity_type (id, name) VALUES
+            // edcenso_complementary_activity_type
+            $this->execute("INSERT INTO edcenso_complementary_activity_type (id, name) VALUES
 			(11002, 'Canto coral'),
 			(11005, 'Hip Hop'),
 			(11006, 'Banda'),
@@ -5693,8 +5695,8 @@
 			ON DUPLICATE KEY UPDATE
 			 name=VALUES(name);");
 
-			// edcenso_course_of_higher_education
-			$this->execute("INSERT INTO edcenso_course_of_higher_education (cod, area, id, name, degree) VALUES
+            // edcenso_course_of_higher_education
+            $this->execute("INSERT INTO edcenso_course_of_higher_education (cod, area, id, name, degree) VALUES
 			(1, 'Educação', '142A01', 'Processos Escolares - Tecnológico', 'Tecnológico'),
 			(1, 'Educação', '142C01', 'Pedagogia (Ciências da Educação) - Bacharelado', 'Bacharelado'),
 			(1, 'Educação', '142P01', 'Pedagogia - Licenciatura', 'Licenciatura'),
@@ -5953,8 +5955,8 @@
 			ON DUPLICATE KEY UPDATE
 			 cod=VALUES(cod), area=VALUES(area), name=VALUES(name), degree=VALUES(degree);");
 
-			// edcenso_discipline
-			$this->execute("INSERT INTO edcenso_discipline (id, name) VALUES
+            // edcenso_discipline
+            $this->execute("INSERT INTO edcenso_discipline (id, name) VALUES
 			(1, 'Química'),
 			(2, 'Física'),
 			(3, 'Matemática'),
@@ -5984,7 +5986,7 @@
 			ON DUPLICATE KEY UPDATE
 			 name=VALUES(name);");
 
-			$this->execute("INSERT INTO edcenso_ies (id, name, edcenso_uf_fk, edcenso_city_fk, administrative_dependency_code, administrative_dependency_name, institution_type, working_status)
+            $this->execute("INSERT INTO edcenso_ies (id, name, edcenso_uf_fk, edcenso_city_fk, administrative_dependency_code, administrative_dependency_name, institution_type, working_status)
 			 VALUES (1, 'UNIVERSIDADE FEDERAL DE MATO GROSSO', 51, 5103403, 1, 'FEDERAL', 'PUBLICA', 'ATIVA'),
 (2, 'UNIVERSIDADE DE BRASILIA', 53, 5300108, 1, 'FEDERAL', 'PUBLICA', 'ATIVA'),
 (3, 'UNIVERSIDADE FEDERAL DE SERGIPE', 28, 2806701, 1, 'FEDERAL', 'PUBLICA', 'ATIVA'),
@@ -11739,7 +11741,7 @@
 			 administrative_dependency_code=VALUES(administrative_dependency_code), administrative_dependency_name=VALUES(administrative_dependency_name), 
 			 institution_type=VALUES(institution_type), working_status=VALUES(working_status); 
 ");
-			$this->execute("INSERT INTO edcenso_native_languages (id, name)
+            $this->execute("INSERT INTO edcenso_native_languages (id, name)
 			 VALUES
 (30, 'Boróro'),
 (244, 'Umutína'),
@@ -12065,14 +12067,14 @@
 (999, 'Outras Linguas Indigenas')
 			 ON DUPLICATE KEY UPDATE
 			  name=VALUES(name);");
-			 
-			$this->execute("DELETE FROM `edcenso_notary_office` WHERE `id`='7178';");
-			try{
-				$this->execute("ALTER TABLE edcenso_notary_office ADD UNIQUE INDEX `cod_UNIQUE` (`cod` ASC);");
-			}catch(Exception $e){
-				//$this->execute("ALTER TABLE `edcenso_notary_office` DROP INDEX `cod_UNIQUE`;");
-			}
-			$this->execute("INSERT INTO edcenso_notary_office (cod, name, city, uf, serventia)
+
+            $this->execute("DELETE FROM `edcenso_notary_office` WHERE `id`='7178';");
+            try {
+                $this->execute("ALTER TABLE edcenso_notary_office ADD UNIQUE INDEX `cod_UNIQUE` (`cod` ASC);");
+            } catch (Exception $e) {
+                //$this->execute("ALTER TABLE `edcenso_notary_office` DROP INDEX `cod_UNIQUE`;");
+            }
+            $this->execute("INSERT INTO edcenso_notary_office (cod, name, city, uf, serventia)
 			 VALUES
 			 (1, 'CARTORIO DO REGSITRO CIVIL DAS PESSOAS NATURAIS', '2916302', 29, 010454),
 (2, 'CARTORIO DO REGISTRO CIVIL DAS PESSOAS NATURAIS', '2916302', 29, 009522),
@@ -26288,8 +26290,8 @@
 (14215, 'CARTORIO DO 1º OFICIO E REGISTRO DE IMOVEIS DE MIRANORTE-TO', '1713304', 17, 128330)
 			 ON DUPLICATE KEY UPDATE
 			  name=VALUES(name), city=VALUES(city), uf=VALUES(uf), serventia=VALUES(serventia);");
-			
-			$this->execute("INSERT INTO edcenso_professional_education_course (id, name)
+
+            $this->execute("INSERT INTO edcenso_professional_education_course (id, name)
 			 VALUES
 (1001, 'Agente Comunitário de Saúde'),
 (1002, 'Análises clínicas'),
@@ -26533,9 +26535,9 @@
 (13999, 'Outros - Eixo Segurança')
 			 ON DUPLICATE KEY UPDATE
 			  name=VALUES(name);");
-			
- 			// STAGE_VS_MODALITY
-			$this->execute("INSERT INTO edcenso_stage_vs_modality (stage,id, name) VALUES
+
+            // STAGE_VS_MODALITY
+            $this->execute("INSERT INTO edcenso_stage_vs_modality (stage,id, name) VALUES
 				('1','1','Educação Infantil - Creche (0 a 3 anos)'),
 				('1','2','Educação Infantil - Pré-escola (4 e 5 anos)'),
 				('1','3','Educação Infantil - Unificada (0 a 5 anos)'),
@@ -26589,30 +26591,30 @@
 				ON DUPLICATE KEY UPDATE
 						id=VALUES(id), name=VALUES(name),stage=VALUES(stage);");
 
-			// EDCENSO CREATE STAGE_VS_MODALITY_COMPLEMENTARY
-			$this->createTable('edcenso_stage_vs_modality_complementary', [
-				'id' => 'pk',
-				'fk_edcenso_stage_vs_modality' => 'INT NOT NULL',
-				'educational_mediation_types' => 'TINYINT(1) NULL',
-				'modalities' => 'TINYINT(1) NULL'
-				]);
-			$this->createIndex(
-				'fk_edcenso_stage_vs_modality',
-				'edcenso_stage_vs_modality_complementary',
-				'fk_edcenso_stage_vs_modality'
-			);
-			$this->addForeignKey(
-				'fk_edcenso_stage_vs_modality',
-				'edcenso_stage_vs_modality_complementary',
-				'fk_edcenso_stage_vs_modality',
-				'edcenso_stage_vs_modality',
-				'id',
-				'CASCADE',
-				'CASCADE'
-			);
-				
-			// EDCENSO STAGE_VS_MODALITY_COMPLEMENTARY INSERTs
-			 $this->execute("INSERT INTO edcenso_stage_vs_modality_complementary (fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
+            // EDCENSO CREATE STAGE_VS_MODALITY_COMPLEMENTARY
+            $this->createTable('edcenso_stage_vs_modality_complementary', [
+                'id' => 'pk',
+                'fk_edcenso_stage_vs_modality' => 'INT NOT NULL',
+                'educational_mediation_types' => 'TINYINT(1) NULL',
+                'modalities' => 'TINYINT(1) NULL'
+                ]);
+            $this->createIndex(
+                'fk_edcenso_stage_vs_modality',
+                'edcenso_stage_vs_modality_complementary',
+                'fk_edcenso_stage_vs_modality'
+            );
+            $this->addForeignKey(
+                'fk_edcenso_stage_vs_modality',
+                'edcenso_stage_vs_modality_complementary',
+                'fk_edcenso_stage_vs_modality',
+                'edcenso_stage_vs_modality',
+                'id',
+                'CASCADE',
+                'CASCADE'
+            );
+
+            // EDCENSO STAGE_VS_MODALITY_COMPLEMENTARY INSERTs
+            $this->execute("INSERT INTO edcenso_stage_vs_modality_complementary (fk_edcenso_stage_vs_modality, educational_mediation_types, modalities) VALUES
 				(1,1,1),(1,1,2),
 				(2,1,1),(2,1,2),
 				(3,1,1),(3,1,2),
@@ -26665,7 +26667,7 @@
 				(65,1,3)		
 			 ;");
 
-			 $this->execute("INSERT INTO edcenso_uf (id, acronym, name)
+            $this->execute("INSERT INTO edcenso_uf (id, acronym, name)
 			 VALUES
 			 (11, 'RO', 'Rondônia'),
 (12, 'AC', 'Acre'),
@@ -26696,19 +26698,18 @@
 (53, 'DF', 'Distrito Federal')
 			 ON DUPLICATE KEY UPDATE
 			  acronym=VALUES(acronym), name=VALUES(name);");
-			
-			set_time_limit(30);
-			echo("não tem district");
-			echo("não tem nation");
-			echo("não tem regional education organ");
-			
-			return true;
 
-		}
+            set_time_limit(30);
+            echo("não tem district");
+            echo("não tem nation");
+            echo("não tem regional education organ");
 
-		public function safeDown() {
-			// Drop edcenso_stage_vs_modality_complementary table
-			$this->dropTable('edcenso_stage_vs_modality_complementary');
+            return true;
+        }
 
-		}
-	}
+        public function safeDown()
+        {
+            // Drop edcenso_stage_vs_modality_complementary table
+            $this->dropTable('edcenso_stage_vs_modality_complementary');
+        }
+    }

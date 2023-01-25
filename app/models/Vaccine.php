@@ -10,7 +10,6 @@
  */
 class Vaccine extends AltActiveRecord
 {
-
     public $name;
 
     /**
@@ -22,7 +21,7 @@ class Vaccine extends AltActiveRecord
     {
         return parent::model($className);
     }
-    
+
     /**
      * @return string the associated database table name
      */

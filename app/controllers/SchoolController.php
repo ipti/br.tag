@@ -2,7 +2,6 @@
 
 class SchoolController extends Controller
 {
-
     //@done s1 - Recuperar endereço pelo CEP
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -140,8 +139,8 @@ class SchoolController extends Controller
      */
     public function actionCreate()
     {
-        $modelSchoolIdentification = new SchoolIdentification;
-        $modelSchoolStructure = new SchoolStructure;
+        $modelSchoolIdentification = new SchoolIdentification();
+        $modelSchoolStructure = new SchoolStructure();
         $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
@@ -211,7 +210,6 @@ class SchoolController extends Controller
         // $this->performAjaxValidation($modelSchoolIdentification);
 
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION]) && isset($_POST[$this->SCHOOL_STRUCTURE])) {
-
             if (isset($_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->SCHOOL_STRUCTURE]["shared_school_inep_id_1"];
             }
@@ -243,7 +241,6 @@ class SchoolController extends Controller
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
                     || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save()) {
-
                         if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
                             SchoolStagesConceptGrades::model()->deleteAll("school_fk = :school_fk and edcenso_stage_vs_modality_fk not in (:edcenso_stage_vs_modality_fk)", ["school_fk" => $modelSchoolIdentification->inep_id, "edcenso_stage_vs_modality_fk" => implode(",", $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"])]);
                             foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
@@ -337,12 +334,11 @@ class SchoolController extends Controller
      */
     public function loadModel($id, $model)
     {
-
         $return = null;
 
         if ($model == $this->SCHOOL_IDENTIFICATION) {
             $return = SchoolIdentification::model()->findByPk($id);
-        } else if ($model == $this->SCHOOL_STRUCTURE) {
+        } elseif ($model == $this->SCHOOL_STRUCTURE) {
             $return = SchoolStructure::model()->findByPk($id);
             $stagesConceptGradesArray = [];
             $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
@@ -372,8 +368,9 @@ class SchoolController extends Controller
             $return->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
         }
 
-        if ($return === null)
+        if ($return === null) {
             throw new CHttpException(404, 'A página requisitada não existe.');
+        }
         return $return;
     }
 
@@ -455,5 +452,4 @@ class SchoolController extends Controller
             Yii::app()->end();
         }
     }
-
 }

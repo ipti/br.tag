@@ -7,9 +7,9 @@
  */
 class UserIdentity extends CUserIdentity
 {
-
-    private function schoolReportPassword($name){
-        if(!empty($name)) {
+    private function schoolReportPassword($name)
+    {
+        if (!empty($name)) {
             $names = explode(" ", trim($name));
             $pass = "";
             foreach ($names as $n) {
@@ -20,35 +20,40 @@ class UserIdentity extends CUserIdentity
         }
         return "";
     }
-	/**
-	 * Authenticates a user.
+    /**
+     * Authenticates a user.
      *
-	 * @return boolean whether authentication succeeds.
-	 */
+     * @return boolean whether authentication succeeds.
+     */
 
-    public function authenticate() {
+    public function authenticate()
+    {
         $students = StudentIdentification::model()->findAllByAttributes(['responsable_cpf' => $this->username]);
-        if($students[0]->responsable == 0)
+        if ($students[0]->responsable == 0) {
             $responsible = $students[0]->filiation_2;
-        else if($students[0]->responsable == 1)
+        } elseif ($students[0]->responsable == 1) {
             $responsible = $students[0]->filiation_1;
-        else
+        } else {
             $responsible = $students[0]->responsable_name;
+        }
 
-        if (count($students) === 0) $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if (strtoupper($this->password) !== $this->schoolReportPassword($responsible))
+        if (count($students) === 0) {
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
+        } elseif (strtoupper($this->password) !== $this->schoolReportPassword($responsible)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        else {
+        } else {
             $this->setState('info', ["cpf" => $students[0]->responsable_cpf, "name"=>$responsible]);
             $result =[];
-            foreach($students as $student){
+            foreach ($students as $student) {
                 /* @var $student StudentIdentification
                  * @var $enrollment StudentEnrollment
                  * @var $classroom Classroom */
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(['student_fk'=>$student->id]);
-                foreach($enrollments as $enrollment) {
+                foreach ($enrollments as $enrollment) {
                     $classroom = $enrollment->classroomFk;
-                    if (!isset($result[$classroom->school_year])) $result[$classroom->school_year] = [];
+                    if (!isset($result[$classroom->school_year])) {
+                        $result[$classroom->school_year] = [];
+                    }
                     $result[$classroom->school_year][$enrollment->id] = [
                         'name' => $student->name,
                         'classroom_id' => $classroom->id,
@@ -56,7 +61,7 @@ class UserIdentity extends CUserIdentity
                     ];
                 }
             }
-            $this->setState('enrollments',$result);
+            $this->setState('enrollments', $result);
             $this->errorCode = self::ERROR_NONE;
         }
         return !$this->errorCode;

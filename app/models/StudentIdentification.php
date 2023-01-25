@@ -72,37 +72,40 @@
  * @property SchoolIdentification $schoolInepIdFk
  * @property StudentDocumentsAndAddress $documentsFk
  */
-class StudentIdentification extends AltActiveRecord {
-
+class StudentIdentification extends AltActiveRecord
+{
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return StudentIdentification the static model class
      */
-    public static function model($className = __CLASS__) {
+    public static function model($className = __CLASS__)
+    {
         return parent::model($className);
     }
 
     /**
      * @return string the associated database table name
      */
-    public function tableName() {
+    public function tableName()
+    {
         return 'student_identification';
     }
 
-    public function behaviors() {
-        if(isset(Yii::app()->user->school)){
+    public function behaviors()
+    {
+        if (isset(Yii::app()->user->school)) {
             return [
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,
                 ],
             ];
-        }else{
+        } else {
             return [];
         }
     }
-        
+
     /**
      * @return array validation rules for model attributes.
      */
@@ -134,7 +137,8 @@ class StudentIdentification extends AltActiveRecord {
     /**
      * @return array relational rules.
      */
-    public function relations() {
+    public function relations()
+    {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
@@ -150,7 +154,8 @@ class StudentIdentification extends AltActiveRecord {
     /**
      * @return array customized attribute labels (name=>label)
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return array(
             'register_type' => Yii::t('default', 'Register Type'),
             'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
@@ -217,7 +222,7 @@ class StudentIdentification extends AltActiveRecord {
             'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
             'filiation_2_job' => Yii::t('default', 'Father Job'),
             'no_documents_desc' => Yii::t('default', 'No Documents Desc')
-            
+
         );
     }
 
@@ -225,11 +230,12 @@ class StudentIdentification extends AltActiveRecord {
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function search() {
+    public function search()
+    {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
 //        $school = Yii::app()->user->school;
@@ -293,7 +299,8 @@ class StudentIdentification extends AltActiveRecord {
         ));
     }
 
-    public function getConcatened() {
+    public function getConcatened()
+    {
         return $this->name . ' (' . $this->filiation_1.')['.$this->birthday.']';
     }
 
@@ -301,13 +308,14 @@ class StudentIdentification extends AltActiveRecord {
      * This method is invoked before saving a record (after validation, if any).
      * @return boolean whether the saving should be executed. Defaults to true.
  */
-    protected function beforeSave() {
-
+    protected function beforeSave()
+    {
         return parent::beforeSave();
     }
 
 
-    public function getCurrentStageVsModality(){
+    public function getCurrentStageVsModality()
+    {
         $sid = isset($this->id) ? $this->id : 0;
         $sql = "select student_fk student, se.id enrollment, se.edcenso_stage_vs_modality_fk enrollment_svm, c.edcenso_stage_vs_modality_fk classroom_svm from student_enrollment se
                   join classroom c on c.id = se.classroom_fk
@@ -316,10 +324,9 @@ class StudentIdentification extends AltActiveRecord {
         $result = Yii::app()->db->createCommand($sql)->queryRow();
 
         $stage = null;
-        if(isset($result)){
+        if (isset($result)) {
             $stage = isset($result['enrollment_svm']) ? $result['enrollment_svm'] : $result['classroom_svm'];
         }
         return $stage;
-
     }
 }

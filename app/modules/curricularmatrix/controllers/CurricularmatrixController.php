@@ -2,7 +2,6 @@
 
 class CurricularmatrixController extends Controller
 {
-
     public $MODEL_CURRICULAR_MATRIX = 'CurricularMatrix';
 
     /**
@@ -59,7 +58,7 @@ class CurricularmatrixController extends Controller
                         ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
                     ]);
                     $logSituation = "U";
-                    if ($matrix == NULL) {
+                    if ($matrix == null) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes([
                             "stage_fk" => $stage, "discipline_fk" => $discipline, "school_year" => Yii::app()->user->year
@@ -116,7 +115,6 @@ class CurricularmatrixController extends Controller
             ]);
 
         return ['dataProvider' => $dataProvider, 'filter' => $filter];
-
     }
 
 

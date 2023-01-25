@@ -72,7 +72,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         $date = new DateTime($start->format("Y-m-d"));
 
         $events = [];
-        for ($i = 1; $i <= 12; $i++) $events[$i] = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $events[$i] = [];
+        }
         foreach ($calendar->calendarEvents as $event) {
             if ($event->school_fk == null || $event->school_fk == Yii::app()->user->school) {
                 $start_event = new DateTime($event->start_date);
@@ -125,7 +127,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                      data-id="<?= $calendar->id ?>">
                                     <div class="span12">
                                         <?php for ($j = 0; $j < 4; $j++):
-                                            if ($date->diff($end)->invert) break;
+                                            if ($date->diff($end)->invert) {
+                                                break;
+                                            }
                                             $month = $date->format("F");
                                             $m = $date->format("n");
                                             $y = $date->format("Y");
@@ -192,7 +196,6 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                                         }
                                                         $class .= "span1-7 ";
                                                         $html .= "<div class='$class'>$beforeContent<div class='calendar-text '>$content</div>$afterContent</div>";
-
                                                     }
                                                     $html .= '</div> </div>';
                                                 }
@@ -224,8 +227,6 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                     . '<i class="fa ' . $type->icon . '"></i>&nbsp;'
                                     . '<span>' . yii::t('calendarModule.labels', $type->name) . '</span>'
                                     . '</div>';
-
-
                             }
                             echo $html; ?>
                         </div>
@@ -289,9 +290,12 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     <div class="span12">
                         <?= chtml::label(yii::t("calendarModule.labels", "Copy From"), "copy", array('class' => 'control-label')); ?>
                         <div class="form-control">
-                            <?= chtml::dropDownList("copy", "",
+                            <?= chtml::dropDownList(
+                                "copy",
+                                "",
                                 chtml::listData(Calendar::model()->findAll(), "id", "title"),
-                                array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'), 'class' => 'span9')) ?>
+                                array('prompt' => yii::t("calendarModule.labels", 'Select calendar base'), 'class' => 'span9')
+                            ) ?>
                         </div>
                     </div>
                 </div>

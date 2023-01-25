@@ -1,4 +1,5 @@
 <?php
+
     $FIELDS = array(
         '00'=>array(
             'COLUMNS'=>42,
@@ -34,5 +35,3 @@
             'COLUMNS'=>24,
         ),
     );
-
-?>

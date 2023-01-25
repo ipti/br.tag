@@ -1,12 +1,11 @@
 <?php
 /*
- * 
+ *
  */
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -61,7 +60,6 @@ class ClassroomController extends Controller
 
         $result['html'] = CHtml::tag('option', array('value' => ''), CHtml::encode('Selecione o Tipo de Atendimento'), true);
         if ($schoolStructure != null) {
-
             $encode = array(
                 0 => CHtml::encode('Não se Aplica'),
                 1 => CHtml::encode('Classe Hospitalar'),
@@ -124,12 +122,12 @@ class ClassroomController extends Controller
 
     public function actionUpdateAssistanceTypeDependencies()
     {
-        /* 	Campo	18	Se Campo 17 = 1|5, desabilita; 
+        /* 	Campo	18	Se Campo 17 = 1|5, desabilita;
           Se Campo 17 = 0|2|3, campo 36 hanilita 1 e 2 e campo 37 habilita [4..38]|41|56;
           Se Campo 17 = 4, campo 36&37 = null
           Campo	19~24	Se Campo 17 = 4; Pelo menos um, Não repetidos.
           Campo 	25~35	Se Campo 17 = 5; Pelo menos um diferente de 0.
-         * 
+         *
          * 17 tipo de atendimento
          * 18 mais edu
          * 19~24 tipo de atividade
@@ -163,7 +161,7 @@ class ClassroomController extends Controller
         $result['StageEmpty'] = false;
         if ($at == 0 || $at == 1) {
             $data = EdcensoStageVsModality::model()->findAll($where);
-        } else if ($at == 2 || $at == 3) {
+        } elseif ($at == 2 || $at == 3) {
             $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . $where);
         } else {
             $data = array();
@@ -223,12 +221,11 @@ class ClassroomController extends Controller
         $modelClassroom->discipline_sociology = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
         $modelClassroom->discipline_foreign_language_franch = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
         $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
-
     }
 
     //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
 
-    static function classroomDisciplineLabelArray()
+    public static function classroomDisciplineLabelArray()
     {
         $labels = array();
         $labels[1] = Classroom::model()->attributeLabels()['discipline_chemistry'];
@@ -267,7 +264,7 @@ class ClassroomController extends Controller
         return $labels;
     }
 
-    static function classroomDisciplineLabelResumeArray()
+    public static function classroomDisciplineLabelResumeArray()
     {
         $labels = array();
         $labels[1] = "Química";
@@ -371,36 +368,49 @@ class ClassroomController extends Controller
 
     //@done s1 - criar função para transformas as Disciplinas do TeachingData em Array
 
-    static function teachingDataDiscipline2array($instructor)
+    public static function teachingDataDiscipline2array($instructor)
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk))
+        if (isset($instructor->discipline_1_fk)) {
             array_push($disciplines, $instructor->discipline1Fk);
-        if (isset($instructor->discipline_2_fk))
+        }
+        if (isset($instructor->discipline_2_fk)) {
             array_push($disciplines, $instructor->discipline2Fk);
-        if (isset($instructor->discipline_3_fk))
+        }
+        if (isset($instructor->discipline_3_fk)) {
             array_push($disciplines, $instructor->discipline3Fk);
-        if (isset($instructor->discipline_4_fk))
+        }
+        if (isset($instructor->discipline_4_fk)) {
             array_push($disciplines, $instructor->discipline4Fk);
-        if (isset($instructor->discipline_5_fk))
+        }
+        if (isset($instructor->discipline_5_fk)) {
             array_push($disciplines, $instructor->discipline5Fk);
-        if (isset($instructor->discipline_6_fk))
+        }
+        if (isset($instructor->discipline_6_fk)) {
             array_push($disciplines, $instructor->discipline6Fk);
-        if (isset($instructor->discipline_7_fk))
+        }
+        if (isset($instructor->discipline_7_fk)) {
             array_push($disciplines, $instructor->discipline7Fk);
-        if (isset($instructor->discipline_8_fk))
+        }
+        if (isset($instructor->discipline_8_fk)) {
             array_push($disciplines, $instructor->discipline8Fk);
-        if (isset($instructor->discipline_9_fk))
+        }
+        if (isset($instructor->discipline_9_fk)) {
             array_push($disciplines, $instructor->discipline9Fk);
-        if (isset($instructor->discipline_10_fk))
+        }
+        if (isset($instructor->discipline_10_fk)) {
             array_push($disciplines, $instructor->discipline10Fk);
-        if (isset($instructor->discipline_11_fk))
+        }
+        if (isset($instructor->discipline_11_fk)) {
             array_push($disciplines, $instructor->discipline11Fk);
-        if (isset($instructor->discipline_12_fk))
+        }
+        if (isset($instructor->discipline_12_fk)) {
             array_push($disciplines, $instructor->discipline12Fk);
-        if (isset($instructor->discipline_13_fk))
+        }
+        if (isset($instructor->discipline_13_fk)) {
             array_push($disciplines, $instructor->discipline13Fk);
+        }
         return $disciplines;
     }
 
@@ -495,8 +505,7 @@ class ClassroomController extends Controller
 
     public function actionCreate()
     {
-
-        $modelClassroom = new Classroom;
+        $modelClassroom = new Classroom();
         $modelTeachingData = array();
 
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
@@ -518,7 +527,6 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
 
             if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
-
                 if ($modelClassroom->validate() && $modelClassroom->save()) {
                     $saved = true;
                     $teachingDataValidated = true;
@@ -526,7 +534,7 @@ class ClassroomController extends Controller
                     $teachingData = json_decode($_POST['teachingData']);
 
                     foreach ($teachingData as $key => $td) {
-                        $modelTeachingData[$key] = new InstructorTeachingData;
+                        $modelTeachingData[$key] = new InstructorTeachingData();
                         $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
                         $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
                         $modelTeachingData[$key]->instructor_fk = $td->Instructor;
@@ -594,7 +602,6 @@ class ClassroomController extends Controller
             $this->redirect(array('index'));
         }
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
-
             foreach ($modelTeachingData as $key => $td) {
                 $td->delete();
             }
@@ -617,7 +624,6 @@ class ClassroomController extends Controller
             $this->setDisciplines($modelClassroom, $disciplines);
 
             if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
-
                 if ($modelClassroom->validate() && $modelClassroom->save()) {
                     $saved = true;
                     $teachingDataValidated = true;
@@ -625,7 +631,7 @@ class ClassroomController extends Controller
                     $teachingData = json_decode($_POST['teachingData']);
 
                     foreach ($teachingData as $key => $td) {
-                        $modelTeachingData[$key] = new InstructorTeachingData;
+                        $modelTeachingData[$key] = new InstructorTeachingData();
                         $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
                         $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
                         $modelTeachingData[$key]->instructor_fk = $td->Instructor;
@@ -677,7 +683,7 @@ class ClassroomController extends Controller
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
         try {
-            foreach($teachingDatas as $teachingData) {
+            foreach ($teachingDatas as $teachingData) {
                 $teachingData->delete();
             }
             if ($classroom->delete()) {
@@ -716,8 +722,9 @@ class ClassroomController extends Controller
     {
         $model = new Classroom('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Classroom']))
+        if (isset($_GET['Classroom'])) {
             $model->attributes = $_GET['Classroom'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -755,11 +762,11 @@ class ClassroomController extends Controller
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
             }
             $return->complementary_activity_type_1 = $complementaryActivitiesArray;
-        } else if ($model == $this->MODEL_TEACHING_DATA) {
+        } elseif ($model == $this->MODEL_TEACHING_DATA) {
             $classroom = $id;
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
-        } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
+        } elseif ($model == $this->MODEL_STUDENT_ENROLLMENT) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);
             $return = $student;
@@ -792,13 +799,13 @@ class ClassroomController extends Controller
             if ($turn == "M") {
                 $return['first'] = $config->morning_initial;
                 $return['last'] = $config->morning_final;
-            } else if ($turn == "T") {
+            } elseif ($turn == "T") {
                 $return['first'] = $config->afternoom_initial;
                 $return['last'] = $config->afternoom_final;
-            } else if ($turn == "N") {
+            } elseif ($turn == "N") {
                 $return['first'] = $config->night_initial;
                 $return['last'] = $config->night_final;
-            } else if ($turn == "I") {
+            } elseif ($turn == "I") {
                 $return['first'] = $config->allday_initial;
                 $return['last'] = $config->allday_final;
             }

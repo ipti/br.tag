@@ -1,13 +1,14 @@
 <?php
 
-class boxWidget extends CWidget{
-
+class boxWidget extends CWidget
+{
     public $color = "box-blue-1";
     public $percent = 0;
     public $label;
     public $sideLabel;
 
-    public function run(){
+    public function run()
+    {
         $this->render('box', [
             'color'=>$this->color,
             'percent'=>$this->percent,
@@ -15,5 +16,4 @@ class boxWidget extends CWidget{
             'sideLabel'=>$this->sideLabel,
         ]);
     }
-
 }

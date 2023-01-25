@@ -28,7 +28,7 @@ class Register50
         }
 
         foreach ($instructors as $instructor) {
-            $id = (String)'90' . $instructor['identification']['id'];
+            $id = (string)'90' . $instructor['identification']['id'];
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
@@ -64,7 +64,7 @@ class Register50
 
                 if ($teaching['role'] != '1' && $teaching['role'] != '5' && $teaching['role'] != '6') {
                     $teaching['contract_type'] = '';
-                } else if ($teaching['contract_type'] == '') {
+                } elseif ($teaching['contract_type'] == '') {
                     $teaching['contract_type'] = '1';
                 }
 

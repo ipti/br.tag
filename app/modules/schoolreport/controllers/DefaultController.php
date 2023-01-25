@@ -1,32 +1,38 @@
 <?php
 
-class DefaultController extends CController{
-	public $headerDescription = "";
+class DefaultController extends CController
+{
+    public $headerDescription = "";
     public $showPrintButton = false;
     public $studentName = null;
     public $whichSectionIs = null;
     public $eid = null;
 
-	public function actionIndex(){
-        if(Yii::app()->user->isGuest)
+    public function actionIndex()
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else
+        } else {
             $this->render('select');
-	}
-    public function actionError(){
+        }
+    }
+    public function actionError()
+    {
         $this->layout = "login";
         if ($error = Yii::app()->errorHandler->error) {
-            if (Yii::app()->request->isAjaxRequest)
+            if (Yii::app()->request->isAjaxRequest) {
                 echo $error['message'];
-            else
+            } else {
                 $this->render('error', ['error'=>$error]);
+            }
         }
     }
 
-	public function actionGrades($eid){
-        if(Yii::app()->user->isGuest)
+    public function actionGrades($eid)
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else {
+        } else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
@@ -47,12 +53,13 @@ class DefaultController extends CController{
             asort($disciplines, SORT_STRING);
             $this->render('grades', ['eid' => $eid, 'disciplines' => $disciplines]);
         }
-	}
+    }
 
-	public function actionGetGrades($eid){
-        if(Yii::app()->user->isGuest)
+    public function actionGetGrades($eid)
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else {
+        } else {
             /* @var $grade Grade */
             $grades = Grade::model()->findAll("enrollment_fk = :eid", [":eid" => $eid]);
 
@@ -64,8 +71,9 @@ class DefaultController extends CController{
         }
     }
 
-    public function actionLogin(){
-        if(Yii::app()->user->isGuest) {
+    public function actionLogin()
+    {
+        if (Yii::app()->user->isGuest) {
             $this->layout = "login";
             // collect user input data
             $model = new LoginForm();
@@ -77,31 +85,34 @@ class DefaultController extends CController{
             }
             // display the login form
             $this->render('login', array('model' => $model));
-        }else{
+        } else {
             $this->redirect(yii::app()->createUrl("schoolreport/default/select"));
         }
     }
-    public function actionLogout(){
-        if(Yii::app()->user->isGuest)
+    public function actionLogout()
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else {
+        } else {
             Yii::app()->user->logout(false);
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
         }
     }
 
-    public function actionSelect(){
-        if(Yii::app()->user->isGuest)
+    public function actionSelect()
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else {
+        } else {
             $this->render('select');
         }
     }
 
-    public function actionFrequency($eid){
-        if(Yii::app()->user->isGuest)
+    public function actionFrequency($eid)
+    {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(yii::app()->createUrl("schoolreport/default/login"));
-        else {
+        } else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
              * @var $classboards ClassBoard[]
@@ -123,18 +134,18 @@ class DefaultController extends CController{
 
             foreach ($classesList as $c) {
                 $did = $c['discipline_fk'] == null ? -1 : $c['discipline_fk'];
-                $dName = $c['discipline_fk'] == null ? "Todas as Disciplinas" :  $c['discipline_name'];
+                $dName = $c['discipline_fk'] == null ? "Todas as Disciplinas" : $c['discipline_name'];
                 $classes = $c['classes'];
                 $month = $c['month'];
-                if(!isset($frequency[$did])) {
+                if (!isset($frequency[$did])) {
                     $frequency[$did] = [];
                     $frequency[$did]["name"] = $dName;
                     $frequency[$did]["months"] = [];
-                    for($i = 1; $i <=12; $i++){
+                    for ($i = 1; $i <=12; $i++) {
                         $frequency[$did]["months"][$i] = [];
                     }
                 }
-				$did_query = $did == -1 ? 'IS NULL' : "= $did";
+                $did_query = $did == -1 ? 'IS NULL' : "= $did";
                 $f = Yii::app()->db->createCommand(
                     "select  month, discipline_fk, se.classroom_fk cid, se.id eid, count(cf.id) faults from class_faults cf
                       join schedule sc on sc.id = cf.schedule_fk
@@ -143,7 +154,7 @@ class DefaultController extends CController{
                       and discipline_fk $did_query
                       and month = :month
                     GROUP BY eid, discipline_fk,  month;"
-                )->queryRow(true,[":eid"=>$eid, ":month"=>$month]);
+                )->queryRow(true, [":eid"=>$eid, ":month"=>$month]);
                 $faults = $f['faults'] == null ? 0 : $f['faults'];
                 $frequency[$did]["months"][$month] = ['faults'=>intval($faults), 'classes'=>intval($classes)];
             }

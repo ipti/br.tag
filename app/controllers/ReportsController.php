@@ -2,7 +2,6 @@
 
 class ReportsController extends Controller
 {
-
     public $layout = 'reportsclean';
     public $year = 0;
 
@@ -305,21 +304,24 @@ class ReportsController extends Controller
             "select c.*, q.modality, q.stage from classroom as c 
             join classroom_qtd_students as q on c.school_inep_fk = q.school_inep_fk
             where c.school_year = " . $this->year . " AND q.school_year = " . $this->year . " and c.school_inep_fk = " . Yii::app()->user->school . " AND q.school_inep_fk = " . Yii::app()->user->school . "  AND c.id = q.id
-            order by name")->queryAll();
+            order by name"
+        )->queryAll();
         foreach ($classrooms as &$classroom) {
             $classroom["instructors"] = Yii::app()->db->createCommand(
                 "select ii.*, iv.scholarity, it.id as teaching_data_id
                 from instructor_teaching_data it
                 join instructor_identification ii on ii.id = it.instructor_fk
                 left join instructor_variable_data iv on iv.id = ii.id
-                where it.classroom_id_fk = '" . $classroom["id"] . "' and it.role = 1 order by ii.name")->queryAll();
+                where it.classroom_id_fk = '" . $classroom["id"] . "' and it.role = 1 order by ii.name"
+            )->queryAll();
             foreach ($classroom["instructors"] as &$instructor) {
                 $instructor["disciplines"] = Yii::app()->db->createCommand(
                     "select ed.name
                     from teaching_matrixes tm
                     join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
                     join edcenso_discipline ed on ed.id = cm.discipline_fk
-                    where tm.teaching_data_fk = '" . $instructor["teaching_data_id"] . "'")->queryAll();
+                    where tm.teaching_data_fk = '" . $instructor["teaching_data_id"] . "'"
+                )->queryAll();
             }
         }
 
@@ -611,7 +613,6 @@ class ReportsController extends Controller
 
     public function actionBFReport()
     {
-
         $this->layout = "reportsclean";
         //@done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
         //@done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
@@ -633,7 +634,7 @@ class ReportsController extends Controller
             $arrFields[':id_classroom'] = $_GET['id'];
         }
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->alias = "c";
         $criteria->join = "join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk";
         $criteria->condition = "c.school_year = :year and svm.id >= 14 and svm.id <= 16 " . $conditions;
@@ -714,9 +715,11 @@ class ReportsController extends Controller
             left join schedule on schedule.id = schedule_fk
             group by student_fk, schedule.month,schedule.classroom_fk) cf 
         on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
-        $command->where('c.school_year = :year and (svm.id < 14 or svm.id > 16) '
+        $command->where(
+            'c.school_year = :year and (svm.id < 14 or svm.id > 16) '
             . $conditions,
-            $arrFields);
+            $arrFields
+        );
         $command->group = "c.id, t.month, si.id, cf.faults";
         $command->order = "c.name, student, month";
         $query = $command->queryAll();
@@ -766,7 +769,7 @@ class ReportsController extends Controller
     public function actionElectronicDiary()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
+            $criteria = new CDbCriteria();
             $criteria->alias = "c";
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
@@ -797,7 +800,8 @@ class ReportsController extends Controller
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+            )
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
             foreach ($disciplines as $discipline) {
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
@@ -824,8 +828,10 @@ class ReportsController extends Controller
             $students = [];
             if ($_POST["fundamentalMaior"] == "1") {
                 $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]);
+                    ->findAll(
+                        "classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
+                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate, "discipline_fk" => $_POST["discipline"]]
+                    );
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
                         array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
@@ -842,8 +848,10 @@ class ReportsController extends Controller
                 }
             } else {
                 $schedules = Schedule::model()
-                    ->findAll("classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
-                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]);
+                    ->findAll(
+                        "classroom_fk = :classroom_fk and date_format(concat(" . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
+                        ["classroom_fk" => $_POST["classroom"], "initial_date" => $initialDate, "final_date" => $finalDate]
+                    );
                 if ($schedules !== null) {
                     foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
                         array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
@@ -872,5 +880,4 @@ class ReportsController extends Controller
         }
         echo json_encode($result);
     }
-
 }

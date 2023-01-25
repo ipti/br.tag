@@ -5,19 +5,22 @@
  *
  * @property School $school
  */
-class StockController extends CController{
-
+class StockController extends CController
+{
     public $school;
 
-    public function init(){
+    public function init()
+    {
         $this->school = School::model()->findByPk(yii::app()->user->school);
     }
 
-    public function actionIndex(){
+    public function actionIndex()
+    {
         $this->render('index');
     }
 
-    public function actionAddItem(){
+    public function actionAddItem()
+    {
         $request = Yii::app()->getRequest();
 
         $postItem = $request->getPost('Item', false);
@@ -71,7 +74,8 @@ class StockController extends CController{
         }
     }
 
-    public function actionRemoveItem(){
+    public function actionRemoveItem()
+    {
         $request = Yii::app()->getRequest();
 
         $item = $request->getPost('Item');

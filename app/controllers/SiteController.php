@@ -2,7 +2,6 @@
 
 class SiteController extends Controller
 {
-
     //@done S2 -FAzer Cadastro de usuário
     //@done s1 -Limitar a escolha de escolas apenas para o Administrador
 
@@ -72,7 +71,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
-        $model = new ContactForm;
+        $model = new ContactForm();
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
@@ -95,7 +94,7 @@ class SiteController extends Controller
     {
         $this->layout = "login";
 
-        $model = new LoginForm;
+        $model = new LoginForm();
 
         // if it is ajax validation request
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
@@ -129,17 +128,17 @@ class SiteController extends Controller
     {
         if (isset($_POST['UsersSchool']['school_fk']) && !empty($_POST['UsersSchool']['school_fk'])) {
             Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
-        } else if (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
+        } elseif (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
         }
 
         $this->redirect(Yii::app()->homeUrl);
     }
 
-    private function loadLogsHtml($limit, $date = NULL)
+    private function loadLogsHtml($limit, $date = null)
     {
         $baseUrl = Yii::app()->theme->baseUrl;
-        if ($date == NULL) {
+        if ($date == null) {
             $logs = Log::model()->findAll("school_fk = :school order by date desc limit " . $limit, [':school' => Yii::app()->user->school]);
         } else {
             $logs = Log::model()->findAll("school_fk = :school and date < STR_TO_DATE(:date,'%d/%m/%Y à\s %H:%i:%s') order by date desc limit " . $limit, [':school' => Yii::app()->user->school, ':date' => $date]);
@@ -152,11 +151,11 @@ class SiteController extends Controller
                 $text = $icon = $color = $crud = "";
 
                 switch ($log->crud) {
-                    case "C" :
+                    case "C":
                         $crud = "criado(a)";
                         $color = "lightgreen";
                         break;
-                    case "U" :
+                    case "U":
                         $crud = "atualizado(a)";
                         $color = "lightskyblue";
                         break;
@@ -221,12 +220,12 @@ class SiteController extends Controller
                             $text = $infos[1] . ' de ' . $infos[0] . ' foram adicionados ao estoque.';
                             $icon = "adicionar-igrediente";
                         } else {
-                            $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.'; 
+                            $text = $infos[1] . ' de ' . $infos[0] . ' foram removidos do estoque.';
                             $icon = "remover-igrediente";
                         }
                         break;
                     case "lunch_menu":
-                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . "."; 
+                        $text = 'Cardápio "' . $log->additional_info . '" foi ' . $crud . ".";
                         $icon = "cardapio";
                         break;
                     case "lunch_meal":
@@ -243,7 +242,7 @@ class SiteController extends Controller
                         break;
                     case "wizard_student":
                         $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
-                        $icon = "alunos"; 
+                        $icon = "alunos";
                         break;
                 }
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';

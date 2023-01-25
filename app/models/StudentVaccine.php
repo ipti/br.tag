@@ -9,7 +9,6 @@
  */
 class StudentVaccine extends AltActiveRecord
 {
-
     public $student_id;
     public $vaccine_id;
 
@@ -53,15 +52,15 @@ class StudentVaccine extends AltActiveRecord
         // class name for the relations automatically generated below.
 
 
-         return array(
+        return array(
             'student_id' => array(self::BELONGS_TO, 'StudentIdentification', 'id'),
             'vaccine_id' => array(self::BELONGS_TO, 'Vaccine', 'id'),
         );
     }
 
-     /**
-     * @return array customized attribute labels (name=>label)
-     */
+    /**
+    * @return array customized attribute labels (name=>label)
+    */
     public function attributeLabels()
     {
         return array(
@@ -70,7 +69,4 @@ class StudentVaccine extends AltActiveRecord
             'vaccine_id' => Yii::t('default', 'Vaccine ID')
         );
     }
-
-
-
 }

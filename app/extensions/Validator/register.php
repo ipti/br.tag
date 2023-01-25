@@ -4,14 +4,12 @@
  *
  */
 class Register
-
 {
-
-    function __construct()
+    public function __construct()
     {
     }
 
-    function isEmpty($value)
+    public function isEmpty($value)
     {
         if (trim($value) === '' || !isset($value)) {
             return array('status' => true, 'erro' => '');
@@ -19,27 +17,26 @@ class Register
         return array('status' => false, 'erro' => 'O valor nao eh vazio');
     }
 
-    function isNull($x)
+    public function isNull($x)
     {
         if ($x == null) {
             return array("status" => true, "erro" => "");
         }
         return array("status" => false, "erro" => "Valor não é nulo");
-
     }
 
 
-    function ifNull($value)
+    public function ifNull($value)
     {
-        if ($value == null)
+        if ($value == null) {
             $value = "nulo";
+        }
         return $value;
     }
 
     //campo 1002
-    function isEqual($x, $y, $msg)
+    public function isEqual($x, $y, $msg)
     {
-
         $result = $this->isNUll($x);
 
         if ($result['status']) {
@@ -52,12 +49,13 @@ class Register
     }
 
     //campo 1003 à 1011, 1033 à 1038
-    function atLeastOne($items)
+    public function atLeastOne($items)
     {
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
-            if (@$items[$i] == "1")
+            if (@$items[$i] == "1") {
                 $number_of_ones++;
+            }
         }
         if ($number_of_ones == 0) {
             return array("status" => false, "erro" => "Selecione ao menos uma opção.");
@@ -65,12 +63,13 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function atLeastOneNotEmpty($items)
+    public function atLeastOneNotEmpty($items)
     {
         $number_of_not_empty = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
-            if ($items[$i] != "")
+            if ($items[$i] != "") {
                 $number_of_not_empty++;
+            }
         }
         if ($number_of_not_empty == 0) {
             return array("status" => false, "erro" => "Não há nenhum valor preenchido");
@@ -78,24 +77,23 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function moreThanTwo($items)
+    public function moreThanTwo($items)
     {
-
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
-            if ($items[$i] == "1")
+            if ($items[$i] == "1") {
                 $number_of_ones++;
+            }
         }
         if ($number_of_ones < 2) {
             return array("status" => false, "erro" => "Não há mais de um valor marcado");
         }
         return array("status" => true, "erro" => "");
-
     }
 
 
     //campo 1001, 3001, 4001, 6001
-    function isRegister($number, $value)
+    public function isRegister($number, $value)
     {
         $result = $this->isEqual($value, $number, "O tipo de registro não deveria ser $value e sim $number");
         if (!$result["status"]) {
@@ -106,7 +104,7 @@ class Register
     }
 
     //campo 1002, 3002, 4002, 6002
-    function isAllowedInepId($inep_id, $allowed_inep_ids)
+    public function isAllowedInepId($inep_id, $allowed_inep_ids)
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
             return array("status" => false, "erro" => "ID INEP $inep_id não está entre os permitidos");
@@ -116,7 +114,7 @@ class Register
     }
 
     //campo 3003, 6003
-    function isNumericOfSize($allowed_length, $value)
+    public function isNumericOfSize($allowed_length, $value)
     {
         if (is_numeric($value)) {
             $len = strlen($value);
@@ -132,9 +130,8 @@ class Register
     }
 
     //1070, 1088
-    function isGreaterThan($value, $target)
+    public function isGreaterThan($value, $target)
     {
-
         if ($value <= $target) {
             $value = $this->ifNull($value);
             return array("status" => false, "erro" => "Valor $value não é maior que o alvo.");
@@ -143,9 +140,8 @@ class Register
     }
 
     //3004, 6004
-    function isNotGreaterThan($value, $target)
+    public function isNotGreaterThan($value, $target)
     {
-
         $result = $this->isGreaterThan(strlen($value), $target);
         if ($result['status']) {
             return array("status" => false, "erro" => "Valor $value é maior que o alvo.");
@@ -154,22 +150,19 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function onlyAlphabet($value)
+    public function onlyAlphabet($value)
     {
-
         $regex = "/^[a-zA-Z ]+$/";
         if (!preg_match($regex, $value)) {
             return array("status" => false, "erro" => "'$value' contém caracteres inválidos. Letras minúsculas, cedilhas, números e/ou acentos não são permitidos.");
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //3005, 6005
-    function isNameValid($value, $target, $cpf)
+    public function isNameValid($value, $target, $cpf)
     {
-
         $result = $this->isGreaterThan(strlen($value), $target);
         if ($result['status']) {
             return array("status" => false, "erro" => "Número de caracteres maior que o permitido.");
@@ -190,20 +183,17 @@ class Register
     }
 
 
-    function validateEmailFormat($email)
+    public function validateEmailFormat($email)
     {
-
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return array("status" => false, "erro" => "'$email' contém caracteres inválidos");
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function validateDateformart($date)
+    public function validateDateformart($date)
     {
-
         if ($date == '' || $date == null) {
             return array("status" => false, "erro" => "Data no formato incorreto");
         }
@@ -217,18 +207,16 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function getAge($birthyear, $currentyear)
+    public function getAge($birthyear, $currentyear)
     {
         $age = $currentyear - $birthyear;
         return $age;
     }
 
-    function isOlderThan($target_age, $birthyear, $currentyear)
+    public function isOlderThan($target_age, $birthyear, $currentyear)
     {
-
         $age = $this->getAge($birthyear, $currentyear);
         $result = $this->isGreaterThan($age, $target_age);
         if (!$result['status']) {
@@ -236,12 +224,10 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function isYoungerThan($target_age, $birthyear, $currentyear)
+    public function isYoungerThan($target_age, $birthyear, $currentyear)
     {
-
         $age = $this->getAge($birthyear, $currentyear);
         $result = $this->isNotGreaterThan($age, $target_age);
         if (!$result['status']) {
@@ -249,23 +235,21 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //campo 1020, 3009, 6007
-    function oneOfTheValues($value)
+    public function oneOfTheValues($value)
     {
         if ($value == 1 || $value == 2) {
             return array("status" => true, "erro" => "");
         }
         $value = $this->ifNull($value);
         return array("status" => false, "erro" => "Valor $value não está entre as opções");
-
     }
 
 
     //10101, 10105, 10106, 3010, 6008
-    function isAllowed($value, $allowed_values)
+    public function isAllowed($value, $allowed_values)
     {
         if (!in_array($value, $allowed_values)) {
             $value = $this->ifNull($value);
@@ -275,7 +259,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function isCPFValid($cpfStr)
+    public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== "") {
             $cpf = "$cpfStr";
@@ -320,9 +304,7 @@ class Register
             $cpfver = array_merge($cpfnumbers, $cpf);
 
             if (count(array_unique($cpfver)) == 1 || $cpfver == array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)) {
-
                 $returner = false;
-
             }
             if (!$returner) {
                 return array("status" => false, "erro" => "'$cpfStr' inválido.");
@@ -331,9 +313,8 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function checkNameRules($value)
+    public function checkNameRules($value)
     {
-
         if (str_word_count($value) < 2) {
             return array("status" => false, "erro" => "'$value' não contém mais que 2 palavras.");
         }
@@ -346,16 +327,14 @@ class Register
     }
 
     //3011, 3012, 3013, 6009.6010, 6011
-    function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf, $high_limit)
+    public function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf, $high_limit)
     {
-
         $result = $this->isAllowed($filiation, array("0", "1"));
         if (!$result['status']) {
             return array("status" => false, "erro" => $result['erro']);
         }
 
         if ($filiation == "1") {
-
             if (!($filiation_mother != "" || $filiation_father != "")) {
                 return array("status" => false, "erro" => "Uma das filiações deve ser preenchida");
             }
@@ -363,23 +342,18 @@ class Register
             if ($filiation_mother == $filiation_father) {
                 return array("status" => false, "erro" => "As filiações não podem ser idênticas");
             }
-
         } else {
-
             if (!($filiation_mother == null && $filiation_father == null)) {
                 return array("status" => false, "erro" => "Ambas filiãções deveriam ser nulas campo 11 é 0");
             }
-
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //3014, 3015, 6012, 6013
-    function checkNation($nationality, $nation, $allowedvalues)
+    public function checkNation($nationality, $nation, $allowedvalues)
     {
-
         $result = $this->isAllowed($nationality, $allowedvalues);
         if (!$result['status']) {
             return array("status" => false, "erro" => $result['erro']);
@@ -396,12 +370,10 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function ufcity($nationality, $nation, $city)
+    public function ufcity($nationality, $nation, $city)
     {
-
         if ($nationality == 1) {
             if ($nation == "" || $city == null) {
                 return array("status" => false, "erro" => "Cidade deveria ser preenchida");
@@ -415,7 +387,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
+    public function exclusiveDeficiency($deficiencyName, $deficiency, $excludingdeficiencies)
     {
         switch ($deficiencyName) {
             case "Cegueira":
@@ -437,14 +409,11 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function checkDeficiencies($hasdeficiency, $deficiencies, $excludingdeficiencies)
+    public function checkDeficiencies($hasdeficiency, $deficiencies, $excludingdeficiencies)
     {
-
         if ($hasdeficiency == "1") {
-
             $result = $this->atLeastOne($deficiencies);
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
@@ -462,12 +431,10 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function checkMultiple($hasdeficiency, $multipleDeficiencies, $deficiencies)
+    public function checkMultiple($hasdeficiency, $multipleDeficiencies, $deficiencies)
     {
-
         if ($hasdeficiency == "1") {
             $result = $this->moreThanTwo($deficiencies);
             if ($result['status']) {
@@ -482,12 +449,10 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function ifDemandsCheckValues($demand, $value, $allowed_values)
+    public function ifDemandsCheckValues($demand, $value, $allowed_values)
     {
-
         if ($demand == '1') {
             $result = $this->isAllowed($value, $allowed_values);
             if (!$result['status']) {
@@ -500,16 +465,15 @@ class Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function allowedNumberOfTypes($items, $value, $limit)
+    public function allowedNumberOfTypes($items, $value, $limit)
     {
-
         $number_of_ones = 0;
         for ($i = 0; $i < sizeof($items); $i++) {
-            if ($items[$i] == $value)
+            if ($items[$i] == $value) {
                 $number_of_ones++;
+            }
         }
         if ($number_of_ones > $limit) {
             return array("status" => false, "erro" => "Há valores marcados além do permitido");
@@ -519,7 +483,7 @@ class Register
 
 
     //Registro 10 ( 21 à 25, 26 à 29, 30 à 32, 39 à 68 )
-    function checkRangeOfArray($array, $allowed_values)
+    public function checkRangeOfArray($array, $allowed_values)
     {
         foreach ($array as $key => $value) {
             $result = $this->isAllowed($value, $allowed_values);
@@ -530,7 +494,7 @@ class Register
         return array("status" => true, "erro" => "");
     }
 
-    function adaptedArrayCount($items)
+    public function adaptedArrayCount($items)
     {
         $result = array();
 
@@ -548,20 +512,19 @@ class Register
     }
 
     //1098 à 10100
-    function exclusive($items)
+    public function exclusive($items)
     {
-
         $count = $this->adaptedArrayCount($items);
         if (!empty($count)) {
-            if (max($count) > 1)
+            if (max($count) > 1) {
                 return array("status" => false, "erro" => "Há mais de um valor marcado");
+            }
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function isAreaOfResidenceValid($area_of_residence)
+    public function isAreaOfResidenceValid($area_of_residence)
     {
         if ($area_of_residence != 1 && $area_of_residence != 2) {
             return array("status" => false, "erro" => "O campo é obrigatório.");
@@ -583,5 +546,3 @@ class Register
         return array("status" => true, "erro" => "");
     }
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 $DS = DIRECTORY_SEPARATOR;
 
 
@@ -8,15 +9,13 @@ require_once(dirname(__FILE__) . $DS . "register.php");
 
 class SchoolStructureValidation extends Register
 {
-
-    function __construct()
+    public function __construct()
     {
     }
 
     //campo 12
-    function buildingOccupationStatus($collun3, $collun8, $value)
+    public function buildingOccupationStatus($collun3, $collun8, $value)
     {
-
         if ($collun3 == 1) {
             if (!($value == 1 || $value == 2 || $value == 3)) {
                 return array("status" => false,
@@ -31,9 +30,8 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 13
-    function sharedBuildingSchool($collun3, $value)
+    public function sharedBuildingSchool($collun3, $value)
     {
-
         if ($collun3 == 1) {
             if ($value == 0 || $value == 1) {
                 return array("status" => true, "erro" => "");
@@ -43,7 +41,6 @@ class SchoolStructureValidation extends Register
         } else {
             if (($value != null)) {
                 return array("status" => false, "erro" => "operation_location_building não é 1. Valor $value deveria ser nulo");
-
             }
         }
         return array("status" => true, "erro" => "");
@@ -51,14 +48,16 @@ class SchoolStructureValidation extends Register
 
 
     //campo 14 à 19
-    function sharedSchoolInep($collun13, $inep_id, $shared_schools_inep_ids)
+    public function sharedSchoolInep($collun13, $inep_id, $shared_schools_inep_ids)
     {
         if ($collun13 == 1) {
             foreach ($shared_schools_inep_ids as $school_inep_id) {
                 if ($school_inep_id !== null) {
-                    $result = $this->isEqual(substr($inep_id, 0, 2),
+                    $result = $this->isEqual(
+                        substr($inep_id, 0, 2),
                         substr($school_inep_id, 0, 2),
-                        "Escolas não são do mesmo estado");
+                        "Escolas não são do mesmo estado"
+                    );
                     if ($result["status"]) {
                         if ($inep_id == $school_inep_id) {
                             return array("status" => false, "erro" => "Não se deve inserir a mesma escola.");
@@ -73,20 +72,18 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 20
-    function consumedWater($value)
+    public function consumedWater($value)
     {
         if ($value == 1 || $value == 2) {
             return array("status" => true, "erro" => "");
         }
         $value = $this->ifNull($value);
         return array("status" => false, "erro" => "Valor $value não está entre as opções");
-
     }
 
 
-    function supply($supply_locations)
+    public function supply($supply_locations)
     {
-
         $len = sizeof($supply_locations);
 
         $result = $this->atLeastOne($supply_locations);
@@ -106,9 +103,8 @@ class SchoolStructureValidation extends Register
     }
 
     //campo 69
-    function schoolsCount($collun3, $value)
+    public function schoolsCount($collun3, $value)
     {
-
         if ($collun3 == 1) {
             $result = $this->isGreaterThan($value, "0");
             if (!$result["status"]) {
@@ -120,9 +116,8 @@ class SchoolStructureValidation extends Register
 
 
     //71 à 83
-    function equipmentAmounts($amounts)
+    public function equipmentAmounts($amounts)
     {
-
         foreach ($amounts as $key => $value) {
             if (!$value == null) {
                 $result = $this->isGreaterThan($value, "0");
@@ -140,9 +135,8 @@ class SchoolStructureValidation extends Register
     }
 
     //86
-    function internetAccess($collun, $value)
+    public function internetAccess($collun, $value)
     {
-
         if ($collun != null) {
             if (!in_array($value, array("0", "1"))) {
                 $value = $this->ifNull($value);
@@ -151,16 +145,14 @@ class SchoolStructureValidation extends Register
         } else {
             if ($value != null) {
                 return array("status" => false, "erro" => "Coluna 82 é nulo. Valor $value deve ser nulo");
-
             }
         }
         return array("status" => true, "erro" => "");
     }
 
     //campo 87
-    function bandwidth($collun, $value)
+    public function bandwidth($collun, $value)
     {
-
         if ($collun == 1) {
             if (!($value == "0" || $value == "1")) {
                 return array("status" => false, "erro" => "valor $value não permitido");
@@ -170,9 +162,8 @@ class SchoolStructureValidation extends Register
     }
 
     //89
-    function schoolFeeding($value)
+    public function schoolFeeding($value)
     {
-
         if ($value === null) {
             return array("status" => false, "erro" => "Campo obrigatório.");
         }
@@ -183,11 +174,14 @@ class SchoolStructureValidation extends Register
     // falta validação 'bruta'
 
 
-    function checkModalities($collun90, $collun91, $modalities,
-                             $are_there_students_by_modalitie,
-                             $are_there_instructors_by_modalitie)
+    public function checkModalities(
+        $collun90,
+        $collun91,
+        $modalities,
+        $are_there_students_by_modalitie,
+        $are_there_instructors_by_modalitie
+    )
     {
-
         if ($collun90 != 2 && $collun91 != 2) {
             if (!($collun90 == 1 && $collun91 == 1)) {
                 $result = $this->atLeastOne($modalities);
@@ -216,7 +210,7 @@ class SchoolStructureValidation extends Register
 
     //96
     //falta validação 'bruta'
-    function schoolCicle($value, $number_of_schools)
+    public function schoolCicle($value, $number_of_schools)
     {
         if ($number_of_schools > 0) {
             if (!($value == 0 || $value == 1)) {
@@ -230,40 +224,40 @@ class SchoolStructureValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //97
-    function differentiatedLocation($collun0029, $value)
+    public function differentiatedLocation($collun0029, $value)
     {
-
         if (!in_array($value, array("1", "2", "3", "4", "5", "6", "7"))) {
             $value = $this->ifNull($value);
             return array("status" => false, "erro" => "Valor $value não permitido");
         }
 
         if ($collun0029 == 1) {
-            if ($value == 1) return array("status" => false,
+            if ($value == 1) {
+                return array("status" => false,
                 "erro" => "Valor $value não permitido 
 													pois coluna 29 do registro é $collun0029");
+            }
         } elseif ($collun0029 == 2) {
-            if ($value != 1) return array("status" => false,
+            if ($value != 1) {
+                return array("status" => false,
                 "erro" => "Valor $value não permitido 
 													pois coluna 29 do registro é $collun0029");
+            }
         }
 
         return array("status" => true, "erro" => "");
     }
 
-    function materials($itens)
+    public function materials($itens)
     {
-
         $len = sizeof($itens);
 
         $result = $this->checkRangeOfArray($itens, array("0", "1"));
         if (!$result["status"]) {
             return array("status" => false, "erro" => $result["erro"]);
-
         }
 
         $result = $this->atLeastOne($itens);
@@ -281,9 +275,8 @@ class SchoolStructureValidation extends Register
 
     //102 e 103
 
-    function languages($collun101, $languages)
+    public function languages($collun101, $languages)
     {
-
         if ($collun101 != "1") {
             foreach ($languages as $key => $value) {
                 if ($value != null) {
@@ -298,14 +291,12 @@ class SchoolStructureValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
     //104
 
-    function edcensoNativeLanguages($collun102, $value)
+    public function edcensoNativeLanguages($collun102, $value)
     {
-
         if ($collun102 != "1") {
             if ($value != null) {
                 return array("status" => false, "erro" => "Valor deveria ser nulo pois coluna 102 é $collun102");
@@ -325,9 +316,8 @@ class SchoolStructureValidation extends Register
 
     //107
 
-    function pedagogicalFormation($value, $number_of_classrooms)
+    public function pedagogicalFormation($value, $number_of_classrooms)
     {
-
         if (!($value == 0 || $value == 1)) {
             $value = $this->ifNull($value);
             return array("status" => false, "erro" => "Valor $value não permitido");
@@ -341,17 +331,5 @@ class SchoolStructureValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
-
-
 }//fim de classe
-
-
-
-
-
-
-
-
-

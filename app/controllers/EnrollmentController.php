@@ -102,7 +102,7 @@ class EnrollmentController extends Controller
      */
     public function actionCreate()
     {
-        $model = new StudentEnrollment;
+        $model = new StudentEnrollment();
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model);
 
@@ -121,7 +121,6 @@ class EnrollmentController extends Controller
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
                     //echo $exc->getTraceAsString();
-
                 }
             } else {
                 unset($model->s);
@@ -141,7 +140,7 @@ class EnrollmentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
+        if ($model->student_fk == null && $model->classroom_fk == null) {
             $model->student_fk = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"')->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
@@ -169,7 +168,6 @@ class EnrollmentController extends Controller
      */
     public function actionDelete($id)
     {
-
         $model = $this->loadModel($id);
         FrequencyAndMeanByDiscipline::model()->deleteAll("enrollment_fk = :enrollment_fk", ["enrollment_fk" => $id]);
         FrequencyByExam::model()->deleteAll("enrollment_fk = :enrollment_fk", ["enrollment_fk" => $id]);
@@ -181,9 +179,9 @@ class EnrollmentController extends Controller
             throw new CHttpException(404, 'The requested page does not exist.');
         }
 
-//		if(Yii::app()->request->isPostRequest)
+        //		if(Yii::app()->request->isPostRequest)
 //		{
-//                    
+//
 //			// we only allow deletion via POST request
 //			$this->loadModel($id)->delete();
 //
@@ -208,7 +206,7 @@ class EnrollmentController extends Controller
 
         $school = Yii::app()->user->school;
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->compare('school_inep_id_fk', "'$school'");
         $dataProvider = new CActiveDataProvider('StudentEnrollment', array(
             'criteria' => $criteria,
@@ -232,7 +230,7 @@ class EnrollmentController extends Controller
         $school = Yii::app()->user->school;
 
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
+            $criteria = new CDbCriteria();
             $criteria->alias = "c";
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
@@ -286,7 +284,6 @@ class EnrollmentController extends Controller
      */
     public function actionSaveGrades()
     {
-
         $portuguese = 6;
         $history = 12;
         $art = 10;
@@ -305,7 +302,6 @@ class EnrollmentController extends Controller
             $exams = $_POST['exams'];
 
             foreach ($exams as $enrollment_id => $field) {
-
                 $school_days = $field[0];
                 $workload = $field[1];
                 $absences = $field[2];
@@ -323,11 +319,11 @@ class EnrollmentController extends Controller
                         $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
                         $saved = $saved && $frequency_by_exam->save();
                     } else {
-                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);;
+                        $frequency_by_exam->absences = (!isset($number_of_absences) || (isset($number_of_absences) && $number_of_absences == "")) ? null : intval($number_of_absences);
+                        ;
                         $saved = $saved && $frequency_by_exam->update();
                     }
                 }
-
             }
 
             foreach ($workload as $exam_order => $hours) {
@@ -357,11 +353,9 @@ class EnrollmentController extends Controller
             $random_eid = 0;
 
             foreach ($avgfq as $enrollment_id => $disciplines) {
-
                 $random_eid = $enrollment_id;
 
                 foreach ($disciplines as $id => $values) {
-
                     $frequency_and_mean = FrequencyAndMeanByDiscipline::model()->findByAttributes([
                         "enrollment_fk" => $enrollment_id,
                         "discipline_fk" => $id
@@ -388,7 +382,8 @@ class EnrollmentController extends Controller
                         $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
 
 
-                        $avgfq_exist = Grade::model()->findByAttributes([
+                        $avgfq_exist = Grade::model()->findByAttributes(
+                            [
                                 "enrollment_fk" => $enrollment_id,
                                 "discipline_fk" => $discipline_alt]
                         );
@@ -402,11 +397,8 @@ class EnrollmentController extends Controller
                             $avgfq_exist->discipline_fk = $discipline_alt;
                             $saved = $saved && $avgfq_exist->update();
                         }
-
                     }
                 }
-
-
             }
 
 
@@ -430,7 +422,8 @@ class EnrollmentController extends Controller
                 if ($id === $portuguese || $id === $history || $id === $art) {
                     $discipline_alt = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
 
-                    $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes([
+                    $work_by_discipline_exist = WorkByDiscipline::model()->findByAttributes(
+                        [
                             "classroom_fk" => $_POST['classroom'],
                             "discipline_fk" => $discipline_alt]
                     );
@@ -446,11 +439,9 @@ class EnrollmentController extends Controller
                     }
                 }
             }
-
         }
 
         if (isset($_POST['grade'])) {
-
             $grades = $_POST['grade'];
             $classroom = Classroom::model()->findByPk($_POST['classroom']);
             $enrollments = $classroom->studentEnrollments;
@@ -485,7 +476,8 @@ class EnrollmentController extends Controller
                     if ($id === $portuguese || $id === $history || $id === $art) {
                         $discipline2 = ($id === $portuguese ? $writing : ($id === $history ? $geography : ($id === $art ? $physical_education : "")));
                         /*@WTF - Esse código nunca ia funcionar - Na hora do salvamento o código já é o da disciplina master pq buscar denovo???*/
-                        $grade_exist = Grade::model()->findByAttributes([
+                        $grade_exist = Grade::model()->findByAttributes(
+                            [
                                 "enrollment_fk" => $eid,
                                 "discipline_fk" => $discipline2]
                         );
@@ -499,7 +491,6 @@ class EnrollmentController extends Controller
                             $grade_exist->discipline_fk = $discipline2;
                             $grade_exist->update();
                         }
-
                     }
                 }
             }
@@ -528,17 +519,19 @@ class EnrollmentController extends Controller
             foreach ($enrollments as $enrollment) {
                 if (isset($enrollment->edcenso_stage_vs_modality_fk)) {
                     $id = $enrollment->edcenso_stage_vs_modality_fk;
-                    if (!isset($count[$id]))
+                    if (!isset($count[$id])) {
                         $count[$id] = 0;
+                    }
                     $count[$id]++;
                 }
             }
             $max = -1;
             foreach ($count as $id => $c) {
-                if ($max == -1)
+                if ($max == -1) {
                     $max = $id;
-                else if ($count[$max] < $count[$id])
+                } elseif ($count[$max] < $count[$id]) {
                     $max = $id;
+                }
             }
             $enrollment_stage = EdcensoStageVsModality::model()->findByPk($max);
             $stage = $enrollment_stage->id;
@@ -578,10 +571,12 @@ class EnrollmentController extends Controller
                     join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                     join edcenso_discipline ed on ed.id = cm.discipline_fk
                     join instructor_identification ii on ii.id = it.instructor_fk
-                    where it.classroom_id_fk = :cid")->bindParam(":cid", $cid)->queryAll();
+                    where it.classroom_id_fk = :cid"
+                )->bindParam(":cid", $cid)->queryAll();
             } else {
                 $disciplines = Yii::app()->db->createCommand(
-                    "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+                    "select ed.id as 'discipline_id', ed.name as 'discipline_name' from curricular_matrix cm join edcenso_discipline ed on ed.id = cm.discipline_fk where stage_fk = :stage_fk and school_year = :year"
+                )->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
             }
 
             error_reporting(0);
@@ -620,7 +615,6 @@ class EnrollmentController extends Controller
 
                     $return["students"][$studentName]['school_days'][$i] = $sdays;
                     $return["students"][$studentName]['workload'][$i] = $wload;
-
                 }
 
 
@@ -645,9 +639,9 @@ class EnrollmentController extends Controller
                         if ($d != $writing || $d != $geography || $d != $physical_education) {
                             if ($d == $portuguese) {
                                 $disciplineName = $discipline['discipline_name'] . " e Redação";
-                            } else if ($d == $history) {
+                            } elseif ($d == $history) {
                                 $disciplineName = $discipline['discipline_name'] . " e Geografia";
-                            } else if ($d == $art) {
+                            } elseif ($d == $art) {
                                 $disciplineName = $discipline['discipline_name'] . " e Educação Física";
                             } else {
                                 $disciplineName = $discipline['discipline_name'];
@@ -659,7 +653,6 @@ class EnrollmentController extends Controller
 
 
                     if (!($stage >= 14 && $stage <= 16) || (($stage >= 14 && $stage <= 16) && ($d != $writing && $d != $geography && $d != $physical_education))) {
-
                         $grades = Grade::model()->findByAttributes([
                             'discipline_fk' => $disciplineId,
                             'enrollment_fk' => $studentEnrId,
@@ -733,8 +726,9 @@ class EnrollmentController extends Controller
     public function loadModel($id)
     {
         $model = StudentEnrollment::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
@@ -749,5 +743,4 @@ class EnrollmentController extends Controller
             Yii::app()->end();
         }
     }
-
 }

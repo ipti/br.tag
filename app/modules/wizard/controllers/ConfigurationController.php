@@ -2,7 +2,6 @@
 
 class ConfigurationController extends Controller
 {
-
     public function actionIndex()
     {
         $this->render('index');
@@ -13,17 +12,19 @@ class ConfigurationController extends Controller
         $year = Yii::app()->user->school;
         $model = SchoolConfiguration::model()->findByAttributes(array("school_inep_id_fk" => $year));
 
-        if (!isset($model))
-            $model = new SchoolConfiguration;
+        if (!isset($model)) {
+            $model = new SchoolConfiguration();
+        }
 
         if (isset($_POST['SchoolConfiguration'])) {
             $model->setAttributes($_POST['SchoolConfiguration']);
 
             if ($model->save()) {
-                if (Yii::app()->getRequest()->getIsAjaxRequest())
+                if (Yii::app()->getRequest()->getIsAjaxRequest()) {
                     Yii::app()->end();
-                else
+                } else {
                     $this->redirect(array('index'));
+                }
             }
         }
         $this->render('school', array('model' => $model));
@@ -55,7 +56,6 @@ class ConfigurationController extends Controller
                         $newClassBorad->id = null;
                         $newClassBorad->classroom_fk = $newClassroom->id;
                         $save = $save && $newClassBorad->save();
-
                     }
                     foreach ($teaching_data as $td) {
                         $newTeachingData = new InstructorTeachingData();
@@ -68,7 +68,6 @@ class ConfigurationController extends Controller
                 }
             }
             if ($save) {
-
                 Log::model()->saveAction("wizard_classroom", $logYear, "C", $logYear);
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
                 $this->redirect('?r=classroom');
@@ -99,8 +98,10 @@ class ConfigurationController extends Controller
 
                     $st = StudentIdentification::model()->findByPk($e->student_fk);
                     $c = Classroom::model()->findByPk($enrollment->classroom_fk);
-                    $exist = StudentEnrollment::model()->findAll("classroom_fk = :c AND student_fk = :s",
-                        array("c" => $c->id, "s" => $st->id));
+                    $exist = StudentEnrollment::model()->findAll(
+                        "classroom_fk = :c AND student_fk = :s",
+                        array("c" => $c->id, "s" => $st->id)
+                    );
                     //Se não existe, cadastra
                     if (count($exist) == 0) {
                         $enrollment->school_inep_id_fk = Yii::app()->user->school;
@@ -143,5 +144,4 @@ class ConfigurationController extends Controller
             echo "";
         }
     }
-
 }

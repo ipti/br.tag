@@ -79,11 +79,11 @@ class CalendarStages extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria=new CDbCriteria();
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('calendar_fk',$this->calendar_fk);
-        $criteria->compare('stage_fk',$this->stage_fk);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('calendar_fk', $this->calendar_fk);
+        $criteria->compare('stage_fk', $this->stage_fk);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

@@ -2,10 +2,10 @@
 
 class m160126_161923_alter_view_classroom_enrollment extends CDbMigration
 {
-	public function up()
-	{
-		$this->execute(
-			"ALTER VIEW `classroom_enrollment` AS
+    public function up()
+    {
+        $this->execute(
+            "ALTER VIEW `classroom_enrollment` AS
 			select
 				`s`.`id` AS `enrollment`,
 				`s`.`name` AS `name`,
@@ -37,24 +37,23 @@ class m160126_161923_alter_view_classroom_enrollment extends CDbMigration
 				left join `edcenso_city` `ec` ON ((`s`.`edcenso_city_fk` = `ec`.`id`)))
 				join `student_enrollment` `se` ON ((`s`.`id` = `se`.`student_fk`)))
 				join `classroom` `c` ON ((`se`.`classroom_fk` = `c`.`id`)));"
-		);
+        );
+    }
 
-	}
+    public function down()
+    {
+        echo "m160126_161923_alter_view_classroom_enrollment does not support migration down.\n";
+        return false;
+    }
 
-	public function down()
-	{
-		echo "m160126_161923_alter_view_classroom_enrollment does not support migration down.\n";
-		return false;
-	}
+    /*
+    // Use safeUp/safeDown to do migration with transaction
+    public function safeUp()
+    {
+    }
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
+    public function safeDown()
+    {
+    }
+    */
 }

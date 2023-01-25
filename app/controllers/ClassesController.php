@@ -8,7 +8,6 @@ Yii::import('application.modules.timesheet.models.Unavailability', true);
 
 class ClassesController extends Controller
 {
-
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -57,7 +56,7 @@ class ClassesController extends Controller
     public function actionClassContents()
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
+            $criteria = new CDbCriteria();
             $criteria->alias = "c";
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
@@ -160,14 +159,13 @@ class ClassesController extends Controller
         }
     }
 
-/**
- * Open the Frequency View.
- */
-public
-function actionFrequency()
+    /**
+     * Open the Frequency View.
+     */
+    public function actionFrequency()
 {
     if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
         $criteria->alias = "c";
         $criteria->join = ""
             . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
@@ -185,11 +183,10 @@ function actionFrequency()
     ));
 }
 
-/**
- * Get all frequency by classroom, discipline and month
- */
-public
-function actionGetFrequency()
+    /**
+     * Get all frequency by classroom, discipline and month
+     */
+    public function actionGetFrequency()
 {
     if ($_POST["fundamentalMaior"] == "1") {
         $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
@@ -232,11 +229,10 @@ function actionGetFrequency()
     }
 }
 
-/**
- * Save the frequency for each student and class.
- */
-public
-function actionSaveFrequency()
+    /**
+     * Save the frequency for each student and class.
+     */
+    public function actionSaveFrequency()
 {
     if ($_POST["fundamentalMaior"] == "1") {
         $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
@@ -249,8 +245,7 @@ function actionSaveFrequency()
     }
 }
 
-private
-function saveFrequency($schedule)
+    private function saveFrequency($schedule)
 {
     if ($_POST["studentId"] != null) {
         if ($_POST["fault"] == "1") {
@@ -279,27 +274,27 @@ function saveFrequency($schedule)
     }
 }
 
-public function actionSaveJustification() {
-    if ($_POST["fundamentalMaior"] == "1") {
-        $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
-        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
-        $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
-        $classFault->save();
-    } else {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
-        foreach ($schedules as $schedule) {
+    public function actionSaveJustification()
+    {
+        if ($_POST["fundamentalMaior"] == "1") {
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
+        } else {
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            foreach ($schedules as $schedule) {
+                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
+                $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+                $classFault->save();
+            }
         }
     }
-}
 
-/**
- * Get all disciplines by classroom
- */
-public
-function actionGetDisciplines()
+    /**
+     * Get all disciplines by classroom
+     */
+    public function actionGetDisciplines()
 {
     $classroom = Classroom::model()->findByPk($_POST["classroom"]);
     $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
@@ -310,7 +305,8 @@ function actionGetDisciplines()
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+        )
             ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
         foreach ($disciplines as $discipline) {
             echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));

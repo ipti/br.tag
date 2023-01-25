@@ -22,7 +22,7 @@ class Register10
                 $attributes['shared_school_inep_id_4'] = '';
                 $attributes['shared_school_inep_id_5'] = '';
                 $attributes['shared_school_inep_id_6'] = '';
-            } else if ($attributes['shared_school_inep_id_1'] == null && $attributes['shared_school_inep_id_2'] == null && $attributes['shared_school_inep_id_3'] == null
+            } elseif ($attributes['shared_school_inep_id_1'] == null && $attributes['shared_school_inep_id_2'] == null && $attributes['shared_school_inep_id_3'] == null
                 && $attributes['shared_school_inep_id_4'] == null && $attributes['shared_school_inep_id_5'] == null && $attributes['shared_school_inep_id_6'] == null) {
                 $attributes['shared_building_with_school'] = '0';
             }
@@ -54,7 +54,7 @@ class Register10
             $attributes['sewage_public'] = '0';
             $attributes['sewage_fossa'] = '0';
             $attributes['sewage_fossa_common'] = '0';
-        } else if ($attributes['sewage_fossa'] == '1' && $attributes['sewage_fossa_common'] == '1') {
+        } elseif ($attributes['sewage_fossa'] == '1' && $attributes['sewage_fossa_common'] == '1') {
             $attributes['sewage_fossa_common'] = '0';
         }
 
@@ -213,7 +213,7 @@ class Register10
                     $attributes["dependencies_prysical_disability_bathroom"] == 1 || $attributes["dependencies_child_bathroom"] == 1 ||
                     $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
                         ? 1 : 0;
-            } else if ($edcensoAlias->corder == 131) {
+            } elseif ($edcensoAlias->corder == 131) {
                 $register[$edcensoAlias->corder] = null;
                 if ($attributes["workers_administrative_assistant"] == null && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
                     && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null

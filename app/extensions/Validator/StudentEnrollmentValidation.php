@@ -1,20 +1,19 @@
 <?php
+
 $DS = DIRECTORY_SEPARATOR;
 
 require_once(dirname(__FILE__) . $DS . "register.php");
 
 class studentEnrollmentValidation extends Register
 {
-
-    function __construct()
+    public function __construct()
     {
     }
 
-    function multiLevel($value, $demand)
+    public function multiLevel($value, $demand)
     {
         $result = $this->isAllowed($demand, array('12', '13', '22', '23', '24', '72', '56', '64'));
         if ($result['status']) {
-
             if ($demand == '12' || $demand == '13') {
                 $result = $this->isAllowed($value, array('4', '5', '6', '7', '8', '9', '10', '11'));
                 if (!$result['status']) {
@@ -58,7 +57,6 @@ class studentEnrollmentValidation extends Register
                     return array("status" => false, "erro" => $result['erro']);
                 }
             }
-
         } else {
             if ($value != null) {
                 return array("status" => false, "erro" => "value $value deveria ser nulo");
@@ -66,12 +64,10 @@ class studentEnrollmentValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function publicTransportation($value, $pedagogical_mediation_type)
+    public function publicTransportation($value, $pedagogical_mediation_type)
     {
-
         if ($value == '1' || $value == '2') {
             if (!($value == '1' || $value == '0')) {
                 return array("status" => false, "erro" => "value $value não é disponível");
@@ -83,14 +79,11 @@ class studentEnrollmentValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function vehiculesTypes($public_transport, $types)
+    public function vehiculesTypes($public_transport, $types)
     {
-
         if ($public_transport == '1') {
-
             $result = $this->checkRangeOfArray($types, array("0", "1"));
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
@@ -109,23 +102,19 @@ class studentEnrollmentValidation extends Register
         }
 
         return array("status" => true, "erro" => "");
-
     }
 
-    function studentEntryForm($value, $administrative_dependence, $edcenso_svm)
+    public function studentEntryForm($value, $administrative_dependence, $edcenso_svm)
     {
-
         $edcenso_svm_allowed_values = array('39', '40', '64', '30', '31', '32', '33', '34', '74');
         $first_result = $this->isAllowed($edcenso_svm, $edcenso_svm_allowed_values);
 
         if ($administrative_dependence == '1' && $first_result['status']) {
-
             $allowed_values = array('1', '2', '3', '4', '5', '6', '7', '8', '9');
             $second_result = $this->isAllowed($value, $allowed_values);
             if (!$result['status']) {
                 return array("status" => false, "erro" => $result['erro']);
             }
-
         } else {
             if ($value != null) {
                 return array("status" => false, "erro" => "value $value deveria ser nulo");
@@ -168,7 +157,8 @@ class studentEnrollmentValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    public function hasAEETypeSelected($aee, $aeeTypes) {
+    public function hasAEETypeSelected($aee, $aeeTypes)
+    {
         if ($aee == 1) {
             $result = $this->atLeastOne($aeeTypes);
             if (!$result['status']) {
@@ -178,5 +168,3 @@ class studentEnrollmentValidation extends Register
         return array("status" => true, "erro" => "");
     }
 }
-
-?>

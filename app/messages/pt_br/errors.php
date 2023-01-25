@@ -45,5 +45,4 @@ return array(
     'November' => 'Novembro',
     'December' => 'Dezembro',
 
-        )
-?>
+        );

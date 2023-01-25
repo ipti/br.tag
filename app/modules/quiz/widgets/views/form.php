@@ -27,8 +27,11 @@
             <ul class="tab-classroom">
                 <?php
                     $active = true;
-                    foreach($groups as $group){?>
-                    <li id="tab-<?= $group->id ?>"  <?php if($active){ echo 'class="active"'; $active = false;} ?> >
+                    foreach ($groups as $group) {?>
+                    <li id="tab-<?= $group->id ?>"  <?php if ($active) {
+                        echo 'class="active"';
+                        $active = false;
+                    } ?> >
                         <a class="glyphicons adress_book" href="#group-<?= $group->id ?>" data-toggle="tab">
                             <i></i><?php echo Yii::t('default', $group->name) ?>
                         </a>
@@ -41,13 +44,16 @@
 
         <div class="widget-body form-horizontal">
             <div class="tab-content">
-                <?php 
+                <?php
                     reset($groups);
                     $active = true;
-                    foreach($groups as $group){ ?>
-                        <div class="tab-pane <?php if($active){ echo 'active'; $active = false;} ?>" id="group-<?= $group->id ?>">
+                    foreach ($groups as $group) { ?>
+                        <div class="tab-pane <?php if ($active) {
+                        echo 'active';
+                        $active = false;
+                    } ?>" id="group-<?= $group->id ?>">
                             <?php
-                                foreach($questions[$group->id] as $formQuestion){
+                                foreach ($questions[$group->id] as $formQuestion) {
                                     $this->widget('quiz.widgets.QuestionWidget', array('model' => $formQuestion));
                                 }
                             ?>

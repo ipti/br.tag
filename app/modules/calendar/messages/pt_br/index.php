@@ -1,4 +1,5 @@
 <?php
+
 return [
     "Other Calendars" => "Outros Calendários",
     "Calendar" => "Calendário",

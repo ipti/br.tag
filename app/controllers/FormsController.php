@@ -2,12 +2,13 @@
 
 
 
-class FormsController extends Controller {
-
+class FormsController extends Controller
+{
     public $layout = 'fullmenu';
     public $year = 0;
 
-    public function accessRules() {
+    public function accessRules()
+    {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'EnrollmentGradesReport', 'StudentsFileReport','EnrollmentDeclarationReport',
@@ -24,33 +25,39 @@ class FormsController extends Controller {
         );
     }
 
-    public function beforeAction($action){
+    public function beforeAction($action)
+    {
         $this->year = Yii::app()->user->year;
         return true;
     }
 
-    public function actionEnrollmentGradesReport($enrollment_id) {
+    public function actionEnrollmentGradesReport($enrollment_id)
+    {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         $this->render('EnrollmentGradesReport', array('enrollment'=>$enrollment));
     }
-    public function actionEnrollmentGradesReportBoquim($enrollment_id) {
+    public function actionEnrollmentGradesReportBoquim($enrollment_id)
+    {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         $this->render('EnrollmentGradesReportBoquim', array('enrollment'=>$enrollment));
     }
-    public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id) {
+    public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id)
+    {
         $this->layout = "reports";
         $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
         $this->render('EnrollmentGradesReportBoquimCiclo', array('enrollment'=>$enrollment));
     }
 
-    public function actionStudentsFileReport($enrollment_id) {
+    public function actionStudentsFileReport($enrollment_id)
+    {
         $this->layout = "reports";
         $this->render('StudentsFileReport', array('enrollment_id'=>$enrollment_id));
     }
 
-    public function actionEnrollmentDeclarationReport($enrollment_id) {
+    public function actionEnrollmentDeclarationReport($enrollment_id)
+    {
         $this->layout = "reports";
         $sql = "SELECT si.sex gender, svm.stage stage, svm.id class"
             . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
@@ -62,7 +69,8 @@ class FormsController extends Controller {
 
 
 
-    public function actionGetEnrollmentDeclarationInformation($enrollment_id){
+    public function actionGetEnrollmentDeclarationInformation($enrollment_id)
+    {
         $sql = "SELECT si.name name, si.filiation_1 filiation_1, si.filiation_2 filiation_2, si.birthday birthday, si.inep_id inep_id, sd.nis nis, ec.name city, c.school_year enrollment_date"
             . " FROM student_enrollment se JOIN classroom c ON c.id = se.classroom_fk JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id"
             . " WHERE se.id = " . $enrollment_id . ";";
@@ -70,7 +78,8 @@ class FormsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionTransferRequirement($enrollment_id){
+    public function actionTransferRequirement($enrollment_id)
+    {
         $this->layout = 'reports';
         $sql = "SELECT si.sex gender, svm.stage stage, svm.id class"
             . " FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
@@ -79,7 +88,8 @@ class FormsController extends Controller {
         $this->render('TransferRequirement', array('enrollment_id'=>$enrollment_id, 'gender'=>$result['gender'], 'stage'=>$result['stage'], 'class'=>$result['class']));
     }
 
-    public function actionGetTransferRequirementInformation($enrollment_id){
+    public function actionGetTransferRequirementInformation($enrollment_id)
+    {
         $sql = "SELECT si.name name, si.filiation_1 mother, si.filiation_2 father, si.birthday birthday, ec.name city, euf.acronym state, YEAR(se.create_date) enrollment_date"
             . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN student_documents_and_address sd ON si.id = sd.id JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id JOIN edcenso_uf euf ON si.edcenso_uf_fk = euf.id"
             . " WHERE se.id = " . $enrollment_id . ";";
@@ -87,7 +97,8 @@ class FormsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionEnrollmentNotification($enrollment_id){
+    public function actionEnrollmentNotification($enrollment_id)
+    {
         $this->layout = 'reports';
         $sql = "SELECT si.sex gender, cr.turn shift"
             . " FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id JOIN classroom cr ON se.classroom_fk = cr.id"
@@ -96,7 +107,8 @@ class FormsController extends Controller {
         $this->render('EnrollmentNotification', array('enrollment_id'=>$enrollment_id, 'gender'=>$result['gender'], 'shift'=>$result['shift']));
     }
 
-    public function actionGetEnrollmentNotificationInformation($enrollment_id){
+    public function actionGetEnrollmentNotificationInformation($enrollment_id)
+    {
         $sql = "SELECT si.name name, YEAR(se.create_date) enrollment_date"
             . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk"
             . " WHERE se.id = " . $enrollment_id . ";";
@@ -105,8 +117,8 @@ class FormsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionStudentsDeclarationReport($enrollment_id) {
-
+    public function actionStudentsDeclarationReport($enrollment_id)
+    {
         $this->layout = "reports";
         $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = ".$enrollment_id;
         $result = Yii::app()->db->createCommand($sql)->queryRow();
@@ -115,19 +127,21 @@ class FormsController extends Controller {
         ));
     }
 
-    public function actionGetStudentsFileInformation($enrollment_id){
+    public function actionGetStudentsFileInformation($enrollment_id)
+    {
         $sql = "SELECT * FROM studentsfile WHERE enrollment_id = ".$enrollment_id.";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         echo json_encode($result);
     }
 
-    public function actionAtaSchoolPerformance($id) {
+    public function actionAtaSchoolPerformance($id)
+    {
         $this->layout = "reports";
         $sql = "SELECT * FROM ata_performance
                     where `school_year` = " . $this->year . ""
             . " AND classroom_id = $id  AND (status = 1 OR status IS NULL);";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
-        setlocale(LC_ALL, NULL);
+        setlocale(LC_ALL, null);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
         $time = mktime(0, 0, 0, $result['month']);
         $result['month'] = strftime("%B", $time);
@@ -141,12 +155,12 @@ class FormsController extends Controller {
 
 
 
-        foreach($disciplines as $key => $value){
-            if($value == 1){
+        foreach ($disciplines as $key => $value) {
+            if ($value == 1) {
                 $enableDisciplines[$key] = $disciplineLabels[$key];
             }
         }
-        
+
         $students = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
 
         $this->render('AtaSchoolPerformance', array(
@@ -157,24 +171,28 @@ class FormsController extends Controller {
         ));
     }
 
-    public function actionStudentFileForm($enrollment_id) {
+    public function actionStudentFileForm($enrollment_id)
+    {
         $this->layout = "reports";
         $this->render('StudentFileForm', array('enrollment_id'=>$enrollment_id,'studentinfo'=>$result));
     }
 
-    public function actionStudentsFileForm($classroom_id) {
+    public function actionStudentsFileForm($classroom_id)
+    {
         $this->layout = "reports";
         $this->render('StudentsFileForm', array('classroom_id'=>$classroom_id));
     }
 
-    public function actionTransferForm($enrollment_id){
+    public function actionTransferForm($enrollment_id)
+    {
         $this->layout = 'reports';
         $sql = "SELECT si.nationality FROM student_identification si JOIN student_enrollment se ON se.student_fk = si.id WHERE se.id = " . $enrollment_id . ";";
         $result = Yii::app()->db->createCommand($sql)->queryRow();
         $this->render('TransferForm', array('enrollment_id'=>$enrollment_id, 'nationality'=>$result['nationality']));
     }
 
-    public function actionGetTransferFormInformation($enrollment_id){
+    public function actionGetTransferFormInformation($enrollment_id)
+    {
         //nacionalidade vem de que tabela?
         $sql = "SELECT si.name, si.inep_id, ec.name birth_city, euf.acronym birth_state,  
                     si.birthday, sda.rg_number, sda.rg_number_expediction_date rg_date, 
@@ -195,20 +213,20 @@ class FormsController extends Controller {
         echo json_encode($result);
     }
 
-    public function actionStatementAttended($enrollment_id) {
-
+    public function actionStatementAttended($enrollment_id)
+    {
         $this->layout = "reports";
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class, svm.*, c.modality, c.school_year, svm.stage stage, svm.id class"
             . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
             . " WHERE se.id = " . $enrollment_id . ";";
         $data = Yii::app()->db->createCommand($sql)->queryRow();
-        
+
         $modality = array(
             '1' => 'Ensino Regular',
             '2' => 'Educação Especial - Modalidade Substitutiva',
             '3' => 'Educação de Jovens e Adultos (EJA)'
         );
-        
+
         $c = '';
         switch ($data['class']) {
             case '4':
@@ -275,7 +293,7 @@ class FormsController extends Controller {
                 $c = '4º';
                 break;
         }
-        
+
         $descCategory = '';
         switch ($data['stage']) {
             case '1':
@@ -295,17 +313,17 @@ class FormsController extends Controller {
         ));
     }
 
-    public function actionWarningTerm($enrollment_id) {
-
+    public function actionWarningTerm($enrollment_id)
+    {
         $this->layout = "reports";
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class, svm.*, c.modality, c.school_year, svm.stage stage, svm.id class"
             . " FROM student_enrollment se JOIN student_identification si ON si.id = se.student_fk JOIN classroom c on se.classroom_fk = c.id JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id"
             . " WHERE se.id = " . $enrollment_id . ";";
         $data = Yii::app()->db->createCommand($sql)->queryRow();
-        
+
         $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = ".$enrollment_id;
         $data = Yii::app()->db->createCommand($sql)->queryRow();
-        
+
         $turn = '';
         switch ($data['turn']) {
             case 'M':
@@ -317,17 +335,17 @@ class FormsController extends Controller {
             case 'N':
                 $turn = 'Noturno';
                 break;
-            
+
         }
-        
+
         $this->render('WarningTerm', array(
             'student' => $data,
             'turn' => $turn
         ));
     }
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $this->render('index');
     }
-
 }

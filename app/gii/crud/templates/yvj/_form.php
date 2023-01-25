@@ -17,9 +17,9 @@
 
                 <?php
                 foreach ($this->tableSchema->columns as $column) {
-                    if ($column->autoIncrement)
+                    if ($column->autoIncrement) {
                         continue;
-                    ?>
+                    } ?>
                     <div class="control-group">
                         <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
                         <div class="controls">

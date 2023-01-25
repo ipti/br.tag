@@ -8,9 +8,9 @@
             </div> <!-- .widget-head -->
             <?php
                 $answer = Answer::model()->findByAttributes(['quiz_id' => $model->quiz->id, 'question_id' => $model->question->id, 'student_id' => $model->student->id, 'seq' => 1]);
-                                    
-                if(is_null($answer)){
-                    $answer = new Answer;
+
+                if (is_null($answer)) {
+                    $answer = new Answer();
                 }
             ?>
             <div class="widget-body in" style="height: auto;">

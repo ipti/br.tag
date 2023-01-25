@@ -1,4 +1,5 @@
 <?php
+
 return [
     "Cancel" => "Cancelar",
     "Save" => "Salvar",
@@ -9,5 +10,5 @@ return [
     "Disciplines" => "Disciplinas",
     "Workload" => "Carga Horária",
     "Credits" => "Horas Semanais",
-	"Add" => "Adicionar"
+    "Add" => "Adicionar"
 ];

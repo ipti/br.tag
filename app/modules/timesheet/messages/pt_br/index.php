@@ -1,4 +1,5 @@
 <?php
+
 return [
     "Cancel" => "Cancelar",
     "Confirm" => "Confirmar",

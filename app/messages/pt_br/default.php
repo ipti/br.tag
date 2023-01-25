@@ -14,7 +14,7 @@ return array(
     'October' => 'Outubro',
     'November' => 'Novembro',
     'December' => 'Dezembro',
-    
+
     //Botões
     'Create' => 'Criar',
     'Save' => 'Salvar',
@@ -28,14 +28,14 @@ return array(
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',
-    
+
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
     'cannot  be blank' => 'não pode ser vazio.',
     'No matches found' => 'nenhuma referência encontrada',
     'Incorrect username or password.'=>'Usuário ou senha incorretos',
-    
+
     //Campos das tabelas
 
     //School Identification
@@ -339,7 +339,7 @@ return array(
     'Provide Potable Water' => 'Para Consumo Humano',
     'Student Repose Room' => 'Sala de Repouso para Alunos',
     'Stages Concept Grades' => 'Etapas para Notas por Conceito',
-    
+
     //Classroom
     'School Inep Fk' => 'Escola',
     'School Year' => 'Ano Letivo',
@@ -425,7 +425,7 @@ return array(
     'Differentiated Operating Place' => 'Local de Funcionamento Diferenciado',
     'Complementary Activity' => 'Atividade Complementar',
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
-    
+
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
     'Birthday' => 'Data de Nascimento',
@@ -488,7 +488,7 @@ return array(
     "Responsible's Telephone" => 'Telefone do Responsável',
     'BF Participator' => 'Participante do Bolsa Família',
     'Food Restrictions' => 'Restrição Alimentar / Alergia',
-    
+
     //Student Documents And Address
     'Student Fk' => 'Aluno',
     'Rg Number' => 'Nº da identidade',
@@ -527,7 +527,7 @@ return array(
     'Justice Restriction' => 'Restrição na Justiça',
     'Student Diff Location' => 'Localização Diferenciada',
     'Consent Form' => 'Termo de Consentimento',
-    
+
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
     'Student Fk' => 'Aluno',
@@ -576,7 +576,7 @@ return array(
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
-    
+
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -602,7 +602,7 @@ return array(
     'Deficiency Type Autism' => 'Transtorno do Espectro Autista',
     'Deficiency Type Gifted' => 'Altas Habilidades / Super Dotação',
     'Diff Location' => 'Localização Diferenciada',
-    
+
     //Instructor-DocumentsAndAddress
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
@@ -613,7 +613,7 @@ return array(
     'Received NIS'=>'Comprovante NIS',
     'Received Responsable`s RG'=>'Cópia RG(Responsável)',
     'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
-    
+
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',
     'High Education Situation 1' => 'Situação do Curso Superior 1',
@@ -658,7 +658,7 @@ return array(
     'Other Courses Ethnic Education' => 'Educação para as relações etnicorraciais e História e cultura Afro-Brasileira e Africana',
     'Other Courses Other' => 'Outros',
     'Other Courses None' => 'Nenhum',
-    
+
     // Instructor-TeachingData
     'Instructor' => 'Professor',
     'Instructors' => 'Professores',
@@ -684,7 +684,7 @@ return array(
 
     //Instructor email update
     'Update Instructor e-mails' => "Atualizar e-mail dos professores",
-    
+
     //Classboards
     'Insert class' => 'Inserir aula',
     'Update class' => 'Atualizar aula',
@@ -695,7 +695,7 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
-    
+
     //Classes
     'Frequency' => 'Frequência',
     'Class Contents' => 'Aulas ministradas',
@@ -705,12 +705,12 @@ return array(
     'Add Resource' => 'Adicionar Recurso',
     'Description' => 'Descrição',
     'Classes' => 'Aulas',
-    
+
     //Grades
     'Grades' => 'Notas',
     'Grades saved successfully!' => 'Notas salvas com sucesso!',
     'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
-    
+
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
@@ -720,14 +720,14 @@ return array(
     'Content' => 'Conteúdo',
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
-    
+
     //Labels
     'User' => 'Usuário',
     'Password' => 'Senha',
     'Confirm Password' => 'Confirmar Senha',
     'Username' => 'Usuário',
     'Month' => 'Mês',
-    
+
     //Abas
     'Identification' => 'Identificação',
     'Structure' => 'Estrutura',
@@ -744,10 +744,10 @@ return array(
     'Students' => 'Alunos',
     'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
-    
+
     //
     'Area' => 'Área de Atuação',
-    
+
     //Labels de Grupos
     'Operation Location' => 'Local de Funcionamento',
     'Water Supply' => 'Suprimento de Água',
@@ -761,10 +761,10 @@ return array(
     'Stage' => 'Etapa',
     'Schools' => 'Escolas',
     'Role' => 'Cargo',
-    
+
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
-    
+
     //Titulos
     'School Identifications' => 'Escolas',
     'Classrooms' => 'Turmas',
@@ -773,53 +773,53 @@ return array(
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
     'Reports' => 'Relatórios',
-    
+
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
-    
+
     //Novo
     'Add New Teacher' => 'Adicionar Professor',
     'Add New Student' => 'Adicionar Aluno',
-    
+
     'Create a new StudentEnrollment' => 'Matricular Aluno',
     'Create a new SchoolIdentification' => 'Adicionar Escola',
     'Create a new Classroom' => 'Adicionar Turma',
     'Create a new InstructorIdentification' => 'Adicionar Professor',
     'Create a new StudentIdentification' => 'Adicionar Aluno',
     'Create a new User' => 'Cadastrar Usuário',
-    
+
     //Atualizar
     'Update Classroom' => 'Atualizar Turma',
     'Update StudentEnrollment' => 'Atualizar Matrícula',
     'Update StudentIdentification' => 'Atualizar Aluno',
     'Update SchoolIdentification' => 'Atualizar Escola',
     'Update InstructorIdentification' => 'Atualizar Professor',
-    
+
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
     'already have in this student enrolled.' =>'já possui o aluno matriculado.',
-    
+
     //Autenticação
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'instructor' => 'Professor',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
-    
+
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',
     'Confirm' => "Confirme a Senha",
-    
+
     //Import
     'Import File' => "Arquivo de Importação",
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
-    
+
     //Sync
     'Import Sync File Dialog' => 'Importar Informações do TAG-Offline',
-    
+
     'Send' => 'Enviar em '.(date('Y')+1),
-    
+
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
     'Enrollment Resume'=>'Resumo de Matrícula',
@@ -889,5 +889,4 @@ return array(
     "Beginning of the School Year" => "Início do Ano Escolar",
     "End of the School Year" => "Fim do Ano Escolar",
 
-    )   
-?>
+    );

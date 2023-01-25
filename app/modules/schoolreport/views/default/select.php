@@ -3,12 +3,12 @@
 <?php
     foreach (array_reverse(yii::app()->user->enrollments, true) as $year => $enrolls) {
         $active = "";
-        if($year == date("Y")){
+        if ($year == date("Y")) {
             $active = "active";
             $status_text = "Cursando";
             $status_color = "";
             $status_icon = "edit";
-        }else{
+        } else {
             $status_text = "Concluído";
             $status_color = "teal";
             $status_icon = "check";

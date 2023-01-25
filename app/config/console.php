@@ -3,12 +3,12 @@
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
 return array(
-	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'TAG',
+    'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
+    'name'=>'TAG',
 
-	// preloading 'log' component
-	'preload'=>array('log'),
-	'import' => array(
+    // preloading 'log' component
+    'preload'=>array('log'),
+    'import' => array(
         'application.models.*',
         'application.controllers.*',
         'application.components.*',
@@ -16,10 +16,10 @@ return array(
         'application.modules.calendar.models.*',
         'application.modules.quiz.models.*',
     ),
-	// application components
-	'components'=>array(
+    // application components
+    'components'=>array(
 
-		'db2' => array(
+        'db2' => array(
             'connectionString' => 'mysql:host=51.81.125.135:31160;dbname=com.escola10',
             'emulatePrepare' => true,
             'username' => 'admin',
@@ -41,6 +41,6 @@ return array(
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-		)
-	),
+        )
+    ),
 );

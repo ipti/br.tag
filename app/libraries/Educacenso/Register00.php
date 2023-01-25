@@ -91,7 +91,7 @@ class Register00
             if ($attributes['regulation_organ_municipal'] == '0' && $attributes['regulation_organ_state'] == '0' && $attributes['regulation_organ_federal'] == '0') {
                 if ($attributes['administrative_dependence'] == "1") {
                     $attributes['regulation_organ_federal'] = '1';
-                } else if ($attributes['administrative_dependence'] == "3") {
+                } elseif ($attributes['administrative_dependence'] == "3") {
                     $attributes['regulation_organ_municipal'] = '1';
                 } else {
                     $attributes['regulation_organ_state'] = '1';

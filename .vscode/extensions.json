@@ -5,6 +5,7 @@
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
 		"zobo.php-intellisense",
+		"junstyle.php-cs-fixer",
 		"DEVSENSE.profiler-php-vscode",
 		"DEVSENSE.composer-php-vscode",
 		"DEVSENSE.phptools-vscode",

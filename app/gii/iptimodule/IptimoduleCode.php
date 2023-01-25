@@ -22,8 +22,9 @@ class IptimoduleCode extends CCodeModel
 
     public function successMessage()
     {
-        if (Yii::app()->hasModule($this->moduleID))
+        if (Yii::app()->hasModule($this->moduleID)) {
             return 'The module has been generated successfully. You may ' . CHtml::link('try it now', Yii::app()->createUrl($this->moduleID), array('target' => '_blank')) . '.';
+        }
 
         $output = <<<EOD
 <p>The module has been generated successfully.</p>
@@ -73,14 +74,14 @@ EOD;
 
         foreach ($files as $file) {
             if ($file !== $moduleTemplateFile) {
-                if (CFileHelper::getExtension($file) === 'php')
+                if (CFileHelper::getExtension($file) === 'php') {
                     $content = $this->render($file);
-                elseif (basename($file) === '.yii')  // an empty directory
-                {
+                } elseif (basename($file) === '.yii') {  // an empty directory
                     $file = dirname($file);
                     $content = null;
-                } else
+                } else {
                     $content = file_get_contents($file);
+                }
                 $this->files[] = new CCodeFile(
                     $modulePath . substr($file, strlen($templatePath)),
                     $content

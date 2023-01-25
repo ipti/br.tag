@@ -91,7 +91,7 @@ class DefaultController extends Controller
                     $e->end_date = $newEnd->format("Y-m-d");
 
                     $e->calendar_fk = $calendar->id;
-                    $e->id = NULL;
+                    $e->id = null;
                     $e->save();
                 }
             }
@@ -132,7 +132,7 @@ class DefaultController extends Controller
             }
             if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de férias, início ou fim de ano escolar quando existe turma com quadro de horário preenchido."]);
-            } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            } elseif ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(["valid" => false, "error" => "Não é possivel alterar eventos de feriados com datas anteriores à atual quando existe turma com quadro de horário preenchido."]);
             } else {
                 $event->calendar_fk = $_POST["calendarFk"];
@@ -194,7 +194,7 @@ class DefaultController extends Controller
             $isPreviousDate = strtotime($event->start_date) < strtotime('now');
             if ((int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "error" => "Não se pode remover eventos de férias, início ou fim de ano escolar quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
-            } else if ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            } elseif ((int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(["valid" => false, "error" => "Não se pode remover eventos de feriados com datas anteriores à atual quando existe turma: (a) com a mesma etapa do calendário; e (b) com quadro de horário preenchido."]);
             } else {
                 $color = $event->calendarEventTypeFk->color;
@@ -232,7 +232,7 @@ class DefaultController extends Controller
     public function loadModel($id)
     {
         $model = Calendar::model()->findByPk($id);
-        if ($model === NULL) {
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
 

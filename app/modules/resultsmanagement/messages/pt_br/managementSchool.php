@@ -1,4 +1,5 @@
 <?php
+
 return [
     "Frequency" => "Frequência",
     "All Classrooms" => "Todas as Turmas",

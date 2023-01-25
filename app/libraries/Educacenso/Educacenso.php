@@ -1,4 +1,5 @@
 <?php
+
 class Educacenso
 {
     private $registers = [];

@@ -1,12 +1,13 @@
 <?php
 
 
-class QuestionWidget extends CWidget{
-
+class QuestionWidget extends CWidget
+{
     public $model;
     protected $view;
 
-    public function init(){
+    public function init()
+    {
         switch ($this->model->question->type) {
             case '1':
                 $this->view = 'subjective';
@@ -23,10 +24,10 @@ class QuestionWidget extends CWidget{
         }
     }
 
-    public function run(){
-        if(isset($this->view)){
+    public function run()
+    {
+        if (isset($this->view)) {
             $this->render($this->view, ['model' => $this->model]);
         }
     }
 }
-?>

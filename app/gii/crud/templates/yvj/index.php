@@ -35,8 +35,9 @@ array('label'=> Yii::t('default', 'Create a new <?php echo $this->modelClass; ?>
                         'baseScriptUrl' => Yii::app()->theme->baseUrl . '/plugins/gridview/',
                         'columns' => array(
                     <?php
-                    foreach ($this->tableSchema->columns as $column)
+                    foreach ($this->tableSchema->columns as $column) {
                         echo "\t\t'" . $column->name . "',\n";
+                    }
                     ?>
                      array('class' => 'CButtonColumn',),),
                     )); ?>

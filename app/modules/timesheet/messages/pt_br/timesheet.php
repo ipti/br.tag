@@ -1,4 +1,5 @@
 <?php
+
 return [
     "Timesheet" => "Quadro de Horários",
     "Instructors" => "Professores",

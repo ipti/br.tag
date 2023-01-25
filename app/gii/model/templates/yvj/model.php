@@ -16,20 +16,19 @@
  * This is the model class for table "<?php echo $tableName; ?>".
  *
  * The followings are the available columns in table '<?php echo $tableName; ?>':
-<?php foreach($columns as $column): ?>
+<?php foreach ($columns as $column): ?>
  * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
 <?php endforeach; ?>
-<?php if(!empty($relations)): ?>
+<?php if (!empty($relations)): ?>
  *
  * The followings are the available model relations:
-<?php foreach($relations as $name=>$relation): ?>
+<?php foreach ($relations as $name=>$relation): ?>
  * @property <?php
-	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
-    {
+    if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches)) {
         $relationType = $matches[1];
         $relationModel = $matches[2];
 
-        switch($relationType){
+        switch ($relationType) {
             case 'HAS_ONE':
                 echo $relationModel.' $'.$name."\n";
             break;
@@ -45,7 +44,7 @@
             default:
                 echo 'mixed $'.$name."\n";
         }
-	}
+    }
     ?>
 <?php endforeach; ?>
 <?php endif; ?>
@@ -78,7 +77,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-<?php foreach($rules as $rule): ?>
+<?php foreach ($rules as $rule): ?>
 			<?php echo $rule.",\n"; ?>
 <?php endforeach; ?>
 			// The following rule is used by search().
@@ -95,7 +94,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-<?php foreach($relations as $name=>$relation): ?>
+<?php foreach ($relations as $name=>$relation): ?>
 			<?php echo "'$name' => $relation,\n"; ?>
 <?php endforeach; ?>
 		);
@@ -107,7 +106,7 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 	public function attributeLabels()
 	{
 		return array(
-<?php foreach($labels as $name=>$label): ?>
+<?php foreach ($labels as $name=>$label): ?>
 			<?php echo "'$name' => Yii::t('default', '$label'),\n"; ?>
 <?php endforeach; ?>
 		);
@@ -125,17 +124,13 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 		$criteria=new CDbCriteria;
 
 <?php
-foreach($columns as $name=>$column)
-{
-	if($column->type==='string')
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n";
-	}
-	else
-	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name);\n";
-	}
-}
+foreach ($columns as $name=>$column) {
+        if ($column->type==='string') {
+            echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n";
+        } else {
+            echo "\t\t\$criteria->compare('$name',\$this->$name);\n";
+        }
+    }
 ?>
 
 		return new CActiveDataProvider($this, array(

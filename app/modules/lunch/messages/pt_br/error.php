@@ -1,4 +1,5 @@
 <?php
+
 return [
     'Something happen' => "Algo inesperado aconteceu",
     'Attention!' => 'Atenção!',

@@ -25,8 +25,8 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
         </tr>
     </thead>
     <tbody>
-    <?php foreach($disciplines as $did=>$name){
-        echo "<tr did='$did'>"
+    <?php foreach ($disciplines as $did=>$name) {
+    echo "<tr did='$did'>"
             ."<td class='left aligned'>$name</td>"
             ."<td></td>"
             ."<td></td>"
@@ -39,7 +39,7 @@ $cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
             ."<td></td>"
             ."<td></td>"
             ."</tr>";
-    }
+}
     ?>
     </tbody>
 </table>
