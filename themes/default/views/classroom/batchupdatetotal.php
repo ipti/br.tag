@@ -1,4 +1,10 @@
 <?php
+    /**
+     * @var $this ClassroomController
+     * @var Classroom $modelClassroom Classroom
+     */
+
+
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 

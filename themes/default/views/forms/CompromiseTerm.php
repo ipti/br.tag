@@ -51,10 +51,13 @@
 
 </style>
 <?php
-    /* @var $enrollment string
-     * @var $student StudentEnrollment
+    /** 
+     * @var $enrollment string
+     * @var StudentEnrollment $student StudentEnrollment
      * @var $school_address
-     * @var $school_year string */
+     * @var $school_year string 
+     * 
+     **/
 ?>
 <div>
     <div class="main">

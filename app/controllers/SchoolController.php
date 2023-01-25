@@ -429,7 +429,6 @@ class SchoolController extends Controller
             case 2:
                 $title = 'Histórico Ensino EJA';
                 break;
-                break;
         }
 
         $this->render('Record', [

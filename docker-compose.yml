@@ -15,6 +15,7 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
+      YII_DEBUG: 'true'
 
   mysql:
     image: mysql:5.7

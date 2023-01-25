@@ -1752,7 +1752,7 @@
 
         public function actionImportFromMaster()
         {
-//			$tables = [
+            //			$tables = [
             //				"school_identification", "school_structure", "classroom", "instructor_identification",
             //				"instructor_documents_and_address", "instructor_variable_data", "instructor_teaching_data",
             //				"student_identification", "student_documents_and_address", "student_enrollment"

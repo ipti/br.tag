@@ -58,8 +58,8 @@
  * @property InstructorDocumentsAndAddress[] $instructorDocumentsAndAddresses
  * @property InstructorSchool[] $instructorSchools
  * @property InstructorTeachingData[] $instructorTeachingDatas
- * @property LunchInventory[] $lunchInventories
- * @property LunchMenu[] $lunchMenus
+ * @property Inventory[] $lunchInventories
+ * @property Menu[] $lunchMenus
  * @property SchoolConfiguration[] $schoolConfigurations
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk

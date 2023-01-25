@@ -10,28 +10,31 @@ $errorHandlerOptions = [
 ];
 
 $logOptions = [
-    [ 
-      'class' => 'CFileLogRoute', 
-      'levels' => 'error, warning'
+    'class' => 'CLogRouter',
+    'routes' => [
+        [
+            'class' => 'CFileLogRoute',
+            'levels' => 'error, warning',
+        ],
     ],
 ];
 
 if (YII_DEBUG) {
-    $errorHandlerOptions = array(
+    $errorHandlerOptions = [
         'class' => 'application.vendor.igorsantos07.yii-whoops.WhoopsErrorHandler',
-        // 'errorAction' => 'site/error', 
-    );
+    ];
 
     $logOptions = [
-        [ 
-          'class' => 'CFileLogRoute', 
-          'levels' => 'error, warning'
+        'class' => 'CLogRouter',
+        'routes' => [
+            [
+                'class' => 'CFileLogRoute',
+                'levels' => 'error, warning',
+            ],
+            ['class' => 'CWebLogRoute', 'levels' => 'trace, info, error, warning', 'showInFireBug' => true],
         ],
-        [ 'class' => 'CWebLogRoute' ],
-    ];     
-} 
-
-
+    ];
+}
 
 return [
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
@@ -57,8 +60,9 @@ return [
             'class' => 'system.gii.GiiModule',
             'password' => 'p@s4tag',
             // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters' => ['127.0.0.1', '::1'],
+            'ipFilters' => ['*'],
             'generatorPaths' => [
+
             ],
         ],
         'wizard',
@@ -68,7 +72,8 @@ return [
         'calendar',
         'timesheet',
         'curricularmatrix',
-        'quiz'
+        'quiz',
+        'sagres'
     ],
     // application components
     'components' => [
@@ -157,4 +162,3 @@ return [
         'adminEmail' => 'webmaster@tag.lo',
     ],
 ];
-
