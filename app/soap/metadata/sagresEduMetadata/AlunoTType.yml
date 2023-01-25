@@ -1,0 +1,52 @@
+SagresEdu\AlunoTType:
+    properties:
+        cpfAluno:
+            expose: true
+            access_type: public_method
+            serialized_name: cpfAluno
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getCpfAluno
+                setter: setCpfAluno
+            type: string
+        dataNascimento:
+            expose: true
+            access_type: public_method
+            serialized_name: data_nascimento
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDataNascimento
+                setter: setDataNascimento
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        nome:
+            expose: true
+            access_type: public_method
+            serialized_name: nome
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getNome
+                setter: setNome
+            type: string
+        pcd:
+            expose: true
+            access_type: public_method
+            serialized_name: pcd
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getPcd
+                setter: setPcd
+            type: bool
+        sexo:
+            expose: true
+            access_type: public_method
+            serialized_name: sexo
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getSexo
+                setter: setSexo
+            type: int

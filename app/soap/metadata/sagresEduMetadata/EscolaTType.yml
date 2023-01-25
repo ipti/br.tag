@@ -1,0 +1,50 @@
+SagresEdu\EscolaTType:
+    properties:
+        idEscola:
+            expose: true
+            access_type: public_method
+            serialized_name: idEscola
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getIdEscola
+                setter: setIdEscola
+            type: int
+        turma:
+            expose: true
+            access_type: public_method
+            serialized_name: turma
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getTurma
+                setter: setTurma
+            xml_list:
+                inline: true
+                entry_name: turma
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\TurmaTType>
+        diretor:
+            expose: true
+            access_type: public_method
+            serialized_name: diretor
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDiretor
+                setter: setDiretor
+            type: SagresEdu\DiretorTType
+        cardapio:
+            expose: true
+            access_type: public_method
+            serialized_name: cardapio
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getCardapio
+                setter: setCardapio
+            xml_list:
+                inline: true
+                entry_name: cardapio
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\CardapioTType>

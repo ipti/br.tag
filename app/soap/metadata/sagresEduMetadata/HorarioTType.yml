@@ -1,0 +1,56 @@
+SagresEdu\HorarioTType:
+    properties:
+        diaSemana:
+            expose: true
+            access_type: public_method
+            serialized_name: dia_semana
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDiaSemana
+                setter: setDiaSemana
+            type: int
+        duracao:
+            expose: true
+            access_type: public_method
+            serialized_name: duracao
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDuracao
+                setter: setDuracao
+            type: int
+        horaInicio:
+            expose: true
+            access_type: public_method
+            serialized_name: hora_inicio
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getHoraInicio
+                setter: setHoraInicio
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        disciplina:
+            expose: true
+            access_type: public_method
+            serialized_name: disciplina
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDisciplina
+                setter: setDisciplina
+            type: string
+        cpfProfessor:
+            expose: true
+            access_type: public_method
+            serialized_name: cpfProfessor
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getCpfProfessor
+                setter: setCpfProfessor
+            xml_list:
+                inline: true
+                entry_name: cpfProfessor
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<string>

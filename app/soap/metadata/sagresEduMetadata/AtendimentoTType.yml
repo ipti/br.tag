@@ -1,0 +1,32 @@
+SagresEdu\AtendimentoTType:
+    properties:
+        data:
+            expose: true
+            access_type: public_method
+            serialized_name: data
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getData
+                setter: setData
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        local:
+            expose: true
+            access_type: public_method
+            serialized_name: local
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getLocal
+                setter: setLocal
+            type: string
+        profissional:
+            expose: true
+            access_type: public_method
+            serialized_name: profissional
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getProfissional
+                setter: setProfissional
+            type: SagresEdu\ProfissionalTType

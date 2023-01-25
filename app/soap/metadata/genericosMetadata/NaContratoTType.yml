@@ -1,0 +1,32 @@
+Genericos\NaContratoTType:
+    properties:
+        tipoContrato:
+            expose: true
+            access_type: public_method
+            serialized_name: tipoContrato
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getTipoContrato
+                setter: setTipoContrato
+            type: string
+        nrContrato:
+            expose: true
+            access_type: public_method
+            serialized_name: nrContrato
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getNrContrato
+                setter: setNrContrato
+            type: int
+        anoContrato:
+            expose: true
+            access_type: public_method
+            serialized_name: anoContrato
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+            accessor:
+                getter: getAnoContrato
+                setter: setAnoContrato
+            type: string

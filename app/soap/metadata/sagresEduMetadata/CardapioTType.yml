@@ -1,0 +1,42 @@
+SagresEdu\CardapioTType:
+    properties:
+        data:
+            expose: true
+            access_type: public_method
+            serialized_name: data
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getData
+                setter: setData
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        turno:
+            expose: true
+            access_type: public_method
+            serialized_name: turno
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getTurno
+                setter: setTurno
+            type: int
+        descricaoMerenda:
+            expose: true
+            access_type: public_method
+            serialized_name: descricao_merenda
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDescricaoMerenda
+                setter: setDescricaoMerenda
+            type: string
+        ajustado:
+            expose: true
+            access_type: public_method
+            serialized_name: ajustado
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getAjustado
+                setter: setAjustado
+            type: bool

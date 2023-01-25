@@ -1,0 +1,30 @@
+SagresEdu\EducacaoTType:
+    properties:
+        escola:
+            expose: true
+            access_type: public_method
+            serialized_name: escola
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getEscola
+                setter: setEscola
+            xml_list:
+                inline: true
+                entry_name: escola
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\EscolaTType>
+        atendimento:
+            expose: true
+            access_type: public_method
+            serialized_name: atendimento
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getAtendimento
+                setter: setAtendimento
+            xml_list:
+                inline: true
+                entry_name: atendimento
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\AtendimentoTType>

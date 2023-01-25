@@ -1,0 +1,22 @@
+SagresEdu\DiretorTType:
+    properties:
+        cpfDiretor:
+            expose: true
+            access_type: public_method
+            serialized_name: cpfDiretor
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getCpfDiretor
+                setter: setCpfDiretor
+            type: string
+        nrAto:
+            expose: true
+            access_type: public_method
+            serialized_name: nrAto
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getNrAto
+                setter: setNrAto
+            type: string

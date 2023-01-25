@@ -1,0 +1,84 @@
+SagresEdu\TurmaTType:
+    properties:
+        periodo:
+            expose: true
+            access_type: public_method
+            serialized_name: periodo
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getPeriodo
+                setter: setPeriodo
+            type: int
+        descricao:
+            expose: true
+            access_type: public_method
+            serialized_name: descricao
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getDescricao
+                setter: setDescricao
+            type: string
+        turno:
+            expose: true
+            access_type: public_method
+            serialized_name: turno
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getTurno
+                setter: setTurno
+            type: int
+        serie:
+            expose: true
+            access_type: public_method
+            serialized_name: serie
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getSerie
+                setter: setSerie
+            xml_list:
+                inline: true
+                entry_name: serie
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\SerieTType>
+        matricula:
+            expose: true
+            access_type: public_method
+            serialized_name: matricula
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getMatricula
+                setter: setMatricula
+            xml_list:
+                inline: true
+                entry_name: matricula
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\MatriculaTType>
+        horario:
+            expose: true
+            access_type: public_method
+            serialized_name: horario
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getHorario
+                setter: setHorario
+            xml_list:
+                inline: true
+                entry_name: horario
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            type: array<SagresEdu\HorarioTType>
+        finalTurma:
+            expose: true
+            access_type: public_method
+            serialized_name: finalTurma
+            xml_element:
+                namespace: 'http://www.tce.se.gov.br/sagres2022/xml/sagresEdu'
+            accessor:
+                getter: getFinalTurma
+                setter: setFinalTurma
+            type: bool
