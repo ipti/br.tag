@@ -89,10 +89,26 @@ $baseUrl = Yii::app()->theme->baseUrl;
                                         array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
                                     );
                                 }
-                                ?>
+                                ?>  
                             </form>
                         </div>
                         <div class="username"><?= Yii::app()->user->loginInfos->username ?></div>
+                    </div>
+                    <div class="change-year">
+                        <form action="<?php echo yii::app()->createUrl('site/changeYear') ?>" method="POST">
+                            <select name="years" id="years" placeholder="Selecione o ano" onchange="this.form.submit()">
+                                <?php 
+                                $years = range(2014, date('Y'));
+                                for ($i = 0; $i < count($years); $i++) {
+                                    if ($years[$i] == Yii::app()->user->year) {
+                                        echo "<option value=" . $years[$i] . " selected>" . $years[$i] . "</option>";
+                                    } else {
+                                        echo "<option value=" . $years[$i] . ">" . $years[$i] . "</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </form>
                     </div>
                 </li>
 
@@ -111,14 +127,14 @@ $baseUrl = Yii::app()->theme->baseUrl;
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-            <div id="menu" class="hidden-print fullmenu-sidebar" >
+            <div id="menu" class="hidden-print fullmenu-sidebar">
                 <div class="colorful-bar">
                     <span id="span-color-blue"></span>
                     <span id="span-color-red"></span>
                     <span id="span-color-green"></span>
                     <span id="span-color-yellow"></span>
                 </div>
-                <div id="logo-menu"class="logo-container">
+                <div id="logo-menu" class="logo-container">
                     <div style="margin-right:10px;" class="fullmenu-toggle-button">
                         <div></div>
                         <div></div>

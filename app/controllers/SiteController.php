@@ -136,6 +136,15 @@ class SiteController extends Controller
         $this->redirect(Yii::app()->homeUrl);
     }
 
+    public function actionChangeYear()
+    {
+        if(isset($_POST['years']) && !empty($_POST['years'])) {
+            Yii::app()->user->year = $_POST['years'];
+        }
+
+        $this->redirect(Yii::app()->homeUrl);
+    }
+
     private function loadLogsHtml($limit, $date = NULL)
     {
         $baseUrl = Yii::app()->theme->baseUrl;
