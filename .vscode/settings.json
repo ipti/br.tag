@@ -1,0 +1,10 @@
+{
+    "php.problems.scope": "user",
+    "php.problems.exclude" : {
+        "/" : [437],
+        "app/vendor/": true,
+        "app/extensions/**": true,
+        "app/gii/**": true,
+        "app/migrations/**": true,
+    }
+}
