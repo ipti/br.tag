@@ -398,8 +398,8 @@ function removeWarningMessage(id){
 }
 
 function errorNotification(id){
-    $(id).parent().children().css("border-color", "red");
-    $(id).parent().children().css("color", "red");
+    $(id).parent().children().css("border-color", "#D21C1C");
+    $(id).parent().children().css("color", "#D21C1C");
     $(id).parent().children().trigger("mouseover");
     setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
 }
@@ -409,8 +409,8 @@ function removeErrorNotification(id){
 }
 
 function warningNotification(id){
-    $(id).parent().children().css("border-color", "#ffcc00");
-    $(id).parent().children().css("color", "#ffcc00");
+    $(id).parent().children().css("border-color", "#E98305");
+    $(id).parent().children().css("color", "#E98305");
     $(id).parent().children().trigger("mouseover");
     setTimeout(function(){$(id).parent().children().trigger("mouseout");}, 7000);
 }
