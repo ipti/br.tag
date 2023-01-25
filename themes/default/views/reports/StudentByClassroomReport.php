@@ -25,10 +25,10 @@ function age($date){
         <tr>
             <th> <b>Aluno </b></th>
             <th> <b>RG </b></th>
-            <!--<th> <b>N° INEP</b></th>
-            <th> <b>N° SUS </b></th>
-            <th> <b>Data de Nascimento </b></th>
-            <th> <b>Idade </b></th>-->
+            <th> <b>ID INEP</b></th>
+            <!-- <th> <b>N° SUS </b></th>
+            <th> <b>Data de Nascimento </b></th> -->
+            <th> <b>Idade </b></th>
             <th> <b>Mãe </b></th>
             <th> <b>RG Mãe </b></th>
             <th> <b>Pai</b> </th>
@@ -47,10 +47,10 @@ function age($date){
             <tr>
                 <td><?= $c['name'] ?></td>
                 <td><?= $c['rg_number'] ?></td>
-                <!--<td><?= $c['inep_id'] ?></td>
-                <td><?= $c['cns'] ?></td>
-                <td><?= $c['birthday'] ?></td>
-                <td><?= age($c['birthday']) ?></td>-->
+                <td><?= $c['inep_id'] ?></td>
+                <!-- <td><?= $c['cns'] ?></td>
+                <td><?= $c['birthday'] ?></td> -->
+                <td><?= age($c['birthday']) ?></td>
                 <td><?= $c['filiation_1'] ?></td>
                 <td><?= $c['filiation_1_rg'] ?></td>
                 <td><?= $c['filiation_2'] ?></td>
