@@ -278,7 +278,7 @@ switch ($domain) {
         break;    
     default:
         $instance = 'SERGIPE';
-        $db = 'io.escola.demo';
+        $db = 'br.ong.tag.rj.buzios';
         break;
 }
 define("GLOGALGROUP",$_GLOBALGROUP);
@@ -295,8 +295,7 @@ define ("DBCONFIG", serialize (array(
     'username' => $USER,
     'password' => $PWD,
     'charset' => 'utf8',
-    'profiling' => true,
-    'enableParamLogging' => true,
+    
 )));
 
 define('INSTANCE',$instance);

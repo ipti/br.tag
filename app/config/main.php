@@ -17,10 +17,11 @@ $logOptions = [
 ];
 
 if (YII_DEBUG) {
-    $errorHandlerOptions = [ 
+    $errorHandlerOptions = array(
         'class' => 'application.vendor.igorsantos07.yii-whoops.WhoopsErrorHandler',
         // 'errorAction' => 'site/error', 
-     ];
+    );
+
     $logOptions = [
         [ 
           'class' => 'CFileLogRoute', 
@@ -156,3 +157,4 @@ return [
         'adminEmail' => 'webmaster@tag.lo',
     ],
 ];
+
