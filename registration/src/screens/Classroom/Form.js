@@ -44,13 +44,14 @@ const Create = props => {
     return registrationList.map((registration, index) => {
       return (
         <BoxRegistration
-          link={`${baseLink}/${registration.id}`}
+          link={`${baseLink}/${registration?.id}`}
           key={index}
-          name={registration.name}
-          sex={registration.sex}
+          name={registration?.name}
+          sex={registration?.sex}
+          student_fk={registration?.student_fk}
           md={4}
           sm={4}
-          unavailable={registration.unavailable}
+          unavailable={registration?.unavailable}
         />
       );
     });

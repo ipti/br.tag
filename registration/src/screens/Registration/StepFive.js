@@ -63,8 +63,8 @@ const StepFive = props => {
     address: Yup.string().required("Campo obrigatório!"),
     number: Yup.string().required("Campo obrigatório!"),
     neighborhood: Yup.string().required("Campo obrigatório!"),
-    state: Yup.string().required("Campo obrigatório!"),
-    city: Yup.string().required("Campo obrigatório!"),
+    edcenso_uf: Yup.string().required("Campo obrigatório!"),
+    edcenso_city: Yup.string().required("Campo obrigatório!"),
     zone: Yup.number().required("Campo obrigatório!"),
   });
 
@@ -95,8 +95,8 @@ const StepFive = props => {
     number: props?.student?.number ?? "",
     complement: props?.student?.complement ?? "",
     neighborhood: props?.student?.neighborhood ?? "",
-    state: props?.student?.state ?? "",
-    city: props?.student?.city ?? "",
+    edcenso_uf: props?.student?.edcenso_uf ?? "",
+    edcenso_city: props?.student?.edcenso_city ?? "",
     zone: props?.student?.zone ?? ''
   };
 
@@ -121,8 +121,8 @@ const StepFive = props => {
   }
 
   const handleStatesCity = (selectedOption,setFieldValue) => {
-    setFieldValue("city", selectedOption.id)
-    setFieldValue("state", selectedOption.edcenso_uf_fk)
+    setFieldValue("edcenso_city", selectedOption.id)
+    setFieldValue("edcenso_uf", selectedOption.edcenso_uf_fk)
   }
 
 
@@ -169,9 +169,9 @@ const StepFive = props => {
             address: touched.address && errors.address,
             number: touched.number && errors.number,
             neighborhood: touched.neighborhood && errors.neighborhood,
-            state: touched.state && errors.state,
+            edcenso_uf: touched.edcenso_uf && errors.edcenso_uf,
             zone: touched.zone && errors.zone,
-            city: touched.city && errors.city
+            edcenso_city: touched.edcenso_city && errors.edcenso_city
           };
           return (
             <Form>
@@ -317,13 +317,13 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.state}
+                    error={errorList.edcenso_uf}
                   >
                     <FormLabel>Estado *</FormLabel>
 
                     <Select
                       styles={customStyles}
-                      name="state"
+                      name="edcenso_uf"
                       className="basic-single"
                       classNamePrefix="select"
                       placeholder="Selecione o Estado"
@@ -335,7 +335,7 @@ const StepFive = props => {
                       getOptionValue={opt => opt.name}
                       getOptionLabel={opt => opt.name}
                     />
-                    <FormHelperText>{errorList.state}</FormHelperText>
+                    <FormHelperText>{errorList.edcenso_uf}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
@@ -351,13 +351,13 @@ const StepFive = props => {
                   <FormControl
                     component="fieldset"
                     className={classes.formControl}
-                    error={errorList.city}
+                    error={errorList.edcenso_city}
                   >
 
                     <FormLabel>Cidade *</FormLabel>
                     <Select
                       styles={customStyles}
-                      name="city"
+                      name="edcenso_city"
                       className="basic-single"
                       classNamePrefix="select"
                       placeholder="Selecione a Cidade"

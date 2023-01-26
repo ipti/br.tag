@@ -26,8 +26,6 @@ const requestStudent = id => {
     });
 };
 
-const parseBool = value =>
-  ['true', 'false'].includes(value) ? value === true : null
 
 const requestSaveRegistration = data => {
 

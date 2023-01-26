@@ -20,7 +20,6 @@ import MaskedInput from "react-text-mask";
 import { Formik, Form } from "formik";
 
 // Styles
-import styleBase from "../../styles";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);
@@ -97,7 +96,7 @@ const StepFour = props => {
                 className={`${classes.marginTop} ${classes.contentMain}`}
                 container
                 direction="row"
-                justifyContentContent="center"
+                justifyContent="center"
                 alignItems="center"
               >
                   <Grid item xs={12}>
@@ -120,7 +119,7 @@ const StepFour = props => {
                 className={`${classes.contentMain}`}
                 container
                 direction="row"
-                justifyContentContent="center"
+                justifyContent="center"
                 alignItems="center"
               >
                   <Grid item xs={12}>

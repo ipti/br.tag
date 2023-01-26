@@ -10,11 +10,11 @@ import styleBase from "./styles";
 import "./assets/css/styles.css";
 
 import {
-  createMuiTheme,
+  createTheme,
   ThemeProvider
 } from "@material-ui/core/styles";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: styleBase.colors.purple

@@ -1,5 +1,4 @@
 import React from "react";
-import { format, parseISO } from "date-fns";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -27,15 +26,14 @@ const Home = props => {
 
   const {
     registration,
-    handleSubmit,
-    classroom
+    handleSubmit
   } = props;
   const student = registration ?? [];
 
+  const classroomOne = props.classroom ?? [];
 
-  const classroomOne = classroom.data ?? [];
+  
 
-  const modalityDefault = { "1": "Ensno Regular" };
 
   const nullableField = "-------------";
 
@@ -44,7 +42,6 @@ const Home = props => {
   const color_race = student?.color_race === 0 ? 'Branca' : student?.color_race === 2 ? 'Preta' : student?.color_race === 3 ? 'Parda' : student?.color_race === 4 ? 'Amarela' : student?.color_race === 5 ? 'Indígena' : 'Não especificado';
   const deficiency = student?.deficiency ? 'sim' : 'não';
 
-  const studentDate = student?.birthday ? parseISO(student?.birthday) : "";
   const studentBirthday = student?.birthday
   // ? format(studentDate, "dd/MM/yyyy")
   // : "";
@@ -69,7 +66,24 @@ const Home = props => {
   const modality = classroomOne?.modality === 1 ? 'Ensino Regular' : classroomOne?.modality === 2 ? 'Educação Especial' : classroomOne?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : classroomOne?.modality === 4 ? 'Educação profissional' : nullableField;
 
 
-  const data = {
+  const data = student?.student_fk ?  {
+    name: studentName,
+    birthday: studentBirthday,
+    deficiency: student?.deficiency,
+    color_race: student?.color_race, 
+    edcenso_city_fk: student?.edcenso_city_fk,
+    edcenso_uf_fk: student?.edcenso_uf_fk,
+    responsable_name: student?.responsableName,
+    responsableCpf: student?.responsableCpf,
+    responsable_telephone: student?.responsable_telephone,
+    sex: student?.sex,
+    student_identification: student?.student_fk,
+    school_identification: student?.school_inep_id_fk,
+    classroom: student?.classroom_fk,
+    calendar_event: student?.calendar_event_fk,
+    zone: student?.zone,
+    year: 2023
+  } :  {
     name: studentName,
     birthday: studentBirthday,
     deficiency: student?.deficiency,
@@ -83,8 +97,11 @@ const Home = props => {
     school_identification: student?.school_inep_id_fk,
     classroom: student?.classroom_fk,
     calendar_event: student?.calendar_event_fk,
+    zone: student?.zone,
     year: 2023
   }
+
+
 
   return (
     <>
@@ -120,7 +137,7 @@ const Home = props => {
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Sexo</p>
-          {student?.sex == 1 ? 'Maculino' : student?.sex == 2 ? 'Femenino' : ''}
+          {student?.sex === 1 ? 'Maculino' : student?.sex === 2 ? 'Femenino' : ''}
         </Grid>
         <Grid item md={3}>
           <p className={classes.label}>Possui Deficiência</p>

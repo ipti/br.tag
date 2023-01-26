@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { format, parseISO } from "date-fns";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -40,7 +39,6 @@ const customStyles = {
 const Home = props => {
   const classes = useStyles();
   const [classroom, setClassroom] = useState('')
-  const [inepId, setInepId] = useState('')
   const [schoolInepFk, setSchoolInepFk] = useState('');
   const [calendarID, setCalendarID] = useState('')
   const [inputValueClassroom, setInputValueClassroom] = useState("");
@@ -62,7 +60,6 @@ const Home = props => {
   } = props;
   const student = registration ?? [];
 
-  const modalityDefault = { "1": "Ensno Regular" };
 
   const nullableField = "-------------";
 
@@ -70,20 +67,12 @@ const Home = props => {
   const color_race = student?.color_race === 0 ? 'Branca' : student?.color_race === 2 ? 'Preta' : student?.color_race === 3 ? 'Parda' : student?.color_race === 4 ? 'Amarela' : student?.color_race === 5 ? 'Indígena' : 'Não especificado';
   const deficiency = student?.deficiency ? 'sim' : 'não';
 
-  const studentDate = student?.birthday ? parseISO(student?.birthday) : "";
   const studentBirthday = student?.birthday
   // ? format(studentDate, "dd/MM/yyyy")
   // : "";
-
-  console.log(props)
   const status = student?.newStudent;
 
-  const address = student?.address ?? nullableField;
-  const cep = student?.cep ?? nullableField;
   const city = student?.city ?? nullableField;
-  const number = student?.number ?? nullableField;
-  const neighborhood = student?.neighborhood ?? nullableField;
-  const complement = student?.complement === '' ? nullableField : student?.complement;
   const state = student?.state ?? nullableField;
 
 
@@ -138,7 +127,7 @@ const Home = props => {
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Sexo</p>
-          {student?.sex == 1 ? 'Maculino' : student?.sex == 2 ? 'Femenino' : ''}
+          {student?.sex === 1 ? 'Maculino' : student?.sex === 2 ? 'Femenino' : ''}
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Possui Deficiência</p>
@@ -208,7 +197,7 @@ const Home = props => {
         className={`${classes.contentMain} ${classes.marginTop}`}
         container
         direction="row"
-        justifyContentContent="center"
+        justifyContent="center"
         alignItems="center"
       >
 
@@ -273,7 +262,6 @@ const Home = props => {
               onChange={selectedOption => {
                 handleChange(selectedOption.id);
                 setSchoolInepFk(selectedOption.school_inep_fk)
-                setInepId(selectedOption.inep_id)
               }}
               getOptionValue={opt => opt.classroom}
               getOptionLabel={opt => opt.name}

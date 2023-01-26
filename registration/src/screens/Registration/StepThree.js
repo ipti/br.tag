@@ -96,10 +96,10 @@ const StepThree = props => {
   const [surdezDisabled , setSurdezDisabled ] = useState(false);
   const [defAuditivaDisabled , setDefAuditivaDisabled ] = useState(false);
   const [surdoCegueiraDisabled , setSurdoCegueiraDisabled ] = useState(false);
-  const [defFisicaDisabled , setDefFisicaDisabled ] = useState(false);
+  const [defFisicaDisabled ] = useState(false);
   const [defIntelectualDisabled , setDefIntelectualDisabled ] = useState(false);
-  const [deficienciaMultDisabled , setDeficienciaMultDisabled ] = useState(false);
-  const [transAutistaDisabled , setTransAutistaDisabled ] = useState(false); 
+  const [deficienciaMultDisabled  ] = useState(false);
+  const [transAutistaDisabled ] = useState(false); 
   const [superDotacaoDisabled , setSuperDotacaoDisabled ] = useState(false);
 
   const validationSchema = Yup.object().shape({

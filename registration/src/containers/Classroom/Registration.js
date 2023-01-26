@@ -36,7 +36,7 @@ const Registration = props => {
     ) {
       history.go(-1);
     }
-  }, [history, loadData, props]);
+  }, [history, loadData, props, id,loadClasroom, idRegistration]);
 
   const handleSubmit = value => {
     setLoadingButtom(true);

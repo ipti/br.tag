@@ -14,7 +14,7 @@ const Form = props => {
   const { id } = useParams()
 
   useEffect(() => {
-    if (id && loadData) {
+    if (loadData) {
       props.dispatch({
         type: "FETCH_CLASSROOM",
         data: { id: id }
@@ -32,7 +32,7 @@ const Form = props => {
     if (props?.fetchClassroom?.status === "1" && props.isRedirectClassroom) {
       history.push("/turmas");
     }
-  }, [history, isEdit, loadData, props]);
+  }, [history, isEdit, loadData, props, id]);
 
   const handleClose = () => {
     props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });

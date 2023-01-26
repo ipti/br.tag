@@ -10,7 +10,6 @@ const SignIn = () => {
   let history = useHistory();
   const onSubmit = values => {
     api.post("auth/login", values).then(function(response) {
-      console.log(response)
       if (response && !("error" in response.data)) {
         login(response.data.access_token);
         history.push("/");

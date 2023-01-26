@@ -8,7 +8,7 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 const BoxRegistration = props => {
-  const { name, link, unavailable, sex, md, sm, xs } = props;
+  const { name, link, unavailable, sex, md, sm, xs, student_fk } = props;
   const classes = useStyles();
   return (
     <Grid item md={md ? md : 4} sm={sm ? sm : 4} xs={xs ? xs : 12}>
@@ -20,7 +20,8 @@ const BoxRegistration = props => {
           <div title={name} className={`${classes.truncate}`}>
             {name}
           </div>
-          <span className={classes.subtitleStudent}>Aluno</span>
+          <span className={classes.subtitleStudent}>Aluno - </span>
+          <span> {student_fk ? "Rematricula" : "Matricula"}</span>
           {unavailable === true && (
             <span className={`${classes.confimedCicle}`}></span>
           )}

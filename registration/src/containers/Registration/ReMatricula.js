@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { RegistrationConfirmed } from "../../screens/Classroom";
 import { connect } from "react-redux";
 import Loading from "../../components/Loading/CircularLoading";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Home from "../../screens/Registration/ReMatricula";
 
 const ReMatricula = props => {
   const [loadData, setLoadData] = useState(true);
   const [loadDataSchool, setLoadDataSchool] = useState(true);
-  let history = useHistory();
 
   const { id } = useParams()
 
   useEffect(() => {
 
-    if (id && loadData) {
+    if (loadData) {
       props.dispatch({
         type: "FETCH_STUDENT",
         registration: id
@@ -26,7 +24,7 @@ const ReMatricula = props => {
       setLoadDataSchool(false);
     }
 
-  }, [loadData, props]);
+  }, [loadData, props, loadDataSchool, id]);
 
 
   const onSubmit = (value) => {

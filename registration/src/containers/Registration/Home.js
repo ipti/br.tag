@@ -30,10 +30,10 @@ const Home = props => {
       setLoadDataSchool(false);
     }
 
-    if (loadPeriod) {
-      props.dispatch({ type: "FETCH_PERIOD" });
-      setLoadPeriod(false);
-    }
+    // if (loadPeriod) {
+    //   props.dispatch({ type: "FETCH_PERIOD" });
+    //   setLoadPeriod(false);
+    // }
 
 
     if (step === 2 && props?.student?.status === "1") {
@@ -72,7 +72,9 @@ const Home = props => {
         deficiency: parseBool(dataValues.deficiency),
         cpf: dataValues.cpf.replace(/\D/g, ''),
         responsable_cpf: dataValues.responsable_cpf.replace(/\D/g, ''),
-        responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, '')
+        responsable_telephone: dataValues.responsable_telephone.replace(/\D/g, ''),
+        father_name: dataValues.father_name === "" ? null : dataValues.father_name,
+        mother_name: dataValues.mother_name === "" ? null : dataValues.mother_name
       }
     });
   };
@@ -150,7 +152,7 @@ const Home = props => {
     return (
       <Grid
         container
-        justify="center"
+        justifyContent="center"
         alignItems="center"
         style={{ minWidth: "100%" }}
       >

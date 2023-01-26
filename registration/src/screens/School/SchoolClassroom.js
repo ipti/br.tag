@@ -73,19 +73,19 @@ const Home = ({ data })  => {
   return (
     <>
       <Grid container direction="row">
-        {school  && <TitleWithLine title={school .name} />}
+        {school  && <TitleWithLine title={school.name} />}
       </Grid>
       <Grid container direction="row" spacing={3}>
         <Grid item md={3}>
           <p className={classes.label}>Código do Inep</p>
-          <span title={school ?.inep_id} className={classes.truncate}>
-            {school ?.inep_id}
+          <span title={school?.inep_id} className={classes.truncate}>
+            {school?.inep_id}
           </span>
         </Grid>
         <Grid item md={4}>
           <p className={classes.label}>Dependência Administrativa</p>
           <span
-            title={school ?.administrative_dependence}
+            title={school?.administrative_dependence}
             className={classes.truncate}
           >
             {dependence[school?.administrative_dependence]}

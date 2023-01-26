@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles, styled } from "@material-ui/core/styles";
+import { makeStyles} from "@material-ui/core/styles";
 import { Formik, Form } from "formik";
 import Select from "react-select";
 import AsyncSelect from "react-select/async";
-import { FormLabel, FormControl, InputBase, TextField } from "@material-ui/core";
+import { FormLabel, FormControl} from "@material-ui/core";
 import { ButtonPurple } from "../../components/Buttons";
 import styles from "./styles";
 import * as Yup from "yup";
-import api from "../../services/api";
 import Loading from "../../components/Loading/CircularLoadingButtomActions";
 
 const useStyles = makeStyles(styles);
@@ -26,38 +25,38 @@ const customStyles = {
   })
 };
 
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  'label + &': {
-    marginTop: theme.spacing(3),
-  },
-  '& .MuiInputBase-input': {
-    borderRadius: 4,
-    position: 'relative',
-    backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}));
+// const BootstrapInput = styled(InputBase)(({ theme }) => ({
+//   'label + &': {
+//     marginTop: theme.spacing(3),
+//   },
+//   '& .MuiInputBase-input': {
+//     borderRadius: 4,
+//     position: 'relative',
+//     backgroundColor: theme.palette.background.paper,
+//     border: '1px solid #ced4da',
+//     fontSize: 16,
+//     padding: '10px 26px 10px 12px',
+//     transition: theme.transitions.create(['border-color', 'box-shadow']),
+//     // Use the system font instead of the default Roboto font.
+//     fontFamily: [
+//       '-apple-system',
+//       'BlinkMacSystemFont',
+//       '"Segoe UI"',
+//       'Roboto',
+//       '"Helvetica Neue"',
+//       'Arial',
+//       'sans-serif',
+//       '"Apple Color Emoji"',
+//       '"Segoe UI Emoji"',
+//       '"Segoe UI Symbol"',
+//     ].join(','),
+//     '&:focus': {
+//       borderRadius: 4,
+//       borderColor: '#80bdff',
+//       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+//     },
+//   },
+// }));
 
 const StepSix = props => {
   const classes = useStyles();
@@ -108,7 +107,7 @@ const StepSix = props => {
                 className={`${classes.contentMain} ${classes.marginTop}`}
                 container
                 direction="row"
-                justifyContentContent="center"
+                justifyContent="center"
                 alignItems="center"
               >
                 <Grid item xs={12}>

@@ -24,7 +24,7 @@ const Home = props => {
         props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
       }, 6000);
     }
-  }, [loadData, props]);
+  }, [loadData, props, id]);
 
   const handleClose = () => {
     props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
