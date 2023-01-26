@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    // Ano
+    'Year' => 'Ano',
+
     //Meses
     'January' => 'Janeiro',
     'February' => 'Fevereiro',
