@@ -390,8 +390,14 @@
     width: 150px;
     margin-right: 10px;
 }
+
+.select2-container.select-search-on.control-input.frequency-input{
+    width: 170px !important;
+}
+.select2-container.select-search-on.control-input.frequency-input .select2-choice{
+    width: 160px !important;
+
 .student-table.tag-table  input {
     width: 300px !important;
     margin: 0px 0px 3px 12px;
-
 }
