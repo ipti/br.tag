@@ -16,7 +16,7 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'loadMoreLogs'], 'users' => ['@'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs'], 'users' => ['@'],
             ],
         ];
     }
@@ -131,6 +131,15 @@ class SiteController extends Controller
             Yii::app()->user->school = $_POST['UsersSchool']['school_fk'];
         } else if (isset($_POST['SchoolIdentification']['inep_id']) && !empty($_POST['SchoolIdentification']['inep_id'])) {
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
+        }
+
+        $this->redirect(Yii::app()->homeUrl);
+    }
+
+    public function actionChangeYear()
+    {
+        if(isset($_POST['years']) && !empty($_POST['years'])) {
+            Yii::app()->user->year = $_POST['years'];
         }
 
         $this->redirect(Yii::app()->homeUrl);
