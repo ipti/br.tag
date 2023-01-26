@@ -8,7 +8,7 @@ class AdminController extends Controller
 			[
 				'allow',
 				'actions' => [
-					'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 'DisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+					'CreateUser', 'index', 'conflicts', 'import', 'export', 'clearDB', 'DisableUser', 'ActiveUser', 'ActiveDisableUser', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
 					'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
 				], 'users' => ['@'],
 			],
