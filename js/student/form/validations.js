@@ -662,11 +662,6 @@ $(".save-student").click(function () {
     var error = false;
     var message = "";
 
-    if($("#StudentIdentification_name_error").length) {
-        error = true;
-        message += "Corrija o campo <b>Nome</b>.<br>";
-    }
-
     if($("#StudentIdentification_responsable_cpf_error").length) {
         error = true;
         message += "Corrija o campo <b>CPF do responsável</b>.<br>";

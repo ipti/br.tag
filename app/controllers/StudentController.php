@@ -188,11 +188,6 @@ class StudentController extends Controller
                     $this->redirect(array('index'));
                 }
             }
-            $student_test_name = StudentIdentification::model()->find('name=:name', array(':name'=>$modelStudentIdentification->name));
-            if(isset($student_test_name)) {
-                Yii::app()->user->setFlash('error', Yii::t('default', "O nome do aluno informado já está cadastrado"));
-                $this->redirect(array('index'));
-            }
 
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
