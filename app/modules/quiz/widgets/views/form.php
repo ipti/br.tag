@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var Quiz $quiz quiz model
+ * 
+ */
+?>
+
+
 <?php echo CHtml::beginForm(null, 'post', ['id' => 'answer-form']); ?>
 
 <div class="row-fluid  hidden-print">

@@ -134,13 +134,8 @@ class StudentController extends Controller
         $modelEnrollment = new StudentEnrollment();
 
         $vaccines = Vaccine::model()->findAll(['order' => 'name']);
-        $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
-        if ($studentVaccinesSaves) {
-            $studentVaccinesSaves = array_map(function ($item) {
-                return $item->vaccine_id;
-            }, $studentVaccinesSaves);
-        }
-
+        $studentVaccinesSaves = [];
+        
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model
         if (isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])) {

@@ -37,7 +37,7 @@ class Portion extends CActiveRecord
 
     /**
      * Get the item name with the measure
-     * @return String the item name with the measure
+     * @return string the item name with the measure
      */
     public function getConcatName()
     {

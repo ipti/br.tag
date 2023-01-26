@@ -181,8 +181,9 @@ class ClassroomController extends Controller
      */
     public function actionView($id)
     {
+        $classroom = new Classroom();
         $this->render('view', [
-            'model' => $this->loadModel($id),
+            'model' => $this->loadModel($id, $classroom),
         ]);
     }
 

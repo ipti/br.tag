@@ -1,4 +1,9 @@
 <?php
+/** 
+ * @var object[] $frequency 
+ * 
+ * */
+
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();

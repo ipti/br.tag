@@ -4,6 +4,7 @@ WORKDIR /app/app
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN composer update with the "--no-plugins"
 RUN composer install
+RUN docker-php-ext-enable xdebug
 WORKDIR /app
 ENV MUSL_LOCALE_DEPS cmake make musl-dev gcc gettext-dev libintl 
 ENV MUSL_LOCPATH /usr/share/i18n/locales/musl

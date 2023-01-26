@@ -3,8 +3,6 @@ services:
     build: .
     container_name: tag-app
     restart: always
-    volumes:
-      - .:/app
     ports:
       - 80:80
     expose:
@@ -16,10 +14,18 @@ services:
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
       YII_DEBUG: 'true'
+      XDEBUG_CONFIG: remote_host=172.24.112.1 # wsl network ip
+      PHP_IDE_CONFIG: "serverName=xdebug-docker"
+    volumes:
+      - .:/app
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql-tag
     restart: always
     command: mysqld --sql_mode=""
     ports:
@@ -52,22 +58,5 @@ networks:
 
 volumes:
   db-volume:
-
-
-  # sqlserver:
-  #   image: mcr.microsoft.com/mssql/server:2019-latest
-  #   environment:
-  #     SA_PASSWORD: "SqlServer2019!"
-  #     ACCEPT_EULA: "Y"
-  #     MSSQL_PID: "Developer"
-  #   ports:
-  #     - "1433:1433"
-  #   volumes:
-  #     - ./20221207_2138_EDU_BUZIOS_DIDATICA-FAETEC.BAK:/tmp/db.BAK
-    
-  # mssqltools:
-  #   image: mcr.microsoft.com/mssql-tools
-  #   depends_on:
-  #     - sqlserver
 
 

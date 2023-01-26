@@ -7,7 +7,7 @@
  * @property Inventory[] $inventories
  * @property Item[] $items
  * @property Menu[] $menus
- * @property Array itemsAmount
+ * @property [] itemsAmount
 */
 class School extends CActiveRecord
 {
@@ -35,7 +35,7 @@ class School extends CActiveRecord
 
     /**
      *
-     * @return Array Array with the itens amounts.
+     * @return []] Array with the itens amounts.
      */
     public function itemsAmount()
     {
@@ -61,8 +61,8 @@ class School extends CActiveRecord
     }
 
     /**
-     * @param String $initialDate Format(Y-m-d) default Null
-     * @param String $finalDate Format(Y-m-d) default Null
+     * @param string $initialDate Format(Y-m-d) default Null
+     * @param string $finalDate Format(Y-m-d) default Null
      *
      * @return CDbCommand
      */

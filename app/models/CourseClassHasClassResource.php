@@ -12,7 +12,7 @@
  *
  * The followings are the available model relations:
  * @property CourseClass $courseClassFk
- * @property ClassResource $classResourceFk
+ * @property ClassResources $classResourceFk
  */
 class CourseClassHasClassResource extends CActiveRecord
 {

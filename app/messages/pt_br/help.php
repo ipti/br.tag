@@ -17,7 +17,6 @@ return [
     'E-mail' => 'Somente aceita os seguintes caracteres: A a Z, 0 a 9, @, ., -, _, espaço. Exemplo: joao@ipti.org.br',
     'Existing dependencies in school' => 'Dependências existentes na escola',
     'Tell the choice with which the building is shared' => 'Informe a escolha com  a qual o prédio é compartilhado',
-    'Full name of school' => 'Nome completo da escola',
     'School equipment' => 'Caso a escola não tenha o equipamento, o campo deverá vir nulo.',
     'Count' => 'Não poderá ser preenchido com zero.',
     'Initial Date Help' => 'O valor informado deve corresponder a uma data válida. O formato é dd/mm/aaaa.',

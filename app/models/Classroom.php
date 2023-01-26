@@ -281,7 +281,7 @@ class Classroom extends AltActiveRecord
 
     /**
      * @param int $disciplineId
-     * @return Classes[]
+     * @return Schedule[]
      */
     public function getGivenClassesByDiscipline($disciplineId)
     {

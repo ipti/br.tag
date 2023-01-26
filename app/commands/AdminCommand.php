@@ -71,6 +71,7 @@ class AdminCommand extends CConsoleCommand
                 echo 'fim importação\n';
             }
         }
+        return 0;
     }
 
     public function mres($value)

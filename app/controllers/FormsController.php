@@ -152,7 +152,7 @@ class FormsController extends Controller
 
         foreach ($disciplines as $key => $value) {
             if ($value == 1) {
-                $enableDisciplines[$key] = $disciplineLabels[$key];
+                $enableDisciplines[$key] = $disciplines[$key];
             }
         }
 
@@ -169,7 +169,7 @@ class FormsController extends Controller
     public function actionStudentFileForm($enrollment_id)
     {
         $this->layout = 'reports';
-        $this->render('StudentFileForm', ['enrollment_id' => $enrollment_id, 'studentinfo' => $result]);
+        $this->render('StudentFileForm', ['enrollment_id' => $enrollment_id]);
     }
 
     public function actionStudentsFileForm($classroom_id)

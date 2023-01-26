@@ -505,7 +505,7 @@
             Yii::import('ext.FileManager.fileManager');
             $fm = new fileManager();
 
-            $file = $fm->open($updateDir . '_version');
+            $file = @fopen($updateDir . '_version', 'r');
             $version = fgets($file);
             $fm->closeAll();
 
@@ -514,7 +514,7 @@
             foreach ($dirFiles as $fileName) {
                 if ($fileName != '.' && $fileName != '..' && $fileName != 'readme' && $fileName != '_version' && substr('abcdef', -1) != '~') {
                     if ($version != '' && $version < $fileName) {
-                        $file = $fm->open($updateDir . $fileName);
+                        $file = @fopen($updateDir . $fileName, 'r');
                         $sql = '';
                         while (true) {
                             $fileLine = fgets($file);
@@ -546,7 +546,7 @@
         /**
          * Generate the BackupFile.
          * @param boolean $return - Defaults True
-         * @return redirecrToIndex|boolean Return to the index page with a FlashMenssage or return $boolean
+         * @return int|boolean Return to the index page with a FlashMenssage or return $boolean
          */
         public static function actionBackup($return = true)
         {
@@ -575,7 +575,6 @@
         /**
          * Generate some Data and a DataFile.
          * @param boolean $file - Defaults True
-         * @return redirecrToData - Return to the Data page.
          */
         public function actionData($file = true)
         {
@@ -674,7 +673,6 @@
 
         /**
          * Generate the ExportFile.
-         * @return redirecrToIndex - Return to the index page with a FlashMenssage
          */
         public function actionExport()
         {
@@ -1126,7 +1124,7 @@
         /**
          * Transforma as linhas em valores a serem inseridos no SQL
          *
-         * @param type $registerLines
+         * @param [] $registerLines
          * @return array ['insert'] = values do SQL; ['instructor'] = INEPID dos instrutores
          */
         private function getInsertValues($registerLines)

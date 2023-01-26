@@ -1599,8 +1599,8 @@ class CensoController extends Controller
         $sql = "SELECT COUNT(inep_id) AS status FROM student_identification WHERE inep_id = '$student_inep_id_fk';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
 
-        if (!empty($student_inep_id)) {
-            $result = $sev->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $student_inep_id");
+        if (!empty($student_inep_id_fk)) {
+            $result = $sev->isEqual($check[0]['status'], '1', "Não há tal student_inep_id $student_inep_id_fk");
             if (!$result['status']) {
                 array_push($log, ['student_fk' => $result['erro']]);
             }
@@ -1987,9 +1987,6 @@ class CensoController extends Controller
             '20' => [
                 'COLUMNS' => 65,
             ],
-            '20' => [
-                'COLUMNS' => 65,
-            ],
             '30' => [
                 'COLUMNS' => 26,
             ],
@@ -2031,6 +2028,7 @@ class CensoController extends Controller
         $result = str_split($codigo);
         $result = array_reverse($result);
         $cont = 9;
+        $total = 0;
         foreach ($result as $r) {
             while ($cont >= 0) {
                 $calculo = "$cont * $r";
@@ -2050,6 +2048,7 @@ class CensoController extends Controller
         if ($digUm == 10) {
             $digUm = 1;
         }
+        $total2 = 0;
         foreach ($result as $r) {
             while ($cont >= 0) {
                 if ($valor == 0) {

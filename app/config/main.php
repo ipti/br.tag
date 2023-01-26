@@ -113,7 +113,7 @@ return [
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>' => 'lunch/lunch/<action>',
 
                 'boletim-escolar/' => 'schoolreport/',
-                'boletim-escolar/' => 'schoolreport/default/select',
+                // 'boletim-escolar/' => 'schoolreport/default/select',
                 'boletim-escolar/notas/<eid:\d+>' => 'schoolreport/default/grades',
                 'boletim-escolar/frequencia/<eid:\d+>' => 'schoolreport/default/frequency',
                 'boletim-escolar/<action:\w+>' => 'schoolreport/default/<action>',

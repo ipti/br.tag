@@ -8,8 +8,12 @@ $_FORMS[5] = array('name'=>'Formulário de Transferência','action'=>'TransferFo
 $_FORMS[6] = array('name'=>'Requerimento de Transferência','action'=>'TransferRequirement');
 $_FORMS[8] = array('name'=>'Declaração de Cursou','action'=>'StatementAttended');
 $_FORMS[8] = array('name'=>'Termo de Advertência','action'=>'WarningTerm');
-@$domain = array_shift((explode(".",$_SERVER['HTTP_HOST'])));
+
+$exploded_url = explode(".", $_SERVER['HTTP_HOST']);
+@$domain = array_shift($exploded_url);
+
 $_GLOBALGROUP = 0;
+
 switch ($domain) {
     case 'propria':
         $instance = 'PROPRIÁ';
@@ -138,10 +142,6 @@ switch ($domain) {
     case 'nossasenhoraaparecida':
         $instance = 'NOSSA SENHORA APARECIDA';
         $db = 'io.escola.se.nossasenhoraaparecida';
-        break;
-    case 'nossasenhoraaparecida':
-        $instance = 'NOSSA SENHORA DAS DORES';
-        $db = 'io.escola.se.nossasenhoradasdores';
         break;
     case 'itabi':
         $instance = 'ITABI';
