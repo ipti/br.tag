@@ -1,12 +1,21 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0] && ($(id).val() != '')) {
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-    }
+    removeWarning(id);
+    removeError(id);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            removeWarning(id)
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+            if(ret[0] && ($(id).val() != '') && ret[1] != null) {
+                addWarning(id, ret[1]);
+            }else {
+                removeWarning(id);
+            }
+        }
+    });
 });
 
 $(formIdentification + 'nis').focusout(function () {
@@ -45,12 +54,24 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
-        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-    } else {
-        removeError(id);
-    }
+    validateCpf($(id).cleanVal(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        }
+    });
+});
+
+$(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    validateCivilCertificationTermNumber($(id).val(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        }
+    });
 });
 
 $(formIdentification + 'filiation_1_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
@@ -141,39 +162,43 @@ $(formIdentification + 'filiation').trigger('change');
 $(formIdentification + 'filiation_1').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_1').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+    removeError(id);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
-});
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_1').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
+}); 
 
 $(formIdentification + 'filiation_2').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var ret = validateNamePerson(($(id).val()));
-    if (!ret[0]) {
-        $(id).attr('value', '');
-        addError(id, ret[1]);
-    } else {
-        removeError(id);
-        if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
-            && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
-            $(formIdentification + 'filiation_2').attr('value', '');
-            addError(id, "O campo não deve ser igual à outra filiação.");
+    removeError(id);
+    validateNamePerson(($(id).val()), function (ret) {
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
         } else {
             removeError(id);
-        }
-    }
+            if ($(formIdentification + 'filiation_1').val() !== "" && $(formIdentification + 'filiation_2').val() !== ""
+                && $(formIdentification + 'filiation_1').val() === $(formIdentification + 'filiation_2').val()) {
+                $(formIdentification + 'filiation_2').attr('value', '');
+                addError(id, "O campo não deve ser igual à outra filiação.");
+            } else {
+                removeError(id);
+            }
+        } 
+    });
 });
 
 $(formIdentification + 'nationality').change(function () {
@@ -636,6 +661,22 @@ $(".vaccine-checkbox").trigger("change");
 $(".save-student").click(function () {
     var error = false;
     var message = "";
+
+    if($("#StudentIdentification_name_error").length) {
+        error = true;
+        message += "Corrija o campo <b>Nome</b>.<br>";
+    }
+
+    if($("#StudentIdentification_responsable_cpf_error").length) {
+        error = true;
+        message += "Corrija o campo <b>CPF do responsável</b>.<br>";
+    }
+
+    if($("#StudentDocumentsAndAddress_civil_certification_term_number_error").length) {
+        error = true;
+        message += "Corrija o campo <b>Nº do Termo</b>.<br>";
+    }
+
     if ($("#StudentIdentification_name").val() === "") {
         error = true;
         message += "Campo <b>Nome</b> é obrigatório.<br>";

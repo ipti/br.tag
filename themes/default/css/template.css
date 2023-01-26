@@ -9002,6 +9002,13 @@ input[type="text"] {
     margin-top: 7px;
     margin-left: 10px;
 }
+.tag-inner .loading-frequency, .tag-inner .loading-class-contents {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-top: 7px;
+    margin-left: 10px;
+}
 
 .frequency-justification-icon {
     position: absolute;

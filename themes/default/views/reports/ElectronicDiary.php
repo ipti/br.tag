@@ -57,7 +57,7 @@ $this->setPageTitle('TAG - Diário Eletrônico');
             </div>
             <div class="electronic-diary date-container">
                 <?php echo CHtml::label("Período *", 'interval', array('class' => 'control-label required electronic-diary-label')); ?>
-                <div style="height 100%; padding: 5px 0; display: flex">
+                <div style="height: 100%; padding: 5px 0; display: flex">
                 <input size="10" maxlength="10" type="text" placeholder="dd/mm/aaaa" class="initial-date">
                 <input size="10" maxlength="10" type="text" placeholder="dd/mm/aaaa" class="final-date">
                 </div>
