@@ -34,7 +34,17 @@
         </div>
     </div>
 
-    <div class="tag-inner">
+    <div class="innerLR">
+        <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+            <?php
+            if (isset($buttons))
+                echo $buttons;
+            ?>
+            <br/>
+        <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -56,7 +66,7 @@
                     'filter' => $filter,
                     'selectableRows' => 1,
                     'selectionChanged' => 'function(id){ location.href = "' . $this->createUrl('update') . '/id/"+$.fn.yiiGridView.getSelection(id);}',
-                    'itemsCssClass' => 'tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'itemsCssClass' => 'student-table tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
                             'name' => 'name',
@@ -77,7 +87,11 @@
                         array(
                             'name' => 'birthday',
                             'filter' => false
-                        ),),
+                        ),
+                        array(
+                            'name' => 'inep_id'
+                        ),
+                    ),
                 ));
                 ?>
             </div>
