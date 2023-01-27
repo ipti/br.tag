@@ -1,53 +1,54 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import Loading from "../../components/Loading/CircularLoading";
 import { useParams } from "react-router-dom";
 import Home from "../../screens/Registration/ReMatricula";
+import { useFetchRequestStudent } from "../../query/registration";
+import { Controller } from "../../controller/registration";
 
 const ReMatricula = props => {
-  const [loadData, setLoadData] = useState(true);
-  const [loadDataSchool, setLoadDataSchool] = useState(true);
+  const { requestSaveRegistrationMutation } = Controller();
 
   const { id } = useParams()
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (loadData) {
-      props.dispatch({
-        type: "FETCH_STUDENT",
-        registration: id
-      })
-      setLoadData(false);
-    }
-    if (loadDataSchool) {
-      props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
-      setLoadDataSchool(false);
-    }
+  //   if (loadData) {
+  //     props.dispatch({
+  //       type: "FETCH_STUDENT",
+  //       registration: id
+  //     })
+  //     setLoadData(false);
+  //   }
+  //   if (loadDataSchool) {
+  //     props.dispatch({ type: "FETCH_SCHOOLS_LIST" });
+  //     setLoadDataSchool(false);
+  //   }
 
-  }, [loadData, props, loadDataSchool, id]);
+  // }, [loadData, props, loadDataSchool, id]);
 
+  const { data } = useFetchRequestStudent({ id: id });
 
   const onSubmit = (value) => {
-   
+
     if (value?.birthday) {
       value.birthday = value.birthday
         .split("/")
         .reverse()
         .join("-");
     }
-    props.dispatch({ type: "FETCH_SAVE_REGISTRATION", data: value });
+
+    requestSaveRegistrationMutation.mutate(value)
   };
 
 
   return (
     <>
-      {loadData ? (
+      {!data ? (
         <Loading />
       ) : (
         <>
           <Home
-            registration={props.student}
-            schools={props.schoolList}
+            registration={data}
             handleSubmit={onSubmit}
             loadingIcon={props.loading}
           />
@@ -57,16 +58,5 @@ const ReMatricula = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    address: state.viaCep.addresses,
-    student: state.registration.student,
-    registration: state.registration.registration,
-    period: state.registration.period,
-    schoolList: state.registration.schoolList,
-    loading: state.registration.loading,
-    openAlert: state.registration.openAlert
-  };
-};
 
-export default connect(mapStateToProps)(ReMatricula);
+export default ReMatricula;

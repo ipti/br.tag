@@ -11,6 +11,7 @@ const Home = props => {
 
 
   useEffect(() => {
+    console.log("alÔ")
     if (loadData && id) {
       props.dispatch({
         type: "FETCH_SCHOOL",
@@ -70,8 +71,10 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
+  console.log(state)
   return {
     school: state.school,
+    schools: state.school.schools,
     error: state.school.msgError,
     loading: state.school.loading,
     openAlert: state.school.openAlert

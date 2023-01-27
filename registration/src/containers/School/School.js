@@ -79,9 +79,10 @@ const Home = props => {
 };
 
 const mapStateToProps = state => {
-
+  console.log(state)
   return {
     schools: state.school.schools,
+    school: state.school,
     error: state.school.msgError,
     loading: state.school.loading,
     openAlert: state.school.openAlert

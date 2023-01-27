@@ -22,6 +22,7 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
 import styles from "../Classroom/styles";
+import { useFetchRequestSchoolList } from "../../query/registration";
 
 const useStyles = makeStyles(styles);
 const customStyles = {
@@ -43,7 +44,9 @@ const Home = props => {
   const [calendarID, setCalendarID] = useState('')
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
+  const {data} = useFetchRequestSchoolList()
 
+  if(!data) return null
   const handleChange = newValue => {
     setInputValueClassroom(newValue);
   };
@@ -51,7 +54,7 @@ const Home = props => {
   const searchSchools = (inputValue, callback) => {
     if (inputValue.trim().length >= 3) {
       const buscaLowerCase = inputValue.toLowerCase();
-      callback(props.schools.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
+      callback(data.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
     }
   };
   const {
@@ -79,7 +82,7 @@ const Home = props => {
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
-  const data = {
+  const body = {
     name: studentName,
     birthday: studentBirthday,
     deficiency: student?.deficiency,
@@ -308,16 +311,9 @@ const Home = props => {
           <>
             <Grid item md={3}>
               <ButtonPurple
-                onClick={() => handleSubmit(data)}
+                onClick={() => handleSubmit(body)}
                 type="button"
                 title="Confirmar"
-              />
-            </Grid>
-            <Grid item md={3}>
-              <ButtonLinePurple
-                onClick={() => handleSubmit(false)}
-                type="button"
-                title="Recusar"
               />
             </Grid>
           </>

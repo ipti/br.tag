@@ -13,6 +13,8 @@ import {
   createTheme,
   ThemeProvider
 } from "@material-ui/core/styles";
+import { QueryClientProvider } from "react-query";
+import queryClient from "./services/query";
 
 const theme = createTheme({
   palette: {
@@ -24,11 +26,11 @@ const theme = createTheme({
 
 function App() {
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <Routes />
       </ThemeProvider>
-    </Provider>
+    </QueryClientProvider>
   );
 }
 
