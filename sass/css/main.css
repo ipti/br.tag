@@ -10,6 +10,11 @@
 /* Space */
 /* Font size */
 /* Grid */
+/* Dimension */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
 /* Color */
 /* Product */
 /* Ink */
@@ -22,6 +27,11 @@
 /* Space */
 /* Font size */
 /* Grid */
+/* Dimension */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
 /* mixin */
 .t-button { padding: 6px; font-size: 12px; background-color: #3f45ea; color: #FFFFFF; border-radius: 4px; text-decoration: none; }
 
@@ -49,6 +59,11 @@
 /* Space */
 /* Font size */
 /* Grid */
+/* Dimension */
+/* Border Radius */
+/* Border width */
+/* Opacity */
+/* Line Height */
 /* mixin */
 .t-input-container { margin-left: 23px; }
 

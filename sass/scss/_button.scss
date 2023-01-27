@@ -9,14 +9,8 @@
     color:$colorsBaseWhiteNormal;
     border-radius: 4px;
     text-decoration: none;
-    &.hide-responsive {
-        display: none;
-        @include device(mobile) {
-            display: block;
-        }
-    }
 
-    @include device(mobile) {
+    @include device(mobile) { 
         padding: $spaceXXSmall;
         font-size: $FontSizeTextSmall;
       
@@ -29,11 +23,11 @@
         padding: $spaceNormal $spaceXXXLarge;
     }
 
-}
+    &:hover, &--active {
+        text-decoration: none;
+        color:$colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormalActive;
+    }
 
-.t-button:hover {
-    text-decoration: none;
-    color:$colorsBaseWhiteNormal;
-    background-color: $colorsBaseProductNormalActive;
 }
 

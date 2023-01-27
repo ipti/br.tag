@@ -90,3 +90,47 @@ $layout-xl: calc(32px - 2rem);
 $layout-2xl: calc(40px - 2.5rem);
 $layout-3xl: calc(48px - 3rem);
 $layout-4xl: calc(64px - 4rem);
+
+/* Dimension */
+$DimensionLarge: 24px;
+$DimensionMedium: 16px;
+$DimensionSmall: 12px;
+$DimensionXLarge: 32px;
+$DimensionXSmall: 8px;
+$DimensionXXLarge: 40px;
+$DimensionXXXLarge: 52px;
+$DimensionXXXSmall: 4px;
+$DimensionXXXXSmall: 2px;
+$DimensionNormal: 14px;
+$DimensionXXSmall: 6px;
+
+/* Border Radius */
+$borderRadiusSmall: 2px;
+$borderRadiusNormal: 3px;
+$borderRadiusLarge: 6px; 
+$borderRadiusCircle: 50%;
+$borderRadiusBadge: 12px;
+
+/* Border width */
+$borderWidthCard: 1px;
+$borderWidthInput: 1px;
+$borderWidthInputFocus: 2px;
+
+
+/* Opacity */
+$opacityButtonDisabled: 0.3;
+$opacityCheckboxDisabled: 0.5;
+$opacityOverlay: 0.8;
+$opacityRadioButtonDisabled: 0.5;
+
+/* Line Height */
+$lineHeightHeading: 1.2;
+$lineHeightHeadingDisplay: 44px;
+$lineHeightHeadingDisplaySubtitle: 28px;
+$lineHeightHeadingTitle1: 36px;
+$lineHeightHeadingTitle2: 28px;
+$lineHeightHeadingTitle3: 24px;
+$lineHeightText: 1.4;
+$lineHeightTextSmall: 16px;
+$lineHeightTextNormal: 20px;
+$lineHeightTextLarge: 24px;
