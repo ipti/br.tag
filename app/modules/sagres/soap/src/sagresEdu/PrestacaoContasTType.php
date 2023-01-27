@@ -12,22 +12,22 @@ class PrestacaoContasTType {
 
 
     /**
-     * @var String $codigoUnidGestora
+     * @var string $codigoUnidGestora
      */
     private $codigoUnidGestora = null;
 
     /**
-     * @var String $nomeUnidGestora
+     * @var string $nomeUnidGestora
      */
     private $nomeUnidGestora = null;
 
     /**
-     * @var String $cpfContador
+     * @var string $cpfContador
      */
     private $cpfContador = null;
 
     /**
-     * @var String $cpfGestor
+     * @var string $cpfGestor
      */
     private $cpfGestor = null;
 
@@ -60,7 +60,7 @@ class PrestacaoContasTType {
     /**
      * Get $codigoUnidGestora
      *
-     * @return  String
+     * @return  string
      */ 
     public function getCodigoUnidGestora()
     {
@@ -70,11 +70,11 @@ class PrestacaoContasTType {
     /**
      * Set $codigoUnidGestora
      *
-     * @param  String  $codigoUnidGestora  $codigoUnidGestora
+     * @param  string  $codigoUnidGestora  $codigoUnidGestora
      *
      * @return  self
      */ 
-    public function setCodigoUnidGestora(String $codigoUnidGestora)
+    public function setCodigoUnidGestora($codigoUnidGestora)
     {
         $this->codigoUnidGestora = $codigoUnidGestora;
 
@@ -84,7 +84,7 @@ class PrestacaoContasTType {
     /**
      * Get $nomeUnidGestora
      *
-     * @return  String
+     * @return  string
      */ 
     public function getNomeUnidGestora()
     {
@@ -94,11 +94,11 @@ class PrestacaoContasTType {
     /**
      * Set $nomeUnidGestora
      *
-     * @param  String  $nomeUnidGestora  $nomeUnidGestora
+     * @param  string  $nomeUnidGestora  $nomeUnidGestora
      *
      * @return  self
      */ 
-    public function setNomeUnidGestora(String $nomeUnidGestora)
+    public function setNomeUnidGestora($nomeUnidGestora)
     {
         $this->nomeUnidGestora = $nomeUnidGestora;
 
@@ -108,7 +108,7 @@ class PrestacaoContasTType {
     /**
      * Get $cpfContador
      *
-     * @return  String
+     * @return  string
      */ 
     public function getCpfContador()
     {
@@ -118,11 +118,11 @@ class PrestacaoContasTType {
     /**
      * Set $cpfContador
      *
-     * @param  String  $cpfContador  $cpfContador
+     * @param  string  $cpfContador  $cpfContador
      *
      * @return  self
      */ 
-    public function setCpfContador(String $cpfContador)
+    public function setCpfContador($cpfContador)
     {
         $this->cpfContador = $cpfContador;
 
@@ -132,7 +132,7 @@ class PrestacaoContasTType {
     /**
      * Get $cpfGestor
      *
-     * @return  String
+     * @return  string
      */ 
     public function getCpfGestor()
     {
@@ -142,11 +142,11 @@ class PrestacaoContasTType {
     /**
      * Set $cpfGestor
      *
-     * @param  String  $cpfGestor  $cpfGestor
+     * @param  string  $cpfGestor  $cpfGestor
      *
      * @return  self
      */ 
-    public function setCpfGestor(String $cpfGestor)
+    public function setCpfGestor($cpfGestor)
     {
         $this->cpfGestor = $cpfGestor;
 
@@ -170,7 +170,7 @@ class PrestacaoContasTType {
      *
      * @return  self
      */ 
-    public function setAnoReferencia(int $anoReferencia)
+    public function setAnoReferencia($anoReferencia)
     {
         $this->anoReferencia = $anoReferencia;
 
@@ -194,7 +194,7 @@ class PrestacaoContasTType {
      *
      * @return  self
      */ 
-    public function setMesReferencia(int $mesReferencia)
+    public function setMesReferencia($mesReferencia)
     {
         $this->mesReferencia = $mesReferencia;
 
@@ -218,7 +218,7 @@ class PrestacaoContasTType {
      *
      * @return  self
      */ 
-    public function setVersaoXml(int $versaoXml)
+    public function setVersaoXml($versaoXml)
     {
         $this->versaoXml = $versaoXml;
 
@@ -242,7 +242,7 @@ class PrestacaoContasTType {
      *
      * @return  self
      */ 
-    public function setDiaInicPresContas(int $diaInicPresContas)
+    public function setDiaInicPresContas($diaInicPresContas)
     {
         $this->diaInicPresContas = $diaInicPresContas;
 
@@ -266,7 +266,7 @@ class PrestacaoContasTType {
      *
      * @return  self
      */ 
-    public function setDiaFinaPresContas(int $diaFinaPresContas)
+    public function setDiaFinaPresContas($diaFinaPresContas)
     {
         $this->diaFinaPresContas = $diaFinaPresContas;
 
