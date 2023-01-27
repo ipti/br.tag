@@ -11,6 +11,7 @@ class SagresModule extends CWebModule
 		$this->setImport(array(
 			'sagres.models.*',
 			'sagres.components.*',
+			'sagres.modules.sagres.soap.src.sagresEdu.*',
 		));
 	}
 

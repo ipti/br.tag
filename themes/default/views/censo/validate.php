@@ -1,8 +1,6 @@
 <div id="mainPage" class="main" style="margin-top:40px; padding: 10px">
     <?php
-    use SagresEdu\SagresConsult;
-
-    $sagres = new SagresConsult;
+    $sagres = new SagresEdu\SagresConsult;
     $sagres->actionExport();
     
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Censo'));

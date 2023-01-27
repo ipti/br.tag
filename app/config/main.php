@@ -21,7 +21,7 @@ return array(
         'application.modules.calendar.models.*',
         'application.modules.curricularmatrix.models.*',
         'application.modules.quiz.models.*',
-        'application.soap.src.sagresEdu.*'
+        'application.modules.sagres.soap.src.sagresEdu.*'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool

@@ -98,7 +98,7 @@ class HorarioTType
      * @param \DateTime $horaInicio
      * @return self
      */
-    public function setHoraInicio($horaInicio)
+    public function setHoraInicio(\DateTime $horaInicio)
     {
         $this->horaInicio = $horaInicio;
         return $this;
