@@ -104,10 +104,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <!-- <span
-                                            class="btn-action single glyphicons circle_question_mark"
-                                            data-toggle="tooltip" data-placement="top"
-                                            data-original-title="<?php echo Yii::t('help', 'Student Full Name'); ?>"><i></i></span> -->
+                                    <img id="errorNameIcon" onclick="exibirRegistros()" style="display: none; cursor: pointer;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
+                                    data-original-title="Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros">
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -440,6 +438,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
+                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
+                                    data-original-title="CPF já vinculado com cadastro de aluno existente.">
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -722,6 +722,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
+                                            <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
+                                            data-original-title="Nº de certidão já vinculada com cadastro de aluno existente.">
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                         </div>
                                     </div>

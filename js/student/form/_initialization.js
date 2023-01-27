@@ -53,6 +53,11 @@ function getUrlVars() {
     return vars;
 }
 
+function exibirRegistros() {
+    if($("#registrosSimilares").css("display") == "none") $("#registrosSimilares").css('display', 'block')
+    else $("#registrosSimilares").css('display', 'none')
+}
+
 $(document).on("change", ".resources-container input[type=checkbox]", function () {
     if ($(this).attr("id") !== "StudentIdentification_resource_none") {
         $("#StudentIdentification_resource_none").prop("checked", false);

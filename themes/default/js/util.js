@@ -191,10 +191,14 @@ function compareSimilarName(name1, name2) {
 
 const {origin,pathname} = window.location;
 
+const buscar = (dados, chave, conteudo) => {
+    const item = dados[chave];
+    return Object.values(item).indexOf(conteudo) !== -1 ? item : null;
+};
+
 function validateNamePerson(personName, handler){
     var complete_name = personName.split(' ');  
     var passExp = true;
-    var passName = false;
     var passSimilarName = [];
     var ret = new Array();
     for(var i=0; i<complete_name.length;i++){
@@ -207,27 +211,26 @@ function validateNamePerson(personName, handler){
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentname`
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(name, id){
-            if(name == personName){
-                passName = true
-            }else {
-                if(compareSimilarName(personName, name)){
-                    passSimilarName[0] = true
-                    passSimilarName[1] = name
-                }
-            }
-            
-        });
+        const names = $.parseJSON( response );
+        var names_teste = Object.keys(names);
+        var formatSimilares = [];
+        const similares = names_teste.filter((name) => compareSimilarName(name, personName));
+        var array_students = []
+        for (let index = 0; index < similares.length; index++) {
+            student_teste = new Object();
+            student_teste.name = similares[index];
+            student_teste.id = names[similares[index]];
+            array_students.push(student_teste);
+        }
+
+        for (let index = 0; index < array_students.length; index++) {
+            var similares_text = `<a href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            formatSimilares.push(similares_text);
+        }
         if(passExp){
-            if(passName) {
-                ret[0] = false;
-                ret[1] = "O nome já está cadastrado.";
-                handler(ret);
-                return
-            }
-            if(passSimilarName[0]) {
+            if(similares.length > 0) {
                 ret[0] = true;
-                ret[1] = `Existe um registro "${passSimilarName[1]}" similar cadastrado.`;
+                ret[1] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>` ;
                 handler(ret);
                 return
             }
@@ -288,7 +291,7 @@ function validateCpf(cpf, handler){
         }else{
             if(passCpf) {
                 ret[0] = false;
-                ret[1] = "CPF já cadastrado";
+                ret[1] = "CPF já vinculado com cadastro de aluno existente.";
                 handler(ret);
                 return;
             }
@@ -353,7 +356,7 @@ function validateCivilCertificationTermNumber(term_number, handler) {
         });
         if(passTerm) {
             ret[0] = false;
-            ret[1] = "Nº de certidão já cadastrado";
+            ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
             handler(ret);
             return;
         }
@@ -420,11 +423,11 @@ function removeWarningNotification(id){
 }
 
 function addError(id, message){
-    errorMessage(id, message);
+    // errorMessage(id, message);
     errorNotification(id);
 }
 function removeError(id){
-    removeErrorMessage(id);
+    // removeErrorMessage(id);
     removeErrorNotification(id);
 }
 

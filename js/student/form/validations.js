@@ -1,6 +1,7 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
+    $("#errorNameIcon").css('display', 'none')
     removeWarning(id);
     removeError(id);
     validateNamePerson(($(id).val()), function (ret) {
@@ -11,6 +12,7 @@ $(formIdentification + 'name').focusout(function () {
             removeError(id);
             if(ret[0] && ($(id).val() != '') && ret[1] != null) {
                 addWarning(id, ret[1]);
+                $("#errorNameIcon").css('display', 'inline-block')
             }else {
                 removeWarning(id);
             }
@@ -53,9 +55,11 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
+    $("#errorCPFIcon").css('display', 'none')
     var id = '#' + $(this).attr("id");
     validateCpf($(id).cleanVal(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
+            $("#errorCPFIcon").css('display', 'inline-block')
             addError(id, ret[1]);
         } else {
             removeError(id);
@@ -64,9 +68,11 @@ $(formIdentification + 'responsable_cpf').focusout(function () {
 });
 
 $(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
+    $("#errorTermIcon").css('display', 'none')
     var id = '#' + $(this).attr("id");
     validateCivilCertificationTermNumber($(id).val(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
+            $("#errorTermIcon").css('display', 'inline-block')
             addError(id, ret[1]);
         } else {
             removeError(id);

@@ -124,7 +124,7 @@ class StudentController extends Controller
     public function actionCompareStudentName() { 
         $data = StudentIdentification::model()->findAll();
         $result = [];
-        foreach ($data as $student) {
+        foreach ($data as $student){
             $result[$student->name] = $student->id;
         }
         echo json_encode($result);
