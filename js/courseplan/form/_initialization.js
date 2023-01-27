@@ -1,64 +1,6 @@
 var table;
-var state = null;
-var idle = 0;
-var add = 1;
-var remove = 2;
-
-
-$('#month, #disciplines, #classroom').on('change', function () {
-    $('#class-contents').hide();
-});
-
-$('#classroom').on('change', function () {
-    $('#disciplines').val('').trigger('change');
-});
-
-$('#classesSearch').on('click', function () {
-    jQuery.ajax({
-        type: 'GET',
-        url: getClassesURL,
-        cache: false,
-        data: jQuery('#classroom').parents("form").serialize(),
-        success: function (data) {
-            var data = jQuery.parseJSON(data);
-            $.ajax({
-                type: 'POST',
-                url: getContentsURL,
-                cache: false,
-                success: function (contents) {
-                    var obj = jQuery.parseJSON(contents);
-
-                    if (data === null)
-                        createNoDaysTable();
-                    else
-                        createTable(data, obj);
-                }
-            });
-        }});
-});
-
-
-$(document).ready(function () {
-    $('#class-contents').hide();
-
-});
-
-$("#print").on('click', function () {
-    window.print();
-});
-
-$("#save").on('click', function () {
-    var submit = validateSave();
-    if (submit) {
-        $("#course-plan-form").submit();
-    }
-});
-
-$('.heading-buttons').css('width', $('#content').width());
-
 $(document).ready(function () {
     table = $('#course-classes').DataTable({
-//        "ajax": "../ajax/data/objects.txt",
         paginate: false,
         ordering: false,
         lengthMenu: false,
@@ -97,51 +39,35 @@ $(document).ready(function () {
         }
     });
     table.on('draw.dt', function () {
-        if (stateIsRemove()) {
-            table.column(1).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        }
-    });
-
-    // Add event listener for opening and closing details
-    $('#course-classes tbody').on('click', 'td.details-control', function () {
-
-        var tr = $(this).closest('tr');
-        var i = $(this).children('i').first();
-        var row = table.row(tr);
-
-        if (!row.child.isShown()) {
-            row.child(format(row.data())).show();
-            $('.course-class:last select').select2();
-            tr.next().show();
-        } else {
-            tr.next().toggle();
-        }
-
-
-        if (!tr.next().is(":visible")) {
-            i.removeClass('fa-minus-circle');
-            i.addClass('fa-plus-circle');
-        } else {
-            i.removeClass('fa-plus-circle');
-            i.addClass('fa-minus-circle');
-        }
+        table.column(1).nodes().each(function (cell, i) {
+            cell.innerHTML = i + 1;
+        });
     });
 });
 
-$(window).load(function () {
-    courseClasses = JSON.parse(courseClasses);
-    $.each(courseClasses, function (i, v) {
-        table.row.add({
-            "class": i,
-            "objective": v.objective,
-            "content": v.content,
-            "resource": v.resource,
-            "type": v.type
-        }).draw();
-    });
-    $(".details-control").click().click();
+// Add event listener for opening and closing details
+$('#course-classes tbody').on('click', 'td.details-control', function () {
+
+    var tr = $(this).closest('tr');
+    var i = $(this).children('i').first();
+    var row = table.row(tr);
+
+    if (!row.child.isShown()) {
+        row.child(format(row.data())).show();
+        $('.course-class:last select').select2();
+        tr.next().addClass("detailed-row").show();
+    } else {
+        tr.next().toggle();
+    }
+
+
+    if (!tr.next().is(":visible")) {
+        i.removeClass('fa-minus-circle');
+        i.addClass('fa-plus-circle');
+    } else {
+        i.removeClass('fa-plus-circle');
+        i.addClass('fa-minus-circle');
+    }
 });
 
 $(document).on("click", "#new-course-class", function () {
@@ -160,11 +86,48 @@ $(document).on("keyup", ".course-class-objective", function () {
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 
+$(document).on("change", "#CoursePlan_modality_fk", function () {
+    $("#CoursePlan_discipline_fk").val("").trigger("change.select2");
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/getDisciplines",
+            cache: false,
+            data: {
+                stage: $("#CoursePlan_modality_fk").val(),
+            },
+            success: function (response) {
+                if (response === "") {
+                    $("#CoursePlan_discipline_fk").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#CoursePlan_discipline_fk").html(decodeHtml(response)).trigger("change.select2").show();
+                }
+                $(".disciplines-container").show();
+            },
+        });
+    } else {
+        $("#CoursePlan_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change.select2").show();
+    }
+});
+
 $(document).on("click", ".add-resource", function (evt) {
     evt.preventDefault();
-    addResourceLabel(this);
+    if ($(this).parent().find("select.resource-select").val() !== "" && $(this).parent().find(".resource-amount").val() !== "" && $(this).parent().find(".resource-amount").val() > 0) {
+        addResource(this);
+    }
 });
 
 $(document).on("click", ".remove-resource", function () {
     removeResource(this);
+});
+
+$("#print").on('click', function () {
+    window.print();
+});
+
+$("#save").on('click', function () {
+    var submit = validateSave();
+    if (submit) {
+        $("#course-plan-form").submit();
+    }
 });

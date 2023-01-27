@@ -1,28 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "course_class_has_class_resource".
+ * This is the model class for table "course_class_types".
  *
- * The followings are the available columns in table 'course_class_has_class_resource':
+ * The followings are the available columns in table 'course_class_types':
  * @property integer $id
- * @property integer $course_class_fk
- * @property integer $course_class_resource_fk
- * @property string $amount
- * @property string $fkid
+ * @property string $name
  *
  * The followings are the available model relations:
- * @property CourseClassHasClassResource $courseClassResourceFk
- * @property CourseClassHasClassResource[] $courseClassHasClassResources
- * @property CourseClass $courseClassFk
+ * @property CourseClassHasClassType[] $courseClassHasClassTypes
  */
-class CourseClassHasClassResource extends CActiveRecord
+class CourseClassTypes extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'course_class_has_class_resource';
+		return 'course_class_types';
 	}
 
 	/**
@@ -33,13 +28,11 @@ class CourseClassHasClassResource extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course_class_fk, course_class_resource_fk', 'required'),
-			array('course_class_fk, course_class_resource_fk', 'numerical', 'integerOnly'=>true),
-			array('amount', 'length', 'max'=>10),
-			array('fkid', 'length', 'max'=>40),
+			array('name', 'required'),
+			array('name', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, course_class_fk, course_class_resource_fk, amount, fkid', 'safe', 'on'=>'search'),
+			array('id, name', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,9 +44,7 @@ class CourseClassHasClassResource extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'courseClassResourceFk' => array(self::BELONGS_TO, 'CourseClassHasClassResource', 'course_class_resource_fk'),
-			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_resource_fk'),
-			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
+			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_type_fk'),
 		);
 	}
 
@@ -64,10 +55,7 @@ class CourseClassHasClassResource extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'course_class_fk' => 'Course Class Fk',
-			'course_class_resource_fk' => 'Course Class Resource Fk',
-			'amount' => 'Amount',
-			'fkid' => 'Fkid',
+			'name' => 'Name',
 		);
 	}
 
@@ -90,10 +78,7 @@ class CourseClassHasClassResource extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('course_class_fk',$this->course_class_fk);
-		$criteria->compare('course_class_resource_fk',$this->course_class_resource_fk);
-		$criteria->compare('amount',$this->amount,true);
-		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('name',$this->name,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -104,7 +89,7 @@ class CourseClassHasClassResource extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return CourseClassHasClassResource the static model class
+	 * @return CourseClassTypes the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

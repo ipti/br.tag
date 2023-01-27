@@ -12,7 +12,9 @@
  *
  * The followings are the available model relations:
  * @property CoursePlan $coursePlanFk
+ * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
  * @property CourseClassHasClassResource[] $courseClassHasClassResources
+ * @property CourseClassHasClassType[] $courseClassHasClassTypes
  */
 class CourseClass extends CActiveRecord
 {
@@ -24,15 +26,6 @@ class CourseClass extends CActiveRecord
 		return 'course_class';
 	}
 
-        public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
-        
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -43,9 +36,10 @@ class CourseClass extends CActiveRecord
 		return array(
 			array('order, objective, course_plan_fk', 'required'),
 			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
+			array('fkid', 'length', 'max'=>40),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order, objective, course_plan_fk', 'safe', 'on'=>'search'),
+			array('id, order, objective, course_plan_fk, fkid', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,7 +52,9 @@ class CourseClass extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
+			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_fk'),
 			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
+			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_fk'),
 		);
 	}
 
@@ -72,6 +68,7 @@ class CourseClass extends CActiveRecord
 			'order' => 'Order',
 			'objective' => 'Objective',
 			'course_plan_fk' => 'Course Plan Fk',
+			'fkid' => 'Fkid',
 		);
 	}
 
@@ -97,6 +94,7 @@ class CourseClass extends CActiveRecord
 		$criteria->compare('order',$this->order);
 		$criteria->compare('objective',$this->objective,true);
 		$criteria->compare('course_plan_fk',$this->course_plan_fk);
+		$criteria->compare('fkid',$this->fkid,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
