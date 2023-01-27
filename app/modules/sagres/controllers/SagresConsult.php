@@ -2,22 +2,20 @@
 
 namespace SagresEdu;
 
-use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
-
-use Yii as yii;
+use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
-use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\Validator\Validation;
-
-use \Datetime;
+use JMS\Serializer\SerializerBuilder;
+use Yii as yii;
+use Datetime;
 
 class SagresConsult {
 
     static public function actionExport(){
         $sagres = new SagresConsult;
         $sagres->getEducacao();
-        //$sagresEduXML = $sagres->generatesSagresEduXML();
+        $sagresEduXML = $sagres->generatesSagresEduXML();
         //$sagres->actionExportSagresXML($sagresEduXML);
     }
 
