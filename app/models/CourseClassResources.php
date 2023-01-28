@@ -6,6 +6,9 @@
  * The followings are the available columns in table 'course_class_resources':
  * @property integer $id
  * @property string $name
+ *
+ * The followings are the available model relations:
+ * @property CourseClassHasClassResource[] $courseClassHasClassResources
  */
 class CourseClassResources extends CActiveRecord
 {
@@ -41,6 +44,7 @@ class CourseClassResources extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_resource_fk'),
 		);
 	}
 

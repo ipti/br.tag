@@ -26,7 +26,7 @@ CHANGE `class_resource_fk` `course_class_resource_fk` int(11) NOT NULL AFTER `co
 delete from course_plan;
 
 ALTER TABLE `course_class_has_class_resource`
-ADD FOREIGN KEY (`course_class_resource_fk`) REFERENCES `course_class_has_class_resource` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (`course_class_resource_fk`) REFERENCES `course_class_resources` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 CREATE TABLE `course_class_types` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,11 +53,11 @@ CREATE TABLE `course_class_competences` (
 CREATE TABLE `course_class_has_class_competence` (
   `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `course_class_fk` int NOT NULL,
-  `course_class_competence` int NOT NULL
+  `course_class_competence_fk` int NOT NULL
 );
 
 ALTER TABLE `course_class_has_class_competence`
 ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `course_class_has_class_competence`
-ADD FOREIGN KEY (`course_class_competence`) REFERENCES `course_class_competences` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD FOREIGN KEY (`course_class_competence_fk`) REFERENCES `course_class_competences` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

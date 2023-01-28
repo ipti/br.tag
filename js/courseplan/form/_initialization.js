@@ -1,49 +1,4 @@
 var table;
-$(document).ready(function () {
-    table = $('#course-classes').DataTable({
-        paginate: false,
-        ordering: false,
-        lengthMenu: false,
-        filter: false,
-        info: false,
-        "columns": [
-            {
-                "className": 'details-control dt-center',
-                "orderable": false,
-                "data": null,
-                "defaultContent": '<i class="fa fa-plus-circle"></i>',
-                "width": "1px"
-            },
-            {
-                "className": 'dt-center',
-                "data": "class",
-                "width": "1px"
-            },
-            {
-                "className": 'dt-justify',
-                "data": "objective"
-            },
-            {"data": "content", "visible": false},
-            {"data": "resource", "visible": false},
-            {"data": "type", "visible": false},
-            {
-                "className": 'dt-center',
-                "orderable": false,
-                "data": null,
-                "defaultContent": '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>',
-                "width": "1px"
-            }
-        ],
-        language: {
-            emptyTable: "Nenhuma aula cadastrada.",
-        }
-    });
-    table.on('draw.dt', function () {
-        table.column(1).nodes().each(function (cell, i) {
-            cell.innerHTML = i + 1;
-        });
-    });
-});
 
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
@@ -86,7 +41,7 @@ $(document).on("keyup", ".course-class-objective", function () {
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 
-$(document).on("change", "#CoursePlan_modality_fk", function () {
+$(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) {
     $("#CoursePlan_discipline_fk").val("").trigger("change.select2");
     if ($(this).val() !== "") {
         $.ajax({
@@ -96,19 +51,38 @@ $(document).on("change", "#CoursePlan_modality_fk", function () {
             data: {
                 stage: $("#CoursePlan_modality_fk").val(),
             },
-            success: function (response) {
-                if (response === "") {
-                    $("#CoursePlan_discipline_fk").html("<option value='-1'></option>").trigger("change.select2").show();
-                } else {
-                    $("#CoursePlan_discipline_fk").html(decodeHtml(response)).trigger("change.select2").show();
-                }
-                $(".disciplines-container").show();
+            beforeSend: function () {
+                $(".js-course-plan-loading-disciplines").css("display", "inline-block");
+                $("#CoursePlan_discipline_fk").attr("disabled", "disabled");
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                var option = "<option value=''>Selecione a disciplina...</option>";
+                $.each(data, function () {
+                    var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
+                    option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
+                });
+                $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
+                $(".js-course-plan-loading-disciplines").hide();
+                $("#CoursePlan_discipline_fk").removeAttr("disabled");
             },
         });
     } else {
         $("#CoursePlan_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change.select2").show();
     }
 });
+$("#CoursePlan_modality_fk").trigger("change", [true]);
+
+$(document).on("change", "#CoursePlan_discipline_fk", function () {
+    if ($(this).val() !== "") {
+        $("#course-classes").show();
+        if (!$.fn.DataTable.isDataTable('#course-classes')) {
+            initDatatable();
+        }
+    } else {
+        $("#course-classes").hide();
+    }
+})
 
 $(document).on("click", ".add-resource", function (evt) {
     evt.preventDefault();

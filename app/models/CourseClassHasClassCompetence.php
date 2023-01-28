@@ -6,11 +6,11 @@
  * The followings are the available columns in table 'course_class_has_class_competence':
  * @property integer $id
  * @property integer $course_class_fk
- * @property integer $course_class_competence
+ * @property integer $course_class_competence_fk
  *
  * The followings are the available model relations:
  * @property CourseClass $courseClassFk
- * @property CourseClassCompetences $courseClassCompetence
+ * @property CourseClassCompetences $courseClassCompetenceFk
  */
 class CourseClassHasClassCompetence extends CActiveRecord
 {
@@ -30,11 +30,11 @@ class CourseClassHasClassCompetence extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('course_class_fk, course_class_competence', 'required'),
-			array('course_class_fk, course_class_competence', 'numerical', 'integerOnly'=>true),
+			array('course_class_fk, course_class_competence_fk', 'required'),
+			array('course_class_fk, course_class_competence_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, course_class_fk, course_class_competence', 'safe', 'on'=>'search'),
+			array('id, course_class_fk, course_class_competence_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,7 +47,7 @@ class CourseClassHasClassCompetence extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
-			'courseClassCompetence' => array(self::BELONGS_TO, 'CourseClassCompetences', 'course_class_competence'),
+			'courseClassCompetenceFk' => array(self::BELONGS_TO, 'CourseClassCompetences', 'course_class_competence_fk'),
 		);
 	}
 
@@ -59,7 +59,7 @@ class CourseClassHasClassCompetence extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'course_class_fk' => 'Course Class Fk',
-			'course_class_competence' => 'Course Class Competence',
+			'course_class_competence_fk' => 'Course Class Competence Fk',
 		);
 	}
 
@@ -83,7 +83,7 @@ class CourseClassHasClassCompetence extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('course_class_fk',$this->course_class_fk);
-		$criteria->compare('course_class_competence',$this->course_class_competence);
+		$criteria->compare('course_class_competence_fk',$this->course_class_competence_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

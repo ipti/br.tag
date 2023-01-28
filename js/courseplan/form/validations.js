@@ -5,7 +5,7 @@ function validateSave() {
     var disciplines = "#CoursePlan_discipline_fk";
     if ($(name).val() === "" || $(name).val().length < 3) {
         submit = false;
-        addError(name, "Campo obrigatório (mínimo 03 caracteres).");
+        addError(name, "Campo obrigatório (mínimo de 03 caracteres).");
     } else {
         removeError(name);
     }

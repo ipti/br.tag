@@ -8611,6 +8611,21 @@ input[type="text"] {
     width: 120px;
 }
 
+#course-plan-form .js-course-plan-loading-disciplines {
+    display: none;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+#course-classes {
+    display: none;
+}
+
+.objective-title {
+    padding: 10px 18px !important;
+}
+
 .course-class {
     display: block;
     padding: 0 150px;

@@ -30,7 +30,7 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save'),
+                    'getDisciplines', 'save', 'getCourseClasses'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -42,89 +42,33 @@ class CourseplanController extends Controller
     /**
      * Sabe the Course Plan, and yours course classes.
      */
-    public function actionSave($data, $id = null)
+    public function actionSave($id = null)
     {
-        $coursePlan = isset($data['CoursePlan']) ? $data['CoursePlan'] : null;
-        $courseClasses = isset($data['course-class']) ? $data['course-class'] : [];
-        $saved = true;
-
-        if ($coursePlan != null && isset($coursePlan["modality_fk"], $coursePlan["discipline_fk"], $coursePlan["name"])) {
-
-            if ($id !== null) {
-                $newCoursePlan = CoursePlan::model()->findByPk($id);
-                $logSituation = "U";
-            } else {
-                $newCoursePlan = new CoursePlan;
-                $newCoursePlan->school_inep_fk = Yii::app()->user->school;
-                $newCoursePlan->users_fk = Yii::app()->user->loginInfos->id;
-                $logSituation = "C";
-            }
-            $newCoursePlan->attributes = $coursePlan;
-            if ($newCoursePlan->validate()) {
-                $saved = $saved && $newCoursePlan->save();
-                foreach ($newCoursePlan->courseClasses as $class) {
-                    $class->delete();
-                }
-                foreach ($courseClasses as $i => $courseClass) {
-                    if (isset($courseClass['objective']) && !empty($courseClass['objective'])) {
-                        $newCourseClass = new CourseClass;
-                        $newCourseClass->course_plan_fk = $newCoursePlan->id;
-                        $newCourseClass->order = $i;
-                        $newCourseClass->objective = $courseClass['objective'];
-                        $resources = [];
-
-                        if (isset($courseClass['content'])) {
-                            $resources = array_merge($courseClass['content'], $resources);
-                        }
-
-                        if (isset($courseClass['type'])) {
-                            $resources = array_merge($courseClass['type'], $resources);
-                        }
-
-                        if ($newCourseClass->validate()) {
-                            $saved = $saved && $newCourseClass->save();
-                            foreach ($resources as $resource) {
-                                $newCourseClassResource = new CourseClassHasClassResource;
-                                $newCourseClassResource->course_class_fk = $newCourseClass->id;
-                                $newCourseClassResource->class_resource_fk = $resource;
-                                $saved = $saved && $newCourseClassResource->save();
-                            }
-                            if (isset($courseClass['resource'])) {
-                                foreach ($courseClass['resource'] as $resource) {
-                                    $newCourseClassResource = new CourseClassHasClassResource;
-                                    $newCourseClassResource->course_class_fk = $newCourseClass->id;
-                                    $newCourseClassResource->class_resource_fk = $resource['value'];
-                                    $newCourseClassResource->amount = $resource['amount'];
-                                    $saved = $saved && $newCourseClassResource->save();
-                                }
-                            }
-                        } else {
-                            $saved = false;
-                        }
-                    } else {
-                        $saved = false;
-                    }
-                }
-                if ($saved) {
-                    Log::model()->saveAction("courseplan", $id, $logSituation, $newCoursePlan->name);
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
-                    $this->redirect(array('index'));
-                } else {
-                    Yii::app()->user->setFlash('error', Yii::t('default', 'Ouve algum erro ao salvar as aulas.'));
-                    $this->actionUpdate($newCoursePlan->id, ['courseClasses' => $courseClasses]);
-                }
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Não foi possível salvar o plano de aula.'));
-                $this->actionCreate(['coursePlan' => $newCoursePlan, 'courseClasses' => $courseClasses]);
-            }
+        if ($id !== null) {
+            $coursePlan = CoursePlan::model()->findByPk($id);
+            $logSituation = "U";
         } else {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Preencha o cabeçalho.'));
-            $newCoursePlan = new CoursePlan;
-            $newCoursePlan->attributes = $coursePlan;
-            $newCoursePlan->school_inep_fk = Yii::app()->user->school;
-            $newCoursePlan->validate();
-            $this->actionCreate(['coursePlan' => $newCoursePlan, 'courseClasses' => $courseClasses]);
+            $coursePlan = new CoursePlan;
+            $coursePlan->school_inep_fk = Yii::app()->user->school;
+            $coursePlan->users_fk = Yii::app()->user->loginInfos->id;
+            $logSituation = "C";
         }
+        $coursePlan->attributes = $_POST["CoursePlan"];
+        $coursePlan->save();
+        foreach ($_POST["course-class"] as $i => $cc) {
+            if ($cc["id"] == "") {
+                $courseClass = new CourseClass;
+                $courseClass->course_plan_fk = $coursePlan->id;
+            } else {
+                $courseClass = CourseClass::model()->findByPk($cc["id"]);
+            }
+            $courseClass->order = $i;
+            $courseClass->objective = $cc['objective'];
+            $courseClass->save();
+        }
+        Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
+        $this->redirect(array('index'));
     }
 
     /**
@@ -133,9 +77,52 @@ class CourseplanController extends Controller
      */
     public function actionCreate()
     {
-        $coursePlan = new CoursePlan;
-        $courseClasses = [];
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave();
+        } else {
 
+            $resources = CourseClassResources::model()->findAll();
+            $types = CourseClassTypes::model()->findAll();
+            $competences = CourseClassCompetences::model()->findAll();
+
+            $this->render('form', array(
+                'coursePlan' => new CoursePlan(),
+                'stages' => $this->getStages(),
+                'resources' => $resources,
+                'types' => $types,
+                'competences' => $competences
+            ));
+        }
+    }
+
+    /**
+     * Updates a particular model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id the ID of the model to be updated
+     */
+    public function actionUpdate($id)
+    {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave($id);
+        } else {
+            $coursePlan = $this->loadModel($id);
+
+            $resources = CourseClassResources::model()->findAll();
+            $types = CourseClassTypes::model()->findAll();
+            $competences = CourseClassCompetences::model()->findAll();
+
+            $this->render('form', array(
+                'coursePlan' => $coursePlan,
+                'stages' => $this->getStages(),
+                'resources' => $resources,
+                'types' => $types,
+                'competences' => $competences
+            ));
+        }
+    }
+
+    private function getStages()
+    {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $stages = Yii::app()->db->createCommand(
                 "select esvm.id, esvm.name from edcenso_stage_vs_modality esvm 
@@ -148,93 +135,40 @@ class CourseplanController extends Controller
         } else {
             $stages = Yii::app()->db->createCommand("select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name")->bindParam(":year", Yii::app()->user->year)->queryAll();
         }
-
-        $this->render('form', array(
-            'coursePlan' => $coursePlan,
-            'courseClasses' => $courseClasses,
-            'stages' => $stages
-        ));
+        return $stages;
     }
 
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
-    public function actionUpdate($id, $data = null)
+    public function actionGetCourseClasses()
     {
-        if (isset($_POST['CoursePlan'])) {
-            $this->actionSave($_POST, $id);
-        }
-
-        $coursePlan = $this->loadModel($id);
-        if ($data == null) {
-            $courseClasses = [];
-            foreach ($coursePlan->courseClasses as $courseClass) {
-                $order = $courseClass->order;
-                $courseClasses[$order] = [];
-                $courseClasses[$order]['objective'] = $courseClass->objective;
-                $courseClasses[$order]['type'] = [];
-                $courseClasses[$order]['content'] = [];
-                $courseClasses[$order]['resource'] = [];
-                $i = 0;
-                foreach ($courseClass->courseClassHasClassResources as $classHasResource) {
-                    $resource = ClassResources::model()->findByPk($classHasResource->class_resource_fk);
-
-                    if ($resource->type == ClassResources::TYPE) {
-                        array_push($courseClasses[$order]['type'], $resource->id);
-                    }
-                    if ($resource->type == ClassResources::CONTENT) {
-                        array_push($courseClasses[$order]['content'], $resource->id);
-                    }
-                    if ($resource->type == ClassResources::RESOURCE) {
-                        if ($i === 0) {
-                            $courseClasses[$order]['resource'][$i] = [];
-                        }
-                        $courseClasses[$order]['resource'][$i]['value'] = $resource->id;
-                        $courseClasses[$order]['resource'][$i]['amount'] = $classHasResource->amount;
-                        $i++;
-                    }
-                }
-
+        $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
+        $courseClasses = [];
+        foreach ($coursePlan->courseClasses as $courseClass) {
+            $order = $courseClass->order - 1;
+            $courseClasses[$order] = [];
+            $courseClasses[$order]["class"] = $courseClass->order;
+            $courseClasses[$order]['courseClassId'] = $courseClass->id;
+            $courseClasses[$order]['objective'] = $courseClass->objective;
+            $courseClasses[$order]['types'] = [];
+            $courseClasses[$order]['resources'] = [];
+            $courseClasses[$order]['competences'] = [];
+            foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
+                $resource["value"] = $courseClassHasClassResource->courseClassResourceFk->name;
+                $resource["amount"] = $courseClassHasClassResource->amount;
+                array_push($courseClasses[$order]['resources'], $resource);
             }
-        } else {
-            $courseClasses = $data['courseClasses'];
+            foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
+                array_push($courseClasses[$order]['types'], $courseClassHasClassType->name);
+            }
+            foreach ($courseClass->courseClassHasClassCompetences as $courseClassHasClassCompetence) {
+                array_push($courseClasses[$order]['competences'], $courseClassHasClassCompetence->name);
+            }
         }
-        $contents = ClassResources::model()->findAllByAttributes(['type' => ClassResources::CONTENT]);
-        $resources = ClassResources::model()->findAllByAttributes(['type' => ClassResources::RESOURCE]);
-        $types = ClassResources::model()->findAllByAttributes(['type' => ClassResources::TYPE]);
-
-        $contents = CHtml::listData($contents, "id", "name");
-        $resources = CHtml::listData($resources, "id", "name");
-        $types = CHtml::listData($types, "id", "name");
-
-        $contentsOptions = '';
-        $resourcesOptions = '';
-        $typesOptions = '';
-
-
-        foreach ($contents as $id => $name) {
-            $contentsOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
-        }
-        foreach ($resources as $id => $name) {
-            $resourcesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
-        }
-        foreach ($types as $id => $name) {
-            $typesOptions .= CHtml::tag('option', array('value' => $id), CHtml::encode($name), true);
-        }
-
-        $this->render('form', array(
-            'coursePlan' => $coursePlan,
-            'courseClasses' => $courseClasses,
-            'contents' => $contentsOptions,
-            'resources' => $resourcesOptions,
-            'types' => $typesOptions,
-        ));
+        echo json_encode(["data" => $courseClasses]);
     }
 
     public function actionGetDisciplines()
     {
+        $result = [];
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
@@ -246,17 +180,17 @@ class CourseplanController extends Controller
                 where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $discipline) {
-                echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
+                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
             }
         } else {
-            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione a disciplina...'), true);
             $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix where stage_fk = :stage_fk and school_year = :year")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
-                    echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
+                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
                 }
             }
         }
+        echo json_encode($result);
     }
 
     /**

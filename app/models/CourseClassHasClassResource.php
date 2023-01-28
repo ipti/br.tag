@@ -11,8 +11,7 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
- * @property CourseClassHasClassResource $courseClassResourceFk
- * @property CourseClassHasClassResource[] $courseClassHasClassResources
+ * @property CourseClassResources $courseClassResourceFk
  * @property CourseClass $courseClassFk
  */
 class CourseClassHasClassResource extends CActiveRecord
@@ -51,8 +50,7 @@ class CourseClassHasClassResource extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'courseClassResourceFk' => array(self::BELONGS_TO, 'CourseClassHasClassResource', 'course_class_resource_fk'),
-			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_resource_fk'),
+			'courseClassResourceFk' => array(self::BELONGS_TO, 'CourseClassResources', 'course_class_resource_fk'),
 			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
 		);
 	}
