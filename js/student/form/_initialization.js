@@ -54,8 +54,14 @@ function getUrlVars() {
 }
 
 function exibirRegistros() {
-    if($("#registrosSimilares").css("display") == "none") $("#registrosSimilares").css('display', 'block')
-    else $("#registrosSimilares").css('display', 'none')
+    if($("#registrosSimilares").css("display") == "none") {
+        $("#registrosSimilares").css('display', 'block');
+        $("#similarMessage").attr('data-original-title', 'Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para ocultar registros');
+    }
+    else {
+        $("#registrosSimilares").css('display', 'none')
+        $("#similarMessage").attr('data-original-title', 'Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros');
+    }
 }
 
 $(document).on("change", ".resources-container input[type=checkbox]", function () {

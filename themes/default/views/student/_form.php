@@ -104,8 +104,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
-                                    <img id="errorNameIcon" onclick="exibirRegistros()" style="display: none; cursor: pointer;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
-                                    data-original-title="Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros">
+                                    <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNameIcon" onclick="exibirRegistros()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
+                                    </span>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
                             </div>
@@ -376,10 +377,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11)); ?>
-                                    <!-- <span
-                                            class="btn-action single glyphicons circle_question_mark"
-                                            data-toggle="tooltip" data-placement="top"
-                                            data-original-title="<?php echo Yii::t('help', 'NIS') . ' ' . Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
+                                    <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span>
                                     <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                                 </div>
                             </div>
@@ -438,8 +438,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
-                                    data-original-title="CPF já vinculado com cadastro de aluno existente.">
+                                    <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                        <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                    </span>
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -722,8 +723,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_certification_term_number', array('size' => 8, 'maxlength' => 8, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
-                                            <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/label.svg' ?>" data-toggle="tooltip" data-placement="top"
-                                            data-original-title="Nº de certidão já vinculada com cadastro de aluno existente.">
+                                            <span id="termMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                                         </div>
                                     </div>

@@ -1,20 +1,29 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    $("#errorNameIcon").css('display', 'none')
-    removeWarning(id);
-    removeError(id);
+    var id_icon = $("#errorNameIcon");
+    var id_caixa = $("#similarMessage");
+    $(id_icon).css('cursor', 'auto');
+    removeWarning(id, id_caixa, id_icon);
+    removeError(id, id_caixa, id_icon);
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
-            removeWarning(id)
-            addError(id, ret[1]);
+            removeWarning(id, id_caixa, id_icon)
+            if(ret[2] != null) {
+                warningMessage(id, ret[2]);
+                $(id_icon).css('cursor', 'pointer');
+            }
+            addWarning(id, ret[1], id_caixa, id_icon);
         } else {
             removeError(id);
             if(ret[0] && ($(id).val() != '') && ret[1] != null) {
-                addWarning(id, ret[1]);
-                $("#errorNameIcon").css('display', 'inline-block')
+                if(ret[2] != null) {
+                    warningMessage(id, ret[2]);
+                    $(id_icon).css('cursor', 'pointer');
+                }
+                addWarning(id, ret[1], id_caixa, id_icon);
             }else {
-                removeWarning(id);
+                removeWarning(id, id_caixa, id_icon);
             }
         }
     });
@@ -55,27 +64,41 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
-    $("#errorCPFIcon").css('display', 'none')
     var id = '#' + $(this).attr("id");
+    var id_caixa = $("#cpfMessage");
+    var id_icon = $("#errorCPFIcon");
+    removeError(id);
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
     validateCpf($(id).cleanVal(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
-            $("#errorCPFIcon").css('display', 'inline-block')
-            addError(id, ret[1]);
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
         } else {
             removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
         }
     });
 });
 
 $(formDocumentsAndAddress + 'civil_certification_term_number').focusout(function () {
-    $("#errorTermIcon").css('display', 'none')
     var id = '#' + $(this).attr("id");
+    var id_caixa = $("#termMessage");
+    var id_icon = $("#errorTermIcon");
+    removeError(id);
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
     validateCivilCertificationTermNumber($(id).val(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
-            $("#errorTermIcon").css('display', 'inline-block')
-            addError(id, ret[1]);
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
         } else {
             removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
         }
     });
 });

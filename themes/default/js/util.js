@@ -224,13 +224,14 @@ function validateNamePerson(personName, handler){
         }
 
         for (let index = 0; index < array_students.length; index++) {
-            var similares_text = `<a href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
             formatSimilares.push(similares_text);
         }
         if(passExp){
             if(similares.length > 0) {
                 ret[0] = true;
-                ret[1] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>` ;
+                ret[1] = "Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros";
+                ret[2] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>`
                 handler(ret);
                 return
             }
@@ -389,7 +390,8 @@ function errorMessage(id,message){
 function warningMessage(id,message) {
     removeWarningMessage(id);
     id = $(id).attr("id");
-    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message+"</span>");
+    $("#"+id).parent().append("<span id='"+id+"_warn' class='warning'><br/>"+message.replace(',','')+"</span>");
+    $("#registrosSimilares").css('margin','5px 0px 0px 1px');
 }
 
 function removeErrorMessage(id){
@@ -423,20 +425,22 @@ function removeWarningNotification(id){
 }
 
 function addError(id, message){
-    // errorMessage(id, message);
+    if(message != null) errorMessage(id, message);
     errorNotification(id);
 }
 function removeError(id){
-    // removeErrorMessage(id);
+    removeErrorMessage(id);
     removeErrorNotification(id);
 }
 
-function addWarning(id, message){
-    warningMessage(id, message);
+function addWarning(id, message, id_caixa, id_icon){
+    $(id_icon).css('display', 'inline-block');
+    $(id_caixa).attr('data-original-title', message);
     warningNotification(id);
 }
-function removeWarning(id){
-    removeWarningMessage(id);
+function removeWarning(id, id_caixa, id_icon){
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
     removeWarningNotification(id);
 }
 
