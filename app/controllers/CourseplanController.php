@@ -69,7 +69,7 @@ class CourseplanController extends Controller
             $courseClass->save();
             array_push($courseClassIds, $courseClass->id);
 
-            CourseClassHasClassCompetence::model()->deleteAll("course_class_fk = :course_class_fk and course_class_competence_fk not in ( '" . implode("', '" , $cc['competence']) . "' )", [":course_class_fk" => $courseClass->id]);
+            CourseClassHasClassCompetence::model()->deleteAll("course_class_fk = :course_class_fk and course_class_competence_fk not in ( '" . implode("', '", $cc['competence']) . "' )", [":course_class_fk" => $courseClass->id]);
             foreach ($cc["competence"] as $competenceId) {
                 $courseClassHasClassCompetence = CourseClassHasClassCompetence::model()->find("course_class_fk = :course_class_fk and course_class_competence_fk = :course_class_competence_fk", ["course_class_fk" => $courseClass->id, "course_class_competence_fk" => $competenceId]);
                 if ($courseClassHasClassCompetence == null) {
@@ -80,7 +80,7 @@ class CourseplanController extends Controller
                 }
             }
 
-            CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '" , $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
+            CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '", $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
             foreach ($cc["type"] as $typeId) {
                 $courseClassHasClassType = CourseClassHasClassType::model()->find("course_class_fk = :course_class_fk and course_class_type_fk = :course_class_type_fk", ["course_class_fk" => $courseClass->id, "course_class_type_fk" => $typeId]);
                 if ($courseClassHasClassType == null) {
@@ -104,7 +104,7 @@ class CourseplanController extends Controller
                     $courseClassHasClassResource->save();
                     array_push($idsArray, $courseClassHasClassResource->id);
                 }
-                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk and id not in ( '" . implode("', '" , $idsArray) . "' )", [":course_class_fk" => $courseClass->id]);
+                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk and id not in ( '" . implode("', '", $idsArray) . "' )", [":course_class_fk" => $courseClass->id]);
             } else {
                 CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk", [":course_class_fk" => $courseClass->id]);
             }
@@ -112,10 +112,10 @@ class CourseplanController extends Controller
         if (empty($courseClassIds)) {
             CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk", [":course_plan_fk" => $coursePlan->id]);
         } else {
-            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '" , $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
+            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
         }
         Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(array('index'));
     }
 
@@ -212,6 +212,9 @@ class CourseplanController extends Controller
             foreach ($courseClass->courseClassHasClassCompetences as $courseClassHasClassCompetence) {
                 array_push($courseClasses[$order]['competences'], $courseClassHasClassCompetence->course_class_competence_fk);
             }
+            $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents)
+                ? '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
+                : '<a href="#" class="btn btn-danger btn-small remove-course-class unavailable" data-toggle="tooltip" data-placement="left" data-original-title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula."><i class="fa fa-times"></i></a>';
         }
         echo json_encode(["data" => $courseClasses]);
     }
@@ -243,7 +246,8 @@ class CourseplanController extends Controller
         echo json_encode($result);
     }
 
-    public function actionGetCompetences() {
+    public function actionGetCompetences()
+    {
         $result = [];
         if ($_POST["discipline"] !== "" && $_POST["stage"] !== "") {
             $competences = CourseClassCompetences::model()->findAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $_POST["stage"], ":discipline" => $_POST["discipline"]]);
@@ -265,12 +269,19 @@ class CourseplanController extends Controller
     function actionDelete($id)
     {
         $coursePlan = $this->loadModel($id);
-        if ($coursePlan->delete()) {
+        $isUsed = false;
+        foreach ($coursePlan->courseClasses as $courseClass) {
+            if (!empty($courseClass->classContents)) {
+                $isUsed = true;
+                break;
+            }
+        }
+        if (!$isUsed) {
+            $coursePlan->delete();
             Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de aula excluído com sucesso!'));
-            $this->redirect(array('index'));
+            echo json_encode(["valid" => true, "message" => "Plano de aula excluído com sucesso!"]);
         } else {
-            throw new CHttpException(404, 'A página requisitada não existe.');
+            echo json_encode(["valid" => false, "message" => "Não se pode remover plano de aula utilizado em alguma turma."]);
         }
     }
 

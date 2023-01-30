@@ -39,8 +39,7 @@ function initDatatable() {
             {
                 "className": 'dt-center',
                 "orderable": false,
-                "data": null,
-                "defaultContent": '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>',
+                "data": "deleteButton",
                 "width": "1px"
             }
         ],
@@ -53,6 +52,7 @@ function initDatatable() {
         table.column(1).nodes().each(function (cell, i) {
             cell.innerHTML = i + 1;
         });
+        $(".remove-course-class").tooltip();
     });
 }
 
@@ -71,7 +71,8 @@ function addCoursePlanRow() {
         "objective": "",
         "competences": null,
         "resources": null,
-        "types": null
+        "types": null,
+        "deleteButton": '<a href="#" class="btn btn-danger btn-small remove-course-class"><i class="fa fa-times"></i></a>'
     }).draw();
     $("#course-classes tbody .details-control").last().click();
 }

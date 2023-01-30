@@ -99,7 +99,7 @@ class ClassesController extends Controller
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 if ($_POST["fundamentalMaior"] == "1") {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk"
@@ -111,7 +111,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk"
@@ -124,7 +124,7 @@ class ClassesController extends Controller
             } else {
                 if ($_POST["fundamentalMaior"] == "1") {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk"
@@ -135,7 +135,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.name as edname, cc.order, cc.objective from course_class cc 
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc 
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk"
@@ -169,11 +169,11 @@ class ClassesController extends Controller
         foreach ($_POST["classContents"] as $classContent) {
             foreach ($schedules as $schedule) {
                 if ($schedule->day == $classContent["day"]) {
-                    ClassHasContent::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+                    ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
                     foreach ($classContent["contents"] as $content) {
-                        $classHasContent = new ClassHasContent();
+                        $classHasContent = new ClassContents();
                         $classHasContent->schedule_fk = $schedule->id;
-                        $classHasContent->content_fk = $content;
+                        $classHasContent->course_class_fk = $content;
                         $classHasContent->save();
                     }
                     break;

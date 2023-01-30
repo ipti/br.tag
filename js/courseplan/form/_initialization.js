@@ -50,7 +50,9 @@ $(document).on("click", "#new-course-class", function () {
 });
 
 $(document).on("click", ".remove-course-class", function () {
-    removeCoursePlanRow(this);
+    if (!$(this).hasClass("unavailable")) {
+        removeCoursePlanRow(this);
+    }
 });
 
 $(document).on("keyup", ".course-class-objective", function () {

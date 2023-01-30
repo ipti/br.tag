@@ -8577,10 +8577,21 @@ input[type="text"] {
 }
 
 .select2-container.course-classes-select {
-    width: 100% !important;
     margin-bottom: 0;
     opacity: 100;
     -webkit-appearance: none;
+}
+
+.course-classes-optgroup {
+    text-decoration: underline;
+}
+
+.course-classes-option {
+    font-size: 12px;
+}
+
+.course-classes-option {
+    font-size: 12px;
 }
 
 .contents-day {
@@ -8686,6 +8697,11 @@ input[type="text"] {
     padding: 5px 15px;
     margin-right: 15px;
     margin-bottom: 15px;
+}
+
+.remove-course-class.unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .remove-resource {
@@ -9071,6 +9087,10 @@ tbody .details-control:hover {
     width: 20px !important;
     height: 20px;
     margin-top: 0px !important;
+}
+
+#widget-class-contents .select2-container-multi .select2-choices .select2-search-field input {
+    padding: 0;
 }
 
 #widget-class-contents {

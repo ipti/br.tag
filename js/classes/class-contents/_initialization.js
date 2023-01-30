@@ -28,6 +28,8 @@ $('#classesSearch').on('click', function () {
                     $('#class-contents').show();
                     $("#save").hide();
                 }
+                $('#month_text').html($('#month').find('option:selected').text());
+                $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
             },
             complete: function () {
                 $(".loading-class-contents").hide();
@@ -74,7 +76,7 @@ $(document).ready(function () {
     $('#class-contents').hide();
 });
 
-$("#print").on('click', function () {
+$(document).on("click", "#print", function () {
     window.print();
 });
 
@@ -84,7 +86,7 @@ $("#save").on('click', function () {
     $(".day-row").each(function () {
         classContents.push({
             day: $(this).attr("day"),
-            contents: $(this).find("select.contents-select").val()
+            contents: $(this).find("select.course-classes-select").val()
         });
     });
 

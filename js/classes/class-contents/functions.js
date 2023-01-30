@@ -5,7 +5,7 @@ function createTable(data) {
 
     var options = "";
     $.each(data.courseClasses, function () {
-        options += '<option value="' + this.id + '" discipline="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + '</option>';
+        options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
     });
 
     $.each(data.classContents, function (day, classContent) {
@@ -17,52 +17,33 @@ function createTable(data) {
             + '</td>';
         $('#class-contents > tbody').append('<tr class="center day-row" day="' + day + '">' + head + body + '</tr>');
         var select = $("select.course-classes-select").last();
-        select.find("option").each(function () {
-            if (!select.find("optgroup[label=" + $(this).attr("discipline") + "]").length) {
-                select.append("<optgroup label='" + $(this).attr("discipline") + "'></optgroup>");
+        select.children("option").each(function () {
+            if (!select.find("optgroup[value=" + $(this).attr("disciplineid") + "]").length) {
+                select.append("<optgroup value='" + $(this).attr("disciplineid") + "' label='" + $(this).attr("disciplinename") + "'></optgroup>");
             }
-            $(this).appendTo(select.find("optgroup[label=" + $(this).attr("discipline") + "]"));
+            $(this).appendTo(select.find("optgroup[value=" + $(this).attr("disciplineid") + "]"));
         });
         if (classContent.contents !== undefined) {
             $.each(classContent.contents, function (i, v) {
-                $("select.course-classes-select").last().children('[value=' + i + ']').attr('selected', 'selected');
+                select.find('option[value=' + v + ']').attr('selected', 'selected');
             });
         }
     });
-
-    $('.course-classes-select').select2({
-        matcher: function modelMatcher(params, data) {
-            data.parentText = data.parentText || "";
-            if ($.trim(params.term) === '') {
-                return data;
+    $('select.course-classes-select').select2({
+        width: "100%",
+        formatSelection: function (state) {
+            var textArray = state.text.split("|");
+            return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
+        },
+        formatResult: function (data, container){
+            var textArray = data.text.split("|");
+            if (textArray.length === 1){
+                return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
+            } else {
+                return "<div class='course-classes-option'><div><b>Plano de Aula:</b> <span>" + textArray[0] + "</span></div><div><b>Aula " + textArray[1] + "</b> - " + textArray[2] + "</div></div>";
             }
-            if (data.children && data.children.length > 0) {
-                var match = $.extend(true, {}, data);
-                for (var c = data.children.length - 1; c >= 0; c--) {
-                    var child = data.children[c];
-                    child.parentText += data.parentText + " " + data.text;
-                    var matches = modelMatcher(params, child);
-                    if (matches == null) {
-                        match.children.splice(c, 1);
-                    }
-                }
-                if (match.children.length > 0) {
-                    return match;
-                }
-                return modelMatcher(params, match);
-            }
-            var original = (data.parentText + ' ' + data.text).toUpperCase();
-            var term = params.term.toUpperCase().trim();
-            original = original.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-            term = term.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-            if (original.indexOf(term) > -1) {
-                return data;
-            }
-            return null;
-        }
+        },
     });
     $('#widget-class-contents').show();
     $('#class-contents').show();
-    $('#month_text').html($('#month').find('option:selected').text());
-    $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
 }
