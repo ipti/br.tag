@@ -142,7 +142,8 @@ class SiteController extends Controller
             Yii::app()->user->year = $_POST['years'];
         }
 
-        $this->redirect(Yii::app()->homeUrl);
+        echo '<script>history.go(-1);</script>';
+        exit;
     }
 
     private function loadLogsHtml($limit, $date = NULL)
