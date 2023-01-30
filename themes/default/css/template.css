@@ -1274,16 +1274,16 @@ body > .container-fluid.documentation {
 .navbar.main .topnav > li:last-child {
     padding: 0 0 0 3px;
 }
-
+/* logout */
 .navbar.main .topnav > li > a.logout{
     display: block;
-    background: #16205B;
+    background: #94a8be;
     color: #fff;
     text-decoration: none;
-    padding: 0 10px; 
-    box-shadow: 0 1px 0 #16205B;
-    -moz-box-shadow: 0 1px 0 #16205B;
-    -webkit-box-shadow: 0 1px 0 #16205B;
+    padding: 0.3em 1em 0.3em 1em; 
+    box-shadow: 0 1px 0 #94a8be;
+    -moz-box-shadow: 0 1px 0 #94a8be;
+    -webkit-box-shadow: 0 1px 0 #94a8be;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -8237,7 +8237,7 @@ div.glyphicons.glyphicon-primary i:before {
 
 .navbar.main .btn-navbar:hover,
 .navbar.main .topnav > li > a.logout:hover {
-    background-color: #1e2c7b;
+    background-color: #5F738C;
 }
 
 .bwizard-steps li.active:after,
