@@ -9,13 +9,15 @@
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($themeUrl . '/css/template2.css');
-    $cs->registerCssFile($baseUrl . '/sass/css/main.css');
+    $cs->registerCssFile(Yii::app()->request->baseUrl . '/sass/css/main.css');
+    
     ?>
 
     <div class="row-fluid hide-responsive">
         <div class="span12">
             <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Classrooms') ?></h3>  
             <div class="t-buttons-container buttons span9">
+                
                 <a href="<?php echo Yii::app()->createUrl('classroom/create') ?>" class="t-button"> Adicionar turma</a>
                 <a href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>" class="t-button middle-button" target="_blank">Relatório Alunos/Turma</a>
                 <a href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>" class="t-button" target="_blank">Relatório Professores/Turma</a>
