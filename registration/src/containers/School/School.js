@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { School } from "../../screens/School";
-import { connect } from "react-redux";
+import React, { useState } from "react";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 import Loading from "../../components/Loading/CircularLoading";
+import { useFetchRequestSchools } from "../../query/school";
+import { School } from "../../screens/School";
 
 const Home = props => {
-  const [loadData, setLoadData] = useState(true);
-  const [loadDataPaginate, setLoadDataPaginate] = useState(false);
   const [page, setPage] = useState(1);
 
   const handlePage = (e, pageInfo) => {
-    setLoadDataPaginate(true);
+    // setLoadDataPaginate(true);
     setPage(pageInfo.activePage);
   };
 
-  useEffect(() => {
-    if (loadData) {
-      props.dispatch({ type: "FETCH_SCHOOLS" });
-      setLoadData(false);
-    }
+  const { data } = useFetchRequestSchools()
 
-    if (loadDataPaginate) {
-      props.dispatch({ type: "FETCH_SCHOOLS_PAGE", page });
-      setLoadDataPaginate(false);
-    }
+  // useEffect(() => {
+  //   if (loadData) {
+  //     props.dispatch({ type: "FETCH_SCHOOLS" });
+  //     setLoadData(false);
+  //   }
 
-    if (props?.openAlert) {
-      setTimeout(function () {
-        props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
-      }, 6000);
-    }
-  }, [loadData, page, loadDataPaginate, props]);
+  //   if (loadDataPaginate) {
+  //     props.dispatch({ type: "FETCH_SCHOOLS_PAGE", page });
+  //     setLoadDataPaginate(false);
+  //   }
 
-  const handleClose = () => {
-    props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
-  };
+  //   if (props?.openAlert) {
+  //     setTimeout(function () {
+  //       props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+  //     }, 6000);
+  //   }
+  // }, [loadData, page, loadDataPaginate, props]);
+
+  // const handleClose = () => {
+  //   props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+  // };
 
   const alert = () => {
     if (props.openAlert) {
@@ -50,7 +50,7 @@ const Home = props => {
         return (
           <Alert
             open={props?.openAlert}
-            handleClose={handleClose}
+            //handleClose={handleClose}
             status={status}
             message={message}
           />
@@ -61,13 +61,13 @@ const Home = props => {
   };
   return (
     <>
-      {props.loading ? (
+      {!data ? (
         <Loading />
       ) : (
         <>
           <School
             pagination={props.schools}
-            data={props.schools}
+            data={data}
             handlePage={handlePage}
             activePage={page}
           />
@@ -78,14 +78,4 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log(state)
-  return {
-    schools: state.school.schools,
-    school: state.school,
-    error: state.school.msgError,
-    loading: state.school.loading,
-    openAlert: state.school.openAlert
-  };
-};
-export default connect(mapStateToProps)(Home);
+export default Home;

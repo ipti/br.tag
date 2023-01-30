@@ -48,8 +48,28 @@ const requestSchoolList = async () => {
       });
   };
 
+  const requestSchool = async id => {
+    return await api
+      .get("/student-pre-identify/school/" + id, {
+        params: {
+          include: {
+            classroom: true,
+            calendar_event: true
+          }
+        }
+      })
+      .then(response => response.data)
+      .catch(err => {
+        throw err;
+      });
+  };
+
   export const useFetchRequestStudent = ({ id }) => {
     return useQuery(["useRequestsStudent", id], () => requestStudent(id));
+  };
+
+  export const useFetchRequestSchoolRegistration = ({ id }) => {
+    return useQuery(["useRequestsSchoolRegistration", id], () => requestSchool(id));
   };
 
   export const useFetchRequestSchoolList = () => {

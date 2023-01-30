@@ -14,27 +14,27 @@ const Home = props => {
     setLoadDataPaginate(true);
   };
 
-  useEffect(() => {
-    if (loadData) {
-      props.dispatch({ type: "FETCH_SCHEDULES" });
-      setLoadData(false);
-    }
+  // useEffect(() => {
+  //   if (loadData) {
+  //     props.dispatch({ type: "FETCH_SCHEDULES" });
+  //     setLoadData(false);
+  //   }
 
-    if (loadDataPaginate) {
-      props.dispatch({ type: "FETCH_SCHEDULES_PAGE", page });
-      setLoadDataPaginate(false);
-    }
+  //   if (loadDataPaginate) {
+  //     props.dispatch({ type: "FETCH_SCHEDULES_PAGE", page });
+  //     setLoadDataPaginate(false);
+  //   }
 
-    if (props?.openAlert) {
-      setTimeout(function() {
-        props.dispatch({ type: "CLOSE_ALERT_SCHEDULE" });
-      }, 6000);
-    }
-  }, [loadData, page, loadDataPaginate, props]);
+  //   if (props?.openAlert) {
+  //     setTimeout(function() {
+  //       props.dispatch({ type: "CLOSE_ALERT_SCHEDULE" });
+  //     }, 6000);
+  //   }
+  // }, [loadData, page, loadDataPaginate, props]);
 
-  const handleClose = () => {
-    props.dispatch({ type: "CLOSE_ALERT_SCHEDULE" });
-  };
+  // const handleClose = () => {
+  //   props.dispatch({ type: "CLOSE_ALERT_SCHEDULE" });
+  // };
 
   const alert = () => {
     if (props?.openAlert) {
@@ -53,7 +53,7 @@ const Home = props => {
         return (
           <Alert
             open={props?.openAlert}
-            handleClose={handleClose}
+          //  handleClose={handleClose}
             status={status}
             message={message}
           />
@@ -69,12 +69,12 @@ const Home = props => {
         <Loading />
       ) : (
         <>
-          <Schedule
-            pagination={props.schedule.pagination}
-            activePage={page}
-            data={props.schedule.schedules}
-            handlePage={handlePage}
-          />
+          {/* <Schedule
+            // pagination={props.schedule.pagination}
+            // activePage={page}
+            // data={props.schedule.schedules}
+            // handlePage={handlePage}
+          /> */}
           {alert()}
         </>
       )}
@@ -82,13 +82,4 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    schedule: state.schedule.schedules,
-    error: state.schedule.msgError,
-    loading: state.schedule.loading,
-    openAlert: state.schedule.openAlert,
-    fetchSchedule: state.schedule.fetchSchedule
-  };
-};
-export default connect(mapStateToProps)(Home);
+export default Home;

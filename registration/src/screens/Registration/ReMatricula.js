@@ -22,7 +22,8 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
 import styles from "../Classroom/styles";
-import { useFetchRequestSchoolList } from "../../query/registration";
+import { useFetchRequestSchoolRegistration } from "../../query/registration";
+import { getIdSchool } from "../../services/auth";
 
 const useStyles = makeStyles(styles);
 const customStyles = {
@@ -39,24 +40,17 @@ const customStyles = {
 };
 const Home = props => {
   const classes = useStyles();
-  const [classroom, setClassroom] = useState('')
   const [schoolInepFk, setSchoolInepFk] = useState('');
-  const [calendarID, setCalendarID] = useState('')
   const [inputValueClassroom, setInputValueClassroom] = useState("");
 
-  const {data} = useFetchRequestSchoolList()
+  const { data } = useFetchRequestSchoolRegistration({ id: getIdSchool() });
 
-  if(!data) return null
+  if (!data) return null
   const handleChange = newValue => {
     setInputValueClassroom(newValue);
   };
 
-  const searchSchools = (inputValue, callback) => {
-    if (inputValue.trim().length >= 3) {
-      const buscaLowerCase = inputValue.toLowerCase();
-      callback(data.filter(school => school.name.toLowerCase().includes(buscaLowerCase)));
-    }
-  };
+  
   const {
     registration,
     handleSubmit,
@@ -96,7 +90,7 @@ const Home = props => {
     sex: student?.sex,
     school_identification: schoolInepFk,
     classroom: inputValueClassroom,
-    calendar_event: calendarID
+    calendar_event: data.calendar_event.find(e => e.id === 1).id
   }
 
 
@@ -196,52 +190,7 @@ const Home = props => {
           <div className={classes.lineGrayClean}></div>
         </Grid>
       </Grid>
-      <Grid
-        className={`${classes.contentMain} ${classes.marginTop}`}
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
 
-        <Grid item xs={12}>
-          <img
-            className={`${classes.floatLeft} ${classes.iconClassroom}`}
-            src={IconClassroom}
-            alt="Icone de Turma"
-          />
-          <FormControl
-            component="fieldset"
-            className={classes.formControl}
-          >
-            <FormLabel>Escola *</FormLabel>
-            <AsyncSelect
-              styles={customStyles}
-              cacheOptions
-              loadOptions={searchSchools}
-              defaultOptions
-              placeholder="Digite o nome da escola"
-              onChange={selectedOption => {
-                setClassroom(selectedOption.classroom);
-                setCalendarID(selectedOption.calendar_event.find(e => e.id === 1).id)
-              }}
-              className={classes.selectField}
-              getOptionValue={opt => opt.inep_id}
-              getOptionLabel={opt => opt.inep_id + " - " + opt.name}
-              loadingMessage={() => "Carregando"}
-              noOptionsMessage={obj => {
-                if (obj.inputValue.trim().length >= 3) {
-                  return "Nenhuma escola encontrada";
-                } else {
-                  return "Digite 3 ou mais caracteres";
-                }
-              }}
-            />
-          </FormControl>
-          <div className={classes.formFieldError}>
-          </div>
-        </Grid>
-      </Grid>
       <Grid
         className={`${classes.contentMain} ${classes.marginTop30}`}
         container
@@ -250,34 +199,44 @@ const Home = props => {
         alignItems="center"
       >
         <Grid item xs={12}>
-          <FormControl
-            component="fieldset"
-            className={classes.formControl}
-          >
-            <FormLabel>Turma *</FormLabel>
-            <Select
-              styles={customStyles}
-              className="basic-single"
-              classNamePrefix="select"
-              isSearchable={true}
-              placeholder="Selecione a Turma"
-              options={classroom}
-              onChange={selectedOption => {
-                handleChange(selectedOption.id);
-                setSchoolInepFk(selectedOption.school_inep_fk)
-              }}
-              getOptionValue={opt => opt.classroom}
-              getOptionLabel={opt => opt.name}
-              loadingMessage={() => "Carregando"}
-              noOptionsMessage={obj => {
-                if (obj.inputValue.trim().length >= 3) {
-                  return "Nenhuma turma encontrada";
-                } else {
-                  return "Digite 3 ou mais caracteres";
-                }
-              }}
+          <Grid item md={6}>
+            <img
+              className={`${classes.floatLeft} ${classes.iconClassroom}`}
+              src={IconClassroom}
+              alt="Icone de Turma"
             />
-          </FormControl>
+          </Grid>
+          <Grid>
+            <FormControl
+              component="fieldset"
+              className={classes.formControl}
+            >
+
+              <FormLabel>Turma *</FormLabel>
+              <Select
+                styles={customStyles}
+                className="basic-single"
+                classNamePrefix="select"
+                isSearchable={true}
+                placeholder="Selecione a Turma"
+                options={data.classroom}
+                onChange={selectedOption => {
+                  handleChange(selectedOption.id);
+                  setSchoolInepFk(selectedOption.school_inep_fk)
+                }}
+                getOptionValue={opt => opt.classroom}
+                getOptionLabel={opt => opt.name}
+                loadingMessage={() => "Carregando"}
+                noOptionsMessage={obj => {
+                  if (obj.inputValue.trim().length >= 3) {
+                    return "Nenhuma turma encontrada";
+                  } else {
+                    return "Digite 3 ou mais caracteres";
+                  }
+                }}
+              />
+            </FormControl>
+          </Grid>
           <div className={classes.formFieldError}>
           </div>
         </Grid>

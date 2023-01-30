@@ -14,14 +14,16 @@ import styles from "./styles";
 
 const useStyles = makeStyles(theme => styles);
 
-const Classroom = ({ data, pagination, handlePage, activePage }) => {
+const Classroom = ({ classrooms, pagination, handlePage, activePage }) => {
   const classes = useStyles();
 
-  const classrooms = () => {
+  console.log(classrooms)
 
-    const classroomList = data ?? [];
 
-    return classroomList?.data.map((classroom, index) => {
+  const classroom = () => {
+
+
+    return classrooms.map((classroom, index) => {
       return (
         <Grid key={index} item md={4} sm={4} xs={12}>
           <BoxBig
@@ -60,7 +62,7 @@ const Classroom = ({ data, pagination, handlePage, activePage }) => {
         </Grid>
       </Grid>
       <Grid container direction="row" spacing={3}>
-        <List items={classrooms()}>
+        <List items={classroom()}>
           <Grid item xs={12}>
             <Alert variant="outlined" severity="warning">
               Nenhuma turma cadastrada

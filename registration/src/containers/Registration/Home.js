@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // Redux
-import { connect } from "react-redux";
 
 // Components
 import Alert from "../../components/Alert/CustomizedSnackbars";
-import Wizard from "../../screens/Registration/Wizard";
-import Wait from "../../screens/Registration/Wait";
 import Loading from "../../components/Loading/CircularLoadingRegistration";
+import Wait from "../../screens/Registration/Wait";
+import Wizard from "../../screens/Registration/Wizard";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
-import { useFetchRequestSchoolList } from "../../query/registration";
 import { Controller } from "../../controller/registration";
+import { useFetchRequestSchoolList } from "../../query/registration";
 
 const Home = props => {
   const [loadDataStudent, setLoadDataStudent] = useState(false);
@@ -165,7 +164,7 @@ const Home = props => {
         style={{ minWidth: "100%" }}
       >
         <Grid item lg={4} md={5} xs={10}>
-          {isActive ? (
+          {true ? (
             <Wizard
               schools={data}
               next={next}

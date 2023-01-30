@@ -18,6 +18,7 @@ import IconClassroom from "../../assets/images/classroom-icon.png";
 
 // Styles
 import styles from "./styles";
+import { useFetchRequestClassroom } from "../../query/classroom";
 
 const useStyles = makeStyles(styles);
 
@@ -26,14 +27,14 @@ const Home = props => {
 
   const {
     registration,
-    handleSubmit
+    handleSubmit, classroom
   } = props;
   const student = registration ?? [];
 
   const classroomOne = props.classroom ?? [];
 
   
-
+  const {data} = useFetchRequestClassroom({id: classroom})
 
   const nullableField = "-------------";
 
@@ -60,13 +61,13 @@ const Home = props => {
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
+console.log(student)
+
+  const classroomName = data?.name ?? nullableField;
+  const modality = data?.modality === 1 ? 'Ensino Regular' : data?.modality === 2 ? 'Educação Especial' : data?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : data?.modality === 4 ? 'Educação profissional' : nullableField;
 
 
-  const classroomName = classroomOne?.name ?? nullableField;
-  const modality = classroomOne?.modality === 1 ? 'Ensino Regular' : classroomOne?.modality === 2 ? 'Educação Especial' : classroomOne?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : classroomOne?.modality === 4 ? 'Educação profissional' : nullableField;
-
-
-  const data = student?.student_fk ?  {
+  const body = student?.student_fk ?  {
     name: studentName,
     birthday: studentBirthday,
     deficiency: student?.deficiency,
@@ -78,6 +79,7 @@ const Home = props => {
     responsable_telephone: student?.responsable_telephone,
     sex: student?.sex,
     student_identification: student?.student_fk,
+    student_fk: student?.student_fk,
     school_identification: student?.school_inep_id_fk,
     classroom: student?.classroom_fk,
     calendar_event: student?.calendar_event_fk,
@@ -258,7 +260,7 @@ const Home = props => {
           <>
             <Grid item md={3}>
               <ButtonPurple
-                onClick={() => handleSubmit(data)}
+                onClick={() => handleSubmit(body)}
                 type="button"
                 title="Confirmar"
               />

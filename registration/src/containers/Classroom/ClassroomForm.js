@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import Loading from "../../components/Loading/CircularLoading";
 import Alert from "../../components/Alert/CustomizedSnackbars";
+import { useFetchRequestClassroom } from "../../query/classroom";
 
 const Form = props => {
   const [loadData, setLoadData] = useState(true);
@@ -13,30 +14,32 @@ const Form = props => {
   let history = useHistory();
   const { id } = useParams()
 
-  useEffect(() => {
-    if (loadData) {
-      props.dispatch({
-        type: "FETCH_CLASSROOM",
-        data: { id: id }
-      });
-      setIsEdit(true);
-      setLoadData(false);
-    }
+  const {data} = useFetchRequestClassroom({id: id})
 
-    if (props?.openAlert) {
-      setTimeout(function() {
-        props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-      }, 6000);
-    }
+  // useEffect(() => {
+  //   if (loadData) {
+  //     props.dispatch({
+  //       type: "FETCH_CLASSROOM",
+  //       data: { id: id }
+  //     });
+  //     setIsEdit(true);
+  //     setLoadData(false);
+  //   }
 
-    if (props?.fetchClassroom?.status === "1" && props.isRedirectClassroom) {
-      history.push("/turmas");
-    }
-  }, [history, isEdit, loadData, props, id]);
+  //   if (props?.openAlert) {
+  //     setTimeout(function() {
+  //       props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
+  //     }, 6000);
+  //   }
 
-  const handleClose = () => {
-    props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-  };
+  //   if (props?.fetchClassroom?.status === "1" && props.isRedirectClassroom) {
+  //     history.push("/turmas");
+  //   }
+  // }, [history, isEdit, loadData, props, id]);
+
+  // const handleClose = () => {
+  //   props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
+  // };
 
   const alert = () => {
     if (props?.openAlert) {
@@ -58,7 +61,7 @@ const Form = props => {
         return (
           <Alert
             open={props?.openAlert}
-            handleClose={handleClose}
+           // handleClose={handleClose}
             status={status}
             message={message}
           />
@@ -105,7 +108,7 @@ const Form = props => {
             isEdit={isEdit}
             loadingIcon={props?.loading}
             data={
-              props.classroom.classroom
+              data
             }
           />
           {alert()}
@@ -115,16 +118,5 @@ const Form = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    classroom: state.classroom,
-    fetchClassroom: state.classroom.fetchClassroom,
-    error: state.classroom.msgError,
-    loading: state.classroom.loading,
-    openAlert: state.classroom.openAlert,
-    fetchRegistration: state.classroom.fetchRegistration,
-    isRedirectClassroom: state.classroom.isRedirectClassroom
-  };
-};
 
-export default connect(mapStateToProps)(Form);
+export default Form;

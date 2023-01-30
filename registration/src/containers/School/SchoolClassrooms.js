@@ -4,32 +4,36 @@ import { connect } from "react-redux";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 import Loading from "../../components/Loading/CircularLoading";
 import { useParams } from "react-router";
+import { useFetchRequestSchool } from "../../query/school";
 
 const Home = props => {
   const [loadData, setLoadData] = useState(true);
   const { id } = useParams()
 
+  const { data } = useFetchRequestSchool({id: id})
 
-  useEffect(() => {
-    console.log("alÔ")
-    if (loadData && id) {
-      props.dispatch({
-        type: "FETCH_SCHOOL",
-        data: { id: id }
-      });
-      setLoadData(false);
-    }
+  console.log(data)
 
-    if (props?.openAlert) {
-      setTimeout(function() {
-        props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
-      }, 6000);
-    }
-  }, [loadData, props, id]);
+  // useEffect(() => {
+  //   console.log("alÔ")
+  //   if (loadData && id) {
+  //     props.dispatch({
+  //       type: "FETCH_SCHOOL",
+  //       data: { id: id }
+  //     });
+  //     setLoadData(false);
+  //   }
 
-  const handleClose = () => {
-    props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
-  };
+  //   if (props?.openAlert) {
+  //     setTimeout(function() {
+  //       props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+  //     }, 6000);
+  //   }
+  // }, [loadData, props, id]);
+
+  // const handleClose = () => {
+  //   props.dispatch({ type: "CLOSE_ALERT_SCHOOL" });
+  // };
 
   const alert = () => {
     if (props.openAlert) {
@@ -45,7 +49,7 @@ const Home = props => {
         return (
           <Alert
             open={props?.openAlert}
-            handleClose={handleClose}
+           // handleClose={handleClose}
             status={status}
             message={message}
           />
@@ -58,11 +62,11 @@ const Home = props => {
 
   return (
     <>
-      {props.loading ? (
+      {!data ? (
         <Loading />
       ) : (
         <>
-          <SchoolClassroom data={props.school} />
+          <SchoolClassroom data={data} />
           {alert()}
         </>
       )}
@@ -70,14 +74,5 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => {
-  console.log(state)
-  return {
-    school: state.school,
-    schools: state.school.schools,
-    error: state.school.msgError,
-    loading: state.school.loading,
-    openAlert: state.school.openAlert
-  };
-};
-export default connect(mapStateToProps)(Home);
+
+export default Home;

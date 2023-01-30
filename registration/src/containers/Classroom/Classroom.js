@@ -3,38 +3,43 @@ import { connect } from "react-redux";
 import { Classroom } from "../../screens/Classroom";
 import Alert from "../../components/Alert/CustomizedSnackbars";
 import Loading from "../../components/Loading/CircularLoading";
+import { useFetchRequestClassrooms } from "../../query/classroom";
 
 const Home = props => {
-  const [loadData, setLoadData] = useState(true);
-  const [loadDataPaginate, setLoadDataPaginate] = useState(false);
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    if (loadData) {
-      props.dispatch({ type: "FETCH_CLASSROOMS" });
-      setLoadData(false);
-    }
+  const {data} = useFetchRequestClassrooms();
 
-    if (loadDataPaginate) {
-      props.dispatch({ type: "FETCH_CLASSROOMS_PAGE", page });
-      setLoadDataPaginate(false);
-    }
+  console.log(data)
 
-    if (props?.openAlert) {
-      setTimeout(function() {
-        props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-      }, 6000);
-    }
-  }, [loadData, page, loadDataPaginate, props]);
 
-  const handlePage = (e, pageInfo) => {
-    setLoadDataPaginate(true);
-    setPage(pageInfo.activePage);
-  };
+   const classrooms =  data?.data ?? []
+  // useEffect(() => {
+  //   if (loadData) {
+  //     props.dispatch({ type: "FETCH_CLASSROOMS" });
+  //     setLoadData(false);
+  //   }
 
-  const handleClose = () => {
-    props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
-  };
+  //   if (loadDataPaginate) {
+  //     props.dispatch({ type: "FETCH_CLASSROOMS_PAGE", page });
+  //     setLoadDataPaginate(false);
+  //   }
+
+  //   if (props?.openAlert) {
+  //     setTimeout(function() {
+  //       props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
+  //     }, 6000);
+  //   }
+  // }, [loadData, page, loadDataPaginate, props]);
+
+  // const handlePage = (e, pageInfo) => {
+  //   setLoadDataPaginate(true);
+  //   setPage(pageInfo.activePage);
+  // };
+
+  // const handleClose = () => {
+  //   props.dispatch({ type: "CLOSE_ALERT_CLASSROOM" });
+  // };
 
   const alert = () => {
     if (props?.openAlert) {
@@ -53,7 +58,7 @@ const Home = props => {
         return (
           <Alert
             open={props?.openAlert}
-            handleClose={handleClose}
+          //  handleClose={handleClose}
             status={status}
             message={message}
           />
@@ -63,8 +68,6 @@ const Home = props => {
     return <></>;
   };
 
-  console.log(props)
-
   return (
     <>
       {props.loading ? (
@@ -72,10 +75,7 @@ const Home = props => {
       ) : (
         <>
           <Classroom
-            data={props.classroom}
-            handlePage={handlePage}
-            pagination={props.classroom.pagination}
-            activePage={page}
+            classrooms={classrooms}
           />
           {alert()}
         </>
@@ -84,13 +84,4 @@ const Home = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    classroom: state.classroom.classrooms,
-    error: state.classroom.msgError,
-    loading: state.classroom.loading,
-    openAlert: state.classroom.openAlert,
-    fetchClassroom: state.classroom.fetchClassroom
-  };
-};
-export default connect(mapStateToProps)(Home);
+export default Home;
