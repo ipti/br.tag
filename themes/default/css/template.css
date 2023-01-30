@@ -8576,7 +8576,7 @@ input[type="text"] {
     vertical-align: middle !important;
 }
 
-.contents-select {
+.select2-container.course-classes-select {
     width: 100% !important;
     margin-bottom: 0;
     opacity: 100;
@@ -8611,15 +8611,11 @@ input[type="text"] {
     width: 120px;
 }
 
-#course-plan-form .js-course-plan-loading-disciplines {
+#course-plan-form .js-course-plan-loading-disciplines, #course-plan-form .js-course-plan-loading-competences {
     display: none;
     font-size: 20px;
     vertical-align: middle;
     margin-left: 5px;
-}
-
-#course-classes {
-    display: none;
 }
 
 .objective-title {
@@ -8628,7 +8624,8 @@ input[type="text"] {
 
 .course-class {
     display: block;
-    padding: 0 150px;
+    padding: 10px 150px;
+    min-height: 250px
 }
 
 .course-class-column1 {
@@ -8644,19 +8641,30 @@ input[type="text"] {
 
 .course-class-objective {
     resize: none;
-    height: 100px;
+    height: 120px;
     width: 700px;
 }
 
-.courseplan-content-container {
-    width: 400px;
+.competence-code, .competence-description {
+    font-size: 12px;
+}
+
+.courseplan-competence-container {
+    width: 700px;
     display: inline-block;
-    margin-right: 87px;
+}
+
+.competence-select {
+    width: 718px;
 }
 
 .courseplan-type-container {
-    width: 300px;
+    width: 525px;
     display: inline-block;
+}
+
+.type-select {
+    width: 525px;
 }
 
 .resource-select {
@@ -9063,6 +9071,14 @@ tbody .details-control:hover {
     width: 20px !important;
     height: 20px;
     margin-top: 0px !important;
+}
+
+#widget-class-contents {
+    width: 100%;
+}
+
+#widget-class-contents .widget-head, #widget-class-contents .widget-head {
+    width: 100%;
 }
 
 .innerLR .loading-frequency, .innerLR .loading-class-contents {

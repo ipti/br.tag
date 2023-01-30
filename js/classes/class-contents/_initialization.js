@@ -20,38 +20,19 @@ $('#classesSearch').on('click', function () {
             success: function (data) {
                 var data = jQuery.parseJSON(data);
                 if (data.valid) {
-                    $.ajax({
-                        type: 'POST',
-                        url: "?r=classes/getContents",
-                        cache: false,
-                        success: function (contents) {
-                            var obj = jQuery.parseJSON(contents);
-
-                            if (data === null) {
-                                $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
-                                $('#class-contents > tbody').html('');
-                                $('#widget-class-contents').show();
-                                $('#class-contents').show();
-                                $("#print, #save").hide();
-                            } else {
-                                createTable(data, obj);
-                                $("#print, #save").show();
-                            }
-                        },
-                        complete: function (response) {
-                            $(".loading-class-contents").hide();
-                            $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto");
-                            $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
-                        },
-                    });
+                    createTable(data);
+                    $("#print, #save").show();
                 } else {
                     $('#class-contents > thead').html('<tr><th class="center">' + data.error + '</th></tr>');
                     $('#class-contents > tbody').html('');
-                    $('#widget-class-contents').css("opacity", 1).css("pointer-events", "auto").show();
                     $('#class-contents').show();
-                    $(".loading-class-contents").hide();
-                    $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
+                    $("#save").hide();
                 }
+            },
+            complete: function () {
+                $(".loading-class-contents").hide();
+                $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto").show();
+                $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
             }
         });
     } else {
@@ -100,7 +81,7 @@ $("#print").on('click', function () {
 $("#save").on('click', function () {
     $(".alert-save").hide();
     var classContents = [];
-    $(".day-row").each(function() {
+    $(".day-row").each(function () {
         classContents.push({
             day: $(this).attr("day"),
             contents: $(this).find("select.contents-select").val()

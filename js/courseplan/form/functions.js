@@ -6,6 +6,9 @@ function initDatatable() {
             data: function (data) {
                 data.coursePlanId = $(".js-course-plan-id").val();
             },
+            complete: function () {
+                $(".details-control").click().click();
+            }
         },
         paginate: false,
         ordering: false,
@@ -86,13 +89,13 @@ function format(d) {
     var $objectiveLabel = $('<div><label class="" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
     var $objectiveInput = $('<textarea class="course-class-objective" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
 
-    var $content = $('<div class="control-group courseplan-content-container"></div>');
-    var $contentLabel = $('<label class="" for="course-class[' + d.class + '][content][]">Competência(s)</label>');
-    var $contentInput = $('<select class="span5 content-select" name="course-class[' + d.class + '][content][]" multiple><option value=""></option>' + $(".js-all-competences")[0].innerHTML + '</select>');
+    var $competence = $('<div class="control-group courseplan-competence-container"></div>');
+    var $competenceLabel = $('<label class="" for="course-class[' + d.class + '][competence][]">Habilidade(s)</label>');
+    var $competenceInput = $('<select class="competence-select" name="course-class[' + d.class + '][competence][]" multiple>' + $(".js-all-competences")[0].innerHTML + '</select>');
 
     var $type = $('<div class="control-group courseplan-type-container"></div>');
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
-    var $typeInput = $('<select class="span3 type-select" name="course-class[' + d.class + '][type][]" multiple><option value=""></option>' + $(".js-all-types")[0].innerHTML + '</select>');
+    var $typeInput = $('<select class="type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
     var $column2 = $('<div class="course-class-column2"></div>');
     var $resource = $('<div class="control-group"></div>');
@@ -103,30 +106,32 @@ function format(d) {
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left: 10px;" ><i></i></button>');
 
     var $resources = $('<div class="resources"></div>');
-    // if (d.competences !== null) {
-    //     $contentInput.val(d.content);
-    // }
-    // if (d.types !== null) {
-    //     $typeInput.val(d.type);
-    // }
-    // if (d.resources !== null) {
-    //     $.each(d.resources, function (i, v) {
-    //         var resourceValue = v.value;
-    //         var resourceName = $resourceValue.find("option[value=" + v.value + "]").text();
-    //         var resourceAmount = v.amount;
-    //         var div = $('<div class="course-class-resource" name="course-class[' + d.class + '][resource][' + i + ']"></div>')
-    //         var values = $('<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][value]" value="' + resourceValue + '"/>'
-    //                 + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][amount]" value="' + resourceAmount + '"/>');
-    //         var label = $('<p>' + resourceAmount + 'x - ' + resourceName + ' <span class="fa fa-times remove-resource"><i></i></span></p>');
-    //         div.append(values);
-    //         div.append(label);
-    //         $resources.append(div);
-    //     });
-    // }
+    if (d.competences !== null) {
+        $competenceInput.val(d.competences);
+    }
+    if (d.types !== null) {
+        $typeInput.val(d.types);
+    }
+    if (d.resources !== null) {
+        $.each(d.resources, function (i, v) {
+            var resourceId = v.id;
+            var resourceValue = v.value;
+            var resourceName = $resourceValue.find("option[value=" + v.value + "]").text();
+            var resourceAmount = v.amount;
+            var div = $('<div class="course-class-resource"></div>');
+            var values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'
+                + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][value]" value="' + resourceValue + '"/>'
+                + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][amount]" value="' + resourceAmount + '"/>');
+            var label = $('<span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' <span class="fa fa-times remove-resource"><i></i></span></span>');
+            div.append(values);
+            div.append(label);
+            $resources.append(div);
+        });
+    }
     $objective.append($objectiveLabel);
     $objective.append($objectiveInput);
-    $content.append($contentLabel);
-    $content.append($contentInput);
+    $competence.append($competenceLabel);
+    $competence.append($competenceInput);
     $resourceInput.append($resourceValue);
     $resourceInput.append($resourceAmount);
     $resourceInput.append($resourceAdd);
@@ -136,8 +141,8 @@ function format(d) {
     $type.append($typeLabel);
     $type.append($typeInput);
     $column1.append($objective);
-    $column1.append($content);
-    $column1.append($type);
+    $column1.append($competence);
+    $column2.append($type);
     $column2.append($resource);
     $div.append($id);
     $div.append($column1);
@@ -148,23 +153,29 @@ function format(d) {
 
 function addResource(button) {
     var div = $(button).parent();
-    var resourceValue = div.children("select").val();
-    var resourceName = div.children("select").select2('data').text;
-    var resourceAmount = div.children("input[name=amount]").val();
     var resources = div.parent().children(".resources");
-
-    if (resourceAmount > 0 && resourceAmount < 1000 && resourceValue !== "") {
-        var tr = div.closest('tr').prev();
-        var row = table.row(tr);
-        var d = row.data();
-        var count = $(resources).children('.course-class-resource').length;
-        var div = $('<div class="course-class-resource" name="course-class[' + d.class + '][resource][' + count + ']"></div>')
-        var values = $('<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][value]" value="' + resourceValue + '"/>'
-            + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][amount]" value="' + resourceAmount + '"/>');
-        var label = $('<span>' + resourceAmount + 'x - ' + resourceName + ' <span class="pull-right fa fa-times remove-resource"><i></i></span></span>');
-        div.append(values);
-        div.append(label);
-        resources.append(div);
+    var resourceAmount = div.children("input[name=amount]").val();
+    if (resources.find(".resource-value[value=" + div.children("select").val() + "]").length) {
+        var resource = resources.find(".resource-value[value=" + div.children("select").val() + "]").parent();
+        resource.find(".resource-amount-text").text(resourceAmount);
+        resource.find(".resource-amount").val(resourceAmount);
+    } else {
+        var resourceValue = div.children("select").val();
+        var resourceName = div.children("select").select2('data').text;
+        if (resourceAmount > 0 && resourceAmount < 1000 && resourceValue !== "") {
+            var tr = div.closest('tr').prev();
+            var row = table.row(tr);
+            var d = row.data();
+            var count = $(resources).children('.course-class-resource').length;
+            var div = $('<div class="course-class-resource"></div>');
+            var values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][id]" value=""/>'
+                + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][value]" value="' + resourceValue + '"/>'
+                + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][amount]" value="' + resourceAmount + '"/>');
+            var label = $('<span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' <span class="fa fa-times remove-resource"><i></i></span></span>');
+            div.append(values);
+            div.append(label);
+            resources.append(div);
+        }
     }
 }
 

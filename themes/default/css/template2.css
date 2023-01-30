@@ -238,10 +238,7 @@
 #teachingdata-dialog-form .select2-container .select2-choice {
     width: 361px;
 }
-#add-content-form  input[type="text"], #add-resource-form input[type="text"], #add-type-form input[type="text"] {
-    width:206px;
-}
-/* 
+/*
     home-page
 */
 .home-page-table-header {

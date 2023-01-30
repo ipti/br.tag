@@ -22,7 +22,6 @@ $form = $this->beginWidget('CActiveForm', array(
     'id' => 'course-plan-form',
     'enableAjaxValidation' => false,
 ));
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <?php echo $form->errorSummary($coursePlan); ?>
@@ -95,6 +94,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                             'prompt' => 'Selecione a disciplina...',
                                         ));
                                         ?>
+                                        <i class="js-course-plan-loading-competences fa fa-spin fa-spinner"></i>
                                     </div>
                                 </div>
                             </div>
@@ -125,9 +125,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th class="span1"><?= Yii::t('default', 'Class'); ?></th>
                                 <th></th>
                                 <th class="span12"><?= Yii::t('default', 'Objective'); ?></th>
-                                <th>Competência(s)</th>
-                                <th>Recurso(s)</th>
-                                <th>Tipo(s)</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -164,7 +164,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
                         <div class="js-all-competences no-show">
                             <?php foreach ($competences as $competence) : ?>
-                                <option value="<?= $competence->id ?>"><?= $competence->name ?></option>
+                                <option value="<?= $competence->id ?>"><?= $competence->code . "|" . $competence->description?></option>
                             <?php endforeach; ?>
                         </div>
                     </div>

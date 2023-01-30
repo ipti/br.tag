@@ -5,9 +5,14 @@
  *
  * The followings are the available columns in table 'course_class_competences':
  * @property integer $id
- * @property string $name
+ * @property string $description
+ * @property string $code
+ * @property integer $edcenso_discipline_fk
+ * @property integer $edcenso_stage_vs_modality_fk
  *
  * The followings are the available model relations:
+ * @property EdcensoDiscipline $edcensoDisciplineFk
+ * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
  */
 class CourseClassCompetences extends CActiveRecord
@@ -28,11 +33,13 @@ class CourseClassCompetences extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>500),
+			array('description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'required'),
+			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('description', 'length', 'max'=>500),
+			array('code', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,7 +51,9 @@ class CourseClassCompetences extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_competence'),
+			'edcensoDisciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'),
+			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_competence_fk'),
 		);
 	}
 
@@ -55,7 +64,10 @@ class CourseClassCompetences extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'description' => 'Description',
+			'code' => 'Code',
+			'edcenso_discipline_fk' => 'Edcenso Discipline Fk',
+			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
 		);
 	}
 
@@ -78,7 +90,10 @@ class CourseClassCompetences extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('description',$this->description,true);
+		$criteria->compare('code',$this->code,true);
+		$criteria->compare('edcenso_discipline_fk',$this->edcenso_discipline_fk);
+		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -7,7 +7,6 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/dialogs.js', CClientScript::POS_END);
 $cs->registerCssFile($themeUrl . '/css/template2.css');
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -23,8 +22,6 @@ $form = $this->beginWidget('CActiveForm', array(
     <div class="span12">
         <h3 class="heading-mosaic"><?php echo Yii::t('default', 'Class Contents'); ?></h3>
         <div class="buttons span9">
-            <a id="add-content" class='tag-button medium-button'> <?php echo Yii::t('default', 'Content') ?></a>
-
             <a id="print" class='tag-button-light  medium-button'>
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/impressora.png" />
                 <?php echo Yii::t('default', 'Print') ?>
@@ -133,6 +130,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <i class="loading-class-contents fa fa-spin fa-spinner"></i>
 
         </div>
+        <div class="clear"></div>
         <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
             <div class="widget-head">
                 <h4 class="heading"><span id="month_text"></span> - <span id="discipline_text"></span></h4>
@@ -149,31 +147,3 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
     <?php $this->endWidget(); ?>
-
-    <!-- Modal -->
-    <div id="add-content-form" class="hide" title="<?php echo Yii::t('default', 'Add Content'); ?>">
-        <div class="row-fluid">
-            <div class="span12">
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Name'), 'add-content-name', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::textField('add-content-name', ''); ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <?php echo CHtml::label(Yii::t('default', 'Description'), 'add-content-description', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?php echo CHtml::textField('add-content-description', ''); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        var btnCreate = "<?php echo Yii::t('default', 'Create'); ?>";
-        var btnCancel = "<?php echo Yii::t('default', 'Cancel'); ?>";
-
-        var myAddContentForm;
-    </script>

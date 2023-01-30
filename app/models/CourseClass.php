@@ -11,6 +11,7 @@
  * @property string $fkid
  *
  * The followings are the available model relations:
+ * @property ClassContents[] $classContents
  * @property CoursePlan $coursePlanFk
  * @property CourseClassHasClassCompetence[] $courseClassHasClassCompetences
  * @property CourseClassHasClassResource[] $courseClassHasClassResources
@@ -51,6 +52,7 @@ class CourseClass extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'classContents' => array(self::HAS_MANY, 'ClassContents', 'course_class_fk'),
 			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
 			'courseClassHasClassCompetences' => array(self::HAS_MANY, 'CourseClassHasClassCompetence', 'course_class_fk'),
 			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),

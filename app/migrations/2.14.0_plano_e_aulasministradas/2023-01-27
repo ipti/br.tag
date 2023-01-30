@@ -61,3 +61,26 @@ ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE C
 
 ALTER TABLE `course_class_has_class_competence`
 ADD FOREIGN KEY (`course_class_competence_fk`) REFERENCES `course_class_competences` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+ADD `edcenso_discipline_fk` int NOT NULL,
+ADD `edcenso_stage_vs_modality_fk` int NOT NULL AFTER `edcenso_discipline_fk`;
+
+ALTER TABLE `course_class_competences`
+ADD FOREIGN KEY (`edcenso_discipline_fk`) REFERENCES `edcenso_discipline` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+ADD FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `course_class_competences`
+CHANGE `name` `description` varchar(500) NOT NULL AFTER `id`,
+ADD `code` varchar(20) NOT NULL AFTER `description`;
+
+DROP TABLE `class_objective`;
+
+ALTER TABLE `class_has_content`
+CHANGE `content_fk` `course_class_fk` int NOT NULL AFTER `schedule_fk`,
+RENAME TO `class_contents`;
+
+ALTER TABLE `class_contents`
+ADD FOREIGN KEY (`course_class_fk`) REFERENCES `course_class` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

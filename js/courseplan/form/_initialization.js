@@ -1,5 +1,12 @@
 var table;
 
+$(document).ready(function () {
+    initDatatable();
+    if ($(".js-course-plan-id").val() !== "") {
+        $("#CoursePlan_modality_fk, #CoursePlan_discipline_fk").attr("disabled", "disabled");
+    }
+});
+
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
 
@@ -9,7 +16,20 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
 
     if (!row.child.isShown()) {
         row.child(format(row.data())).show();
-        $('.course-class:last select').select2();
+        tr.next().find('select.type-select, select.resource-select').select2();
+        tr.next().find('select.competence-select').select2({
+            formatSelection: function (state) {
+                var textArray = state.text.split("|");
+                return textArray[0];
+            },
+            formatResult: function (data){
+                var textArray = data.text.split("|");
+                return "<div><b class='competence-code'>(" + textArray[0] + ")</b> <span class='competence-description'>" + textArray[1] + "</span></div>";
+            },
+            escapeMarkup: function (m) {
+                return m;
+            },
+        });
         tr.next().addClass("detailed-row").show();
     } else {
         tr.next().toggle();
@@ -64,25 +84,47 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
                 });
                 $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
                 $(".js-course-plan-loading-disciplines").hide();
-                $("#CoursePlan_discipline_fk").removeAttr("disabled");
+                if ($(".js-course-plan-id").val() === "") {
+                    $("#CoursePlan_discipline_fk").removeAttr("disabled");
+                }
             },
         });
     } else {
-        $("#CoursePlan_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change.select2").show();
+        $("#CoursePlan_discipline_fk").html("<option value=''>Selecione a disciplina...</option>").trigger("change").show();
     }
 });
 $("#CoursePlan_modality_fk").trigger("change", [true]);
 
 $(document).on("change", "#CoursePlan_discipline_fk", function () {
-    if ($(this).val() !== "") {
-        $("#course-classes").show();
-        if (!$.fn.DataTable.isDataTable('#course-classes')) {
-            initDatatable();
-        }
-    } else {
-        $("#course-classes").hide();
-    }
-})
+    $.ajax({
+        type: "POST",
+        url: "?r=courseplan/getCompetences",
+        cache: false,
+        data: {
+            stage: $("#CoursePlan_modality_fk").val(),
+            discipline: $("#CoursePlan_discipline_fk").val()
+        },
+        beforeSend: function () {
+            $(".js-course-plan-loading-competences").css("display", "inline-block");
+            $(".competence-select").attr("disabled", "disabled");
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            var options = "";
+            $.each(data, function () {
+                options += "<option value='" + this.id + "'>" + this.code + "|" + this.description + "</option>";
+            });
+            $(".js-all-competences").html(options);
+            $("select.competence-select").each(function() {
+                var selectedValue = $(this).val();
+                $(this).html($(".js-all-competences")[0].innerHTML);
+                $(this).val(selectedValue !== null ? selectedValue : []).trigger("change.select2");
+            });
+            $(".js-course-plan-loading-competences").hide();
+            $(".competence-select").removeAttr("disabled");
+        },
+    });
+});
 
 $(document).on("click", ".add-resource", function (evt) {
     evt.preventDefault();

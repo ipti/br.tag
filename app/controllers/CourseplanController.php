@@ -30,7 +30,7 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save', 'getCourseClasses'),
+                    'getDisciplines', 'save', 'getCourseClasses', 'getCompetences'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -55,16 +55,64 @@ class CourseplanController extends Controller
         }
         $coursePlan->attributes = $_POST["CoursePlan"];
         $coursePlan->save();
-        foreach ($_POST["course-class"] as $i => $cc) {
+        $courseClassIds = [];
+        $i = 1;
+        foreach ($_POST["course-class"] as $cc) {
             if ($cc["id"] == "") {
                 $courseClass = new CourseClass;
                 $courseClass->course_plan_fk = $coursePlan->id;
             } else {
                 $courseClass = CourseClass::model()->findByPk($cc["id"]);
             }
-            $courseClass->order = $i;
+            $courseClass->order = $i++;
             $courseClass->objective = $cc['objective'];
             $courseClass->save();
+            array_push($courseClassIds, $courseClass->id);
+
+            CourseClassHasClassCompetence::model()->deleteAll("course_class_fk = :course_class_fk and course_class_competence_fk not in ( '" . implode("', '" , $cc['competence']) . "' )", [":course_class_fk" => $courseClass->id]);
+            foreach ($cc["competence"] as $competenceId) {
+                $courseClassHasClassCompetence = CourseClassHasClassCompetence::model()->find("course_class_fk = :course_class_fk and course_class_competence_fk = :course_class_competence_fk", ["course_class_fk" => $courseClass->id, "course_class_competence_fk" => $competenceId]);
+                if ($courseClassHasClassCompetence == null) {
+                    $courseClassHasClassCompetence = new CourseClassHasClassCompetence();
+                    $courseClassHasClassCompetence->course_class_fk = $courseClass->id;
+                    $courseClassHasClassCompetence->course_class_competence_fk = $competenceId;
+                    $courseClassHasClassCompetence->save();
+                }
+            }
+
+            CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '" , $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
+            foreach ($cc["type"] as $typeId) {
+                $courseClassHasClassType = CourseClassHasClassType::model()->find("course_class_fk = :course_class_fk and course_class_type_fk = :course_class_type_fk", ["course_class_fk" => $courseClass->id, "course_class_type_fk" => $typeId]);
+                if ($courseClassHasClassType == null) {
+                    $courseClassHasClassType = new CourseClassHasClassType();
+                    $courseClassHasClassType->course_class_fk = $courseClass->id;
+                    $courseClassHasClassType->course_class_type_fk = $typeId;
+                    $courseClassHasClassType->save();
+                }
+            }
+
+            if ($cc["resource"] != null) {
+                $idsArray = [];
+                foreach ($cc["resource"] as $r) {
+                    $courseClassHasClassResource = CourseClassHasClassResource::model()->find("id = :id", ["id" => $r["id"]]);
+                    if ($courseClassHasClassResource == null) {
+                        $courseClassHasClassResource = new CourseClassHasClassResource();
+                        $courseClassHasClassResource->course_class_fk = $courseClass->id;
+                        $courseClassHasClassResource->course_class_resource_fk = $r["value"];
+                    }
+                    $courseClassHasClassResource->amount = $r["amount"];
+                    $courseClassHasClassResource->save();
+                    array_push($idsArray, $courseClassHasClassResource->id);
+                }
+                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk and id not in ( '" . implode("', '" , $idsArray) . "' )", [":course_class_fk" => $courseClass->id]);
+            } else {
+                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk", [":course_class_fk" => $courseClass->id]);
+            }
+        }
+        if (empty($courseClassIds)) {
+            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk", [":course_plan_fk" => $coursePlan->id]);
+        } else {
+            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '" , $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
         }
         Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com Sucesso!'));
@@ -152,15 +200,17 @@ class CourseplanController extends Controller
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['competences'] = [];
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
-                $resource["value"] = $courseClassHasClassResource->courseClassResourceFk->name;
+                $resource["id"] = $courseClassHasClassResource->id;
+                $resource["value"] = $courseClassHasClassResource->course_class_resource_fk;
+                $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource["amount"] = $courseClassHasClassResource->amount;
                 array_push($courseClasses[$order]['resources'], $resource);
             }
             foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
-                array_push($courseClasses[$order]['types'], $courseClassHasClassType->name);
+                array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
             }
             foreach ($courseClass->courseClassHasClassCompetences as $courseClassHasClassCompetence) {
-                array_push($courseClasses[$order]['competences'], $courseClassHasClassCompetence->name);
+                array_push($courseClasses[$order]['competences'], $courseClassHasClassCompetence->course_class_competence_fk);
             }
         }
         echo json_encode(["data" => $courseClasses]);
@@ -189,6 +239,21 @@ class CourseplanController extends Controller
                     array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
                 }
             }
+        }
+        echo json_encode($result);
+    }
+
+    public function actionGetCompetences() {
+        $result = [];
+        if ($_POST["discipline"] !== "" && $_POST["stage"] !== "") {
+            $competences = CourseClassCompetences::model()->findAll("edcenso_stage_vs_modality_fk = :stage and edcenso_discipline_fk = :discipline", [":stage" => $_POST["stage"], ":discipline" => $_POST["discipline"]]);
+        } else if ($_POST["stage"] !== "") {
+            $competences = CourseClassCompetences::model()->findAll("edcenso_stage_vs_modality_fk = :stage", [":stage" => $_POST["stage"]]);
+        } else {
+            $competences = CourseClassCompetences::model()->findAll();
+        }
+        foreach ($competences as $competence) {
+            array_push($result, $competence->attributes);
         }
         echo json_encode($result);
     }
