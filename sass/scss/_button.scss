@@ -3,24 +3,23 @@
 
 
 .t-button {
-    padding: $spaceXXSmall;
+    // padding: $spaceXXSmall;
+    padding: 0.3em 1em 0.3em 1em;
     font-size: $FontSizeTextSmall;
     background-color: $colorsBaseProductNormal;
     color:$colorsBaseWhiteNormal;
     border-radius: 4px;
     text-decoration: none;
 
-    @include device(mobile) { 
-        padding: $spaceXXSmall;
-        font-size: $FontSizeTextSmall;
-      
-    }
+
     @include device(tablet) {
-        padding: $spaceNormal $spaceMedium;
-        font-size: $FontSizeHeadingTitle3;
+        // padding: $spaceNormal $spaceMedium;
+        padding: 0.2em 1em 0.2em 1em;
+        font-size: $FontSizeTextNormal;
     }
     @include device(desktop) {
-        padding: $spaceNormal $spaceXXXLarge;
+        padding: 0.3em 1em 0.3em 1em;
+        // padding: $spaceNormal $spaceXXXLarge;
     }
 
     &:hover, &--active {
@@ -29,5 +28,11 @@
         background-color: $colorsBaseProductNormalActive;
     }
 
+    &.t-logout{
+        background-color: $colorsBaseInkLighterActive;
+        &:hover{
+            background-color: $colorsBaseInkLight;
+        }
+    }
 }
 

@@ -12,7 +12,7 @@
         }
     }
     @else if $device == desktop {
-        @media (min-width: 1537px) {
+        @media (min-width: 1536px) {
             @content;
         }
     }

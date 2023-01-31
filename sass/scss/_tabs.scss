@@ -1,0 +1,67 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+.t-tabs {
+    display: flex;
+    list-style: none;
+    height: 30px;
+    margin: 0;
+    padding: 0em 0em 0em 0em;
+
+    @include device(tablet) {
+        padding: 0.2em 1em 0.2em 1em;
+        display: inline-block;
+    }
+    @include device(desktop) {
+        padding: 0.3em 1em 0.3em 1em;
+        display: inline-block;
+    }
+
+    .t-tabs__contents {
+        display: flex;
+        list-style: none;
+        height: 30px;
+        margin: 0;
+        padding: 0em 0em 0em 0em;
+
+        @include device(tablet) {
+            padding: 0.2em 1em 0.2em 1em;
+    
+        }
+        @include device(desktop) {
+            padding: 0.3em 1em 0.3em 1em;
+            display: inline-block;
+        }
+
+        .t-tabs__itens {
+            padding: 0em 3em 0em 0em;
+            margin: 0em 1em 0em 0em;
+            border-bottom: $colorsBaseCloudDark solid 0.15em;
+
+            @include device(tablet) {
+                padding: 0em 3em 0em 0em;
+                margin: 0em 1em 0em 0em;
+        
+            }
+            @include device(desktop) {
+                padding: 0em 3em 0em 0em;
+                margin: 0em 0em 0em 0em;
+                display: inline-block;
+            }
+            .t-tabs__link {
+                
+                @include device(tablet) {
+                    padding: 0.2em 1em 0.2em 1em;
+            
+                }
+                @include device(desktop) {
+                    padding: 0.3em 1em 0.3em 1em;
+                    display: inline-block;
+                }
+            }
+
+           
+        }
+    }
+
+}
