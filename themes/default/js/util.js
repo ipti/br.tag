@@ -273,10 +273,10 @@ function validateCpf(cpf, handler){
     var ret = new Array();
     var passCpf = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcpf&student_responsable_cpf=${cpf}`,
+        url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
-        $.each( $.parseJSON( response ), function(name, id){
-            if(name != '') passCpf = true
+        $.each( $.parseJSON( response ), function(student_fk, id){
+            if(student_fk != '') passCpf = true
         });
 
         if (cpf == "00000000000" || cpf == "11111111111"
@@ -334,6 +334,7 @@ function validateCpf(cpf, handler){
         }
 
         if(cpf == "00000000000" || cpf == "00000000191"){
+            console.log(rule(cpf, numberRules.cpf));
             ret[0] = false;
             ret[1] = "Informe um CPF válido. Deve possuir apenas números.";
             handler(ret);
@@ -349,7 +350,29 @@ function validateCivilCertificationTermNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcertificate&student_certificate=${term_number}`,
+        url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
+    }).success(function (response) {
+        $.each( $.parseJSON( response ), function(student_fk, id){
+            console.log(student_fk)
+            if(student_fk != '') passTerm = true
+        });
+        if(passTerm) {
+            ret[0] = false;
+            ret[1] = "Nº de certidão já vinculada com cadastro de aluno existente.";
+            handler(ret);
+            return;
+        }
+    });
+}
+
+function validateCivilRegisterEnrollmentNumber(term_number, handler) {
+    term_number = term_number.split(/[.-]/);
+    term_number = term_number.join('');
+    console.log(term_number);
+    var ret = new Array();
+    var passTerm = false;
+    $.ajax({
+        url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
     }).success(function (response) {
         $.each( $.parseJSON( response ), function(student_fk, id){
             console.log(student_fk)

@@ -65,20 +65,12 @@ $(formIdentification + 'responsable_telephone').focusout(function () {
 $(formIdentification + 'responsable_cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formIdentification + 'responsable_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    var id_caixa = $("#cpfMessage");
-    var id_icon = $("#errorCPFIcon");
     removeError(id);
-    $(id_icon).css('display', 'none');
-    $(id_caixa).attr('data-original-title', '');
     validateCpf($(id).cleanVal(), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
-            addError(id);
-            $(id_icon).css('display', 'inline-block');
-            $(id_caixa).attr('data-original-title', ret[1]);
+            addError(id, "Informe um CPF válido. Deve possuir apenas números.");
         } else {
             removeError(id);
-            $(id_icon).css('display', 'none');
-            $(id_caixa).attr('data-original-title', '');
         }
     });
 });
@@ -528,16 +520,26 @@ $(formDocumentsAndAddress + 'neighborhood').focusout(function () {
         removeError(id);
     }
 });
-
+// MARCAÇÃO
 $(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    if (!validateCpf($(id).cleanVal())) {
-        //$(id).attr('value', '');
-        addError(id, "Informe um CPF válido. Deve possuir apenas números.");
-    } else {
-        removeError(id);
-    }
+    var id_caixa = $("#cpfMessage");
+    var id_icon = $("#errorCPFIcon");
+    removeError(id);
+    $(id_icon).css('display', 'none');
+    $(id_caixa).attr('data-original-title', '');
+    validateCpf($(id).cleanVal(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
+        } else {
+            removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
+        }
+    });
 });
 
 $(formDocumentsAndAddress + 'cep').mask("00000-000", {placeholder: "_____-___"});
@@ -568,24 +570,48 @@ $(formDocumentsAndAddress + 'civil_register_enrollment_number').removeAttr("maxl
         X: {pattern: /[xX0-9]/}
     }
 });
+
+// marcacao
 $(formDocumentsAndAddress + 'civil_register_enrollment_number').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    var id_caixa = $("#registerMessage");
+    var id_icon = $("#registerIcon");
     checkCivilRegisterEnrollmentNumberValidity($(formDocumentsAndAddress + 'civil_register_enrollment_number'));
+    validateCivilRegisterEnrollmentNumber($(id).val(), function (ret) {
+        if (!ret[0] && ($(id).val() != '')) {
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', ret[1]);
+        } else {
+            removeError(id);
+            $(id_icon).css('display', 'none');
+            $(id_caixa).attr('data-original-title', '');
+        }
+    });
 });
 
 function checkCivilRegisterEnrollmentNumberValidity(element) {
     $(element).val($(element).val().toUpperCase());
     var id = '#' + $(element).attr("id");
+    var id_caixa = $("#registerMessage");
+    var id_icon = $("#registerIcon");
     var value = $(element).cleanVal();
     var valid = true;
     if (value !== "") {
         if (value.length < 32) {
-            addError(id, "O campo, quando preenchido, deve ter 32 caracteres.");
+            var msg = "O campo, quando preenchido, deve ter 32 caracteres.";
+            addError(id);
+            $(id_icon).css('display', 'inline-block');
+            $(id_caixa).attr('data-original-title', msg);
             valid = false;
         }
         if (valid) {
             var year = value.substring(10, 14);
             if (year > new Date().getFullYear()) {
-                addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.");
+                var msg = "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser posterior ao ano corrente.";
+                addError(id);
+                $(id_icon).css('display', 'inline-block');
+                $(id_caixa).attr('data-original-title', msg);
                 valid = false;
             }
         }
@@ -594,7 +620,10 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
             if (birthday !== "" && birthday.length === 8) {
                 var birthdayYear = birthday.substring(4, 8);
                 if (year < birthdayYear) {
-                    addError(id, "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.");
+                    var msg = "O ano de registro da certidão nova (dígitos de 11 a 14) não pode ser anterior ao ano de nascimento.";
+                    addError(id);
+                    $(id_icon).css('display', 'inline-block');
+                    $(id_caixa).attr('data-original-title', msg);
                     valid = false;
                 }
             }
@@ -602,6 +631,8 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
     }
     if (valid) {
         removeError(id);
+        $(id_icon).css('display', 'none');
+        $(id_caixa).attr('data-original-title', '');
     }
     return valid;
 }
@@ -691,12 +722,12 @@ $(".save-student").click(function () {
     var error = false;
     var message = "";
 
-    if($("#StudentIdentification_responsable_cpf_error").length) {
+    if($("#errorCPFIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>CPF do responsável</b>.<br>";
     }
 
-    if($("#StudentDocumentsAndAddress_civil_certification_term_number_error").length) {
+    if($("#errorTermIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>Nº do Termo</b>.<br>";
     }

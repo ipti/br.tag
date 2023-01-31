@@ -105,7 +105,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                        <img id="errorNameIcon" onclick="exibirRegistros()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
+                                        <img id="errorNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
                                     </span>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>
@@ -438,9 +438,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'responsable_cpf', array('size' => 60, 'maxlength' => 14)); ?>
-                                    <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                    <!-- <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                         <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
-                                    </span>
+                                    </span> -->
                                     <?php echo $form->error($modelStudentIdentification, 'responsable_cpf'); ?>
                                 </div>
                             </div>
@@ -821,6 +821,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number', array("disabled" => "disabled", "class" => "nationality-sensitive br span6")); ?>
+                                            <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                                         </div>
                                     </div>
@@ -882,10 +885,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                         <div class="controls">
                                             <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "disabled" => "disabled", "class" => "nationality-sensitive br")); ?>
-                                            <!-- <span
-                                                    class="btn-action single glyphicons circle_question_mark"
-                                                    data-toggle="tooltip" data-placement="top"
-                                                    data-original-title="<?php echo Yii::t('help', 'Only Numbers'); ?>"><i></i></span> -->
+                                            <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                                                <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
+                                            </span>
                                             <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
                                         </div>
                                     </div>
