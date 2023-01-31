@@ -738,12 +738,17 @@ $(".save-student").click(function () {
 
     if($("#errorCPFIcon").css('display') == 'inline-block') {
         error = true;
-        message += "Corrija o campo <b>CPF do responsável</b>.<br>";
+        message += "Corrija o campo <b>Nº do CPF</b>.<br>";
     }
 
     if($("#errorTermIcon").css('display') == 'inline-block') {
         error = true;
         message += "Corrija o campo <b>Nº do Termo</b>.<br>";
+    }
+
+    if($("#registerIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nº da matrícula (Registro Civil - Certidão Nova)</b>.<br>";
     }
 
     if ($("#StudentIdentification_name").val() === "") {
