@@ -105,7 +105,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="controls">
                                     <?php echo $form->textField($modelStudentIdentification, 'name', array('size' => 60, 'maxlength' => 100)); ?>
                                     <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                        <img id="errorNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
+                                        <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>">
+                                        <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>">
                                     </span>
                                     <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                                 </div>

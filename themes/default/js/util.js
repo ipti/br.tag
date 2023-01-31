@@ -451,7 +451,9 @@ function addError(id, message){
     if(message != null) errorMessage(id, message);
     errorNotification(id);
 }
-function removeError(id){
+function removeError(id, id_caixa, id_icon){
+    if(id_caixa != null) $(id_caixa).attr('data-original-title', '');
+    if(id_icon != null) $(id_icon).css('display', 'none');
     removeErrorMessage(id);
     removeErrorNotification(id);
 }

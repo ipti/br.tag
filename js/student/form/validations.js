@@ -1,29 +1,38 @@
 $(formIdentification + 'name').focusout(function () {
     var id = '#' + $(this).attr("id");
     $(id).val($(id).val().toUpperCase());
-    var id_icon = $("#errorNameIcon");
+    var id_error_icon = $("#errorNameIcon");
+    var id_warn_icon = $("#warningNameIcon");
     var id_caixa = $("#similarMessage");
-    $(id_icon).css('cursor', 'auto');
-    removeWarning(id, id_caixa, id_icon);
-    removeError(id, id_caixa, id_icon);
+    $(id_warn_icon).css('cursor', 'auto');
+    removeWarning(id, id_caixa, id_warn_icon);
+    removeError(id, id_caixa, id_error_icon);
     validateNamePerson(($(id).val()), function (ret) {
         if (!ret[0] && ($(id).val() != '')) {
-            removeWarning(id, id_caixa, id_icon)
+            removeWarning(id, id_caixa, id_warn_icon)
             if(ret[2] != null) {
                 warningMessage(id, ret[2]);
-                $(id_icon).css('cursor', 'pointer');
+                $(id_warn_icon).css('cursor', 'pointer');
+                addWarning(id, ret[1], id_caixa, id_warn_icon);
+            }else {
+                addError(id);
+                $(id_error_icon).css('display', 'inline-block');
+                $(id_caixa).attr('data-original-title', ret[1]);
             }
-            addWarning(id, ret[1], id_caixa, id_icon);
         } else {
-            removeError(id);
+            removeError(id, id_caixa, id_error_icon);
             if(ret[0] && ($(id).val() != '') && ret[1] != null) {
                 if(ret[2] != null) {
                     warningMessage(id, ret[2]);
-                    $(id_icon).css('cursor', 'pointer');
+                    $(id_warn_icon).css('cursor', 'pointer');
+                    addWarning(id, ret[1], id_caixa, id_warn_icon);
+                }else {
+                    addError(id);
+                    $(id_error_icon).css('display', 'inline-block');
+                    $(id_caixa).attr('data-original-title', ret[1]);
                 }
-                addWarning(id, ret[1], id_caixa, id_icon);
             }else {
-                removeWarning(id, id_caixa, id_icon);
+                removeWarning(id, id_caixa, id_warn_icon);
             }
         }
     });
@@ -721,6 +730,11 @@ $(".vaccine-checkbox").trigger("change");
 $(".save-student").click(function () {
     var error = false;
     var message = "";
+
+    if($("#errorNameIcon").css('display') == 'inline-block') {
+        error = true;
+        message += "Corrija o campo <b>Nome</b>.<br>";
+    }
 
     if($("#errorCPFIcon").css('display') == 'inline-block') {
         error = true;
