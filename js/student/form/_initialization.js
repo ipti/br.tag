@@ -1,9 +1,6 @@
 
 
 $(document).ready(function () {
-    var teste = '109850.01.55.2009.1.00070.243.0029117-71';
-    teste = teste.split(/[.-]/);
-    console.log(teste.join(''));
     var simple = getUrlVars()['simple'];
     if (simple == '1') {
         $("#tab-student-documents").hide();
