@@ -12,7 +12,7 @@ const Registration = props => {
   const [loadClasroom, setLoadClassRoom] = useState(true);
   const [loadingButtom, setLoadingButtom] = useState(false);
 
-   const {requestUpdateRegistrationMutation} = Controller();
+   const {requestUpdateRegistrationMutation, requestUpdatePreIdentificationMutation} = Controller();
   let history = useHistory();
 
   const { id, idRegistration } = useParams()
@@ -56,6 +56,10 @@ const Registration = props => {
     // });
   };
 
+  const handleRefusePreIdentification = () => {
+    requestUpdatePreIdentificationMutation.mutate({data: {student_pre_identification_status: 3,}, id: idRegistration})
+  }
+
   return (
     <>
       {props.loading && !loadingButtom ? (
@@ -65,6 +69,7 @@ const Registration = props => {
           <RegistrationConfirmed
             registration={data}
             classroom={id}
+            handleRefusePreIdentification={handleRefusePreIdentification}
             handleSubmit={handleSubmit}
             loadingIcon={props.loading}
           />

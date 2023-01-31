@@ -72,8 +72,7 @@ const StepSix = props => {
   });
 
   const { data } = useFetchRequestSchoolRegistration({ id: getIdSchool() })
-
-  console.log(getIdSchool())
+  if(!data) return null
 
   const initialValues = {
     school_identification: schoolInepFk,

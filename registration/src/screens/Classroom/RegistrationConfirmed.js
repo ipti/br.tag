@@ -27,14 +27,18 @@ const Home = props => {
 
   const {
     registration,
-    handleSubmit, classroom
+    handleSubmit, classroom, handleRefusePreIdentification
   } = props;
   const student = registration ?? [];
 
   const classroomOne = props.classroom ?? [];
 
-  
-  const {data} = useFetchRequestClassroom({id: classroom})
+
+  const { data } = useFetchRequestClassroom({ id: classroom })
+
+  if (!data) return null;
+
+
 
   const nullableField = "-------------";
 
@@ -46,32 +50,40 @@ const Home = props => {
   const studentBirthday = student?.birthday
   // ? format(studentDate, "dd/MM/yyyy")
   // : "";
-
+  var city =  nullableField;
+  var state = nullableField;
+  if(student.edcenso_city){
+    city = student?.edcenso_city.name
+  }
+  if(student?.edcenso_uf){
+    state = student.edcenso_uf['name']
+  }
+  
+  // const studentEdcenso = student.edcenso_city['name'];
+  // console.log(studentEdcenso)
   const status = student?.newStudent;
 
   const address = student?.address ?? nullableField;
   const cep = student?.cep ?? nullableField;
-  const city = student?.city ?? nullableField;
+  
   const number = student?.number ?? nullableField;
   const neighborhood = student?.neighborhood ?? nullableField;
   const complement = student?.complement === '' ? nullableField : student?.complement;
-  const state = student?.state ?? nullableField;
-
-
+ 
   const responsableName = student?.responsable_name ?? nullableField;
   const responsableCpf = student?.responsable_cpf ?? nullableField;
 
-console.log(student)
+  console.log(student)
 
   const classroomName = data?.name ?? nullableField;
   const modality = data?.modality === 1 ? 'Ensino Regular' : data?.modality === 2 ? 'Educação Especial' : data?.modality === 3 ? 'Educação de jovens e adultos (EJA)' : data?.modality === 4 ? 'Educação profissional' : nullableField;
 
 
-  const body = student?.student_fk ?  {
+  const body = student?.student_fk ? {
     name: studentName,
     birthday: studentBirthday,
     deficiency: student?.deficiency,
-    color_race: student?.color_race, 
+    color_race: student?.color_race,
     edcenso_city_fk: student?.edcenso_city_fk,
     edcenso_uf_fk: student?.edcenso_uf_fk,
     responsable_name: student?.responsableName,
@@ -84,12 +96,13 @@ console.log(student)
     classroom: student?.classroom_fk,
     calendar_event: student?.calendar_event_fk,
     zone: student?.zone,
-    year: 2023
-  } :  {
+    student_pre_identification_status: 2,
+    year: 2024
+  } : {
     name: studentName,
     birthday: studentBirthday,
     deficiency: student?.deficiency,
-    color_race: student?.color_race, 
+    color_race: student?.color_race,
     edcenso_city_fk: student?.edcenso_city_fk,
     edcenso_uf_fk: student?.edcenso_uf_fk,
     responsable_name: student?.responsableName,
@@ -100,7 +113,8 @@ console.log(student)
     classroom: student?.classroom_fk,
     calendar_event: student?.calendar_event_fk,
     zone: student?.zone,
-    year: 2023
+    student_pre_identification_status: 2,
+    year: 2024
   }
 
 
@@ -267,7 +281,7 @@ console.log(student)
             </Grid>
             <Grid item md={3}>
               <ButtonLinePurple
-                onClick={() => handleSubmit(false)}
+                onClick={() => handleRefusePreIdentification(false)}
                 type="button"
                 title="Recusar"
               />

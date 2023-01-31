@@ -44,7 +44,7 @@ const Start = props => {
   const onButton = () => {
     if(calendar_event?.start_date <= date ){
       props.setIsActive(true)
-      props.nextStep('6')
+      props.nextStep('1')
   } else {
     props.setIsActive(false)
   }
