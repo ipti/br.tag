@@ -2,18 +2,25 @@
 @import '_functions.scss';
 
 .t-tabs {
+    
     display: flex;
     list-style: none;
-    height: 30px;
-    margin: 0;
+    height: 27px;
+    margin: 0em 0em 0em 0em;
     padding: 0em 0em 0em 0em;
+    overflow-x: scroll;
+    overflow-y: hidden;
 
     @include device(tablet) {
+        height: 72px;
         padding: 0.2em 1em 0.2em 1em;
+        margin: 0em 1em 0em 0em;
         display: inline-block;
     }
     @include device(desktop) {
+        height: 72px;
         padding: 0.3em 1em 0.3em 1em;
+        margin: 0em 1em 0em 0em;
         display: inline-block;
     }
 
@@ -21,40 +28,52 @@
         display: flex;
         list-style: none;
         height: 30px;
-        margin: 0;
+        margin: 0em 1em 0em 0em;
         padding: 0em 0em 0em 0em;
+
+        
 
         @include device(tablet) {
             padding: 0.2em 1em 0.2em 1em;
+            margin: 0em 1em 0em 0em;
     
         }
         @include device(desktop) {
+            margin: 0em 1em 0em 0em;
             padding: 0.3em 1em 0.3em 1em;
             display: inline-block;
         }
 
         .t-tabs__itens {
-            padding: 0em 3em 0em 0em;
+            width: 10em;
+            padding: 0em 0em 0em 0em;
             margin: 0em 1em 0em 0em;
             border-bottom: $colorsBaseCloudDark solid 0.15em;
+            text-align: center;
+            
 
             @include device(tablet) {
-                padding: 0em 3em 0em 0em;
+                padding: 0em 0em 0em 0em;
                 margin: 0em 1em 0em 0em;
+                width: 13em;
         
             }
             @include device(desktop) {
-                padding: 0em 3em 0em 0em;
-                margin: 0em 0em 0em 0em;
+                padding: 0em 0em 0em 0em;
+                margin: 0em 1em 0em 0em;
                 display: inline-block;
+                width: 13em;
             }
             .t-tabs__link {
-                
+                font-size: $spaceNormal;
+                color: $colorsTextPrimary;
                 @include device(tablet) {
+                    margin: 0em 1em 0em 0em;
                     padding: 0.2em 1em 0.2em 1em;
             
                 }
                 @include device(desktop) {
+                    margin: 0em 1em 0em 0em;
                     padding: 0.3em 1em 0.3em 1em;
                     display: inline-block;
                 }
